@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Python virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# PyCharm / IDE config
+.idea/
+.vscode/
+
+# Testing caches & reports
+.pytest_cache/
+JRYG_auto_project/report/*.html
+JRYG_auto_project/logs/*.log
+JRYG_auto_project/screenshots/*.png
+.html
+
+# macOS system files
+.DS_Store

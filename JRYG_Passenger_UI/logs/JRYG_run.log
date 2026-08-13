@@ -1,0 +1,623 @@
+2026-08-12 18:53:34,365 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-08-12 18:53:34,367 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038
+2026-08-12 18:53:53,856 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-08-12 18:53:56,896 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 18:53:56,897 - JRYG_Auto - INFO - 【呼叫完单测试】准备运行状态流转...
+2026-08-12 18:53:58,927 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: unknown
+2026-08-12 18:54:03,807 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: unknown
+2026-08-12 18:54:07,446 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: unknown
+2026-08-12 18:54:11,259 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: unknown
+2026-08-12 18:54:15,009 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: unknown
+2026-08-12 18:54:18,739 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: unknown
+2026-08-12 18:54:22,580 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: unknown
+2026-08-12 18:54:26,522 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: unknown
+2026-08-12 18:54:31,176 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: unknown
+2026-08-12 18:54:35,026 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: unknown
+2026-08-12 18:54:38,703 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: unknown
+2026-08-12 18:54:42,517 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: unknown
+2026-08-12 18:54:46,514 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: unknown
+2026-08-12 18:54:50,658 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: unknown
+2026-08-12 18:54:54,354 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: unknown
+2026-08-12 18:54:58,623 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: unknown
+2026-08-12 18:55:03,355 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: unknown
+2026-08-12 18:55:07,000 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: unknown
+2026-08-12 18:55:10,746 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: unknown
+2026-08-12 18:55:14,528 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: unknown
+2026-08-12 18:55:19,720 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: unknown
+2026-08-12 18:55:24,531 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: unknown
+2026-08-12 18:55:31,080 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: home
+2026-08-12 18:55:31,081 - JRYG_Auto - INFO - 在乘客首页，点击起点栏位...
+2026-08-12 18:55:42,060 - JRYG_Auto - INFO - 当前流转 [循环 23] -> 页面状态: search
+2026-08-12 18:55:42,061 - JRYG_Auto - INFO - 在搜索页面，输入并选定起点: 时代之光名苑
+2026-08-12 18:55:58,272 - JRYG_Auto - INFO - 当前流转 [循环 24] -> 页面状态: home
+2026-08-12 18:55:58,286 - JRYG_Auto - INFO - 在乘客首页，点击目的地输入栏...
+2026-08-12 18:56:04,790 - JRYG_Auto - INFO - 当前流转 [循环 25] -> 页面状态: search
+2026-08-12 18:56:04,791 - JRYG_Auto - INFO - 在搜索页面，输入并选定目的地: 蓟门桥地铁A口
+2026-08-12 18:56:22,543 - JRYG_Auto - INFO - 当前流转 [循环 26] -> 页面状态: quote
+2026-08-12 18:56:22,544 - JRYG_Auto - INFO - 进入询价车款挑选页面，勾选并提交 '阳光优选' 确认呼叫...
+2026-08-12 18:56:35,507 - JRYG_Auto - INFO - 当前流转 [循环 27] -> 页面状态: cashier
+2026-08-12 18:56:35,507 - JRYG_Auto - INFO - 进入在线收银台，切换先付后乘标签并勾选微信支付...
+2026-08-12 18:56:56,877 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-08-12 18:56:56,880 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038
+2026-08-12 18:57:20,272 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-08-12 18:57:23,145 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 18:57:23,146 - JRYG_Auto - INFO - 【呼叫完单测试】准备运行状态流转...
+2026-08-12 18:57:25,501 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: unknown
+2026-08-12 18:57:29,598 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: unknown
+2026-08-12 18:57:33,333 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: unknown
+2026-08-12 18:57:37,871 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: unknown
+2026-08-12 18:57:41,888 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: unknown
+2026-08-12 18:57:45,998 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: unknown
+2026-08-12 18:57:50,131 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: unknown
+2026-08-12 18:57:54,014 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: unknown
+2026-08-12 18:57:58,695 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: cashier
+2026-08-12 18:57:58,696 - JRYG_Auto - INFO - 进入在线收银台，切换先付后乘标签并勾选微信支付...
+2026-08-12 18:58:17,772 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: calling
+2026-08-12 18:58:17,772 - JRYG_Auto - INFO - 乘客端已呼叫车辆中。马上切换至司机端接单...
+2026-08-12 18:58:29,481 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: calling
+2026-08-12 18:58:29,481 - JRYG_Auto - INFO - 乘客端已呼叫车辆中。马上切换至司机端接单...
+2026-08-12 18:58:42,644 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: driver_ok
+2026-08-12 18:58:42,645 - JRYG_Auto - INFO - 司机端系统消息，点击 '好的' 关闭弹框...
+2026-08-12 18:58:48,243 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: driver_other
+2026-08-12 18:58:52,387 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: driver_at_pickup
+2026-08-12 18:58:52,388 - JRYG_Auto - INFO - 司机已到达，滑动 '到达上车地点'...
+2026-08-12 18:58:55,155 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 18:59:00,411 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: driver_wait_passenger
+2026-08-12 18:59:00,412 - JRYG_Auto - INFO - 司机已在起点等候，滑动 '已接到乘客'...
+2026-08-12 18:59:04,469 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 18:59:08,832 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: driver_other
+2026-08-12 18:59:12,139 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: driver_other
+2026-08-12 18:59:14,997 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: driver_other
+2026-08-12 18:59:18,043 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: driver_other
+2026-08-12 18:59:20,988 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: driver_other
+2026-08-12 18:59:23,889 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: driver_other
+2026-08-12 18:59:26,777 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: driver_other
+2026-08-12 18:59:29,816 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: driver_other
+2026-08-12 18:59:32,708 - JRYG_Auto - INFO - 当前流转 [循环 23] -> 页面状态: driver_other
+2026-08-12 18:59:36,121 - JRYG_Auto - INFO - 当前流转 [循环 24] -> 页面状态: driver_other
+2026-08-12 18:59:38,965 - JRYG_Auto - INFO - 当前流转 [循环 25] -> 页面状态: driver_other
+2026-08-12 18:59:42,527 - JRYG_Auto - INFO - 当前流转 [循环 26] -> 页面状态: driver_other
+2026-08-12 18:59:45,431 - JRYG_Auto - INFO - 当前流转 [循环 27] -> 页面状态: driver_other
+2026-08-12 18:59:48,403 - JRYG_Auto - INFO - 当前流转 [循环 28] -> 页面状态: driver_other
+2026-08-12 18:59:51,582 - JRYG_Auto - INFO - 当前流转 [循环 29] -> 页面状态: driver_other
+2026-08-12 18:59:54,445 - JRYG_Auto - INFO - 当前流转 [循环 30] -> 页面状态: driver_other
+2026-08-12 18:59:57,409 - JRYG_Auto - INFO - 当前流转 [循环 31] -> 页面状态: driver_other
+2026-08-12 19:00:00,279 - JRYG_Auto - INFO - 当前流转 [循环 32] -> 页面状态: driver_other
+2026-08-12 19:00:03,167 - JRYG_Auto - INFO - 当前流转 [循环 33] -> 页面状态: driver_other
+2026-08-12 19:00:06,125 - JRYG_Auto - INFO - 当前流转 [循环 34] -> 页面状态: driver_other
+2026-08-12 19:00:09,316 - JRYG_Auto - INFO - 当前流转 [循环 35] -> 页面状态: driver_other
+2026-08-12 19:00:12,340 - JRYG_Auto - INFO - 当前流转 [循环 36] -> 页面状态: driver_other
+2026-08-12 19:00:15,167 - JRYG_Auto - INFO - 当前流转 [循环 37] -> 页面状态: driver_other
+2026-08-12 19:00:18,072 - JRYG_Auto - INFO - 当前流转 [循环 38] -> 页面状态: driver_other
+2026-08-12 19:00:20,995 - JRYG_Auto - INFO - 当前流转 [循环 39] -> 页面状态: driver_other
+2026-08-12 19:00:24,285 - JRYG_Auto - INFO - 当前流转 [循环 40] -> 页面状态: driver_other
+2026-08-12 19:00:27,306 - JRYG_Auto - INFO - 当前流转 [循环 41] -> 页面状态: driver_other
+2026-08-12 19:00:30,910 - JRYG_Auto - INFO - 当前流转 [循环 42] -> 页面状态: driver_other
+2026-08-12 19:00:33,853 - JRYG_Auto - INFO - 当前流转 [循环 43] -> 页面状态: driver_other
+2026-08-12 19:00:36,813 - JRYG_Auto - INFO - 当前流转 [循环 44] -> 页面状态: driver_other
+2026-08-12 19:00:39,728 - JRYG_Auto - INFO - 当前流转 [循环 45] -> 页面状态: driver_other
+2026-08-12 19:00:42,840 - JRYG_Auto - INFO - 当前流转 [循环 46] -> 页面状态: driver_other
+2026-08-12 19:00:45,755 - JRYG_Auto - INFO - 当前流转 [循环 47] -> 页面状态: driver_other
+2026-08-12 19:00:48,923 - JRYG_Auto - INFO - 当前流转 [循环 48] -> 页面状态: driver_other
+2026-08-12 19:00:52,366 - JRYG_Auto - INFO - 当前流转 [循环 49] -> 页面状态: driver_other
+2026-08-12 19:00:55,171 - JRYG_Auto - INFO - 当前流转 [循环 50] -> 页面状态: driver_other
+2026-08-12 19:00:58,025 - JRYG_Auto - INFO - 当前流转 [循环 51] -> 页面状态: driver_other
+2026-08-12 19:01:01,782 - JRYG_Auto - INFO - 当前流转 [循环 52] -> 页面状态: driver_other
+2026-08-12 19:01:04,675 - JRYG_Auto - INFO - 当前流转 [循环 53] -> 页面状态: driver_other
+2026-08-12 19:01:07,549 - JRYG_Auto - INFO - 当前流转 [循环 54] -> 页面状态: driver_other
+2026-08-12 19:01:10,548 - JRYG_Auto - INFO - 当前流转 [循环 55] -> 页面状态: driver_other
+2026-08-12 19:01:13,495 - JRYG_Auto - INFO - 当前流转 [循环 56] -> 页面状态: driver_other
+2026-08-12 19:01:16,642 - JRYG_Auto - INFO - 当前流转 [循环 57] -> 页面状态: driver_other
+2026-08-12 19:01:19,454 - JRYG_Auto - INFO - 当前流转 [循环 58] -> 页面状态: driver_other
+2026-08-12 19:01:22,383 - JRYG_Auto - INFO - 当前流转 [循环 59] -> 页面状态: driver_other
+2026-08-12 19:01:24,386 - JRYG_Auto - INFO - 业务流转成功，立即切回乘客端核对完单结果账单...
+2026-08-12 19:03:25,664 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 19:03:25,667 - JRYG_Auto - INFO - 【呼叫完单测试】准备运行状态流转...
+2026-08-12 19:03:28,943 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: calling
+2026-08-12 19:03:28,944 - JRYG_Auto - INFO - 乘客端已呼叫车辆中。马上切换至司机端接单...
+2026-08-12 19:03:43,113 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: driver_wait_passenger
+2026-08-12 19:03:43,114 - JRYG_Auto - INFO - 司机已在起点等候，滑动 '已接到乘客'...
+2026-08-12 19:03:48,907 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:03:52,769 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: driver_other
+2026-08-12 19:03:55,687 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: driver_other
+2026-08-12 19:03:58,546 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: driver_other
+2026-08-12 19:04:01,488 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: driver_other
+2026-08-12 19:04:04,390 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: driver_other
+2026-08-12 19:04:07,358 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: driver_other
+2026-08-12 19:04:10,344 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: driver_other
+2026-08-12 19:04:13,231 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: driver_other
+2026-08-12 19:04:16,132 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: driver_other
+2026-08-12 19:04:18,997 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: driver_other
+2026-08-12 19:04:22,294 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: driver_other
+2026-08-12 19:04:25,143 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: driver_other
+2026-08-12 19:04:28,043 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: driver_other
+2026-08-12 19:04:30,955 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: driver_other
+2026-08-12 19:04:33,970 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: driver_other
+2026-08-12 19:04:36,930 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: driver_other
+2026-08-12 19:04:40,517 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: driver_other
+2026-08-12 19:04:43,458 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: driver_other
+2026-08-12 19:04:46,342 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: driver_other
+2026-08-12 19:04:49,329 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: driver_other
+2026-08-12 19:04:52,350 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: driver_other
+2026-08-12 19:04:55,327 - JRYG_Auto - INFO - 当前流转 [循环 23] -> 页面状态: driver_other
+2026-08-12 19:04:58,264 - JRYG_Auto - INFO - 当前流转 [循环 24] -> 页面状态: driver_other
+2026-08-12 19:05:01,479 - JRYG_Auto - INFO - 当前流转 [循环 25] -> 页面状态: driver_other
+2026-08-12 19:05:04,459 - JRYG_Auto - INFO - 当前流转 [循环 26] -> 页面状态: driver_other
+2026-08-12 19:05:07,370 - JRYG_Auto - INFO - 当前流转 [循环 27] -> 页面状态: driver_other
+2026-08-12 19:05:10,255 - JRYG_Auto - INFO - 当前流转 [循环 28] -> 页面状态: driver_other
+2026-08-12 19:05:13,076 - JRYG_Auto - INFO - 当前流转 [循环 29] -> 页面状态: driver_other
+2026-08-12 19:05:16,588 - JRYG_Auto - INFO - 当前流转 [循环 30] -> 页面状态: driver_other
+2026-08-12 19:05:19,472 - JRYG_Auto - INFO - 当前流转 [循环 31] -> 页面状态: driver_other
+2026-08-12 19:05:22,734 - JRYG_Auto - INFO - 当前流转 [循环 32] -> 页面状态: driver_other
+2026-08-12 19:05:25,628 - JRYG_Auto - INFO - 当前流转 [循环 33] -> 页面状态: driver_other
+2026-08-12 19:05:28,956 - JRYG_Auto - INFO - 当前流转 [循环 34] -> 页面状态: driver_other
+2026-08-12 19:05:31,870 - JRYG_Auto - INFO - 当前流转 [循环 35] -> 页面状态: driver_other
+2026-08-12 19:05:35,002 - JRYG_Auto - INFO - 当前流转 [循环 36] -> 页面状态: driver_other
+2026-08-12 19:05:37,770 - JRYG_Auto - INFO - 当前流转 [循环 37] -> 页面状态: driver_other
+2026-08-12 19:05:40,662 - JRYG_Auto - INFO - 当前流转 [循环 38] -> 页面状态: driver_other
+2026-08-12 19:05:43,514 - JRYG_Auto - INFO - 当前流转 [循环 39] -> 页面状态: driver_other
+2026-08-12 19:05:46,351 - JRYG_Auto - INFO - 当前流转 [循环 40] -> 页面状态: driver_other
+2026-08-12 19:05:49,275 - JRYG_Auto - INFO - 当前流转 [循环 41] -> 页面状态: driver_other
+2026-08-12 19:05:52,271 - JRYG_Auto - INFO - 当前流转 [循环 42] -> 页面状态: driver_other
+2026-08-12 19:05:55,331 - JRYG_Auto - INFO - 当前流转 [循环 43] -> 页面状态: driver_other
+2026-08-12 19:05:58,328 - JRYG_Auto - INFO - 当前流转 [循环 44] -> 页面状态: driver_other
+2026-08-12 19:06:01,792 - JRYG_Auto - INFO - 当前流转 [循环 45] -> 页面状态: driver_other
+2026-08-12 19:06:04,709 - JRYG_Auto - INFO - 当前流转 [循环 46] -> 页面状态: driver_other
+2026-08-12 19:06:07,712 - JRYG_Auto - INFO - 当前流转 [循环 47] -> 页面状态: driver_other
+2026-08-12 19:06:11,261 - JRYG_Auto - INFO - 当前流转 [循环 48] -> 页面状态: driver_other
+2026-08-12 19:06:14,109 - JRYG_Auto - INFO - 当前流转 [循环 49] -> 页面状态: driver_other
+2026-08-12 19:06:16,958 - JRYG_Auto - INFO - 当前流转 [循环 50] -> 页面状态: driver_other
+2026-08-12 19:06:19,873 - JRYG_Auto - INFO - 当前流转 [循环 51] -> 页面状态: driver_other
+2026-08-12 19:06:23,213 - JRYG_Auto - INFO - 当前流转 [循环 52] -> 页面状态: driver_other
+2026-08-12 19:06:26,087 - JRYG_Auto - INFO - 当前流转 [循环 53] -> 页面状态: driver_other
+2026-08-12 19:06:29,332 - JRYG_Auto - INFO - 当前流转 [循环 54] -> 页面状态: driver_other
+2026-08-12 19:06:32,363 - JRYG_Auto - INFO - 当前流转 [循环 55] -> 页面状态: driver_other
+2026-08-12 19:06:35,211 - JRYG_Auto - INFO - 当前流转 [循环 56] -> 页面状态: driver_other
+2026-08-12 19:06:38,502 - JRYG_Auto - INFO - 当前流转 [循环 57] -> 页面状态: driver_other
+2026-08-12 19:06:41,438 - JRYG_Auto - INFO - 当前流转 [循环 58] -> 页面状态: driver_other
+2026-08-12 19:06:44,274 - JRYG_Auto - INFO - 当前流转 [循环 59] -> 页面状态: driver_other
+2026-08-12 19:06:46,279 - JRYG_Auto - INFO - 业务流转成功，立即切回乘客端核对完单结果账单...
+2026-08-12 19:11:56,298 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-08-12 19:11:56,300 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038
+2026-08-12 19:12:21,208 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-08-12 19:12:24,445 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 19:12:24,446 - JRYG_Auto - INFO - 【呼叫完单测试】准备运行状态流转...
+2026-08-12 19:12:26,295 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: unknown
+2026-08-12 19:12:30,153 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: unknown
+2026-08-12 19:12:34,570 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: unknown
+2026-08-12 19:12:38,587 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: unknown
+2026-08-12 19:12:42,697 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: unknown
+2026-08-12 19:12:47,405 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: unknown
+2026-08-12 19:12:51,796 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: unknown
+2026-08-12 19:12:55,754 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: unknown
+2026-08-12 19:12:59,692 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: unknown
+2026-08-12 19:13:03,706 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: unknown
+2026-08-12 19:13:07,611 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: unknown
+2026-08-12 19:13:11,634 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: unknown
+2026-08-12 19:13:15,853 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: unknown
+2026-08-12 19:13:19,948 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: unknown
+2026-08-12 19:13:23,809 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: unknown
+2026-08-12 19:13:28,375 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: unknown
+2026-08-12 19:13:33,101 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: unknown
+2026-08-12 19:13:37,396 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: unknown
+2026-08-12 19:13:41,678 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: unknown
+2026-08-12 19:13:45,568 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: unknown
+2026-08-12 19:13:49,695 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: unknown
+2026-08-12 19:13:53,703 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: unknown
+2026-08-12 19:13:57,571 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: unknown
+2026-08-12 19:14:02,152 - JRYG_Auto - INFO - 当前流转 [循环 23] -> 页面状态: unknown
+2026-08-12 19:14:05,950 - JRYG_Auto - INFO - 当前流转 [循环 24] -> 页面状态: unknown
+2026-08-12 19:14:09,847 - JRYG_Auto - INFO - 当前流转 [循环 25] -> 页面状态: unknown
+2026-08-12 19:14:14,017 - JRYG_Auto - INFO - 当前流转 [循环 26] -> 页面状态: unknown
+2026-08-12 19:14:17,824 - JRYG_Auto - INFO - 当前流转 [循环 27] -> 页面状态: unknown
+2026-08-12 19:14:21,804 - JRYG_Auto - INFO - 当前流转 [循环 28] -> 页面状态: unknown
+2026-08-12 19:14:26,401 - JRYG_Auto - INFO - 当前流转 [循环 29] -> 页面状态: unknown
+2026-08-12 19:14:30,354 - JRYG_Auto - INFO - 当前流转 [循环 30] -> 页面状态: unknown
+2026-08-12 19:14:34,490 - JRYG_Auto - INFO - 当前流转 [循环 31] -> 页面状态: unknown
+2026-08-12 19:14:39,040 - JRYG_Auto - INFO - 当前流转 [循环 32] -> 页面状态: unknown
+2026-08-12 19:14:42,878 - JRYG_Auto - INFO - 当前流转 [循环 33] -> 页面状态: unknown
+2026-08-12 19:14:46,551 - JRYG_Auto - INFO - 当前流转 [循环 34] -> 页面状态: unknown
+2026-08-12 19:14:50,937 - JRYG_Auto - INFO - 当前流转 [循环 35] -> 页面状态: unknown
+2026-08-12 19:14:54,778 - JRYG_Auto - INFO - 当前流转 [循环 36] -> 页面状态: unknown
+2026-08-12 19:14:58,489 - JRYG_Auto - INFO - 当前流转 [循环 37] -> 页面状态: unknown
+2026-08-12 19:15:02,992 - JRYG_Auto - INFO - 当前流转 [循环 38] -> 页面状态: unknown
+2026-08-12 19:15:06,664 - JRYG_Auto - INFO - 当前流转 [循环 39] -> 页面状态: unknown
+2026-08-12 19:15:10,802 - JRYG_Auto - INFO - 当前流转 [循环 40] -> 页面状态: unknown
+2026-08-12 19:15:15,204 - JRYG_Auto - INFO - 当前流转 [循环 41] -> 页面状态: unknown
+2026-08-12 19:15:19,682 - JRYG_Auto - INFO - 当前流转 [循环 42] -> 页面状态: unknown
+2026-08-12 19:15:23,402 - JRYG_Auto - INFO - 当前流转 [循环 43] -> 页面状态: unknown
+2026-08-12 19:15:27,533 - JRYG_Auto - INFO - 当前流转 [循环 44] -> 页面状态: unknown
+2026-08-12 19:15:32,202 - JRYG_Auto - INFO - 当前流转 [循环 45] -> 页面状态: unknown
+2026-08-12 19:15:36,131 - JRYG_Auto - INFO - 当前流转 [循环 46] -> 页面状态: unknown
+2026-08-12 19:15:40,009 - JRYG_Auto - INFO - 当前流转 [循环 47] -> 页面状态: unknown
+2026-08-12 19:15:44,160 - JRYG_Auto - INFO - 当前流转 [循环 48] -> 页面状态: unknown
+2026-08-12 19:15:48,196 - JRYG_Auto - INFO - 当前流转 [循环 49] -> 页面状态: unknown
+2026-08-12 19:15:52,436 - JRYG_Auto - INFO - 当前流转 [循环 50] -> 页面状态: unknown
+2026-08-12 19:15:56,706 - JRYG_Auto - INFO - 当前流转 [循环 51] -> 页面状态: unknown
+2026-08-12 19:16:01,255 - JRYG_Auto - INFO - 当前流转 [循环 52] -> 页面状态: unknown
+2026-08-12 19:16:05,051 - JRYG_Auto - INFO - 当前流转 [循环 53] -> 页面状态: unknown
+2026-08-12 19:16:09,239 - JRYG_Auto - INFO - 当前流转 [循环 54] -> 页面状态: unknown
+2026-08-12 19:16:13,009 - JRYG_Auto - INFO - 当前流转 [循环 55] -> 页面状态: unknown
+2026-08-12 19:16:16,879 - JRYG_Auto - INFO - 当前流转 [循环 56] -> 页面状态: unknown
+2026-08-12 19:16:20,758 - JRYG_Auto - INFO - 当前流转 [循环 57] -> 页面状态: unknown
+2026-08-12 19:16:24,554 - JRYG_Auto - INFO - 当前流转 [循环 58] -> 页面状态: unknown
+2026-08-12 19:16:28,389 - JRYG_Auto - INFO - 当前流转 [循环 59] -> 页面状态: unknown
+2026-08-12 19:16:30,394 - JRYG_Auto - INFO - 业务流转成功，立即切回乘客端核对完单结果账单...
+2026-08-12 19:20:48,944 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-08-12 19:20:48,946 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038
+2026-08-12 19:21:41,001 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-08-12 19:21:44,007 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 19:21:44,009 - JRYG_Auto - INFO - 【呼叫完单测试】准备运行状态流转...
+2026-08-12 19:21:45,841 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: unknown
+2026-08-12 19:21:50,007 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: unknown
+2026-08-12 19:21:53,767 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: unknown
+2026-08-12 19:21:57,726 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: unknown
+2026-08-12 19:21:59,823 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: launcher
+2026-08-12 19:21:59,824 - JRYG_Auto - INFO - 当前位于桌面，强制启动乘客端 App...
+2026-08-12 19:22:07,577 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: blockcanary
+2026-08-12 19:22:07,578 - JRYG_Auto - INFO - 识别到 BlockCanary/LeakCanary 残留，发送 BACK 返回键清理...
+2026-08-12 19:22:09,932 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: launcher
+2026-08-12 19:22:09,932 - JRYG_Auto - INFO - 当前位于桌面，强制启动乘客端 App...
+2026-08-12 19:22:18,778 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: calling
+2026-08-12 19:22:18,779 - JRYG_Auto - INFO - 乘客端已呼叫车辆中。马上切换至司机端接单...
+2026-08-12 19:22:29,202 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: driver_other
+2026-08-12 19:22:33,805 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: driver_wait_passenger
+2026-08-12 19:22:33,806 - JRYG_Auto - INFO - 司机已在起点等候，滑动 '已接到乘客'...
+2026-08-12 19:22:38,781 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:22:42,654 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: driver_other
+2026-08-12 19:22:45,545 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: driver_other
+2026-08-12 19:22:48,452 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: driver_other
+2026-08-12 19:22:51,505 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: driver_other
+2026-08-12 19:22:54,416 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: driver_other
+2026-08-12 19:22:57,349 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: driver_other
+2026-08-12 19:23:00,536 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: driver_other
+2026-08-12 19:23:03,452 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: driver_other
+2026-08-12 19:23:06,599 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: driver_other
+2026-08-12 19:23:09,651 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: driver_other
+2026-08-12 19:23:12,623 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: driver_other
+2026-08-12 19:23:15,541 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: driver_other
+2026-08-12 19:23:18,753 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: driver_other
+2026-08-12 19:23:22,020 - JRYG_Auto - INFO - 当前流转 [循环 23] -> 页面状态: driver_other
+2026-08-12 19:23:25,102 - JRYG_Auto - INFO - 当前流转 [循环 24] -> 页面状态: driver_other
+2026-08-12 19:23:28,065 - JRYG_Auto - INFO - 当前流转 [循环 25] -> 页面状态: driver_other
+2026-08-12 19:23:30,922 - JRYG_Auto - INFO - 当前流转 [循环 26] -> 页面状态: driver_other
+2026-08-12 19:23:33,779 - JRYG_Auto - INFO - 当前流转 [循环 27] -> 页面状态: driver_other
+2026-08-12 19:23:36,708 - JRYG_Auto - INFO - 当前流转 [循环 28] -> 页面状态: driver_other
+2026-08-12 19:23:39,550 - JRYG_Auto - INFO - 当前流转 [循环 29] -> 页面状态: driver_other
+2026-08-12 19:23:42,409 - JRYG_Auto - INFO - 当前流转 [循环 30] -> 页面状态: driver_other
+2026-08-12 19:23:45,291 - JRYG_Auto - INFO - 当前流转 [循环 31] -> 页面状态: driver_other
+2026-08-12 19:23:48,617 - JRYG_Auto - INFO - 当前流转 [循环 32] -> 页面状态: driver_other
+2026-08-12 19:23:51,501 - JRYG_Auto - INFO - 当前流转 [循环 33] -> 页面状态: driver_other
+2026-08-12 19:23:54,394 - JRYG_Auto - INFO - 当前流转 [循环 34] -> 页面状态: driver_other
+2026-08-12 19:23:57,335 - JRYG_Auto - INFO - 当前流转 [循环 35] -> 页面状态: driver_other
+2026-08-12 19:24:00,363 - JRYG_Auto - INFO - 当前流转 [循环 36] -> 页面状态: driver_other
+2026-08-12 19:24:03,698 - JRYG_Auto - INFO - 当前流转 [循环 37] -> 页面状态: driver_other
+2026-08-12 19:24:06,543 - JRYG_Auto - INFO - 当前流转 [循环 38] -> 页面状态: driver_other
+2026-08-12 19:24:09,397 - JRYG_Auto - INFO - 当前流转 [循环 39] -> 页面状态: driver_other
+2026-08-12 19:24:12,681 - JRYG_Auto - INFO - 当前流转 [循环 40] -> 页面状态: driver_other
+2026-08-12 19:24:15,591 - JRYG_Auto - INFO - 当前流转 [循环 41] -> 页面状态: driver_other
+2026-08-12 19:24:18,479 - JRYG_Auto - INFO - 当前流转 [循环 42] -> 页面状态: driver_other
+2026-08-12 19:24:21,352 - JRYG_Auto - INFO - 当前流转 [循环 43] -> 页面状态: driver_other
+2026-08-12 19:24:24,541 - JRYG_Auto - INFO - 当前流转 [循环 44] -> 页面状态: driver_other
+2026-08-12 19:24:27,439 - JRYG_Auto - INFO - 当前流转 [循环 45] -> 页面状态: driver_other
+2026-08-12 19:24:30,363 - JRYG_Auto - INFO - 当前流转 [循环 46] -> 页面状态: driver_other
+2026-08-12 19:24:33,428 - JRYG_Auto - INFO - 当前流转 [循环 47] -> 页面状态: driver_other
+2026-08-12 19:24:36,457 - JRYG_Auto - INFO - 当前流转 [循环 48] -> 页面状态: driver_other
+2026-08-12 19:24:39,502 - JRYG_Auto - INFO - 当前流转 [循环 49] -> 页面状态: driver_other
+2026-08-12 19:24:42,992 - JRYG_Auto - INFO - 当前流转 [循环 50] -> 页面状态: driver_other
+2026-08-12 19:24:45,943 - JRYG_Auto - INFO - 当前流转 [循环 51] -> 页面状态: driver_other
+2026-08-12 19:24:49,103 - JRYG_Auto - INFO - 当前流转 [循环 52] -> 页面状态: driver_other
+2026-08-12 19:24:51,979 - JRYG_Auto - INFO - 当前流转 [循环 53] -> 页面状态: driver_other
+2026-08-12 19:24:54,868 - JRYG_Auto - INFO - 当前流转 [循环 54] -> 页面状态: driver_other
+2026-08-12 19:24:57,788 - JRYG_Auto - INFO - 当前流转 [循环 55] -> 页面状态: driver_other
+2026-08-12 19:25:00,702 - JRYG_Auto - INFO - 当前流转 [循环 56] -> 页面状态: driver_other
+2026-08-12 19:25:04,286 - JRYG_Auto - INFO - 当前流转 [循环 57] -> 页面状态: driver_other
+2026-08-12 19:25:07,145 - JRYG_Auto - INFO - 当前流转 [循环 58] -> 页面状态: driver_other
+2026-08-12 19:25:09,997 - JRYG_Auto - INFO - 当前流转 [循环 59] -> 页面状态: driver_other
+2026-08-12 19:25:12,001 - JRYG_Auto - INFO - 业务流转成功，立即切回乘客端核对完单结果账单...
+2026-08-12 19:27:08,153 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-08-12 19:27:08,154 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038
+2026-08-12 19:29:11,227 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-08-12 19:29:14,366 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 19:29:14,368 - JRYG_Auto - INFO - 【呼叫完单测试】强制拉起乘客端 App 并准备运行状态流转...
+2026-08-12 19:29:24,062 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: blockcanary
+2026-08-12 19:29:24,062 - JRYG_Auto - INFO - 识别到 BlockCanary/LeakCanary 残留，发送 BACK 返回键清理...
+2026-08-12 19:29:27,288 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: driver_verify_phone
+2026-08-12 19:29:27,288 - JRYG_Auto - INFO - 遇到安全尾号验证，对输入焦点执行 adb 键入手机尾号两位: 38
+2026-08-12 19:29:35,994 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: driver_in_trip
+2026-08-12 19:29:35,995 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:29:43,783 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:29:47,491 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: driver_in_trip
+2026-08-12 19:29:47,492 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:29:55,643 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:29:59,331 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: driver_in_trip
+2026-08-12 19:29:59,332 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:30:07,518 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:30:11,241 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: driver_in_trip
+2026-08-12 19:30:11,242 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:30:18,988 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:30:26,396 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: driver_other
+2026-08-12 19:30:31,988 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: driver_other
+2026-08-12 19:30:38,909 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: driver_other
+2026-08-12 19:30:44,585 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: driver_other
+2026-08-12 19:30:50,871 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: driver_other
+2026-08-12 19:30:57,048 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: driver_other
+2026-08-12 19:31:03,658 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: driver_other
+2026-08-12 19:31:09,739 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: driver_other
+2026-08-12 19:31:16,181 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: driver_other
+2026-08-12 19:31:21,468 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: driver_other
+2026-08-12 19:31:26,858 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: driver_other
+2026-08-12 19:31:33,290 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: driver_other
+2026-08-12 19:31:38,679 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: driver_other
+2026-08-12 19:31:44,633 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: driver_other
+2026-08-12 19:31:50,858 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: driver_other
+2026-08-12 19:31:57,503 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: driver_other
+2026-08-12 19:32:04,824 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: driver_other
+2026-08-12 19:32:10,694 - JRYG_Auto - INFO - 当前流转 [循环 23] -> 页面状态: driver_other
+2026-08-12 19:32:16,492 - JRYG_Auto - INFO - 当前流转 [循环 24] -> 页面状态: driver_other
+2026-08-12 19:32:22,708 - JRYG_Auto - INFO - 当前流转 [循环 25] -> 页面状态: driver_other
+2026-08-12 19:32:29,037 - JRYG_Auto - INFO - 当前流转 [循环 26] -> 页面状态: driver_other
+2026-08-12 19:32:34,957 - JRYG_Auto - INFO - 当前流转 [循环 27] -> 页面状态: driver_other
+2026-08-12 19:32:40,759 - JRYG_Auto - INFO - 当前流转 [循环 28] -> 页面状态: driver_other
+2026-08-12 19:32:46,589 - JRYG_Auto - INFO - 当前流转 [循环 29] -> 页面状态: driver_other
+2026-08-12 19:32:52,869 - JRYG_Auto - INFO - 当前流转 [循环 30] -> 页面状态: driver_other
+2026-08-12 19:32:59,018 - JRYG_Auto - INFO - 当前流转 [循环 31] -> 页面状态: driver_other
+2026-08-12 19:33:06,969 - JRYG_Auto - INFO - 当前流转 [循环 32] -> 页面状态: driver_other
+2026-08-12 19:33:12,409 - JRYG_Auto - INFO - 当前流转 [循环 33] -> 页面状态: driver_other
+2026-08-12 19:33:18,126 - JRYG_Auto - INFO - 当前流转 [循环 34] -> 页面状态: driver_other
+2026-08-12 19:33:24,052 - JRYG_Auto - INFO - 当前流转 [循环 35] -> 页面状态: driver_other
+2026-08-12 19:33:29,472 - JRYG_Auto - INFO - 当前流转 [循环 36] -> 页面状态: driver_other
+2026-08-12 19:33:35,339 - JRYG_Auto - INFO - 当前流转 [循环 37] -> 页面状态: driver_other
+2026-08-12 19:33:41,127 - JRYG_Auto - INFO - 当前流转 [循环 38] -> 页面状态: driver_other
+2026-08-12 19:33:47,021 - JRYG_Auto - INFO - 当前流转 [循环 39] -> 页面状态: driver_other
+2026-08-12 19:33:53,219 - JRYG_Auto - INFO - 当前流转 [循环 40] -> 页面状态: driver_other
+2026-08-12 19:33:59,844 - JRYG_Auto - INFO - 当前流转 [循环 41] -> 页面状态: driver_other
+2026-08-12 19:34:06,115 - JRYG_Auto - INFO - 当前流转 [循环 42] -> 页面状态: driver_other
+2026-08-12 19:34:11,534 - JRYG_Auto - INFO - 当前流转 [循环 43] -> 页面状态: driver_other
+2026-08-12 19:34:29,855 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-08-12 19:34:29,857 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038
+2026-08-12 19:36:41,107 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-08-12 19:36:44,073 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 19:36:44,074 - JRYG_Auto - INFO - 【呼叫完单测试】强制拉起乘客端 App 并准备运行状态流转...
+2026-08-12 19:36:54,112 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: ad
+2026-08-12 19:36:54,112 - JRYG_Auto - INFO - 识别到广告浮窗，执行叉号点击关闭...
+2026-08-12 19:37:01,609 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: home
+2026-08-12 19:37:01,609 - JRYG_Auto - INFO - 在乘客首页，点击起点栏位...
+2026-08-12 19:37:06,558 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: search
+2026-08-12 19:37:06,559 - JRYG_Auto - INFO - 在搜索页面，输入并选定起点: 时代之光名苑
+2026-08-12 19:37:20,542 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: home
+2026-08-12 19:37:20,543 - JRYG_Auto - INFO - 在乘客首页，点击目的地输入栏...
+2026-08-12 19:37:24,761 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: search
+2026-08-12 19:37:24,761 - JRYG_Auto - INFO - 在搜索页面，输入并选定目的地: 蓟门桥地铁A口
+2026-08-12 19:37:38,833 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: quote
+2026-08-12 19:37:38,833 - JRYG_Auto - INFO - 进入询价车款挑选页面，勾选并提交 '阳光优选' 确认呼叫...
+2026-08-12 19:37:52,227 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: cashier
+2026-08-12 19:37:52,228 - JRYG_Auto - INFO - 进入在线收银台，切换先付后乘标签并勾选微信支付...
+2026-08-12 19:38:08,161 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: calling
+2026-08-12 19:38:08,161 - JRYG_Auto - INFO - 乘客端已呼叫车辆中。马上切换至司机端接单...
+2026-08-12 19:38:20,108 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: driver_ok
+2026-08-12 19:38:20,109 - JRYG_Auto - INFO - 司机端系统消息，点击 '好的' 关闭弹框...
+2026-08-12 19:38:26,875 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: driver_other
+2026-08-12 19:38:29,521 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: driver_at_pickup
+2026-08-12 19:38:29,521 - JRYG_Auto - INFO - 司机已到达，滑动 '到达上车地点'...
+2026-08-12 19:38:32,276 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:38:38,354 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: driver_wait_passenger
+2026-08-12 19:38:38,355 - JRYG_Auto - INFO - 司机已在起点等候，滑动 '已接到乘客'...
+2026-08-12 19:38:41,088 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:38:44,732 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: driver_verify_phone
+2026-08-12 19:38:44,732 - JRYG_Auto - INFO - 遇到安全尾号验证，对输入焦点执行 adb 键入手机尾号两位: 38
+2026-08-12 19:38:51,006 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: driver_in_trip
+2026-08-12 19:38:51,007 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:38:59,223 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:39:04,200 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: driver_in_trip
+2026-08-12 19:39:04,201 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:39:12,280 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:39:16,162 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: driver_in_trip
+2026-08-12 19:39:16,163 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:39:24,273 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:39:28,334 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: driver_in_trip
+2026-08-12 19:39:28,335 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:39:36,446 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:39:39,882 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: driver_fee_abnormal
+2026-08-12 19:39:39,882 - JRYG_Auto - INFO - 系统检测到费用异常弹窗，点击 '拒绝' 以拒绝免单并继续正常收款...
+2026-08-12 19:39:46,485 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: driver_other
+2026-08-12 19:39:50,377 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: driver_other
+2026-08-12 19:39:54,582 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: driver_other
+2026-08-12 19:39:57,562 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: driver_other
+2026-08-12 19:40:02,774 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: driver_other
+2026-08-12 19:40:21,350 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 19:40:21,352 - JRYG_Auto - INFO - 【呼叫完单测试】强制拉起乘客端 App 并准备运行状态流转...
+2026-08-12 19:40:31,041 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: blockcanary
+2026-08-12 19:40:31,041 - JRYG_Auto - INFO - 识别到 BlockCanary/LeakCanary 残留，发送 BACK 返回键清理...
+2026-08-12 19:40:34,861 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: driver_other
+2026-08-12 19:40:38,696 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: driver_other
+2026-08-12 19:40:41,978 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: driver_other
+2026-08-12 19:40:50,653 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: driver_other
+2026-08-12 19:40:53,115 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: ad
+2026-08-12 19:40:53,115 - JRYG_Auto - INFO - 识别到广告浮窗，执行叉号点击关闭...
+2026-08-12 19:40:59,796 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: home
+2026-08-12 19:40:59,796 - JRYG_Auto - INFO - 在乘客首页，点击起点栏位...
+2026-08-12 19:41:04,432 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: search
+2026-08-12 19:41:04,433 - JRYG_Auto - INFO - 在搜索页面，输入并选定起点: 时代之光名苑
+2026-08-12 19:41:17,772 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: home
+2026-08-12 19:41:17,773 - JRYG_Auto - INFO - 在乘客首页，点击目的地输入栏...
+2026-08-12 19:41:22,069 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: search
+2026-08-12 19:41:22,069 - JRYG_Auto - INFO - 在搜索页面，输入并选定目的地: 蓟门桥地铁A口
+2026-08-12 19:41:36,154 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: quote
+2026-08-12 19:41:36,155 - JRYG_Auto - INFO - 进入询价车款挑选页面，勾选并提交 '阳光优选' 确认呼叫...
+2026-08-12 19:41:48,526 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: cashier
+2026-08-12 19:41:48,527 - JRYG_Auto - INFO - 进入在线收银台，切换先付后乘标签并勾选微信支付...
+2026-08-12 19:42:03,767 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: calling
+2026-08-12 19:42:03,767 - JRYG_Auto - INFO - 乘客端已呼叫车辆中。马上切换至司机端接单...
+2026-08-12 19:42:14,226 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: calling
+2026-08-12 19:42:14,227 - JRYG_Auto - INFO - 乘客端已呼叫车辆中。马上切换至司机端接单...
+2026-08-12 19:42:26,786 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: driver_ok
+2026-08-12 19:42:26,786 - JRYG_Auto - INFO - 司机端系统消息，点击 '好的' 关闭弹框...
+2026-08-12 19:42:33,609 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: driver_other
+2026-08-12 19:42:36,686 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: driver_at_pickup
+2026-08-12 19:42:36,686 - JRYG_Auto - INFO - 司机已到达，滑动 '到达上车地点'...
+2026-08-12 19:42:39,455 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:43:04,962 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 19:43:04,963 - JRYG_Auto - INFO - 【呼叫完单测试】强制拉起乘客端 App 并准备运行状态流转...
+2026-08-12 19:43:14,718 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: blockcanary
+2026-08-12 19:43:14,719 - JRYG_Auto - INFO - 识别到 BlockCanary/LeakCanary 残留，发送 BACK 返回键清理...
+2026-08-12 19:43:17,851 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: driver_wait_passenger
+2026-08-12 19:43:17,851 - JRYG_Auto - INFO - 司机已在起点等候，滑动 '已接到乘客'...
+2026-08-12 19:43:23,191 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:43:27,264 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: driver_verify_phone
+2026-08-12 19:43:27,265 - JRYG_Auto - INFO - 遇到安全尾号验证，对输入焦点执行 adb 键入手机尾号两位: 38
+2026-08-12 19:43:33,337 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: driver_in_trip
+2026-08-12 19:43:33,338 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:43:41,500 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:43:45,373 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: driver_in_trip
+2026-08-12 19:43:45,373 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:43:53,112 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:43:57,006 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: driver_in_trip
+2026-08-12 19:43:57,007 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:44:04,816 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:44:08,615 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: driver_in_trip
+2026-08-12 19:44:08,615 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:44:16,384 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:44:20,214 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: driver_fee_abnormal
+2026-08-12 19:44:20,215 - JRYG_Auto - INFO - 系统检测到费用异常弹窗，点击 '拒绝' 以拒绝免单并继续正常收款...
+2026-08-12 19:44:27,364 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: driver_other
+2026-08-12 19:44:30,632 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: driver_other
+2026-08-12 19:44:34,508 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: driver_other
+2026-08-12 19:44:37,914 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: driver_other
+2026-08-12 19:44:41,227 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: driver_other
+2026-08-12 19:44:44,912 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: driver_other
+2026-08-12 19:44:48,217 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: driver_other
+2026-08-12 19:44:51,624 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: driver_other
+2026-08-12 19:44:55,534 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: driver_other
+2026-08-12 19:44:58,815 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: driver_other
+2026-08-12 19:45:03,581 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: driver_other
+2026-08-12 19:45:07,645 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: driver_other
+2026-08-12 19:45:10,850 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: driver_other
+2026-08-12 19:45:14,772 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: driver_other
+2026-08-12 19:45:18,363 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: driver_other
+2026-08-12 19:45:21,693 - JRYG_Auto - INFO - 当前流转 [循环 23] -> 页面状态: driver_other
+2026-08-12 19:45:25,147 - JRYG_Auto - INFO - 当前流转 [循环 24] -> 页面状态: driver_other
+2026-08-12 19:45:28,397 - JRYG_Auto - INFO - 当前流转 [循环 25] -> 页面状态: driver_other
+2026-08-12 19:45:31,722 - JRYG_Auto - INFO - 当前流转 [循环 26] -> 页面状态: driver_other
+2026-08-12 19:45:36,302 - JRYG_Auto - INFO - 当前流转 [循环 27] -> 页面状态: driver_other
+2026-08-12 19:45:40,438 - JRYG_Auto - INFO - 当前流转 [循环 28] -> 页面状态: driver_other
+2026-08-12 19:45:44,947 - JRYG_Auto - INFO - 当前流转 [循环 29] -> 页面状态: driver_other
+2026-08-12 19:45:48,638 - JRYG_Auto - INFO - 当前流转 [循环 30] -> 页面状态: driver_other
+2026-08-12 19:45:52,883 - JRYG_Auto - INFO - 当前流转 [循环 31] -> 页面状态: driver_other
+2026-08-12 19:45:56,238 - JRYG_Auto - INFO - 当前流转 [循环 32] -> 页面状态: driver_other
+2026-08-12 19:46:00,517 - JRYG_Auto - INFO - 当前流转 [循环 33] -> 页面状态: driver_other
+2026-08-12 19:46:03,860 - JRYG_Auto - INFO - 当前流转 [循环 34] -> 页面状态: driver_other
+2026-08-12 19:46:07,704 - JRYG_Auto - INFO - 当前流转 [循环 35] -> 页面状态: driver_other
+2026-08-12 19:46:10,949 - JRYG_Auto - INFO - 当前流转 [循环 36] -> 页面状态: driver_other
+2026-08-12 19:46:14,644 - JRYG_Auto - INFO - 当前流转 [循环 37] -> 页面状态: driver_other
+2026-08-12 19:46:18,460 - JRYG_Auto - INFO - 当前流转 [循环 38] -> 页面状态: driver_other
+2026-08-12 19:46:21,872 - JRYG_Auto - INFO - 当前流转 [循环 39] -> 页面状态: driver_other
+2026-08-12 19:46:25,240 - JRYG_Auto - INFO - 当前流转 [循环 40] -> 页面状态: driver_other
+2026-08-12 19:46:28,946 - JRYG_Auto - INFO - 当前流转 [循环 41] -> 页面状态: driver_other
+2026-08-12 19:46:32,877 - JRYG_Auto - INFO - 当前流转 [循环 42] -> 页面状态: driver_other
+2026-08-12 19:46:37,121 - JRYG_Auto - INFO - 当前流转 [循环 43] -> 页面状态: driver_other
+2026-08-12 19:46:40,605 - JRYG_Auto - INFO - 当前流转 [循环 44] -> 页面状态: driver_other
+2026-08-12 19:46:44,360 - JRYG_Auto - INFO - 当前流转 [循环 45] -> 页面状态: driver_other
+2026-08-12 19:46:49,177 - JRYG_Auto - INFO - 当前流转 [循环 46] -> 页面状态: driver_other
+2026-08-12 19:46:52,928 - JRYG_Auto - INFO - 当前流转 [循环 47] -> 页面状态: driver_other
+2026-08-12 19:46:56,320 - JRYG_Auto - INFO - 当前流转 [循环 48] -> 页面状态: driver_other
+2026-08-12 19:47:01,281 - JRYG_Auto - INFO - 当前流转 [循环 49] -> 页面状态: driver_other
+2026-08-12 19:47:04,906 - JRYG_Auto - INFO - 当前流转 [循环 50] -> 页面状态: driver_other
+2026-08-12 19:47:09,603 - JRYG_Auto - INFO - 当前流转 [循环 51] -> 页面状态: driver_other
+2026-08-12 19:47:13,336 - JRYG_Auto - INFO - 当前流转 [循环 52] -> 页面状态: driver_other
+2026-08-12 19:47:18,194 - JRYG_Auto - INFO - 当前流转 [循环 53] -> 页面状态: driver_other
+2026-08-12 19:47:21,551 - JRYG_Auto - INFO - 当前流转 [循环 54] -> 页面状态: driver_other
+2026-08-12 19:47:24,867 - JRYG_Auto - INFO - 当前流转 [循环 55] -> 页面状态: driver_other
+2026-08-12 19:47:28,586 - JRYG_Auto - INFO - 当前流转 [循环 56] -> 页面状态: driver_other
+2026-08-12 19:47:32,378 - JRYG_Auto - INFO - 当前流转 [循环 57] -> 页面状态: driver_other
+2026-08-12 19:47:36,509 - JRYG_Auto - INFO - 当前流转 [循环 58] -> 页面状态: driver_other
+2026-08-12 19:47:39,975 - JRYG_Auto - INFO - 当前流转 [循环 59] -> 页面状态: driver_other
+2026-08-12 19:47:41,979 - JRYG_Auto - INFO - 业务流转成功，立即切回乘客端核对完单结果账单...
+2026-08-12 19:52:06,852 - JRYG_Auto - INFO - 设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试
+2026-08-12 19:52:06,854 - JRYG_Auto - INFO - 【呼叫完单测试】强制拉起乘客端 App 并准备运行状态流转...
+2026-08-12 19:52:16,537 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: blockcanary
+2026-08-12 19:52:16,537 - JRYG_Auto - INFO - 识别到 BlockCanary/LeakCanary 残留，发送 BACK 返回键清理...
+2026-08-12 19:52:19,901 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: driver_other
+2026-08-12 19:52:22,980 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: driver_other
+2026-08-12 19:52:27,051 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: driver_other
+2026-08-12 19:52:30,154 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: driver_other
+2026-08-12 19:52:33,317 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: driver_other
+2026-08-12 19:52:37,814 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: driver_other
+2026-08-12 19:52:41,146 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: driver_other
+2026-08-12 19:52:44,728 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: driver_other
+2026-08-12 19:52:48,692 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: driver_other
+2026-08-12 19:52:51,887 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: driver_other
+2026-08-12 19:52:55,883 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: driver_other
+2026-08-12 19:52:59,111 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: driver_other
+2026-08-12 19:53:02,296 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: driver_other
+2026-08-12 19:53:05,755 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: driver_other
+2026-08-12 19:53:09,363 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: driver_other
+2026-08-12 19:53:12,480 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: driver_other
+2026-08-12 19:53:15,765 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: driver_other
+2026-08-12 19:53:19,084 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: driver_other
+2026-08-12 19:53:23,029 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: driver_other
+2026-08-12 19:53:26,358 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: driver_other
+2026-08-12 19:53:29,562 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: driver_other
+2026-08-12 19:53:33,139 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: driver_other
+2026-08-12 19:53:37,065 - JRYG_Auto - INFO - 当前流转 [循环 23] -> 页面状态: driver_other
+2026-08-12 19:53:40,692 - JRYG_Auto - INFO - 当前流转 [循环 24] -> 页面状态: driver_other
+2026-08-12 19:53:44,000 - JRYG_Auto - INFO - 当前流转 [循环 25] -> 页面状态: driver_other
+2026-08-12 19:53:48,055 - JRYG_Auto - INFO - 当前流转 [循环 26] -> 页面状态: driver_other
+2026-08-12 19:53:51,727 - JRYG_Auto - INFO - 当前流转 [循环 27] -> 页面状态: driver_other
+2026-08-12 19:53:56,429 - JRYG_Auto - INFO - 当前流转 [循环 28] -> 页面状态: driver_other
+2026-08-12 19:54:00,992 - JRYG_Auto - INFO - 当前流转 [循环 29] -> 页面状态: driver_other
+2026-08-12 19:54:05,165 - JRYG_Auto - INFO - 当前流转 [循环 30] -> 页面状态: driver_other
+2026-08-12 19:54:22,818 - JRYG_Auto - INFO - 当前流转 [循环 31] -> 页面状态: driver_other
+2026-08-12 19:54:26,672 - JRYG_Auto - INFO - 当前流转 [循环 32] -> 页面状态: driver_other
+2026-08-12 19:54:30,115 - JRYG_Auto - INFO - 当前流转 [循环 33] -> 页面状态: driver_other
+2026-08-12 19:54:33,846 - JRYG_Auto - INFO - 当前流转 [循环 34] -> 页面状态: driver_other
+2026-08-12 19:54:46,461 - JRYG_Auto - INFO - 当前流转 [循环 35] -> 页面状态: driver_other
+2026-08-12 19:54:48,557 - JRYG_Auto - INFO - 当前流转 [循环 36] -> 页面状态: launcher
+2026-08-12 19:54:48,558 - JRYG_Auto - INFO - 当前位于桌面，强制启动乘客端 App...
+2026-08-12 19:54:56,416 - JRYG_Auto - INFO - 当前流转 [循环 37] -> 页面状态: ad
+2026-08-12 19:54:56,416 - JRYG_Auto - INFO - 识别到广告浮窗，执行叉号点击关闭...
+2026-08-12 19:55:02,925 - JRYG_Auto - INFO - 当前流转 [循环 38] -> 页面状态: home
+2026-08-12 19:55:02,925 - JRYG_Auto - INFO - 在乘客首页，点击起点栏位...
+2026-08-12 19:55:07,091 - JRYG_Auto - INFO - 当前流转 [循环 39] -> 页面状态: search
+2026-08-12 19:55:07,091 - JRYG_Auto - INFO - 在搜索页面，输入并选定起点: 时代之光名苑
+2026-08-12 19:55:20,961 - JRYG_Auto - INFO - 当前流转 [循环 40] -> 页面状态: home
+2026-08-12 19:55:20,962 - JRYG_Auto - INFO - 在乘客首页，点击目的地输入栏...
+2026-08-12 19:55:25,130 - JRYG_Auto - INFO - 当前流转 [循环 41] -> 页面状态: search
+2026-08-12 19:55:25,130 - JRYG_Auto - INFO - 在搜索页面，输入并选定目的地: 蓟门桥地铁A口
+2026-08-12 19:55:38,241 - JRYG_Auto - INFO - 当前流转 [循环 42] -> 页面状态: quote
+2026-08-12 19:55:38,241 - JRYG_Auto - INFO - 进入询价车款挑选页面，勾选并提交 '阳光优选' 确认呼叫...
+2026-08-12 19:55:49,128 - JRYG_Auto - INFO - 当前流转 [循环 43] -> 页面状态: cashier
+2026-08-12 19:55:49,128 - JRYG_Auto - INFO - 进入在线收银台，切换先付后乘标签并勾选微信支付...
+2026-08-12 19:56:05,030 - JRYG_Auto - INFO - 当前流转 [循环 44] -> 页面状态: calling
+2026-08-12 19:56:05,031 - JRYG_Auto - INFO - 乘客端已呼叫车辆中。马上切换至司机端接单...
+2026-08-12 19:56:21,243 - JRYG_Auto - INFO - 当前流转 [循环 45] -> 页面状态: driver_other
+2026-08-12 19:56:23,470 - JRYG_Auto - INFO - 当前流转 [循环 46] -> 页面状态: driver_ok
+2026-08-12 19:56:23,471 - JRYG_Auto - INFO - 司机端系统消息，点击 '好的' 关闭弹框...
+2026-08-12 19:56:27,953 - JRYG_Auto - INFO - 当前流转 [循环 47] -> 页面状态: driver_at_pickup
+2026-08-12 19:56:27,953 - JRYG_Auto - INFO - 司机已到达，滑动 '到达上车地点'...
+2026-08-12 19:56:30,658 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:56:37,949 - JRYG_Auto - INFO - 当前流转 [循环 48] -> 页面状态: driver_wait_passenger
+2026-08-12 19:56:37,949 - JRYG_Auto - INFO - 司机已在起点等候，滑动 '已接到乘客'...
+2026-08-12 19:56:41,039 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:56:44,652 - JRYG_Auto - INFO - 当前流转 [循环 49] -> 页面状态: driver_verify_phone
+2026-08-12 19:56:44,653 - JRYG_Auto - INFO - 遇到安全尾号验证，对输入焦点执行 adb 键入手机尾号两位: 38
+2026-08-12 19:56:50,982 - JRYG_Auto - INFO - 当前流转 [循环 50] -> 页面状态: driver_in_trip
+2026-08-12 19:56:50,982 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:56:58,766 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:57:02,836 - JRYG_Auto - INFO - 当前流转 [循环 51] -> 页面状态: driver_in_trip
+2026-08-12 19:57:02,837 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:57:11,153 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:57:14,851 - JRYG_Auto - INFO - 当前流转 [循环 52] -> 页面状态: driver_in_trip
+2026-08-12 19:57:14,851 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:57:22,797 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:57:26,744 - JRYG_Auto - INFO - 当前流转 [循环 53] -> 页面状态: driver_in_trip
+2026-08-12 19:57:26,744 - JRYG_Auto - INFO - 行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...
+2026-08-12 19:57:34,469 - JRYG_Auto - INFO - 横向滑块滑动指令执行完成
+2026-08-12 19:57:37,802 - JRYG_Auto - INFO - 当前流转 [循环 54] -> 页面状态: driver_fee_abnormal
+2026-08-12 19:57:37,803 - JRYG_Auto - INFO - 系统检测到费用异常弹窗，点击 '拒绝' 以拒绝免单并继续正常收款...
+2026-08-12 19:57:45,237 - JRYG_Auto - INFO - 当前流转 [循环 55] -> 页面状态: driver_other
+2026-08-12 19:57:49,959 - JRYG_Auto - INFO - 当前流转 [循环 56] -> 页面状态: driver_other
+2026-08-12 19:57:54,255 - JRYG_Auto - INFO - 当前流转 [循环 57] -> 页面状态: driver_other
+2026-08-12 19:57:58,007 - JRYG_Auto - INFO - 当前流转 [循环 58] -> 页面状态: driver_other
+2026-08-12 19:58:02,057 - JRYG_Auto - INFO - 当前流转 [循环 59] -> 页面状态: driver_other
+2026-08-12 19:58:04,058 - JRYG_Auto - INFO - 业务流转成功，立即切回乘客端核对完单结果账单...
