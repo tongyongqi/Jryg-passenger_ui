@@ -1,0 +1,14 @@
+device:
+  udid: "10AE6U20A7001H5"             # 改用安卓物理真机 UDID
+  platform_name: "Android"           # 平台类型切换为 Android
+  platform_version: "15"              # 安卓手机系统版本
+  device_name: "一叶随风"             # 安卓手机设备名
+  appium_host: "127.0.0.1"
+  appium_port: 4723
+  system_port: 8201
+  wda_url: "http://127.0.0.1:8100"
+
+packages:
+  # 港版乘客端安卓相关标识
+  passenger_hk: "com.jryg.client.hk"
+  passenger_hk_activity: "com.jryg.client.hk.activity.loading.YGALoadingActivity"
