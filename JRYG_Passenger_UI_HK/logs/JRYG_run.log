@@ -1,0 +1,1594 @@
+2026-08-13 14:46:18,335 - JRYG_HK_Auto - INFO - 【港版测试】准备连接设备通道...
+2026-08-13 14:46:18,336 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: ANDROID
+2026-08-13 14:46:18,575 - JRYG_HK_Auto - INFO - 【Android】已成功重置设备端口转发及 UiAutomator 状态
+2026-08-13 14:46:18,575 - JRYG_HK_Auto - INFO - 【Android】正在启动并拉起港版 App 'com.jryg.client.hk'...
+2026-08-13 14:47:20,336 - JRYG_HK_Auto - INFO - 【港版测试】准备连接设备通道...
+2026-08-13 14:47:20,336 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: ANDROID
+2026-08-13 14:47:20,543 - JRYG_HK_Auto - INFO - 【Android】已成功重置设备端口转发及 UiAutomator 状态
+2026-08-13 14:47:20,544 - JRYG_HK_Auto - INFO - 【Android】正在启动并拉起港版 App 'com.sunlightmobility.client'...
+2026-08-13 14:47:24,466 - JRYG_HK_Auto - INFO - 【Android】拉起成功！Session ID: 09a0c2d5-a2fa-4a33-b95e-79e549120025
+2026-08-13 14:47:24,467 - JRYG_HK_Auto - INFO - 正在执行：[港版 App 启动检测]
+2026-08-13 14:47:24,467 - JRYG_HK_Auto - INFO - 【启动成功】成功拉起 App，当前 Session 标识: 09a0c2d5-a2fa-4a33-b95e-79e549120025
+2026-08-13 14:47:30,015 - JRYG_HK_Auto - INFO - 【界面截图】首屏截图已输出并保存至: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_hk_passenger_home.png
+2026-08-13 14:47:30,576 - JRYG_HK_Auto - INFO - 【港版连接】Session 通道已安全断开并释放
+2026-08-13 14:47:30,577 - JRYG_HK_Auto - INFO - 【港版测试】设备连接已释放，测试流正常结束
+2026-08-13 14:55:08,909 - JRYG_HK_Auto - INFO - 【港版测试】准备连接设备通道...
+2026-08-13 14:55:08,909 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: ANDROID
+2026-08-13 14:55:09,153 - JRYG_HK_Auto - INFO - 【Android】已成功重置设备端口转发及 UiAutomator 状态
+2026-08-13 14:55:09,154 - JRYG_HK_Auto - INFO - 【Android】正在启动并拉起港版 App 'com.sunlightmobility.client'...
+2026-08-13 14:55:13,387 - JRYG_HK_Auto - INFO - 【Android】拉起成功！Session ID: 00a43a4c-a004-4e4f-bc05-725401af8bf1
+2026-08-13 14:55:13,388 - JRYG_HK_Auto - INFO - 正在执行：[港版 App 启动检测]
+2026-08-13 14:55:13,389 - JRYG_HK_Auto - INFO - 【启动成功】成功拉起 App，当前 Session 标识: 00a43a4c-a004-4e4f-bc05-725401af8bf1
+2026-08-13 14:55:15,073 - JRYG_HK_Auto - INFO - 【隐私协议】已成功点击了 Android 端的『同意』按钮！
+2026-08-13 14:55:43,993 - JRYG_HK_Auto - INFO - 【界面截图】首屏截图已输出并保存至: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_hk_passenger_home.png
+2026-08-13 14:55:44,651 - JRYG_HK_Auto - INFO - 【港版连接】Session 通道已安全断开并释放
+2026-08-13 14:55:44,651 - JRYG_HK_Auto - INFO - 【港版测试】设备连接已释放，测试流正常结束
+2026-08-13 16:03:37,970 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 16:03:48,769 - JRYG_HK_Auto - INFO - 【港版一键登录】设备连接已建立，进入自动化流转。
+2026-08-13 16:03:48,772 - JRYG_HK_Auto - INFO - 【港版一键登录】启动业务流转，预备登录测试手机号: 11001727
+2026-08-13 16:03:50,855 - JRYG_HK_Auto - INFO - 当前流转 [循环 0] -> 页面状态: home_unlogged
+2026-08-13 16:03:50,857 - JRYG_HK_Auto - INFO - 【步骤 4】已成功进入港版 App 首页，正在点击下方导航栏『我的』...
+2026-08-13 16:04:00,651 - JRYG_HK_Auto - INFO - 当前流转 [循环 1] -> 页面状态: home_logged
+2026-08-13 16:04:00,651 - JRYG_HK_Auto - INFO - 【成功】一键打开并登录港版阳光出行测试成功！手机号已正确核对绑定。
+2026-08-13 16:04:00,667 - JRYG_HK_Auto - INFO - 【港版一键登录】自动化运行结束。
+2026-08-13 16:26:36,355 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 16:26:47,185 - JRYG_HK_Auto - INFO - 【港版一键登录】设备连接已建立，进入自动化流转。
+2026-08-13 16:26:47,189 - JRYG_HK_Auto - INFO - 【港版一键登录】启动业务流转，预备登录测试手机号: 11001727
+2026-08-13 16:26:49,530 - JRYG_HK_Auto - INFO - 当前流转 [循环 0] -> 页面状态: home_unlogged
+2026-08-13 16:26:49,531 - JRYG_HK_Auto - INFO - 【步骤 4】已成功进入港版 App 首页，正在点击下方导航栏『我的』...
+2026-08-13 16:26:59,661 - JRYG_HK_Auto - INFO - 当前流转 [循环 1] -> 页面状态: home_logged
+2026-08-13 16:26:59,662 - JRYG_HK_Auto - INFO - 【成功】一键打开并登录港版阳光出行测试成功！手机号已正确核对绑定。
+2026-08-13 16:26:59,690 - JRYG_HK_Auto - INFO - 【港版下单测试】启动港版打錶的士+现金支付全业务下单流程...
+2026-08-13 16:26:59,691 - JRYG_HK_Auto - INFO - 确保处于首页选项卡...
+2026-08-13 16:27:05,125 - JRYG_HK_Auto - INFO - 检查并关闭可能覆盖主页的弹窗...
+2026-08-13 16:27:05,568 - JRYG_HK_Auto - INFO - 点击起点输入栏...
+2026-08-13 16:27:10,695 - JRYG_HK_Auto - INFO - 输入起点：铜锣湾地铁站...
+2026-08-13 16:27:17,392 - JRYG_HK_Auto - INFO - 选择起点匹配项...
+2026-08-13 16:27:21,106 - JRYG_HK_Auto - INFO - 点击目的地输入栏...
+2026-08-13 16:27:21,250 - JRYG_HK_Auto - INFO - 在车型选择页面中，点击选择『打錶的士』...
+2026-08-13 16:27:24,440 - JRYG_HK_Auto - INFO - 展开可选服务，切换本单支付方式...
+2026-08-13 16:27:27,605 - JRYG_HK_Auto - INFO - 选中『現金支付』...
+2026-08-13 16:27:28,853 - JRYG_HK_Auto - INFO - 点击『確認選擇』以保存支付服务变更...
+2026-08-13 16:27:32,028 - JRYG_HK_Auto - INFO - 【呼叫】点击『確認呼叫』正式向系统发起本订单派单...
+2026-08-13 16:27:37,697 - JRYG_HK_Auto - INFO - 【港版下单流程】执行完毕，订单已成功发起并进入后台派单流程！
+2026-08-13 16:27:37,837 - JRYG_HK_Auto - INFO - 【港版一键登录】自动化运行结束。
+2026-08-13 16:49:11,421 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 16:50:03,180 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 16:53:48,058 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 16:53:48,061 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 16:53:48,254 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 16:53:48,257 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 16:56:49,604 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 16:56:49,613 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 16:56:53,362 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 16:57:05,776 - JRYG_HK_Auto - INFO - 【港版一键登录】设备连接已建立，进入自动化流转。
+2026-08-13 16:57:05,780 - JRYG_HK_Auto - INFO - 【港版一键登录】启动业务流转，预备登录测试手机号: 11001727
+2026-08-13 16:57:05,913 - JRYG_HK_Auto - INFO - 当前流转 [循环 0] -> 页面状态: launcher
+2026-08-13 16:57:08,063 - JRYG_HK_Auto - INFO - 当前流转 [循环 1] -> 页面状态: launcher
+2026-08-13 16:57:10,215 - JRYG_HK_Auto - INFO - 当前流转 [循环 2] -> 页面状态: launcher
+2026-08-13 16:57:12,359 - JRYG_HK_Auto - INFO - 当前流转 [循环 3] -> 页面状态: launcher
+2026-08-13 16:57:14,511 - JRYG_HK_Auto - INFO - 当前流转 [循环 4] -> 页面状态: launcher
+2026-08-13 16:57:16,659 - JRYG_HK_Auto - INFO - 当前流转 [循环 5] -> 页面状态: launcher
+2026-08-13 16:57:18,812 - JRYG_HK_Auto - INFO - 当前流转 [循环 6] -> 页面状态: launcher
+2026-08-13 16:57:20,965 - JRYG_HK_Auto - INFO - 当前流转 [循环 7] -> 页面状态: launcher
+2026-08-13 16:57:23,116 - JRYG_HK_Auto - INFO - 当前流转 [循环 8] -> 页面状态: launcher
+2026-08-13 16:57:25,287 - JRYG_HK_Auto - INFO - 当前流转 [循环 9] -> 页面状态: launcher
+2026-08-13 16:57:27,435 - JRYG_HK_Auto - INFO - 当前流转 [循环 10] -> 页面状态: launcher
+2026-08-13 16:57:29,593 - JRYG_HK_Auto - INFO - 当前流转 [循环 11] -> 页面状态: launcher
+2026-08-13 16:57:31,724 - JRYG_HK_Auto - INFO - 当前流转 [循环 12] -> 页面状态: launcher
+2026-08-13 16:57:33,877 - JRYG_HK_Auto - INFO - 当前流转 [循环 13] -> 页面状态: launcher
+2026-08-13 16:57:36,034 - JRYG_HK_Auto - INFO - 当前流转 [循环 14] -> 页面状态: launcher
+2026-08-13 16:57:38,178 - JRYG_HK_Auto - INFO - 当前流转 [循环 15] -> 页面状态: launcher
+2026-08-13 16:57:40,322 - JRYG_HK_Auto - INFO - 当前流转 [循环 16] -> 页面状态: launcher
+2026-08-13 16:57:42,485 - JRYG_HK_Auto - INFO - 当前流转 [循环 17] -> 页面状态: launcher
+2026-08-13 16:57:44,640 - JRYG_HK_Auto - INFO - 当前流转 [循环 18] -> 页面状态: launcher
+2026-08-13 16:57:46,791 - JRYG_HK_Auto - INFO - 当前流转 [循环 19] -> 页面状态: launcher
+2026-08-13 16:57:48,936 - JRYG_HK_Auto - INFO - 当前流转 [循环 20] -> 页面状态: launcher
+2026-08-13 16:57:51,081 - JRYG_HK_Auto - INFO - 当前流转 [循环 21] -> 页面状态: launcher
+2026-08-13 16:57:53,238 - JRYG_HK_Auto - INFO - 当前流转 [循环 22] -> 页面状态: launcher
+2026-08-13 16:57:55,384 - JRYG_HK_Auto - INFO - 当前流转 [循环 23] -> 页面状态: launcher
+2026-08-13 16:57:57,544 - JRYG_HK_Auto - INFO - 当前流转 [循环 24] -> 页面状态: launcher
+2026-08-13 16:57:59,698 - JRYG_HK_Auto - INFO - 当前流转 [循环 25] -> 页面状态: launcher
+2026-08-13 16:58:01,845 - JRYG_HK_Auto - INFO - 当前流转 [循环 26] -> 页面状态: launcher
+2026-08-13 16:58:04,003 - JRYG_HK_Auto - INFO - 当前流转 [循环 27] -> 页面状态: launcher
+2026-08-13 16:58:06,142 - JRYG_HK_Auto - INFO - 当前流转 [循环 28] -> 页面状态: launcher
+2026-08-13 16:58:08,292 - JRYG_HK_Auto - INFO - 当前流转 [循环 29] -> 页面状态: launcher
+2026-08-13 16:58:10,301 - JRYG_HK_Auto - INFO - 【港版下单测试】启动港版打錶的士+现金支付全业务下单流程...
+2026-08-13 16:58:10,301 - JRYG_HK_Auto - INFO - 确保处于首页选项卡...
+2026-08-13 16:58:13,507 - JRYG_HK_Auto - INFO - 检查并关闭可能覆盖主页的弹窗...
+2026-08-13 16:58:14,037 - JRYG_HK_Auto - INFO - 点击起点输入栏...
+2026-08-13 16:58:14,088 - JRYG_HK_Auto - INFO - 点击目的地输入栏...
+2026-08-13 16:58:14,207 - JRYG_HK_Auto - INFO - 在车型选择页面中，点击选择『打錶的士』...
+2026-08-13 16:58:17,353 - JRYG_HK_Auto - INFO - 展开可选服务，切换本单支付方式...
+2026-08-13 16:58:20,504 - JRYG_HK_Auto - INFO - 选中『現金支付』...
+2026-08-13 16:58:21,664 - JRYG_HK_Auto - INFO - 点击『確認選擇』以保存支付服务变更...
+2026-08-13 16:58:24,821 - JRYG_HK_Auto - INFO - 【呼叫】点击『確認呼叫』正式向系统发起本订单派单...
+2026-08-13 16:58:30,053 - JRYG_HK_Auto - INFO - 【港版下单流程】执行完毕，订单已成功发起并进入后台派单流程！
+2026-08-13 16:58:30,056 - JRYG_HK_Auto - INFO - 【港版一键登录】自动化运行结束。
+2026-08-13 16:59:10,104 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 16:59:15,463 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 16:59:15,475 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:02:08,277 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:03:44,231 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:03:49,489 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:03:49,492 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:04:09,518 - JRYG_HK_Auto - WARNING - 【营销后台】页面加载部分超时，但尝试继续执行: Message: timeout: Timed out receiving message from renderer: 19.755
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010d0aa34a chromedriver + 4051786
+1   chromedriver                        0x000000010cd39dbb chromedriver + 445883
+2   chromedriver                        0x000000010cd27a22 chromedriver + 371234
+3   chromedriver                        0x000000010cd27616 chromedriver + 370198
+4   chromedriver                        0x000000010cd25229 chromedriver + 361001
+5   chromedriver                        0x000000010cd25b7f chromedriver + 363391
+6   chromedriver                        0x000000010cd34d30 chromedriver + 425264
+7   chromedriver                        0x000000010cd48d63 chromedriver + 507235
+8   chromedriver                        0x000000010cd508bb chromedriver + 538811
+9   chromedriver                        0x000000010cd26296 chromedriver + 365206
+10  chromedriver                        0x000000010cd48abe chromedriver + 506558
+11  chromedriver                        0x000000010cdd684b chromedriver + 1087563
+12  chromedriver                        0x000000010cd81e54 chromedriver + 740948
+13  chromedriver                        0x000000010cd82c21 chromedriver + 744481
+14  chromedriver                        0x000000010d0768f8 chromedriver + 3840248
+15  chromedriver                        0x000000010d07a296 chromedriver + 3854998
+16  chromedriver                        0x000000010d05c4be chromedriver + 3732670
+17  chromedriver                        0x000000010d07add2 chromedriver + 3857874
+18  chromedriver                        0x000000010d04d300 chromedriver + 3670784
+19  chromedriver                        0x000000010d0984a8 chromedriver + 3978408
+20  chromedriver                        0x000000010d09863c chromedriver + 3978812
+21  chromedriver                        0x000000010d0a9ff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:04:09,519 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:04:31,107 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:05:21,215 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:05:26,739 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:05:26,747 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:05:46,775 - JRYG_HK_Auto - WARNING - 【营销后台】页面加载部分超时，但尝试继续执行: Message: timeout: Timed out receiving message from renderer: 19.732
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x00000001040c234a chromedriver + 4051786
+1   chromedriver                        0x0000000103d51dbb chromedriver + 445883
+2   chromedriver                        0x0000000103d3fa22 chromedriver + 371234
+3   chromedriver                        0x0000000103d3f616 chromedriver + 370198
+4   chromedriver                        0x0000000103d3d229 chromedriver + 361001
+5   chromedriver                        0x0000000103d3db7f chromedriver + 363391
+6   chromedriver                        0x0000000103d4cd30 chromedriver + 425264
+7   chromedriver                        0x0000000103d60d63 chromedriver + 507235
+8   chromedriver                        0x0000000103d688bb chromedriver + 538811
+9   chromedriver                        0x0000000103d3e296 chromedriver + 365206
+10  chromedriver                        0x0000000103d60abe chromedriver + 506558
+11  chromedriver                        0x0000000103dee84b chromedriver + 1087563
+12  chromedriver                        0x0000000103d99e54 chromedriver + 740948
+13  chromedriver                        0x0000000103d9ac21 chromedriver + 744481
+14  chromedriver                        0x000000010408e8f8 chromedriver + 3840248
+15  chromedriver                        0x0000000104092296 chromedriver + 3854998
+16  chromedriver                        0x00000001040744be chromedriver + 3732670
+17  chromedriver                        0x0000000104092dd2 chromedriver + 3857874
+18  chromedriver                        0x0000000104065300 chromedriver + 3670784
+19  chromedriver                        0x00000001040b04a8 chromedriver + 3978408
+20  chromedriver                        0x00000001040b063c chromedriver + 3978812
+21  chromedriver                        0x00000001040c1ff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:05:46,777 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:06:07,319 - JRYG_HK_Auto - ERROR - 【用例异常】运行中途出错: Message: 
+Stacktrace:
+0   chromedriver                        0x00000001040c234a chromedriver + 4051786
+1   chromedriver                        0x0000000103d51dbb chromedriver + 445883
+2   chromedriver                        0x0000000103da65ae chromedriver + 791982
+3   chromedriver                        0x0000000103da6901 chromedriver + 792833
+4   chromedriver                        0x0000000103df1394 chromedriver + 1098644
+5   chromedriver                        0x0000000103dee501 chromedriver + 1086721
+6   chromedriver                        0x0000000103d99e54 chromedriver + 740948
+7   chromedriver                        0x0000000103d9ac21 chromedriver + 744481
+8   chromedriver                        0x000000010408e8f8 chromedriver + 3840248
+9   chromedriver                        0x0000000104092296 chromedriver + 3854998
+10  chromedriver                        0x00000001040744be chromedriver + 3732670
+11  chromedriver                        0x0000000104092dd2 chromedriver + 3857874
+12  chromedriver                        0x0000000104065300 chromedriver + 3670784
+13  chromedriver                        0x00000001040b04a8 chromedriver + 3978408
+14  chromedriver                        0x00000001040b063c chromedriver + 3978812
+15  chromedriver                        0x00000001040c1ff1 chromedriver + 4050929
+16  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+17  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+。已保存调试截图: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_error.png 和网页结构: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_dom.html
+2026-08-13 17:06:07,968 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:14:33,542 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:14:33,542 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:14:33,542 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:14:37,246 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:14:37,248 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:14:37,337 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:14:37,339 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:14:37,491 - JRYG_HK_Auto - WARNING - 【营销后台】页面加载部分超时，但尝试继续执行: Message: unknown error: net::ERR_CONNECTION_RESET
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000011025134a chromedriver + 4051786
+1   chromedriver                        0x000000010fee0dbb chromedriver + 445883
+2   chromedriver                        0x000000010fedddb9 chromedriver + 433593
+3   chromedriver                        0x000000010feceddf chromedriver + 372191
+4   chromedriver                        0x000000010fed0be5 chromedriver + 379877
+5   chromedriver                        0x000000010fecf2cd chromedriver + 373453
+6   chromedriver                        0x000000010fecea80 chromedriver + 371328
+7   chromedriver                        0x000000010fece616 chromedriver + 370198
+8   chromedriver                        0x000000010fecc229 chromedriver + 361001
+9   chromedriver                        0x000000010fecca40 chromedriver + 363072
+10  chromedriver                        0x000000010fee48dd chromedriver + 461021
+11  chromedriver                        0x000000010ff7e1cb chromedriver + 1089995
+12  chromedriver                        0x000000010ff7d501 chromedriver + 1086721
+13  chromedriver                        0x000000010ff28e54 chromedriver + 740948
+14  chromedriver                        0x000000010ff29c21 chromedriver + 744481
+15  chromedriver                        0x000000011021d8f8 chromedriver + 3840248
+16  chromedriver                        0x0000000110221296 chromedriver + 3854998
+17  chromedriver                        0x00000001102034be chromedriver + 3732670
+18  chromedriver                        0x0000000110221dd2 chromedriver + 3857874
+19  chromedriver                        0x00000001101f4300 chromedriver + 3670784
+20  chromedriver                        0x000000011023f4a8 chromedriver + 3978408
+21  chromedriver                        0x000000011023f63c chromedriver + 3978812
+22  chromedriver                        0x0000000110250ff1 chromedriver + 4050929
+23  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+24  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:14:37,491 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:14:38,555 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:14:38,557 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:14:40,056 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:14:40,060 - JRYG_HK_Auto - ERROR - 【调试存盘失败】无法保存异常截图/DOM: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010a56934a chromedriver + 4051786
+1   chromedriver                        0x000000010a1f8dbb chromedriver + 445883
+2   chromedriver                        0x000000010a1d2408 chromedriver + 287752
+3   chromedriver                        0x000000010a27a618 chromedriver + 976408
+4   chromedriver                        0x000000010a294eb8 chromedriver + 1085112
+5   chromedriver                        0x000000010a240e54 chromedriver + 740948
+6   chromedriver                        0x000000010a241c21 chromedriver + 744481
+7   chromedriver                        0x000000010a5358f8 chromedriver + 3840248
+8   chromedriver                        0x000000010a539296 chromedriver + 3854998
+9   chromedriver                        0x000000010a51b4be chromedriver + 3732670
+10  chromedriver                        0x000000010a539dd2 chromedriver + 3857874
+11  chromedriver                        0x000000010a50c300 chromedriver + 3670784
+12  chromedriver                        0x000000010a5574a8 chromedriver + 3978408
+13  chromedriver                        0x000000010a55763c chromedriver + 3978812
+14  chromedriver                        0x000000010a568ff1 chromedriver + 4050929
+15  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+16  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:14:40,882 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:14:45,662 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:14:45,668 - JRYG_HK_Auto - ERROR - 【调试存盘失败】无法保存异常截图/DOM: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x00000001019f534a chromedriver + 4051786
+1   chromedriver                        0x0000000101684dbb chromedriver + 445883
+2   chromedriver                        0x000000010165e408 chromedriver + 287752
+3   chromedriver                        0x0000000101706618 chromedriver + 976408
+4   chromedriver                        0x0000000101720eb8 chromedriver + 1085112
+5   chromedriver                        0x00000001016cce54 chromedriver + 740948
+6   chromedriver                        0x00000001016cdc21 chromedriver + 744481
+7   chromedriver                        0x00000001019c18f8 chromedriver + 3840248
+8   chromedriver                        0x00000001019c5296 chromedriver + 3854998
+9   chromedriver                        0x00000001019a74be chromedriver + 3732670
+10  chromedriver                        0x00000001019c5dd2 chromedriver + 3857874
+11  chromedriver                        0x0000000101998300 chromedriver + 3670784
+12  chromedriver                        0x00000001019e34a8 chromedriver + 3978408
+13  chromedriver                        0x00000001019e363c chromedriver + 3978812
+14  chromedriver                        0x00000001019f4ff1 chromedriver + 4050929
+15  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+16  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:14:46,002 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:14:50,727 - JRYG_HK_Auto - ERROR - 【调试存盘失败】无法保存异常截图/DOM: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000011025134a chromedriver + 4051786
+1   chromedriver                        0x000000010fee0dbb chromedriver + 445883
+2   chromedriver                        0x000000010feba408 chromedriver + 287752
+3   chromedriver                        0x000000010ff62618 chromedriver + 976408
+4   chromedriver                        0x000000010ff7ceb8 chromedriver + 1085112
+5   chromedriver                        0x000000010ff28e54 chromedriver + 740948
+6   chromedriver                        0x000000010ff29c21 chromedriver + 744481
+7   chromedriver                        0x000000011021d8f8 chromedriver + 3840248
+8   chromedriver                        0x0000000110221296 chromedriver + 3854998
+9   chromedriver                        0x00000001102034be chromedriver + 3732670
+10  chromedriver                        0x0000000110221dd2 chromedriver + 3857874
+11  chromedriver                        0x00000001101f4300 chromedriver + 3670784
+12  chromedriver                        0x000000011023f4a8 chromedriver + 3978408
+13  chromedriver                        0x000000011023f63c chromedriver + 3978812
+14  chromedriver                        0x0000000110250ff1 chromedriver + 4050929
+15  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+16  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:14:51,024 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:21:46,917 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:21:49,505 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:21:49,507 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:22:09,515 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载失败/超时: Message: timeout: Timed out receiving message from renderer: 19.575
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010f08c34a chromedriver + 4051786
+1   chromedriver                        0x000000010ed1bdbb chromedriver + 445883
+2   chromedriver                        0x000000010ed09a22 chromedriver + 371234
+3   chromedriver                        0x000000010ed09616 chromedriver + 370198
+4   chromedriver                        0x000000010ed07229 chromedriver + 361001
+5   chromedriver                        0x000000010ed07b7f chromedriver + 363391
+6   chromedriver                        0x000000010ed16d30 chromedriver + 425264
+7   chromedriver                        0x000000010ed2ad63 chromedriver + 507235
+8   chromedriver                        0x000000010ed328bb chromedriver + 538811
+9   chromedriver                        0x000000010ed08296 chromedriver + 365206
+10  chromedriver                        0x000000010ed2aabe chromedriver + 506558
+11  chromedriver                        0x000000010edb884b chromedriver + 1087563
+12  chromedriver                        0x000000010ed63e54 chromedriver + 740948
+13  chromedriver                        0x000000010ed64c21 chromedriver + 744481
+14  chromedriver                        0x000000010f0588f8 chromedriver + 3840248
+15  chromedriver                        0x000000010f05c296 chromedriver + 3854998
+16  chromedriver                        0x000000010f03e4be chromedriver + 3732670
+17  chromedriver                        0x000000010f05cdd2 chromedriver + 3857874
+18  chromedriver                        0x000000010f02f300 chromedriver + 3670784
+19  chromedriver                        0x000000010f07a4a8 chromedriver + 3978408
+20  chromedriver                        0x000000010f07a63c chromedriver + 3978812
+21  chromedriver                        0x000000010f08bff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:22:09,516 - JRYG_HK_Auto - INFO - 【营销后台】等待 3 秒后重试...
+2026-08-13 17:22:32,529 - JRYG_HK_Auto - WARNING - 【营销后台】第 2 次页面加载失败/超时: Message: timeout: Timed out receiving message from renderer: 19.973
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010f08c34a chromedriver + 4051786
+1   chromedriver                        0x000000010ed1bdbb chromedriver + 445883
+2   chromedriver                        0x000000010ed09a22 chromedriver + 371234
+3   chromedriver                        0x000000010ed09616 chromedriver + 370198
+4   chromedriver                        0x000000010ed07229 chromedriver + 361001
+5   chromedriver                        0x000000010ed07b7f chromedriver + 363391
+6   chromedriver                        0x000000010ed16d30 chromedriver + 425264
+7   chromedriver                        0x000000010ed2ad63 chromedriver + 507235
+8   chromedriver                        0x000000010ed328bb chromedriver + 538811
+9   chromedriver                        0x000000010ed08296 chromedriver + 365206
+10  chromedriver                        0x000000010ed2aabe chromedriver + 506558
+11  chromedriver                        0x000000010edb884b chromedriver + 1087563
+12  chromedriver                        0x000000010ed63e54 chromedriver + 740948
+13  chromedriver                        0x000000010ed64c21 chromedriver + 744481
+14  chromedriver                        0x000000010f0588f8 chromedriver + 3840248
+15  chromedriver                        0x000000010f05c296 chromedriver + 3854998
+16  chromedriver                        0x000000010f03e4be chromedriver + 3732670
+17  chromedriver                        0x000000010f05cdd2 chromedriver + 3857874
+18  chromedriver                        0x000000010f02f300 chromedriver + 3670784
+19  chromedriver                        0x000000010f07a4a8 chromedriver + 3978408
+20  chromedriver                        0x000000010f07a63c chromedriver + 3978812
+21  chromedriver                        0x000000010f08bff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:22:32,530 - JRYG_HK_Auto - INFO - 【营销后台】等待 3 秒后重试...
+2026-08-13 17:22:55,539 - JRYG_HK_Auto - WARNING - 【营销后台】第 3 次页面加载失败/超时: Message: timeout: Timed out receiving message from renderer: 19.980
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010f08c34a chromedriver + 4051786
+1   chromedriver                        0x000000010ed1bdbb chromedriver + 445883
+2   chromedriver                        0x000000010ed09a22 chromedriver + 371234
+3   chromedriver                        0x000000010ed09616 chromedriver + 370198
+4   chromedriver                        0x000000010ed07229 chromedriver + 361001
+5   chromedriver                        0x000000010ed07b7f chromedriver + 363391
+6   chromedriver                        0x000000010ed16d30 chromedriver + 425264
+7   chromedriver                        0x000000010ed2ad63 chromedriver + 507235
+8   chromedriver                        0x000000010ed328bb chromedriver + 538811
+9   chromedriver                        0x000000010ed08296 chromedriver + 365206
+10  chromedriver                        0x000000010ed2aabe chromedriver + 506558
+11  chromedriver                        0x000000010edb884b chromedriver + 1087563
+12  chromedriver                        0x000000010ed63e54 chromedriver + 740948
+13  chromedriver                        0x000000010ed64c21 chromedriver + 744481
+14  chromedriver                        0x000000010f0588f8 chromedriver + 3840248
+15  chromedriver                        0x000000010f05c296 chromedriver + 3854998
+16  chromedriver                        0x000000010f03e4be chromedriver + 3732670
+17  chromedriver                        0x000000010f05cdd2 chromedriver + 3857874
+18  chromedriver                        0x000000010f02f300 chromedriver + 3670784
+19  chromedriver                        0x000000010f07a4a8 chromedriver + 3978408
+20  chromedriver                        0x000000010f07a63c chromedriver + 3978812
+21  chromedriver                        0x000000010f08bff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:22:55,539 - JRYG_HK_Auto - ERROR - 【营销后台】多次重试访问登录页均失败，跳过测试用例。
+2026-08-13 17:22:55,745 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:23:58,489 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:24:01,223 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:24:01,225 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:24:31,232 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载部分超时，但由于 DOM 可能已就绪，尝试继续执行后续测试步骤: Message: timeout: Timed out receiving message from renderer: 29.800
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x0000000105a2934a chromedriver + 4051786
+1   chromedriver                        0x00000001056b8dbb chromedriver + 445883
+2   chromedriver                        0x00000001056a6a22 chromedriver + 371234
+3   chromedriver                        0x00000001056a6616 chromedriver + 370198
+4   chromedriver                        0x00000001056a4229 chromedriver + 361001
+5   chromedriver                        0x00000001056a4b7f chromedriver + 363391
+6   chromedriver                        0x00000001056b3d30 chromedriver + 425264
+7   chromedriver                        0x00000001056c7d63 chromedriver + 507235
+8   chromedriver                        0x00000001056cf8bb chromedriver + 538811
+9   chromedriver                        0x00000001056a5296 chromedriver + 365206
+10  chromedriver                        0x00000001056c7abe chromedriver + 506558
+11  chromedriver                        0x000000010575584b chromedriver + 1087563
+12  chromedriver                        0x0000000105700e54 chromedriver + 740948
+13  chromedriver                        0x0000000105701c21 chromedriver + 744481
+14  chromedriver                        0x00000001059f58f8 chromedriver + 3840248
+15  chromedriver                        0x00000001059f9296 chromedriver + 3854998
+16  chromedriver                        0x00000001059db4be chromedriver + 3732670
+17  chromedriver                        0x00000001059f9dd2 chromedriver + 3857874
+18  chromedriver                        0x00000001059cc300 chromedriver + 3670784
+19  chromedriver                        0x0000000105a174a8 chromedriver + 3978408
+20  chromedriver                        0x0000000105a1763c chromedriver + 3978812
+21  chromedriver                        0x0000000105a28ff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:24:31,233 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:24:51,471 - JRYG_HK_Auto - ERROR - 【用例异常】运行中途出错: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000105a2934a chromedriver + 4051786
+1   chromedriver                        0x00000001056b8dbb chromedriver + 445883
+2   chromedriver                        0x000000010570d5ae chromedriver + 791982
+3   chromedriver                        0x000000010570d901 chromedriver + 792833
+4   chromedriver                        0x0000000105758394 chromedriver + 1098644
+5   chromedriver                        0x0000000105755501 chromedriver + 1086721
+6   chromedriver                        0x0000000105700e54 chromedriver + 740948
+7   chromedriver                        0x0000000105701c21 chromedriver + 744481
+8   chromedriver                        0x00000001059f58f8 chromedriver + 3840248
+9   chromedriver                        0x00000001059f9296 chromedriver + 3854998
+10  chromedriver                        0x00000001059db4be chromedriver + 3732670
+11  chromedriver                        0x00000001059f9dd2 chromedriver + 3857874
+12  chromedriver                        0x00000001059cc300 chromedriver + 3670784
+13  chromedriver                        0x0000000105a174a8 chromedriver + 3978408
+14  chromedriver                        0x0000000105a1763c chromedriver + 3978812
+15  chromedriver                        0x0000000105a28ff1 chromedriver + 4050929
+16  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+17  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+。已保存调试截图: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_error.png 和网页结构: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_dom.html
+2026-08-13 17:24:51,771 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:25:45,465 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:25:48,299 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:25:48,301 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:26:18,513 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载部分超时，但由于 DOM 可能已就绪，尝试继续执行后续测试步骤: Message: timeout: Timed out receiving message from renderer: 29.790
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010be2b34a chromedriver + 4051786
+1   chromedriver                        0x000000010babadbb chromedriver + 445883
+2   chromedriver                        0x000000010baa8a22 chromedriver + 371234
+3   chromedriver                        0x000000010baa8616 chromedriver + 370198
+4   chromedriver                        0x000000010baa6229 chromedriver + 361001
+5   chromedriver                        0x000000010baa6b7f chromedriver + 363391
+6   chromedriver                        0x000000010bab5d30 chromedriver + 425264
+7   chromedriver                        0x000000010bac9d63 chromedriver + 507235
+8   chromedriver                        0x000000010bad18bb chromedriver + 538811
+9   chromedriver                        0x000000010baa7296 chromedriver + 365206
+10  chromedriver                        0x000000010bac9abe chromedriver + 506558
+11  chromedriver                        0x000000010bb5784b chromedriver + 1087563
+12  chromedriver                        0x000000010bb02e54 chromedriver + 740948
+13  chromedriver                        0x000000010bb03c21 chromedriver + 744481
+14  chromedriver                        0x000000010bdf78f8 chromedriver + 3840248
+15  chromedriver                        0x000000010bdfb296 chromedriver + 3854998
+16  chromedriver                        0x000000010bddd4be chromedriver + 3732670
+17  chromedriver                        0x000000010bdfbdd2 chromedriver + 3857874
+18  chromedriver                        0x000000010bdce300 chromedriver + 3670784
+19  chromedriver                        0x000000010be194a8 chromedriver + 3978408
+20  chromedriver                        0x000000010be1963c chromedriver + 3978812
+21  chromedriver                        0x000000010be2aff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:26:18,513 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:27:03,855 - JRYG_HK_Auto - ERROR - 【用例异常】运行中途出错: Message: 
+Stacktrace:
+0   chromedriver                        0x000000010be2b34a chromedriver + 4051786
+1   chromedriver                        0x000000010babadbb chromedriver + 445883
+2   chromedriver                        0x000000010bb0f5ae chromedriver + 791982
+3   chromedriver                        0x000000010bb0f901 chromedriver + 792833
+4   chromedriver                        0x000000010bb5a394 chromedriver + 1098644
+5   chromedriver                        0x000000010bb57501 chromedriver + 1086721
+6   chromedriver                        0x000000010bb02e54 chromedriver + 740948
+7   chromedriver                        0x000000010bb03c21 chromedriver + 744481
+8   chromedriver                        0x000000010bdf78f8 chromedriver + 3840248
+9   chromedriver                        0x000000010bdfb296 chromedriver + 3854998
+10  chromedriver                        0x000000010bddd4be chromedriver + 3732670
+11  chromedriver                        0x000000010bdfbdd2 chromedriver + 3857874
+12  chromedriver                        0x000000010bdce300 chromedriver + 3670784
+13  chromedriver                        0x000000010be194a8 chromedriver + 3978408
+14  chromedriver                        0x000000010be1963c chromedriver + 3978812
+15  chromedriver                        0x000000010be2aff1 chromedriver + 4050929
+16  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+17  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+。已保存调试截图: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_error.png 和网页结构: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_dom.html
+2026-08-13 17:27:04,145 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:28:24,388 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:28:27,082 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:28:27,083 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:28:57,093 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载部分超时，但由于 DOM 可能已就绪，尝试继续执行后续测试步骤: Message: timeout: Timed out receiving message from renderer: 29.838
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000011009234a chromedriver + 4051786
+1   chromedriver                        0x000000010fd21dbb chromedriver + 445883
+2   chromedriver                        0x000000010fd0fa22 chromedriver + 371234
+3   chromedriver                        0x000000010fd0f616 chromedriver + 370198
+4   chromedriver                        0x000000010fd0d229 chromedriver + 361001
+5   chromedriver                        0x000000010fd0db7f chromedriver + 363391
+6   chromedriver                        0x000000010fd1cd30 chromedriver + 425264
+7   chromedriver                        0x000000010fd30d63 chromedriver + 507235
+8   chromedriver                        0x000000010fd388bb chromedriver + 538811
+9   chromedriver                        0x000000010fd0e296 chromedriver + 365206
+10  chromedriver                        0x000000010fd30abe chromedriver + 506558
+11  chromedriver                        0x000000010fdbe84b chromedriver + 1087563
+12  chromedriver                        0x000000010fd69e54 chromedriver + 740948
+13  chromedriver                        0x000000010fd6ac21 chromedriver + 744481
+14  chromedriver                        0x000000011005e8f8 chromedriver + 3840248
+15  chromedriver                        0x0000000110062296 chromedriver + 3854998
+16  chromedriver                        0x00000001100444be chromedriver + 3732670
+17  chromedriver                        0x0000000110062dd2 chromedriver + 3857874
+18  chromedriver                        0x0000000110035300 chromedriver + 3670784
+19  chromedriver                        0x00000001100804a8 chromedriver + 3978408
+20  chromedriver                        0x000000011008063c chromedriver + 3978812
+21  chromedriver                        0x0000000110091ff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:28:57,094 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:29:42,442 - JRYG_HK_Auto - ERROR - 【用例异常】运行中途出错: Message: 
+Stacktrace:
+0   chromedriver                        0x000000011009234a chromedriver + 4051786
+1   chromedriver                        0x000000010fd21dbb chromedriver + 445883
+2   chromedriver                        0x000000010fd765ae chromedriver + 791982
+3   chromedriver                        0x000000010fd76901 chromedriver + 792833
+4   chromedriver                        0x000000010fdc1394 chromedriver + 1098644
+5   chromedriver                        0x000000010fdbe501 chromedriver + 1086721
+6   chromedriver                        0x000000010fd69e54 chromedriver + 740948
+7   chromedriver                        0x000000010fd6ac21 chromedriver + 744481
+8   chromedriver                        0x000000011005e8f8 chromedriver + 3840248
+9   chromedriver                        0x0000000110062296 chromedriver + 3854998
+10  chromedriver                        0x00000001100444be chromedriver + 3732670
+11  chromedriver                        0x0000000110062dd2 chromedriver + 3857874
+12  chromedriver                        0x0000000110035300 chromedriver + 3670784
+13  chromedriver                        0x00000001100804a8 chromedriver + 3978408
+14  chromedriver                        0x000000011008063c chromedriver + 3978812
+15  chromedriver                        0x0000000110091ff1 chromedriver + 4050929
+16  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+17  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+。已保存调试截图: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_error.png 和网页结构: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_dom.html
+2026-08-13 17:29:42,445 - JRYG_HK_Auto - ERROR - 【浏览器控制台日志（Console Logs）】:
+2026-08-13 17:29:42,768 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:30:34,933 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:30:36,836 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:30:36,838 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:31:21,844 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载部分超时，但由于 DOM 可能已就绪，尝试继续执行后续测试步骤: Message: timeout: Timed out receiving message from renderer: 44.693
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010ff3c34a chromedriver + 4051786
+1   chromedriver                        0x000000010fbcbdbb chromedriver + 445883
+2   chromedriver                        0x000000010fbb9a22 chromedriver + 371234
+3   chromedriver                        0x000000010fbb9616 chromedriver + 370198
+4   chromedriver                        0x000000010fbb7229 chromedriver + 361001
+5   chromedriver                        0x000000010fbb7b7f chromedriver + 363391
+6   chromedriver                        0x000000010fbc6d30 chromedriver + 425264
+7   chromedriver                        0x000000010fbdad63 chromedriver + 507235
+8   chromedriver                        0x000000010fbe28bb chromedriver + 538811
+9   chromedriver                        0x000000010fbb8296 chromedriver + 365206
+10  chromedriver                        0x000000010fbdaabe chromedriver + 506558
+11  chromedriver                        0x000000010fc6884b chromedriver + 1087563
+12  chromedriver                        0x000000010fc13e54 chromedriver + 740948
+13  chromedriver                        0x000000010fc14c21 chromedriver + 744481
+14  chromedriver                        0x000000010ff088f8 chromedriver + 3840248
+15  chromedriver                        0x000000010ff0c296 chromedriver + 3854998
+16  chromedriver                        0x000000010feee4be chromedriver + 3732670
+17  chromedriver                        0x000000010ff0cdd2 chromedriver + 3857874
+18  chromedriver                        0x000000010fedf300 chromedriver + 3670784
+19  chromedriver                        0x000000010ff2a4a8 chromedriver + 3978408
+20  chromedriver                        0x000000010ff2a63c chromedriver + 3978812
+21  chromedriver                        0x000000010ff3bff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:31:21,845 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:32:07,160 - JRYG_HK_Auto - ERROR - 【用例异常】运行中途出错: Message: 
+Stacktrace:
+0   chromedriver                        0x000000010ff3c34a chromedriver + 4051786
+1   chromedriver                        0x000000010fbcbdbb chromedriver + 445883
+2   chromedriver                        0x000000010fc205ae chromedriver + 791982
+3   chromedriver                        0x000000010fc20901 chromedriver + 792833
+4   chromedriver                        0x000000010fc6b394 chromedriver + 1098644
+5   chromedriver                        0x000000010fc68501 chromedriver + 1086721
+6   chromedriver                        0x000000010fc13e54 chromedriver + 740948
+7   chromedriver                        0x000000010fc14c21 chromedriver + 744481
+8   chromedriver                        0x000000010ff088f8 chromedriver + 3840248
+9   chromedriver                        0x000000010ff0c296 chromedriver + 3854998
+10  chromedriver                        0x000000010feee4be chromedriver + 3732670
+11  chromedriver                        0x000000010ff0cdd2 chromedriver + 3857874
+12  chromedriver                        0x000000010fedf300 chromedriver + 3670784
+13  chromedriver                        0x000000010ff2a4a8 chromedriver + 3978408
+14  chromedriver                        0x000000010ff2a63c chromedriver + 3978812
+15  chromedriver                        0x000000010ff3bff1 chromedriver + 4050929
+16  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+17  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+。已保存调试截图: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_error.png 和网页结构: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_dom.html
+2026-08-13 17:32:07,162 - JRYG_HK_Auto - ERROR - 【浏览器控制台日志（Console Logs）】:
+2026-08-13 17:32:07,496 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:32:43,241 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:32:45,708 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:32:45,709 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: http://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:33:30,716 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载部分超时，但由于 DOM 可能已就绪，尝试继续执行后续测试步骤: Message: timeout: Timed out receiving message from renderer: 44.837
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010daad34a chromedriver + 4051786
+1   chromedriver                        0x000000010d73cdbb chromedriver + 445883
+2   chromedriver                        0x000000010d72aa22 chromedriver + 371234
+3   chromedriver                        0x000000010d72a616 chromedriver + 370198
+4   chromedriver                        0x000000010d728229 chromedriver + 361001
+5   chromedriver                        0x000000010d728b7f chromedriver + 363391
+6   chromedriver                        0x000000010d737d30 chromedriver + 425264
+7   chromedriver                        0x000000010d74bd63 chromedriver + 507235
+8   chromedriver                        0x000000010d7538bb chromedriver + 538811
+9   chromedriver                        0x000000010d729296 chromedriver + 365206
+10  chromedriver                        0x000000010d74babe chromedriver + 506558
+11  chromedriver                        0x000000010d7d984b chromedriver + 1087563
+12  chromedriver                        0x000000010d784e54 chromedriver + 740948
+13  chromedriver                        0x000000010d785c21 chromedriver + 744481
+14  chromedriver                        0x000000010da798f8 chromedriver + 3840248
+15  chromedriver                        0x000000010da7d296 chromedriver + 3854998
+16  chromedriver                        0x000000010da5f4be chromedriver + 3732670
+17  chromedriver                        0x000000010da7ddd2 chromedriver + 3857874
+18  chromedriver                        0x000000010da50300 chromedriver + 3670784
+19  chromedriver                        0x000000010da9b4a8 chromedriver + 3978408
+20  chromedriver                        0x000000010da9b63c chromedriver + 3978812
+21  chromedriver                        0x000000010daacff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:33:30,717 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:34:15,989 - JRYG_HK_Auto - ERROR - 【用例异常】运行中途出错: Message: 
+Stacktrace:
+0   chromedriver                        0x000000010daad34a chromedriver + 4051786
+1   chromedriver                        0x000000010d73cdbb chromedriver + 445883
+2   chromedriver                        0x000000010d7915ae chromedriver + 791982
+3   chromedriver                        0x000000010d791901 chromedriver + 792833
+4   chromedriver                        0x000000010d7dc394 chromedriver + 1098644
+5   chromedriver                        0x000000010d7d9501 chromedriver + 1086721
+6   chromedriver                        0x000000010d784e54 chromedriver + 740948
+7   chromedriver                        0x000000010d785c21 chromedriver + 744481
+8   chromedriver                        0x000000010da798f8 chromedriver + 3840248
+9   chromedriver                        0x000000010da7d296 chromedriver + 3854998
+10  chromedriver                        0x000000010da5f4be chromedriver + 3732670
+11  chromedriver                        0x000000010da7ddd2 chromedriver + 3857874
+12  chromedriver                        0x000000010da50300 chromedriver + 3670784
+13  chromedriver                        0x000000010da9b4a8 chromedriver + 3978408
+14  chromedriver                        0x000000010da9b63c chromedriver + 3978812
+15  chromedriver                        0x000000010daacff1 chromedriver + 4050929
+16  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+17  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+。已保存调试截图: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_error.png 和网页结构: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_dom.html
+2026-08-13 17:34:15,991 - JRYG_HK_Auto - ERROR - 【浏览器控制台日志（Console Logs）】:
+2026-08-13 17:34:16,351 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:36:13,570 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:36:16,556 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:36:16,558 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: https://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fadmin%2Fv1%2Fcoupon_give
+2026-08-13 17:37:01,567 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载部分超时，但由于 DOM 可能已就绪，尝试继续执行后续测试步骤: Message: timeout: Timed out receiving message from renderer: 44.846
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010519b34a chromedriver + 4051786
+1   chromedriver                        0x0000000104e2adbb chromedriver + 445883
+2   chromedriver                        0x0000000104e18a22 chromedriver + 371234
+3   chromedriver                        0x0000000104e18616 chromedriver + 370198
+4   chromedriver                        0x0000000104e16229 chromedriver + 361001
+5   chromedriver                        0x0000000104e16b7f chromedriver + 363391
+6   chromedriver                        0x0000000104e25d30 chromedriver + 425264
+7   chromedriver                        0x0000000104e39d63 chromedriver + 507235
+8   chromedriver                        0x0000000104e418bb chromedriver + 538811
+9   chromedriver                        0x0000000104e17296 chromedriver + 365206
+10  chromedriver                        0x0000000104e39abe chromedriver + 506558
+11  chromedriver                        0x0000000104ec784b chromedriver + 1087563
+12  chromedriver                        0x0000000104e72e54 chromedriver + 740948
+13  chromedriver                        0x0000000104e73c21 chromedriver + 744481
+14  chromedriver                        0x00000001051678f8 chromedriver + 3840248
+15  chromedriver                        0x000000010516b296 chromedriver + 3854998
+16  chromedriver                        0x000000010514d4be chromedriver + 3732670
+17  chromedriver                        0x000000010516bdd2 chromedriver + 3857874
+18  chromedriver                        0x000000010513e300 chromedriver + 3670784
+19  chromedriver                        0x00000001051894a8 chromedriver + 3978408
+20  chromedriver                        0x000000010518963c chromedriver + 3978812
+21  chromedriver                        0x000000010519aff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:37:01,569 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:37:47,015 - JRYG_HK_Auto - ERROR - 【用例异常】运行中途出错: Message: 
+Stacktrace:
+0   chromedriver                        0x000000010519b34a chromedriver + 4051786
+1   chromedriver                        0x0000000104e2adbb chromedriver + 445883
+2   chromedriver                        0x0000000104e7f5ae chromedriver + 791982
+3   chromedriver                        0x0000000104e7f901 chromedriver + 792833
+4   chromedriver                        0x0000000104eca394 chromedriver + 1098644
+5   chromedriver                        0x0000000104ec7501 chromedriver + 1086721
+6   chromedriver                        0x0000000104e72e54 chromedriver + 740948
+7   chromedriver                        0x0000000104e73c21 chromedriver + 744481
+8   chromedriver                        0x00000001051678f8 chromedriver + 3840248
+9   chromedriver                        0x000000010516b296 chromedriver + 3854998
+10  chromedriver                        0x000000010514d4be chromedriver + 3732670
+11  chromedriver                        0x000000010516bdd2 chromedriver + 3857874
+12  chromedriver                        0x000000010513e300 chromedriver + 3670784
+13  chromedriver                        0x00000001051894a8 chromedriver + 3978408
+14  chromedriver                        0x000000010518963c chromedriver + 3978812
+15  chromedriver                        0x000000010519aff1 chromedriver + 4050929
+16  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+17  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+。已保存调试截图: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_error.png 和网页结构: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_dom.html
+2026-08-13 17:37:47,017 - JRYG_HK_Auto - ERROR - 【浏览器控制台日志（Console Logs）】:
+2026-08-13 17:37:47,349 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:37:47,354 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 17:38:03,014 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:38:05,876 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:38:05,877 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: https://dcms-test.sunlightmobility.hk/
+2026-08-13 17:38:50,884 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载部分超时，但由于 DOM 可能已就绪，尝试继续执行后续测试步骤: Message: timeout: Timed out receiving message from renderer: 44.857
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x00000001058f834a chromedriver + 4051786
+1   chromedriver                        0x0000000105587dbb chromedriver + 445883
+2   chromedriver                        0x0000000105575a22 chromedriver + 371234
+3   chromedriver                        0x0000000105575616 chromedriver + 370198
+4   chromedriver                        0x0000000105573229 chromedriver + 361001
+5   chromedriver                        0x0000000105573b7f chromedriver + 363391
+6   chromedriver                        0x0000000105582d30 chromedriver + 425264
+7   chromedriver                        0x0000000105596d63 chromedriver + 507235
+8   chromedriver                        0x000000010559e8bb chromedriver + 538811
+9   chromedriver                        0x0000000105574296 chromedriver + 365206
+10  chromedriver                        0x0000000105596abe chromedriver + 506558
+11  chromedriver                        0x000000010562484b chromedriver + 1087563
+12  chromedriver                        0x00000001055cfe54 chromedriver + 740948
+13  chromedriver                        0x00000001055d0c21 chromedriver + 744481
+14  chromedriver                        0x00000001058c48f8 chromedriver + 3840248
+15  chromedriver                        0x00000001058c8296 chromedriver + 3854998
+16  chromedriver                        0x00000001058aa4be chromedriver + 3732670
+17  chromedriver                        0x00000001058c8dd2 chromedriver + 3857874
+18  chromedriver                        0x000000010589b300 chromedriver + 3670784
+19  chromedriver                        0x00000001058e64a8 chromedriver + 3978408
+20  chromedriver                        0x00000001058e663c chromedriver + 3978812
+21  chromedriver                        0x00000001058f7ff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:38:50,885 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:39:36,220 - JRYG_HK_Auto - ERROR - 【用例异常】运行中途出错: Message: 
+Stacktrace:
+0   chromedriver                        0x00000001058f834a chromedriver + 4051786
+1   chromedriver                        0x0000000105587dbb chromedriver + 445883
+2   chromedriver                        0x00000001055dc5ae chromedriver + 791982
+3   chromedriver                        0x00000001055dc901 chromedriver + 792833
+4   chromedriver                        0x0000000105627394 chromedriver + 1098644
+5   chromedriver                        0x0000000105624501 chromedriver + 1086721
+6   chromedriver                        0x00000001055cfe54 chromedriver + 740948
+7   chromedriver                        0x00000001055d0c21 chromedriver + 744481
+8   chromedriver                        0x00000001058c48f8 chromedriver + 3840248
+9   chromedriver                        0x00000001058c8296 chromedriver + 3854998
+10  chromedriver                        0x00000001058aa4be chromedriver + 3732670
+11  chromedriver                        0x00000001058c8dd2 chromedriver + 3857874
+12  chromedriver                        0x000000010589b300 chromedriver + 3670784
+13  chromedriver                        0x00000001058e64a8 chromedriver + 3978408
+14  chromedriver                        0x00000001058e663c chromedriver + 3978812
+15  chromedriver                        0x00000001058f7ff1 chromedriver + 4050929
+16  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+17  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+。已保存调试截图: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_error.png 和网页结构: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_dom.html
+2026-08-13 17:39:36,223 - JRYG_HK_Auto - ERROR - 【浏览器控制台日志（Console Logs）】:
+2026-08-13 17:39:36,587 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:39:36,593 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 17:42:07,470 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:42:10,119 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:42:10,121 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: https://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fhome
+2026-08-13 17:42:55,129 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载部分超时，但由于 DOM 可能已就绪，尝试继续执行后续测试步骤: Message: timeout: Timed out receiving message from renderer: 44.853
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010cf5034a chromedriver + 4051786
+1   chromedriver                        0x000000010cbdfdbb chromedriver + 445883
+2   chromedriver                        0x000000010cbcda22 chromedriver + 371234
+3   chromedriver                        0x000000010cbcd616 chromedriver + 370198
+4   chromedriver                        0x000000010cbcb229 chromedriver + 361001
+5   chromedriver                        0x000000010cbcbb7f chromedriver + 363391
+6   chromedriver                        0x000000010cbdad30 chromedriver + 425264
+7   chromedriver                        0x000000010cbeed63 chromedriver + 507235
+8   chromedriver                        0x000000010cbf68bb chromedriver + 538811
+9   chromedriver                        0x000000010cbcc296 chromedriver + 365206
+10  chromedriver                        0x000000010cbeeabe chromedriver + 506558
+11  chromedriver                        0x000000010cc7c84b chromedriver + 1087563
+12  chromedriver                        0x000000010cc27e54 chromedriver + 740948
+13  chromedriver                        0x000000010cc28c21 chromedriver + 744481
+14  chromedriver                        0x000000010cf1c8f8 chromedriver + 3840248
+15  chromedriver                        0x000000010cf20296 chromedriver + 3854998
+16  chromedriver                        0x000000010cf024be chromedriver + 3732670
+17  chromedriver                        0x000000010cf20dd2 chromedriver + 3857874
+18  chromedriver                        0x000000010cef3300 chromedriver + 3670784
+19  chromedriver                        0x000000010cf3e4a8 chromedriver + 3978408
+20  chromedriver                        0x000000010cf3e63c chromedriver + 3978812
+21  chromedriver                        0x000000010cf4fff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:42:55,130 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:44:05,772 - JRYG_HK_Auto - ERROR - 【用例异常】运行中途出错: Message: timeout: Timed out receiving message from renderer: 45.000
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010cf5034a chromedriver + 4051786
+1   chromedriver                        0x000000010cbdfdbb chromedriver + 445883
+2   chromedriver                        0x000000010cbcda22 chromedriver + 371234
+3   chromedriver                        0x000000010cbcd616 chromedriver + 370198
+4   chromedriver                        0x000000010cbcb229 chromedriver + 361001
+5   chromedriver                        0x000000010cbcbb7f chromedriver + 363391
+6   chromedriver                        0x000000010cbdad30 chromedriver + 425264
+7   chromedriver                        0x000000010cbeed63 chromedriver + 507235
+8   chromedriver                        0x000000010cbf68bb chromedriver + 538811
+9   chromedriver                        0x000000010cbcc296 chromedriver + 365206
+10  chromedriver                        0x000000010cbeeabe chromedriver + 506558
+11  chromedriver                        0x000000010cc7c3e2 chromedriver + 1086434
+12  chromedriver                        0x000000010cc27e54 chromedriver + 740948
+13  chromedriver                        0x000000010cc28c21 chromedriver + 744481
+14  chromedriver                        0x000000010cf1c8f8 chromedriver + 3840248
+15  chromedriver                        0x000000010cf20296 chromedriver + 3854998
+16  chromedriver                        0x000000010cf024be chromedriver + 3732670
+17  chromedriver                        0x000000010cf20dd2 chromedriver + 3857874
+18  chromedriver                        0x000000010cef3300 chromedriver + 3670784
+19  chromedriver                        0x000000010cf3e4a8 chromedriver + 3978408
+20  chromedriver                        0x000000010cf3e63c chromedriver + 3978812
+21  chromedriver                        0x000000010cf4fff1 chromedriver + 4050929
+22  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+23  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+。已保存调试截图: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_error.png 和网页结构: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_fuyao_debug_dom.html
+2026-08-13 17:44:05,777 - JRYG_HK_Auto - ERROR - 【浏览器控制台日志（Console Logs）】:
+2026-08-13 17:44:06,244 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:44:06,251 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 17:45:26,587 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:45:29,161 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:45:29,162 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: https://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fhome
+2026-08-13 17:47:29,165 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载部分超时，但由于 DOM 可能已就绪，尝试继续执行后续测试步骤: HTTPConnectionPool(host='localhost', port=64144): Read timed out. (read timeout=120)
+2026-08-13 17:47:29,166 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:47:42,200 - JRYG_HK_Auto - ERROR - 【调试存盘失败】无法保存异常截图/DOM: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010dcc934a chromedriver + 4051786
+1   chromedriver                        0x000000010d958dbb chromedriver + 445883
+2   chromedriver                        0x000000010d932408 chromedriver + 287752
+3   chromedriver                        0x000000010d9da618 chromedriver + 976408
+4   chromedriver                        0x000000010d9f4eb8 chromedriver + 1085112
+5   chromedriver                        0x000000010d9a0e54 chromedriver + 740948
+6   chromedriver                        0x000000010d9a1c21 chromedriver + 744481
+7   chromedriver                        0x000000010dc958f8 chromedriver + 3840248
+8   chromedriver                        0x000000010dc99296 chromedriver + 3854998
+9   chromedriver                        0x000000010dc7b4be chromedriver + 3732670
+10  chromedriver                        0x000000010dc99dd2 chromedriver + 3857874
+11  chromedriver                        0x000000010dc6c300 chromedriver + 3670784
+12  chromedriver                        0x000000010dcb74a8 chromedriver + 3978408
+13  chromedriver                        0x000000010dcb763c chromedriver + 3978812
+14  chromedriver                        0x000000010dcc8ff1 chromedriver + 4050929
+15  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+16  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:47:42,494 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:47:42,509 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 17:48:37,837 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:48:40,712 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:48:40,714 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: https://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fhome
+2026-08-13 17:48:40,899 - JRYG_HK_Auto - INFO - 【营销后台】第 1 次访问成功
+2026-08-13 17:48:40,900 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录...
+2026-08-13 17:49:17,561 - JRYG_HK_Auto - ERROR - 【调试存盘失败】无法保存异常截图/DOM: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+0   chromedriver                        0x000000010846934a chromedriver + 4051786
+1   chromedriver                        0x00000001080f8b60 chromedriver + 445280
+2   chromedriver                        0x000000010814004d chromedriver + 737357
+3   chromedriver                        0x0000000108172fe6 chromedriver + 946150
+4   chromedriver                        0x000000010816dde4 chromedriver + 925156
+5   chromedriver                        0x000000010816d5e7 chromedriver + 923111
+6   chromedriver                        0x00000001080c452b chromedriver + 230699
+7   chromedriver                        0x00000001080c4a94 chromedriver + 232084
+8   chromedriver                        0x00000001080c4f8f chromedriver + 233359
+9   chromedriver                        0x00000001084358f8 chromedriver + 3840248
+10  chromedriver                        0x0000000108439296 chromedriver + 3854998
+11  chromedriver                        0x000000010841b4be chromedriver + 3732670
+12  chromedriver                        0x0000000108439dd2 chromedriver + 3857874
+13  chromedriver                        0x000000010840c300 chromedriver + 3670784
+14  chromedriver                        0x00000001080c3078 chromedriver + 225400
+15  dyld                                0x00007ff809093b28 start + 3240
+
+2026-08-13 17:49:18,427 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:49:18,434 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 17:52:02,627 - JRYG_HK_Auto - INFO - 【营销后台】启动 Chrome 浏览器...
+2026-08-13 17:52:05,322 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:52:05,324 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: https://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fhome
+2026-08-13 17:53:10,158 - JRYG_HK_Auto - WARNING - 【营销后台】第 1 次页面加载失败 (网络异常/重置): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010d3e734a chromedriver + 4051786
+1   chromedriver                        0x000000010d076dbb chromedriver + 445883
+2   chromedriver                        0x000000010d050408 chromedriver + 287752
+3   chromedriver                        0x000000010d0f8618 chromedriver + 976408
+4   chromedriver                        0x000000010d112eb8 chromedriver + 1085112
+5   chromedriver                        0x000000010d0bee54 chromedriver + 740948
+6   chromedriver                        0x000000010d0bfc21 chromedriver + 744481
+7   chromedriver                        0x000000010d3b38f8 chromedriver + 3840248
+8   chromedriver                        0x000000010d3b7296 chromedriver + 3854998
+9   chromedriver                        0x000000010d3994be chromedriver + 3732670
+10  chromedriver                        0x000000010d3b7dd2 chromedriver + 3857874
+11  chromedriver                        0x000000010d38a300 chromedriver + 3670784
+12  chromedriver                        0x000000010d3d54a8 chromedriver + 3978408
+13  chromedriver                        0x000000010d3d563c chromedriver + 3978812
+14  chromedriver                        0x000000010d3e6ff1 chromedriver + 4050929
+15  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+16  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:53:10,160 - JRYG_HK_Auto - INFO - 【营销后台】等待 3 秒后重试...
+2026-08-13 17:53:13,169 - JRYG_HK_Auto - WARNING - 【营销后台】第 2 次页面加载失败 (网络异常/重置): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010d3e734a chromedriver + 4051786
+1   chromedriver                        0x000000010d076dbb chromedriver + 445883
+2   chromedriver                        0x000000010d050408 chromedriver + 287752
+3   chromedriver                        0x000000010d0f8618 chromedriver + 976408
+4   chromedriver                        0x000000010d112eb8 chromedriver + 1085112
+5   chromedriver                        0x000000010d0bee54 chromedriver + 740948
+6   chromedriver                        0x000000010d0bfc21 chromedriver + 744481
+7   chromedriver                        0x000000010d3b38f8 chromedriver + 3840248
+8   chromedriver                        0x000000010d3b7296 chromedriver + 3854998
+9   chromedriver                        0x000000010d3994be chromedriver + 3732670
+10  chromedriver                        0x000000010d3b7dd2 chromedriver + 3857874
+11  chromedriver                        0x000000010d38a300 chromedriver + 3670784
+12  chromedriver                        0x000000010d3d54a8 chromedriver + 3978408
+13  chromedriver                        0x000000010d3d563c chromedriver + 3978812
+14  chromedriver                        0x000000010d3e6ff1 chromedriver + 4050929
+15  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+16  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:53:13,169 - JRYG_HK_Auto - INFO - 【营销后台】等待 3 秒后重试...
+2026-08-13 17:53:16,176 - JRYG_HK_Auto - WARNING - 【营销后台】第 3 次页面加载失败 (网络异常/重置): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010d3e734a chromedriver + 4051786
+1   chromedriver                        0x000000010d076dbb chromedriver + 445883
+2   chromedriver                        0x000000010d050408 chromedriver + 287752
+3   chromedriver                        0x000000010d0f8618 chromedriver + 976408
+4   chromedriver                        0x000000010d112eb8 chromedriver + 1085112
+5   chromedriver                        0x000000010d0bee54 chromedriver + 740948
+6   chromedriver                        0x000000010d0bfc21 chromedriver + 744481
+7   chromedriver                        0x000000010d3b38f8 chromedriver + 3840248
+8   chromedriver                        0x000000010d3b7296 chromedriver + 3854998
+9   chromedriver                        0x000000010d3994be chromedriver + 3732670
+10  chromedriver                        0x000000010d3b7dd2 chromedriver + 3857874
+11  chromedriver                        0x000000010d38a300 chromedriver + 3670784
+12  chromedriver                        0x000000010d3d54a8 chromedriver + 3978408
+13  chromedriver                        0x000000010d3d563c chromedriver + 3978812
+14  chromedriver                        0x000000010d3e6ff1 chromedriver + 4050929
+15  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+16  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:53:16,176 - JRYG_HK_Auto - ERROR - 【营销后台】多次重试访问登录页均因网络原因失败，跳过测试用例。
+2026-08-13 17:53:16,326 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:53:16,330 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 17:54:32,361 - JRYG_HK_Auto - INFO - 【营销后台】正在尝试启动 Safari 浏览器...
+2026-08-13 17:54:33,997 - JRYG_HK_Auto - WARNING - 【营销后台】Safari 启动失败: Message: Could not create a session: You must enable 'Allow remote automation' in the Developer section of Safari Settings to control Safari via WebDriver.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#sessionnotcreatedexception
+，尝试使用 Chrome...
+2026-08-13 17:54:57,625 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:54:57,627 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: https://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fhome
+2026-08-13 17:58:03,039 - JRYG_HK_Auto - INFO - 【营销后台】正在尝试启动 Safari 浏览器...
+2026-08-13 17:58:03,995 - JRYG_HK_Auto - WARNING - 【营销后台】Safari 启动失败: Message: Could not create a session: You must enable 'Allow remote automation' in the Developer section of Safari Settings to control Safari via WebDriver.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#sessionnotcreatedexception
+，尝试使用 Chrome...
+2026-08-13 17:58:06,842 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 17:58:06,844 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: https://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fhome
+2026-08-13 17:58:09,857 - JRYG_HK_Auto - INFO - 【营销后台】第 1 次访问成功 (由于 page_load_strategy 为 none，页面将异步下载并渲染)
+2026-08-13 17:58:09,858 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录 (由于扶摇静态 JS 资源极其庞大约 79MB，后台下载渲染需要一小段时间，正在静默等候元素渲染)...
+2026-08-13 17:59:42,218 - JRYG_HK_Auto - ERROR - 【调试存盘失败】无法保存异常截图/DOM: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010ce4234a chromedriver + 4051786
+1   chromedriver                        0x000000010cad1dbb chromedriver + 445883
+2   chromedriver                        0x000000010caab408 chromedriver + 287752
+3   chromedriver                        0x000000010cb53618 chromedriver + 976408
+4   chromedriver                        0x000000010cb6deb8 chromedriver + 1085112
+5   chromedriver                        0x000000010cb19e54 chromedriver + 740948
+6   chromedriver                        0x000000010cb1ac21 chromedriver + 744481
+7   chromedriver                        0x000000010ce0e8f8 chromedriver + 3840248
+8   chromedriver                        0x000000010ce12296 chromedriver + 3854998
+9   chromedriver                        0x000000010cdf44be chromedriver + 3732670
+10  chromedriver                        0x000000010ce12dd2 chromedriver + 3857874
+11  chromedriver                        0x000000010cde5300 chromedriver + 3670784
+12  chromedriver                        0x000000010ce304a8 chromedriver + 3978408
+13  chromedriver                        0x000000010ce3063c chromedriver + 3978812
+14  chromedriver                        0x000000010ce41ff1 chromedriver + 4050929
+15  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+16  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 17:59:42,480 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 17:59:42,484 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-13 18:00:15,030 - JRYG_HK_Auto - INFO - 【营销后台】正在尝试启动 Safari 浏览器...
+2026-08-13 18:00:15,869 - JRYG_HK_Auto - WARNING - 【营销后台】Safari 启动失败: Message: Could not create a session: You must enable 'Allow remote automation' in the Developer section of Safari Settings to control Safari via WebDriver.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#sessionnotcreatedexception
+，尝试使用 Chrome...
+2026-08-13 18:00:19,181 - JRYG_HK_Auto - INFO - 【营销后台】Chrome 浏览器启动成功
+2026-08-13 18:00:19,184 - JRYG_HK_Auto - INFO - 【营销后台】1. 正在访问登录页: https://dcms-test.sunlightmobility.hk/#/login?redirect=%2Fhome
+2026-08-13 18:00:22,197 - JRYG_HK_Auto - INFO - 【营销后台】第 1 次访问成功 (由于 page_load_strategy 为 none，页面将异步下载并渲染)
+2026-08-13 18:00:22,198 - JRYG_HK_Auto - INFO - 【营销后台】2. 录入管理员凭证并执行登录 (由于扶摇静态 JS 资源极其庞大约 79MB，后台下载渲染需要一小段时间，正在静默等候元素渲染)...
+2026-08-13 18:00:40,052 - JRYG_HK_Auto - ERROR - 【调试存盘失败】无法保存异常截图/DOM: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=151.0.7922.109)
+Stacktrace:
+0   chromedriver                        0x000000010c41f34a chromedriver + 4051786
+1   chromedriver                        0x000000010c0aedbb chromedriver + 445883
+2   chromedriver                        0x000000010c088408 chromedriver + 287752
+3   chromedriver                        0x000000010c130618 chromedriver + 976408
+4   chromedriver                        0x000000010c14aeb8 chromedriver + 1085112
+5   chromedriver                        0x000000010c0f6e54 chromedriver + 740948
+6   chromedriver                        0x000000010c0f7c21 chromedriver + 744481
+7   chromedriver                        0x000000010c3eb8f8 chromedriver + 3840248
+8   chromedriver                        0x000000010c3ef296 chromedriver + 3854998
+9   chromedriver                        0x000000010c3d14be chromedriver + 3732670
+10  chromedriver                        0x000000010c3efdd2 chromedriver + 3857874
+11  chromedriver                        0x000000010c3c2300 chromedriver + 3670784
+12  chromedriver                        0x000000010c40d4a8 chromedriver + 3978408
+13  chromedriver                        0x000000010c40d63c chromedriver + 3978812
+14  chromedriver                        0x000000010c41eff1 chromedriver + 4050929
+15  libsystem_pthread.dylib             0x00007ff80946ad49 _pthread_start + 115
+16  libsystem_pthread.dylib             0x00007ff80946682f thread_start + 15
+
+2026-08-13 18:00:40,460 - JRYG_HK_Auto - INFO - 【营销后台】关闭网页测试会话
+2026-08-13 18:00:40,493 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-14 11:05:52,883 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-14 11:08:02,345 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:08:02,354 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': None}
+2026-08-14 11:08:03,338 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:08:03,339 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:08:05,446 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:08:13,931 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:08:14,288 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:08:16,512 - JRYG_HK_Auto - INFO - 【步骤 4】正在配置起点地址为：铜锣湾地铁...
+2026-08-14 11:08:20,153 - JRYG_HK_Auto - INFO - 未发现显式起点标识，执行物理坐标点击激活起点录入...
+2026-08-14 11:08:24,074 - JRYG_HK_Auto - INFO - 【步骤 5】正在配置目的地地址为：香港大学...
+2026-08-14 11:08:27,373 - JRYG_HK_Auto - INFO - 未发现显式终点标识，执行物理坐标点击激活终点录入...
+2026-08-14 11:08:31,152 - JRYG_HK_Auto - INFO - 【步骤 6】进入车型选择确认面板，正在寻找并进入『优惠券 / 優惠券』选择列表...
+2026-08-14 11:08:35,715 - JRYG_HK_Auto - WARNING - 未检测到明显的优惠券选择入口，将采用系统默认匹配的最佳优惠券继续执行测试。
+2026-08-14 11:08:35,716 - JRYG_HK_Auto - INFO - 【步骤 7】向系统发起订单，正在寻找并点击『確認呼叫』...
+2026-08-14 11:08:38,500 - JRYG_HK_Auto - INFO - 未寻找到标准确认呼叫文字按钮，执行高容错物理坐标点击 (0.5, 0.95)...
+2026-08-14 11:08:39,050 - JRYG_HK_Auto - INFO - 物理坐标点击指令完成！
+2026-08-14 11:08:44,817 - JRYG_HK_Auto - INFO - 【运营大闭环成功】测试已完美跑通，下单凭证截图已成功归档保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_success.png
+2026-08-14 11:08:44,817 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:11:23,087 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:11:23,095 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'EC491015-FD52-4F3F-9639-1E1F87E5E3CA'}
+2026-08-14 11:11:24,529 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:11:24,530 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:11:26,565 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:11:34,825 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:11:35,177 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:11:37,434 - JRYG_HK_Auto - INFO - 【步骤 4】正在点击首页目的地入口以拉起地址搜索页面...
+2026-08-14 11:11:37,544 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:13:30,579 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:13:30,588 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '6E59D461-026D-4A53-B107-3B671CAFC5AA'}
+2026-08-14 11:13:31,425 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:13:31,425 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:13:33,506 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:13:41,768 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:13:42,127 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:13:44,436 - JRYG_HK_Auto - INFO - 【步骤 4】正在点击首页目的地入口以拉起地址搜索页面...
+2026-08-14 11:13:45,103 - JRYG_HK_Auto - WARNING - 未找到显式目的地标签，执行物理高精度点击 (0.5, 0.42)...
+2026-08-14 11:13:48,793 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:14:40,534 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:14:40,543 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'A9011032-04AA-47F7-B816-7D2D788B39AA'}
+2026-08-14 11:14:41,354 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:14:41,355 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:14:43,439 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:14:51,727 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:14:52,078 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:14:54,459 - JRYG_HK_Auto - INFO - 【步骤 4】正在点击首页目的地入口以拉起地址搜索页面...
+2026-08-14 11:14:54,570 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:15:37,167 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:15:37,175 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'FD0B31D7-6943-4F8D-AC1B-EC1AEC405700'}
+2026-08-14 11:15:38,007 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:15:38,008 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:15:41,329 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:15:49,584 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:15:49,941 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:15:52,277 - JRYG_HK_Auto - INFO - 【步骤 4】正在点击首页目的地入口以拉起地址搜索页面...
+2026-08-14 11:15:52,890 - JRYG_HK_Auto - WARNING - 未找到显式目的地标签，执行物理高精度点击 (0.5, 0.42)...
+2026-08-14 11:15:57,787 - JRYG_HK_Auto - INFO - 地址搜索页检测到的可用输入框数量: 0
+2026-08-14 11:15:59,593 - JRYG_HK_Auto - INFO - 【终点】仅检测到单个输入框，直接在当前输入框中输入终点：香港大学...
+2026-08-14 11:16:00,132 - JRYG_HK_Auto - INFO - 【步骤 7】进入车型确认面板，正在寻找并进入『优惠券 / 優惠券』选择列表...
+2026-08-14 11:16:00,709 - JRYG_HK_Auto - WARNING - 未找到显式优惠券入口，将采用系统自动匹配的最佳优待价格继续执行...
+2026-08-14 11:16:00,709 - JRYG_HK_Auto - INFO - 【步骤 8】正在寻找并点击『確認呼叫』正式发起呼叫...
+2026-08-14 11:16:01,364 - JRYG_HK_Auto - INFO - 执行物理高精度坐标点击 (0.5, 0.95) 提交订单呼叫...
+2026-08-14 11:16:07,208 - JRYG_HK_Auto - INFO - 【运营大闭环成功】测试已完美跑通，下单凭证截图已成功归档保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_success.png
+2026-08-14 11:16:07,209 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:16:37,906 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:16:37,915 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '5CD9EA63-AFE9-4AB7-896A-F796830DA368'}
+2026-08-14 11:16:38,715 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:16:38,716 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:16:40,793 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:16:49,038 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:16:49,386 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:16:51,658 - JRYG_HK_Auto - INFO - 【步骤 4】正在点击首页目的地入口以拉起地址搜索页面...
+2026-08-14 11:16:51,658 - JRYG_HK_Auto - INFO - 执行物理高精度点击首页目的地录入框 (0.5, 0.42)...
+2026-08-14 11:16:55,278 - JRYG_HK_Auto - INFO - 【步骤 5】正在对起点进行输入配置...
+2026-08-14 11:16:55,279 - JRYG_HK_Auto - INFO - 点击起点输入框 (0.5, 0.125)...
+2026-08-14 11:16:57,538 - JRYG_HK_Auto - INFO - 执行物理按键/Poco键入起点：铜锣湾地铁...
+2026-08-14 11:16:58,298 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:17:59,800 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:17:59,809 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '21102D9E-5859-4D8B-B2F5-F1D7F363238C'}
+2026-08-14 11:18:00,650 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:18:00,651 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:18:03,980 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:18:12,262 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:18:12,609 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:18:14,907 - JRYG_HK_Auto - INFO - 【步骤 4】正在点击首页目的地入口以拉起地址搜索页面...
+2026-08-14 11:18:14,908 - JRYG_HK_Auto - INFO - 执行物理高精度点击首页目的地录入框 (0.5, 0.42)...
+2026-08-14 11:18:18,527 - JRYG_HK_Auto - INFO - 【步骤 5】正在对起点进行输入配置...
+2026-08-14 11:18:18,527 - JRYG_HK_Auto - INFO - 点击起点输入框 (0.5, 0.125)...
+2026-08-14 11:18:20,795 - JRYG_HK_Auto - INFO - 执行物理按键/Poco键入起点：铜锣湾地铁...
+2026-08-14 11:18:21,499 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:19:16,718 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:19:16,727 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'D3F8158C-BDF1-4E06-ABE2-D2D67925006E'}
+2026-08-14 11:19:17,581 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:19:17,582 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:19:20,913 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:19:29,167 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:19:29,512 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:19:31,933 - JRYG_HK_Auto - INFO - 【步骤 4】正在点击首页目的地入口以拉起地址搜索页面...
+2026-08-14 11:19:31,933 - JRYG_HK_Auto - INFO - 执行物理高精度点击首页目的地录入框 (0.5, 0.42)...
+2026-08-14 11:19:35,566 - JRYG_HK_Auto - INFO - 【步骤 5】正在对起点进行输入配置...
+2026-08-14 11:19:35,567 - JRYG_HK_Auto - INFO - 点击起点输入框 (0.5, 0.125)...
+2026-08-14 11:19:37,791 - JRYG_HK_Auto - INFO - 直接通过 WDA 焦点对象发送起点文本：铜锣湾地铁...
+2026-08-14 11:19:42,115 - JRYG_HK_Auto - INFO - 正在选中起点联想列表第一行...
+2026-08-14 11:19:42,209 - JRYG_HK_Auto - INFO - 通过物理坐标 (0.5, 0.25) 点击起点联想第一行...
+2026-08-14 11:19:45,836 - JRYG_HK_Auto - INFO - 【步骤 6】正在对目的地进行输入配置...
+2026-08-14 11:19:45,837 - JRYG_HK_Auto - INFO - 点击目的地输入框 (0.5, 0.185)...
+2026-08-14 11:19:48,010 - JRYG_HK_Auto - INFO - 直接通过 WDA 焦点对象发送目的地文本：香港大学...
+2026-08-14 11:19:52,326 - JRYG_HK_Auto - INFO - 正在选中目的地联想列表第一行...
+2026-08-14 11:19:52,386 - JRYG_HK_Auto - INFO - 通过物理坐标 (0.5, 0.25) 点击目的地联想第一行...
+2026-08-14 11:19:58,966 - JRYG_HK_Auto - INFO - 【步骤 7】进入车型确认面板，正在寻找并进入『优惠券 / 優惠券』选择列表...
+2026-08-14 11:19:59,659 - JRYG_HK_Auto - WARNING - 未找到显式优惠券入口文本，执行物理兜底点击优惠券区域 (0.85, 0.8)...
+2026-08-14 11:20:03,294 - JRYG_HK_Auto - INFO - 【步骤 8】正在寻找并点击『確認呼叫』正式发起呼叫...
+2026-08-14 11:20:03,977 - JRYG_HK_Auto - INFO - 执行物理高精度坐标点击 (0.5, 0.95) 提交订单呼叫...
+2026-08-14 11:20:09,889 - JRYG_HK_Auto - INFO - 【运营大闭环成功】测试已完美跑通，下单凭证截图已成功归档保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_success.png
+2026-08-14 11:20:09,890 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:20:24,349 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:20:24,359 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '6C456B1C-400C-49E5-B15A-6FD1C5E34B58'}
+2026-08-14 11:20:25,150 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:20:25,151 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:20:27,227 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:20:35,520 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:20:35,885 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:20:38,299 - JRYG_HK_Auto - INFO - 【步骤 4】正在点击首页目的地入口（暂未开通服务提示区）以拉起地址搜索页面...
+2026-08-14 11:20:38,887 - JRYG_HK_Auto - INFO - 执行物理高精度点击首页目的地录入框区域 (0.5, 0.42)...
+2026-08-14 11:20:42,512 - JRYG_HK_Auto - INFO - 【步骤 5】正在对起点进行输入配置...
+2026-08-14 11:20:42,513 - JRYG_HK_Auto - INFO - 点击起点输入框 (0.5, 0.125)...
+2026-08-14 11:20:44,671 - JRYG_HK_Auto - INFO - 直接通过 WDA 焦点对象发送起点文本：铜锣湾地铁站...
+2026-08-14 11:20:49,005 - JRYG_HK_Auto - INFO - 正在选中起点联想列表第一行...
+2026-08-14 11:20:49,100 - JRYG_HK_Auto - INFO - 通过物理坐标 (0.5, 0.25) 点击起点联想第一行...
+2026-08-14 11:20:52,731 - JRYG_HK_Auto - INFO - 【步骤 6】正在对目的地进行输入配置...
+2026-08-14 11:20:52,732 - JRYG_HK_Auto - INFO - 点击目的地输入框 (0.5, 0.185)...
+2026-08-14 11:20:54,925 - JRYG_HK_Auto - INFO - 直接通过 WDA 焦点对象发送目的地文本：香港大学...
+2026-08-14 11:20:59,243 - JRYG_HK_Auto - INFO - 正在选中目的地联想列表第一行...
+2026-08-14 11:20:59,321 - JRYG_HK_Auto - INFO - 通过物理坐标 (0.5, 0.25) 点击目的地联想第一行...
+2026-08-14 11:21:05,909 - JRYG_HK_Auto - INFO - 【步骤 7】进入车型确认面板，正在寻找并进入『优惠券 / 優惠券』选择列表...
+2026-08-14 11:21:06,615 - JRYG_HK_Auto - WARNING - 未找到显式优惠券入口文本，执行物理兜底点击优惠券区域 (0.85, 0.8)...
+2026-08-14 11:21:10,152 - JRYG_HK_Auto - INFO - 【步骤 8】正在寻找并点击『確認呼叫』正式发起呼叫...
+2026-08-14 11:21:10,796 - JRYG_HK_Auto - INFO - 执行物理高精度坐标点击 (0.5, 0.95) 提交订单呼叫...
+2026-08-14 11:21:16,656 - JRYG_HK_Auto - INFO - 【运营大闭环成功】测试已完美跑通，下单凭证截图已成功归档保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_success.png
+2026-08-14 11:21:16,657 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:23:44,870 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:23:44,880 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '5C996526-E46C-4FB2-9D61-490259AEF00C'}
+2026-08-14 11:23:45,727 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:23:45,727 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:23:47,815 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:23:56,087 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:23:56,413 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:23:58,709 - JRYG_HK_Auto - INFO - 【步骤 4】正在寻找并点击首页起点区域（当前城市暂未开通服务），进入地址搜索页...
+2026-08-14 11:23:59,287 - JRYG_HK_Auto - WARNING - 未找到显式起点暂未开通标签，执行首页起点位置物理高精度点击 (0.5, 0.77)...
+2026-08-14 11:24:02,882 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点为：铜锣湾地铁站...
+2026-08-14 11:24:02,883 - JRYG_HK_Auto - INFO - 点击起点输入框 (0.5, 0.125)...
+2026-08-14 11:24:05,050 - JRYG_HK_Auto - INFO - 直接通过 WDA 焦点对象发送起点文本：铜锣湾地铁站...
+2026-08-14 11:24:09,376 - JRYG_HK_Auto - INFO - 正在选中起点联想列表第一行...
+2026-08-14 11:24:09,472 - JRYG_HK_Auto - INFO - 通过物理坐标 (0.5, 0.25) 点击起点联想第一行...
+2026-08-14 11:24:14,089 - JRYG_HK_Auto - INFO - 【步骤 6】正在点击首页终点区域（想去哪裡？），进入目的地搜索页...
+2026-08-14 11:24:14,729 - JRYG_HK_Auto - WARNING - 未找到显式目的地标签，执行首页终点位置物理高精度点击 (0.5, 0.83)...
+2026-08-14 11:24:18,346 - JRYG_HK_Auto - INFO - 【步骤 7】正在输入目的地为：香港大学...
+2026-08-14 11:24:18,347 - JRYG_HK_Auto - INFO - 点击目的地输入框 (0.5, 0.125)...
+2026-08-14 11:24:20,520 - JRYG_HK_Auto - INFO - 直接通过 WDA 焦点对象发送目的地文本：香港大学...
+2026-08-14 11:24:24,847 - JRYG_HK_Auto - INFO - 正在选中目的地联想列表第一行...
+2026-08-14 11:24:24,930 - JRYG_HK_Auto - INFO - 通过物理坐标 (0.5, 0.25) 点击目的地联想第一行...
+2026-08-14 11:24:32,578 - JRYG_HK_Auto - INFO - 【步骤 8】进入车型确认面板，正在寻找并进入『优惠券 / 優惠券』选择列表...
+2026-08-14 11:24:33,212 - JRYG_HK_Auto - WARNING - 未找到显式优惠券入口文本，执行物理兜底点击优惠券区域 (0.85, 0.8)...
+2026-08-14 11:24:36,807 - JRYG_HK_Auto - INFO - 【步骤 9】正在寻找并点击『確認呼叫』正式发起呼叫...
+2026-08-14 11:24:37,439 - JRYG_HK_Auto - INFO - 执行物理高精度坐标点击 (0.5, 0.95) 提交订单呼叫...
+2026-08-14 11:24:43,282 - JRYG_HK_Auto - INFO - 【运营大闭环成功】测试已完美跑通，下单凭证截图已成功归档保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_success.png
+2026-08-14 11:24:43,282 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:27:46,701 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:27:46,709 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '10A063A4-BC1C-46BB-948D-EAFA2EDEA24E'}
+2026-08-14 11:27:48,120 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:27:48,121 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:27:50,169 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:27:57,401 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:27:57,760 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:28:02,616 - JRYG_HK_Auto - INFO - 【步骤 4】正在寻找并点击首页起点区域（当前城市暂未开通服务），进入地址搜索页...
+2026-08-14 11:28:03,811 - JRYG_HK_Auto - WARNING - 未找到显式起点暂未开通标签，执行首页起点位置物理高精度点击 (0.5, 0.77)...
+2026-08-14 11:28:07,454 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点为：铜锣湾地铁站...
+2026-08-14 11:28:07,455 - JRYG_HK_Auto - INFO - 点击起点输入框 (0.5, 0.125)...
+2026-08-14 11:28:09,632 - JRYG_HK_Auto - INFO - 直接通过 WDA 焦点对象发送起点文本：铜锣湾地铁站...
+2026-08-14 11:28:13,954 - JRYG_HK_Auto - INFO - 正在选中起点联想列表第一行...
+2026-08-14 11:28:14,055 - JRYG_HK_Auto - INFO - 通过物理坐标 (0.5, 0.25) 点击起点联想第一行...
+2026-08-14 11:28:18,697 - JRYG_HK_Auto - INFO - 【步骤 6】正在点击首页终点区域（想去哪裡？），进入目的地搜索页...
+2026-08-14 11:28:19,420 - JRYG_HK_Auto - WARNING - 未找到显式目的地标签，执行首页终点位置物理高精度点击 (0.5, 0.83)...
+2026-08-14 11:28:22,992 - JRYG_HK_Auto - INFO - 【步骤 7】正在输入目的地为：香港大学...
+2026-08-14 11:28:22,992 - JRYG_HK_Auto - INFO - 点击目的地输入框 (0.5, 0.125)...
+2026-08-14 11:28:25,115 - JRYG_HK_Auto - INFO - 直接通过 WDA 焦点对象发送目的地文本：香港大学...
+2026-08-14 11:28:29,441 - JRYG_HK_Auto - INFO - 正在选中目的地联想列表第一行...
+2026-08-14 11:28:29,517 - JRYG_HK_Auto - INFO - 通过物理坐标 (0.5, 0.25) 点击目的地联想第一行...
+2026-08-14 11:28:37,164 - JRYG_HK_Auto - INFO - 【步骤 8】进入车型确认面板，正在寻找并进入『优惠券 / 優惠券』选择列表...
+2026-08-14 11:28:37,859 - JRYG_HK_Auto - WARNING - 未找到显式优惠券入口文本，执行物理兜底点击优惠券区域 (0.85, 0.8)...
+2026-08-14 11:28:41,455 - JRYG_HK_Auto - INFO - 【步骤 9】正在寻找并点击『確認呼叫』正式发起呼叫...
+2026-08-14 11:28:43,266 - JRYG_HK_Auto - INFO - 执行物理高精度坐标点击 (0.5, 0.95) 提交订单呼叫...
+2026-08-14 11:28:49,482 - JRYG_HK_Auto - INFO - 【运营大闭环成功】测试已完美跑通，下单凭证截图已成功归档保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_success.png
+2026-08-14 11:28:49,483 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:32:42,483 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:32:42,493 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'B7677F9B-BC3C-49EA-837E-C2E1391FC8EC'}
+2026-08-14 11:32:43,333 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:32:43,334 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:32:45,408 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:32:53,675 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:32:54,042 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:32:59,113 - JRYG_HK_Auto - INFO - 【步骤 4】正在寻找并点击首页起点输入框（當前城市暫未開通服務），进入地址搜索页...
+2026-08-14 11:32:59,245 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:33:44,368 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:33:44,378 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'B8DAEB2F-01E9-4DAD-915A-5F5D32995ECF'}
+2026-08-14 11:33:45,225 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:33:45,226 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:33:47,308 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:33:55,572 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:33:55,942 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:34:00,908 - JRYG_HK_Auto - INFO - 【步骤 4】正在寻找并点击首页起点输入框（當前城市暫未開通服務），进入地址搜索页...
+2026-08-14 11:34:02,595 - JRYG_HK_Auto - WARNING - 未找到显式起点暂未开通文本，执行首页起点物理高精度点击 (0.5, 0.77)...
+2026-08-14 11:34:06,175 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点地址为：铜锣湾地铁站...
+2026-08-14 11:34:06,175 - JRYG_HK_Auto - INFO - 点击起点输入框区域 (0.5, 0.125)...
+2026-08-14 11:34:08,338 - JRYG_HK_Auto - INFO - 正在发送起点文本: 铜锣湾地铁站...
+2026-08-14 11:34:08,655 - JRYG_HK_Auto - INFO - 文本输入成功，等待联想搜索列表渲染...
+2026-08-14 11:34:12,657 - JRYG_HK_Auto - INFO - 正在点击下方搜索出的第一个起点...
+2026-08-14 11:34:12,757 - JRYG_HK_Auto - INFO - 通过物理坐标 (0.5, 0.25) 强制点击首行联想结果...
+2026-08-14 11:34:17,375 - JRYG_HK_Auto - INFO - 【步骤 6】首页已重绘，正在寻找并点击目的地『想去哪裡？』区域，进入目的地搜索页...
+2026-08-14 11:34:18,395 - JRYG_HK_Auto - INFO - 成功通过原生 XPath 模糊文本匹配点击了首页终点区域
+2026-08-14 11:34:21,400 - JRYG_HK_Auto - INFO - 【步骤 7】正在输入目的地地址为：香港大学...
+2026-08-14 11:34:21,401 - JRYG_HK_Auto - INFO - 点击目的地输入框区域 (0.5, 0.125)...
+2026-08-14 11:34:23,782 - JRYG_HK_Auto - INFO - 正在发送目的地文本: 香港大学...
+2026-08-14 11:34:24,107 - JRYG_HK_Auto - INFO - 文本输入成功，等待目的地联想列表渲染...
+2026-08-14 11:34:28,112 - JRYG_HK_Auto - INFO - 正在点击目的地首个匹配联想项...
+2026-08-14 11:34:28,959 - JRYG_HK_Auto - INFO - 选中目的地联想地址成功！系统正在计算行驶线路并进入选择车型页面...
+2026-08-14 11:34:35,963 - JRYG_HK_Auto - INFO - 【步骤 8】进入车型确认面板，正在寻找并进入『优惠券 / 優惠券』选择列表...
+2026-08-14 11:34:37,110 - JRYG_HK_Auto - WARNING - 未找到显式优惠券入口文本，执行物理兜底点击优惠券区域 (0.85, 0.8)...
+2026-08-14 11:34:40,753 - JRYG_HK_Auto - INFO - 【步骤 9】正在寻找并点击『確認呼叫』正式发起呼叫...
+2026-08-14 11:34:42,460 - JRYG_HK_Auto - INFO - 【下单成功】已成功点击『確認呼叫』，本单正式进入后台派单业务！
+2026-08-14 11:34:47,759 - JRYG_HK_Auto - INFO - 【运营大闭环成功】测试已完美跑通，下单凭证截图已成功归档保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_success.png
+2026-08-14 11:34:47,760 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:36:30,619 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:36:30,628 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '8EBD3DB6-410C-4DC7-93B6-CD9C21FF64E8'}
+2026-08-14 11:36:31,829 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:36:31,830 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:36:33,866 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:36:46,127 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:36:46,503 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:36:51,509 - JRYG_HK_Auto - INFO - 【步骤 4】等待并寻找首页起点输入框（當前城市暫未開通服務）加载展现...
+2026-08-14 11:37:56,219 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 1 次尝试)...
+2026-08-14 11:37:56,219 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 11:37:59,712 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 2 次尝试)...
+2026-08-14 11:37:59,713 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 11:38:02,483 - JRYG_HK_Auto - INFO - 【进入搜索页成功】已检测到地址输入框，成功进入起点搜索页！
+2026-08-14 11:38:02,484 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点地址为：铜锣湾地铁站...
+2026-08-14 11:38:02,484 - JRYG_HK_Auto - INFO - 点击起点输入框区域 (0.5, 0.125)...
+2026-08-14 11:38:04,803 - JRYG_HK_Auto - INFO - 正在发送起点文本: 铜锣湾地铁站...
+2026-08-14 11:38:05,112 - JRYG_HK_Auto - INFO - 文本输入成功，等待联想搜索列表渲染...
+2026-08-14 11:38:09,116 - JRYG_HK_Auto - INFO - 正在点击下方搜索出的第一个起点...
+2026-08-14 11:38:10,125 - JRYG_HK_Auto - INFO - 成功选中起点！页面已全自动退回到乘客端首页。
+2026-08-14 11:38:14,130 - JRYG_HK_Auto - INFO - 【步骤 6】首页已重绘，正在等待并寻找目的地『想去哪裡？』区域加载展现...
+2026-08-14 11:38:58,538 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 1 次尝试)...
+2026-08-14 11:38:58,538 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:39:01,948 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 2 次尝试)...
+2026-08-14 11:39:01,948 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:39:05,846 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 3 次尝试)...
+2026-08-14 11:39:05,847 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:39:09,700 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 4 次尝试)...
+2026-08-14 11:39:09,701 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:39:13,551 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 5 次尝试)...
+2026-08-14 11:39:13,552 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:39:17,398 - JRYG_HK_Auto - ERROR - 多次尝试均未能成功进入目的地搜索页，用例将尝试默认在当前页面继续执行...
+2026-08-14 11:39:17,398 - JRYG_HK_Auto - INFO - 【步骤 7】正在输入目的地地址为：香港大学...
+2026-08-14 11:39:17,398 - JRYG_HK_Auto - INFO - 点击目的地输入框区域 (0.5, 0.125)...
+2026-08-14 11:39:19,477 - JRYG_HK_Auto - INFO - 正在发送目的地文本: 香港大学...
+2026-08-14 11:39:19,790 - JRYG_HK_Auto - INFO - 文本输入成功，等待目的地联想列表渲染...
+2026-08-14 11:39:23,793 - JRYG_HK_Auto - INFO - 正在点击目的地首个匹配联想项...
+2026-08-14 11:39:24,817 - JRYG_HK_Auto - INFO - 选中目的地联想地址成功！系统正在计算行驶线路并进入选择车型页面...
+2026-08-14 11:39:31,821 - JRYG_HK_Auto - INFO - 【步骤 8】进入车型确认面板，正在寻找并进入『优惠券 / 優惠券』选择列表...
+2026-08-14 11:39:32,971 - JRYG_HK_Auto - WARNING - 未找到显式优惠券入口文本，执行物理兜底点击优惠券区域 (0.85, 0.8)...
+2026-08-14 11:39:36,608 - JRYG_HK_Auto - INFO - 【步骤 9】正在寻找并点击『確認呼叫』正式发起呼叫...
+2026-08-14 11:39:38,265 - JRYG_HK_Auto - INFO - 【下单成功】已成功点击『確認呼叫』，本单正式进入后台派单业务！
+2026-08-14 11:39:43,596 - JRYG_HK_Auto - INFO - 【运营大闭环成功】测试已完美跑通，下单凭证截图已成功归档保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_success.png
+2026-08-14 11:39:43,596 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 11:41:31,429 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 11:41:31,438 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '84343449-03EF-4B3E-A374-273E5CE5E36C'}
+2026-08-14 11:41:32,314 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 11:41:32,314 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 11:41:34,392 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 11:41:46,638 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 11:41:47,029 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 11:41:52,016 - JRYG_HK_Auto - INFO - 【步骤 4】等待并寻找首页起点输入框加载展现...
+2026-08-14 11:42:54,954 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 1 次尝试)...
+2026-08-14 11:42:54,955 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 11:42:58,467 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 2 次尝试)...
+2026-08-14 11:42:58,468 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 11:43:01,248 - JRYG_HK_Auto - INFO - 【进入搜索页成功】已检测到地址输入框，成功进入起点搜索页！
+2026-08-14 11:43:01,248 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点地址为：铜锣湾地铁站...
+2026-08-14 11:43:01,248 - JRYG_HK_Auto - INFO - 点击起点输入框区域 (0.5, 0.125)...
+2026-08-14 11:43:03,575 - JRYG_HK_Auto - INFO - 正在发送起点文本: 铜锣湾地铁站...
+2026-08-14 11:43:03,885 - JRYG_HK_Auto - INFO - 文本输入成功，等待联想搜索列表渲染...
+2026-08-14 11:43:07,889 - JRYG_HK_Auto - INFO - 正在点击下方搜索出的第一个起点...
+2026-08-14 11:43:08,879 - JRYG_HK_Auto - INFO - 成功选中起点！页面已全自动退回到乘客端首页。
+2026-08-14 11:43:12,883 - JRYG_HK_Auto - INFO - 【步骤 6】首页已重绘，正在等待并寻找目的地『想去哪裡？』区域加载展现...
+2026-08-14 11:43:57,945 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 1 次尝试)...
+2026-08-14 11:43:57,945 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:44:01,417 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 2 次尝试)...
+2026-08-14 11:44:01,417 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:44:05,518 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 3 次尝试)...
+2026-08-14 11:44:05,518 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:44:09,369 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 4 次尝试)...
+2026-08-14 11:44:09,369 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:44:13,388 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 5 次尝试)...
+2026-08-14 11:44:13,388 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 11:44:17,272 - JRYG_HK_Auto - ERROR - 多次尝试均未能成功进入目的地搜索页，用例将尝试默认在当前页面继续执行...
+2026-08-14 11:44:17,272 - JRYG_HK_Auto - INFO - 【步骤 7】正在输入目的地地址为：香港大学...
+2026-08-14 11:44:17,274 - JRYG_HK_Auto - INFO - 点击目的地输入框区域 (0.5, 0.125)...
+2026-08-14 11:44:19,350 - JRYG_HK_Auto - INFO - 正在发送目的地文本: 香港大学...
+2026-08-14 11:44:19,677 - JRYG_HK_Auto - INFO - 文本输入成功，等待目的地联想列表渲染...
+2026-08-14 11:44:23,681 - JRYG_HK_Auto - INFO - 正在点击目的地首个匹配联想项...
+2026-08-14 11:44:24,704 - JRYG_HK_Auto - INFO - 选中目的地联想地址成功！系统正在计算行驶线路并进入选择车型页面...
+2026-08-14 11:44:31,707 - JRYG_HK_Auto - INFO - 【步骤 8】进入车型确认面板，正在寻找并进入『优惠券 / 優惠券』选择列表...
+2026-08-14 11:44:32,894 - JRYG_HK_Auto - WARNING - 未找到显式优惠券入口文本，执行物理兜底点击优惠券区域 (0.85, 0.8)...
+2026-08-14 11:44:36,523 - JRYG_HK_Auto - INFO - 【步骤 9】正在寻找并点击『確認呼叫』正式发起呼叫...
+2026-08-14 11:44:38,208 - JRYG_HK_Auto - INFO - 【下单成功】已成功点击『確認呼叫』，本单正式进入后台派单业务！
+2026-08-14 11:44:43,570 - JRYG_HK_Auto - INFO - 【运营大闭环成功】测试已完美跑通，下单凭证截图已成功归档保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_success.png
+2026-08-14 11:44:43,572 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 12:13:11,681 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 12:13:11,689 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '54BFBDF6-640D-4A2B-A946-C9F6DF5E10FA'}
+2026-08-14 12:13:12,553 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 12:13:12,553 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 12:13:14,662 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 12:13:26,969 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 12:13:27,357 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 12:13:32,255 - JRYG_HK_Auto - INFO - 【步骤 4】等待并寻找首页起点输入框加载展现...
+2026-08-14 12:13:44,718 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 1 次尝试)...
+2026-08-14 12:13:44,718 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 12:13:48,261 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 2 次尝试)...
+2026-08-14 12:13:48,261 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 12:13:51,112 - JRYG_HK_Auto - INFO - 【进入搜索页成功】已检测到地址输入框，成功进入起点搜索页！
+2026-08-14 12:13:51,112 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点地址为：铜锣湾地铁站...
+2026-08-14 12:13:51,112 - JRYG_HK_Auto - INFO - 点击起点输入框区域 (0.5, 0.125)...
+2026-08-14 12:13:53,433 - JRYG_HK_Auto - INFO - 正在发送起点文本: 铜锣湾地铁站...
+2026-08-14 12:13:53,747 - JRYG_HK_Auto - INFO - 文本输入成功，等待联想搜索列表渲染...
+2026-08-14 12:13:57,750 - JRYG_HK_Auto - INFO - 正在点击下方搜索出的第一个起点...
+2026-08-14 12:13:58,753 - JRYG_HK_Auto - INFO - 成功选中起点！页面已全自动退回到乘客端首页。
+2026-08-14 12:14:02,754 - JRYG_HK_Auto - INFO - 【起点配置完毕】严格遵循『必须选择起点，再选择终点』，开始进行第二步：配置目的地。
+2026-08-14 12:14:02,754 - JRYG_HK_Auto - INFO - 【步骤 6】首页已重绘，正在等待并寻找目的地『想去哪裡？』区域加载展现...
+2026-08-14 12:14:11,689 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 1 次尝试)...
+2026-08-14 12:14:11,690 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 12:14:15,093 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 2 次尝试)...
+2026-08-14 12:14:15,093 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 12:14:19,004 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 3 次尝试)...
+2026-08-14 12:14:19,004 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 12:14:22,889 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 4 次尝试)...
+2026-08-14 12:14:22,889 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 12:14:26,752 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 5 次尝试)...
+2026-08-14 12:14:26,753 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 12:14:30,621 - JRYG_HK_Auto - ERROR - 多次尝试均未能成功进入目的地搜索页，流程阻断！
+2026-08-14 12:14:30,717 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 12:15:59,675 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 12:15:59,683 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '2071A98C-57AF-456E-83D4-58C20A05C12D'}
+2026-08-14 12:16:00,497 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 12:16:00,497 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 12:16:02,584 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 12:16:14,872 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 12:16:15,254 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 12:16:20,190 - JRYG_HK_Auto - INFO - 【步骤 4】等待并寻找首页起点输入框加载展现...
+2026-08-14 12:16:32,531 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 1 次尝试)...
+2026-08-14 12:16:32,531 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 12:16:36,020 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 2 次尝试)...
+2026-08-14 12:16:36,021 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 12:16:38,801 - JRYG_HK_Auto - INFO - 【进入搜索页成功】已检测到地址输入框，成功进入起点搜索页！
+2026-08-14 12:16:38,801 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点地址为：铜锣湾地铁站...
+2026-08-14 12:16:38,801 - JRYG_HK_Auto - INFO - 点击起点输入框区域 (0.5, 0.125)...
+2026-08-14 12:16:41,275 - JRYG_HK_Auto - INFO - 正在发送起点文本: 铜锣湾地铁站...
+2026-08-14 12:16:41,598 - JRYG_HK_Auto - INFO - 文本输入成功，等待联想搜索列表渲染...
+2026-08-14 12:16:45,601 - JRYG_HK_Auto - INFO - 正在点击下方搜索出的第一个起点...
+2026-08-14 12:16:46,632 - JRYG_HK_Auto - INFO - 成功选中起点！页面已全自动退回到乘客端首页。
+2026-08-14 12:16:50,634 - JRYG_HK_Auto - INFO - 【起点配置完毕】严格遵循『必须选择起点，再选择终点』，开始进行第二步：配置目的地。
+2026-08-14 12:16:50,634 - JRYG_HK_Auto - INFO - 【步骤 6】首页已重绘，正在等待并寻找目的地『想去哪裡？』区域加载展现...
+2026-08-14 12:16:59,512 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 1 次尝试)...
+2026-08-14 12:16:59,512 - JRYG_HK_Auto - INFO - 采用高精度物理坐标 (0.5, 0.68) 点击目的地核心区域...
+2026-08-14 12:17:02,892 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 2 次尝试)...
+2026-08-14 12:17:02,893 - JRYG_HK_Auto - INFO - 采用高精度物理坐标 (0.5, 0.68) 点击目的地核心区域...
+2026-08-14 12:17:06,240 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 3 次尝试)...
+2026-08-14 12:17:06,241 - JRYG_HK_Auto - INFO - 采用过渡物理坐标 (0.5, 0.73) 点击目的地区域...
+2026-08-14 12:17:09,591 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 4 次尝试)...
+2026-08-14 12:17:09,591 - JRYG_HK_Auto - INFO - 采用过渡物理坐标 (0.5, 0.73) 点击目的地区域...
+2026-08-14 12:17:12,923 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 5 次尝试)...
+2026-08-14 12:17:12,923 - JRYG_HK_Auto - INFO - 采用经典物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 12:17:16,268 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 6 次尝试)...
+2026-08-14 12:17:16,268 - JRYG_HK_Auto - INFO - 采用经典物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 12:17:20,176 - JRYG_HK_Auto - ERROR - 多次尝试均未能成功进入目的地搜索页，流程阻断！
+2026-08-14 12:17:20,284 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 12:18:11,162 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 12:18:11,171 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'B73F4CC2-D330-4068-B42A-D831E8904A3D'}
+2026-08-14 12:18:12,054 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 12:18:12,055 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 12:18:14,132 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 12:18:26,408 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 12:18:26,781 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 12:18:31,793 - JRYG_HK_Auto - INFO - 【步骤 4】等待并寻找首页起点输入框加载展现...
+2026-08-14 12:18:44,690 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 1 次尝试)...
+2026-08-14 12:18:44,690 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 12:18:48,204 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 2 次尝试)...
+2026-08-14 12:18:48,204 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 12:18:51,026 - JRYG_HK_Auto - INFO - 【进入搜索页成功】已检测到地址输入框，成功进入起点搜索页！
+2026-08-14 12:18:51,027 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点地址为：铜锣湾地铁站...
+2026-08-14 12:18:51,027 - JRYG_HK_Auto - INFO - 点击起点输入框区域 (0.5, 0.125)...
+2026-08-14 12:18:53,335 - JRYG_HK_Auto - INFO - 正在发送起点文本: 铜锣湾地铁站...
+2026-08-14 12:18:53,653 - JRYG_HK_Auto - INFO - 文本输入成功，等待联想搜索列表渲染...
+2026-08-14 12:18:57,653 - JRYG_HK_Auto - INFO - 正在点击下方搜索出的第一个起点...
+2026-08-14 12:18:58,752 - JRYG_HK_Auto - INFO - 成功选中起点！页面已全自动退回到乘客端首页。
+2026-08-14 12:19:02,757 - JRYG_HK_Auto - INFO - 【起点配置完毕】严格遵循『必须选择起点，再选择终点』，开始进行第二步：配置目的地。
+2026-08-14 12:19:02,758 - JRYG_HK_Auto - INFO - 【步骤 6】首页已重绘，正在等待并寻找目的地『想去哪裡？』区域加载展现...
+2026-08-14 12:19:11,500 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 1 次尝试)...
+2026-08-14 12:19:11,500 - JRYG_HK_Auto - INFO - 采用高精度物理坐标 (0.5, 0.68) 点击目的地核心区域...
+2026-08-14 12:19:14,924 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 2 次尝试)...
+2026-08-14 12:19:14,925 - JRYG_HK_Auto - INFO - 采用高精度物理坐标 (0.5, 0.68) 点击目的地核心区域...
+2026-08-14 12:19:18,306 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 3 次尝试)...
+2026-08-14 12:19:18,307 - JRYG_HK_Auto - INFO - 采用过渡物理坐标 (0.5, 0.73) 点击目的地区域...
+2026-08-14 12:19:21,668 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 4 次尝试)...
+2026-08-14 12:19:21,669 - JRYG_HK_Auto - INFO - 采用过渡物理坐标 (0.5, 0.73) 点击目的地区域...
+2026-08-14 12:19:24,976 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 5 次尝试)...
+2026-08-14 12:19:24,976 - JRYG_HK_Auto - INFO - 采用经典物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 12:19:28,516 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 6 次尝试)...
+2026-08-14 12:19:28,517 - JRYG_HK_Auto - INFO - 采用经典物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 12:19:32,450 - JRYG_HK_Auto - ERROR - 多次尝试均未能成功进入目的地搜索页，流程阻断！
+2026-08-14 12:19:32,752 - JRYG_HK_Auto - ERROR - 【测试异常】执行中发生错误，已自动保存异常屏幕截图至: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_failed.png
+2026-08-14 12:19:32,752 - JRYG_HK_Auto - ERROR - 【详细异常原因】【阻断】未能进入目的地搜索页，无法完成终点选择流程！
+2026-08-14 12:19:32,852 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 14:32:24,209 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 14:32:24,218 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '03913B9F-AE35-462A-9666-E2D65ECCA1ED'}
+2026-08-14 14:32:25,480 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 14:32:25,481 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 14:32:27,520 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 14:32:38,728 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 14:32:39,108 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 14:32:44,006 - JRYG_HK_Auto - INFO - 【步骤 4】等待并寻找首页起点输入框加载展现...
+2026-08-14 14:32:56,450 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 1 次尝试)...
+2026-08-14 14:32:56,450 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 14:32:59,982 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 2 次尝试)...
+2026-08-14 14:32:59,983 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 14:33:02,773 - JRYG_HK_Auto - INFO - 【进入搜索页成功】已检测到地址输入框，成功进入起点搜索页！
+2026-08-14 14:33:02,774 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点地址为：铜锣湾地铁站...
+2026-08-14 14:33:02,774 - JRYG_HK_Auto - INFO - 点击起点输入框区域 (0.5, 0.125)...
+2026-08-14 14:33:05,077 - JRYG_HK_Auto - INFO - 正在发送起点文本: 铜锣湾地铁站...
+2026-08-14 14:33:05,389 - JRYG_HK_Auto - INFO - 文本输入成功，等待联想搜索列表渲染...
+2026-08-14 14:33:09,393 - JRYG_HK_Auto - INFO - 正在点击下方搜索出的第一个起点...
+2026-08-14 14:33:10,409 - JRYG_HK_Auto - INFO - 成功选中起点！页面已全自动退回到乘客端首页。
+2026-08-14 14:33:14,412 - JRYG_HK_Auto - INFO - 【起点配置完毕】严格遵循『必须选择起点，再选择终点』，开始进行第二步：配置目的地。
+2026-08-14 14:33:14,413 - JRYG_HK_Auto - INFO - 【步骤 6】首页已重绘，正在等待并寻找目的地『想去哪裡？』区域加载展现...
+2026-08-14 14:33:23,365 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 1 次尝试)...
+2026-08-14 14:33:23,366 - JRYG_HK_Auto - INFO - 采用高精度物理坐标 (0.5, 0.68) 点击目的地核心区域...
+2026-08-14 14:33:26,794 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 2 次尝试)...
+2026-08-14 14:33:26,794 - JRYG_HK_Auto - INFO - 采用高精度物理坐标 (0.5, 0.68) 点击目的地核心区域...
+2026-08-14 14:33:30,189 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 3 次尝试)...
+2026-08-14 14:33:30,189 - JRYG_HK_Auto - INFO - 采用过渡物理坐标 (0.5, 0.73) 点击目的地区域...
+2026-08-14 14:33:33,524 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 4 次尝试)...
+2026-08-14 14:33:33,525 - JRYG_HK_Auto - INFO - 采用过渡物理坐标 (0.5, 0.73) 点击目的地区域...
+2026-08-14 14:33:36,911 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 5 次尝试)...
+2026-08-14 14:33:36,912 - JRYG_HK_Auto - INFO - 采用经典物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 14:33:40,311 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 6 次尝试)...
+2026-08-14 14:33:40,311 - JRYG_HK_Auto - INFO - 采用经典物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 14:33:44,252 - JRYG_HK_Auto - ERROR - 多次尝试均未能成功进入目的地搜索页，流程阻断！
+2026-08-14 14:33:44,581 - JRYG_HK_Auto - ERROR - 【测试异常】执行中发生错误，已自动保存异常屏幕截图至: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_failed.png
+2026-08-14 14:33:44,581 - JRYG_HK_Auto - ERROR - 【详细异常原因】【阻断】未能进入目的地搜索页，无法完成终点选择流程！
+2026-08-14 14:33:44,730 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 14:33:44,735 - JRYG_HK_Auto - INFO - 【Appium 自动化】正在通过项目封装的 JRYG_HKDevice 调度 Appium-Python-Client 连接...
+2026-08-14 14:33:44,736 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: IOS
+2026-08-14 14:33:44,818 - JRYG_HK_Auto - INFO - 【iOS】正在通过 WDA 快速拉起港版 App 'com.sunlightmobility.client'...
+2026-08-14 14:33:44,820 - JRYG_HK_Auto - ERROR - 【Appium 连接失败】请确认 Appium 驱动及 WDA 服务已在手机上正常运行！ 错误原因: HTTPConnectionPool(host='127.0.0.1', port=4723): Max retries exceeded with url: /session (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=4723): Failed to establish a new connection: [Errno 61] Connection refused"))
+2026-08-14 14:35:49,110 - JRYG_HK_Auto - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-08-14 14:35:49,119 - JRYG_HK_Auto - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Aug 13 2026 18:56:58', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.106', 'wifiIP': '192.168.219.106'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'D244FD74-5898-4460-B2A8-2D66B27DACB9'}
+2026-08-14 14:35:49,960 - JRYG_HK_Auto - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+2026-08-14 14:35:49,961 - JRYG_HK_Auto - INFO - 【步骤 1】正在回到 iOS 系统桌面首页...
+2026-08-14 14:35:52,050 - JRYG_HK_Auto - INFO - 【步骤 2】正在物理唤醒并拉起港版 App: com.sunlightmobility.client
+2026-08-14 14:36:04,317 - JRYG_HK_Auto - INFO - 【步骤 3】检测并自动处理可能出现的系统级授权弹窗...
+2026-08-14 14:36:04,709 - JRYG_HK_Auto - INFO - 自动检测并清理开屏可能存在的广告遮罩层...
+2026-08-14 14:36:09,725 - JRYG_HK_Auto - INFO - 【步骤 4】等待并寻找首页起点输入框加载展现...
+2026-08-14 14:36:22,493 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 1 次尝试)...
+2026-08-14 14:36:22,493 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 14:36:26,009 - JRYG_HK_Auto - INFO - 尝试点击起点入口以拉起搜索页 (第 2 次尝试)...
+2026-08-14 14:36:26,009 - JRYG_HK_Auto - INFO - 采用高容错高精度物理坐标 (0.5, 0.76) 点击起点区域...
+2026-08-14 14:36:28,863 - JRYG_HK_Auto - INFO - 【进入搜索页成功】已检测到地址输入框，成功进入起点搜索页！
+2026-08-14 14:36:28,863 - JRYG_HK_Auto - INFO - 【步骤 5】正在输入起点地址为：铜锣湾地铁站...
+2026-08-14 14:36:28,863 - JRYG_HK_Auto - INFO - 点击起点输入框区域 (0.5, 0.125)...
+2026-08-14 14:36:31,177 - JRYG_HK_Auto - INFO - 正在发送起点文本: 铜锣湾地铁站...
+2026-08-14 14:36:31,499 - JRYG_HK_Auto - INFO - 文本输入成功，等待联想搜索列表渲染...
+2026-08-14 14:36:35,501 - JRYG_HK_Auto - INFO - 正在点击下方搜索出的第一个起点...
+2026-08-14 14:36:36,506 - JRYG_HK_Auto - INFO - 成功选中起点！页面已全自动退回到乘客端首页。
+2026-08-14 14:36:40,510 - JRYG_HK_Auto - INFO - 【起点配置完毕】严格遵循『必须选择起点，再选择终点』，开始进行第二步：配置目的地。
+2026-08-14 14:36:40,510 - JRYG_HK_Auto - INFO - 【步骤 6】首页已重绘，正在等待并寻找目的地『想去哪裡？』区域加载展现...
+2026-08-14 14:36:49,533 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 1 次尝试)...
+2026-08-14 14:36:49,534 - JRYG_HK_Auto - INFO - 采用高精度物理坐标 (0.5, 0.68) 点击目的地核心区域...
+2026-08-14 14:36:52,912 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 2 次尝试)...
+2026-08-14 14:36:52,912 - JRYG_HK_Auto - INFO - 采用高精度物理坐标 (0.5, 0.68) 点击目的地核心区域...
+2026-08-14 14:36:56,277 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 3 次尝试)...
+2026-08-14 14:36:56,277 - JRYG_HK_Auto - INFO - 采用过渡物理坐标 (0.5, 0.73) 点击目的地区域...
+2026-08-14 14:36:59,619 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 4 次尝试)...
+2026-08-14 14:36:59,620 - JRYG_HK_Auto - INFO - 采用过渡物理坐标 (0.5, 0.73) 点击目的地区域...
+2026-08-14 14:37:02,983 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 5 次尝试)...
+2026-08-14 14:37:02,983 - JRYG_HK_Auto - INFO - 采用经典物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 14:37:06,338 - JRYG_HK_Auto - INFO - 尝试点击目的地入口以拉起目的地搜索页 (第 6 次尝试)...
+2026-08-14 14:37:06,338 - JRYG_HK_Auto - INFO - 采用经典物理坐标 (0.5, 0.83) 点击目的地区域...
+2026-08-14 14:37:10,255 - JRYG_HK_Auto - ERROR - 多次尝试均未能成功进入目的地搜索页，流程阻断！
+2026-08-14 14:37:10,551 - JRYG_HK_Auto - ERROR - 【测试异常】执行中发生错误，已自动保存异常屏幕截图至: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_booking_failed.png
+2026-08-14 14:37:10,552 - JRYG_HK_Auto - ERROR - 【详细异常原因】【阻断】未能进入目的地搜索页，无法完成终点选择流程！
+2026-08-14 14:37:10,700 - JRYG_HK_Auto - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+2026-08-14 14:37:10,706 - JRYG_HK_Auto - INFO - 【Appium 自动化】正在通过项目封装的 JRYG_HKDevice 调度 Appium-Python-Client 连接...
+2026-08-14 14:37:10,706 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: IOS
+2026-08-14 14:37:10,749 - JRYG_HK_Auto - INFO - 【iOS】正在通过 WDA 快速拉起港版 App 'com.sunlightmobility.client'...
+2026-08-14 14:37:16,169 - JRYG_HK_Auto - INFO - 【iOS】拉起成功！Session ID: 9d06a772-6e62-4c09-a242-bfa28a2e406e
+2026-08-14 14:37:16,169 - JRYG_HK_Auto - INFO - 【Appium 自动化】连接成功！Appium Session 已成功建立。
+2026-08-14 14:37:16,170 - JRYG_HK_Auto - INFO - 【步骤 1】App 已成功唤起。开始检测并处理 iOS 系统可能存在的首次定位/通知权限弹窗...
+2026-08-14 14:37:16,517 - JRYG_HK_Auto - INFO -   >> 未检测到活跃的系统级权限弹窗，继续执行后续步骤。
+2026-08-14 14:37:16,518 - JRYG_HK_Auto - INFO - 【步骤 2】等待 App 首页重绘完毕，开始通过 Appium 寻找首页打车核心元素...
+2026-08-14 14:37:21,519 - JRYG_HK_Auto - INFO - 【步骤 3】尝试寻找首页的『起點 / 起点』输入框或占位符...
+2026-08-14 14:37:21,519 - JRYG_HK_Auto - INFO -   >> 优先尝试 Class Chain 方式定位：**/XCUIElementTypeAny[`label CONTAINS "起點" OR label CONTAINS "起点" OR label CONTAINS "当前位置" OR label CONTAINS "當前位置"`]
+2026-08-14 14:37:21,684 - JRYG_HK_Auto - WARNING -   >> Class Chain 方式未定位到，尝试使用 XPath 兜底定位...
+2026-08-14 14:37:21,828 - JRYG_HK_Auto - ERROR -   >> 未能找到起点相关元素: Message: An element could not be located on the page using the given search parameters.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+NoSuchElementError: An element could not be located on the page using the given search parameters.
+    at XCUITestDriver.doNativeFind (file:///Users/tongyongqi/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/find.js:96:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async XCUITestDriver.findNativeElementOrElements (file:///Users/tongyongqi/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/find.js:55:11)
+    at async XCUITestDriver.findElOrEls (file:///Users/tongyongqi/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/find.js:13:11)
+    at async XCUITestDriver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/find.js:12:16)
+    at async XCUITestDriver.findElement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/find.js:27:16)
+2026-08-14 14:37:21,829 - JRYG_HK_Auto - WARNING - 【警告】未能成功定位到首页起点元素，将截图留存。
+2026-08-14 14:37:22,049 - JRYG_HK_Auto - INFO -   >> 异常状态截图已保存至: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_ios_appium_failed.png
+2026-08-14 14:37:22,049 - JRYG_HK_Auto - INFO - 【Appium 自动化】测试执行结束，正在断开 Appium 会话并释放资源...
+2026-08-14 14:37:22,058 - JRYG_HK_Auto - INFO - 【港版连接】Session 通道已安全断开并释放
+2026-08-14 14:52:42,615 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-14 14:53:03,339 - JRYG_HK_Auto - INFO - 【港版一键登录】设备连接已建立，进入自动化流转。
+2026-08-14 14:53:03,341 - JRYG_HK_Auto - INFO - 【港版一键登录】启动业务流转，预备登录测试手机号: 11001727
+2026-08-14 14:53:03,428 - JRYG_HK_Auto - INFO - 当前流转 [循环 0] -> 页面状态: launcher
+2026-08-14 14:53:05,538 - JRYG_HK_Auto - INFO - 当前流转 [循环 1] -> 页面状态: launcher
+2026-08-14 14:53:07,652 - JRYG_HK_Auto - INFO - 当前流转 [循环 2] -> 页面状态: launcher
+2026-08-14 14:53:09,754 - JRYG_HK_Auto - INFO - 当前流转 [循环 3] -> 页面状态: launcher
+2026-08-14 14:53:11,856 - JRYG_HK_Auto - INFO - 当前流转 [循环 4] -> 页面状态: launcher
+2026-08-14 14:53:13,963 - JRYG_HK_Auto - INFO - 当前流转 [循环 5] -> 页面状态: launcher
+2026-08-14 14:53:16,063 - JRYG_HK_Auto - INFO - 当前流转 [循环 6] -> 页面状态: launcher
+2026-08-14 14:53:18,197 - JRYG_HK_Auto - INFO - 当前流转 [循环 7] -> 页面状态: launcher
+2026-08-14 14:53:20,324 - JRYG_HK_Auto - INFO - 当前流转 [循环 8] -> 页面状态: launcher
+2026-08-14 14:53:22,433 - JRYG_HK_Auto - INFO - 当前流转 [循环 9] -> 页面状态: launcher
+2026-08-14 14:53:24,534 - JRYG_HK_Auto - INFO - 当前流转 [循环 10] -> 页面状态: launcher
+2026-08-14 14:53:26,650 - JRYG_HK_Auto - INFO - 当前流转 [循环 11] -> 页面状态: launcher
+2026-08-14 14:53:28,757 - JRYG_HK_Auto - INFO - 当前流转 [循环 12] -> 页面状态: launcher
+2026-08-14 14:53:30,864 - JRYG_HK_Auto - INFO - 当前流转 [循环 13] -> 页面状态: launcher
+2026-08-14 14:53:32,971 - JRYG_HK_Auto - INFO - 当前流转 [循环 14] -> 页面状态: launcher
+2026-08-14 14:53:35,086 - JRYG_HK_Auto - INFO - 当前流转 [循环 15] -> 页面状态: launcher
+2026-08-14 14:53:37,197 - JRYG_HK_Auto - INFO - 当前流转 [循环 16] -> 页面状态: launcher
+2026-08-14 14:53:39,329 - JRYG_HK_Auto - INFO - 当前流转 [循环 17] -> 页面状态: launcher
+2026-08-14 14:53:41,462 - JRYG_HK_Auto - INFO - 当前流转 [循环 18] -> 页面状态: launcher
+2026-08-14 14:53:43,584 - JRYG_HK_Auto - INFO - 当前流转 [循环 19] -> 页面状态: launcher
+2026-08-14 14:53:45,714 - JRYG_HK_Auto - INFO - 当前流转 [循环 20] -> 页面状态: launcher
+2026-08-14 14:53:47,847 - JRYG_HK_Auto - INFO - 当前流转 [循环 21] -> 页面状态: launcher
+2026-08-14 14:53:49,968 - JRYG_HK_Auto - INFO - 当前流转 [循环 22] -> 页面状态: launcher

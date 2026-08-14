@@ -1,7 +1,7 @@
 import os
 import yaml
 
-# 项目根目录 JRYG_Passenger_UI-HK
+# 项目根目录 JRYG_Passenger_UI_HK
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 各核心目录路径

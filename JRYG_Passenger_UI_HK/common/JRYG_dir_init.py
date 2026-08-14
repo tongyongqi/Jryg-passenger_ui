@@ -1,5 +1,5 @@
 import os
-from JRYG_Passenger_UI-HK.common.JRYG_config import (
+from JRYG_Passenger_UI_HK.common.JRYG_config import (
     REPORT_DIR, LOGS_DIR, SCREENSHOTS_DIR, CONFIG_DIR
 )
 

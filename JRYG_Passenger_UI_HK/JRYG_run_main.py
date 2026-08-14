@@ -7,8 +7,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
 sys.path.append(os.path.dirname(BASE_DIR))
 
-from JRYG_Passenger_UI-HK.common.JRYG_dir_init import init_all_dirs
-from JRYG_Passenger_UI-HK.common.JRYG_config import REPORT_DIR
+from JRYG_Passenger_UI_HK.common.JRYG_dir_init import init_all_dirs
+from JRYG_Passenger_UI_HK.common.JRYG_config import REPORT_DIR
 
 def run_tests():
     """JRYG 港版 UI 自动化测试执行引擎入口"""

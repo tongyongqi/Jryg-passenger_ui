@@ -14,8 +14,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # 支持导入同层级公共模块
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from JRYG_Passenger_UI-HK.common.JRYG_config import SETTINGS
-from JRYG_Passenger_UI-HK.common.JRYG_logger import logger
+from JRYG_Passenger_UI_HK.common.JRYG_config import SETTINGS
+from JRYG_Passenger_UI_HK.common.JRYG_logger import logger
 
 
 class JRYG_HKDevice:

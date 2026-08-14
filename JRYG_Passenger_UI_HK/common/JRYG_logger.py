@@ -1,6 +1,6 @@
 import logging
 from logging.handlers import RotatingFileHandler
-from JRYG_Passenger_UI-HK.common.JRYG_config import LOG_FILE
+from JRYG_Passenger_UI_HK.common.JRYG_config import LOG_FILE
 
 def get_logger(name="JRYG_HK_Auto"):
     """创建并配置旋转式日志记录器，支持控制台和文件同步双向输出"""
