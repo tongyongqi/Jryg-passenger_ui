@@ -87,6 +87,10 @@ class JRYG_HKDevice:
         options.no_reset = True
         options.auto_grant_permissions = True
         options.new_command_timeout = 600
+        options.set_capability("appium:adbExecTimeout", 60000)
+        options.set_capability("appium:uiautomator2ServerInstallTimeout", 60000)
+        options.set_capability("appium:uiautomator2ServerLaunchTimeout", 60000)
+        options.set_capability("appium:disableWindowAnimation", True)
 
         logger.info(f"【Android】正在启动并拉起港版 App '{self.app_pkg}'...")
         self.driver = webdriver.Remote(appium_url, options=options)
@@ -94,13 +98,34 @@ class JRYG_HKDevice:
         return self.driver
 
     def _clean_android_uia2(self):
-        """清理安卓设备的 UiAutomator2 幽灵进程"""
+        """清理 Android 设备上可能与 Appium 冲突的 UiAutomator2/Poco 自动化进程"""
         try:
-            subprocess.run(["adb", "-s", self.udid, "shell", "pkill", "-f", "uiautomator"], capture_output=True, timeout=3)
-            subprocess.run(["adb", "-s", self.udid, "forward", "--remove-all"], capture_output=True, timeout=3)
-            logger.info("【Android】已成功重置设备端口转发及 UiAutomator 状态")
-        except Exception:
-            pass
+            automation_packages = (
+                "io.appium.uiautomator2.server",
+                "io.appium.uiautomator2.server.test",
+                "com.netease.open.pocoservice",
+                "com.netease.open.pocoservice.test",
+            )
+            for package in automation_packages:
+                subprocess.run(
+                    ["adb", "-s", self.udid, "shell", "am", "force-stop", package],
+                    capture_output=True,
+                    timeout=5,
+                )
+            subprocess.run(
+                ["adb", "-s", self.udid, "shell", "pkill", "-f", "uiautomator"],
+                capture_output=True,
+                timeout=5,
+            )
+            subprocess.run(
+                ["adb", "-s", self.udid, "forward", "--remove-all"],
+                capture_output=True,
+                timeout=5,
+            )
+            time.sleep(1)
+            logger.info("【Android】已清理 UiAutomator2/Poco 残留进程并重置 ADB 端口转发")
+        except Exception as exc:
+            logger.warning(f"【Android】自动化残留进程清理未完全执行: {exc}")
 
     def disconnect(self):
         """安全释放 Session 通道"""

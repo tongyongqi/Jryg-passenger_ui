@@ -1592,3 +1592,1528 @@ NoSuchElementError: An element could not be located on the page using the given 
 2026-08-14 14:53:45,714 - JRYG_HK_Auto - INFO - 当前流转 [循环 20] -> 页面状态: launcher
 2026-08-14 14:53:47,847 - JRYG_HK_Auto - INFO - 当前流转 [循环 21] -> 页面状态: launcher
 2026-08-14 14:53:49,968 - JRYG_HK_Auto - INFO - 当前流转 [循环 22] -> 页面状态: launcher
+2026-08-14 14:53:52,144 - JRYG_HK_Auto - INFO - 当前流转 [循环 23] -> 页面状态: launcher
+2026-08-14 14:53:54,271 - JRYG_HK_Auto - INFO - 当前流转 [循环 24] -> 页面状态: launcher
+2026-08-14 14:53:56,380 - JRYG_HK_Auto - INFO - 当前流转 [循环 25] -> 页面状态: launcher
+2026-08-14 14:53:58,498 - JRYG_HK_Auto - INFO - 当前流转 [循环 26] -> 页面状态: launcher
+2026-08-14 14:54:00,621 - JRYG_HK_Auto - INFO - 当前流转 [循环 27] -> 页面状态: launcher
+2026-08-14 14:54:02,751 - JRYG_HK_Auto - INFO - 当前流转 [循环 28] -> 页面状态: launcher
+2026-08-14 14:54:04,876 - JRYG_HK_Auto - INFO - 当前流转 [循环 29] -> 页面状态: launcher
+2026-08-14 14:54:06,883 - JRYG_HK_Auto - INFO - 【港版下单测试】启动港版打錶的士+现金支付全业务下单流程...
+2026-08-14 14:54:06,884 - JRYG_HK_Auto - INFO - 确保处于首页选项卡...
+2026-08-14 14:54:10,513 - JRYG_HK_Auto - INFO - 检查并关闭可能覆盖主页的弹窗...
+2026-08-14 14:54:10,831 - JRYG_HK_Auto - INFO - 点击起点输入栏...
+2026-08-14 14:54:11,196 - JRYG_HK_Auto - INFO - 点击目的地输入栏...
+2026-08-14 14:54:11,362 - JRYG_HK_Auto - INFO - 在车型选择与确认页面中，正在寻找并点击『优惠券/優惠券』选择栏...
+2026-08-14 14:54:13,540 - JRYG_HK_Auto - INFO - 未直接通过文本定位到，尝试通过 Poco 寻找优惠词条并点击...
+2026-08-14 14:54:13,596 - JRYG_HK_Auto - INFO - 【呼叫】点击『確認呼叫』正式向系统发起本订单派单...
+2026-08-14 14:54:18,791 - JRYG_HK_Auto - INFO - 【港版下单流程】执行完毕，订单已成功发起并进入后台派单流程！
+2026-08-14 14:54:18,793 - JRYG_HK_Auto - INFO - 【港版一键登录】自动化运行结束。
+2026-08-14 14:54:18,794 - JRYG_HK_Auto - INFO - 【Appium 自动化】正在启动港版乘客端 Android Appium 进程...
+2026-08-14 14:54:18,795 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: ANDROID
+2026-08-14 14:54:19,006 - JRYG_HK_Auto - INFO - 【Android】已成功重置设备端口转发及 UiAutomator 状态
+2026-08-14 14:54:19,007 - JRYG_HK_Auto - INFO - 【Android】正在启动并拉起港版 App 'com.sunlightmobility.client'...
+2026-08-14 14:54:27,026 - JRYG_HK_Auto - ERROR - 【Appium 连接失败】请确认 Appium 驱动及 Android 设备已正常运行与连接！ 错误原因: Message: A new session could not be created. Details: java.lang.IllegalStateException: UiAutomation not connected, UiAutomation@36c4eba[id=-1, displayId=0, flags=0]; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#sessionnotcreatedexception
+Stacktrace:
+io.appium.uiautomator2.common.exceptions.SessionNotCreatedException: java.lang.IllegalStateException: UiAutomation not connected, UiAutomation@36c4eba[id=-1, displayId=0, flags=0]
+	at io.appium.uiautomator2.handler.NewSession.safeHandle(NewSession.java:60)
+	at io.appium.uiautomator2.handler.request.SafeRequestHandler.handle(SafeRequestHandler.java:59)
+	at io.appium.uiautomator2.server.AppiumServlet.handleRequest(AppiumServlet.java:267)
+	at io.appium.uiautomator2.server.AppiumServlet.handleHttpRequest(AppiumServlet.java:261)
+	at io.appium.uiautomator2.http.ServerHandler.channelRead(ServerHandler.java:77)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:107)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357)
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:434)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:361)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:325)
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:249)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.timeout.IdleStateHandler.channelRead(IdleStateHandler.java:288)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1429)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:918)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:176)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.handle(AbstractNioChannel.java:445)
+	at io.netty.channel.nio.NioIoHandler$DefaultNioRegistration.handle(NioIoHandler.java:388)
+	at io.netty.channel.nio.NioIoHandler.processSelectedKey(NioIoHandler.java:596)
+	at io.netty.channel.nio.NioIoHandler.processSelectedKeysOptimized(NioIoHandler.java:571)
+	at io.netty.channel.nio.NioIoHandler.processSelectedKeys(NioIoHandler.java:512)
+	at io.netty.channel.nio.NioIoHandler.run(NioIoHandler.java:484)
+	at io.netty.channel.SingleThreadIoEventLoop.runIo(SingleThreadIoEventLoop.java:225)
+	at io.netty.channel.SingleThreadIoEventLoop.run(SingleThreadIoEventLoop.java:196)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:1195)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:1042)
+Caused by: java.lang.IllegalStateException: UiAutomation not connected, UiAutomation@36c4eba[id=-1, displayId=0, flags=0]
+	at android.app.UiAutomation.throwIfNotConnectedLocked(UiAutomation.java:1781)
+	at android.app.UiAutomation.getServiceInfo(UiAutomation.java:805)
+	at androidx.test.uiautomator.UiDevice.getUiAutomation(UiDevice.java:1476)
+	at androidx.test.uiautomator.QueryController.<init>(QueryController.java:95)
+	at androidx.test.uiautomator.UiDevice.<init>(UiDevice.java:113)
+	at androidx.test.uiautomator.UiDevice.getInstance(UiDevice.java:294)
+	at io.appium.uiautomator2.utils.Device.getUiDevice(Device.java:34)
+	at io.appium.uiautomator2.core.UiAutomatorBridge.getUiAutomation(UiAutomatorBridge.java:56)
+	at io.appium.uiautomator2.core.UiAutomation.<init>(UiAutomation.java:42)
+	at io.appium.uiautomator2.core.UiAutomation.getInstance(UiAutomation.java:47)
+	at io.appium.uiautomator2.model.NotificationListener.<init>(NotificationListener.java:43)
+	at io.appium.uiautomator2.model.NotificationListener.getInstance(NotificationListener.java:48)
+	at io.appium.uiautomator2.model.settings.EnableNotificationListener.getValue(EnableNotificationListener.java:31)
+	at io.appium.uiautomator2.model.settings.EnableNotificationListener.getValue(EnableNotificationListener.java:21)
+	at io.appium.uiautomator2.model.settings.AbstractSetting.reset(AbstractSetting.java:57)
+	at io.appium.uiautomator2.model.settings.Settings.resetForNewSession(Settings.java:76)
+	at io.appium.uiautomator2.handler.NewSession.safeHandle(NewSession.java:52)
+	... 29 more
+
+2026-08-14 14:55:56,197 - JRYG_HK_Auto - INFO - 【港版一键登录】正在通过 ADB 初始化并拉起 App: com.sunlightmobility.client
+2026-08-14 14:56:04,947 - JRYG_HK_Auto - INFO - 【港版一键登录】设备连接已建立，进入自动化流转。
+2026-08-14 14:56:04,950 - JRYG_HK_Auto - INFO - 【港版一键登录】启动业务流转，预备登录测试手机号: 11001727
+2026-08-14 14:56:06,723 - JRYG_HK_Auto - INFO - 当前流转 [循环 0] -> 页面状态: home_unlogged
+2026-08-14 14:56:06,724 - JRYG_HK_Auto - INFO - 【步骤 4】已成功进入港版 App 首页，正在点击下方导航栏『我的』...
+2026-08-14 14:56:16,239 - JRYG_HK_Auto - INFO - 当前流转 [循环 1] -> 页面状态: home_logged
+2026-08-14 14:56:16,239 - JRYG_HK_Auto - INFO - 【成功】一键打开并登录港版阳光出行测试成功！手机号已正确核对绑定。
+2026-08-14 14:56:16,255 - JRYG_HK_Auto - INFO - 【港版下单测试】启动港版打錶的士+现金支付全业务下单流程...
+2026-08-14 14:56:16,255 - JRYG_HK_Auto - INFO - 确保处于首页选项卡...
+2026-08-14 14:56:22,057 - JRYG_HK_Auto - INFO - 检查并关闭可能覆盖主页的弹窗...
+2026-08-14 14:56:22,389 - JRYG_HK_Auto - INFO - 点击起点输入栏...
+2026-08-14 14:56:28,081 - JRYG_HK_Auto - INFO - 输入起点：铜锣湾地铁...
+2026-08-14 14:56:34,641 - JRYG_HK_Auto - INFO - 选择起点匹配项...
+2026-08-14 14:56:38,062 - JRYG_HK_Auto - INFO - 点击目的地输入栏...
+2026-08-14 14:56:38,185 - JRYG_HK_Auto - INFO - 在车型选择与确认页面中，正在寻找并点击『优惠券/優惠券』选择栏...
+2026-08-14 14:56:40,562 - JRYG_HK_Auto - INFO - 未直接通过文本定位到，尝试通过 Poco 寻找优惠词条并点击...
+2026-08-14 14:56:40,606 - JRYG_HK_Auto - INFO - 【呼叫】点击『確認呼叫』正式向系统发起本订单派单...
+2026-08-14 14:56:46,237 - JRYG_HK_Auto - INFO - 【港版下单流程】执行完毕，订单已成功发起并进入后台派单流程！
+2026-08-14 14:56:46,331 - JRYG_HK_Auto - INFO - 【港版一键登录】自动化运行结束。
+2026-08-14 14:56:46,333 - JRYG_HK_Auto - INFO - 【Appium 自动化】正在启动港版乘客端 Android Appium 进程...
+2026-08-14 14:56:46,333 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: ANDROID
+2026-08-14 14:56:46,550 - JRYG_HK_Auto - INFO - 【Android】已成功重置设备端口转发及 UiAutomator 状态
+2026-08-14 14:56:46,551 - JRYG_HK_Auto - INFO - 【Android】正在启动并拉起港版 App 'com.sunlightmobility.client'...
+2026-08-14 14:56:54,607 - JRYG_HK_Auto - ERROR - 【Appium 连接失败】请确认 Appium 驱动及 Android 设备已正常运行与连接！ 错误原因: Message: A new session could not be created. Details: java.lang.IllegalStateException: UiAutomation not connected, UiAutomation@36c4eba[id=-1, displayId=0, flags=0]; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#sessionnotcreatedexception
+Stacktrace:
+io.appium.uiautomator2.common.exceptions.SessionNotCreatedException: java.lang.IllegalStateException: UiAutomation not connected, UiAutomation@36c4eba[id=-1, displayId=0, flags=0]
+	at io.appium.uiautomator2.handler.NewSession.safeHandle(NewSession.java:60)
+	at io.appium.uiautomator2.handler.request.SafeRequestHandler.handle(SafeRequestHandler.java:59)
+	at io.appium.uiautomator2.server.AppiumServlet.handleRequest(AppiumServlet.java:267)
+	at io.appium.uiautomator2.server.AppiumServlet.handleHttpRequest(AppiumServlet.java:261)
+	at io.appium.uiautomator2.http.ServerHandler.channelRead(ServerHandler.java:77)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:107)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357)
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:434)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:361)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:325)
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:249)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.timeout.IdleStateHandler.channelRead(IdleStateHandler.java:288)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1429)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:918)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:176)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.handle(AbstractNioChannel.java:445)
+	at io.netty.channel.nio.NioIoHandler$DefaultNioRegistration.handle(NioIoHandler.java:388)
+	at io.netty.channel.nio.NioIoHandler.processSelectedKey(NioIoHandler.java:596)
+	at io.netty.channel.nio.NioIoHandler.processSelectedKeysOptimized(NioIoHandler.java:571)
+	at io.netty.channel.nio.NioIoHandler.processSelectedKeys(NioIoHandler.java:512)
+	at io.netty.channel.nio.NioIoHandler.run(NioIoHandler.java:484)
+	at io.netty.channel.SingleThreadIoEventLoop.runIo(SingleThreadIoEventLoop.java:225)
+	at io.netty.channel.SingleThreadIoEventLoop.run(SingleThreadIoEventLoop.java:196)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:1195)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:1042)
+Caused by: java.lang.IllegalStateException: UiAutomation not connected, UiAutomation@36c4eba[id=-1, displayId=0, flags=0]
+	at android.app.UiAutomation.throwIfNotConnectedLocked(UiAutomation.java:1781)
+	at android.app.UiAutomation.getServiceInfo(UiAutomation.java:805)
+	at androidx.test.uiautomator.UiDevice.getUiAutomation(UiDevice.java:1476)
+	at androidx.test.uiautomator.QueryController.<init>(QueryController.java:95)
+	at androidx.test.uiautomator.UiDevice.<init>(UiDevice.java:113)
+	at androidx.test.uiautomator.UiDevice.getInstance(UiDevice.java:294)
+	at io.appium.uiautomator2.utils.Device.getUiDevice(Device.java:34)
+	at io.appium.uiautomator2.core.UiAutomatorBridge.getUiAutomation(UiAutomatorBridge.java:56)
+	at io.appium.uiautomator2.core.UiAutomation.<init>(UiAutomation.java:42)
+	at io.appium.uiautomator2.core.UiAutomation.getInstance(UiAutomation.java:47)
+	at io.appium.uiautomator2.model.NotificationListener.<init>(NotificationListener.java:43)
+	at io.appium.uiautomator2.model.NotificationListener.getInstance(NotificationListener.java:48)
+	at io.appium.uiautomator2.model.settings.EnableNotificationListener.getValue(EnableNotificationListener.java:31)
+	at io.appium.uiautomator2.model.settings.EnableNotificationListener.getValue(EnableNotificationListener.java:21)
+	at io.appium.uiautomator2.model.settings.AbstractSetting.reset(AbstractSetting.java:57)
+	at io.appium.uiautomator2.model.settings.Settings.resetForNewSession(Settings.java:76)
+	at io.appium.uiautomator2.handler.NewSession.safeHandle(NewSession.java:52)
+	... 29 more
+
+2026-08-14 15:00:10,038 - JRYG_HK_Auto - INFO - 【Appium 自动化】正在启动港版乘客端 Android Appium 进程...
+2026-08-14 15:00:10,038 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: ANDROID
+2026-08-14 15:00:11,817 - JRYG_HK_Auto - INFO - 【Android】已清理 UiAutomator2/Poco 残留进程并重置 ADB 端口转发
+2026-08-14 15:00:11,818 - JRYG_HK_Auto - INFO - 【Android】正在启动并拉起港版 App 'com.sunlightmobility.client'...
+2026-08-14 15:00:14,718 - JRYG_HK_Auto - INFO - 【Android】拉起成功！Session ID: 238af062-6a20-41fd-8d31-64d93f2e045a
+2026-08-14 15:00:14,719 - JRYG_HK_Auto - INFO - 【Appium 自动化】Android Session 连接建立成功！
+2026-08-14 15:00:14,725 - JRYG_HK_Auto - INFO - 【步骤 1】等待港版 Android App 首页加载并处理权限提示...
+2026-08-14 15:00:21,354 - JRYG_HK_Auto - ERROR - 【用例执行异常】Message: Could not proxy command to the remote server. Original error: socket hang up
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: socket hang up
+    at ProxyRequestError.getActualError (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at UIA2Proxy.command (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:270:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async AndroidUiautomator2Driver.doFindElementOrEls (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/build/lib/commands/find.js:23:13)
+    at async doFind (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/build/lib/commands/find.js:24:23)
+    at async wrappedCondFn (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/timeout.js:97:20)
+    at async spin (/usr/local/lib/node_modules/appium/node_modules/asyncbox/build/lib/asyncbox.js:174:24)
+    at async spin (/usr/local/lib/node_modules/appium/node_modules/asyncbox/build/lib/asyncbox.js:184:20)
+    at async spin (/usr/local/lib/node_modules/appium/node_modules/asyncbox/build/lib/asyncbox.js:184:20)
+    at async waitForCondition (/usr/local/lib/node_modules/appium/node_modules/asyncbox/build/lib/asyncbox.js:192:12)
+    at async AndroidUiautomator2Driver.implicitWaitForCondition (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/timeout.js:99:16)
+    at async AndroidUiautomator2Driver.findElOrEls (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/build/lib/commands/find.js:45:9)
+    at async AndroidUiautomator2Driver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/find.js:12:16)
+    at async AndroidUiautomator2Driver.findElements (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/find.js:30:16)
+2026-08-14 15:00:21,364 - JRYG_HK_Auto - ERROR -   >> 异常截图失败: Message: Could not proxy command to the remote server. Original error: socket hang up
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: socket hang up
+    at ProxyRequestError.getActualError (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at UIA2Proxy.command (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:270:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async AndroidUiautomator2Driver.getScreenshot (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/build/lib/commands/screenshot.js:68:19)
+2026-08-14 15:00:21,493 - JRYG_HK_Auto - INFO - 【Appium 自动化】测试完毕，正在安全释放 Appium 会话...
+2026-08-14 15:00:22,137 - JRYG_HK_Auto - INFO - 【港版连接】Session 通道已安全断开并释放
+2026-08-14 15:00:59,659 - JRYG_HK_Auto - INFO - 【Appium 自动化】正在启动港版乘客端 Android Appium 进程...
+2026-08-14 15:00:59,660 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: ANDROID
+2026-08-14 15:01:01,120 - JRYG_HK_Auto - INFO - 【Android】已清理 UiAutomator2/Poco 残留进程并重置 ADB 端口转发
+2026-08-14 15:01:01,121 - JRYG_HK_Auto - INFO - 【Android】正在启动并拉起港版 App 'com.sunlightmobility.client'...
+2026-08-14 15:01:04,769 - JRYG_HK_Auto - INFO - 【Android】拉起成功！Session ID: 02935a5c-e37e-4b9a-aed1-040a89b6c062
+2026-08-14 15:01:04,769 - JRYG_HK_Auto - INFO - 【Appium 自动化】Android Session 连接建立成功！
+2026-08-14 15:01:04,774 - JRYG_HK_Auto - INFO - 【步骤 1】等待港版 Android App 首页加载并处理权限提示...
+2026-08-14 15:01:37,483 - JRYG_HK_Auto - INFO - 【步骤 2】截图保存带活动弹框的 App 首页...
+2026-08-14 15:01:38,181 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_home_before_popup_close.png
+2026-08-14 15:01:38,181 - JRYG_HK_Auto - INFO - 【步骤 3】关闭首页活动弹框...
+2026-08-14 15:05:21,453 - JRYG_HK_Auto - ERROR - 【用例执行异常】Message: Could not proxy command to the remote server. Original error: socket hang up
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: socket hang up
+    at ProxyRequestError.getActualError (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at UIA2Proxy.command (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:270:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async AndroidUiautomator2Driver.doFindElementOrEls (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/build/lib/commands/find.js:23:13)
+    at async doFind (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/build/lib/commands/find.js:24:23)
+    at async wrappedCondFn (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/timeout.js:97:20)
+    at async spin (/usr/local/lib/node_modules/appium/node_modules/asyncbox/build/lib/asyncbox.js:174:24)
+    at async spin (/usr/local/lib/node_modules/appium/node_modules/asyncbox/build/lib/asyncbox.js:184:20)
+    at async spin (/usr/local/lib/node_modules/appium/node_modules/asyncbox/build/lib/asyncbox.js:184:20)
+    at async waitForCondition (/usr/local/lib/node_modules/appium/node_modules/asyncbox/build/lib/asyncbox.js:192:12)
+    at async AndroidUiautomator2Driver.implicitWaitForCondition (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/timeout.js:99:16)
+    at async AndroidUiautomator2Driver.findElOrEls (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/build/lib/commands/find.js:45:9)
+    at async AndroidUiautomator2Driver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/find.js:12:16)
+    at async AndroidUiautomator2Driver.findElements (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/basedriver/commands/find.js:30:16)
+2026-08-14 15:05:21,461 - JRYG_HK_Auto - ERROR -   >> 异常截图失败: Message: Could not proxy command to the remote server. Original error: socket hang up
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: socket hang up
+    at ProxyRequestError.getActualError (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at UIA2Proxy.command (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:270:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async AndroidUiautomator2Driver.getScreenshot (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/build/lib/commands/screenshot.js:68:19)
+2026-08-14 15:05:21,613 - JRYG_HK_Auto - INFO - 【Appium 自动化】测试完毕，正在安全释放 Appium 会话...
+2026-08-14 15:05:22,281 - JRYG_HK_Auto - INFO - 【港版连接】Session 通道已安全断开并释放
+2026-08-14 15:09:45,152 - JRYG_HK_Auto - INFO - 【初始化】建立港版 Android Appium 会话...
+2026-08-14 15:09:45,153 - JRYG_HK_Auto - INFO - 【港版连接】启动 Appium 自动化 Session. URL: http://127.0.0.1:4723 | 平台: ANDROID
+2026-08-14 15:09:46,813 - JRYG_HK_Auto - INFO - 【Android】已清理 UiAutomator2/Poco 残留进程并重置 ADB 端口转发
+2026-08-14 15:09:46,814 - JRYG_HK_Auto - INFO - 【Android】正在启动并拉起港版 App 'com.sunlightmobility.client'...
+2026-08-14 15:09:49,975 - JRYG_HK_Auto - INFO - 【Android】拉起成功！Session ID: 880ce5d9-5529-4b03-a479-80b0057f0583
+2026-08-14 15:09:49,980 - JRYG_HK_Auto - INFO - 【步骤 1】启动港版 App 并等待首页加载...
+2026-08-14 15:10:18,020 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_00_home_with_popup.png
+2026-08-14 15:10:18,021 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动弹框...
+2026-08-14 15:10:21,858 - JRYG_HK_Auto - ERROR - 【下单流程失败】Message: 'GET /window/current/size' cannot be proxied to UiAutomator2 server because the instrumentation process is not running (probably crashed). Check the server log and/or the logcat output for more details
+Stacktrace:
+UnknownError: 'GET /window/current/size' cannot be proxied to UiAutomator2 server because the instrumentation process is not running (probably crashed). Check the server log and/or the logcat output for more details
+    at UIA2Proxy.command (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:272:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async AndroidUiautomator2Driver.getWindowSize (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/build/lib/commands/viewport.js:73:13)
+    at async AndroidUiautomator2Driver.getWindowRect (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/build/lib/commands/viewport.js:53:31)
+2026-08-14 15:10:21,861 - JRYG_HK_Auto - ERROR -   >> 异常截图失败: Message: 'GET /screenshot' cannot be proxied to UiAutomator2 server because the instrumentation process is not running (probably crashed). Check the server log and/or the logcat output for more details
+Stacktrace:
+UnknownError: 'GET /screenshot' cannot be proxied to UiAutomator2 server because the instrumentation process is not running (probably crashed). Check the server log and/or the logcat output for more details
+    at UIA2Proxy.command (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:272:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async AndroidUiautomator2Driver.getScreenshot (/Users/tongyongqi/.appium/node_modules/appium-uiautomator2-driver/build/lib/commands/screenshot.js:68:19)
+2026-08-14 15:10:22,658 - JRYG_HK_Auto - INFO - 【港版连接】Session 通道已安全断开并释放
+2026-08-14 15:19:14,889 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 15:19:14,892 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 15:19:24,413 - JRYG_HK_Auto - ERROR - 【下单流程失败】港版 App 启动失败，当前前台页面: mFocusedApp=ActivityRecord{f03ffb6 u0 com.vivo.browser/.BrowserActivity t872 d0}
+2026-08-14 15:19:24,865 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_order_error.png
+2026-08-14 15:27:42,850 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 15:27:42,852 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 15:27:52,414 - JRYG_HK_Auto - ERROR - 【下单流程失败】港版 App 启动失败，当前前台页面: mFocusedApp=ActivityRecord{419bb90 u0 com.bbk.launcher2/.Launcher t2 d0}
+2026-08-14 15:27:53,998 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_order_error.png
+2026-08-14 15:27:54,098 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 15:27:54,098 - JRYG_HK_Auto - INFO -   >> 【步骤 6】启动香港版司机端，开始执行订单流转...
+2026-08-14 15:27:54,098 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 15:27:54,098 - JRYG_HK_Auto - INFO - 正在唤醒并拉起香港版司机端 App...
+2026-08-14 15:28:03,762 - JRYG_HK_Auto - INFO - 正在建立司机端 Poco 控件树驱动...
+2026-08-14 15:28:06,625 - JRYG_HK_Auto - INFO - 【司机端流转 循环 1】当前 Activity: mFocusedApp=ActivityRecord{c0f7182 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t881 d0}
+2026-08-14 15:28:08,569 - JRYG_HK_Auto - INFO -   >> 【司机端状态】成功检测到结算或完单界面，行程已圆满结束！
+2026-08-14 15:28:08,953 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_05_finished.png
+2026-08-14 15:28:08,954 - JRYG_HK_Auto - INFO - 【成功】香港版司机端自动化状态流转执行完毕！
+2026-08-14 15:31:30,969 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 15:31:30,970 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 15:31:40,418 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动: mFocusedApp=ActivityRecord{9f40ba9 u0 com.sunlightmobility.client/.order.YGAImmediateOrderProcessActivity t885 d0}
+2026-08-14 15:31:40,418 - JRYG_HK_Auto - INFO - 【步骤 2】保存首页截图并关闭活动弹框...
+2026-08-14 15:31:40,877 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_00_home_with_popup.png
+2026-08-14 15:31:40,996 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 15:31:41,481 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_01_home.png
+2026-08-14 15:31:41,481 - JRYG_HK_Auto - INFO - 【步骤 3】设置起点：铜锣湾地铁站...
+2026-08-14 15:31:41,600 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-14 15:31:45,552 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-14 15:31:51,129 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-14 15:31:51,258 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-14 15:31:57,428 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 15:31:57,429 - JRYG_HK_Auto - INFO - 【步骤 4】设置终点：香港大学...
+2026-08-14 15:31:57,553 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-14 15:32:00,799 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-14 15:32:06,387 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-14 15:32:06,515 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-14 15:32:16,665 - JRYG_HK_Auto - INFO - 【步骤 5】选择打錶的士并确认呼叫...
+2026-08-14 15:32:17,244 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_04_quote.png
+2026-08-14 15:32:17,372 - JRYG_HK_Auto - INFO -   >> 已点击打錶的士: (1045, 2275)
+2026-08-14 15:32:20,933 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_05_metered_taxi.png
+2026-08-14 15:32:21,057 - JRYG_HK_Auto - INFO -   >> 已点击確認呼叫: (586, 2550)
+2026-08-14 15:32:42,214 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_06_order_submitted.png
+2026-08-14 15:32:42,215 - JRYG_HK_Auto - ERROR - 【下单流程失败】点击確認呼叫后未进入订单处理页: mFocusedApp=ActivityRecord{234ca15 u0 com.android.contacts/com.android.dialer.TwelveKeyDialer t886 d0}
+2026-08-14 15:32:42,673 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_order_error.png
+2026-08-14 15:32:42,776 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 15:32:42,777 - JRYG_HK_Auto - INFO -   >> 【步骤 6】启动香港版司机端，开始执行订单流转...
+2026-08-14 15:32:42,777 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 15:32:42,777 - JRYG_HK_Auto - INFO - 正在唤醒并拉起香港版司机端 App...
+2026-08-14 15:32:52,442 - JRYG_HK_Auto - INFO - 正在建立司机端 Poco 控件树驱动...
+2026-08-14 15:32:55,258 - JRYG_HK_Auto - INFO - 【司机端流转 循环 1】当前 Activity: mFocusedApp=ActivityRecord{27839e1 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t888 d0}
+2026-08-14 15:33:00,958 - JRYG_HK_Auto - INFO -   >> 【司机端】点击进入订单入口: 訂單進行中
+2026-08-14 15:33:07,432 - JRYG_HK_Auto - INFO - 【司机端流转 循环 2】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:07,936 - JRYG_HK_Auto - INFO -   >> 【司机端】成功检测到订单状态页面元素，order_entered 标记为 True！
+2026-08-14 15:33:08,250 - JRYG_HK_Auto - INFO -   >> 【司机端状态】检测到处于『到達上車地點』阶段，准备滑动...
+2026-08-14 15:33:08,794 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_01_at_pickup.png
+2026-08-14 15:33:11,722 - JRYG_HK_Auto - INFO -   >> 【司机端】Poco 控件滑动成功
+2026-08-14 15:33:16,889 - JRYG_HK_Auto - INFO - 【司机端流转 循环 3】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:20,790 - JRYG_HK_Auto - INFO - 【司机端流转 循环 4】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:24,893 - JRYG_HK_Auto - INFO - 【司机端流转 循环 5】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:29,378 - JRYG_HK_Auto - INFO - 【司机端流转 循环 6】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:33,658 - JRYG_HK_Auto - INFO - 【司机端流转 循环 7】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:37,588 - JRYG_HK_Auto - INFO - 【司机端流转 循环 8】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:41,794 - JRYG_HK_Auto - INFO - 【司机端流转 循环 9】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:47,053 - JRYG_HK_Auto - INFO - 【司机端流转 循环 10】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:52,259 - JRYG_HK_Auto - INFO - 【司机端流转 循环 11】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:33:56,124 - JRYG_HK_Auto - INFO - 【司机端流转 循环 12】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:00,504 - JRYG_HK_Auto - INFO - 【司机端流转 循环 13】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:05,037 - JRYG_HK_Auto - INFO - 【司机端流转 循环 14】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:08,845 - JRYG_HK_Auto - INFO - 【司机端流转 循环 15】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:13,146 - JRYG_HK_Auto - INFO - 【司机端流转 循环 16】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:16,982 - JRYG_HK_Auto - INFO - 【司机端流转 循环 17】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:21,998 - JRYG_HK_Auto - INFO - 【司机端流转 循环 18】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:26,340 - JRYG_HK_Auto - INFO - 【司机端流转 循环 19】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:31,229 - JRYG_HK_Auto - INFO - 【司机端流转 循环 20】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:35,066 - JRYG_HK_Auto - INFO - 【司机端流转 循环 21】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:40,397 - JRYG_HK_Auto - INFO - 【司机端流转 循环 22】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:44,291 - JRYG_HK_Auto - INFO - 【司机端流转 循环 23】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:49,436 - JRYG_HK_Auto - INFO - 【司机端流转 循环 24】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:53,739 - JRYG_HK_Auto - INFO - 【司机端流转 循环 25】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:34:57,929 - JRYG_HK_Auto - INFO - 【司机端流转 循环 26】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:02,860 - JRYG_HK_Auto - INFO - 【司机端流转 循环 27】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:07,432 - JRYG_HK_Auto - INFO - 【司机端流转 循环 28】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:12,243 - JRYG_HK_Auto - INFO - 【司机端流转 循环 29】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:16,337 - JRYG_HK_Auto - INFO - 【司机端流转 循环 30】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:20,681 - JRYG_HK_Auto - INFO - 【司机端流转 循环 31】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:25,906 - JRYG_HK_Auto - INFO - 【司机端流转 循环 32】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:29,755 - JRYG_HK_Auto - INFO - 【司机端流转 循环 33】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:34,004 - JRYG_HK_Auto - INFO - 【司机端流转 循环 34】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:37,836 - JRYG_HK_Auto - INFO - 【司机端流转 循环 35】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:42,173 - JRYG_HK_Auto - INFO - 【司机端流转 循环 36】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:46,541 - JRYG_HK_Auto - INFO - 【司机端流转 循环 37】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:51,287 - JRYG_HK_Auto - INFO - 【司机端流转 循环 38】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:55,459 - JRYG_HK_Auto - INFO - 【司机端流转 循环 39】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:35:59,724 - JRYG_HK_Auto - INFO - 【司机端流转 循环 40】当前 Activity: mFocusedApp=ActivityRecord{83936c4 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t888 d0}
+2026-08-14 15:36:05,651 - JRYG_HK_Auto - INFO - 【成功】香港版司机端自动化状态流转执行完毕！
+2026-08-14 15:37:02,757 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 15:37:02,759 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 15:37:12,348 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动: mFocusedApp=ActivityRecord{a9c5256 u0 com.sunlightmobility.client/.order.YGAImmediateOrderProcessActivity t891 d0}
+2026-08-14 15:37:12,349 - JRYG_HK_Auto - INFO - 【步骤 2】保存首页截图并关闭活动弹框...
+2026-08-14 15:37:12,797 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_00_home_with_popup.png
+2026-08-14 15:37:12,959 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 15:37:13,366 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_01_home.png
+2026-08-14 15:37:13,367 - JRYG_HK_Auto - INFO - 【步骤 3】设置起点：铜锣湾地铁站...
+2026-08-14 15:37:13,489 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-14 15:37:17,291 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-14 15:37:22,741 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-14 15:37:22,859 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-14 15:37:29,004 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 15:37:29,005 - JRYG_HK_Auto - INFO - 【步骤 4】设置终点：香港大学...
+2026-08-14 15:37:29,115 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-14 15:37:32,328 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-14 15:37:37,778 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-14 15:37:37,893 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-14 15:37:48,062 - JRYG_HK_Auto - INFO - 【步骤 5】选择打錶的士并确认呼叫...
+2026-08-14 15:37:48,513 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_04_quote.png
+2026-08-14 15:37:48,640 - JRYG_HK_Auto - INFO -   >> 已点击打錶的士: (1045, 2275)
+2026-08-14 15:37:52,127 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_05_metered_taxi.png
+2026-08-14 15:37:52,260 - JRYG_HK_Auto - INFO -   >> 已点击確認呼叫: (586, 2550)
+2026-08-14 15:38:13,544 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_06_order_submitted.png
+2026-08-14 15:38:13,545 - JRYG_HK_Auto - ERROR - 【下单流程失败】点击確認呼叫后未进入订单处理页: mFocusedApp=ActivityRecord{234ca15 u0 com.android.contacts/com.android.dialer.TwelveKeyDialer t886 d0}
+2026-08-14 15:38:13,948 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_order_error.png
+2026-08-14 15:38:14,050 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 15:38:14,050 - JRYG_HK_Auto - INFO -   >> 【步骤 6】启动香港版司机端，开始执行订单流转...
+2026-08-14 15:38:14,050 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 15:38:14,050 - JRYG_HK_Auto - INFO - 正在唤醒并拉起香港版司机端 App...
+2026-08-14 15:38:23,713 - JRYG_HK_Auto - INFO - 正在建立司机端 Poco 控件树驱动...
+2026-08-14 15:38:26,572 - JRYG_HK_Auto - INFO - 【司机端流转 循环 1】当前 Activity: mFocusedApp=ActivityRecord{de469a7 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t893 d0}
+2026-08-14 15:38:31,747 - JRYG_HK_Auto - INFO -   >> 【司机端】点击进入订单入口: 訂單進行中
+2026-08-14 15:38:38,167 - JRYG_HK_Auto - INFO - 【司机端流转 循环 2】当前 Activity: mFocusedApp=ActivityRecord{f251ae2 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t893 d0}
+2026-08-14 15:38:39,133 - JRYG_HK_Auto - INFO -   >> 【司机端】成功检测到订单状态页面元素，order_entered 标记为 True！
+2026-08-14 15:38:39,400 - JRYG_HK_Auto - INFO -   >> 【司机端状态】检测到处于『已接到乘客』阶段，准备滑动...
+2026-08-14 15:38:39,939 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_02_received_passenger.png
+2026-08-14 15:38:43,186 - JRYG_HK_Auto - INFO -   >> 【司机端】Poco 控件滑动成功
+2026-08-14 15:38:48,375 - JRYG_HK_Auto - INFO - 【司机端流转 循环 3】当前 Activity: mFocusedApp=ActivityRecord{f251ae2 u0 com.sunlightmobility.driver/.feature.order.servicedetail.YGServiceDetailActivity t893 d0}
+2026-08-14 15:38:51,079 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_03_in_trip.png
+2026-08-14 15:38:51,080 - JRYG_HK_Auto - INFO -   >> 【司机端状态】检测到处于『到達目的地』阶段。根据需求：等待 1 分钟...
+2026-08-14 15:39:51,084 - JRYG_HK_Auto - INFO -   >> 【司机端状态】1 分钟等待结束，开始执行滑动『到達目的地』！
+2026-08-14 15:39:51,085 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『到達目的地』...
+2026-08-14 15:39:53,856 - JRYG_HK_Auto - INFO -   >> 【司机端】Poco 控件滑动成功
+2026-08-14 15:39:59,285 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_arrived_destination.png
+2026-08-14 15:39:59,414 - JRYG_HK_Auto - INFO - 【司机端流转 循环 4】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:05,130 - JRYG_HK_Auto - INFO - 【司机端流转 循环 5】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:09,807 - JRYG_HK_Auto - INFO - 【司机端流转 循环 6】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:14,075 - JRYG_HK_Auto - INFO - 【司机端流转 循环 7】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:18,384 - JRYG_HK_Auto - INFO - 【司机端流转 循环 8】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:22,570 - JRYG_HK_Auto - INFO - 【司机端流转 循环 9】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:26,953 - JRYG_HK_Auto - INFO - 【司机端流转 循环 10】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:31,610 - JRYG_HK_Auto - INFO - 【司机端流转 循环 11】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:35,648 - JRYG_HK_Auto - INFO - 【司机端流转 循环 12】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:39,992 - JRYG_HK_Auto - INFO - 【司机端流转 循环 13】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:45,125 - JRYG_HK_Auto - INFO - 【司机端流转 循环 14】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:49,383 - JRYG_HK_Auto - INFO - 【司机端流转 循环 15】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:53,875 - JRYG_HK_Auto - INFO - 【司机端流转 循环 16】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:40:58,042 - JRYG_HK_Auto - INFO - 【司机端流转 循环 17】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:03,082 - JRYG_HK_Auto - INFO - 【司机端流转 循环 18】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:07,940 - JRYG_HK_Auto - INFO - 【司机端流转 循环 19】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:12,491 - JRYG_HK_Auto - INFO - 【司机端流转 循环 20】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:16,279 - JRYG_HK_Auto - INFO - 【司机端流转 循环 21】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:20,627 - JRYG_HK_Auto - INFO - 【司机端流转 循环 22】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:24,838 - JRYG_HK_Auto - INFO - 【司机端流转 循环 23】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:29,126 - JRYG_HK_Auto - INFO - 【司机端流转 循环 24】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:33,244 - JRYG_HK_Auto - INFO - 【司机端流转 循环 25】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:37,036 - JRYG_HK_Auto - INFO - 【司机端流转 循环 26】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:41,742 - JRYG_HK_Auto - INFO - 【司机端流转 循环 27】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:46,409 - JRYG_HK_Auto - INFO - 【司机端流转 循环 28】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:50,621 - JRYG_HK_Auto - INFO - 【司机端流转 循环 29】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:54,945 - JRYG_HK_Auto - INFO - 【司机端流转 循环 30】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:41:59,989 - JRYG_HK_Auto - INFO - 【司机端流转 循环 31】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:05,078 - JRYG_HK_Auto - INFO - 【司机端流转 循环 32】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:09,638 - JRYG_HK_Auto - INFO - 【司机端流转 循环 33】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:13,946 - JRYG_HK_Auto - INFO - 【司机端流转 循环 34】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:18,869 - JRYG_HK_Auto - INFO - 【司机端流转 循环 35】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:22,647 - JRYG_HK_Auto - INFO - 【司机端流转 循环 36】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:26,945 - JRYG_HK_Auto - INFO - 【司机端流转 循环 37】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:31,292 - JRYG_HK_Auto - INFO - 【司机端流转 循环 38】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:36,376 - JRYG_HK_Auto - INFO - 【司机端流转 循环 39】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:40,156 - JRYG_HK_Auto - INFO - 【司机端流转 循环 40】当前 Activity: mFocusedApp=ActivityRecord{2470759 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t893 d0}
+2026-08-14 15:42:43,780 - JRYG_HK_Auto - INFO - 【成功】香港版司机端自动化状态流转执行完毕！
+2026-08-14 15:44:23,069 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 15:44:23,071 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 15:44:32,656 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动: mFocusedApp=ActivityRecord{2aa4ca2 u0 com.sunlightmobility.client/.order.YGAImmediateOrderProcessActivity t894 d0}
+2026-08-14 15:44:32,657 - JRYG_HK_Auto - INFO - 【步骤 2】保存首页截图并关闭活动弹框...
+2026-08-14 15:44:33,160 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_00_home_with_popup.png
+2026-08-14 15:44:33,293 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 15:44:33,832 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_01_home.png
+2026-08-14 15:44:33,833 - JRYG_HK_Auto - INFO - 【步骤 3】设置起点：铜锣湾地铁站...
+2026-08-14 15:44:33,963 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-14 15:44:37,757 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-14 15:44:43,317 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-14 15:44:43,466 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-14 15:44:49,597 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 15:44:49,598 - JRYG_HK_Auto - INFO - 【步骤 4】设置终点：香港大学...
+2026-08-14 15:44:49,718 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-14 15:44:52,956 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-14 15:44:58,563 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-14 15:44:58,692 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-14 15:45:08,881 - JRYG_HK_Auto - INFO - 【步骤 5】选择打錶的士并确认呼叫...
+2026-08-14 15:45:09,484 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_04_quote.png
+2026-08-14 15:45:09,613 - JRYG_HK_Auto - INFO -   >> 已点击打錶的士: (1045, 2275)
+2026-08-14 15:45:13,237 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_05_metered_taxi.png
+2026-08-14 15:45:13,367 - JRYG_HK_Auto - INFO -   >> 已点击確認呼叫: (586, 2550)
+2026-08-14 15:45:34,573 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_06_order_submitted.png
+2026-08-14 15:45:34,573 - JRYG_HK_Auto - ERROR - 【下单流程失败】点击確認呼叫后未进入订单处理页: mFocusedApp=ActivityRecord{234ca15 u0 com.android.contacts/com.android.dialer.TwelveKeyDialer t886 d0}
+2026-08-14 15:45:35,028 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_order_error.png
+2026-08-14 15:45:35,135 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 15:45:35,135 - JRYG_HK_Auto - INFO -   >> 【步骤 6】启动香港版司机端，开始执行订单流转...
+2026-08-14 15:45:35,135 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 15:45:35,135 - JRYG_HK_Auto - INFO - 正在唤醒并拉起香港版司机端 App...
+2026-08-14 15:45:44,851 - JRYG_HK_Auto - INFO - 正在建立司机端 Poco 控件树驱动...
+2026-08-14 15:45:47,661 - JRYG_HK_Auto - INFO - 【司机端流转 循环 1】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:45:48,972 - JRYG_HK_Auto - INFO -   >> 【司机端】成功检测到订单状态页面元素，order_entered 标记为 True！
+2026-08-14 15:45:49,861 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:45:50,037 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:45:51,644 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:45:57,032 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:45:57,125 - JRYG_HK_Auto - INFO - 【司机端流转 循环 2】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:45:59,351 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:46:00,150 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:46:01,772 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:46:07,210 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:46:07,341 - JRYG_HK_Auto - INFO - 【司机端流转 循环 3】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:46:08,772 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:46:10,299 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:46:11,969 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:46:17,404 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:46:17,564 - JRYG_HK_Auto - INFO - 【司机端流转 循环 4】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:46:19,239 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:46:19,476 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:46:21,115 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:46:26,575 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:46:26,726 - JRYG_HK_Auto - INFO - 【司机端流转 循环 5】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:46:29,134 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:46:29,384 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:46:31,019 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:46:36,483 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:46:36,634 - JRYG_HK_Auto - INFO - 【司机端流转 循环 6】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:46:37,970 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:46:38,191 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:46:39,822 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:46:45,252 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:46:45,416 - JRYG_HK_Auto - INFO - 【司机端流转 循环 7】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:46:46,994 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:46:47,218 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:46:48,842 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:46:54,261 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:46:54,394 - JRYG_HK_Auto - INFO - 【司机端流转 循环 8】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:46:55,637 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:46:55,888 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:46:57,517 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:47:02,954 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:47:03,127 - JRYG_HK_Auto - INFO - 【司机端流转 循环 9】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:47:04,604 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:47:04,838 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:47:06,468 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:47:11,906 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:47:12,058 - JRYG_HK_Auto - INFO - 【司机端流转 循环 10】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:47:13,908 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:47:14,143 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:47:15,792 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:47:21,235 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:47:21,371 - JRYG_HK_Auto - INFO - 【司机端流转 循环 11】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:47:23,116 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:47:23,339 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:47:24,965 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:47:30,394 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:47:30,555 - JRYG_HK_Auto - INFO - 【司机端流转 循环 12】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:47:32,685 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:47:33,246 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:47:34,864 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:47:40,283 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:47:40,415 - JRYG_HK_Auto - INFO - 【司机端流转 循环 13】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:47:41,399 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:47:41,593 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:47:43,219 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:47:48,644 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:47:48,809 - JRYG_HK_Auto - INFO - 【司机端流转 循环 14】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:47:50,535 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:47:50,740 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:47:52,393 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:47:57,864 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:47:58,025 - JRYG_HK_Auto - INFO - 【司机端流转 循环 15】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:47:59,055 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:47:59,278 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:48:00,912 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:48:06,370 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:48:06,523 - JRYG_HK_Auto - INFO - 【司机端流转 循环 16】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:48:08,480 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:48:08,694 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:48:10,329 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:48:15,758 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:48:15,924 - JRYG_HK_Auto - INFO - 【司机端流转 循环 17】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:48:17,796 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:48:18,033 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:48:19,669 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:48:25,101 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:48:25,262 - JRYG_HK_Auto - INFO - 【司机端流转 循环 18】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:48:26,970 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:48:27,190 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:48:28,827 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:48:34,265 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:48:34,421 - JRYG_HK_Auto - INFO - 【司机端流转 循环 19】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:48:36,339 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:48:36,567 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:48:38,208 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:48:43,662 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:48:43,832 - JRYG_HK_Auto - INFO - 【司机端流转 循环 20】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:48:44,881 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:48:45,084 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:48:46,713 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:48:52,115 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:48:52,254 - JRYG_HK_Auto - INFO - 【司机端流转 循环 21】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:48:53,738 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:48:53,956 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:48:55,600 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:49:01,015 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:49:01,174 - JRYG_HK_Auto - INFO - 【司机端流转 循环 22】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:49:02,825 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:49:03,042 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:49:04,670 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:49:10,117 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:49:10,264 - JRYG_HK_Auto - INFO - 【司机端流转 循环 23】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:49:12,058 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:49:12,262 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:49:13,912 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:49:19,349 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:49:19,479 - JRYG_HK_Auto - INFO - 【司机端流转 循环 24】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:49:21,335 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:49:21,570 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:49:23,209 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:49:28,620 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:49:28,765 - JRYG_HK_Auto - INFO - 【司机端流转 循环 25】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:49:30,556 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:49:30,800 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:49:32,430 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:49:37,872 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:49:38,025 - JRYG_HK_Auto - INFO - 【司机端流转 循环 26】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:49:39,440 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:49:39,660 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:49:41,286 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:49:46,733 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:49:46,893 - JRYG_HK_Auto - INFO - 【司机端流转 循环 27】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:49:48,764 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:49:48,992 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:49:50,620 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:49:56,077 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:49:56,256 - JRYG_HK_Auto - INFO - 【司机端流转 循环 28】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:49:58,012 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:49:58,609 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:50:00,255 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:50:05,712 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:50:05,871 - JRYG_HK_Auto - INFO - 【司机端流转 循环 29】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:50:07,168 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:50:07,790 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:50:09,430 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:50:14,884 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:50:15,036 - JRYG_HK_Auto - INFO - 【司机端流转 循环 30】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:50:16,930 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:50:17,171 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:50:18,798 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:50:24,259 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:50:24,422 - JRYG_HK_Auto - INFO - 【司机端流转 循环 31】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:50:26,327 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:50:26,948 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:50:28,586 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:50:34,034 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:50:34,168 - JRYG_HK_Auto - INFO - 【司机端流转 循环 32】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:50:36,457 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:50:36,656 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:50:38,288 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:50:43,735 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:50:43,850 - JRYG_HK_Auto - INFO - 【司机端流转 循环 33】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:50:44,836 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:50:45,060 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:50:46,706 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:50:52,208 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:50:52,393 - JRYG_HK_Auto - INFO - 【司机端流转 循环 34】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:50:54,162 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:50:54,355 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:50:55,978 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:51:01,451 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:51:01,593 - JRYG_HK_Auto - INFO - 【司机端流转 循环 35】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:51:04,031 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:51:04,232 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:51:05,863 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:51:11,286 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:51:11,433 - JRYG_HK_Auto - INFO - 【司机端流转 循环 36】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:51:14,386 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:51:14,611 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:51:16,248 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:51:21,721 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:51:21,878 - JRYG_HK_Auto - INFO - 【司机端流转 循环 37】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:51:23,740 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:51:23,952 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:51:25,585 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:51:31,018 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:51:31,174 - JRYG_HK_Auto - INFO - 【司机端流转 循环 38】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:51:34,004 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:51:34,219 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:51:35,841 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:51:41,271 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:51:41,421 - JRYG_HK_Auto - INFO - 【司机端流转 循环 39】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:51:43,382 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:51:43,603 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:51:45,245 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:51:50,658 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:51:50,809 - JRYG_HK_Auto - INFO - 【司机端流转 循环 40】当前 Activity: mFocusedApp=ActivityRecord{d639c0b u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t896 d0}
+2026-08-14 15:51:52,639 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:51:53,590 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:51:55,209 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:52:00,682 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:52:00,682 - JRYG_HK_Auto - INFO - 【成功】香港版司机端自动化状态流转执行完毕！
+2026-08-14 15:53:14,709 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 15:53:14,711 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 15:53:24,283 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动: mFocusedApp=ActivityRecord{2da6deb u0 com.sunlightmobility.client/.order.YGAImmediateOrderProcessActivity t898 d0}
+2026-08-14 15:53:24,283 - JRYG_HK_Auto - INFO - 【步骤 2】保存首页截图并关闭活动弹框...
+2026-08-14 15:53:24,796 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_00_home_with_popup.png
+2026-08-14 15:53:24,917 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 15:53:25,441 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_01_home.png
+2026-08-14 15:53:25,442 - JRYG_HK_Auto - INFO - 【步骤 3】设置起点：铜锣湾地铁站...
+2026-08-14 15:53:25,564 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-14 15:53:29,316 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-14 15:53:34,901 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-14 15:53:35,034 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-14 15:53:41,193 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 15:53:41,193 - JRYG_HK_Auto - INFO - 【步骤 4】设置终点：香港大学...
+2026-08-14 15:53:41,305 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-14 15:53:44,565 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-14 15:53:50,117 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-14 15:53:50,249 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-14 15:54:00,382 - JRYG_HK_Auto - INFO - 【步骤 5】选择打錶的士并确认呼叫...
+2026-08-14 15:54:00,924 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_04_quote.png
+2026-08-14 15:54:01,037 - JRYG_HK_Auto - INFO -   >> 已点击打錶的士: (1045, 2275)
+2026-08-14 15:54:04,617 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_05_metered_taxi.png
+2026-08-14 15:54:04,757 - JRYG_HK_Auto - INFO -   >> 已点击確認呼叫: (586, 2550)
+2026-08-14 15:54:26,015 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_06_order_submitted.png
+2026-08-14 15:54:26,015 - JRYG_HK_Auto - ERROR - 【下单流程失败】点击確認呼叫后未进入订单处理页: mFocusedApp=ActivityRecord{234ca15 u0 com.android.contacts/com.android.dialer.TwelveKeyDialer t886 d0}
+2026-08-14 15:54:26,480 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_order_error.png
+2026-08-14 15:54:26,582 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 15:54:26,582 - JRYG_HK_Auto - INFO -   >> 【步骤 6】启动香港版司机端，开始执行订单流转...
+2026-08-14 15:54:26,582 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 15:54:26,583 - JRYG_HK_Auto - INFO - 正在唤醒并拉起香港版司机端 App...
+2026-08-14 15:54:36,224 - JRYG_HK_Auto - INFO - 正在建立司机端 Poco 控件树驱动...
+2026-08-14 15:54:38,956 - JRYG_HK_Auto - INFO - 【司机端流转 循环 1】当前 Activity: mFocusedApp=ActivityRecord{2ab7959 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t900 d0}
+2026-08-14 15:54:40,171 - JRYG_HK_Auto - INFO -   >> 【司机端】成功检测到订单状态页面元素，order_entered 标记为 True！
+2026-08-14 15:54:40,497 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:54:40,665 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:54:42,300 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:54:47,687 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:54:47,821 - JRYG_HK_Auto - INFO - 【司机端流转 循环 2】当前 Activity: mFocusedApp=ActivityRecord{2ab7959 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t900 d0}
+2026-08-14 15:54:49,243 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:54:49,461 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:54:51,099 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:54:56,522 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:54:56,669 - JRYG_HK_Auto - INFO - 【司机端流转 循环 3】当前 Activity: mFocusedApp=ActivityRecord{2ab7959 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t900 d0}
+2026-08-14 15:54:57,887 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:54:58,104 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:54:59,727 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:55:05,141 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:55:05,312 - JRYG_HK_Auto - INFO - 【司机端流转 循环 4】当前 Activity: mFocusedApp=ActivityRecord{2ab7959 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t900 d0}
+2026-08-14 15:55:07,080 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:55:07,278 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:55:08,920 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:55:14,351 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:55:14,515 - JRYG_HK_Auto - INFO - 【司机端流转 循环 5】当前 Activity: mFocusedApp=ActivityRecord{2ab7959 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t900 d0}
+2026-08-14 15:55:16,368 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:55:16,542 - JRYG_HK_Auto - WARNING -   >> 【司机端】未定位到滑块控件，采用高精度 ADB 物理滑动兜底...
+2026-08-14 15:55:18,169 - JRYG_HK_Auto - INFO -   >> 【司机端】ADB 物理滑动完成
+2026-08-14 15:55:23,600 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:55:23,746 - JRYG_HK_Auto - INFO - 【司机端流转 循环 6】当前 Activity: mFocusedApp=ActivityRecord{2ab7959 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t900 d0}
+2026-08-14 15:55:26,519 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:55:32,809 - JRYG_HK_Auto - INFO -   >> 【司机端】Poco 控件滑动成功
+2026-08-14 15:55:38,230 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:55:38,358 - JRYG_HK_Auto - INFO - 【司机端流转 循环 7】当前 Activity: mFocusedApp=ActivityRecord{b3f6321 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t900 d0}
+2026-08-14 15:55:39,885 - JRYG_HK_Auto - INFO -   >> 【司机端状态】检测到打表车费录入页面，正在输入车费：50 HKD...
+2026-08-14 15:55:44,763 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:55:47,758 - JRYG_HK_Auto - INFO -   >> 【司机端】Poco 控件滑动成功
+2026-08-14 15:55:53,250 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:55:53,394 - JRYG_HK_Auto - INFO - 【司机端流转 循环 8】当前 Activity: mFocusedApp=ActivityRecord{b3f6321 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t900 d0}
+2026-08-14 15:55:55,174 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:55:57,893 - JRYG_HK_Auto - INFO -   >> 【司机端】Poco 控件滑动成功
+2026-08-14 15:56:03,343 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:56:03,494 - JRYG_HK_Auto - INFO - 【司机端流转 循环 9】当前 Activity: mFocusedApp=ActivityRecord{b3f6321 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t900 d0}
+2026-08-14 15:56:04,305 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:56:07,010 - JRYG_HK_Auto - INFO -   >> 【司机端】Poco 控件滑动成功
+2026-08-14 15:56:12,508 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:56:12,674 - JRYG_HK_Auto - INFO - 【司机端流转 循环 10】当前 Activity: mFocusedApp=ActivityRecord{b3f6321 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t900 d0}
+2026-08-14 15:56:14,198 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:56:17,245 - JRYG_HK_Auto - INFO -   >> 【司机端】Poco 控件滑动成功
+2026-08-14 15:56:22,701 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:56:22,870 - JRYG_HK_Auto - INFO - 【司机端流转 循环 11】当前 Activity: mFocusedApp=ActivityRecord{b3f6321 u0 com.sunlightmobility.driver/.feature.order.confirmbill.YGConfirmBillActivity t900 d0}
+2026-08-14 15:56:24,969 - JRYG_HK_Auto - INFO -   >> 【司机端状态】正在滑动『發起收款/確認收款』...
+2026-08-14 15:56:27,718 - JRYG_HK_Auto - INFO -   >> 【司机端】Poco 控件滑动成功
+2026-08-14 15:56:33,499 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_driver_04_billing_sent.png
+2026-08-14 15:56:33,636 - JRYG_HK_Auto - INFO - 【司机端流转 循环 12】当前 Activity: mFocusedApp=ActivityRecord{ad484cc u0 com.sunlightmobility.driver/.feature.flutter.YGFFOrderDetailFlutterActivity t900 d0}
+2026-08-14 15:56:37,376 - JRYG_HK_Auto - INFO - 【司机端流转 循环 13】当前 Activity: mFocusedApp=ActivityRecord{ad484cc u0 com.sunlightmobility.driver/.feature.flutter.YGFFOrderDetailFlutterActivity t900 d0}
+2026-08-14 15:56:41,693 - JRYG_HK_Auto - INFO - 【司机端流转 循环 14】当前 Activity: mFocusedApp=ActivityRecord{ad484cc u0 com.sunlightmobility.driver/.feature.flutter.YGFFOrderDetailFlutterActivity t900 d0}
+2026-08-14 15:56:46,688 - JRYG_HK_Auto - INFO - 【司机端流转 循环 15】当前 Activity: mFocusedApp=ActivityRecord{ad484cc u0 com.sunlightmobility.driver/.feature.flutter.YGFFOrderDetailFlutterActivity t900 d0}
+2026-08-14 15:56:50,460 - JRYG_HK_Auto - INFO - 【司机端流转 循环 16】当前 Activity: mFocusedApp=ActivityRecord{ad484cc u0 com.sunlightmobility.driver/.feature.flutter.YGFFOrderDetailFlutterActivity t900 d0}
+2026-08-14 15:56:54,730 - JRYG_HK_Auto - INFO - 【司机端流转 循环 17】当前 Activity: mFocusedApp=ActivityRecord{ad484cc u0 com.sunlightmobility.driver/.feature.flutter.YGFFOrderDetailFlutterActivity t900 d0}
+2026-08-14 15:56:58,595 - JRYG_HK_Auto - INFO - 【司机端流转 循环 18】当前 Activity: mFocusedApp=ActivityRecord{ad484cc u0 com.sunlightmobility.driver/.feature.flutter.YGFFOrderDetailFlutterActivity t900 d0}
+2026-08-14 15:57:02,599 - JRYG_HK_Auto - INFO - 【司机端流转 循环 19】当前 Activity: mFocusedApp=ActivityRecord{ad484cc u0 com.sunlightmobility.driver/.feature.flutter.YGFFOrderDetailFlutterActivity t900 d0}
+2026-08-14 15:57:07,276 - JRYG_HK_Auto - INFO - 【司机端流转 循环 20】当前 Activity: mFocusedApp=ActivityRecord{ad484cc u0 com.sunlightmobility.driver/.feature.flutter.YGFFOrderDetailFlutterActivity t900 d0}
+2026-08-14 15:59:31,480 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 15:59:31,482 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 15:59:41,124 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动: mFocusedApp=ActivityRecord{1be18db u0 com.sunlightmobility.client/.home.YGAHomeActivity t902 d0}
+2026-08-14 15:59:41,125 - JRYG_HK_Auto - INFO - 【步骤 2】保存首页截图并关闭活动弹框...
+2026-08-14 15:59:41,656 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_00_home_with_popup.png
+2026-08-14 15:59:41,758 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 15:59:42,268 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_01_home.png
+2026-08-14 15:59:42,268 - JRYG_HK_Auto - INFO - 【步骤 3】设置起点：铜锣湾地铁站...
+2026-08-14 15:59:42,399 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-14 15:59:46,213 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-14 15:59:51,611 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-14 15:59:51,731 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-14 15:59:57,978 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-14 15:59:59,982 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-14 15:59:59,983 - JRYG_HK_Auto - INFO - 【步骤 4】设置终点：香港大学...
+2026-08-14 16:00:00,100 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-14 16:00:03,336 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-14 16:00:08,736 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-14 16:00:08,846 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-14 16:00:18,997 - JRYG_HK_Auto - INFO - 【步骤 5】选择打錶的士并确认呼叫...
+2026-08-14 16:00:19,608 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_04_quote.png
+2026-08-14 16:00:19,736 - JRYG_HK_Auto - INFO -   >> 已点击打錶的士: (1045, 2275)
+2026-08-14 16:00:23,354 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_05_metered_taxi.png
+2026-08-14 16:00:23,496 - JRYG_HK_Auto - INFO -   >> 已点击確認呼叫: (586, 2550)
+2026-08-14 16:00:44,982 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_06_order_submitted.png
+2026-08-14 16:00:44,983 - JRYG_HK_Auto - ERROR - 【下单流程失败】点击確認呼叫后未进入订单处理页: mFocusedApp=ActivityRecord{1be18db u0 com.sunlightmobility.client/.home.YGAHomeActivity t902 d0}
+2026-08-14 16:00:45,586 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_order_error.png
+2026-08-14 16:00:45,686 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 16:00:45,686 - JRYG_HK_Auto - INFO -   >> 【步骤 6】启动香港版司机端，开始执行订单流转...
+2026-08-14 16:00:45,687 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 16:00:45,687 - JRYG_HK_Auto - INFO - 正在唤醒并拉起香港版司机端 App...
+2026-08-14 16:00:55,351 - JRYG_HK_Auto - INFO - 正在建立司机端 Poco 控件树驱动...
+2026-08-14 16:00:56,061 - JRYG_HK_Auto - INFO - 【司机端流转 循环 1】当前 Activity: mFocusedApp=ActivityRecord{6a6ccf9 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t904 d0}
+2026-08-14 16:01:00,777 - JRYG_HK_Auto - INFO - 【司机端流转 循环 2】当前 Activity: mFocusedApp=ActivityRecord{6a6ccf9 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t904 d0}
+2026-08-14 16:01:07,056 - JRYG_HK_Auto - INFO - 【司机端流转 循环 3】当前 Activity: mFocusedApp=ActivityRecord{6a6ccf9 u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t904 d0}
+2026-08-14 16:13:15,465 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 16:13:15,467 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 16:13:25,079 - JRYG_HK_Auto - ERROR - 【下单流程失败】港版 App 启动失败，当前前台页面: mFocusedApp=ActivityRecord{419bb90 u0 com.bbk.launcher2/.Launcher t2 d0}
+2026-08-14 16:13:26,629 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_order_error.png
+2026-08-14 16:13:26,749 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 16:13:26,749 - JRYG_HK_Auto - INFO -   >> 【步骤 6】启动香港版司机端，开始执行订单流转...
+2026-08-14 16:13:26,749 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 16:13:26,750 - JRYG_HK_Auto - INFO - 正在唤醒并拉起香港版司机端 App...
+2026-08-14 16:13:36,462 - JRYG_HK_Auto - INFO - 正在建立司机端 Poco 控件树驱动...
+2026-08-14 16:13:37,186 - JRYG_HK_Auto - INFO - 【司机端流转 循环 1】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:13:42,420 - JRYG_HK_Auto - INFO - 【司机端流转 循环 2】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:13:47,219 - JRYG_HK_Auto - INFO - 【司机端流转 循环 3】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:13:51,489 - JRYG_HK_Auto - INFO - 【司机端流转 循环 4】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:13:56,414 - JRYG_HK_Auto - INFO - 【司机端流转 循环 5】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:14:01,320 - JRYG_HK_Auto - INFO - 【司机端流转 循环 6】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:14:06,946 - JRYG_HK_Auto - INFO - 【司机端流转 循环 7】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:14:12,151 - JRYG_HK_Auto - INFO - 【司机端流转 循环 8】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:14:18,380 - JRYG_HK_Auto - INFO - 【司机端流转 循环 9】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:14:24,124 - JRYG_HK_Auto - INFO - 【司机端流转 循环 10】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:14:29,546 - JRYG_HK_Auto - INFO - 【司机端流转 循环 11】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:14:34,439 - JRYG_HK_Auto - INFO - 【司机端流转 循环 12】当前 Activity: mFocusedApp=ActivityRecord{499adff u0 com.sunlightmobility.driver/.activity.home.YGAHomeActivity t907 d0}
+2026-08-14 16:14:39,675 - JRYG_HK_Auto - INFO - 【司机端流转 循环 13】当前 Activity: mFocusedApp=ActivityRecord{3eddde9 u0 com.sunlightmobility.client/.home.YGAHomeActivity t905 d0}
+2026-08-14 16:14:51,916 - JRYG_HK_Auto - INFO - 【司机端流转 循环 14】当前 Activity: mFocusedApp=ActivityRecord{419bb90 u0 com.bbk.launcher2/.Launcher t2 d0}
+2026-08-14 16:17:13,369 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 16:17:13,371 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 16:17:13,371 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-14 16:17:13,371 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 16:17:13,372 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 16:17:22,941 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动: mFocusedApp=ActivityRecord{e417e76 u0 com.sunlightmobility.client/.home.YGAHomeActivity t908 d0}
+2026-08-14 16:17:23,797 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-14 16:17:23,912 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 16:17:23,913 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-14 16:17:24,038 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-14 16:17:27,938 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-14 16:17:33,304 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-14 16:17:33,417 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-14 16:17:39,688 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-14 16:17:41,693 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-14 16:17:41,693 - JRYG_HK_Auto - INFO - 【步骤 4】配置目的地：香港大学...
+2026-08-14 16:17:41,811 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-14 16:17:45,025 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-14 16:17:50,454 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-14 16:17:50,577 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-14 16:18:00,706 - JRYG_HK_Auto - INFO - 【步骤 5】选择车型『打錶的士』并配置优惠券...
+2026-08-14 16:18:00,828 - JRYG_HK_Auto - INFO -   >> 已点击打錶的士: (1045, 2275)
+2026-08-14 16:18:04,485 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_01_quote.png
+2026-08-14 16:18:04,486 - JRYG_HK_Auto - INFO - 寻找并进入优惠券列表页面...
+2026-08-14 16:18:04,968 - JRYG_HK_Auto - WARNING -   >> 未定位到优惠券文字，执行物理高容错坐标点击进入...
+2026-08-14 16:18:05,077 - JRYG_HK_Auto - INFO -   >> 已点击优惠券区域: (996, 2225)
+2026-08-14 16:18:09,747 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_02_list.png
+2026-08-14 16:18:09,748 - JRYG_HK_Auto - INFO - 正在列表中选择『100元优惠券』并确认...
+2026-08-14 16:18:09,934 - JRYG_HK_Auto - INFO -   >> 未找到100元优惠券，默认选中列表首张券...
+2026-08-14 16:18:14,154 - JRYG_HK_Auto - INFO -   >> 点击确定使用成功
+2026-08-14 16:20:01,007 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 16:20:01,009 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 16:20:01,009 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-14 16:20:01,009 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 16:20:01,009 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 16:20:10,648 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动: mFocusedApp=ActivityRecord{de3aacb u0 com.sunlightmobility.client/.home.YGAHomeActivity t909 d0}
+2026-08-14 16:20:11,297 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-14 16:20:11,420 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 16:20:11,421 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-14 16:20:11,551 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-14 16:20:15,306 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-14 16:20:20,692 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-14 16:20:20,796 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-14 16:20:27,000 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-14 16:20:29,006 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-14 16:20:29,006 - JRYG_HK_Auto - INFO - 【步骤 4】配置目的地：香港大学...
+2026-08-14 16:20:29,129 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-14 16:20:32,367 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-14 16:20:37,761 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-14 16:20:37,871 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-14 16:20:48,000 - JRYG_HK_Auto - INFO - 【步骤 5】寻找并选择车型『包車价的士』并配置优惠券...
+2026-08-14 16:20:52,171 - JRYG_HK_Auto - INFO -   >> 成功点击『包車价的士』车型
+2026-08-14 16:20:55,850 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_01_quote.png
+2026-08-14 16:20:55,851 - JRYG_HK_Auto - INFO - 寻找并进入优惠券列表页面...
+2026-08-14 16:20:55,920 - JRYG_HK_Auto - WARNING -   >> 未定位到优惠券文字，执行物理高容错坐标点击进入...
+2026-08-14 16:20:56,059 - JRYG_HK_Auto - INFO -   >> 已点击优惠券区域: (996, 2225)
+2026-08-14 16:21:00,741 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_02_list.png
+2026-08-14 16:21:00,742 - JRYG_HK_Auto - INFO - 正在列表中选择『100元优惠券』并确认...
+2026-08-14 16:21:01,229 - JRYG_HK_Auto - INFO -   >> 未找到100元优惠券，默认选中列表首张券...
+2026-08-14 16:21:03,647 - JRYG_HK_Auto - INFO -   >> 点击确定使用成功
+2026-08-14 16:21:06,651 - JRYG_HK_Auto - INFO - 【重要步骤】为了触发预估刷新提示，正在就地等待 5 分钟 (300 秒)...
+2026-08-14 16:22:06,656 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 1 分钟...
+2026-08-14 16:23:06,657 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 2 分钟...
+2026-08-14 16:24:06,659 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 3 分钟...
+2026-08-14 16:25:06,660 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 4 分钟...
+2026-08-14 16:26:06,669 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 5 分钟...
+2026-08-14 16:26:06,669 - JRYG_HK_Auto - INFO - 【步骤 6】等待结束，正在点击『確認呼叫』以触发预估更新对话框...
+2026-08-14 16:26:06,824 - JRYG_HK_Auto - INFO -   >> 已点击確認呼叫: (586, 2550)
+2026-08-14 16:26:11,442 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_03_expired_prompt.png
+2026-08-14 16:26:11,443 - JRYG_HK_Auto - INFO - 检测并处理预估价格刷新提示框...
+2026-08-14 16:26:11,644 - JRYG_HK_Auto - INFO -   >> 未发现显式阻挡弹窗，执行物理返回或直接继续下步操作...
+2026-08-14 16:26:11,645 - JRYG_HK_Auto - INFO - 【步骤 7】再次点击优惠券选项卡以核对状态持久性...
+2026-08-14 16:26:11,834 - JRYG_HK_Auto - INFO -   >> 已点击优惠券区域: (996, 2225)
+2026-08-14 16:26:16,446 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_04_post_verification.png
+2026-08-14 16:26:16,447 - JRYG_HK_Auto - INFO - 【步骤 8】已打开优惠券列表。检查此前选中的券是否保持勾选状态...
+2026-08-14 16:26:16,508 - JRYG_HK_Auto - WARNING -   >> [校验提示] 100元优惠券未找到，请查看截图进行人工复核。
+2026-08-14 16:26:16,508 - JRYG_HK_Auto - INFO - 【步骤 9】校验完毕，正在点击返回以恢复首页...
+2026-08-14 16:26:23,406 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_05_finished.png
+2026-08-14 16:26:23,407 - JRYG_HK_Auto - INFO - 【成功】乘客端优惠券时效刷新与持久性验证流程顺利完成！
+2026-08-14 16:26:23,468 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 16:26:23,468 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-14 16:26:23,468 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 16:26:23,468 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-14 16:26:32,892 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】港版 App 启动失败，当前前台页面: mFocusedApp=ActivityRecord{419bb90 u0 com.bbk.launcher2/.Launcher t2 d0}
+2026-08-14 16:26:34,161 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-14 16:58:28,656 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 16:58:28,657 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 16:58:28,657 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-14 16:58:28,657 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 16:58:28,658 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 16:58:30,180 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{45867ba u0 com.sunlightmobility.client/.home.YGAHomeActivity t912 d0}
+2026-08-14 16:58:35,883 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-14 16:58:35,987 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 16:58:35,988 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-14 16:58:36,117 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-14 16:58:39,898 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-14 16:58:45,237 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-14 16:58:45,360 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-14 16:58:51,647 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-14 16:58:53,649 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-14 16:58:53,650 - JRYG_HK_Auto - INFO - 【步骤 4】配置目的地：香港大学...
+2026-08-14 16:58:53,752 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-14 16:58:56,975 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-14 16:59:02,304 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-14 16:59:02,420 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-14 16:59:12,561 - JRYG_HK_Auto - INFO - 【步骤 5】寻找并选择车型『包車价的士』并配置优惠券...
+2026-08-14 16:59:16,613 - JRYG_HK_Auto - INFO -   >> 成功点击『包車价的士』车型
+2026-08-14 16:59:20,166 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_01_quote.png
+2026-08-14 16:59:20,166 - JRYG_HK_Auto - INFO - 寻找并进入优惠券列表页面...
+2026-08-14 16:59:20,228 - JRYG_HK_Auto - WARNING -   >> 未定位到优惠券文字，执行物理高容错坐标点击进入...
+2026-08-14 16:59:20,365 - JRYG_HK_Auto - INFO -   >> 已点击优惠券区域: (996, 2225)
+2026-08-14 16:59:24,940 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_02_list.png
+2026-08-14 16:59:24,941 - JRYG_HK_Auto - INFO - 正在列表中选择『100元优惠券』并确认...
+2026-08-14 16:59:25,014 - JRYG_HK_Auto - INFO -   >> 未找到100元优惠券，默认选中列表首张券...
+2026-08-14 16:59:26,996 - JRYG_HK_Auto - INFO -   >> 点击确定使用成功
+2026-08-14 16:59:29,999 - JRYG_HK_Auto - INFO - 【重要步骤】为了触发预估刷新提示，正在就地等待 5 分钟 (300 秒)...
+2026-08-14 17:00:22,267 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-14 17:00:22,268 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 17:00:22,269 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-14 17:00:22,269 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 17:00:22,269 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-14 17:00:23,865 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{55c9f7 u0 com.sunlightmobility.client/.home.YGAHomeActivity t914 d0}
+2026-08-14 17:00:28,311 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-14 17:00:28,415 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-14 17:00:28,416 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-14 17:00:28,534 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-14 17:00:32,279 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-14 17:00:37,613 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-14 17:00:37,741 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-14 17:00:43,993 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-14 17:00:45,998 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-14 17:00:45,998 - JRYG_HK_Auto - INFO - 【步骤 4】配置目的地：香港大学...
+2026-08-14 17:00:46,122 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-14 17:00:49,362 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-14 17:00:54,720 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-14 17:00:54,830 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-14 17:01:04,954 - JRYG_HK_Auto - INFO - 【步骤 5】寻找并选择车型『包車价的士』并配置优惠券...
+2026-08-14 17:01:09,287 - JRYG_HK_Auto - INFO -   >> 成功点击『包車价的士』车型
+2026-08-14 17:01:12,834 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_01_quote.png
+2026-08-14 17:01:12,834 - JRYG_HK_Auto - INFO - 寻找并进入优惠券列表页面...
+2026-08-14 17:01:12,895 - JRYG_HK_Auto - WARNING -   >> 未定位到优惠券文字，执行物理高容错坐标点击进入...
+2026-08-14 17:01:13,054 - JRYG_HK_Auto - INFO -   >> 已点击优惠券区域: (996, 2225)
+2026-08-14 17:01:17,609 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_02_list.png
+2026-08-14 17:01:17,609 - JRYG_HK_Auto - INFO - 正在列表中选择『100元优惠券』并确认...
+2026-08-14 17:01:17,673 - JRYG_HK_Auto - INFO -   >> 未找到100元优惠券，默认选中列表首张券...
+2026-08-14 17:01:19,640 - JRYG_HK_Auto - INFO -   >> 点击确定使用成功
+2026-08-14 17:01:22,641 - JRYG_HK_Auto - INFO - 【重要步骤】为了触发预估刷新提示，正在就地等待 5 分钟 (300 秒)...
+2026-08-14 17:02:22,581 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 1 分钟...
+2026-08-14 17:03:22,584 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 2 分钟...
+2026-08-14 17:04:22,589 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 3 分钟...
+2026-08-14 17:05:22,594 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 4 分钟...
+2026-08-14 17:06:22,599 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 5 分钟...
+2026-08-14 17:06:22,600 - JRYG_HK_Auto - INFO - 【步骤 6】等待结束，正在点击『確認呼叫』以触发预估更新对话框...
+2026-08-14 17:06:22,643 - JRYG_HK_Auto - ERROR - 【优惠券核销时效测试失败】ADB 命令失败: adb -s 10AE6U20A7001H5 shell input tap 586 2550
+adb: device '10AE6U20A7001H5' not found
+
+2026-08-14 17:06:22,866 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-14 17:06:22,867 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-14 17:06:22,867 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-14 17:06:22,867 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-14 17:06:23,028 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】ADB 命令失败: adb -s 10AE6U20A7001H5 shell am force-stop com.sunlightmobility.client
+adb: device '10AE6U20A7001H5' not found
+
+2026-08-17 10:02:56,095 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-17 10:02:56,097 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 10:02:56,098 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-17 10:02:56,098 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 10:02:56,098 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-17 10:02:57,489 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{3b75283 u0 com.sunlightmobility.client/.home.YGAHomeActivity t915 d0}
+2026-08-17 10:03:03,165 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-17 10:03:03,269 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 10:03:03,270 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-17 10:03:03,401 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 10:03:07,172 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-17 10:03:12,505 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-17 10:03:12,590 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-17 10:03:18,814 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-17 10:03:20,818 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-17 10:03:20,818 - JRYG_HK_Auto - INFO - 【步骤 4】配置目的地：香港大学...
+2026-08-17 10:03:20,933 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-17 10:03:24,155 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-17 10:03:29,479 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-17 10:03:29,612 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-17 10:03:39,754 - JRYG_HK_Auto - INFO - 【步骤 5】寻找并选择车型『包車价的士』并配置优惠券...
+2026-08-17 10:03:43,918 - JRYG_HK_Auto - INFO -   >> 成功点击『包車价的士』车型
+2026-08-17 10:03:47,552 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_01_quote.png
+2026-08-17 10:03:47,552 - JRYG_HK_Auto - INFO - 寻找并进入优惠券列表页面...
+2026-08-17 10:03:47,612 - JRYG_HK_Auto - WARNING -   >> 未定位到优惠券文字，执行物理高容错坐标点击进入...
+2026-08-17 10:03:47,725 - JRYG_HK_Auto - INFO -   >> 已点击优惠券区域: (996, 2225)
+2026-08-17 10:03:52,335 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_02_list.png
+2026-08-17 10:03:52,336 - JRYG_HK_Auto - INFO - 正在列表中选择『100元优惠券』并确认...
+2026-08-17 10:03:52,547 - JRYG_HK_Auto - INFO -   >> 未找到100元优惠券，默认选中列表首张券...
+2026-08-17 10:03:54,545 - JRYG_HK_Auto - INFO -   >> 点击确定使用成功
+2026-08-17 10:03:57,550 - JRYG_HK_Auto - INFO - 【重要步骤】为了触发预估刷新提示，正在就地等待 5 分钟 (300 秒)...
+2026-08-17 10:04:57,554 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 1 分钟...
+2026-08-17 10:05:57,557 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 2 分钟...
+2026-08-17 10:06:57,559 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 3 分钟...
+2026-08-17 10:07:58,230 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 4 分钟...
+2026-08-17 10:24:47,385 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 5 分钟...
+2026-08-17 10:24:47,386 - JRYG_HK_Auto - INFO - 【步骤 6】等待结束，正在点击『確認呼叫』以触发预估更新对话框...
+2026-08-17 10:24:47,513 - JRYG_HK_Auto - INFO -   >> 已点击確認呼叫: (586, 2550)
+2026-08-17 10:24:52,100 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_03_expired_prompt.png
+2026-08-17 10:24:52,101 - JRYG_HK_Auto - INFO - 检测并处理预估价格刷新提示框...
+2026-08-17 10:24:52,185 - JRYG_HK_Auto - INFO -   >> 未发现显式阻挡弹窗，执行物理返回或直接继续下步操作...
+2026-08-17 10:24:52,185 - JRYG_HK_Auto - INFO - 【步骤 7】再次点击优惠券选项卡以核对状态持久性...
+2026-08-17 10:24:52,321 - JRYG_HK_Auto - INFO -   >> 已点击优惠券区域: (996, 2225)
+2026-08-17 10:24:56,828 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_04_post_verification.png
+2026-08-17 10:24:56,832 - JRYG_HK_Auto - INFO - 【步骤 8】已打开优惠券列表。检查此前选中的券是否保持勾选状态...
+2026-08-17 10:24:56,870 - JRYG_HK_Auto - WARNING -   >> [校验提示] 100元优惠券未找到，请查看截图进行人工复核。
+2026-08-17 10:24:56,871 - JRYG_HK_Auto - INFO - 【步骤 9】校验完毕，正在点击返回以恢复首页...
+2026-08-17 10:25:03,681 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_05_finished.png
+2026-08-17 10:25:03,681 - JRYG_HK_Auto - INFO - 【成功】乘客端优惠券时效刷新与持久性验证流程顺利完成！
+2026-08-17 10:25:03,721 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 10:25:03,721 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-17 10:25:03,721 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 10:25:03,721 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-17 10:25:05,410 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{5701910 u0 com.sunlightmobility.client/.home.YGAHomeActivity t917 d0}
+2026-08-17 10:25:25,703 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 10:25:25,789 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 10:25:28,999 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-17 10:25:34,480 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-17 10:25:34,582 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-17 10:25:40,696 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 10:25:40,782 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-17 10:25:43,987 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-17 10:25:49,483 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-17 10:25:49,582 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-17 10:25:59,690 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】选择目的地后 App 不在前台: mFocusedApp=null
+2026-08-17 10:26:00,088 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-17 17:28:59,908 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接，分辨率: 1172x2748
+2026-08-17 17:28:59,910 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 17:28:59,910 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-17 17:28:59,910 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 17:28:59,910 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-17 17:29:01,521 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{4a95314 u0 com.sunlightmobility.client/.home.YGAHomeActivity t921 d0}
+2026-08-17 17:29:12,784 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-17 17:29:12,876 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:29:12,877 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-17 17:29:12,951 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 17:30:17,631 - JRYG_HK_Auto - ERROR - 【优惠券核销时效测试失败】stdout[b''] stderr[b"\nException occurred while executing 'text':\njava.lang.NullPointerException: Attempt to get length of null array\n\tat com.android.server.input.InputShellCommand.sendText(InputShellCommand.java:390)\n\tat com.android.server.input.InputShellCommand.runText(InputShellCommand.java:362)\n\tat com.android.server.input.InputShellCommand.onCommand(InputShellCommand.java:287)\n\tat com.android.modules.utils.BasicShellCommandHandler.exec(BasicShellCommandHandler.java:97)\n\tat android.os.ShellCommand.exec(ShellCommand.java:38)\n\tat com.android.server.input.InputManagerService.onShellCommand(InputManagerService.java:3620)\n\tat android.os.Binder.shellCommand(Binder.java:1291)\n\tat android.os.Binder.onTransact(Binder.java:1104)\n\tat android.hardware.input.IInputManager$Stub.onTransact(IInputManager.java:1517)\n\tat android.os.Binder.execTransactInternal(Binder.java:1566)\n\tat android.os.Binder.execTransact(Binder.java:1505)\n"]
+2026-08-17 17:30:18,181 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_failed.png
+2026-08-17 17:30:18,470 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 17:30:18,471 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-17 17:30:18,471 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 17:30:18,471 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-17 17:30:21,238 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{bc9720 u0 com.sunlightmobility.client/.home.YGAHomeActivity t923 d0}
+2026-08-17 17:30:29,797 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:30:29,872 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 17:30:33,086 - JRYG_HK_Auto - INFO -   >> 已输入: 铜锣湾地铁站
+2026-08-17 17:30:38,550 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-17 17:30:38,649 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-17 17:30:44,768 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:30:44,864 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-17 17:30:48,079 - JRYG_HK_Auto - INFO -   >> 已输入: 香港大学
+2026-08-17 17:30:53,555 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-17 17:30:53,656 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-17 17:31:08,826 - JRYG_HK_Auto - INFO -   >> 场景 D 验证通过：初始进入页面直接进行推荐，无弹框干扰。
+2026-08-17 17:31:08,826 - JRYG_HK_Auto - INFO - === 场景 A: 页面切入后台再切回来，自动刷新估价并保留手选券 ===
+2026-08-17 17:31:08,826 - JRYG_HK_Auto - INFO - 选择车型『包車价的士』并配置优惠券...
+2026-08-17 17:31:08,994 - JRYG_HK_Auto - INFO -   >> 已点击包車价的士区域: (293, 2280)
+2026-08-17 17:31:12,048 - JRYG_HK_Auto - INFO -   >> 成功手动勾选 100元 优惠券。
+2026-08-17 17:31:12,535 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_selected.png
+2026-08-17 17:31:12,535 - JRYG_HK_Auto - INFO - 正在将港版乘客端 App 切入后台模拟挂起...
+2026-08-17 17:31:17,662 - JRYG_HK_Auto - INFO - 正在唤醒并重新将 App 切回前台...
+2026-08-17 17:31:23,339 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_foreground.png
+2026-08-17 17:31:23,923 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_retained_check.png
+2026-08-17 17:31:23,990 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】【失败】应用从后台切回前台后，手选的100元优惠券未被正确保留！
+assert False
+ +  where False = exists()
+ +    where exists = UIObjectProxy of "text matches .*100元.*|.*100.*".exists
+2026-08-17 17:31:24,486 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-17 17:35:50,657 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-17 17:35:50,660 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 17:35:50,661 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-17 17:35:50,661 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 17:35:50,661 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-17 17:35:52,241 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{adbef94 u0 com.sunlightmobility.client/.home.YGAHomeActivity t925 d0}
+2026-08-17 17:36:00,683 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-17 17:36:00,775 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:36:00,775 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-17 17:36:00,859 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 17:37:05,646 - JRYG_HK_Auto - ERROR - 【优惠券核销时效测试失败】stdout[b''] stderr[b"\nException occurred while executing 'text':\njava.lang.NullPointerException: Attempt to get length of null array\n\tat com.android.server.input.InputShellCommand.sendText(InputShellCommand.java:390)\n\tat com.android.server.input.InputShellCommand.runText(InputShellCommand.java:362)\n\tat com.android.server.input.InputShellCommand.onCommand(InputShellCommand.java:287)\n\tat com.android.modules.utils.BasicShellCommandHandler.exec(BasicShellCommandHandler.java:97)\n\tat android.os.ShellCommand.exec(ShellCommand.java:38)\n\tat com.android.server.input.InputManagerService.onShellCommand(InputManagerService.java:3620)\n\tat android.os.Binder.shellCommand(Binder.java:1291)\n\tat android.os.Binder.onTransact(Binder.java:1104)\n\tat android.hardware.input.IInputManager$Stub.onTransact(IInputManager.java:1517)\n\tat android.os.Binder.execTransactInternal(Binder.java:1566)\n\tat android.os.Binder.execTransact(Binder.java:1505)\n"]
+2026-08-17 17:37:06,138 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_failed.png
+2026-08-17 17:37:06,447 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 17:37:06,448 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-17 17:37:06,448 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 17:37:06,448 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-17 17:37:09,857 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{8b589c4 u0 com.sunlightmobility.client/.home.YGAHomeActivity t926 d0}
+2026-08-17 17:37:18,378 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:37:18,455 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 17:37:21,735 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 铜锣湾地铁站
+2026-08-17 17:37:27,214 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-17 17:37:27,321 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-17 17:37:33,441 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:37:33,545 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-17 17:37:36,836 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 香港大学
+2026-08-17 17:37:42,351 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-17 17:37:42,452 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-17 17:37:57,623 - JRYG_HK_Auto - INFO -   >> 场景 D 验证通过：初始进入页面直接进行推荐，无弹框干扰。
+2026-08-17 17:37:57,625 - JRYG_HK_Auto - INFO - === 场景 A: 页面切入后台再切回来，自动刷新估价并保留手选券 ===
+2026-08-17 17:37:57,625 - JRYG_HK_Auto - INFO - 选择车型『包車价的士』并配置优惠券...
+2026-08-17 17:37:57,768 - JRYG_HK_Auto - INFO -   >> 已点击包車价的士区域: (293, 2280)
+2026-08-17 17:38:00,801 - JRYG_HK_Auto - INFO -   >> 成功手动勾选 100元 优惠券。
+2026-08-17 17:38:01,189 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_selected.png
+2026-08-17 17:38:01,190 - JRYG_HK_Auto - INFO - 正在将港版乘客端 App 切入后台模拟挂起...
+2026-08-17 17:38:06,294 - JRYG_HK_Auto - INFO - 正在唤醒并重新将 App 切回前台...
+2026-08-17 17:38:11,918 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_foreground.png
+2026-08-17 17:38:12,463 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_retained_check.png
+2026-08-17 17:38:12,513 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】【失败】应用从后台切回前台后，手选的100元优惠券未被正确保留！
+assert False
+ +  where False = exists()
+ +    where exists = UIObjectProxy of "text matches .*100元.*|.*100.*".exists
+2026-08-17 17:38:12,976 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-17 17:39:48,108 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-17 17:39:48,111 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 17:39:48,111 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-17 17:39:48,111 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 17:39:48,111 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-17 17:39:49,753 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{75d926f u0 com.sunlightmobility.client/.home.YGAHomeActivity t928 d0}
+2026-08-17 17:39:58,162 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-17 17:39:58,253 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:39:58,253 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-17 17:39:58,332 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 17:41:13,745 - JRYG_HK_Auto - ERROR - 【优惠券核销时效测试失败】stdout[b''] stderr[b"\nException occurred while executing 'text':\njava.lang.NullPointerException: Attempt to get length of null array\n\tat com.android.server.input.InputShellCommand.sendText(InputShellCommand.java:390)\n\tat com.android.server.input.InputShellCommand.runText(InputShellCommand.java:362)\n\tat com.android.server.input.InputShellCommand.onCommand(InputShellCommand.java:287)\n\tat com.android.modules.utils.BasicShellCommandHandler.exec(BasicShellCommandHandler.java:97)\n\tat android.os.ShellCommand.exec(ShellCommand.java:38)\n\tat com.android.server.input.InputManagerService.onShellCommand(InputManagerService.java:3620)\n\tat android.os.Binder.shellCommand(Binder.java:1291)\n\tat android.os.Binder.onTransact(Binder.java:1104)\n\tat android.hardware.input.IInputManager$Stub.onTransact(IInputManager.java:1517)\n\tat android.os.Binder.execTransactInternal(Binder.java:1566)\n\tat android.os.Binder.execTransact(Binder.java:1505)\n"]
+2026-08-17 17:41:14,251 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_failed.png
+2026-08-17 17:41:14,522 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 17:41:14,522 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-17 17:41:14,522 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 17:41:14,522 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-17 17:41:16,488 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{66f5abe u0 com.sunlightmobility.client/.home.YGAHomeActivity t929 d0}
+2026-08-17 17:41:25,228 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:41:25,305 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 17:41:39,170 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 铜锣湾地铁站
+2026-08-17 17:41:44,670 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-17 17:41:44,774 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-17 17:41:50,897 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:41:50,979 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-17 17:42:04,797 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 香港大学
+2026-08-17 17:42:10,312 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-17 17:42:10,408 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-17 17:42:25,582 - JRYG_HK_Auto - INFO -   >> 场景 D 验证通过：初始进入页面直接进行推荐，无弹框干扰。
+2026-08-17 17:42:25,583 - JRYG_HK_Auto - INFO - === 场景 A: 页面切入后台再切回来，自动刷新估价并保留手选券 ===
+2026-08-17 17:42:25,583 - JRYG_HK_Auto - INFO - 选择车型『包車价的士』并配置优惠券...
+2026-08-17 17:42:25,725 - JRYG_HK_Auto - INFO -   >> 已点击包車价的士区域: (293, 2280)
+2026-08-17 17:42:28,787 - JRYG_HK_Auto - INFO -   >> 成功手动勾选 100元 优惠券。
+2026-08-17 17:42:29,320 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_selected.png
+2026-08-17 17:42:29,321 - JRYG_HK_Auto - INFO - 正在将港版乘客端 App 切入后台模拟挂起...
+2026-08-17 17:42:34,430 - JRYG_HK_Auto - INFO - 正在唤醒并重新将 App 切回前台...
+2026-08-17 17:42:41,618 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_foreground.png
+2026-08-17 17:42:42,616 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_retained_check.png
+2026-08-17 17:42:42,654 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】【失败】应用从后台切回前台后，手选的100元优惠券未被正确保留！
+assert False
+ +  where False = exists()
+ +    where exists = UIObjectProxy of "text matches .*100元.*|.*100.*".exists
+2026-08-17 17:42:43,111 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-17 17:44:09,434 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-17 17:44:09,437 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 17:44:09,438 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-17 17:44:09,439 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 17:44:09,439 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-17 17:44:12,765 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{e04fbf6 u0 com.sunlightmobility.client/.home.YGAHomeActivity t931 d0}
+2026-08-17 17:44:21,243 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-17 17:44:21,336 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:44:21,337 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-17 17:44:21,337 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-17 17:44:21,451 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 17:56:09,732 - JRYG_HK_Auto - ERROR - 【优惠券核销时效测试失败】stdout[b''] stderr[b"\nException occurred while executing 'text':\njava.lang.NullPointerException: Attempt to get length of null array\n\tat com.android.server.input.InputShellCommand.sendText(InputShellCommand.java:390)\n\tat com.android.server.input.InputShellCommand.runText(InputShellCommand.java:362)\n\tat com.android.server.input.InputShellCommand.onCommand(InputShellCommand.java:287)\n\tat com.android.modules.utils.BasicShellCommandHandler.exec(BasicShellCommandHandler.java:97)\n\tat android.os.ShellCommand.exec(ShellCommand.java:38)\n\tat com.android.server.input.InputManagerService.onShellCommand(InputManagerService.java:3620)\n\tat android.os.Binder.shellCommand(Binder.java:1291)\n\tat android.os.Binder.onTransact(Binder.java:1104)\n\tat android.hardware.input.IInputManager$Stub.onTransact(IInputManager.java:1517)\n\tat android.os.Binder.execTransactInternal(Binder.java:1566)\n\tat android.os.Binder.execTransact(Binder.java:1505)\n"]
+2026-08-17 17:56:10,106 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_failed.png
+2026-08-17 17:56:10,412 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 17:56:10,413 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-17 17:56:10,413 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 17:56:10,413 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-17 17:56:12,372 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{900855e u0 com.sunlightmobility.client/.home.YGAHomeActivity t935 d0}
+2026-08-17 17:56:21,275 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:56:21,276 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-17 17:56:21,396 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 17:56:35,310 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 铜锣湾地铁站
+2026-08-17 17:56:40,827 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-17 17:56:40,990 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-17 17:56:47,115 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 17:56:47,115 - JRYG_HK_Auto - INFO - 正在点击目的地栏位...
+2026-08-17 17:56:47,386 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-17 17:57:01,369 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 香港大学
+2026-08-17 17:57:06,847 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-17 17:57:07,015 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-17 17:57:22,182 - JRYG_HK_Auto - INFO -   >> 场景 D 验证通过：初始进入页面直接进行推荐，无弹框干扰。
+2026-08-17 17:57:22,183 - JRYG_HK_Auto - INFO - === 场景 A: 页面切入后台再切回来，自动刷新估价并保留手选券 ===
+2026-08-17 17:57:22,183 - JRYG_HK_Auto - INFO - 选择车型『包車价的士』并配置优惠券...
+2026-08-17 17:57:22,334 - JRYG_HK_Auto - INFO -   >> 已点击包車价的士区域: (293, 2280)
+2026-08-17 17:57:25,407 - JRYG_HK_Auto - INFO -   >> 成功手动勾选 100元 优惠券。
+2026-08-17 17:57:25,897 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_selected.png
+2026-08-17 17:57:25,897 - JRYG_HK_Auto - INFO - 正在将港版乘客端 App 切入后台模拟挂起...
+2026-08-17 17:57:31,030 - JRYG_HK_Auto - INFO - 正在唤醒并重新将 App 切回前台...
+2026-08-17 17:57:38,114 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_foreground.png
+2026-08-17 17:57:39,048 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_retained_check.png
+2026-08-17 17:57:39,131 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】【失败】应用从后台切回前台后，手选的100元优惠券未被正确保留！
+assert False
+ +  where False = exists()
+ +    where exists = UIObjectProxy of "text matches .*100元.*|.*100.*".exists
+2026-08-17 17:57:39,554 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-17 18:02:51,259 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-17 18:02:51,261 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 18:02:51,261 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-17 18:02:51,262 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 18:02:51,262 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-17 18:02:54,052 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{75ffaa7 u0 com.sunlightmobility.client/.home.YGAHomeActivity t937 d0}
+2026-08-17 18:03:02,473 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-17 18:03:02,564 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 18:03:02,565 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-17 18:03:02,565 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-17 18:03:02,716 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 18:04:17,970 - JRYG_HK_Auto - ERROR - 【优惠券核销时效测试失败】stdout[b''] stderr[b"\nException occurred while executing 'text':\njava.lang.NullPointerException: Attempt to get length of null array\n\tat com.android.server.input.InputShellCommand.sendText(InputShellCommand.java:390)\n\tat com.android.server.input.InputShellCommand.runText(InputShellCommand.java:362)\n\tat com.android.server.input.InputShellCommand.onCommand(InputShellCommand.java:287)\n\tat com.android.modules.utils.BasicShellCommandHandler.exec(BasicShellCommandHandler.java:97)\n\tat android.os.ShellCommand.exec(ShellCommand.java:38)\n\tat com.android.server.input.InputManagerService.onShellCommand(InputManagerService.java:3620)\n\tat android.os.Binder.shellCommand(Binder.java:1291)\n\tat android.os.Binder.onTransact(Binder.java:1104)\n\tat android.hardware.input.IInputManager$Stub.onTransact(IInputManager.java:1517)\n\tat android.os.Binder.execTransactInternal(Binder.java:1566)\n\tat android.os.Binder.execTransact(Binder.java:1505)\n"]
+2026-08-17 18:04:18,461 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_failed.png
+2026-08-17 18:04:18,725 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-17 18:04:18,726 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-17 18:04:18,726 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-17 18:04:18,726 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-17 18:04:20,601 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{95d3ab5 u0 com.sunlightmobility.client/.home.YGAHomeActivity t938 d0}
+2026-08-17 18:04:29,590 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 18:04:29,590 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-17 18:04:29,709 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-17 18:04:43,604 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 铜锣湾地铁站
+2026-08-17 18:04:49,095 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-17 18:04:49,261 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-17 18:04:55,381 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-08-17 18:04:55,382 - JRYG_HK_Auto - INFO - 正在点击目的地栏位...
+2026-08-17 18:04:55,607 - JRYG_HK_Auto - INFO -   >> 已点击『想要去哪裡？』: (586, 2231)
+2026-08-17 18:05:09,486 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 香港大学
+2026-08-17 18:05:14,974 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-17 18:05:15,143 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-17 18:05:30,304 - JRYG_HK_Auto - INFO -   >> 场景 D 验证通过：初始进入页面直接进行推荐，无弹框干扰。
+2026-08-17 18:05:30,304 - JRYG_HK_Auto - INFO - === 场景 A: 页面切入后台再切回来，自动刷新估价并保留手选券 ===
+2026-08-17 18:05:30,305 - JRYG_HK_Auto - INFO - 选择车型『包車价的士』并配置优惠券...
+2026-08-17 18:05:30,443 - JRYG_HK_Auto - INFO -   >> 已点击包車价的士区域: (293, 2280)
+2026-08-17 18:05:33,498 - JRYG_HK_Auto - INFO -   >> 成功手动勾选 100元 优惠券。
+2026-08-17 18:05:33,993 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_selected.png
+2026-08-17 18:05:33,994 - JRYG_HK_Auto - INFO - 正在将港版乘客端 App 切入后台模拟挂起...
+2026-08-17 18:05:39,118 - JRYG_HK_Auto - INFO - 正在唤醒并重新将 App 切回前台...
+2026-08-17 18:05:46,095 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_foreground.png
+2026-08-17 18:05:46,751 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_retained_check.png
+2026-08-17 18:05:47,430 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】【失败】应用从后台切回前台后，手选的100元优惠券未被正确保留！
+assert False
+ +  where False = exists()
+ +    where exists = UIObjectProxy of "text matches .*100元.*|.*100.*".exists
+2026-08-17 18:05:47,914 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-20 11:16:54,158 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-20 11:16:54,160 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-20 11:16:54,160 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-20 11:16:54,161 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-20 11:16:54,161 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-20 11:16:56,080 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{17b7573 u0 com.sunlightmobility.client/.home.YGAHomeActivity t982 d0}
+2026-08-20 11:17:05,260 - JRYG_HK_Auto - INFO - 【步骤 2】关闭首页活动推广弹框...
+2026-08-20 11:17:05,495 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:17:07,500 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:17:07,501 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-20 11:17:07,501 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-20 11:17:07,627 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-20 11:17:10,772 - JRYG_HK_Auto - INFO -   >> [Poco Input] 已成功键入: 铜锣湾地铁站
+2026-08-20 11:17:16,253 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-20 11:17:16,472 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-20 11:17:22,702 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:17:24,706 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:17:24,706 - JRYG_HK_Auto - INFO - 【步骤 4】配置目的地：香港大学...
+2026-08-20 11:17:24,706 - JRYG_HK_Auto - INFO - 正在点击目的地栏位...
+2026-08-20 11:17:29,019 - JRYG_HK_Auto - INFO -   >> [Poco] 成功点击目的地栏位
+2026-08-20 11:17:32,199 - JRYG_HK_Auto - INFO -   >> [Poco Input] 已成功键入: 香港大学
+2026-08-20 11:17:37,650 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-20 11:17:37,845 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-20 11:17:47,986 - JRYG_HK_Auto - INFO - 【步骤 5】寻找并选择车型『包車价的士』并配置优惠券...
+2026-08-20 11:17:49,912 - JRYG_HK_Auto - INFO -   >> 成功点击『包車价的士』车型
+2026-08-20 11:17:53,438 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_01_quote.png
+2026-08-20 11:17:53,439 - JRYG_HK_Auto - INFO - 寻找并进入优惠券列表页面...
+2026-08-20 11:17:53,865 - JRYG_HK_Auto - WARNING -   >> 未定位到优惠券文字，执行物理高容错坐标点击进入...
+2026-08-20 11:17:53,973 - JRYG_HK_Auto - INFO -   >> 已点击优惠券区域: (996, 2225)
+2026-08-20 11:17:58,686 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_02_list.png
+2026-08-20 11:17:58,687 - JRYG_HK_Auto - INFO - 正在列表中选择『100元优惠券』并确认...
+2026-08-20 11:17:58,981 - JRYG_HK_Auto - INFO -   >> 未找到100元优惠券，默认选中列表首张券...
+2026-08-20 11:18:00,935 - JRYG_HK_Auto - INFO -   >> 点击确定使用成功
+2026-08-20 11:18:03,936 - JRYG_HK_Auto - INFO - 【重要步骤】为了触发预估刷新提示，正在就地等待 5 分钟 (300 秒)...
+2026-08-20 11:19:03,941 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 1 分钟...
+2026-08-20 11:20:03,946 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 2 分钟...
+2026-08-20 11:21:03,947 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 3 分钟...
+2026-08-20 11:22:03,951 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 4 分钟...
+2026-08-20 11:25:32,703 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-20 11:25:32,705 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-20 11:25:32,706 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-20 11:25:32,706 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-20 11:25:32,706 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-20 11:25:34,651 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{a96a3a0 u0 com.sunlightmobility.client/.home.YGAHomeActivity t984 d0}
+2026-08-20 11:25:43,929 - JRYG_HK_Auto - INFO - 【登录校验】正在检查登录状态，预备登录手机号: 11001727...
+2026-08-20 11:25:45,828 - JRYG_HK_Auto - INFO - 【登录校验 循环 0】当前页面状态: home_unlogged
+2026-08-20 11:25:45,828 - JRYG_HK_Auto - INFO -   >> 首页未登录，点击『我的』页签进入登录入口...
+2026-08-20 11:25:56,103 - JRYG_HK_Auto - INFO - 【登录校验 循环 1】当前页面状态: home_logged
+2026-08-20 11:25:56,104 - JRYG_HK_Auto - INFO - 【登录校验】检测到已处于成功登录首页，无需额外登录步骤。
+2026-08-20 11:25:57,061 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:25:59,066 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:25:59,067 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-20 11:26:01,003 - JRYG_HK_Auto - INFO -   >> [Poco] 成功点击起点栏位
+2026-08-20 11:26:33,553 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】stdout[b''] stderr[b"\nException occurred while executing 'text':\njava.lang.NullPointerException: Attempt to get length of null array\n\tat com.android.server.input.InputShellCommand.sendText(InputShellCommand.java:390)\n\tat com.android.server.input.InputShellCommand.runText(InputShellCommand.java:362)\n\tat com.android.server.input.InputShellCommand.onCommand(InputShellCommand.java:287)\n\tat com.android.modules.utils.BasicShellCommandHandler.exec(BasicShellCommandHandler.java:97)\n\tat android.os.ShellCommand.exec(ShellCommand.java:38)\n\tat com.android.server.input.InputManagerService.onShellCommand(InputManagerService.java:3620)\n\tat android.os.Binder.shellCommand(Binder.java:1291)\n\tat android.os.Binder.onTransact(Binder.java:1104)\n\tat android.hardware.input.IInputManager$Stub.onTransact(IInputManager.java:1517)\n\tat android.os.Binder.execTransactInternal(Binder.java:1566)\n\tat android.os.Binder.execTransact(Binder.java:1505)\n"]
+2026-08-20 11:26:33,992 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-20 11:29:56,652 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-20 11:29:56,654 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-20 11:29:56,655 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-20 11:29:56,655 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-20 11:29:56,655 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-20 11:29:58,232 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{1c237e1 u0 com.sunlightmobility.client/.home.YGAHomeActivity t986 d0}
+2026-08-20 11:30:07,785 - JRYG_HK_Auto - INFO - 【登录校验】正在检查登录状态，预备登录手机号: 11001727...
+2026-08-20 11:30:09,921 - JRYG_HK_Auto - INFO - 【登录校验 循环 0】当前页面状态: home_unlogged
+2026-08-20 11:30:09,921 - JRYG_HK_Auto - INFO -   >> 首页未登录，点击『我的』页签进入登录入口...
+2026-08-20 11:30:20,335 - JRYG_HK_Auto - INFO - 【登录校验 循环 1】当前页面状态: home_logged
+2026-08-20 11:30:20,336 - JRYG_HK_Auto - INFO - 【登录校验】检测到已处于成功登录首页，无需额外登录步骤。
+2026-08-20 11:30:21,257 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:30:23,262 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:30:23,262 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-20 11:30:25,667 - JRYG_HK_Auto - INFO -   >> [Poco] 成功点击起点栏位
+2026-08-20 11:30:47,812 - JRYG_HK_Auto - WARNING -   >> [警告] 未定位到输入框控件，执行高精度屏幕顶部坐标点击以聚焦，并退回至 Airtest 输入...
+2026-08-20 11:30:47,949 - JRYG_HK_Auto - INFO -   >> 已点击搜索栏输入焦点: (586, 412)
+2026-08-20 11:30:50,917 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 铜锣湾地铁站
+2026-08-20 11:30:56,351 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-20 11:31:08,637 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-20 11:31:14,934 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:31:16,938 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:31:16,954 - JRYG_HK_Auto - INFO - 正在点击目的地栏位...
+2026-08-20 11:31:18,907 - JRYG_HK_Auto - INFO -   >> [Poco] 成功点击目的地栏位
+2026-08-20 11:31:40,500 - JRYG_HK_Auto - WARNING -   >> [警告] 未定位到输入框控件，执行高精度屏幕顶部坐标点击以聚焦，并退回至 Airtest 输入...
+2026-08-20 11:31:40,604 - JRYG_HK_Auto - INFO -   >> 已点击搜索栏输入焦点: (586, 412)
+2026-08-20 11:31:42,841 - JRYG_HK_Auto - INFO -   >> [Airtest Input fallback] 已成功键入: 香港大学
+2026-08-20 11:31:48,277 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-20 11:32:02,666 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-20 11:32:12,825 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】选择目的地后 App 不在前台: mFocusedApp=ActivityRecord{419bb90 u0 com.bbk.launcher2/.Launcher t2 d0}
+2026-08-20 11:32:14,097 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-20 11:35:14,790 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-20 11:35:14,793 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-20 11:35:14,793 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-20 11:35:14,793 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-20 11:35:14,794 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-20 11:35:16,177 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{a4d3900 u0 com.sunlightmobility.client/.home.YGAHomeActivity t987 d0}
+2026-08-20 11:35:24,971 - JRYG_HK_Auto - INFO - 【登录校验】进入个人中心检查登录状态，预备登录手机号: 11001727...
+2026-08-20 11:35:25,194 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:35:27,195 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:35:27,196 - JRYG_HK_Auto - INFO -   >> 点击底部『我的』标签以检查登录态...
+2026-08-20 11:35:33,192 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 0: 1.60 11:35 KB/s 暫無歷史記錄 Yosemite
+2026-08-20 11:35:34,813 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 1: 3.70 11:35 KB/s 暫無歷史記錄 Yosemite
+2026-08-20 11:35:36,438 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 2: 3.70 11:35 KB/s 暫無歷史記錄 Yosemite
+2026-08-20 11:35:38,610 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 3: 0.60 11:35 KB/s 暫無歷史記錄 Yosemite
+2026-08-20 11:35:40,500 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 4: 0.80 11:35 KB/s 暫無歷史記錄 Yosemite
+2026-08-20 11:35:41,503 - JRYG_HK_Auto - INFO -   >> 【已登录】检测到已处于登录态，跳过登录录入步骤。
+2026-08-20 11:35:41,503 - JRYG_HK_Auto - INFO - 【登录校验结束】正在切换并回到乘客端首页选项卡...
+2026-08-20 11:35:46,039 - JRYG_HK_Auto - WARNING -   >> 切回首页未成功确认，尝试重新点击 (尝试次数: 1)...
+2026-08-20 11:35:50,322 - JRYG_HK_Auto - WARNING -   >> 切回首页未成功确认，尝试重新点击 (尝试次数: 2)...
+2026-08-20 11:35:55,458 - JRYG_HK_Auto - WARNING -   >> 切回首页未成功确认，尝试重新点击 (尝试次数: 3)...
+2026-08-20 11:35:58,304 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:36:00,305 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:36:00,305 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-20 11:36:00,462 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-20 11:36:04,804 - JRYG_HK_Auto - INFO -   >> [Poco Input] 已成功键入: 铜锣湾地铁站
+2026-08-20 11:36:10,293 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-20 11:36:21,783 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-20 11:36:28,031 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:36:30,034 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:36:30,034 - JRYG_HK_Auto - INFO - 正在点击目的地栏位...
+2026-08-20 11:36:34,053 - JRYG_HK_Auto - INFO -   >> [Poco] 成功点击目的地栏位
+2026-08-20 11:36:37,883 - JRYG_HK_Auto - INFO -   >> [Poco Input] 已成功键入: 香港大学
+2026-08-20 11:36:43,359 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-20 11:36:57,125 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-20 11:37:12,307 - JRYG_HK_Auto - INFO -   >> 场景 D 验证通过：初始进入页面直接进行推荐，无弹框干扰。
+2026-08-20 11:37:12,308 - JRYG_HK_Auto - INFO - === 场景 A: 页面切入后台再切回来，自动刷新估价并保留手选券 ===
+2026-08-20 11:37:12,308 - JRYG_HK_Auto - INFO - 选择车型『包車价的士』并配置优惠券...
+2026-08-20 11:37:14,218 - JRYG_HK_Auto - INFO -   >> 成功点击『包車价的士』
+2026-08-20 11:37:17,286 - JRYG_HK_Auto - INFO -   >> 成功手动勾选 100元 优惠券。
+2026-08-20 11:37:17,899 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_selected.png
+2026-08-20 11:37:17,900 - JRYG_HK_Auto - INFO - 正在将港版乘客端 App 切入后台模拟挂起...
+2026-08-20 11:37:23,035 - JRYG_HK_Auto - INFO - 正在唤醒并重新将 App 切回前台...
+2026-08-20 11:37:29,894 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_foreground.png
+2026-08-20 11:37:30,987 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_retained_check.png
+2026-08-20 11:37:31,361 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】【失败】应用从后台切回前台后，手选的100元优惠券未被正确保留！
+assert False
+ +  where False = exists()
+ +    where exists = UIObjectProxy of "text matches .*100元.*|.*100.*".exists
+2026-08-20 11:37:31,912 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-20 11:44:10,116 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-20 11:44:10,118 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-20 11:44:10,119 - JRYG_HK_Auto - INFO -   >> 【多场景验证】开始执行优惠券刷新与手选保留场景测试集...
+2026-08-20 11:44:10,119 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-20 11:44:10,119 - JRYG_HK_Auto - INFO - === 场景 D: 由上级页面进入选择车型页时，获取估价，无需提示直接重新匹配 ===
+2026-08-20 11:44:11,799 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{4601b8c u0 com.sunlightmobility.client/.home.YGAHomeActivity t990 d0}
+2026-08-20 11:44:21,227 - JRYG_HK_Auto - INFO - 【登录校验】进入个人中心检查登录状态，预备登录手机号: 11001727...
+2026-08-20 11:44:21,452 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:44:23,456 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:44:23,457 - JRYG_HK_Auto - INFO -   >> 点击底部『我的』标签以检查登录态...
+2026-08-20 11:44:30,303 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 0: 1.30 11:44 KB/s 暫無歷史記錄
+2026-08-20 11:44:31,747 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 1: 1.30 11:44 KB/s 暫無歷史記錄
+2026-08-20 11:44:33,424 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 2: 0.40 11:44 KB/s 暫無歷史記錄
+2026-08-20 11:44:35,307 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 3: 0.40 11:44 KB/s 暫無歷史記錄
+2026-08-20 11:44:36,858 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 4: 3.40 11:44 KB/s 暫無歷史記錄
+2026-08-20 11:44:37,862 - JRYG_HK_Auto - INFO -   >> 【已登录】检测到已处于登录态，跳过登录录入步骤。
+2026-08-20 11:44:37,862 - JRYG_HK_Auto - INFO - 【登录校验结束】正在切换并回到乘客端首页选项卡...
+2026-08-20 11:44:42,253 - JRYG_HK_Auto - WARNING -   >> 切回首页未成功确认，尝试重新点击 (尝试次数: 1)...
+2026-08-20 11:44:46,702 - JRYG_HK_Auto - WARNING -   >> 切回首页未成功确认，尝试重新点击 (尝试次数: 2)...
+2026-08-20 11:44:51,591 - JRYG_HK_Auto - WARNING -   >> 切回首页未成功确认，尝试重新点击 (尝试次数: 3)...
+2026-08-20 11:44:54,756 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:44:56,759 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:44:56,759 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-20 11:44:57,270 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-20 11:45:00,967 - JRYG_HK_Auto - INFO -   >> [Poco Input] 已成功键入: 铜锣湾地铁站
+2026-08-20 11:45:06,489 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-20 11:45:18,840 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-20 11:45:25,062 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:45:27,066 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:45:27,067 - JRYG_HK_Auto - INFO - 正在点击目的地栏位...
+2026-08-20 11:45:31,179 - JRYG_HK_Auto - INFO -   >> [Poco] 成功点击目的地栏位
+2026-08-20 11:45:34,433 - JRYG_HK_Auto - INFO -   >> [Poco Input] 已成功键入: 香港大学
+2026-08-20 11:45:39,891 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-20 11:45:51,774 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-20 11:46:07,006 - JRYG_HK_Auto - INFO -   >> 场景 D 验证通过：初始进入页面直接进行推荐，无弹框干扰。
+2026-08-20 11:46:07,007 - JRYG_HK_Auto - INFO - === 场景 A: 页面切入后台再切回来，自动刷新估价并保留手选券 ===
+2026-08-20 11:46:07,007 - JRYG_HK_Auto - INFO - 选择车型『包車价的士』并配置优惠券...
+2026-08-20 11:46:08,936 - JRYG_HK_Auto - INFO -   >> 成功点击『包車价的士』
+2026-08-20 11:46:23,249 - JRYG_HK_Auto - INFO -   >> 成功手动勾选目标优惠券。
+2026-08-20 11:46:23,805 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_selected.png
+2026-08-20 11:46:23,806 - JRYG_HK_Auto - INFO - 正在将港版乘客端 App 切入后台模拟挂起...
+2026-08-20 11:46:28,954 - JRYG_HK_Auto - INFO - 正在唤醒并重新将 App 切回前台...
+2026-08-20 11:46:35,964 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_foreground.png
+2026-08-20 11:46:36,498 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_A_retained_check.png
+2026-08-20 11:46:36,538 - JRYG_HK_Auto - ERROR - 【多场景优惠券校验失败】【失败】应用从后台切回前台后，手选的目标优惠券未被正确保留！
+assert False
+ +  where False = exists()
+ +    where exists = UIObjectProxy of "text matches .*折扣最高折扣.*|.*111.*|.*老人折扣.*|.*100元.*|.*100.*".exists
+2026-08-20 11:46:37,107 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_scenario_coupon_failed.png
+2026-08-20 11:54:06,713 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1172x2748
+2026-08-20 11:54:06,717 - JRYG_HK_Auto - INFO - 
+==================================================
+2026-08-20 11:54:06,717 - JRYG_HK_Auto - INFO -   >> 【特殊用例】启动港版乘客端优惠券时效与刷新验证...
+2026-08-20 11:54:06,717 - JRYG_HK_Auto - INFO - ==================================================
+2026-08-20 11:54:06,717 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-08-20 11:54:08,378 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{b06def6 u0 com.sunlightmobility.client/.home.YGAHomeActivity t992 d0}
+2026-08-20 11:54:16,978 - JRYG_HK_Auto - INFO - 【登录校验】进入个人中心检查登录状态，预备登录手机号: 11001727...
+2026-08-20 11:54:17,195 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:54:19,198 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:54:19,199 - JRYG_HK_Auto - INFO -   >> 点击底部『我的』标签以检查登录态...
+2026-08-20 11:54:25,028 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 0: 2.50 11:54 KB/s 暫無歷史記錄
+2026-08-20 11:54:26,759 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 1: 1.00 11:54 KB/s 暫無歷史記錄
+2026-08-20 11:54:28,424 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 2: 1.00 11:54 KB/s 暫無歷史記錄
+2026-08-20 11:54:29,931 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 3: 0.10 11:54 KB/s 暫無歷史記錄
+2026-08-20 11:54:31,557 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 4: 0.10 11:54 KB/s 暫無歷史記錄
+2026-08-20 11:54:32,559 - JRYG_HK_Auto - INFO -   >> 【已登录】检测到已处于登录态，跳过登录录入步骤。
+2026-08-20 11:54:32,559 - JRYG_HK_Auto - INFO - 【登录校验结束】正在切换并回到乘客端首页选项卡...
+2026-08-20 11:54:37,024 - JRYG_HK_Auto - WARNING -   >> 切回首页未成功确认，尝试重新点击 (尝试次数: 1)...
+2026-08-20 11:54:41,661 - JRYG_HK_Auto - WARNING -   >> 切回首页未成功确认，尝试重新点击 (尝试次数: 2)...
+2026-08-20 11:54:46,518 - JRYG_HK_Auto - WARNING -   >> 切回首页未成功确认，尝试重新点击 (尝试次数: 3)...
+2026-08-20 11:54:49,838 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:54:51,843 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:54:51,844 - JRYG_HK_Auto - INFO - 【步骤 3】配置起点：铜锣湾地铁站...
+2026-08-20 11:54:51,844 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-08-20 11:54:52,074 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (586, 2039)
+2026-08-20 11:54:55,371 - JRYG_HK_Auto - INFO -   >> [Poco Input] 已成功键入: 铜锣湾地铁站
+2026-08-20 11:55:00,862 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_02_origin_results.png
+2026-08-20 11:55:13,272 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾地铁站结果: (586, 409)
+2026-08-20 11:55:19,480 - JRYG_HK_Auto - INFO -   >> 已点击活动弹框关闭按钮: (586, 2052)
+2026-08-20 11:55:21,485 - JRYG_HK_Auto - INFO -   >> 活动弹框已关闭
+2026-08-20 11:55:21,485 - JRYG_HK_Auto - INFO - 【步骤 4】配置目的地：香港大学...
+2026-08-20 11:55:21,485 - JRYG_HK_Auto - INFO - 正在点击目的地栏位...
+2026-08-20 11:55:25,545 - JRYG_HK_Auto - INFO -   >> [Poco] 成功点击目的地栏位
+2026-08-20 11:55:28,823 - JRYG_HK_Auto - INFO -   >> [Poco Input] 已成功键入: 香港大学
+2026-08-20 11:55:34,342 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_android_03_destination_results.png
+2026-08-20 11:55:46,932 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (398, 420)
+2026-08-20 11:55:57,066 - JRYG_HK_Auto - INFO - 【步骤 5】寻找并选择车型『包車价的士』并配置优惠券...
+2026-08-20 11:55:59,262 - JRYG_HK_Auto - INFO -   >> 成功点击『包車价的士』车型
+2026-08-20 11:56:02,927 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_01_quote.png
+2026-08-20 11:56:02,928 - JRYG_HK_Auto - INFO - 寻找并进入优惠券列表页面...
+2026-08-20 11:56:04,881 - JRYG_HK_Auto - INFO -   >> 成功点击优惠券入口
+2026-08-20 11:56:09,540 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_02_list.png
+2026-08-20 11:56:09,540 - JRYG_HK_Auto - INFO - 正在列表中选择『折扣/111优惠券』并确认...
+2026-08-20 11:56:09,817 - JRYG_HK_Auto - INFO -   >> 未找到目标优惠券，默认选中列表首张券...
+2026-08-20 11:56:15,740 - JRYG_HK_Auto - INFO -   >> 点击确定使用成功
+2026-08-20 11:56:18,742 - JRYG_HK_Auto - INFO - 【重要步骤】为了触发预估刷新提示，正在就地等待 5 分钟 10 秒 (310 秒)...
+2026-08-20 11:57:18,749 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 1 分钟...
+2026-08-20 11:58:18,755 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 2 分钟...
+2026-08-20 11:59:18,721 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 3 分钟...
+2026-08-20 12:00:18,724 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 4 分钟...
+2026-08-20 12:01:18,729 - JRYG_HK_Auto - INFO -   >> [等待进度] 已过去 5 分钟...
+2026-08-20 12:01:28,732 - JRYG_HK_Auto - INFO -   >> [等待进度] 额外 10 秒等待结束。
+2026-08-20 12:01:28,733 - JRYG_HK_Auto - INFO - 【步骤 6】等待结束，正在点击『確認呼叫』以触发预估更新对话框...
+2026-08-20 12:01:28,894 - JRYG_HK_Auto - INFO -   >> 已点击確認呼叫: (586, 2550)
+2026-08-20 12:01:33,473 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_03_expired_prompt.png
+2026-08-20 12:01:33,474 - JRYG_HK_Auto - INFO - 检测并处理预估价格刷新提示框...
+2026-08-20 12:01:36,018 - JRYG_HK_Auto - INFO -   >> 成功点击确认价格刷新弹窗
+2026-08-20 12:01:40,023 - JRYG_HK_Auto - INFO - 【步骤 7】再次点击优惠券选项卡以核对状态持久性...
+2026-08-20 12:01:40,187 - JRYG_HK_Auto - INFO -   >> 已点击优惠券区域: (996, 2225)
+2026-08-20 12:01:44,590 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_04_post_verification.png
+2026-08-20 12:01:44,591 - JRYG_HK_Auto - INFO - 【步骤 8】已打开优惠券列表。检查此前选中的券是否保持勾选状态...
+2026-08-20 12:01:44,882 - JRYG_HK_Auto - WARNING -   >> [校验提示] 目标优惠券未找到，请查看截图进行人工复核。
+2026-08-20 12:01:44,882 - JRYG_HK_Auto - INFO - 【步骤 9】校验完毕，正在点击返回以恢复首页...
+2026-08-20 12:01:51,663 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_coupon_check_05_finished.png
+2026-08-20 12:01:51,664 - JRYG_HK_Auto - INFO - 【成功】乘客端优惠券时效刷新与持久性验证流程顺利完成！

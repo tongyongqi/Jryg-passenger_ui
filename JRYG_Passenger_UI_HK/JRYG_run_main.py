@@ -21,13 +21,10 @@ def run_tests():
     
     report_file = os.path.join(REPORT_DIR, "JRYG_test_report_hk.html")
     
-    # 动态匹配 JRYG_*.py 规格
+    # 港版 Android 仅执行单一 Appium 端到端下单流程，避免 Poco 与 UiAutomator2 抢占设备自动化服务
     pytest_args = [
         "-v", "-s",
-        os.path.join(BASE_DIR, "cases"),
-        "-o", "python_files=JRYG_*.py",
-        "-o", "python_classes=TestJRYG*",
-        "-o", "python_functions=test_*",
+        os.path.join(BASE_DIR, "cases", "JRYG_test_open_app.py"),
         f"--html={report_file}",
         "--self-contained-html"
     ]

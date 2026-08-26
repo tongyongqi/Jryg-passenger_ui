@@ -29,40 +29,9 @@ else
     echo "$adb_devices"
 fi
 
-# 2.5 检查并自动启动 Appium Server
-echo "检测本地 Appium Server (localhost:4723) 是否已启动..."
-nc -z 127.0.0.1 4723 &>/dev/null
-appium_running=$?
-
-if [ $appium_running -ne 0 ]; then
-    echo "[提示] 未检测到运行中的 Appium Server，正在尝试在后台自动拉起..."
-    if command -v appium &> /dev/null; then
-        mkdir -p JRYG_Passenger_UI_HK/logs
-        nohup appium > JRYG_Passenger_UI_HK/logs/appium_server.log 2>&1 &
-        
-        # 轮询检测 Appium 端口是否成功启动（最多等待 8 秒）
-        for i in {1..8}; do
-            sleep 1
-            nc -z 127.0.0.1 4723 &>/dev/null
-            if [ $? -eq 0 ]; then
-                echo "[OK] Appium Server 已成功在后台拉起并就绪！"
-                appium_running=0
-                break
-            fi
-        done
-        if [ $appium_running -ne 0 ]; then
-            echo "[错误] 自动拉起 Appium Server 失败，请检查端口 4723 是否被占用，或在终端手动运行 'appium' 启动。"
-            exit 1
-        fi
-    else
-        echo "[错误] 未检测到 'appium' 命令，请确保已全局安装 Appium：npm install -g appium"
-        exit 1
-    fi
-else
-    echo "[OK] Appium Server 已在线！"
-fi
-
 # 3. 运行自动化测试启动器
+# 当前 Vivo Android 15 会主动终止 UiAutomator2 instrumentation，
+# 港版端到端流程改用稳定的 ADB + Airtest 通道，无需重复启动 Appium Server。
 echo ""
 echo "正在启动 JRYG 港版测试套件..."
 if [ -f ".venv/bin/python3" ]; then
