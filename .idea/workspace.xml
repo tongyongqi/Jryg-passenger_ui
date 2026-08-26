@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5df8c73e-4371-4cb4-b529-eb5c4258b12a" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/CreateandDistributeCoupons.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="5df8c73e-4371-4cb4-b529-eb5c4258b12a" name="更改" comment="优惠卷创建发放">
+      <change beforePath="$PROJECT_DIR$/create_coupon.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_coupon.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +47,15 @@
       <option name="presentableId" value="Default" />
       <updated>1787741661621</updated>
     </task>
+    <task id="LOCAL-00001" summary="优惠卷创建发放">
+      <option name="closed" value="true" />
+      <created>1787749702333</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1787749702333</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -64,5 +68,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="优惠卷创建发放" />
+    <option name="LAST_COMMIT_MESSAGE" value="优惠卷创建发放" />
   </component>
 </project>

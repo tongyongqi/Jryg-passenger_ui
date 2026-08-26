@@ -185,29 +185,50 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
         await page.screenshot(path="coupon_form_filled.png")
         print("[*] 表单填写完毕，截图已保存至 coupon_form_filled.png")
         
-        # 探测 Vue 表单的绑定数据结构
+        # 3.10 使用 JS 一键完成 Vue 模型赋值与校验清除（降维打击，无视组件拦截）
+        print("[*] 正在通过 JS 降维打击，一键注入 Vue 核心模型并清除校验警告...")
         try:
-            vue_model_data = await page.evaluate("""() => {
-                const formEl = document.querySelector('.el-dialog:visible .el-form');
-                if (formEl && formEl.__vue__) {
-                    const m = formEl.__vue__.model || {};
-                    const res = {};
-                    for (let k in m) {
-                        if (typeof m[k] !== 'function' && typeof m[k] !== 'object') {
-                            res[k] = m[k];
-                        } else if (Array.isArray(m[k])) {
-                            res[k] = m[k];
-                        } else {
-                            res[k] = '[Object]';
-                        }
-                    }
-                    return res;
-                }
-                return null;
-            }""")
-            print(f"[*] 探测到当前可见表单的 Vue model 数据为: {vue_model_data}")
+            vue_log = await page.evaluate(f"""() => {{
+                const dialogs = Array.from(document.querySelectorAll('.el-dialog'));
+                const visibleDialog = dialogs.find(d => d.getBoundingClientRect().width > 0);
+                if (visibleDialog) {{
+                    const formEl = visibleDialog.querySelector('.el-form');
+                    if (formEl && formEl.__vue__) {{
+                        const m = formEl.__vue__.model || {{}};
+                        
+                        const todayStr = '{today_str}';
+                        const futureStr = '{future_str}';
+                        
+                        // 1. 面值与规则
+                        m.Denomination = 1000;
+                        m.UseRoleMoney = 2000;
+                        
+                        // 2. 有效期时间段与日期值
+                        m.CouponStartDate = todayStr;
+                        m.CouponEndDate = futureStr;
+                        m.TimesVal = [todayStr, futureStr];
+                        
+                        // 3. 选择券核销时间段
+                        m.LimitStartTime = todayStr;
+                        m.LimitEndTime = futureStr;
+                        
+                        // 4. 其他核心必填属性
+                        m.CouponName = "自动创建大额优惠券";
+                        m.Number = 100000;
+                        
+                        // 5. 强行触发一键清除校验
+                        if (typeof formEl.__vue__.clearValidate === 'function') {{
+                            formEl.__vue__.clearValidate();
+                        }}
+                        
+                        return 'Vue model updated successfully: ' + JSON.stringify(m);
+                    }}
+                }}
+                return '未找到 Form';
+            }}""")
+            print(f"[*] JS 注入结果: {vue_log}")
         except Exception as e:
-            print(f"[!] 探测 Vue model 失败: {e}")
+            print(f"[!] JS 降维打击注入失败: {e}")
         
         # 4. 提交
         print("[*] 正在点击“确 定”按钮提交优惠券...")
