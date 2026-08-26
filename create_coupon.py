@@ -98,15 +98,15 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
         except Exception as e:
             print(f"[!] 选择适用商家失败: {e}")
             
-        # 3.3 填充金额和规则 (面值1000，使用规则满 2000 可用)
-        print("[*] 正在填写面值: 1000 元...")
+        # 3.3 填充金额和规则 (面值0.9，使用规则满 1 可用)
+        print("[*] 正在填写面值: 0.9 元...")
         face_value_input = dialog.locator(".el-form-item:has-text('面值') input").first
-        await face_value_input.evaluate("(el) => { el.value = '1000'; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); el.dispatchEvent(new Event('blur', { bubbles: true })); }")
+        await face_value_input.evaluate("(el) => { el.value = '0.9'; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); el.dispatchEvent(new Event('blur', { bubbles: true })); }")
         await page.wait_for_timeout(300)
         
-        print("[*] 正在填写使用规则: 满 2000 元可用...")
+        print("[*] 正在填写使用规则: 满 1 元可用...")
         rule_input = dialog.locator(".el-form-item:has-text('使用规则') input").first
-        await rule_input.evaluate("(el) => { el.value = '2000'; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); el.dispatchEvent(new Event('blur', { bubbles: true })); }")
+        await rule_input.evaluate("(el) => { el.value = '1'; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); el.dispatchEvent(new Event('blur', { bubbles: true })); }")
         await page.wait_for_timeout(300)
         
         print("[*] 正在填写最高抵扣: 100 %...")
@@ -200,8 +200,8 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
                         const futureStr = '{future_str}';
                         
                         // 1. 面值与规则
-                        m.Denomination = 1000;
-                        m.UseRoleMoney = 2000;
+                        m.Denomination = 0.9;
+                        m.UseRoleMoney = 1;
                         
                         // 2. 有效期时间段与日期值
                         m.CouponStartDate = todayStr;
