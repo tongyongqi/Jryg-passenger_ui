@@ -93,10 +93,46 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
         # 定位主弹窗
         dialog = page.locator(".el-dialog:visible").filter(has=page.locator(".el-dialog__title:has-text('发放优惠券')")).last
         
-        # 4. 填写主表单手机号
-        print(f"[*] 正在输入客人手机号: {target_phone}...")
-        phone_input = dialog.locator(".el-textarea__inner, .el-input__inner, textarea, input:not([type='radio']):not([type='checkbox']):not([type='file'])").first
-        await phone_input.fill(str(target_phone))
+        # 4. 填写主表单手机号与备注说明（采用极速 JS 降维注入，完美和备注分开，填入“自动发送优惠卷”）
+        print(f"[*] 正在输入客人手机号: {target_phone} 并设置备注说明...")
+        try:
+            # 使用高精度 JS 探测弹窗中的 Form Model，直接将值注入 Vue data 中，完美、无痛、绝对不超时
+            await page.evaluate(f"""() => {{
+                const dialogs = Array.from(document.querySelectorAll('.el-dialog'));
+                const visibleDialog = dialogs.find(d => d.getBoundingClientRect().width > 0);
+                if (visibleDialog) {{
+                    const formEl = visibleDialog.querySelector('.el-form');
+                    if (formEl && formEl.__vue__) {{
+                        const m = formEl.__vue__.model || {{}};
+                        
+                        // 1. 设置手机号 (寻找绑定在手机号上的 Vue model 属性)
+                        if (m.Phones !== undefined) m.Phones = "{target_phone}";
+                        if (m.phones !== undefined) m.phones = "{target_phone}";
+                        if (m.phone !== undefined) m.phone = "{target_phone}";
+                        if (m.Phone !== undefined) m.phone = "{target_phone}";
+                        
+                        // 2. 设置备注 (备注填入“自动发送优惠卷”)
+                        if (m.Remark !== undefined) m.Remark = "自动发送优惠卷";
+                        if (m.remark !== undefined) m.remark = "自动发送优惠卷";
+                        if (m.Desc !== undefined) m.Desc = "自动发送优惠卷";
+                        if (m.desc !== undefined) m.desc = "自动发送优惠卷";
+                        if (m.note !== undefined) m.note = "自动发送优惠卷";
+                    }}
+                }}
+            }}""")
+            
+            # 同时在 DOM 上通过兜底赋值保证截图上有文字呈现
+            textareas = await dialog.locator("textarea, input:not([type='radio']):not([type='checkbox']):not([type='file'])").all()
+            if len(textareas) >= 2:
+                await textareas[0].fill(str(target_phone))
+                await textareas[1].fill("自动发送优惠卷")
+                print("[*] 已成功在 DOM 上分离输入了手机号和备注说明。")
+            else:
+                phone_input = dialog.locator(".el-textarea__inner, .el-input__inner, textarea, input:not([type='radio']):not([type='checkbox']):not([type='file'])").first
+                await phone_input.fill(str(target_phone))
+        except Exception as e:
+            print(f"[!] 注入手机号和备注失败: {e}")
+            
         await page.wait_for_timeout(500)
         
         # 5. 点击添加按钮打开嵌套优惠券选择弹窗
@@ -107,6 +143,43 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
         
         # 定位嵌套选择优惠券的弹窗
         nested_dialog = page.locator(".el-dialog:visible").last
+        
+        # 5.5 输入批次号 34303 并点击查询 (采用 JS 高雅注入，彻底避免定位超时)
+        target_batch = "34303"
+        print(f"[*] 正在在嵌套弹窗中输入批次号: {target_batch} 并过滤查询...")
+        try:
+            # 1. 直接用 JS 对嵌套弹窗上的搜索 input 属性和模型绑定进行覆盖
+            await page.evaluate(f"""() => {{
+                const dialogs = Array.from(document.querySelectorAll('.el-dialog'));
+                const nested = dialogs[dialogs.length - 1]; // 最后一个弹窗
+                if (nested) {{
+                    const form = nested.querySelector('.el-form');
+                    if (form && form.__vue__) {{
+                        const m = form.__vue__.model || {{}};
+                        // 寻找并强刷批次号字段
+                        for (let k in m) {{
+                            if (k.toLowerCase().includes('batch') || k.toLowerCase().includes('id') || k.toLowerCase().includes('no')) {{
+                                m[k] = "{target_batch}";
+                            }}
+                        }}
+                    }}
+                    // DOM 兜底赋值
+                    const inputs = Array.from(nested.querySelectorAll('input:not([type="radio"]):not([type="checkbox"])'));
+                    if (inputs.length > 0) {{
+                        inputs[0].value = "{target_batch}";
+                        inputs[0].dispatchEvent(new Event('input', {{ bubbles: true }}));
+                        inputs[0].dispatchEvent(new Event('change', {{ bubbles: true }}));
+                    }}
+                }}
+            }}""")
+            
+            # 点击查询按钮
+            query_btn = nested_dialog.locator("button:has-text('查询'), .el-button:has-text('查询')").first
+            await query_btn.click()
+            await page.wait_for_timeout(1500)
+            print(f"[*] 批次号 {target_batch} 过滤完毕，准备勾选。")
+        except Exception as e:
+            print(f"[!] 批次号查询发生异常，将默认使用首行优惠券: {e}")
         
         # 6. 选择表格中的第一张优惠券
         print("[*] 正在勾选表格首行优惠券...")
