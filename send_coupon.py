@@ -4,8 +4,8 @@ import datetime
 
 async def send_coupon(username, password, image_captcha, sms_captcha, target_phone, coupon_qty):
     async with async_playwright() as p:
-        # 启动 Chromium 浏览器 (有头/无头自适应)
-        browser = await p.chromium.launch(headless=True)
+        # 启动 Chromium 浏览器 (调试模式：headless=False 真实弹出浏览器)
+        browser = await p.chromium.launch(headless=False)
         context = await browser.new_context(
             viewport={"width": 1440, "height": 900},
             ignore_https_errors=True
@@ -92,6 +92,15 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
         
         # 定位主弹窗
         dialog = page.locator(".el-dialog:visible").filter(has=page.locator(".el-dialog__title:has-text('发放优惠券')")).last
+        
+        # 3.8 核心修正：显式点击“手机号发送”单选按钮，让页面正确切换并显现出手机号文本域
+        print("[*] 正在切换发放方式为“手机号发送”...")
+        try:
+            phone_send_radio = dialog.locator(".el-radio").filter(has_text="手机号发送")
+            await phone_send_radio.click()
+            await page.wait_for_timeout(1000)
+        except Exception as e:
+            print(f"[!] 切换“手机号发送”单选状态失败: {e}")
         
         # 4. 填写主表单手机号与备注说明（采用极速 JS 降维注入，完美和备注分开，填入“自动发送优惠卷”）
         print(f"[*] 正在输入客人手机号: {target_phone} 并设置备注说明...")
@@ -350,6 +359,10 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
             print("[🎉 SUCCESS] 成功验证到“发送成功”或相关的成功提示消息！")
         else:
             print("[⚠️ WARNING] 未能在提示框中捕获到含有“成功”字样的消息。请查看 coupon_send_result.png 截图人工确认结果。")
+            
+        # 调试等待：多停留 10 秒让用户观赏完浏览器结果再关闭
+        print("[*] 调试模式：正在保持浏览器停留 10 秒以供查看...")
+        await page.wait_for_timeout(10000)
             
         await browser.close()
 
