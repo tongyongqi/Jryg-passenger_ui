@@ -213,7 +213,63 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
             except Exception as e:
                 print(f"[!] 捕捉系统提示异常: {e}")
                 
-        # 12. 保存最终结果截图
+        # 12. 刷新列表并自动检查是否存在“未发送成功”的优惠券记录
+        print("[*] 正在刷新发放记录列表以进行发送状态二次核对...")
+        try:
+            # 点击“搜索”按钮刷新列表
+            search_btn = page.locator("button:visible").filter(has_text="搜").first
+            if await search_btn.count() > 0:
+                await search_btn.click()
+                await page.wait_for_timeout(3000)
+            
+            rows = page.locator(".el-table__row")
+            row_count = await rows.count()
+            # 限制仅检查最顶部最新产生的 10 条记录，防止因为滚动条下方行未渲染导致超时
+            check_count = min(row_count, 10)
+            print(f"[*] 当前页面共探测到 {row_count} 条发放记录，正在极速核对最顶部的最新 {check_count} 条记录...")
+            
+            failed_records = []
+            for i in range(check_count):
+                row = rows.nth(i)
+                cells = row.locator("td")
+                
+                # 获取发放记录编号、优惠券批次、发送数量、成功数量
+                record_id = (await cells.nth(0).inner_text()).strip()
+                coupon_batch = (await cells.nth(1).inner_text()).strip()
+                sent_qty = (await cells.nth(4).inner_text()).strip()
+                success_qty = (await cells.nth(5).inner_text()).strip()
+                send_time = (await cells.nth(6).inner_text()).strip()
+                
+                try:
+                    sent_num = int(sent_qty)
+                    success_num = int(success_qty)
+                    if success_num < sent_num:
+                        failed_records.append({
+                            "record_id": record_id,
+                            "coupon_batch": coupon_batch,
+                            "sent_qty": sent_qty,
+                            "success_qty": success_qty,
+                            "send_time": send_time
+                        })
+                except ValueError:
+                    # 容错处理（非数字）
+                    pass
+            
+            if failed_records:
+                print("\n[⚠️ ALERT] 侦测到以下【未发送成功】的优惠券发放记录：")
+                print("=" * 70)
+                print(f"{'发放记录编号':<12} | {'优惠券批次':<12} | {'券发送数量':<10} | {'成功数量':<10} | {'发送时间'}")
+                print("-" * 70)
+                for rec in failed_records:
+                    print(f"{rec['record_id']:<12} | {rec['coupon_batch']:<12} | {rec['sent_qty']:<10} | {rec['success_qty']:<10} | {rec['send_time']}")
+                print("=" * 70)
+            else:
+                print("\n[🎉 PERFECT] 经核对，当前列表内所有优惠券发放记录均已 100% 全部发送成功，无任何失败记录！")
+                
+        except Exception as e:
+            print(f"[!] 发送记录核对核查过程发生异常: {e}")
+            
+        # 13. 保存最终结果截图
         await page.screenshot(path="coupon_send_result.png")
         print("[*] 最终发放结果截图已保存至 coupon_send_result.png")
         
@@ -228,7 +284,7 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
 # ⚙️ 极简配置参数区 (在此随意更改手机号和发放张数)
 # ==========================================
 TARGET_PHONE = "18618251727"   # 发送目标客户手机号 (多手机号换行输入即可)
-COUPON_QTY = "2"               # 发放优惠券张数（可设为 1, 2, 5, 10 等任意正整数）
+COUPON_QTY = "1"               # 发放优惠券张数（可设为 1, 2, 5, 10 等任意正整数）
 # ==========================================
 
 if __name__ == "__main__":
