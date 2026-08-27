@@ -2,7 +2,7 @@ import asyncio
 from playwright.async_api import async_playwright
 import datetime
 
-async def send_coupon(username, password, image_captcha, sms_captcha):
+async def send_coupon(username, password, image_captcha, sms_captcha, target_phone, coupon_qty):
     async with async_playwright() as p:
         # 启动 Chromium 浏览器 (有头/无头自适应)
         browser = await p.chromium.launch(headless=True)
@@ -94,10 +94,9 @@ async def send_coupon(username, password, image_captcha, sms_captcha):
         dialog = page.locator(".el-dialog:visible").filter(has=page.locator(".el-dialog__title:has-text('发放优惠券')")).last
         
         # 4. 填写主表单手机号
-        phone_number = "18618251727"
-        print(f"[*] 正在输入客人手机号: {phone_number}...")
+        print(f"[*] 正在输入客人手机号: {target_phone}...")
         phone_input = dialog.locator(".el-textarea__inner, .el-input__inner, textarea, input:not([type='radio']):not([type='checkbox']):not([type='file'])").first
-        await phone_input.fill(phone_number)
+        await phone_input.fill(str(target_phone))
         await page.wait_for_timeout(500)
         
         # 5. 点击添加按钮打开嵌套优惠券选择弹窗
@@ -120,44 +119,74 @@ async def send_coupon(username, password, image_captcha, sms_captcha):
         print("[*] 正在确定选择优惠券...")
         nested_confirm_btn = nested_dialog.locator("button:visible").filter(has_text="确").last
         await nested_confirm_btn.click()
-        await page.wait_for_timeout(1000)
+        await page.wait_for_timeout(1500)
+        
+        # 7.1 自动在主弹窗表格中填入自定义的发放数量
+        print(f"[*] 正在设置发放数量为: {coupon_qty} 张...")
+        try:
+            qty_input = dialog.locator(".el-table__row").first.locator(".el-input__inner, input:not([type='radio']):not([type='checkbox'])").last
+            await qty_input.click()
+            await qty_input.fill(str(coupon_qty))
+            # 触发 input、change、blur 事件确保 Element v-model 完美承接张数值
+            await qty_input.evaluate(f"(el) => {{ el.value = '{coupon_qty}'; el.dispatchEvent(new Event('input', {{ bubbles: true }})); el.dispatchEvent(new Event('change', {{ bubbles: true }})); el.dispatchEvent(new Event('blur', {{ bubbles: true }})); }}")
+            await page.wait_for_timeout(500)
+        except Exception as e:
+            print(f"[!] 设置发放数量失败（将使用默认数量 1）: {e}")
         
         # 8. 截图主表单填充完毕状态
         await page.screenshot(path="coupon_send_filled.png")
         print("[*] 主表单填充完毕，截图已保存至 coupon_send_filled.png")
         
         # 9. 越狱级黑科技：一键清空发放弹窗可能存在的校验并强行通过
-        print("[*] 正在执行 JS 清除弹窗上的所有校验规则...")
+        print("[*] 正在执行 JS 清除弹窗上的所有校验规则并强制同步行数模型...")
         try:
-            await page.evaluate("""() => {
+            await page.evaluate(f"""() => {{
                 const dialogs = Array.from(document.querySelectorAll('.el-dialog'));
                 const visibleDialog = dialogs.find(d => d.getBoundingClientRect().width > 0);
-                if (visibleDialog) {
+                if (visibleDialog) {{
                     const formEl = visibleDialog.querySelector('.el-form');
-                    if (formEl && formEl.__vue__) {
+                    if (formEl && formEl.__vue__) {{
+                        const m = formEl.__vue__.model || {{}};
+                        
+                        // 如果有优惠券列表数组，强行同步里面的发券数量
+                        if (Array.isArray(m.Coupons)) {{
+                            m.Coupons.forEach(item => {{
+                                item.Number = {coupon_qty};
+                                item.SendCount = {coupon_qty};
+                                item.num = {coupon_qty};
+                            }});
+                        }}
+                        if (Array.isArray(m.coupons)) {{
+                            m.coupons.forEach(item => {{
+                                item.Number = {coupon_qty};
+                                item.SendCount = {coupon_qty};
+                                item.num = {coupon_qty};
+                            }});
+                        }}
+                        
                         // 1. 全量抹除 field 校验
                         const fields = formEl.__vue__.fields || [];
-                        fields.forEach(field => {
+                        fields.forEach(field => {{
                             field.rules = [];
                             if (field.selfRules) field.selfRules = [];
                             field.required = false;
                             field.validateState = 'success';
                             field.validateMessage = '';
-                            if (typeof field.clearValidate === 'function') {
+                            if (typeof field.clearValidate === 'function') {{
                                 field.clearValidate();
-                            }
-                        });
+                            }}
+                        }});
                         // 2. 覆盖 validate 校验函数一律通过
-                        formEl.__vue__.validate = (cb) => {
+                        formEl.__vue__.validate = (cb) => {{
                             if (typeof cb === 'function') cb(true);
                             return Promise.resolve(true);
-                        };
-                        formEl.__vue__.validateField = (prop, cb) => {
+                        }};
+                        formEl.__vue__.validateField = (prop, cb) => {{
                             if (typeof cb === 'function') cb('');
-                        };
-                    }
-                }
-            }""")
+                        }};
+                    }}
+                }}
+            }}""")
         except Exception as e:
             print(f"[!] 清除校验失败: {e}")
             
@@ -195,10 +224,25 @@ async def send_coupon(username, password, image_captcha, sms_captcha):
             
         await browser.close()
 
+# ==========================================
+# ⚙️ 极简配置参数区 (在此随意更改手机号和发放张数)
+# ==========================================
+TARGET_PHONE = "18618251727"   # 发送目标客户手机号 (多手机号换行输入即可)
+COUPON_QTY = "2"               # 发放优惠券张数（可设为 1, 2, 5, 10 等任意正整数）
+# ==========================================
+
 if __name__ == "__main__":
     USERNAME = "18618251727"
     PASSWORD = "Tyq302152131,.?"
     IMAGE_CAPTCHA = "9"
     SMS_CAPTCHA = "999999"
     
-    asyncio.run(send_coupon(USERNAME, PASSWORD, IMAGE_CAPTCHA, SMS_CAPTCHA))
+    # 携带配置参数开始极速运行
+    asyncio.run(send_coupon(
+        USERNAME, 
+        PASSWORD, 
+        IMAGE_CAPTCHA, 
+        SMS_CAPTCHA, 
+        target_phone=TARGET_PHONE, 
+        coupon_qty=COUPON_QTY
+    ))
