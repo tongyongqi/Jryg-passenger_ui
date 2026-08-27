@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5df8c73e-4371-4cb4-b529-eb5c4258b12a" name="更改" comment="优惠卷创建发放">
-      <change beforePath="$PROJECT_DIR$/send_coupon.py" beforeDir="false" afterPath="$PROJECT_DIR$/send_coupon.py" afterDir="false" />
-    </list>
+    <list default="true" id="5df8c73e-4371-4cb4-b529-eb5c4258b12a" name="更改" comment="优惠卷创建发放" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

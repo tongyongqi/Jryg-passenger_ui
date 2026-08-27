@@ -2,7 +2,7 @@ import asyncio
 from playwright.async_api import async_playwright
 import datetime
 
-async def create_coupon(username, password, image_captcha, sms_captcha):
+async def create_coupon(username, password, image_captcha, sms_captcha, coupon_type_config):
     async with async_playwright() as p:
         # 启动 Chromium 浏览器 (默认无头模式)
         browser = await p.chromium.launch(headless=True)
@@ -53,6 +53,21 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
         print(f"[*] 正在填写优惠券名称: {coupon_name}...")
         name_input = dialog.locator(".el-form-item:has-text('名称') input").first
         await name_input.fill(coupon_name)
+        
+        # 3.0 选择优惠券类型 (满减券 或 折扣券，根据配置参数进行选择)
+        print(f"[*] 正在选择优惠券类型为: {coupon_type_config}...")
+        try:
+            type_item = dialog.locator(".el-form-item").filter(has_text="类型")
+            type_input = type_item.locator("input").first
+            await type_input.click()
+            await page.wait_for_timeout(1000)
+            
+            # 显式点击下拉列表中匹配配置的类型
+            target_option = page.locator(".el-select-dropdown:visible .el-select-dropdown__item").filter(has_text=coupon_type_config).first
+            await target_option.click()
+            await page.wait_for_timeout(500)
+        except Exception as e:
+            print(f"[!] 选择优惠券类型失败: {e}")
         
         # 3.1 选择优惠券标签（显式点击列表中的第一项，绝对避开抖音相关的标签）
         print("[*] 正在选择优惠券标签...")
@@ -203,6 +218,14 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
                         // 1. 面值与规则 (满 1 元可用，面值 1000)
                         m.Denomination = 1000;
                         m.UseRoleMoney = 1;
+                        
+                        // 1.1 自动根据配置同步 Vue model 上的优惠券类型属性 (1代表满减，2代表折扣)
+                        const configTypeStr = "{coupon_type_config}";
+                        if (configTypeStr.includes("折扣")) {{
+                            m.CouponType = 2;
+                        }} else {{
+                            m.CouponType = 1;
+                        }}
                         
                         // 1.2 越狱黑科技：深入到每个 Form Field 组件内部，全量、彻底摧毁所有可能存在的校验规则和拦截
                         const fields = formEl.__vue__.fields || [];
@@ -378,10 +401,23 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
             
         await browser.close()
 
+# ==========================================
+# ⚙️ 极简配置参数区 (在此随意更改创建优惠券的参数)
+# ==========================================
+COUPON_TYPE = "满减券"       # 优惠券类型，可选值: "满减券" 或 "折扣券"
+# ==========================================
+
 if __name__ == "__main__":
     USERNAME = "18618251727"
     PASSWORD = "Tyq302152131,.?"
     IMAGE_CAPTCHA = "9"
     SMS_CAPTCHA = "999999"
     
-    asyncio.run(create_coupon(USERNAME, PASSWORD, IMAGE_CAPTCHA, SMS_CAPTCHA))
+    # 携带配置参数开始极致自动创建
+    asyncio.run(create_coupon(
+        USERNAME, 
+        PASSWORD, 
+        IMAGE_CAPTCHA, 
+        SMS_CAPTCHA,
+        coupon_type_config=COUPON_TYPE
+    ))
