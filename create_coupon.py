@@ -1,28 +1,29 @@
 import asyncio
 from playwright.async_api import async_playwright
-import datetime
+import config_common
+import config_business
 
-async def create_coupon(username, password, image_captcha, sms_captcha):
+async def create_coupon():
     async with async_playwright() as p:
-        # 启动 Chromium 浏览器 (默认无头模式)
+        # 启动 Chromium 浏览器 (采用公共配置中的无头静默模式)
         browser = await p.chromium.launch(headless=True)
         context = await browser.new_context(
             viewport={"width": 1440, "height": 900},
             ignore_https_errors=True  # 忽略 HTTPS 证书问题
         )
         page = await context.new_page()
-        page.set_default_timeout(60000)  # 将默认超时提高至 60 秒，对抗网络波动
+        page.set_default_timeout(config_common.DEFAULT_TIMEOUT)
         
-        url = "https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage"
+        url = config_common.BASE_URL
         print(f"[*] 正在导航至优惠券管理页面: {url}")
-        await page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        await page.goto(url, wait_until="domcontentloaded", timeout=config_common.DEFAULT_TIMEOUT)
         await page.wait_for_timeout(3000)
         
         # 1. 登录流程
         print("[*] 正在输入登录凭证...")
-        await page.fill("input[placeholder='账号']", username)
-        await page.fill("input[placeholder='密码']", password)
-        await page.fill("input[placeholder='图形验证码']", image_captcha)
+        await page.fill("input[placeholder='账号']", config_common.USERNAME)
+        await page.fill("input[placeholder='密码']", config_common.PASSWORD)
+        await page.fill("input[placeholder='图形验证码']", config_common.IMAGE_CAPTCHA)
         
         print("[*] 正在点击获取验证码...")
         try:
@@ -31,7 +32,7 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
             print(f"[!] 点击获取验证码失败或被跳过: {e}")
             
         await page.wait_for_timeout(1000)
-        await page.fill("input[placeholder='验证码']", sms_captcha)
+        await page.fill("input[placeholder='验证码']", config_common.SMS_CAPTCHA)
         
         print("[*] 正在点击登录...")
         await page.click("button:has-text('登录')")
@@ -48,8 +49,8 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
         # 定位目标弹窗
         dialog = page.locator(".el-dialog:visible").filter(has=page.locator(".el-dialog__title:has-text('添加优惠券')")).last
         
-        # 3. 填写表单
-        coupon_name = "自动化创建优惠卷1000元"
+        # 3. 填写表单 (完全从 config_business 载入配置属性)
+        coupon_name = config_business.COUPON_NAME
         print(f"[*] 正在填写优惠券名称: {coupon_name}...")
         name_input = dialog.locator(".el-form-item:has-text('名称') input").first
         await name_input.fill(coupon_name)
@@ -98,8 +99,7 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
         # 3.2 勾选适用商家
         print("[*] 正在选择适用商家...")
         try:
-            merchants = ["小马智行", "金葵花", "阳光智行", "阳光自营"]
-            for merchant in merchants:
+            for merchant in config_business.MERCHANTS:
                 merchant_cb = dialog.locator(f".el-form-item:has-text('适用商家') .el-checkbox:has-text('{merchant}')")
                 if "is-checked" not in await merchant_cb.evaluate("(el) => el.className"):
                     await merchant_cb.click()
@@ -107,37 +107,34 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
         except Exception as e:
             print(f"[!] 选择适用商家失败: {e}")
             
-        # 3.3 填充金额和规则 (面值1000，使用规则满 1 可用)
-        print("[*] 正在填写面值: 1000 元...")
+        # 3.3 填充金额和规则 (利用 JS 强刷填入面额和门槛，并强制触发 Element 表单失焦重新计算)
+        print(f"[*] 正在填写面值: {config_business.FACE_VALUE} 元...")
         face_value_input = dialog.locator(".el-form-item:has-text('面值') input").first
-        await face_value_input.evaluate("(el) => { el.value = '1000'; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); el.dispatchEvent(new Event('blur', { bubbles: true })); }")
+        await face_value_input.evaluate(f"(el) => {{ el.value = '{config_business.FACE_VALUE}'; el.dispatchEvent(new Event('input', {{ bubbles: true }})); el.dispatchEvent(new Event('change', {{ bubbles: true }})); el.dispatchEvent(new Event('blur', {{ bubbles: true }})); }}")
         await page.wait_for_timeout(300)
         
-        print("[*] 正在填写使用规则: 满 1 元可用...")
+        print(f"[*] 正在填写使用规则: 满 {config_business.USE_RULE} 元可用...")
         rule_input = dialog.locator(".el-form-item:has-text('使用规则') input").first
-        await rule_input.evaluate("(el) => { el.value = '1'; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); el.dispatchEvent(new Event('blur', { bubbles: true })); }")
+        await rule_input.evaluate(f"(el) => {{ el.value = '{config_business.USE_RULE}'; el.dispatchEvent(new Event('input', {{ bubbles: true }})); el.dispatchEvent(new Event('change', {{ bubbles: true }})); el.dispatchEvent(new Event('blur', {{ bubbles: true }})); }}")
         await page.wait_for_timeout(300)
         
-        print("[*] 正在填写最高抵扣: 100 %...")
+        print(f"[*] 正在填写最高抵扣: {config_business.MAX_DISCOUNT} %...")
         max_discount_input = dialog.locator(".el-form-item:has-text('最高抵扣') input").first
-        await max_discount_input.fill("100")
+        await max_discount_input.fill(config_business.MAX_DISCOUNT)
         await max_discount_input.press("Enter")
         
         # 3.4 填充有效期和核销时间时间段
         print("[*] 正在填充有效期...")
         try:
-            today_str = "2026-08-12"
-            future_str = "2048-09-30"
-            
             # 1. 填充 “有效期” 字段 (开始日期 至 结束日期)
             time_form_item_1 = dialog.locator(".el-form-item").filter(has_text="有效期")
             start_input_1 = time_form_item_1.locator(".el-range-input").nth(0)
             end_input_1 = time_form_item_1.locator(".el-range-input").nth(1)
-            await start_input_1.evaluate(f"(el) => {{ el.value = '{today_str}'; el.dispatchEvent(new Event('input', {{ bubbles: true }})); el.dispatchEvent(new Event('change', {{ bubbles: true }})); }}")
+            await start_input_1.evaluate(f"(el) => {{ el.value = '{config_business.START_DATE}'; el.dispatchEvent(new Event('input', {{ bubbles: true }})); el.dispatchEvent(new Event('change', {{ bubbles: true }})); }}")
             await page.wait_for_timeout(300)
-            await end_input_1.evaluate(f"(el) => {{ el.value = '{future_str}'; el.dispatchEvent(new Event('input', {{ bubbles: true }})); el.dispatchEvent(new Event('change', {{ bubbles: true }})); }}")
+            await end_input_1.evaluate(f"(el) => {{ el.value = '{config_business.END_DATE}'; el.dispatchEvent(new Event('input', {{ bubbles: true }})); el.dispatchEvent(new Event('change', {{ bubbles: true }})); }}")
             
-            print(f"[*] 已成功通过 JS 填入有效期: {today_str} 至 {future_str}")
+            print(f"[*] 已成功通过 JS 填入有效期: {config_business.START_DATE} 至 {config_business.END_DATE}")
         except Exception as e:
             print(f"[!] 填充时间段失败: {e}")
             
@@ -150,16 +147,16 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
                 await page.wait_for_timeout(500)
         except Exception as e:
             print(f"[!] 勾选适用终端失败: {e}")
-        
+            
         # 3.6 填写发行量
-        print("[*] 正在填写发行量: 100000...")
+        print(f"[*] 正在填写发行量: {config_business.COUPON_QTY}...")
         qty_input = dialog.locator(".el-form-item:has-text('发行量') input").first
-        await qty_input.fill("100000")
+        await qty_input.fill(config_business.COUPON_QTY)
         
         # 3.7 选择发送城市
-        print("[*] 正在选择券发送城市为“全国”...")
+        print(f"[*] 正在选择券发送城市为“{config_business.CITY_LIMIT}”...")
         try:
-            city_radio = dialog.locator(".el-form-item:has-text('选择券发送城市') .el-radio:has-text('全国')")
+            city_radio = dialog.locator(f".el-form-item:has-text('选择券发送城市') .el-radio:has-text('{config_business.CITY_LIMIT}')")
             await city_radio.click()
         except Exception as e:
             print(f"[!] 选择券发送城市失败: {e}")
@@ -197,12 +194,9 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
                     if (formEl && formEl.__vue__) {{
                         const m = formEl.__vue__.model || {{}};
                         
-                        const todayStr = '{today_str}';
-                        const futureStr = '{future_str}';
-                        
-                        // 1. 面值与规则 (满 1 元可用，面值 1000)
-                        m.Denomination = 1000;
-                        m.UseRoleMoney = 1;
+                        // 1. 面值与规则
+                        m.Denomination = Number('{config_business.FACE_VALUE}');
+                        m.UseRoleMoney = Number('{config_business.USE_RULE}');
                         m.CouponType = 1;
                         
                         // 1.2 越狱黑科技：深入到每个 Form Field 组件内部，全量、彻底摧毁所有可能存在的校验规则和拦截
@@ -222,19 +216,19 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
                             formEl.__vue__.rules = {{}};
                         }}
                         
-                        // 2. 有效期时间段与日期值 (自 2026-08-12 至 2048-09-30)
-                        m.CouponStartDate = '2026-08-12';
-                        m.CouponEndDate = '2048-09-30';
-                        m.TimesVal = ['2026-08-12', '2048-09-30'];
+                        // 2. 有效期时间段与日期值 (使用纯日期格式，迎合 Element YYYY-MM-DD 原生绑定)
+                        m.CouponStartDate = '{config_business.START_DATE}';
+                        m.CouponEndDate = '{config_business.END_DATE}';
+                        m.TimesVal = ['{config_business.START_DATE}', '{config_business.END_DATE}'];
                         
                         // 3. 选择券核销时间段 (留空，完美和截图第二张一致)
                         m.LimitStartTime = '';
                         m.LimitEndTime = '';
                         
                         // 4. 其他核心必填属性
-                        m.CouponName = "自动化创建优惠卷1000元";
-                        m.Number = 100000;
-                        m.Remark = "<p>123</p>";
+                        m.CouponName = "{config_business.COUPON_NAME}";
+                        m.Number = Number('{config_business.COUPON_QTY}');
+                        m.Remark = "{config_business.REMARK_HTML}";
                         m.Terminal = [3, 4, 5, 6, 7, 8]; // 全终端覆盖 (3-H5, 4-APP, 5-微信小程序, 6-支付宝小程序, 7-抖音小程序, 8-鸿蒙系统)
                         
                         // 4.5 宇宙级越狱提审黑客技术：强行重写 Form 组件底层的 validate 方法，一律回调返回成功 (true)
@@ -380,9 +374,4 @@ async def create_coupon(username, password, image_captcha, sms_captcha):
         await browser.close()
 
 if __name__ == "__main__":
-    USERNAME = "18618251727"
-    PASSWORD = "Tyq302152131,.?"
-    IMAGE_CAPTCHA = "9"
-    SMS_CAPTCHA = "999999"
-    
-    asyncio.run(create_coupon(USERNAME, PASSWORD, IMAGE_CAPTCHA, SMS_CAPTCHA))
+    asyncio.run(create_coupon())

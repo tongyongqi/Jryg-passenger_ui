@@ -1,28 +1,30 @@
 import asyncio
 from playwright.async_api import async_playwright
 import datetime
+import config_common
+import config_business
 
-async def send_coupon(username, password, image_captcha, sms_captcha, target_phone, coupon_qty):
+async def send_coupon():
     async with async_playwright() as p:
-        # 启动 Chromium 浏览器 (调试模式：headless=False 真实弹出浏览器)
-        browser = await p.chromium.launch(headless=False)
+        # 启动 Chromium 浏览器 (调试模式自适应：有头/无头)
+        browser = await p.chromium.launch(headless=config_business.HEADLESS_DEBUG)
         context = await browser.new_context(
             viewport={"width": 1440, "height": 900},
             ignore_https_errors=True
         )
         page = await context.new_page()
-        page.set_default_timeout(60000)
+        page.set_default_timeout(config_common.DEFAULT_TIMEOUT)
         
-        url = "https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage"
+        url = config_common.BASE_URL
         print(f"[*] 正在导航至管理页面: {url}")
-        await page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        await page.goto(url, wait_until="domcontentloaded", timeout=config_common.DEFAULT_TIMEOUT)
         await page.wait_for_timeout(3000)
         
-        # 1. 登录流程
+        # 1. 登录流程 (完全采用公共共享配置项)
         print("[*] 正在输入登录凭证...")
-        await page.fill("input[placeholder='账号']", username)
-        await page.fill("input[placeholder='密码']", password)
-        await page.fill("input[placeholder='图形验证码']", image_captcha)
+        await page.fill("input[placeholder='账号']", config_common.USERNAME)
+        await page.fill("input[placeholder='密码']", config_common.PASSWORD)
+        await page.fill("input[placeholder='图形验证码']", config_common.IMAGE_CAPTCHA)
         
         print("[*] 正在点击获取验证码...")
         try:
@@ -31,7 +33,7 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
             print(f"[!] 点击获取验证码被跳过: {e}")
             
         await page.wait_for_timeout(1000)
-        await page.fill("input[placeholder='验证码']", sms_captcha)
+        await page.fill("input[placeholder='验证码']", config_common.SMS_CAPTCHA)
         
         print("[*] 正在点击登录...")
         await page.click("button:has-text('登录')")
@@ -47,18 +49,17 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
         # 2. 导航至“发放优惠券”页面
         print("[*] 正在导航进入“发放优惠券”页面...")
         try:
-            # 1. 尝试直接 URL 降维直连导航，最快且最稳定
+            # 直接 URL 降维直连导航，最快且最稳定
             await page.goto("https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_give", wait_until="domcontentloaded")
             await page.wait_for_timeout(5000)
             print(f"[*] 直连导航尝试完成，当前 URL: {page.url}")
         except Exception as e:
             print(f"[!] 直连导航失败，正在尝试全真点击进入: {e}")
             
-        # 2. 如果直连没有成功到达（比如卡在原页面），通过点击顶部“营销系统”和左侧侧边栏进入
+        # 如果直连没有成功到达（比如卡在原页面），通过点击顶部“营销系统”和左侧侧边栏进入
         if "coupon_give" not in page.url:
             try:
                 print("[*] 正在点击顶部“营销系统”大菜单...")
-                # 寻找顶部横向导航中的“营销系统”
                 marketing_menu = page.locator("header, .el-menu").locator("text=营销系统, :has-text('营销系统')").first
                 await marketing_menu.click()
                 await page.wait_for_timeout(2000)
@@ -102,8 +103,10 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
         except Exception as e:
             print(f"[!] 切换“手机号发送”单选状态失败: {e}")
         
-        # 4. 填写主表单手机号与备注说明（采用极速 JS 降维注入，完美和备注分开，填入“自动发送优惠卷”）
-        print(f"[*] 正在输入客人手机号: {target_phone} 并设置备注说明...")
+        # 4. 填写主表单手机号与备注说明（采用极速 JS 降维注入，完美和备注分开）
+        target_phone = config_business.TARGET_PHONE
+        remark_text = config_business.REMARK_TEXT
+        print(f"[*] 正在输入客人手机号: {target_phone} 并设置备注说明: {remark_text}...")
         try:
             # 使用高精度 JS 探测弹窗中的 Form Model，直接将值注入 Vue data 中，完美、无痛、绝对不超时
             await page.evaluate(f"""() => {{
@@ -120,21 +123,21 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
                         if (m.phone !== undefined) m.phone = "{target_phone}";
                         if (m.Phone !== undefined) m.phone = "{target_phone}";
                         
-                        // 2. 设置备注 (备注填入“自动发送优惠卷”)
-                        if (m.Remark !== undefined) m.Remark = "自动发送优惠卷";
-                        if (m.remark !== undefined) m.remark = "自动发送优惠卷";
-                        if (m.Desc !== undefined) m.Desc = "自动发送优惠卷";
-                        if (m.desc !== undefined) m.desc = "自动发送优惠卷";
-                        if (m.note !== undefined) m.note = "自动发送优惠卷";
+                        // 2. 设置备注
+                        if (m.Remark !== undefined) m.Remark = "{remark_text}";
+                        if (m.remark !== undefined) m.remark = "{remark_text}";
+                        if (m.Desc !== undefined) m.Desc = "{remark_text}";
+                        if (m.desc !== undefined) m.desc = "{remark_text}";
+                        if (m.note !== undefined) m.note = "{remark_text}";
                     }}
                 }}
             }}""")
             
-            # 同时在 DOM 上通过兜底赋值保证截图上有文字呈现
+            # 同时在 DOM 上通过兜底填入值保证截图上有文字呈现
             textareas = await dialog.locator("textarea, input:not([type='radio']):not([type='checkbox']):not([type='file'])").all()
             if len(textareas) >= 2:
                 await textareas[0].fill(str(target_phone))
-                await textareas[1].fill("自动发送优惠卷")
+                await textareas[1].fill(remark_text)
                 print("[*] 已成功在 DOM 上分离输入了手机号和备注说明。")
             else:
                 phone_input = dialog.locator(".el-textarea__inner, .el-input__inner, textarea, input:not([type='radio']):not([type='checkbox']):not([type='file'])").first
@@ -153,11 +156,10 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
         # 定位嵌套选择优惠券的弹窗
         nested_dialog = page.locator(".el-dialog:visible").last
         
-        # 5.5 输入批次号 34303 并点击查询 (采用 JS 高雅注入，彻底避免定位超时)
-        target_batch = "34303"
+        # 5.5 输入批次号并点击查询 (采用 JS 高雅注入，彻底避免定位超时)
+        target_batch = config_business.SEND_COUPON_BATCH
         print(f"[*] 正在在嵌套弹窗中输入批次号: {target_batch} 并过滤查询...")
         try:
-            # 1. 直接用 JS 对嵌套弹窗上的搜索 input 属性和模型绑定进行覆盖
             await page.evaluate(f"""() => {{
                 const dialogs = Array.from(document.querySelectorAll('.el-dialog'));
                 const nested = dialogs[dialogs.length - 1]; // 最后一个弹窗
@@ -165,14 +167,12 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
                     const form = nested.querySelector('.el-form');
                     if (form && form.__vue__) {{
                         const m = form.__vue__.model || {{}};
-                        // 寻找并强刷批次号字段
                         for (let k in m) {{
                             if (k.toLowerCase().includes('batch') || k.toLowerCase().includes('id') || k.toLowerCase().includes('no')) {{
                                 m[k] = "{target_batch}";
                             }}
                         }}
                     }}
-                    // DOM 兜底赋值
                     const inputs = Array.from(nested.querySelectorAll('input:not([type="radio"]):not([type="checkbox"])'));
                     if (inputs.length > 0) {{
                         inputs[0].value = "{target_batch}";
@@ -204,12 +204,12 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
         await page.wait_for_timeout(1500)
         
         # 7.1 自动在主弹窗表格中填入自定义的发放数量
+        coupon_qty = config_business.SEND_QTY
         print(f"[*] 正在设置发放数量为: {coupon_qty} 张...")
         try:
             qty_input = dialog.locator(".el-table__row").first.locator(".el-input__inner, input:not([type='radio']):not([type='checkbox'])").last
             await qty_input.click()
             await qty_input.fill(str(coupon_qty))
-            # 触发 input、change、blur 事件确保 Element v-model 完美承接张数值
             await qty_input.evaluate(f"(el) => {{ el.value = '{coupon_qty}'; el.dispatchEvent(new Event('input', {{ bubbles: true }})); el.dispatchEvent(new Event('change', {{ bubbles: true }})); el.dispatchEvent(new Event('blur', {{ bubbles: true }})); }}")
             await page.wait_for_timeout(500)
         except Exception as e:
@@ -306,6 +306,7 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
             
             rows = page.locator(".el-table__row")
             row_count = await rows.count()
+            
             # 限制仅检查最顶部最新产生的 10 条记录，防止因为滚动条下方行未渲染导致超时
             check_count = min(row_count, 10)
             print(f"[*] 当前页面共探测到 {row_count} 条发放记录，正在极速核对最顶部的最新 {check_count} 条记录...")
@@ -334,7 +335,6 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
                             "send_time": send_time
                         })
                 except ValueError:
-                    # 容错处理（非数字）
                     pass
             
             if failed_records:
@@ -360,31 +360,12 @@ async def send_coupon(username, password, image_captcha, sms_captcha, target_pho
         else:
             print("[⚠️ WARNING] 未能在提示框中捕获到含有“成功”字样的消息。请查看 coupon_send_result.png 截图人工确认结果。")
             
-        # 调试等待：多停留 10 秒让用户观赏完浏览器结果再关闭
-        print("[*] 调试模式：正在保持浏览器停留 10 秒以供查看...")
-        await page.wait_for_timeout(10000)
+        # 调试等待：如果开启了 HEADLESS_DEBUG 为 False，则保持多停留 10 秒
+        if not config_business.HEADLESS_DEBUG:
+            print("[*] 调试模式：正在保持浏览器停留 10 秒以供查看...")
+            await page.wait_for_timeout(10000)
             
         await browser.close()
 
-# ==========================================
-# ⚙️ 极简配置参数区 (在此随意更改手机号和发放张数)
-# ==========================================
-TARGET_PHONE = "18618251727"   # 发送目标客户手机号 (多手机号换行输入即可)
-COUPON_QTY = "1"               # 发放优惠券张数（可设为 1, 2, 5, 10 等任意正整数）
-# ==========================================
-
 if __name__ == "__main__":
-    USERNAME = "18618251727"
-    PASSWORD = "Tyq302152131,.?"
-    IMAGE_CAPTCHA = "9"
-    SMS_CAPTCHA = "999999"
-    
-    # 携带配置参数开始极速运行
-    asyncio.run(send_coupon(
-        USERNAME, 
-        PASSWORD, 
-        IMAGE_CAPTCHA, 
-        SMS_CAPTCHA, 
-        target_phone=TARGET_PHONE, 
-        coupon_qty=COUPON_QTY
-    ))
+    asyncio.run(send_coupon())
