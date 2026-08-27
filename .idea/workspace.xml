@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5df8c73e-4371-4cb4-b529-eb5c4258b12a" name="更改" comment="优惠卷创建发放">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/coupon_audit_dialog.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/coupon_created_and_approved.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/coupon_form_filled.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coupon_submit_failed_error.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/create_coupon.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_coupon.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/send_coupon.py" beforeDir="false" afterPath="$PROJECT_DIR$/send_coupon.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

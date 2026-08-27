@@ -17,7 +17,26 @@ async def send_coupon():
         
         url = config_common.BASE_URL
         print(f"[*] 正在导航至管理页面: {url}")
-        await page.goto(url, wait_until="domcontentloaded", timeout=config_common.DEFAULT_TIMEOUT)
+        
+        # 稳健的网络连接自愈与重试机制 (严防 about:blank)
+        nav_success = False
+        for retry in range(1, 4):
+            try:
+                await page.goto(url, wait_until="domcontentloaded", timeout=40000)
+                nav_success = True
+                print(f"[*] 第 {retry} 次尝试导航成功。")
+                break
+            except Exception as e:
+                print(f"[!] 第 {retry} 次导航失败 (可能由于网络重置或波动): {e}")
+                if retry < 3:
+                    print("[*] 正在等待 2 秒后尝试重新连接...")
+                    await page.wait_for_timeout(2000)
+                    
+        if not nav_success:
+            print("\n[❌ ERROR] 页面导航连续 3 次失败，当前停留在空白页。请检查您的网络连接、科学上网代理、VPN配置或服务器是否处于正常开启状态！")
+            await browser.close()
+            return
+            
         await page.wait_for_timeout(3000)
         
         # 1. 登录流程 (完全采用公共共享配置项)
@@ -49,12 +68,23 @@ async def send_coupon():
         # 2. 导航至“发放优惠券”页面
         print("[*] 正在导航进入“发放优惠券”页面...")
         try:
-            # 直接 URL 降维直连导航，最快且最稳定
-            await page.goto("https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_give", wait_until="domcontentloaded")
-            await page.wait_for_timeout(5000)
-            print(f"[*] 直连导航尝试完成，当前 URL: {page.url}")
+            # 直接 URL 降维直连导航，最快且最稳定 (增加最高 3 次自动网络重试)
+            give_success = False
+            for retry in range(1, 4):
+                try:
+                    await page.goto("https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_give", wait_until="domcontentloaded", timeout=40000)
+                    give_success = True
+                    break
+                except Exception as e:
+                    print(f"[!] 直连发放页面第 {retry} 次重试失败: {e}")
+                    if retry < 3:
+                        await page.wait_for_timeout(2000)
+            
+            if give_success:
+                await page.wait_for_timeout(3000)
+                print(f"[*] 直连导航尝试完成，当前 URL: {page.url}")
         except Exception as e:
-            print(f"[!] 直连导航失败，正在尝试全真点击进入: {e}")
+            print(f"[!] 直连导航失败: {e}")
             
         # 如果直连没有成功到达（比如卡在原页面），通过点击顶部“营销系统”和左侧侧边栏进入
         if "coupon_give" not in page.url:
