@@ -1,8 +1,12 @@
 import asyncio
 from playwright.async_api import async_playwright
 import datetime
+import os
 import config_common
 import config_business
+
+# 确保 output 文件夹在运行前已经创建
+os.makedirs("output", exist_ok=True)
 
 async def send_coupon():
     async with async_playwright() as p:
@@ -113,8 +117,8 @@ async def send_coupon():
             print("[*] 成功到达发放优惠券页面。")
         except Exception as e:
             print(f"[!] 等待“发放优惠券”按钮超时，当前页面 URL 为: {page.url}，异常: {e}")
-            await page.screenshot(path="send_coupon_navigation_failed.png")
-            print("[!] 已保存导航失败截图至 send_coupon_navigation_failed.png")
+            await page.screenshot(path="output/send_coupon_navigation_failed.png")
+            print("[!] 已保存导航失败截图至 output/send_coupon_navigation_failed.png")
             
         # 3. 点击列表右上角“发放优惠券”按钮以打开弹窗
         print("[*] 正在打开“发放优惠券”弹窗...")
@@ -246,8 +250,8 @@ async def send_coupon():
             print(f"[!] 设置发放数量失败（将使用默认数量 1）: {e}")
         
         # 8. 截图主表单填充完毕状态
-        await page.screenshot(path="coupon_send_filled.png")
-        print("[*] 主表单填充完毕，截图已保存至 coupon_send_filled.png")
+        await page.screenshot(path="output/coupon_send_filled.png")
+        print("[*] 主表单填充完毕，截图已保存至 output/coupon_send_filled.png")
         
         # 9. 越狱级黑科技：一键清空发放弹窗可能存在的校验并强行通过
         print("[*] 正在执行 JS 清除弹窗上的所有校验规则并强制同步行数模型...")
@@ -382,8 +386,8 @@ async def send_coupon():
             print(f"[!] 发送记录核对核查过程发生异常: {e}")
             
         # 13. 保存最终结果截图
-        await page.screenshot(path="coupon_send_result.png")
-        print("[*] 最终发放结果截图已保存至 coupon_send_result.png")
+        await page.screenshot(path="output/coupon_send_result.png")
+        print("[*] 最终发放结果截图已保存至 output/coupon_send_result.png")
         
         if success_detected:
             print("[🎉 SUCCESS] 成功验证到“发送成功”或相关的成功提示消息！")
