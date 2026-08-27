@@ -36,37 +36,54 @@ async def send_coupon(username, password, image_captcha, sms_captcha):
         print("[*] 正在点击登录...")
         await page.click("button:has-text('登录')")
         
-        # 等待重定向完成
-        await page.wait_for_timeout(5000)
+        # 稳健等待登录重定向跳离登录页
+        print("[*] 正在等待登录跳转重定向...")
+        for _ in range(30):
+            await page.wait_for_timeout(1000)
+            if "login" not in page.url:
+                break
         print(f"[*] 登录成功，当前 URL: {page.url}")
         
         # 2. 导航至“发放优惠券”页面
-        print("[*] 正在通过左侧菜单进入“发放优惠券”页面...")
+        print("[*] 正在导航进入“发放优惠券”页面...")
         try:
-            # 显式等待左侧菜单加载完毕
-            await page.wait_for_selector(".el-menu", timeout=15000)
-            
-            # 展开优惠券系统大分类
-            submenu = page.locator(".el-submenu").filter(has_text="优惠券系统").first
-            submenu_title = submenu.locator(".el-submenu__title")
-            await submenu_title.scroll_into_view_if_needed()
-            if "is-opened" not in await submenu.evaluate("(el) => el.className"):
-                await submenu_title.click()
-                await page.wait_for_timeout(1000)
-            
-            # 点击发放优惠券子菜单
-            menu_item = page.locator(".el-menu-item").filter(has_text="发放优惠券").first
-            await menu_item.scroll_into_view_if_needed()
-            await menu_item.click()
-            await page.wait_for_timeout(4000)
-            print(f"[*] 成功导航至发放页面，当前 URL: {page.url}")
+            # 1. 尝试直接 URL 降维直连导航，最快且最稳定
+            await page.goto("https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_give", wait_until="domcontentloaded")
+            await page.wait_for_timeout(5000)
+            print(f"[*] 直连导航尝试完成，当前 URL: {page.url}")
         except Exception as e:
-            print(f"[!] 侧边栏菜单导航失败，正在尝试直接 URL 导航: {e}")
-            await page.goto("https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_send", wait_until="domcontentloaded")
-            await page.wait_for_timeout(4000)
+            print(f"[!] 直连导航失败，正在尝试全真点击进入: {e}")
+            
+        # 2. 如果直连没有成功到达（比如卡在原页面），通过点击顶部“营销系统”和左侧侧边栏进入
+        if "coupon_give" not in page.url:
+            try:
+                print("[*] 正在点击顶部“营销系统”大菜单...")
+                # 寻找顶部横向导航中的“营销系统”
+                marketing_menu = page.locator("header, .el-menu").locator("text=营销系统, :has-text('营销系统')").first
+                await marketing_menu.click()
+                await page.wait_for_timeout(2000)
+                
+                print("[*] 正在通过搜索过滤左侧菜单进入“发放优惠券”页面...")
+                search_input = page.locator("input[placeholder='搜索菜单']")
+                await search_input.wait_for(state="visible", timeout=10000)
+                await search_input.click()
+                await search_input.fill("发放优惠券")
+                await page.wait_for_timeout(1000)
+                
+                menu_item = page.locator(".el-menu-item").filter(has_text="发放优惠券").first
+                await menu_item.click()
+                await page.wait_for_timeout(4000)
+            except Exception as ex:
+                print(f"[!] 全真点击导航发生异常: {ex}")
             
         # 显式等待发放页面加载完毕
-        await page.wait_for_selector("button:has-text('发放优惠券')", timeout=15000)
+        try:
+            await page.wait_for_selector("button:has-text('发放优惠券')", timeout=15000)
+            print("[*] 成功到达发放优惠券页面。")
+        except Exception as e:
+            print(f"[!] 等待“发放优惠券”按钮超时，当前页面 URL 为: {page.url}，异常: {e}")
+            await page.screenshot(path="send_coupon_navigation_failed.png")
+            print("[!] 已保存导航失败截图至 send_coupon_navigation_failed.png")
             
         # 3. 点击列表右上角“发放优惠券”按钮以打开弹窗
         print("[*] 正在打开“发放优惠券”弹窗...")
@@ -79,7 +96,7 @@ async def send_coupon(username, password, image_captcha, sms_captcha):
         # 4. 填写主表单手机号
         phone_number = "18618251727"
         print(f"[*] 正在输入客人手机号: {phone_number}...")
-        phone_input = dialog.locator(".el-form-item:has-text('客人手机号') textarea, textarea[placeholder*='手机号']")
+        phone_input = dialog.locator(".el-textarea__inner, .el-input__inner, textarea, input:not([type='radio']):not([type='checkbox']):not([type='file'])").first
         await phone_input.fill(phone_number)
         await page.wait_for_timeout(500)
         
