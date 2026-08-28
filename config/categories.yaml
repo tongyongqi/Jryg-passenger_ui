@@ -1,0 +1,22 @@
+categories:
+  - JRYG_User
+  - JRYG_Activity
+  - JRYG_Airport_Pickup
+  - JRYG_Airport_Send
+  - JRYG_Station_Pickup
+  - JRYG_Station_Sendoff
+  - JRYG_Instant_Order
+  - JRYG_Reserve_Order
+  - JRYG_Location
+  - JRYG_Common
+  - JRYG_Common2
+  - JRYG_Order
+  - JRYG_Coupon
+  - JRYG_Emergency_Contact
+  - JRYG_My_Trip
+  - JRYG_Invoice
+  - JRYG_Address
+  - JRYG_Personal_Center
+  - JRYG_Pre_Order_Info
+  - JRYG_Seckill_IM
+  - JRYG_Login

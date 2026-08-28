@@ -1,0 +1,21 @@
+# ==================== 我的行程分类 ====================
+# 接口: GET /passengerApi/order/list    (获取我的行程列表)
+
+test_cases:
+  - name: "TC-001 获取我的行程列表"
+    description: "已登录，获取我的行程列表"
+    priority: "P0"
+    method: GET
+    path: "/passengerApi/order/list"
+    need_login: true
+    params:
+      currentPage: "1"
+      orderType: "2"
+      viewHistoricalOrders: "0"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
