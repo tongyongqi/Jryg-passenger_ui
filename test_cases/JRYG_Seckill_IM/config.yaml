@@ -1,0 +1,112 @@
+# ==================== 秒杀活动 & IM（P2）====================
+
+test_cases:
+  - name: "TC-001 秒杀列表"
+    description: "验证获取秒杀活动列表功能"
+    priority: "P2"
+    method: POST
+    path: "/v5/user/activity/secKillList"
+    params:
+      nonce: "${Data_Time}"
+      agent_id: 12
+      activity_code: "a1A"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10007
+
+  - name: "TC-002 秒杀成功用户列表"
+    description: "验证获取秒杀成功用户列表功能"
+    priority: "P2"
+    method: POST
+    path: "/v5/user/activity/secKillUserList"
+    params:
+      nonce: "${Data_Time}"
+      activity_code: "J0BnexzD"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10007
+
+  - name: "TC-003 判断新老用户"
+    description: "验证判断新老用户功能"
+    priority: "P2"
+    method: POST
+    path: "/v5/user/activity/isNewUser"
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10007
+
+  - name: "TC-004 IM账号导入"
+    description: "验证IM账号导入功能"
+    priority: "P2"
+    method: POST
+    path: "/passengerApi/im/accountImport"
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10007
+
+  - name: "TC-005 客服订单列表"
+    description: "验证获取客服订单列表功能"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/im/orderList"
+    params:
+      nonce: "${Data_Time}"
+      page_no: 1
+      page_size: 20
+      days: 7
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10007
+          - 12404
+
+  - name: "TC-006 客服底部推荐问题"
+    description: "验证获取客服底部推荐问题功能"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/im/hotQuestion"
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10007
+          - 12404

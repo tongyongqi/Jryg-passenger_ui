@@ -1,0 +1,25 @@
+# ==================== 优惠卷分类 ====================
+# 接口: POST /passengerApi/coupon/gift/receive   (兑换优惠卷)
+# 前置条件: 需要登录
+
+test_cases:
+  - name: "TC-001 兑换优惠卷"
+    description: "已登录，通过兑换码兑换优惠卷"
+    priority: "P0"
+    method: POST
+    path: "/passengerApi/coupon/gift/receive"
+    need_login: true
+    params:
+      code: "自动化测试礼包"
+      nonce: "${Data_Time}"
+      agentID: "10753"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10201
+

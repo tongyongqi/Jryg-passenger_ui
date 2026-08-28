@@ -1,0 +1,119 @@
+# ==================== 用户分类 ====================
+# 接口: GET  /v3/user/get-info              (获取用户信息)
+#       GET  /v3/user/privacy_agreement/check (检查隐私协议)
+#       POST /v3/user/upload-jpush           (保存极光信息)
+#       GET  /v3/user/coupon/remind          (获取优惠卷到期提醒)
+#       GET  /passengerApi/coupon/list       (获取优惠卷列表)
+#       POST /passengerApi/coupon/gift/receive (兑换优惠卷)
+#       POST /v3/user/send-verify-code       (修改手机号-发送验证码)
+
+test_cases:
+  - name: "TC-024 正常获取用户信息"
+    description: "已登录，期望返回用户信息"
+    priority: "P0"
+    method: GET
+    path: "/v3/user/get-info"
+    need_login: true
+    re_login: true
+    params: {}
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-025 检查隐私协议"
+    description: "已登录，检查隐私协议状态"
+    priority: "P0"
+    method: GET
+    path: "/v3/user/privacy_agreement/check"
+    need_login: true
+    re_login: true
+    params: {}
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-026 保存极光信息"
+    description: "已登录，上传极光推送 registrationID"
+    priority: "P0"
+    method: POST
+    path: "/v3/user/upload-jpush"
+    need_login: true
+    params:
+      registrationID: "191e35f7e0894f9d040"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-027 获取优惠卷到期提醒"
+    description: "已登录，获取优惠卷到期提醒信息"
+    priority: "P0"
+    method: GET
+    path: "/v3/user/coupon/remind"
+    need_login: true
+    params: {}
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-032 获取优惠卷列表"
+    description: "已登录，分页获取优惠卷列表"
+    priority: "P0"
+    method: GET
+    path: "/passengerApi/coupon/list"
+    need_login: true
+    params:
+      page: "1"
+      pageSize: "20"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-033 兑换优惠卷"
+    description: "已登录，用兑换码兑换优惠卷"
+    priority: "P0"
+    method: POST
+    path: "/passengerApi/coupon/gift/receive"
+    need_login: true
+    params:
+      code: "测试专用"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-034 修改手机号-发送验证码"
+    description: "已登录，修改手机号发送验证码"
+    priority: "P1"
+    method: POST
+    path: "/v3/user/send-verify-code"
+    need_login: true
+    params:
+      mobile: "11000000039"
+      verifyCode: "123456"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10010

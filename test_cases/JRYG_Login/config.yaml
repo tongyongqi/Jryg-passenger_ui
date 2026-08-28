@@ -1,0 +1,21 @@
+# ==================== 登录分类 ====================
+# 登录已由 api_framework 前置 _do_setup_login() 统一完成
+# 接口: GET /v3/user/signout   (退出登录)
+
+# test_cases:
+#   - name: "TC-001 退出登录"
+#     description: "已登录，退出登录"
+#     priority: "P0"
+#     method: GET
+#     path: "/v3/user/signout"
+#     need_login: true
+#     params:
+#       nonce: "${Data_Time}"
+#     asserts:
+#       - type: status_code
+#         expected: 200
+#       - type: json_path
+#         path: "code"
+#         expected: 10000
+
+test_cases: []

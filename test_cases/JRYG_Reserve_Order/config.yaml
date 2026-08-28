@@ -1,0 +1,364 @@
+# ==================== 预约一口价订单 ====================
+#
+# 接口列表：
+#       POST /v3/lbs/parking-rec              (获取推荐上车点)
+#       POST /v3/location/choose-address      (获取常用终点列表)
+#       POST /v3/location/choose-address      (获取推荐起点列表)
+#       POST /v3/location/choose-address      (搜索起点)
+#       POST /v3/bury-point/address           (选择起点)
+#       POST /v3/location/choose-address      (获取推荐终点列表)
+#       POST /v3/location/choose-address      (搜索终点)
+#       POST /v3/book-order/car-type-list     (询价)
+#       GET  /v3/book-order/car-type-list-note(获取车型空间说明)
+#       POST /v3/book-order/future-fee-detail (获取费用详情)
+#       POST /v3/book-order/car-type-book    (订单确认)
+#       POST /passengerApi/coupon/listBeforeOrder (获取可用优惠卷列表)
+#       POST /v3/book-order/confirm-pay       (支付宝下单)
+#       POST /v3/book-order/order-detail      (待支付页)
+#       POST /v3/book-order/prepare-pay       (微信下单并支付)
+#       POST /v3/book-order/order-cancel-confirm (取消订单-二次确认)
+#       POST /v3/book-order/cancel-reason-commit (提交取消原因)
+#
+
+test_cases:
+  - name: "TC-046 预约获取推荐上车点"
+    description: "已登录，预约一口价获取推荐上车点"
+    priority: "P0"
+    method: POST
+    path: "/v3/lbs/parking-rec"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-047 预约获取常用终点列表"
+    description: "已登录，预约一口价获取常用终点列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      address_type: "1"
+      city_id: "${City_ID}"
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+      user_id: "2004688"
+      keywords: "${Origin_Location}"
+      service_type: "2"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-048 预约获取推荐起点列表"
+    description: "已登录，预约一口价获取推荐起点列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      address_type: "1"
+      city_id: "${City_ID}"
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+      user_id: "2004688"
+      keywords: "${Origin_Location}"
+      service_type: "1"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-049 预约搜索起点"
+    description: "已登录，预约一口价搜索起点"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      address_type: "1"
+      city_id: "${City_ID}"
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+      user_id: "2004688"
+      keywords: "${Origin_Location}"
+      service_type: "1"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-050 预约选择起点"
+    description: "已登录，预约一口价选择起点"
+    priority: "P0"
+    method: POST
+    path: "/v3/bury-point/address"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      address: "${Instant_Order_Start_Address}"
+      addressDetail: "${Instant_Order_Start_Detail}"
+      addressType: "1"
+      chooseType: "1"
+      cityId: "${Instant_City_ID}"
+      latitude: "${Reserve_Start_Latitude}"
+      longitude: "${Reserve_Start_Longitude}"
+      userMobile: "${User_Mobile}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-051 预约获取推荐终点列表"
+    description: "已登录，预约一口价获取推荐终点列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      address_type: "2"
+      city_id: "${City_ID}"
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+      keywords: "${Origin_Location}"
+      service_type: "2"
+      user_id: "204688"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-052 预约搜索终点"
+    description: "已登录，预约一口价搜索终点"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      address_type: "2"
+      city_id: "${City_ID}"
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+      keywords: "${Instant_End_Location}"
+      service_type: "1"
+      user_id: "2004688"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-053 预约询价"
+    description: "已登录，预约一口价询价"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/car-type-list"
+    need_login: true
+    params:
+      cityId: "566"
+      serviceType: "15"
+      startAddress: "${Instant_Order_Start_Address}"
+      startLat: "${Reserve_Start_Latitude}"
+      startLng: "${Reserve_Start_Longitude}"
+      endAddress: "${Instant_End_Address}"
+      endDetailAddress: "${Instant_End_Detail}"
+      endLat: "${End_Latitude}"
+      endLng: "${Reserve_End_Longitude}"
+      useTime: "${Use_Time}"
+    extract:
+      Reserve_Price_Token: "data.pricemark"
+      Reserve_Car_Type_ID: "data.car_type_list.0.car_type_id"
+      Reserve_Order_Price: "data.car_type_list.0.order_price"
+      Reserve_Seats: "data.car_type_list.0.seats"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-054 预约获取车型空间说明"
+    description: "已登录，预约一口价获取车型空间说明"
+    priority: "P0"
+    method: GET
+    path: "/v3/book-order/car-type-list-note"
+    need_login: true
+    params:
+      cityId: "${City_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-055 预约获取费用详情"
+    description: "已登录，预约一口价获取费用详情"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/future-fee-detail"
+    need_login: true
+    params:
+      pricemark: "${Reserve_Price_Token}"
+      carTypeId: "${Reserve_Car_Type_ID}"
+      serviceType: "15"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-056 预约订单确认"
+    description: "已登录，预约一口价订单确认"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/car-type-book"
+    need_login: true
+    params:
+      carTypeId: "${Reserve_Car_Type_ID}"
+      nonce: "${Data_Time}"
+      pricemark: "${Reserve_Price_Token}"
+      serviceType: "15"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-057 预约获取可用优惠卷列表"
+    description: "已登录，预约一口价获取可用优惠卷列表"
+    priority: "P0"
+    method: POST
+    path: "/passengerApi/coupon/listBeforeOrder"
+    need_login: true
+    params:
+      carOrderType: 1
+      carTypeId: "${Reserve_Car_Type_ID}"
+      cityID: "${Reserve_City_ID}"
+      nonce: "${Data_Time}"
+      money: "${Reserve_Order_Price}"
+      orderType: "${Reserve_Order_Type}"
+      terminal: "${Reserve_Seats}"
+      useTime: "${Reserve_Use_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-058 预约支付宝下单"
+    description: "已登录，预约一口价支付宝下单"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/confirm-pay"
+    need_login: true
+    params:
+      carTypeId: "${Reserve_Car_Type_ID}"
+      mobile: "11000000038"
+      name: "测试"
+      nonce: "${Data_Time}"
+      orderPrice: "${Reserve_Order_Price}"
+      payType: "1"
+      pricemark: "${Reserve_Price_Token}"
+      serviceType: "${Reserve_Order_Type}"
+    extract:
+      Reserve_Order_ID: "data.order_id"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-059 预约待支付页"
+    description: "已登录，预约一口价待支付页订单详情"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/order-detail"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Reserve_Order_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-060 预约微信下单并支付"
+    description: "已登录，预约一口价微信下单并支付"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/prepare-pay"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Reserve_Order_ID}"
+      payType: "2"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-061 预约取消订单"
+    description: "已登录，预约一口价取消订单-二次确认"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/order-cancel-confirm"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Reserve_Order_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-062 预约提交取消原因"
+    description: "已登录，预约一口价提交取消原因"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/cancel-reason-commit"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Reserve_Order_ID}"
+      reasonId: 14
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

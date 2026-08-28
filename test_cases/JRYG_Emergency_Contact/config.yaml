@@ -1,0 +1,104 @@
+# ==================== 紧急联系人分类 ====================
+# 接口: GET  /v4/user-sos/contact-info    (获取紧急联系人列表/信息)
+#       POST /v4/user-sos/set-auto-share  (开启/关闭自动分享行程)
+#       POST /v4/user-sos/contact-add     (添加紧急联系人)
+#       POST /v4/user-sos/contact-del     (删除紧急联系人)
+# 前置条件: 需要登录
+
+test_cases:
+  - name: "TC-001 获取紧急联系人列表"
+    description: "已登录，获取紧急联系人列表"
+    priority: "P0"
+    method: GET
+    path: "/v4/user-sos/contact-info"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-002 开启自动分享行程"
+    description: "已登录，开启自动分享行程"
+    priority: "P0"
+    method: POST
+    path: "/v4/user-sos/set-auto-share"
+    need_login: true
+    params:
+      autoShare: "true"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-003 关闭自动分享行程"
+    description: "已登录，关闭自动分享行程"
+    priority: "P0"
+    method: POST
+    path: "/v4/user-sos/set-auto-share"
+    need_login: true
+    params:
+      autoShare: "false"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-004 添加紧急联系人"
+    description: "已登录，添加紧急联系人"
+    priority: "P0"
+    method: POST
+    path: "/v4/user-sos/contact-add"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      contactName: "测试"
+      contactMobile: "11041755466"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-005 获取紧急联系人信息"
+    description: "已登录，添加后获取紧急联系人信息提取ID"
+    priority: "P0"
+    method: GET
+    path: "/v4/user-sos/contact-info"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    extract:
+      T_Contact_ID: "data.list.0.contact_id"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-006 删除紧急联系人"
+    description: "已登录，删除紧急联系人"
+    priority: "P0"
+    method: POST
+    path: "/v4/user-sos/contact-del"
+    need_login: true
+    params:
+      contactId: "${T_Contact_ID}"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

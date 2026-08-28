@@ -1,0 +1,57 @@
+# ==================== 基础配置 ====================
+
+base_url: "https://pre-app-client.jryghq.com"
+sign_key: "RCY9H4c9Cc9z6KaKrunTToWsjCERRexY"  # 乘客端签名密钥
+# driver_sign_key: "A7CC526205E21A6FD00C4E162519113A"  # 司机端签名密钥
+
+# ========== 乘客端请求头 ==========
+headers:
+  User-Agent: "YGPassenger/5.6.0(iOS;iOS15.6.1;iPhone13,4;appstore)"
+  Do-Encrypt: "2"
+  Encrypt-Status: "2"
+
+# # ========== 司机端请求头 ==========
+# driver_headers:
+#   User-Agent: "YGDriver/7.23.5(Android;Android10;HJC-AN90;guanwang)"
+#   Content-Type: "application/x-www-form-urlencoded"
+
+timeout: 10
+
+# Redis 配置（发送验证码前清除频率限制缓存）
+redis:
+  host: "192.168.22.2"
+  port: 6379
+  db: 11
+  password: "RC0WQhkWxU"
+  cache_key: "2001:62.234.190.224"
+
+# 前置登录（所有 need_login: true 的接口自动携带 token）
+setup_login:
+  # 登录前先发送验证码，使固定验证码生效
+  pre_send_code:
+    path: "/v3/user/send-verify-code"
+    params:
+      mobile: "${Test_Mobile}"
+      templateID: "102"
+  path: "/v3/user/signin-by-code"
+  params:
+    mobile: "${Test_Mobile}"
+    verifyCode: "${Test_Verify_Code}"
+  extract:
+    access_token: "data.access_token"
+    refresh_token: "data.refresh_token"
+    login_id: "data.login_id"
+    user_name: "data.user_info.name"
+
+# # 前置司机设置（可选：司机端登录 + 接单设置 + 出车 + 坐标上报）
+# # enabled: true 开启前置司机，为 LBS 接口提供在线司机
+# setup_driver:
+#   enabled: true
+#   mobile: "11005461937"
+#   lat: "40.087018"
+#   lng: "116.413815"
+#   # 接单设置（指派/抢单）
+#   assign: true
+#   dispatch: true
+#   # 坐标上报间隔（秒）
+#   upload_interval: 3
