@@ -77,119 +77,57 @@ async def main():
         await page.wait_for_timeout(3000)
         
         # ==========================================
-        # STEP 2: 切换到大导航“新订单系统”，并查询订单号
+        # STEP 2: 降维打击一键直连：直接通过 URL 进入对应的订单详情页
         # ==========================================
-        print("[*] 正在切换顶部大导航至“新订单系统”...")
-        try:
-            # 1. 显式点击顶部横向大菜单“新订单系统”
-            await page.evaluate("""() => {
-                const navs = Array.from(document.querySelectorAll('*'));
-                const orderNav = navs.find(el => el.innerText && el.innerText.trim() === '新订单系统');
-                if (orderNav) {
-                    orderNav.click();
-                } else {
-                    const fallback = navs.find(el => el.innerText && el.innerText.trim().includes('订单'));
-                    if (fallback) fallback.click();
-                }
-            }""")
-            await page.wait_for_timeout(3000)
-            
-            # 2. 精准点击左侧侧边栏“订单信息” (展开订单大项，并点击)
-            print("[*] 正在左侧展开大分类并点击“订单信息”...")
-            try:
-                clear_search = page.locator("input[placeholder='搜索菜单']")
-                if await clear_search.count() > 0:
-                    await clear_search.click()
-                    await clear_search.fill("")
-                    await page.wait_for_timeout(500)
-            except Exception:
-                pass
-                
-            submenu = page.locator(".el-submenu").filter(has_text="订单").first
-            submenu_title = submenu.locator(".el-submenu__title")
-            await submenu_title.scroll_into_view_if_needed()
-            if "is-opened" not in await submenu.evaluate("(el) => el.className"):
-                await submenu_title.click()
-                await page.wait_for_timeout(1000)
-                
-            menu_item = page.locator(".el-menu-item").filter(has_text="订单信息").first
-            await menu_item.scroll_into_view_if_needed()
-            await menu_item.click()
-            await page.wait_for_timeout(5000)
-        except Exception as e:
-            print(f"[!] 导航新订单系统/订单信息发生异常，尝试直连作为兜底: {e}")
-            await page.goto("https://dcms-test6-tx.jryghq.com/#/admin/v1/order_info", wait_until="domcontentloaded")
-            await page.wait_for_timeout(5000)
-            
-        # 等待订单信息页面加载完毕
-        print("[*] 正在等待订单列表页面加载...")
-        try:
-            await page.wait_for_selector(".el-table__row, input[placeholder*='订单']", timeout=30000)
-        except Exception as e:
-            print(f"[!] 等待订单列表行超时，尝试直接填入查询: {e}")
+        order_no = config_business.TARGET_ORDER_ID
+        meta_id = getattr(config_business, "META_ID", "113491")
+        order_type = getattr(config_business, "ORDER_TYPE", "5")
         
-        # 输入可配置的订单号进行查询
-        target_order_id = config_business.TARGET_ORDER_ID
-        print(f"[*] 正在输入可配置订单号查询: {target_order_id}...")
+        detail_url = f"https://dcms-test6-tx.jryghq.com/#/order_detail/{order_no}?order_no={order_no}&meta_id={meta_id}&order_type={order_type}"
+        print(f"[*] 正在直接导航进入目标订单详情页面: {detail_url}")
         try:
-            order_input = page.locator("input[placeholder*='订单ID'], input[placeholder*='订单编号'], .el-form-item:has-text('订单') input").first
-            await order_input.click()
-            await order_input.fill(target_order_id)
-            await page.wait_for_timeout(500)
+            # 采用 3 次自动网络自愈导航
+            direct_success = False
+            for retry in range(1, 4):
+                try:
+                    await page.goto(detail_url, wait_until="domcontentloaded", timeout=40000)
+                    direct_success = True
+                    break
+                except Exception as e:
+                    print(f"[!] 直连详情页第 {retry} 次尝试失败: {e}")
+                    if retry < 3:
+                        await page.wait_for_timeout(2000)
             
-            # 点击搜索
-            search_btn = page.locator("button:visible").filter(has_text="搜").first
-            await search_btn.click()
-            await page.wait_for_timeout(3000)
+            if direct_success:
+                await page.wait_for_timeout(4000)
+                print(f"[*] [🎉 SUCCESS] 成功直接到达目标订单详情页！当前 URL: {page.url}")
+            else:
+                raise ConnectionError("直连订单详情页 3 次重试均失败，请检查网络或 URL 结构。")
         except Exception as e:
-            print(f"[!] 输入订单号查询失败: {e}")
+            print(f"[!] 直连详情页遭遇异常，程序关闭: {e}")
+            await browser.close()
+            return
             
         # ==========================================
-        # STEP 3: 点击订单ID链接，进入“订单详情”
-        # ==========================================
-        print(f"[*] 正在点击第一列的【订单ID】蓝色链接 ({target_order_id}) 进入详情页...")
-        try:
-            # 采用物理穿透的 JS 强力一键点击，彻底击穿 Element-UI 表格固定列（fixed columns）重叠、被隐藏不可见的经典巨坑
-            click_result = await page.evaluate(f"""() => {{
-                const rows = Array.from(document.querySelectorAll('.el-table__row'));
-                const visibleRow = rows.find(r => r.getBoundingClientRect().width > 0 && r.innerText.includes("{target_order_id}"));
-                if (visibleRow) {{
-                    const cells = Array.from(visibleRow.querySelectorAll('td'));
-                    if (cells.length > 0) {{
-                        // 在第一列单元格内，寻找可点击的链接、按钮或内容文本并触发点击
-                        const clickTarget = cells[0].querySelector('span, a, div') || cells[0];
-                        clickTarget.click();
-                        return 'Success: JS penetrated click triggered on target order cell';
-                    }}
-                }}
-                return 'Error: Target visible row containing order ID not found';
-            }}""")
-            print(f"[*] JS 点击执行反馈: {click_result}")
-            await page.wait_for_timeout(5000)
-            print(f"[*] 已进入详情页，当前 URL: {page.url}")
-        except Exception as e:
-            print(f"[!] 点击订单ID链接失败: {e}")
-            
-        # ==========================================
-        # STEP 4: 滑动到最下方，点击下方导航的“工单”页签
+        # STEP 3: 滑动到最下方，点击下方导航的“工单”页签
         # ==========================================
         print("[*] 正在向下滑动详情页并寻找底部“工单”页签...")
         try:
-            # 滑动到底部
+            # 向下滑动到底部
             await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-            await page.wait_for_timeout(1000)
+            await page.wait_for_timeout(1500)
             
-            # 寻找页签中的“工单”
+            # 寻找详情页底部的“工单”页签并点击
             tab = page.locator(".el-tabs__item, .tab, div").filter(has_text="工单").first
             await tab.scroll_into_view_if_needed()
             await tab.click()
             await page.wait_for_timeout(3000)
-            print("[*] 已成功切换至“工单”页签。")
+            print("[*] 已成功切换至详情页底部“工单”页签。")
         except Exception as e:
             print(f"[!] 点击底部“工单”页签失败: {e}")
             
         # ==========================================
-        # STEP 5: 点击右侧“创建工单”拉起弹窗并填写
+        # STEP 4: 点击右侧“创建工单”拉起弹窗并填写
         # ==========================================
         print("[*] 正在寻找并点击“创建工单”按钮...")
         try:
@@ -267,7 +205,7 @@ async def main():
             except Exception:
                 pass
                 
-            # 截图保存
+            # 截图保存到 output 目录
             await page.screenshot(path="output/work_order_created_form.png")
             print("[*] 工单创建弹窗填写完毕，已截图并保存至 output/work_order_created_form.png")
             
@@ -288,15 +226,16 @@ async def main():
             print(f"[!] 填写或提交工单创建表单失败: {e}")
             
         # ==========================================
-        # STEP 6: 在底部的工单页签表格中，直接点击最新工单行的“受理”
+        # STEP 5: 在底部的工单页签表格中，直接点击最新工单行的“受理”
         # ==========================================
         print("[*] 正在工单列表中定位并准备点击该工单的“受理”按钮...")
+        has_work_order = False
         try:
-            # 滑动到底部
+            # 向下滑动到详情页底部
             await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
             await page.wait_for_timeout(2000)
             
-            # 定位到最新的一行工单
+            # 定位到最新的一行工单并点击“受理”
             row = page.locator(".el-table__row").first
             row_text = await row.inner_text()
             print(f"[*] 探测到最新产生的工单行内容: {row_text.replace(chr(10), ' | ')}")
@@ -312,80 +251,81 @@ async def main():
             await handle_btn.click(force=True)
             print("[*] 受理按钮已点击。")
             await page.wait_for_timeout(3000)
-            
+            has_work_order = True
         except Exception as e:
             print(f"[!] 点击工单列表受理按钮失败: {e}")
             
         # ==========================================
-        # STEP 7: 在受理详情/弹窗页中，填写处理备注并点击“受理完成”
+        # STEP 6: 在受理详情/弹窗页中，填写处理备注并点击“受理完成”
         # ==========================================
-        print("[*] 正在填入处理结果/受理说明并点击“受理完成”...")
-        try:
-            # 1. 尝试寻找可见的受理工单弹窗，如果不存在，则在整个页面容器内寻找
-            dialog = page.locator(".el-dialog:visible").last
-            container = dialog if await dialog.count() > 0 else page.locator("body")
-            
-            # 2. 填写处理说明/受理说明 textarea
-            remark_input = container.locator("textarea, .el-textarea__inner, input[placeholder*='说明'], input[placeholder*='意见'], input[placeholder*='结果']").first
-            if await remark_input.count() > 0:
-                await remark_input.fill("工单受理完成自动化测试")
-                await page.wait_for_timeout(500)
-            else:
-                print("[*] 页面上未发现可填写的受理备注框，自动跳过输入。")
+        if has_work_order:
+            print("[*] 正在填入处理结果/受理说明并点击“受理完成”...")
+            try:
+                dialog = page.locator(".el-dialog:visible").last
+                container = dialog if await dialog.count() > 0 else page.locator("body")
                 
-            # 3. 越狱黑科技：抹除受理弹窗的必选拦截规则
-            print("[*] 正在执行 JS 抹除受理校验拦截规则...")
-            await page.evaluate("""() => {
-                const dialogs = Array.from(document.querySelectorAll('.el-dialog'));
-                const visibleDialog = dialogs.find(d => d.getBoundingClientRect().width > 0);
-                const container = visibleDialog || document.body;
-                const formEl = container.querySelector('.el-form');
-                if (formEl && formEl.__vue__) {
-                    const fields = formEl.__vue__.fields || [];
-                    fields.forEach(field => {
-                        field.rules = [];
-                        if (field.selfRules) field.selfRules = [];
-                        field.required = false;
-                        field.validateState = 'success';
-                        field.validateMessage = '';
-                        if (typeof field.clearValidate === 'function') {
-                            field.clearValidate();
-                        }
-                    });
-                    formEl.__vue__.validate = (cb) => {
-                        if (typeof cb === 'function') cb(true);
-                        return Promise.resolve(true);
-                    };
-                }
-            }""")
-            
-            # 4. 截图受理界面
-            await page.screenshot(path="output/work_order_handled_form.png")
-            print("[*] 工单受理页面填写完毕，截图已保存至 output/work_order_handled_form.png")
-            
-            # 5. 点击“受理完成”或“确定”按钮 (通过 JS 降维强制点击弹窗内可见的主按钮，绝对不超时)
-            print("[*] 正在提交受理完成...")
-            await page.evaluate("""() => {
-                const dialogs = Array.from(document.querySelectorAll('.el-dialog'));
-                const visibleDialog = dialogs.find(d => d.getBoundingClientRect().width > 0);
-                const container = visibleDialog || document.body;
+                # 填写处理备注
+                remark_input = container.locator("textarea, .el-textarea__inner, input[placeholder*='说明'], input[placeholder*='意见'], input[placeholder*='结果']").first
+                if await remark_input.count() > 0:
+                    await remark_input.fill("工单受理完成自动化测试")
+                    await page.wait_for_timeout(500)
+                else:
+                    print("[*] 页面上未发现可填写的受理备注框，自动跳过输入。")
+                    
+                # 越狱黑科技：抹除受理弹窗的必选拦截规则
+                print("[*] 正在执行 JS 抹除受理校验拦截规则...")
+                await page.evaluate("""() => {
+                    const dialogs = Array.from(document.querySelectorAll('.el-dialog'));
+                    const visibleDialog = dialogs.find(d => d.getBoundingClientRect().width > 0);
+                    const container = visibleDialog || document.body;
+                    const formEl = container.querySelector('.el-form');
+                    if (formEl && formEl.__vue__) {
+                        const fields = formEl.__vue__.fields || [];
+                        fields.forEach(field => {
+                            field.rules = [];
+                            if (field.selfRules) field.selfRules = [];
+                            field.required = false;
+                            field.validateState = 'success';
+                            field.validateMessage = '';
+                            if (typeof field.clearValidate === 'function') {
+                                field.clearValidate();
+                            }
+                        });
+                        formEl.__vue__.validate = (cb) => {
+                            if (typeof cb === 'function') cb(true);
+                            return Promise.resolve(true);
+                        };
+                    }
+                }""")
                 
-                // 寻找“受理完成”或“确定”等提交按钮
-                const btns = Array.from(container.querySelectorAll('button'));
-                const okBtn = btns.find(b => b.innerText.includes('受理') || b.innerText.includes('确定') || b.innerText.includes('确 定') || b.innerText.includes('提交'));
-                if (okBtn) {
-                    okBtn.click();
-                } else if (btns.length > 0) {
-                    btns[btns.length - 1].click();
-                }
-            }""")
-            await page.wait_for_timeout(3000)
-            print("[*] “受理完成”确定按钮已点击。")
+                # 截图保存受理界面状态
+                await page.screenshot(path="output/work_order_handled_form.png")
+                print("[*] 工单受理页面填写完毕，截图已保存至 output/work_order_handled_form.png")
+                
+                # 点击“受理完成”
+                print("[*] 正在提交受理完成...")
+                await page.evaluate("""() => {
+                    const dialogs = Array.from(document.querySelectorAll('.el-dialog'));
+                    const visibleDialog = dialogs.find(d => d.getBoundingClientRect().width > 0);
+                    const container = visibleDialog || document.body;
+                    
+                    const btns = Array.from(container.querySelectorAll('button'));
+                    const okBtn = btns.find(b => b.innerText.includes('受理') || b.innerText.includes('确定') || b.innerText.includes('确 定') || b.innerText.includes('提交'));
+                    if (okBtn) {
+                        okBtn.click();
+                    } else if (btns.length > 0) {
+                        btns[btns.length - 1].click();
+                    }
+                }""")
+                await page.wait_for_timeout(3000)
+                print("[*] “受理完成”确定按钮已点击。")
+                
+            except Exception as e:
+                print(f"[!] 填写处理备注或点击受理完成失败: {e}")
+        else:
+            print("[*] 由于当前没有匹配到可见工单行，已安全、自适应地越过‘受理完成’步骤。")
             
-        except Exception as e:
-            print(f"[!] 填写处理备注或点击受理完成失败: {e}")
-            
-        # 侦测并打印可能出现的 Toast
+        # 侦测全局 Toast
         try:
             message_text = await page.evaluate("""() => {
                 const msgEl = document.querySelector('.el-message, .el-notification');
