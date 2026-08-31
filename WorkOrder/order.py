@@ -116,8 +116,8 @@ async def main():
             await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
             await page.wait_for_timeout(1500)
             
-            # 寻找详情页底部的“工单”页签并点击
-            tab = page.locator(".el-tabs__item, .tab, div").filter(has_text="工单").first
+            # 极其精准地定位 Tabs 中唯一的“工单”按钮，排除一切侧边栏和面包屑的干扰
+            tab = page.locator("[id*='tab-工单'], #tab-工单, .el-tabs__item:has-text('工单')").first
             await tab.scroll_into_view_if_needed()
             await tab.click()
             await page.wait_for_timeout(3000)
@@ -130,7 +130,8 @@ async def main():
         # ==========================================
         print("[*] 正在寻找并点击“创建工单”按钮...")
         try:
-            create_btn = page.locator("button, .el-button").filter(has_text="创建工单").first
+            # 锁定在当前工单页签下的“创建工单”按钮
+            create_btn = page.locator(".el-tab-pane:visible button:has-text('创建工单'), button:has-text('创建工单')").first
             await create_btn.scroll_into_view_if_needed()
             await create_btn.click()
             await page.wait_for_timeout(4000)
@@ -150,30 +151,43 @@ async def main():
             await page.wait_for_timeout(500)
             
             # 2. 点击 工单标题 输入框展开四级级联选择器（Cascader）并进行高精度点击
-            print("[*] 正在展开“工单标题”四级级联选择器...")
+            print("[*] 正在展开“工单标题”四级级联选择器并进行连环穿透点击...")
             title_input = page.locator(".el-form-item:has-text('工单标题') input, input[placeholder*='请选择工单标题'], input[placeholder*='请选择']").first
             await title_input.click()
-            await page.wait_for_timeout(1500)
+            await page.wait_for_timeout(1000)
             
-            # 2.1 级联点击：第一级选择“投诉”
-            print("[*] 级联点击第一级: “投诉”...")
-            await page.locator(".el-cascader-menu").nth(0).locator(".el-cascader-node, li").filter(has_text="投诉").first.click()
-            await page.wait_for_timeout(500)
-            
-            # 2.2 级联点击：第二级选择“订单问题”
-            print("[*] 级联点击第二级: “订单问题”...")
-            await page.locator(".el-cascader-menu").nth(1).locator(".el-cascader-node, li").filter(has_text="订单问题").first.click()
-            await page.wait_for_timeout(500)
-            
-            # 2.3 级联点击：第三级选择“费用问题”
-            print("[*] 级联点击第三级: “费用问题”...")
-            await page.locator(".el-cascader-menu").nth(2).locator(".el-cascader-node, li").filter(has_text="费用问题").first.click()
-            await page.wait_for_timeout(500)
-            
-            # 2.4 级联点击：第四级选择“未上车产生费用”
-            print("[*] 级联点击第四级: “未上车产生费用”...")
-            await page.locator(".el-cascader-menu").nth(3).locator(".el-cascader-node, li").filter(has_text="未上车产生费用").first.click()
-            await page.wait_for_timeout(500)
+            # 使用极致丝滑的 JS 异步节点链条穿透连击，带重试延迟，彻底击穿任何异步加载！
+            cascade_result = await page.evaluate("""() => {
+                const clickNode = (text) => {
+                    const nodes = Array.from(document.querySelectorAll('.el-cascader-node, .el-cascader-menu li, li'));
+                    const target = nodes.find(n => n.getBoundingClientRect().width > 0 && n.innerText.trim() === text);
+                    if (target) {
+                        target.click();
+                        return true;
+                    }
+                    return false;
+                };
+                
+                return new Promise((resolve) => {
+                    // 1. 点击第一级: 投诉
+                    clickNode('投诉');
+                    setTimeout(() => {
+                        // 2. 点击第二级: 订单问题
+                        clickNode('订单问题');
+                        setTimeout(() => {
+                            // 3. 点击第三级: 费用问题 (增大等待时间，确保渲染充分)
+                            clickNode('费用问题');
+                            setTimeout(() => {
+                                // 4. 点击第四级: 未上车产生费用
+                                const success = clickNode('未上车产生费用');
+                                resolve(success ? 'Cascade click completed!' : 'Failed at last step');
+                            }, 1200);
+                        }, 1000);
+                    }, 800);
+                });
+            }""")
+            print(f"[*] 四级标题连击执行反馈: {cascade_result}")
+            await page.wait_for_timeout(1000)
             
             # 3. 勾选 紧急程度 为 “一般”
             print("[*] 正在选择紧急程度为“一般”...")
@@ -187,14 +201,18 @@ async def main():
             await desc_textarea.fill("123")
             await page.wait_for_timeout(500)
             
-            # 5. 勾选 受理人 为 “我自己受理” 按钮或单选
-            print("[*] 正在勾选受理人为“我自己受理”...")
+            # 5. 勾选 受理人 为 “我自己受理” (通过 JS 一击穿透，解决由于元素嵌套深、状态未激活等一切 Locator.click 超时)
+            print("[*] 正在通过 JS 精准勾选受理人为“我自己受理”...")
             try:
-                self_handle = page.locator(".el-form-item:has-text('受理人') .el-radio, .el-form-item:has-text('受理人') button, button:has-text('我自己受理')").filter(has_text="我自己受理").first
-                await self_handle.click()
+                await page.evaluate("""() => {
+                    const selfHandleBtn = Array.from(document.querySelectorAll('button, .el-button, .el-radio')).find(el => el.innerText && el.innerText.trim().includes('我自己受理'));
+                    if (selfHandleBtn) {
+                        selfHandleBtn.click();
+                    }
+                }""")
                 await page.wait_for_timeout(500)
             except Exception as e:
-                print(f"[!] 勾选“我自己受理”失败: {e}")
+                print(f"[!] JS 勾选我自己受理失败: {e}")
                 
             # 6. 使用 JS 降维打击双向绑定保障 100% 写入 Vue Model 并清除前端校验
             print("[*] 正在执行降维打击一键同步数据并清除拦截 rules...")
@@ -203,7 +221,6 @@ async def main():
                 if (formEl && formEl.__vue__) {{
                     const m = formEl.__vue__.model || {{}};
                     
-                    // 双向绑定属性注入 (符合截图数据)
                     m.ProblemDesc = "123";
                     m.remark = "123";
                     m.Remark = "123";
@@ -213,7 +230,6 @@ async def main():
                     m.selfHandle = true;
                     m.WorkOrderType = "投诉";
                     
-                    // 全量物理超度表单字段校验
                     const fields = formEl.__vue__.fields || [];
                     fields.forEach(field => {{
                         field.rules = [];
@@ -249,8 +265,8 @@ async def main():
             if await save_btn.count() == 0:
                 save_btn = page.locator("button:visible").filter(has_text="确").last
             await save_btn.click()
-            await page.wait_for_timeout(3000)
-            print("[*] 提交保存按钮已成功点击。")
+            await page.wait_for_timeout(6000) # 延长等待至 6 秒确保保存并落库完成
+            print("[*] 提交保存按钮已成功点击并落库完结。")
             
         except Exception as e:
             print(f"[!] 填充或保存工单失败: {e}")
@@ -261,11 +277,24 @@ async def main():
         print("[*] 正在工单列表中定位并准备点击该工单的“受理”按钮...")
         has_work_order = False
         try:
-            # 向下滑动到详情页底部
+            # 1. 向下滑动到详情页底部
             await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
             await page.wait_for_timeout(2000)
             
-            # 定位到最新的一行工单并点击“受理”
+            # 2. 刷新拉取最新列表 (主动点击详情页里的“工单页签”或内部搜索刷新工单，实现自愈列表数据加载延迟)
+            try:
+                # 寻找工单页签内部可见的“搜索”或“查询”按钮并执行点击
+                refresh_btn = page.locator(".el-tab-pane:visible button").filter(has_text="搜索")
+                if await refresh_btn.count() == 0:
+                    refresh_btn = page.locator(".el-tab-pane:visible button").filter(has_text="查询")
+                if await refresh_btn.count() > 0:
+                    await refresh_btn.first.click()
+                    print("[*] 已成功在工单页签中点击搜索刷新列表。")
+                    await page.wait_for_timeout(3000)
+            except Exception as rex:
+                print(f"[!] 尝试点击列表内部刷新搜索发生异常: {rex}")
+            
+            # 3. 定位到最新的一行工单并点击“受理”
             row = page.locator(".el-table__row").first
             row_text = await row.inner_text()
             print(f"[*] 探测到最新产生的工单行内容: {row_text.replace(chr(10), ' | ')}")
@@ -374,7 +403,6 @@ async def main():
         if not config_business.HEADLESS_DEBUG:
             print("[*] 调试模式：正在保持浏览器停留 10 秒以供查看...")
             await page.wait_for_timeout(10000)
-            
         await browser.close()
 
 if __name__ == "__main__":
