@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5df8c73e-4371-4cb4-b529-eb5c4258b12a" name="更改" comment="优惠卷创建发放">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/config_business.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/coupon_send_filled.png" beforeDir="false" afterPath="$PROJECT_DIR$/output/coupon_send_filled.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/coupon_send_result.png" beforeDir="false" afterPath="$PROJECT_DIR$/output/coupon_send_result.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,16 +26,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.send_coupon.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "JRYG-优惠卷发放"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.send_coupon.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;JRYG-优惠卷发放&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="send_coupon" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CreateandDistributeCoupons" />
