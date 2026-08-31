@@ -149,11 +149,22 @@ async def main():
         # ==========================================
         print(f"[*] 正在点击第一列的【订单ID】蓝色链接 ({target_order_id}) 进入详情页...")
         try:
-            row = page.locator(".el-table__row").first
-            # 精准定位到第一列 (nth(0)，即截图上红圈圈出的‘订单ID’列 7358984366 链接)
-            link = row.locator("td").nth(0).locator("span, a, div").first
-            await link.scroll_into_view_if_needed()
-            await link.click()
+            # 采用物理穿透的 JS 强力一键点击，彻底击穿 Element-UI 表格固定列（fixed columns）重叠、被隐藏不可见的经典巨坑
+            click_result = await page.evaluate(f"""() => {{
+                const rows = Array.from(document.querySelectorAll('.el-table__row'));
+                const visibleRow = rows.find(r => r.getBoundingClientRect().width > 0 && r.innerText.includes("{target_order_id}"));
+                if (visibleRow) {{
+                    const cells = Array.from(visibleRow.querySelectorAll('td'));
+                    if (cells.length > 0) {{
+                        // 在第一列单元格内，寻找可点击的链接、按钮或内容文本并触发点击
+                        const clickTarget = cells[0].querySelector('span, a, div') || cells[0];
+                        clickTarget.click();
+                        return 'Success: JS penetrated click triggered on target order cell';
+                    }}
+                }}
+                return 'Error: Target visible row containing order ID not found';
+            }}""")
+            print(f"[*] JS 点击执行反馈: {click_result}")
             await page.wait_for_timeout(5000)
             print(f"[*] 已进入详情页，当前 URL: {page.url}")
         except Exception as e:
