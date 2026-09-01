@@ -14,7 +14,8 @@ sys.path.append(os.path.join(root_dir, "logger"))
 
 # 统一导入项目内的所有核心功能模块
 from WorkOrder.order import run_create_flow as run_work_order_create_flow
-from WorkOrder.handle_order import run_handle_flow as run_work_order_handle_flow
+from WorkOrder.accept_order import run_accept_flow as run_work_order_accept_flow
+from WorkOrder.settle_order import run_settle_flow as run_work_order_settle_flow
 from create_coupon.run_create import main as run_create_coupon_flow
 import send_coupon as mainland_coupon_module
 import send_hk_coupon as hk_coupon_module
@@ -28,7 +29,8 @@ if __name__ == "__main__":
     # 2 - 创建优惠券流程 (启动后台 -> 创建优惠券表单并自动填入、强力注入 -> 自动通过流程审批)
     # 3 - 发放大陆优惠券 (自动登录截取 API Token -> 发送大陆发券 POST 接口请求发放优惠券)
     # 4 - 发放香港优惠券 (直连香港发券 API 接口发放香港测试优惠券)
-    # 5 - 工单全自动处理/受理流程 (直接导航到工单列表 -> 自动检索获取首行最新工单并点击受理 -> 填写投诉责任方及双文本 -> 结算退款及终极保存 -> 受理完成)
+    # 5 - 工单处理录入流转 (导航至工单列表 -> 自动获取最新工单并点击受理 -> 填写投诉结果“有效”/责任方及双文本 -> 截图保存，不执行最终提交)
+    # 6 - 工单退款结算流转 (导航至工单列表 -> 自动获取最新工单并点击处理 -> 点击退款&结算配置乘客全额、司机正常并保存 -> 强力抹除校验并点击“受理完成”提交)
     RUN_MODE = 1
 
     # ==========================================================================
@@ -81,8 +83,12 @@ if __name__ == "__main__":
         hk_coupon_module.send_hk_coupon(mobiles=HK_MOBILES, send_num=HK_SEND_NUM)
 
     elif RUN_MODE == 5:
-        sys_logger.info("正在执行工单全自动受理/处理流程...")
-        asyncio.run(run_work_order_handle_flow(headless=HEADLESS))
+        sys_logger.info("正在执行工单基础受理与填写流程...")
+        asyncio.run(run_work_order_accept_flow(headless=HEADLESS))
+
+    elif RUN_MODE == 6:
+        sys_logger.info("正在执行工单退款结算与最终受理完成流程...")
+        asyncio.run(run_work_order_settle_flow(headless=HEADLESS))
 
     else:
-        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1, 2, 3, 4 或 5 中的一个！")
+        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1, 2, 3, 4, 5 或 6 中的一个！")
