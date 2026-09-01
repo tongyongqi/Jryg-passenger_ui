@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-发放大陆优惠券脚本（通过接口发放）
-接口：https://dcms-test6-tx.jryghq.com/admin/v1/coupon/send_coupon
+==========================================================================
+🌐 优惠券与工单自动化调度系统 - 大陆优惠券发放接口对接脚本 (send_coupon.py)
+==========================================================================
+本模块提供了一套在无头静默下自动登录后台、无感抓取并提取 Authorization Token 的机制。
+并在抓取到 Token 之后，直连大陆测试发券 API 进行极速优惠券网络发放。
 """
+
 import asyncio
 import json
 import os
@@ -11,6 +15,7 @@ import requests
 import urllib3
 from playwright.async_api import async_playwright
 
+# 1. 自动追加上级目录至 Python 检索路径，保障单独运行时寻找配置文件无忧
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(root_dir)
 sys.path.append(os.path.join(root_dir, "config_common"))
@@ -20,15 +25,26 @@ import config_common
 import config_business
 from logger.logger import sys_logger
 
+# 屏蔽不安全请求报警
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 os.makedirs("output", exist_ok=True)
 
+# 大陆系统内部发券微服务网关地址
 API_URL = "https://dcms-test6-tx.jryghq.com/admin/v1/coupon/send_coupon"
 
+
 async def get_auth_token(headless=True):
+    """
+    通过在 Playwright 极简运行一套登录流，绑定 Request 探测钩子（Page.on("request")），
+    自动从页面底层数据流中零摩擦过滤、拦截并精准提取出后端网关认可的 Authorization Bearer Token。
+    
+    参数：
+      headless (bool): 是否使用静默模式开启浏览器截获
+    """
     token_holder = {}
 
     async def handle_request(request):
+        """核心钩子：监听网页发起的所有异步请求，提纯其 Headers 中的 Authorization 头"""
         headers = request.headers
         auth = headers.get("authorization") or headers.get("Authorization")
         if auth and auth.startswith("Bearer "):
@@ -44,11 +60,13 @@ async def get_auth_token(headless=True):
         page = await context.new_page()
         page.set_default_timeout(config_common.DEFAULT_TIMEOUT)
 
+        # 注册实时流量探测钩子监听
         page.on("request", handle_request)
 
         url = config_common.BASE_URL
         sys_logger.info(f"正在导航至登录页面: {url}")
         
+        # 页面容错加载
         nav_success = False
         for retry in range(1, 4):
             try:
@@ -67,12 +85,14 @@ async def get_auth_token(headless=True):
 
         await page.wait_for_timeout(2000)
 
+        # 输入自动登录要素信息
         sys_logger.info("正在输入自动登录凭证...")
         await page.fill("input[placeholder='账号']", config_common.USERNAME)
         await page.fill("input[placeholder='密码']", config_common.PASSWORD)
         await page.fill("input[placeholder='图形验证码']", config_common.IMAGE_CAPTCHA)
         
         try:
+            # 尝试点击获取短信码
             await page.click("text=获取验证码", timeout=5000)
         except Exception as e:
             pass
@@ -84,6 +104,7 @@ async def get_auth_token(headless=True):
         await page.click("button:has-text('登录')")
 
         sys_logger.info("正在等待后台跳转并截获 API Authorization Token...")
+        # 采用最长 30 轮自适应延迟轮询，一旦截获到 Token 立即物理跳出，将登录开销降到最低
         for _ in range(30):
             await page.wait_for_timeout(1000)
             if "Authorization" in token_holder and "login" not in page.url:
@@ -96,10 +117,19 @@ async def get_auth_token(headless=True):
 
 
 def send_mainland_coupon(auth_token, mobiles=None, send_num=None):
+    """
+    接收抓取的 Bearer Token，通过原生 Python Requests 微服务接口将大陆测试优惠券派发至指定手机。
+    
+    参数：
+      auth_token (str): 动态提取出的 Authorization 鉴权头
+      mobiles (str): 目标手机号 (多个号码可以用英文逗号隔开)
+      send_num (int): 单次发放张数
+    """
     if not auth_token:
         sys_logger.error("无法获取有效的 Authorization Token，发放取消！")
         return False
 
+    # 读取默认配置并在传入参数时予以重写重载
     target_mobiles = mobiles if mobiles else config_business.TARGET_PHONE
     coupon_id = int(config_business.SEND_COUPON_BATCH)
     send_qty = int(send_num) if send_num is not None else int(config_business.SEND_QTY)
@@ -107,6 +137,7 @@ def send_mainland_coupon(auth_token, mobiles=None, send_num=None):
 
     sys_logger.info("正在准备通过大陆发券接口发放优惠券...")
     
+    # 构造携带 Bearer 校验头及 UserAgent 的发券报文头
     headers = {
         "Accept": "application/json, text/plain, */*",
         "Authorization": auth_token,
@@ -119,6 +150,7 @@ def send_mainland_coupon(auth_token, mobiles=None, send_num=None):
     ]
     coupon_info_str = json.dumps(coupon_info_list)
 
+    # 构建与后台大陆接口微服务契合的数据 Payload
     payload = {
         "SendType": 1,
         "CouponType": 1,
@@ -133,6 +165,7 @@ def send_mainland_coupon(auth_token, mobiles=None, send_num=None):
     sys_logger.info(f"接口: {API_URL} | 手机: {target_mobiles} | 批次: {coupon_id} | 数量: {send_qty}")
 
     try:
+        # 发起 HTTP POST 请求派发优惠券
         response = requests.post(API_URL, headers=headers, json=payload, timeout=30, verify=False)
         sys_logger.info(f"响应状态码: {response.status_code}")
 
@@ -156,6 +189,7 @@ def send_mainland_coupon(auth_token, mobiles=None, send_num=None):
 
 
 async def run_flow(headless=True, mobiles=None, send_num=None):
+    """提供给统一控制台调用的标准动作执行流"""
     auth_token = await get_auth_token(headless=headless)
     if auth_token:
         send_mainland_coupon(auth_token, mobiles=mobiles, send_num=send_num)
