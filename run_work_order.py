@@ -16,6 +16,7 @@ from WorkOrder.settle_order import run_settle_flow as run_work_order_settle_flow
 from create_coupon.run_create import main as run_create_coupon_flow
 import send_coupon as mainland_coupon_module
 import send_hk_coupon as hk_coupon_module
+import config_business
 from logger.logger import sys_logger
 
 if __name__ == "__main__":
@@ -34,13 +35,21 @@ if __name__ == "__main__":
     # ⚙️ 共享控制参数 (修改以下参数可灵活控制各功能模块运行)
     # ==========================================================================
     # 鉴权登录配置：True 代表开启静默无头模式，False 代表真实弹出浏览器界面方便观察
-    HEADLESS = True
+    HEADLESS = False
 
     # ------------------ 1. 工单配置 ------------------
     # 待流转创建并受理的订单号列表 (支持配置单个或多个)
     ORDER_IDS = [
-        "7359060558"
+        "7358984706"
     ]
+    # 工单类型选择 (如投诉、建议等)
+    WORK_ORDER_TYPE = "投诉"
+    # 工单内容/受理备注说明
+    WORK_ORDER_REMARK = "自动创建工单"
+    # 默认关联的 meta_id 属性
+    META_ID = "113491"
+    # 默认关联的 order_type 属性
+    ORDER_TYPE = "5"
 
     # ------------------ 2. 大陆优惠券发放配置 ------------------
     # 大陆发券的目标接收手机号 (多个手机号可以用英文逗号隔开)
@@ -65,6 +74,13 @@ if __name__ == "__main__":
     if RUN_MODE == 1:
         sys_logger.info("正在执行工单全自动创建流转程序...")
         sys_logger.info(f"待处理的订单号列表 ORDER_IDS: {ORDER_IDS}")
+        sys_logger.info(f"工单类型: {WORK_ORDER_TYPE} | 备注: {WORK_ORDER_REMARK}")
+        # 将运行脚本内的工单配置同步到 config_business 模块
+        config_business.TARGET_ORDER_ID = ORDER_IDS[0] if ORDER_IDS else ""
+        config_business.WORK_ORDER_TYPE = WORK_ORDER_TYPE
+        config_business.WORK_ORDER_REMARK = WORK_ORDER_REMARK
+        config_business.META_ID = META_ID
+        config_business.ORDER_TYPE = ORDER_TYPE
         asyncio.run(run_work_order_create_flow(headless=HEADLESS, order_ids=ORDER_IDS))
 
     elif RUN_MODE == 2:
