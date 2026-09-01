@@ -10,12 +10,14 @@ sys.path.append(os.path.join(root_dir, "config_business"))
 sys.path.append(os.path.join(root_dir, "login_common"))
 sys.path.append(os.path.join(root_dir, "send_coupon"))
 sys.path.append(os.path.join(root_dir, "send_hk_coupon"))
+sys.path.append(os.path.join(root_dir, "logger"))
 
 # 统一导入项目内的所有核心功能模块
 from WorkOrder.order import run_flow as run_work_order_flow
 from create_coupon.run_create import main as run_create_coupon_flow
 import send_coupon as mainland_coupon_module
 import send_hk_coupon as hk_coupon_module
+from logger.logger import sys_logger
 
 if __name__ == "__main__":
     # ==========================================================================
@@ -54,29 +56,26 @@ if __name__ == "__main__":
     # ==========================================================================
     # 🚀 自动化启动中心：根据 RUN_MODE 执行对应的核心流转逻辑
     # ==========================================================================
-    print("\n" + "="*70)
-    print(f"[*] 🌟 正在启动 优惠券与工单自动化调度系统 (RUN_MODE: {RUN_MODE})")
-    print(f"[*] 当前浏览器静默模式 HEADLESS: {HEADLESS}")
-    print("="*70)
+    sys_logger.info("="*70)
+    sys_logger.info(f"启动 优惠券与工单自动化调度系统 (RUN_MODE: {RUN_MODE})")
+    sys_logger.info(f"当前浏览器静默模式 HEADLESS: {HEADLESS}")
+    sys_logger.info("="*70)
 
     if RUN_MODE == 1:
-        print(f"[*] 🚀 [ACTION] 正在执行工单创建以及工单受理闭环流转程序...")
-        print(f"[*] 待处理的订单号列表 ORDER_IDS: {ORDER_IDS}")
+        sys_logger.info("正在执行工单创建以及工单受理闭环流转程序...")
         asyncio.run(run_work_order_flow(headless=HEADLESS, order_ids=ORDER_IDS))
 
     elif RUN_MODE == 2:
-        print(f"[*] 🚀 [ACTION] 正在执行优惠券自动化创建与自动审核流转...")
+        sys_logger.info("正在执行优惠券自动化创建与自动审核流转...")
         asyncio.run(run_create_coupon_flow(headless=HEADLESS))
 
     elif RUN_MODE == 3:
-        print(f"[*] 🚀 [ACTION] 正在执行大陆优惠券接口发放流程...")
-        print(f"[*] 目标手机号: {MAINLAND_MOBILES} | 发放数量: {MAINLAND_SEND_NUM} 张")
+        sys_logger.info(f"正在执行大陆优惠券接口发放流程... 手机号: {MAINLAND_MOBILES} | 数量: {MAINLAND_SEND_NUM}")
         asyncio.run(mainland_coupon_module.run_flow(headless=HEADLESS, mobiles=MAINLAND_MOBILES, send_num=MAINLAND_SEND_NUM))
 
     elif RUN_MODE == 4:
-        print(f"[*] 🚀 [ACTION] 正在执行香港优惠券接口发放流程...")
-        print(f"[*] 目标手机号: {HK_MOBILES} | 发放数量: {HK_SEND_NUM} 张")
+        sys_logger.info(f"正在执行香港优惠券接口发放流程... 手机号: {HK_MOBILES} | 数量: {HK_SEND_NUM}")
         hk_coupon_module.send_hk_coupon(mobiles=HK_MOBILES, send_num=HK_SEND_NUM)
 
     else:
-        print(f"[❌ ERROR] 未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1, 2, 3 或 4 中的一个！")
+        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1, 2, 3 或 4 中的一个！")
