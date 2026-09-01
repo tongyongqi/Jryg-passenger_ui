@@ -33,7 +33,7 @@ HEADLESS_DEBUG = True                       # 是否开启调试：False 代表�
 # ------------------------------------------
 
 # 🛠️ 3. 创建与受理工单 (order.py) 专属业务配置
-TARGET_ORDER_ID = "7358984980"          # 要创建工单的真实订单编号 (可在此随意热更改)
+TARGET_ORDER_ID = "7359060558"          # 要创建工单的真实订单编号 (可在此随意热更改)
 META_ID = "113491"                          # 默认关联的 meta_id 属性
 ORDER_TYPE = "5"                            # 默认关联的 order_type 属性
 WORK_ORDER_TYPE = "投诉"                    # 工单类型选择 (如投诉、建议等)

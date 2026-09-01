@@ -8,12 +8,6 @@ import sys
 # 1. 统一构建最高级别的 Python 搜索路径，确保彻底兼容任何物理目录、工作空间运行场景
 root_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(root_dir)
-sys.path.append(os.path.join(root_dir, "config_common"))
-sys.path.append(os.path.join(root_dir, "config_business"))
-sys.path.append(os.path.join(root_dir, "login_common"))
-sys.path.append(os.path.join(root_dir, "send_coupon"))
-sys.path.append(os.path.join(root_dir, "send_hk_coupon"))
-sys.path.append(os.path.join(root_dir, "logger"))
 
 # 统一导入项目内的所有核心功能模块
 from WorkOrder.order import run_create_flow as run_work_order_create_flow
@@ -45,7 +39,7 @@ if __name__ == "__main__":
     # ------------------ 1. 工单配置 ------------------
     # 待流转创建并受理的订单号列表 (支持配置单个或多个)
     ORDER_IDS = [
-        "7358984980"
+        "7359060558"
     ]
 
     # ------------------ 2. 大陆优惠券发放配置 ------------------

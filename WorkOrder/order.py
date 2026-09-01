@@ -21,14 +21,14 @@ os.makedirs("output", exist_ok=True)
 # 默认配置的全局订单号变量：支持单个或多个订单
 # ==========================================
 DEFAULT_ORDER_IDS = [
-    getattr(config_business, "TARGET_ORDER_ID", "7358984980")
+    getattr(config_business, "TARGET_ORDER_ID", "7359060558")
 ]
 
 
 async def run_create_flow(headless: bool = None, order_ids: list = None):
     """
-    创建工单专属核心流转逻辑。
-    纯粹的工单创建逻辑，不包含任何列表页的工单受理/流转步骤，可作为独立功能随意调用。
+    创建工单专属核心流转逻辑（极致直连版本）。
+    先登录，登录成功后直接导航到创建工单极速链接，填入目标订单号、投诉类型及级联标题，执行保存。
     
     参数：
       headless (bool): 是否采用静默/无头模式
@@ -59,102 +59,118 @@ async def run_create_flow(headless: bool = None, order_ids: list = None):
                 raise e
                 
             # ==========================================
-            # 循环遍历订单列表：执行独立的工单创建
+            # 循环遍历订单列表：执行独立的直接工单创建
             # ==========================================
             for order_no in order_ids_val:
-                sys_logger.info(f"🚀 开始订单 {order_no} 的工单创建流程...")
+                sys_logger.info(f"🚀 开始订单 {order_no} 的一键直连工单创建流程...")
                 
-                meta_id = getattr(config_business, "META_ID", "113491")
-                order_type = getattr(config_business, "ORDER_TYPE", "5")
+                # 极致直达：直接前往创建工单连接，免除一切详情页中转
+                create_url = f"https://dcms-test6-tx.jryghq.com/#/create-work-order/add?status=add&order_id=0"
+                sys_logger.info(f"正在直接导航进入极速创建工单页面: {create_url}")
                 
-                # 直连订单详情页
-                detail_url = f"https://dcms-test6-tx.jryghq.com/#/order_detail/{order_no}?order_no={order_no}&meta_id={meta_id}&order_type={order_type}"
-                sys_logger.info(f"正在直接导航进入目标订单详情页面: {detail_url}")
                 try:
                     direct_success = False
                     for retry in range(1, 4):
                         try:
-                            await page.goto(detail_url, wait_until="domcontentloaded", timeout=40000)
+                            await page.goto(create_url, wait_until="domcontentloaded", timeout=40000)
                             direct_success = True
                             break
                         except Exception as e:
-                            sys_logger.warn(f"直连详情页第 {retry} 次尝试失败: {e}")
+                            sys_logger.warn(f"直连创建工单页第 {retry} 次尝试失败: {e}")
                             if retry < 3:
                                 await page.wait_for_timeout(2000)
                     
                     if not direct_success:
-                        raise ConnectionError("直连订单详情页 3 次重试均失败。")
+                        raise ConnectionError("直连创建工单页 3 次重试均失败。")
                         
                     await page.wait_for_timeout(4000)
+                    sys_logger.info("极速创建工单表单页面加载成功。")
                     
-                    # 滑动到最下方，点击下方导航的“工单”页签
-                    await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-                    await page.wait_for_timeout(1500)
+                    # ----------------- 录入订单号关联与基本属性 -----------------
+                    # 1. 自动寻找并填入订单号 (支持输入框模糊匹配和物理输入)
+                    sys_logger.info(f"正在输入关联目标订单号: {order_no}...")
+                    try:
+                        # 查找 placeholder 含有“订单”或“单号”的输入框
+                        order_input = page.locator("input[placeholder*='订单'], input[placeholder*='单号'], .el-form-item:has-text('订单') input").first
+                        await order_input.scroll_into_view_if_needed()
+                        await order_input.click()
+                        await order_input.clear()
+                        await order_input.fill(order_no)
+                        await page.wait_for_timeout(500)
+                    except Exception as o_err:
+                        sys_logger.warn(f"物理填充订单号输入框遇到阻碍，将尝试 JS 兜底强制赋值: {o_err}")
+                        await page.evaluate(f"""(orderNum) => {{
+                            const inputs = document.querySelectorAll('input');
+                            for (let input of inputs) {{
+                                const ph = (input.placeholder || '').trim();
+                                if (ph.includes('订单') || ph.includes('单号') || ph.includes('Order')) {{
+                                    input.value = '';
+                                    input.dispatchEvent(new Event('input', {{ bubbles: true }}));
+                                    input.value = orderNum;
+                                    input.dispatchEvent(new Event('input', {{ bubbles: true }}));
+                                    input.dispatchEvent(new Event('change', {{ bubbles: true }}));
+                                    input.dispatchEvent(new Event('blur', {{ bubbles: true }}));
+                                    break;
+                                }}
+                            }}
+                        }}""", order_no)
                     
-                    tab = page.locator("[id*='tab-工单'], #tab-工单, .el-tabs__item:has-text('工单')").first
-                    await tab.scroll_into_view_if_needed()
-                    await tab.click()
-                    await page.wait_for_timeout(3000)
-                    sys_logger.info("已切换至详情页底部“工单”页签。")
-                    
-                    # 点击右侧“创建工单”拉起新工单创建页面
-                    create_btn = page.locator(".el-tab-pane:visible button:has-text('创建工单'), button:has-text('创建工单')").first
-                    await create_btn.scroll_into_view_if_needed()
-                    await create_btn.click()
-                    await page.wait_for_timeout(4000)
-                    sys_logger.info("新建工单表单页面加载成功。")
-                    
-                    # ----------------- 按照截图 i 与截图 ii 真实、精细地填写新建工单流程 -----------------
-                    # 1. 工单类型：勾选“投诉”单选框
+                    # 2. 工单类型：勾选“投诉”单选框
+                    sys_logger.info("正在选择工单类型为“投诉”...")
                     type_radio = page.locator(".el-form-item:has-text('工单类型') .el-radio, .el-radio").filter(has_text="投诉").first
                     await type_radio.click()
                     await page.wait_for_timeout(500)
                     
-                    # 2. 工单标题级联选择
+                    # 3. 工单标题级联选择
+                    sys_logger.info("正在展开“工单标题”四级级联选择器并自适应点击...")
                     title_input = page.locator(".el-form-item:has-text('工单标题') input, input[placeholder*='请选择工单标题'], input[placeholder*='请选择']").first
-                    await title_input.click()
-                    await page.wait_for_timeout(1000)
+                    await title_input.scroll_into_view_if_needed()
+                    await title_input.click(force=True)
+                    await page.wait_for_timeout(2500)
                     
-                    # 异步四级点击
-                    cascade_result = await page.evaluate("""() => {
-                        const clickNode = (text) => {
-                            const nodes = Array.from(document.querySelectorAll('.el-cascader-node, .el-cascader-menu li, li'));
-                            const target = nodes.find(n => n.getBoundingClientRect().width > 0 && n.innerText.trim() === text);
-                            if (target) {
-                                target.click();
-                                return true;
+                    # 使用极致丝滑、带轮询自愈的 JS 异步节点链条穿透连击，彻底击穿任何异步加载
+                    cascade_result = await page.evaluate("""async () => {
+                        const pollClickNode = async (text) => {
+                            for (let i = 0; i < 40; i++) {
+                                const nodes = Array.from(document.querySelectorAll('.el-cascader-node, .el-cascader-menu li, li'));
+                                const target = nodes.find(n => n.getBoundingClientRect().width > 0 && n.innerText.trim() === text);
+                                if (target) {
+                                    target.click();
+                                    return true;
+                                }
+                                await new Promise(r => setTimeout(r, 150));
                             }
                             return false;
                         };
                         
-                        return new Promise((resolve) => {
-                            clickNode('投诉');
-                            setTimeout(() => {
-                                clickNode('订单问题');
-                                setTimeout(() => {
-                                    clickNode('费用问题');
-                                    setTimeout(() => {
-                                        const success = clickNode('未上车产生费用');
-                                        resolve(success ? 'Cascade click completed!' : 'Failed at last step');
-                                    }, 1200);
-                                }, 1000);
-                            }, 800);
-                        });
+                        const ok1 = await pollClickNode('投诉');
+                        if (!ok1) return 'Failed at level 1: 投诉';
+                        
+                        const ok2 = await pollClickNode('订单问题');
+                        if (!ok2) return 'Failed at level 2: 订单问题';
+                        
+                        const ok3 = await pollClickNode('费用问题');
+                        if (!ok3) return 'Failed at level 3: 费用问题';
+                        
+                        const ok4 = await pollClickNode('未上车产生费用');
+                        if (!ok4) return 'Failed at level 4: 未上车产生费用';
+                        
+                        return 'Cascade click completed successfully!';
                     }""")
                     sys_logger.info(f"四级标题连击执行反馈: {cascade_result}")
                     await page.wait_for_timeout(1000)
                     
-                    # 3. 紧急程度：选择“一般”
+                    # 4. 紧急程度：选择“一般”
                     level_radio = page.locator(".el-form-item:has-text('紧急程度') .el-radio, .el-radio").filter(has_text="一般").first
                     await level_radio.click()
                     await page.wait_for_timeout(500)
                     
-                    # 4. 问题描述
+                    # 5. 问题描述
                     desc_textarea = page.locator(".el-form-item:has-text('问题描述') textarea, textarea").first
                     await desc_textarea.fill("123")
                     await page.wait_for_timeout(500)
                     
-                    # 5. 受理人：勾选“我自己受理”
+                    # 6. 受理人：勾选“我自己受理”
                     try:
                         await page.evaluate("""() => {
                             const selfHandleBtn = Array.from(document.querySelectorAll('button, .el-button, .el-radio')).find(el => el.innerText && el.innerText.trim().includes('我自己受理'));
@@ -166,11 +182,30 @@ async def run_create_flow(headless: bool = None, order_ids: list = None):
                     except Exception as e:
                         sys_logger.warn(f"JS 勾选我自己受理失败: {e}")
                         
-                    # 6. 使用 JS 降维打击双向绑定保障 100% 写入 Vue Model 并清除前端校验
-                    await page.evaluate(f"""() => {{
+                    # 7. 使用 JS 降维打击双向绑定保障 100% 写入 Vue Model 并清除前端校验
+                    await page.evaluate(f"""(orderNum) => {{
                         const formEl = document.querySelector('.el-form');
                         if (formEl && formEl.__vue__) {{
                             const m = formEl.__vue__.model || {{}};
+                            
+                            // 强行同步大盘关联订单号
+                            m.OrderId = orderNum;
+                            m.orderId = orderNum;
+                            m.order_id = orderNum;
+                            m.OrderNo = orderNum;
+                            m.orderNo = orderNum;
+                            m.order_no = orderNum;
+                            
+                            const titlePath = ["投诉", "订单问题", "费用问题", "未上车产生费用"];
+                            m.ProblemTitle = titlePath;
+                            m.problemTitle = titlePath;
+                            m.problem_title = titlePath;
+                            m.Title = titlePath;
+                            m.title = titlePath;
+                            m.TitlePath = titlePath;
+                            m.titlePath = titlePath;
+                            m.WorkOrderTitle = titlePath;
+                            m.workOrderTitle = titlePath;
                             
                             m.ProblemDesc = "123";
                             m.remark = "123";
@@ -204,16 +239,17 @@ async def run_create_flow(headless: bool = None, order_ids: list = None):
                                 return Promise.resolve(true);
                             }};
                         }}
-                    }}""")
+                    }}""", order_no)
                     
                     # 截图保存表单填写状态
                     await page.screenshot(path="output/work_order_created_form.png")
                     
-                    # 7. 点击最下方的蓝色“保存”按钮提交
+                    # 8. 点击最下方的蓝色“保存”按钮提交
                     save_btn = page.locator("button:visible").filter(has_text="保存").last
                     if await save_btn.count() == 0:
                         save_btn = page.locator("button:visible").filter(has_text="确").last
-                    await save_btn.click()
+                    await save_btn.scroll_into_view_if_needed()
+                    await save_btn.click(force=True)
                     await page.wait_for_timeout(6000)
                     sys_logger.info(f"订单号 {order_no} 工单创建保存成功。")
                     
