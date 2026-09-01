@@ -34,7 +34,8 @@ async def run_create_flow(headless: bool = None, order_ids: list = None):
       headless (bool): 是否采用静默/无头模式
       order_ids (list): 需要创建工单的订单号列表
     """
-    headless_val = headless if headless is not None else config_business.HEADLESS_DEBUG
+    # 默认调整为不静默运行，方便真实弹出浏览器进行全视角流转和自愈观察
+    headless_val = headless if headless is not None else False
     order_ids_val = order_ids if order_ids is not None else DEFAULT_ORDER_IDS
 
     async with async_playwright() as p:
