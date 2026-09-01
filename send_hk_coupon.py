@@ -31,7 +31,7 @@ SEND_LIMIT = 5000   # 发送限制
 USERS_FILE = ""     # 用户文件
 
 
-def send_hk_coupon(mobiles):
+def send_hk_coupon(mobiles, send_num=None):
     print("[*] 正在准备发送香港优惠券...")
     
     # 构建请求头
@@ -43,8 +43,13 @@ def send_hk_coupon(mobiles):
         "Sensitive": "1"
     }
     
+    # 支持外部参数传入重写发送张数
+    coupon_id = COUPON_INFO_LIST[0]["CouponID"] if COUPON_INFO_LIST else 28
+    qty = int(send_num) if send_num is not None else (COUPON_INFO_LIST[0]["Num"] if COUPON_INFO_LIST else 1)
+    current_coupon_list = [{"CouponID": coupon_id, "Num": qty}]
+    
     # 优惠券信息转为 JSON 字符串
-    coupon_info_str = json.dumps(COUPON_INFO_LIST)
+    coupon_info_str = json.dumps(current_coupon_list)
     
     # 构建请求体
     payload = {
@@ -60,7 +65,7 @@ def send_hk_coupon(mobiles):
     
     print(f"[*] 接口地址: {API_URL}")
     print(f"[*] 目标手机号: {mobiles}")
-    print(f"[*] 优惠券信息: {COUPON_INFO_LIST}")
+    print(f"[*] 优惠券信息: {current_coupon_list}")
     print(f"[*] 发送参数 Payload: {json.dumps(payload, ensure_ascii=False, indent=2)}")
     
     try:

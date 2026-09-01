@@ -15,10 +15,11 @@ from create_coupon.auditor import audit_coupon
 # 确保 output 文件夹在运行前已经创建
 os.makedirs("output", exist_ok=True)
 
-async def main():
+async def main(headless=None):
     async with async_playwright() as p:
-        # 启动 Chromium 浏览器 (采用公共配置中的无头静默模式)
-        browser = await p.chromium.launch(headless=True)
+        # 启动 Chromium 浏览器 (支持外部传入 headless 或者默认采用公共配置)
+        headless_val = headless if headless is not None else True
+        browser = await p.chromium.launch(headless=headless_val)
         context = await browser.new_context(
             viewport={"width": 1440, "height": 900},
             ignore_https_errors=True
