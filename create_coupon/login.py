@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# 这个文件的功能是后台登录凭证录入与鉴权重定向的代码
+
 import config_common
 
 async def login_to_system(page):

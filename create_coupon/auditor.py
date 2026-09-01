@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# 这个文件的功能是新优惠券的自动提审与自动流转审批的代码
+
 import config_business
 
 async def audit_coupon(page):

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# 这个文件的功能是全自动填写优惠券创建表单并执行一键注入的代码
+
 import config_business
 
 async def fill_coupon_form(page, dialog):

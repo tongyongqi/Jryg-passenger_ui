@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# 这个文件的功能是全自动调度和一键集中管理及执行控制台的代码
+
 import asyncio
 import os
 import sys

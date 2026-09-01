@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# 这个文件的功能是优惠券自动创建与自动审核流转的代码
+
 import asyncio
 import os
 import sys

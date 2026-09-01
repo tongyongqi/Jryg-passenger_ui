@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# 这个文件的功能是工单基础受理与信息录入的代码
+
 import asyncio
 import os
 import sys
