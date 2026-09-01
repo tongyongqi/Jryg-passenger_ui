@@ -28,7 +28,7 @@ DEFAULT_ORDER_IDS = [
 async def run_create_flow(headless: bool = None, order_ids: list = None):
     """
     创建工单专属核心流转逻辑（极致直连版本）。
-    先登录，登录成功后直接导航到创建工单极速链接，填入目标订单号、投诉类型及级联标题，执行保存。
+    先登录，登录成功后直接导航到创建工单极速链接，填入目标订单号、用户身份、投诉类型及级联标题，执行保存。
     
     参数：
       headless (bool): 是否采用静默/无头模式
@@ -116,6 +116,18 @@ async def run_create_flow(headless: bool = None, order_ids: list = None):
                             }}
                         }}""", order_no)
                     
+                    # 1.5 用户身份选择：点击勾选“乘客”单选框
+                    sys_logger.info("正在选择用户身份为“乘客”...")
+                    try:
+                        user_identity_radio = page.locator(".el-form-item", has=page.locator(".el-form-item__label:has-text('用户身份')")).locator(".el-radio").filter(has_text="乘客").first
+                        if await user_identity_radio.count() == 0:
+                            user_identity_radio = page.locator(".el-radio").filter(has_text="乘客").first
+                        await user_identity_radio.scroll_into_view_if_needed()
+                        await user_identity_radio.click(force=True)
+                        await page.wait_for_timeout(500)
+                    except Exception as u_id_err:
+                        sys_logger.warn(f"选择用户身份单选框遇到阻碍: {u_id_err}")
+
                     # 2. 工单类型：勾选“投诉”单选框
                     sys_logger.info("正在选择工单类型为“投诉”...")
                     type_radio = page.locator(".el-form-item:has-text('工单类型') .el-radio, .el-radio").filter(has_text="投诉").first
@@ -196,6 +208,17 @@ async def run_create_flow(headless: bool = None, order_ids: list = None):
                             m.OrderNo = orderNum;
                             m.orderNo = orderNum;
                             m.order_no = orderNum;
+                            
+                            // 强行同步用户身份
+                            m.UserIdentity = "乘客";
+                            m.userIdentity = "乘客";
+                            m.user_identity = "乘客";
+                            m.UserRole = "乘客";
+                            m.userRole = "乘客";
+                            m.user_role = "乘客";
+                            m.UserType = "乘客";
+                            m.userType = "乘客";
+                            m.user_type = "乘客";
                             
                             const titlePath = ["投诉", "订单问题", "费用问题", "未上车产生费用"];
                             m.ProblemTitle = titlePath;
