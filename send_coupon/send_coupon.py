@@ -6,9 +6,16 @@
 import asyncio
 import json
 import os
+import sys
 import requests
 import urllib3
 from playwright.async_api import async_playwright
+
+# 1. 支持单独运行时引入其他自定义配置模块
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(root_dir)
+sys.path.append(os.path.join(root_dir, "config_common"))
+sys.path.append(os.path.join(root_dir, "config_business"))
 
 # 导入业务配置和通用配置
 import config_common

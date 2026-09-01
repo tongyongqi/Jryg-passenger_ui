@@ -2,8 +2,14 @@ import asyncio
 import os
 import sys
 
-# 1. 确保将项目根目录添加到 python path 使得模块 and 配置能被正常载入
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+# 1. 统一构建最高级别的 Python 搜索路径，确保彻底兼容任何运行场景
+root_dir = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(root_dir)
+sys.path.append(os.path.join(root_dir, "config_common"))
+sys.path.append(os.path.join(root_dir, "config_business"))
+sys.path.append(os.path.join(root_dir, "login_common"))
+sys.path.append(os.path.join(root_dir, "send_coupon"))
+sys.path.append(os.path.join(root_dir, "send_hk_coupon"))
 
 # 统一导入项目内的所有核心功能模块
 from WorkOrder.order import run_flow as run_work_order_flow

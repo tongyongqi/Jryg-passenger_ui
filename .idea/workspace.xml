@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5df8c73e-4371-4cb4-b529-eb5c4258b12a" name="更改" comment="优惠卷创建发放">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WorkOrder/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/WorkOrder/order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_business.py" beforeDir="false" afterPath="$PROJECT_DIR$/config_business.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/work_order_created_form.png" beforeDir="false" afterPath="$PROJECT_DIR$/output/work_order_created_form.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/work_order_finished_result.png" beforeDir="false" afterPath="$PROJECT_DIR$/output/work_order_finished_result.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/work_order_handled_form.png" beforeDir="false" afterPath="$PROJECT_DIR$/output/work_order_handled_form.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,16 +28,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.send_coupon.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;JRYG-优惠卷发放&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.order.executor": "Run",
+    "Python.send_coupon.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "JRYG-优惠卷发放"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/新建临时文件": [
+      "HTML"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="send_coupon" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CreateandDistributeCoupons" />
@@ -65,7 +76,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-7bb8055f9097-cbfc7b97e6b2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.28238.29" />
+        <option value="bundled-python-sdk-338e198662b5-cbfc7b97e6b2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.28539.90" />
       </set>
     </attachedChunks>
   </component>

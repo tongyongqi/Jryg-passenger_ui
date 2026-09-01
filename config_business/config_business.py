@@ -36,5 +36,3 @@ META_ID = "113491"                          # 默认关联的 meta_id 属性
 ORDER_TYPE = "5"                            # 默认关联的 order_type 属性
 WORK_ORDER_TYPE = "投诉"                    # 工单类型选择 (如投诉、建议等)
 WORK_ORDER_REMARK = "自动创建工单"           # 工单内容/受理备注说明
-
-
