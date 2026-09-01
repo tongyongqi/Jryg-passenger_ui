@@ -23,7 +23,7 @@ sys.path.append(os.path.join(root_dir, "config_business"))
 
 import config_common
 import config_business
-from logger.logger import sys_logger
+from logger.send_coupon_logger import send_coupon_logger as sys_logger
 
 # 屏蔽不安全请求报警
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)

@@ -12,7 +12,7 @@
 """
 
 import config_common
-from logger.logger import sys_logger
+from logger.login_logger import login_logger as sys_logger
 
 
 async def login_to_system(page):

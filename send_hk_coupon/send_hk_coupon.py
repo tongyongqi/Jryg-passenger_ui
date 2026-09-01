@@ -10,7 +10,7 @@
 import json
 import requests
 import urllib3
-from logger.logger import sys_logger
+from logger.send_hk_coupon_logger import send_hk_coupon_logger as sys_logger
 
 # 禁用因忽略 SSL 请求或降级到 HTTP 产生的安全不信任警告
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)

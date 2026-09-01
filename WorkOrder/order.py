@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import config_common
 import config_business
 import login_common  # 导入抽离出来的公共登录模块
-from logger.logger import sys_logger
+from logger.work_order_logger import work_order_logger as sys_logger
 
 # 确保存放运行流转截图的 output 文件夹在运行前已经创建
 os.makedirs("output", exist_ok=True)

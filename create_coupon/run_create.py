@@ -14,7 +14,7 @@ import config_business
 from create_coupon.login import login_to_system
 from create_coupon.filler import fill_coupon_form
 from create_coupon.auditor import audit_coupon
-from logger.logger import sys_logger
+from logger.create_coupon_logger import create_coupon_logger as sys_logger
 
 # 确保 output 截图保存目录存在
 os.makedirs("output", exist_ok=True)
