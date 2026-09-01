@@ -5,9 +5,16 @@ import sys
 # 1. 统一构建最高级别的 Python 搜索路径，确保彻底兼容任何物理目录、工作空间运行场景
 root_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(root_dir)
+sys.path.append(os.path.join(root_dir, "config_common"))
+sys.path.append(os.path.join(root_dir, "config_business"))
+sys.path.append(os.path.join(root_dir, "login_common"))
+sys.path.append(os.path.join(root_dir, "send_coupon"))
+sys.path.append(os.path.join(root_dir, "send_hk_coupon"))
+sys.path.append(os.path.join(root_dir, "logger"))
 
 # 统一导入项目内的所有核心功能模块
-from WorkOrder.order import run_flow as run_work_order_flow
+from WorkOrder.order import run_create_flow as run_work_order_create_flow
+from WorkOrder.handle_order import run_handle_flow as run_work_order_handle_flow
 from create_coupon.run_create import main as run_create_coupon_flow
 import send_coupon as mainland_coupon_module
 import send_hk_coupon as hk_coupon_module
@@ -17,11 +24,12 @@ if __name__ == "__main__":
     # ==========================================================================
     # 🚦 极简一键功能选择控制台 (在 PyCharm 中修改此数字运行不同功能)
     # ==========================================================================
-    # 1 - 工单创建以及工单受理闭环流转 (直连订单 -> 切换工单页签 -> 创建工单 -> 首行受理 -> 填写处理及退款结算 -> 保存并受理完成)
+    # 1 - 工单全自动创建流程 (直连订单 -> 导航到工单页签 -> 创建工单 -> 勾选投诉/四级级联 -> 保存并关闭)
     # 2 - 创建优惠券流程 (启动后台 -> 创建优惠券表单并自动填入、强力注入 -> 自动通过流程审批)
     # 3 - 发放大陆优惠券 (自动登录截取 API Token -> 发送大陆发券 POST 接口请求发放优惠券)
     # 4 - 发放香港优惠券 (直连香港发券 API 接口发放香港测试优惠券)
-    RUN_MODE = 3
+    # 5 - 工单全自动处理/受理流程 (直接导航到工单列表 -> 自动检索获取首行最新工单并点击受理 -> 填写投诉责任方及双文本 -> 结算退款及终极保存 -> 受理完成)
+    RUN_MODE = 1
 
     # ==========================================================================
     # ⚙️ 共享控制参数 (修改以下参数可灵活控制各功能模块运行)
@@ -56,8 +64,9 @@ if __name__ == "__main__":
     sys_logger.info("="*70)
 
     if RUN_MODE == 1:
-        sys_logger.info("正在执行工单创建以及工单受理闭环流转程序...")
-        asyncio.run(run_work_order_flow(headless=HEADLESS, order_ids=ORDER_IDS))
+        sys_logger.info("正在执行工单全自动创建流转程序...")
+        sys_logger.info(f"待处理的订单号列表 ORDER_IDS: {ORDER_IDS}")
+        asyncio.run(run_work_order_create_flow(headless=HEADLESS, order_ids=ORDER_IDS))
 
     elif RUN_MODE == 2:
         sys_logger.info("正在执行优惠券自动化创建与自动审核流转...")
@@ -71,5 +80,9 @@ if __name__ == "__main__":
         sys_logger.info(f"正在执行香港优惠券接口发放流程... 手机号: {HK_MOBILES} | 数量: {HK_SEND_NUM}")
         hk_coupon_module.send_hk_coupon(mobiles=HK_MOBILES, send_num=HK_SEND_NUM)
 
+    elif RUN_MODE == 5:
+        sys_logger.info("正在执行工单全自动受理/处理流程...")
+        asyncio.run(run_work_order_handle_flow(headless=HEADLESS))
+
     else:
-        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1, 2, 3 或 4 中的一个！")
+        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1, 2, 3, 4 或 5 中的一个！")
