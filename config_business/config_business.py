@@ -38,3 +38,15 @@ META_ID = "113491"                          # 默认关联的 meta_id 属性
 ORDER_TYPE = "5"                            # 默认关联的 order_type 属性
 WORK_ORDER_TYPE = "投诉"                    # 工单类型选择 (如投诉、建议等)
 WORK_ORDER_REMARK = "自动创建工单"           # 工单内容/受理备注说明
+
+# ------------------------------------------
+
+# 💰 4. 接口退款 (refund_order.py) 专属业务配置
+REFUND_API_URL = "http://cashier.tx-test6.jryghq.cn/pay/v1/applyTradeRefund"
+REFUND = {
+    "order_id": 7359087334,               # 订单号 (int 类型)
+    "order_no": "2693DPES4MWX4ER",         # 订单编号
+    "refund_amount": 1000,                 # 退款金额 (分)
+    "refund_reason": "测试",                # 退款原因
+    "work_id": 1                           # 工单ID
+}
