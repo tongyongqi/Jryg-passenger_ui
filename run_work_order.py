@@ -19,6 +19,7 @@ import send_hk_coupon as hk_coupon_module
 import config_business
 from logger.logger import sys_logger
 from refund_order.refund_order import apply_refund
+from database.mysql_client import run_interactive_console
 
 if __name__ == "__main__":
     # ==========================================================================
@@ -31,7 +32,10 @@ if __name__ == "__main__":
     # 5 - 工单受理流程 (导航至工单列表 -> 按订单号搜索并点击受理 -> 填写投诉结果/责任方 -> 自动检测页面按钮三分支: 取消订单/改价免单/退款&结算 -> 执行对应分支 -> 受理完成提交)
     # 6 - 工单退款结算流程 (导航至工单列表 -> 按订单号搜索并点击处理 -> 点击退款&结算配置乘客全额退款、司机正常结算并保存 -> 清除Vue校验 -> 点击受理完成提交)
     # 7 - 接口退款 (直接调用退款接口，对指定订单发起退款申请，无需浏览器自动化)
-    RUN_MODE = 3
+    # 8 - 数据库交互调试控制台 (跨库联表查券、清空券、模拟绑定签约，无需浏览器自动化)
+    # --------------------------------------------------------------------------
+    # 💡 优化体验：如果不修改默认变量 (默认为 None)，将自动弹出交互菜单让您选择执行！
+    RUN_MODE = 2
 
     # ==========================================================================
     # ⚙️ 共享控制参数 (修改以下参数可灵活控制各功能模块运行)
@@ -53,23 +57,15 @@ if __name__ == "__main__":
     # 默认关联的 order_type 属性
     ORDER_TYPE_1 = "5"
 
-    # ------------------ MODE 5. 工单受理配置 ------------------
-    # 待受理的订单号列表 (支持配置单个或多个)
-    ORDER_IDS_5 = [
-        "7358984706"
-    ]
-
-    # ------------------ MODE 6. 工单退款结算配置 ------------------
-    # 待结算的订单号列表 (支持配置单个或多个)
-    ORDER_IDS_6 = [
-        "7358984706"
-    ]
-
     # ------------------ MODE 2. 创建优惠券配置 ------------------
-    # 拟创建的优惠券名称
-    COUPON_NAME = "自动化创建优惠卷1000元"
-    # 优惠券面值金额 (元)
-    FACE_VALUE = "1000"
+    # 优惠券类型: "满减券" 或 "折扣券"
+    COUPON_TYPE = "折扣券"
+    # 拟创建的优惠券名称 (设置为 "自动生成" 或留空，系统将自动根据金额/折扣生成，例如“100元优惠券”或“8.5折优惠券”)
+    COUPON_NAME = "自动生成"
+    # 优惠券面值金额 (元) (仅在 COUPON_TYPE="满减券" 时生效)
+    FACE_VALUE = "200"
+    # 折扣数值 (例如 8.5 代表 8.5折, 仅在 COUPON_TYPE="折扣券" 时生效)
+    DISCOUNT_VALUE = "8.5"
     # 使用门槛：满多少元可用 (元)
     USE_RULE = "1"
     # 最高抵扣比例百分比 (100 代表 100%)
@@ -89,6 +85,18 @@ if __name__ == "__main__":
     # 香港发券的单次发放数量 (张数)
     HK_SEND_NUM = 20
 
+    # ------------------ MODE 5. 工单受理配置 ------------------
+    # 待受理的订单号列表 (支持配置单个或多个)
+    ORDER_IDS_5 = [
+        "7358984706"
+    ]
+
+    # ------------------ MODE 6. 工单退款结算配置 ------------------
+    # 待结算的订单号列表 (支持配置单个或多个)
+    ORDER_IDS_6 = [
+        "7358984706"
+    ]
+
     # ------------------ MODE 7. 接口退款配置 ------------------
     # 退款参数 (每次运行 RUN_MODE=7 前修改此处即可)
     REFUND = {
@@ -102,6 +110,30 @@ if __name__ == "__main__":
     # ==========================================================================
     # 🚀 自动化启动中心：根据 RUN_MODE 执行对应的核心流转逻辑
     # ==========================================================================
+    if RUN_MODE is None:
+        print("\n" + "=" * 70)
+        print("  🎫 优惠券与工单自动化调度系统 - 功能选择控制台")
+        print("=" * 70)
+        print("  [1] 🛠️ 工单全自动创建流程")
+        print("  [2] 🎫 创建优惠券流程（并自动审批）")
+        print("  [3] 🚀 发放大陆优惠券（接口发放）")
+        print("  [4] 🚀 发放香港优惠券（接口发放）")
+        print("  [5] 🛠️ 工单受理流程（自动检测三分支）")
+        print("  [6] 🛠️ 工单退款结算流程")
+        print("  [7] 💰 接口一键退款（极速接口，无需浏览器）")
+        print("  [8] 🗄️ 数据库交互调试控制台（联表查券、清券、微信/芝麻绑定）")
+        print("  [0] 🚪 退出程序")
+        print("=" * 70)
+        user_input = input("👉 请选择您想运行的功能编号 [1-8, 0退出]: ").strip()
+        if user_input == "0" or not user_input:
+            print("👋 运行已退出。")
+            sys.exit(0)
+        if user_input.isdigit() and 1 <= int(user_input) <= 8:
+            RUN_MODE = int(user_input)
+        else:
+            print("⚠️ 输入错误，自动退出！")
+            sys.exit(1)
+
     sys_logger.info("="*70)
     sys_logger.info(f"启动 优惠券与工单自动化调度系统 (RUN_MODE: {RUN_MODE})")
     sys_logger.info(f"当前浏览器静默模式 HEADLESS: {HEADLESS}")
@@ -126,9 +158,20 @@ if __name__ == "__main__":
 
     elif RUN_MODE == 2:
         sys_logger.info("正在执行优惠券自动化创建与自动审核流转...")
+        # 智能自愈：如果设置为 "自动生成" 或留空，则根据数值智能自动拼装优惠券名称
+        final_coupon_name = COUPON_NAME
+        if final_coupon_name == "自动生成" or not final_coupon_name.strip():
+            if COUPON_TYPE == "折扣券":
+                final_coupon_name = f"{DISCOUNT_VALUE}折优惠券"
+            else:
+                final_coupon_name = f"{FACE_VALUE}元优惠券"
+        sys_logger.info(f"✨ 智能生成的优惠券名称为: {final_coupon_name}")
+
         # 将运行脚本内的优惠券配置同步到 config_business 模块
-        config_business.COUPON_NAME = COUPON_NAME
+        config_business.COUPON_TYPE = COUPON_TYPE
+        config_business.COUPON_NAME = final_coupon_name
         config_business.FACE_VALUE = FACE_VALUE
+        config_business.DISCOUNT_VALUE = DISCOUNT_VALUE
         config_business.USE_RULE = USE_RULE
         config_business.MAX_DISCOUNT = MAX_DISCOUNT
         config_business.COUPON_QTY = COUPON_QTY
@@ -161,5 +204,9 @@ if __name__ == "__main__":
         sys_logger.info(f"退款参数: {REFUND}")
         apply_refund(refund_config=REFUND)
 
+    elif RUN_MODE == 8:
+        sys_logger.info("正在启动 数据库交互调试控制台...")
+        run_interactive_console()
+
     else:
-        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1, 2, 3, 4, 5, 6 或 7 中的一个！")
+        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1, 2, 3, 4, 5, 6, 7 或 8 中的一个！")

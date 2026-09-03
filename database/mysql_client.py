@@ -230,12 +230,12 @@ def get_user_coupons_by_mobile(mobile: str):
     SELECT 
         u.UserID, 
         u.Mobile, 
-        u.NickName,
+        u.RealName,
         c.id AS coupon_id,
-        c.coupon_new_id,
-        c.coupon_title,
-        c.status AS coupon_status,
-        c.use_time,
+        c.coupon_plan_id,
+        c.coupon_name,
+        c.used AS coupon_status,
+        c.used_at AS use_time,
         c.created_at AS coupon_created_at
     FROM jryg_user.users u
     INNER JOIN jryg_coupon.coupon_user_new c ON u.UserID = c.user_id
@@ -335,11 +335,14 @@ def insert_sesame_contract(user_id: int, agreement_no: str = 'ZMOP99202403090200
 # ==========================================
 # ⚙️ 交互式多功能数据库调试控制台
 # ==========================================
-if __name__ == "__main__":
+
+def run_interactive_console():
+    """
+    启动交互式多功能数据库高频工具控制台
+    """
     import time
-    
-    # 临时静默底层 logger 打印以确保交互控制台界面极简美观
     import logging
+    # 临时静默底层 logger 打印以确保交互控制台界面极简美观
     logging.getLogger("database_system").setLevel(logging.WARNING)
 
     while True:
@@ -373,7 +376,7 @@ if __name__ == "__main__":
                 if users:
                     print(f"🎉 成功查到 {len(users)} 条匹配的用户记录：")
                     for idx, u in enumerate(users):
-                        print(f"  [{idx + 1}] UserID: {u.get('UserID')} | NickName: {u.get('NickName')} | Mobile: {u.get('Mobile')} | Status: {u.get('Status')} | CreatedAt: {u.get('CreatedAt')}")
+                        print(f"  [{idx + 1}] UserID: {u.get('UserID')} | RealName: {u.get('RealName')} | Mobile: {u.get('Mobile')} | Enabled: {u.get('Enabled')} | CreateTime: {u.get('CreateTime')}")
                 else:
                     print("❌ 未在数据库中查询到匹配的用户数据。")
             except Exception as e:
@@ -391,7 +394,7 @@ if __name__ == "__main__":
                     print(f"🎉 该用户共持有 {len(coupons)} 张优惠券：")
                     # 按需优雅展示前20条
                     for idx, cp in enumerate(coupons[:20]):
-                        print(f"  [{idx + 1}] ID: {cp.get('id')} | CouponNewID: {cp.get('coupon_new_id')} | Title: {cp.get('coupon_title')} | Status: {cp.get('status')} | UseTime: {cp.get('use_time')}")
+                        print(f"  [{idx + 1}] ID: {cp.get('id')} | CouponPlanID: {cp.get('coupon_plan_id')} | Title: {cp.get('coupon_name')} | Used(已使用): {cp.get('used')} | UseTime: {cp.get('used_at')}")
                     if len(coupons) > 20:
                         print(f"  ... 已折叠剩余 {len(coupons) - 20} 条记录")
                 else:
@@ -464,7 +467,7 @@ if __name__ == "__main__":
             double_check = input(f"❓ 确认彻底抹去用户 {uid_str} 的全部数据？不可逆！(y/n): ").strip().lower()
             if double_check == 'y':
                 try:
-                    res = delete_user_completely(int(uid_str))
+                    _ = delete_user_completely(int(uid_str))
                     print("🎉 清空并注销该用户账户及关联绑定全部成功！")
                 except Exception as e:
                     print(f"❌ 清退用户时发生错误: {e}")
@@ -507,7 +510,7 @@ if __name__ == "__main__":
                 
                 print(f"🎉 成功查到该用户共持有 {len(coupons)} 张优惠券如下：")
                 for idx, cp in enumerate(coupons):
-                    print(f"  [{idx + 1}] ID: {cp.get('id')} | CouponNewID: {cp.get('coupon_new_id')} | Title: {cp.get('coupon_title')} | Status: {cp.get('status')} | CreateTime: {cp.get('created_at')}")
+                    print(f"  [{idx + 1}] ID: {cp.get('id')} | CouponPlanID: {cp.get('coupon_plan_id')} | Title: {cp.get('coupon_name')} | Used(已使用): {cp.get('used')} | CreateTime: {cp.get('created_at')}")
                 
                 # 双重防呆确认
                 double_check = input(f"\n⚠️ 确定清空该用户的全部 {len(coupons)} 张优惠券？不可逆！(y/n): ").strip().lower()
@@ -531,17 +534,17 @@ if __name__ == "__main__":
                     # 首先提取该手机号对应的 user_id 信息展现给用户
                     first_record = records[0]
                     print(f"✨ 检索成功！")
-                    print(f"👤 用户账号信息: UserID: {first_record.get('UserID')} | Mobile: {first_record.get('Mobile')} | NickName: {first_record.get('NickName')}")
+                    print(f"👤 用户账号信息: UserID: {first_record.get('UserID')} | Mobile: {first_record.get('Mobile')} | RealName: {first_record.get('RealName')}")
                     print(f"🎫 该用户当前共持有 {len(records)} 张优惠券，详情如下：")
                     for idx, r in enumerate(records):
-                        print(f"  [{idx + 1}] ID: {r.get('coupon_id')} | CouponNewID: {r.get('coupon_new_id')} | Title: {r.get('coupon_title')} | Status: {r.get('coupon_status')} | CreateTime: {r.get('coupon_created_at')}")
+                        print(f"  [{idx + 1}] ID: {r.get('coupon_id')} | CouponPlanID: {r.get('coupon_plan_id')} | Title: {r.get('coupon_name')} | Used(已使用): {r.get('coupon_status')} | UseTime: {r.get('use_time')}")
                 else:
                     # 如果 INNER JOIN 查不到，有可能是用户存在但当前没有持有任何优惠券。为提升用户体验，进行降级二次确认
                     print("ℹ️ 跨库联表未查到持券记录。正在查询此用户是否存在于用户中心...")
                     user_exist = get_user_by_mobile(mobile)
                     if user_exist:
                         usr = user_exist[0]
-                        print(f"👤 用户已找到: UserID: {usr.get('UserID')} | Mobile: {usr.get('Mobile')} | NickName: {usr.get('NickName')}")
+                        print(f"👤 用户已找到: UserID: {usr.get('UserID')} | Mobile: {usr.get('Mobile')} | RealName: {usr.get('RealName')}")
                         print("ℹ️ 该用户目前没有持有任何优惠券。")
                     else:
                         print("❌ 数据库中未找到任何匹配的用户记录，且该手机号未注册。")
@@ -556,3 +559,7 @@ if __name__ == "__main__":
             print("⚠️ 无效的选择，请输入 0-11 范围内的功能数字！")
             
         time.sleep(1)
+
+
+if __name__ == "__main__":
+    run_interactive_console()
