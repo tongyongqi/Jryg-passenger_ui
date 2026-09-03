@@ -32,21 +32,36 @@ HEADLESS_DEBUG = True                       # 是否开启调试：False 代表�
 
 # ------------------------------------------
 
-# 🛠️ 3. 创建与受理工单 (order.py) 专属业务配置
-TARGET_ORDER_ID = "7358984952"          # 要创建工单的真实订单编号 (可在此随意热更改)
-META_ID = "113491"                          # 默认关联的 meta_id 属性
-ORDER_TYPE = "5"                            # 默认关联的 order_type 属性
-WORK_ORDER_TYPE = "投诉"                    # 工单类型选择 (如投诉、建议等)
-WORK_ORDER_REMARK = "自动创建工单"           # 工单内容/受理备注说明
+# 🛠️ 3. 工单业务专属配置 (1, 5, 6 分开配置)
+
+# 🛠️ 3.1 创建工单配置 (MODE 1)
+TARGET_ORDER_ID_1 = "7358984706"        # 待创建工单的真实订单编号 (可在此随意热更改)
+META_ID_1 = "113491"                    # 默认关联的 meta_id 属性
+ORDER_TYPE_1 = "5"                      # 默认关联的 order_type 属性
+WORK_ORDER_TYPE_1 = "投诉"              # 工单类型选择 (如投诉、建议等)
+WORK_ORDER_REMARK_1 = "自动创建工单"     # 工单内容/受理备注说明
+
+# 🛠️ 3.5 工单受理配置 (MODE 5)
+TARGET_ORDER_ID_5 = "7358984706"        # 待受理的订单号
+
+# 🛠️ 3.6 工单退款结算配置 (MODE 6)
+TARGET_ORDER_ID_6 = "7358984706"        # 待结算的订单号
+
+# 兼容旧代码默认属性 (默认指向 MODE 1 配置)
+TARGET_ORDER_ID = TARGET_ORDER_ID_1
+META_ID = META_ID_1
+ORDER_TYPE = ORDER_TYPE_1
+WORK_ORDER_TYPE = WORK_ORDER_TYPE_1
+WORK_ORDER_REMARK = WORK_ORDER_REMARK_1
 
 # ------------------------------------------
 
 # 💰 4. 接口退款 (refund_order.py) 专属业务配置
 REFUND_API_URL = "http://cashier.tx-test6.jryghq.cn/pay/v1/applyTradeRefund"
 REFUND = {
-    "order_id": 7359087334,               # 订单号 (int 类型)
-    "order_no": "2693DPES4MWX4ER",         # 订单编号
-    "refund_amount": 1000,                 # 退款金额 (分)
+    "order_id": 7359087690,               # 订单号 (int 类型)
+    "order_no": "2693DPESEIWX4ER",         # 订单编号
+    "refund_amount": 380,                 # 退款金额 (分)
     "refund_reason": "测试",                # 退款原因
     "work_id": 1                           # 工单ID
 }

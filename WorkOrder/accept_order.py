@@ -36,6 +36,10 @@ async def run_accept_flow(headless: bool = None):
     """
     headless_val = headless if headless is not None else config_business.HEADLESS_DEBUG
 
+    # 动态支持拆分配置
+    if hasattr(config_business, "TARGET_ORDER_ID_5"):
+        config_business.TARGET_ORDER_ID = config_business.TARGET_ORDER_ID_5
+
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=headless_val)
         context = await browser.new_context(

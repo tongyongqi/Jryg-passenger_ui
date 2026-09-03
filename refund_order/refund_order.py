@@ -19,12 +19,13 @@ import config_business
 from logger.refund_order_logger import refund_order_logger as sys_logger
 
 
-def apply_refund():
+def apply_refund(refund_config: dict = None):
     """
     调用退款接口，对指定订单发起退款申请。
-    参数从 config_business.py 的 REFUND 字典中读取，每次运行前修改即可。
+    参数通过 refund_config 字典传入，每次运行前在 run_work_order.py 中修改即可。
     """
-    refund_config = config_business.REFUND
+    if refund_config is None:
+        refund_config = config_business.REFUND
     order_id = refund_config["order_id"]
     order_no = refund_config["order_no"]
     refund_amount = refund_config["refund_amount"]
