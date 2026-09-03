@@ -65,3 +65,14 @@ REFUND = {
     "refund_reason": "测试",                # 退款原因
     "work_id": 1                           # 工单ID
 }
+
+# ------------------------------------------
+
+# 🗄️ 5. 数据库 (database) 专属连接配置
+DB_CONFIG = {
+    "host": "172.19.0.132",                     # 主机：腾讯云测试环境内网地址
+    "port": 3306,                               # 端口
+    "user": "jryg_tx_test",                     # 用户名
+    "password": "3G$opYrLCnqZxa6a",             # 密码
+    "charset": "utf8mb4"                        # 字符集
+}
