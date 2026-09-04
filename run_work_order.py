@@ -23,7 +23,87 @@ from database.mysql_client import run_interactive_console
 
 
 # ==========================================================================
-# ⚙️ 模块化功能定义区域 (Ctrl+Click/Cmd+Click 函数名可一键自动导航至对应位置进行配置与修改)
+# 🚦 主执行调度引擎 (放置于最上方，一键配置、Ctrl+Click跳转修改、并极速运行)
+# ==========================================================================
+
+def run_scheduler():
+    """
+    调度启动中心：处理用户菜单输入，并动态路由启动对应时机模块。
+    """
+    # ==========================================================================
+    # 🚦 极简一键功能选择控制台 (可按住 Ctrl/Cmd 点击下方函数名，直接自动高亮导航到对应代码与配置中！)
+    # ==========================================================================
+    # 1 - [工单自动创建] ➔ 导航至：run_mode_1_工单全自动创建
+    # 2 - [创建优惠券]   ➔ 导航至：run_mode_2_创建优惠券流程
+    # 3 - [发放大陆券]   ➔ 导航至：run_mode_3_发放大陆优惠券
+    # 4 - [发放香港券]   ➔ 导航至：run_mode_4_发放香港优惠券
+    # 5 - [工单受理流程] ➔ 导航至：run_mode_5_工单受理流程
+    # 6 - [工单退款结算] ➔ 导航至：run_mode_6_工单退款结算流程
+    # 7 - [极速接口退款] ➔ 导航至：run_mode_7_接口退款
+    # 8 - [数据库控制台] ➔ 导航至：run_mode_8_数据库控制台
+    # --------------------------------------------------------------------------
+    # 💡 优化体验：如果保持默认变量 (默认为 None)，将自动弹出交互菜单让您输入数字执行！
+    RUN_MODE = None
+
+    # ==========================================================================
+    # ⚙️ 共享控制参数 (修改以下参数可灵活控制各功能模块运行)
+    # ==========================================================================
+    # 鉴权登录配置：True 代表开启静默无头模式，False 代表真实弹出浏览器界面方便观察
+    HEADLESS = True
+
+    # 🚀 自动化启动中心：根据 RUN_MODE 执行对应的核心流转逻辑
+    if RUN_MODE is None:
+        print("\n" + "=" * 70)
+        print("  🎫 优惠券与工单自动化调度系统 - 功能选择控制台")
+        print("=" * 70)
+        print("  [1] 🛠️ 工单全自动创建流程")
+        print("  [2] 🎫 创建优惠券流程（并自动审批）")
+        print("  [3] 🚀 发放大陆优惠券（接口发放）")
+        print("  [4] 🚀 发放香港优惠券（接口发放）")
+        print("  [5] 🛠️ 工单受理流程（自动检测三分支）")
+        print("  [6] 🛠️ 工单退款结算流程")
+        print("  [7] 💰 接口一键退款（极速接口，无需浏览器）")
+        print("  [8] 🗄️ 数据库交互调试控制台（联表查券、清券、微信/芝麻绑定）")
+        print("  [0] 🚪 退出程序")
+        print("=" * 70)
+        user_input = input("👉 请选择您想运行的功能编号 [1-8, 0退出]: ").strip()
+        if user_input == "0" or not user_input:
+            print("👋 运行已退出。")
+            sys.exit(0)
+        if user_input.isdigit() and 1 <= int(user_input) <= 8:
+            RUN_MODE = int(user_input)
+        else:
+            print("⚠️ 输入错误，自动退出！")
+            sys.exit(1)
+
+    sys_logger.info("="*70)
+    sys_logger.info(f"启动 优惠券与工单自动化调度系统 (RUN_MODE: {RUN_MODE})")
+    sys_logger.info(f"当前浏览器静默模式 HEADLESS: {HEADLESS}")
+    sys_logger.info("="*70)
+
+    # 映射路由并启动对应模块
+    if RUN_MODE == 1:
+        run_mode_1_工单全自动创建(headless=HEADLESS)
+    elif RUN_MODE == 2:
+        run_mode_2_创建优惠券流程(headless=HEADLESS)
+    elif RUN_MODE == 3:
+        run_mode_3_发放大陆优惠券(headless=HEADLESS)
+    elif RUN_MODE == 4:
+        run_mode_4_发放香港优惠券(headless=HEADLESS)
+    elif RUN_MODE == 5:
+        run_mode_5_工单受理流程(headless=HEADLESS)
+    elif RUN_MODE == 6:
+        run_mode_6_工单退款结算流程(headless=HEADLESS)
+    elif RUN_MODE == 7:
+        run_mode_7_接口退款(headless=HEADLESS)
+    elif RUN_MODE == 8:
+        run_mode_8_数据库控制台(headless=HEADLESS)
+    else:
+        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1-8 中的数字！")
+
+
+# ==========================================================================
+# ⚙️ 模块化功能定义区域 (Ctrl+Click/Cmd+Click 函数名可一键自动高亮导航至此进行参数配置与修改)
 # ==========================================================================
 
 def run_mode_1_工单全自动创建(headless=True):
@@ -221,77 +301,7 @@ def run_mode_8_数据库控制台(headless=True):
 
 
 # ==========================================================================
-# 🚦 主执行调度引擎
+# 🚀 启动入口：在最底部安全触发调度器 (确保上面所有功能函数均已加载定义)
 # ==========================================================================
-
 if __name__ == "__main__":
-    # ==========================================================================
-    # 🚦 极简一键功能选择控制台 (可按住 Ctrl/Cmd 点击下方函数名，直接自动高亮导航到对应代码与配置中！)
-    # ==========================================================================
-    # 1 - [工单自动创建] ➔ 导航至：run_mode_1_工单全自动创建
-    # 2 - [创建优惠券]   ➔ 导航至：run_mode_2_创建优惠券流程
-    # 3 - [发放大陆券]   ➔ 导航至：run_mode_3_发放大陆优惠券
-    # 4 - [发放香港券]   ➔ 导航至：run_mode_4_发放香港优惠券
-    # 5 - [工单受理流程] ➔ 导航至：run_mode_5_工单受理流程
-    # 6 - [工单退款结算] ➔ 导航至：run_mode_6_工单退款结算流程
-    # 7 - [极速接口退款] ➔ 导航至：run_mode_7_接口退款
-    # 8 - [数据库控制台] ➔ 导航至：run_mode_8_数据库控制台
-    # --------------------------------------------------------------------------
-    # 💡 优化体验：如果保持默认变量 (默认为 None)，将自动弹出交互菜单让您输入数字执行！
-    RUN_MODE = None
-
-    # ==========================================================================
-    # ⚙️ 共享控制参数 (修改以下参数可灵活控制各功能模块运行)
-    # ==========================================================================
-    # 鉴权登录配置：True 代表开启静默无头模式，False 代表真实弹出浏览器界面方便观察
-    HEADLESS = True
-
-    # 🚀 自动化启动中心：根据 RUN_MODE 执行对应的核心流转逻辑
-    if RUN_MODE is None:
-        print("\n" + "=" * 70)
-        print("  🎫 优惠券与工单自动化调度系统 - 功能选择控制台")
-        print("=" * 70)
-        print("  [1] 🛠️ 工单全自动创建流程")
-        print("  [2] 🎫 创建优惠券流程（并自动审批）")
-        print("  [3] 🚀 发放大陆优惠券（接口发放）")
-        print("  [4] 🚀 发放香港优惠券（接口发放）")
-        print("  [5] 🛠️ 工单受理流程（自动检测三分支）")
-        print("  [6] 🛠️ 工单退款结算流程")
-        print("  [7] 💰 接口一键退款（极速接口，无需浏览器）")
-        print("  [8] 🗄️ 数据库交互调试控制台（联表查券、清券、微信/芝麻绑定）")
-        print("  [0] 🚪 退出程序")
-        print("=" * 70)
-        user_input = input("👉 请选择您想运行的功能编号 [1-8, 0退出]: ").strip()
-        if user_input == "0" or not user_input:
-            print("👋 运行已退出。")
-            sys.exit(0)
-        if user_input.isdigit() and 1 <= int(user_input) <= 8:
-            RUN_MODE = int(user_input)
-        else:
-            print("⚠️ 输入错误，自动退出！")
-            sys.exit(1)
-
-    sys_logger.info("="*70)
-    sys_logger.info(f"启动 优惠券与工单自动化调度系统 (RUN_MODE: {RUN_MODE})")
-    sys_logger.info(f"当前浏览器静默模式 HEADLESS: {HEADLESS}")
-    sys_logger.info("="*70)
-
-    # 映射路由并启动
-    if RUN_MODE == 1:
-        run_mode_1_工单全自动创建(headless=HEADLESS)
-    elif RUN_MODE == 2:
-        run_mode_2_创建优惠券流程(headless=HEADLESS)
-    elif RUN_MODE == 3:
-        run_mode_3_发放大陆优惠券(headless=HEADLESS)
-    elif RUN_MODE == 4:
-        run_mode_4_发放香港优惠券(headless=HEADLESS)
-    elif RUN_MODE == 5:
-        run_mode_5_工单受理流程(headless=HEADLESS)
-    elif RUN_MODE == 6:
-        run_mode_6_工单退款结算流程(headless=HEADLESS)
-    elif RUN_MODE == 7:
-        run_mode_7_接口退款(headless=HEADLESS)
-    elif RUN_MODE == 8:
-        run_mode_8_数据库控制台(headless=HEADLESS)
-    else:
-        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1-8 中的数字！")
+    run_scheduler()
