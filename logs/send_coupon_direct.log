@@ -1,0 +1,23 @@
+[2026-09-04 19:05:40] [INFO] 正在准备直连大陆发券接口发放优惠券（不经过扶摇）...
+[2026-09-04 19:05:40] [INFO] 接口: https://coupon.tx-test6.jryghq.cn/jryg-coupon/coupon/send_coupon
+[2026-09-04 19:05:40] [INFO] 手机: 18618251727 | 券ID: 34305 | 数量: 3
+[2026-09-04 19:05:40] [INFO] 请求参数: {"SendType": 1, "CouponType": 1, "Remark": "", "Mobiles": "18618251727", "SendIndex": 1, "SendLimit": 5000, "UsersFile": "", "CouponInfo": "[{\"CouponID\": 34305, \"Num\": 3}]"}
+[2026-09-04 19:05:55] [ERROR] 发送请求时发生异常: HTTPSConnectionPool(host='coupon.tx-test6.jryghq.cn', port=443): Max retries exceeded with url: /jryg-coupon/coupon/send_coupon (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1129)')))
+[2026-09-04 19:06:55] [INFO] 正在准备直连大陆发券接口发放优惠券（不经过扶摇）...
+[2026-09-04 19:06:55] [INFO] 接口: http://coupon.tx-test6.jryghq.cn/jryg-coupon/coupon/send_coupon
+[2026-09-04 19:06:55] [INFO] 手机: 18618251727 | 券ID: 34305 | 数量: 3
+[2026-09-04 19:06:55] [INFO] 请求参数: {"SendType": 1, "CouponType": 1, "Remark": "", "Mobiles": "18618251727", "SendIndex": 1, "SendLimit": 5000, "UsersFile": "", "CouponInfo": "[{\"CouponID\": 34305, \"Num\": 3}]"}
+[2026-09-04 19:06:55] [INFO] 响应状态码: 200
+[2026-09-04 19:06:55] [INFO] [SUCCESS] 大陆优惠券直连接口发放成功！系统提示: 正在发放，稍后在发放记录里查看发放状态
+[2026-09-04 20:35:44] [INFO] 正在准备直连大陆发券接口发放优惠券（不经过扶摇）...
+[2026-09-04 20:35:44] [INFO] 接口: http://coupon.tx-test6.jryghq.cn/jryg-coupon/coupon/send_coupon
+[2026-09-04 20:35:44] [INFO] 手机: 18618251727 | 券ID: 34305 | 数量: 3
+[2026-09-04 20:35:44] [INFO] 请求参数: {"SendType": 1, "CouponType": 1, "Remark": "", "Mobiles": "18618251727", "SendIndex": 1, "SendLimit": 5000, "UsersFile": "", "CouponInfo": "[{\"CouponID\": 34305, \"Num\": 3}]"}
+[2026-09-04 20:35:44] [INFO] 响应状态码: 200
+[2026-09-04 20:35:44] [INFO] [SUCCESS] 大陆优惠券直连接口发放成功！系统提示: 正在发放，稍后在发放记录里查看发放状态
+[2026-09-04 20:36:25] [INFO] 正在准备直连大陆发券接口发放优惠券（不经过扶摇）...
+[2026-09-04 20:36:25] [INFO] 接口: http://coupon.tx-test6.jryghq.cn/jryg-coupon/coupon/send_coupon
+[2026-09-04 20:36:25] [INFO] 手机: 18618251727 | 券ID: 34305 | 数量: 3
+[2026-09-04 20:36:25] [INFO] 请求参数: {"SendType": 1, "CouponType": 1, "Remark": "", "Mobiles": "18618251727", "SendIndex": 1, "SendLimit": 5000, "UsersFile": "", "CouponInfo": "[{\"CouponID\": 34305, \"Num\": 3}]"}
+[2026-09-04 20:36:25] [INFO] 响应状态码: 200
+[2026-09-04 20:36:25] [INFO] [SUCCESS] 大陆优惠券直连接口发放成功！系统提示: 正在发放，稍后在发放记录里查看发放状态

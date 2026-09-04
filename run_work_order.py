@@ -16,6 +16,8 @@ from WorkOrder.settle_order import run_settle_flow as run_work_order_settle_flow
 from create_coupon.run_create import main as run_create_coupon_flow
 import send_coupon as mainland_coupon_module
 import send_hk_coupon as hk_coupon_module
+from send_coupon.send_coupon_direct import send_coupon_direct
+from create_coupon.create_coupon_direct import create_coupon_direct
 import config_business
 from logger.logger import sys_logger
 from refund_order.refund_order import apply_refund
@@ -23,7 +25,7 @@ from database.mysql_client import run_interactive_console
 
 
 # ==========================================================================
-# 🚦 主执行调度引擎 (放置于最上方，一键配置、Ctrl+Click跳转修改、并极速运行)
+# 🚦 主执行调度引擎 (置于最上方：一键导航、极速选择、随时跳转修改各模块参数)
 # ==========================================================================
 
 def run_scheduler():
@@ -31,9 +33,9 @@ def run_scheduler():
     调度启动中心：处理用户菜单输入，并动态路由启动对应时机模块。
     """
     # ==========================================================================
-    # 🚦 极简一键功能选择控制台 (可按住 Ctrl/Cmd 点击下方蓝色函数名，直接自动导航跳转！)
+    # 🚦 极简一键功能选择控制台 (👉 提示：请按住 Ctrl/Cmd 点击右侧蓝色函数名，直接自动导航跳转！)
     # ==========================================================================
-    _一键高亮导航_ = {
+    一键高亮导航 = {
         "1-[工单自动创建]": run_mode_1_工单全自动创建,
         "2-[创建优惠券]": run_mode_2_创建优惠券流程,
         "3-[发放大陆券]": run_mode_3_发放大陆优惠券,
@@ -42,6 +44,8 @@ def run_scheduler():
         "6-[工单退款结算]": run_mode_6_工单退款结算流程,
         "7-[极速接口退款]": run_mode_7_接口退款,
         "8-[数据库控制台]": run_mode_8_数据库控制台,
+        "9-[直连发券]": run_mode_9_直连接口发券,
+        "10-[接口创建券]": run_mode_10_直连接口创建优惠券,
     }
     # --------------------------------------------------------------------------
     # 💡 优化体验：如果保持默认变量 (默认为 None)，将自动弹出交互菜单让您输入数字执行！
@@ -66,13 +70,15 @@ def run_scheduler():
         print("  [6] 🛠️ 工单退款结算流程")
         print("  [7] 💰 接口一键退款（极速接口，无需浏览器）")
         print("  [8] 🗄️ 数据库交互调试控制台（联表查券、清券、微信/芝麻绑定）")
+        print("  [9] 🚀 直连接口发券（不经过扶摇，纯接口发放）")
+        print("  [10] 🎫 直连接口创建优惠券（不启动浏览器，纯接口创建）")
         print("  [0] 🚪 退出程序")
         print("=" * 70)
         user_input = input("👉 请选择您想运行的功能编号 [1-8, 0退出]: ").strip()
         if user_input == "0" or not user_input:
             print("👋 运行已退出。")
             sys.exit(0)
-        if user_input.isdigit() and 1 <= int(user_input) <= 8:
+        if user_input.isdigit() and 1 <= int(user_input) <= 10:
             RUN_MODE = int(user_input)
         else:
             print("⚠️ 输入错误，自动退出！")
@@ -100,12 +106,16 @@ def run_scheduler():
         run_mode_7_接口退款(headless=HEADLESS)
     elif RUN_MODE == 8:
         run_mode_8_数据库控制台(headless=HEADLESS)
+    elif RUN_MODE == 9:
+        run_mode_9_直连接口发券(headless=HEADLESS)
+    elif RUN_MODE == 10:
+        run_mode_10_直连接口创建优惠券(headless=HEADLESS)
     else:
-        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1-8 中的数字！")
+        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1-10 中的数字！")
 
 
 # ==========================================================================
-# ⚙️ 模块化功能定义区域 (Ctrl+Click/Cmd+Click 函数名可一键自动高亮导航至此进行参数配置与修改)
+# ⚙️ 模块化功能定义区域 (Ctrl+Click/Cmd+Click 右侧函数名可一键导航至此修改参数)
 # ==========================================================================
 
 def run_mode_1_工单全自动创建(headless=True):
@@ -117,7 +127,7 @@ def run_mode_1_工单全自动创建(headless=True):
     # ------------------ 配置参数区 ------------------
     # 待创建工单的订单号列表 (支持配置单个或多个)
     ORDER_IDS_1 = [
-        "7358984706"
+        "7359089825"
     ]
     # 工单类型选择 (如投诉、建议等)
     WORK_ORDER_TYPE_1 = "投诉"
@@ -202,7 +212,7 @@ def run_mode_3_发放大陆优惠券(headless=True):
     """
     # ------------------ 配置参数区 ------------------
     # 大陆发券的目标接收手机号 (多个手机号可以用英文逗号隔开)
-    MAINLAND_MOBILES = "18618251727"
+    MAINLAND_MOBILES = "13521098140"
     # 大陆发券的单次发放数量 (张数)
     MAINLAND_SEND_NUM = 20
     # -----------------------------------------------
@@ -237,7 +247,7 @@ def run_mode_5_工单受理流程(headless=True):
     # ------------------ 配置参数区 ------------------
     # 待受理的订单号列表 (支持配置单个或多个)
     ORDER_IDS_5 = [
-        "7358984706"
+        "7359089825"
     ]
     # -----------------------------------------------
 
@@ -258,7 +268,7 @@ def run_mode_6_工单退款结算流程(headless=True):
     # ------------------ 配置参数区 ------------------
     # 待结算的订单号列表 (支持配置单个或多个)
     ORDER_IDS_6 = [
-        "7358984706"
+        "7359089825"
     ]
     # -----------------------------------------------
 
@@ -279,9 +289,9 @@ def run_mode_7_接口退款(headless=True):
     # ------------------ 配置参数区 ------------------
     # 退款参数 (每次运行 RUN_MODE=7 前修改此处即可)
     REFUND = {
-        "order_id": 7359087690,               # 订单号 (int 类型)
-        "order_no": "2693DPESEIWX4ER",         # 订单编号
-        "refund_amount": 380,                 # 退款金额 (分)
+        "order_id": 7359089847,               # 订单号 (int 类型)
+        "order_no": "2693DPEU2FWX4ER",         # 订单编号
+        "refund_amount": 30000,                 # 退款金额 (分)
         "refund_reason": "测试",                # 退款原因
         "work_id": 2                           # 工单ID
     }
@@ -302,8 +312,48 @@ def run_mode_8_数据库控制台(headless=True):
     run_interactive_console()
 
 
+def run_mode_9_直连接口发券(headless=True):
+    """
+    ========================================================================
+    🚀 MODE 9. 直连接口发券配置 (不经过扶摇，纯接口发放)
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 优惠券批次ID (int 类型)
+    COUPON_ID = 34305
+    # 目标接收手机号 (多个手机号可以用英文逗号隔开)
+    MOBILES = "18618251727"
+    # 发放数量 (张数)
+    SEND_NUM = 3
+    # -----------------------------------------------
+
+    sys_logger.info(f"正在执行直连接口发券流程（不经过扶摇）...")
+    sys_logger.info(f"券ID: {COUPON_ID} | 手机号: {MOBILES} | 数量: {SEND_NUM}")
+    send_coupon_direct(mobiles=MOBILES, send_num=SEND_NUM, coupon_id=COUPON_ID)
+
+
+def run_mode_10_直连接口创建优惠券(headless=True):
+    """
+    ========================================================================
+    🎫 MODE 10. 直连接口创建优惠券配置 (不启动浏览器，纯接口创建)
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 优惠券面值 (元)
+    DENOMINATION = 1000
+    # 发行张数
+    NUMBER = 1000
+    # -----------------------------------------------
+
+    # 优惠券名称根据面值自动生成，不需要手动配置
+    auto_name = f"{DENOMINATION}元优惠券"
+    sys_logger.info(f"正在执行直连接口创建优惠券流程（不启动浏览器）...")
+    sys_logger.info(f"面值: {DENOMINATION}元 | 张数: {NUMBER} | 自动生成名称: {auto_name}")
+    create_coupon_direct(coupon_name=auto_name, denomination=DENOMINATION, number=NUMBER)
+
+
 # ==========================================================================
-# 🚀 启动入口：在最底部安全触发调度器 (确保上面所有功能函数均已加载定义)
+# 🚀 启动入口：在最底部安全触发调度器 (此时上面所有函数已全部载入，完美防报错)
 # ==========================================================================
 if __name__ == "__main__":
     run_scheduler()

@@ -1,0 +1,148 @@
+[2026-09-03 15:24:08] [INFO] 正在尝试连接 MySQL 数据库 (mysql.tx-test6.jryghq.cn:3306)...
+[2026-09-03 15:24:24] [ERROR] ❌ 建立数据库连接失败: (2013, 'Lost connection to MySQL server during query')
+[2026-09-03 15:29:05] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-03 15:29:05] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-03 15:29:05] [INFO] 执行查询 SQL: SELECT VERSION() AS version; | 参数: None
+[2026-09-03 15:29:05] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-03 15:29:05] [INFO] 执行查询 SQL: SHOW DATABASES; | 参数: None
+[2026-09-03 15:29:05] [INFO] 🔍 查询成功，共检索到 123 行数据。
+[2026-09-03 15:29:05] [INFO] 🔌 数据库连接已安全关闭。
+[2026-09-03 15:31:52] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-03 15:31:52] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-03 15:31:52] [INFO] 执行查询 SQL: SELECT VERSION() AS version; | 参数: None
+[2026-09-03 15:31:52] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-03 15:31:52] [INFO] 🔌 数据库连接已安全关闭。
+[2026-09-03 15:31:52] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-03 15:31:52] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-03 15:31:52] [INFO] 执行查询 SQL: SELECT * FROM jryg_user.users WHERE Mobile = %s; | 参数: ('18618251727',)
+[2026-09-03 15:31:52] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-03 15:31:52] [INFO] 🔌 数据库连接已安全关闭。
+[2026-09-03 15:31:52] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-03 15:31:52] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-03 15:31:52] [INFO] 执行查询 SQL: SELECT * FROM jryg_coupon.coupon_user_new WHERE user_id = %s; | 参数: (2028092,)
+[2026-09-03 15:31:52] [INFO] 🔍 查询成功，共检索到 20 行数据。
+[2026-09-03 15:31:52] [INFO] 🔌 数据库连接已安全关闭。
+[2026-09-03 15:31:52] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-03 15:31:52] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-03 15:31:52] [INFO] 执行查询 SQL: SELECT * FROM jryg_user.user_payscore_bind WHERE user_id = %s; | 参数: (2028092,)
+[2026-09-03 15:31:52] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-03 15:31:52] [INFO] 🔌 数据库连接已安全关闭。
+[2026-09-03 16:01:43] [ERROR] ❌ 执行查询 SQL 失败: (1054, "Unknown column 'u.NickName' in 'field list'") | SQL: 
+    SELECT 
+        u.UserID, 
+        u.Mobile, 
+        u.NickName,
+        c.id AS coupon_id,
+        c.coupon_new_id,
+        c.coupon_title,
+        c.status AS coupon_status,
+        c.use_time,
+        c.created_at AS coupon_created_at
+    FROM jryg_user.users u
+    INNER JOIN jryg_coupon.coupon_user_new c ON u.UserID = c.user_id
+    WHERE u.Mobile = %s 
+       OR u.Mobile = %s 
+       OR u.Mobile LIKE CONCAT('%%120', %s);
+    
+[2026-09-03 16:02:18] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-03 16:02:19] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-03 16:02:19] [INFO] 执行查询 SQL: DESCRIBE jryg_user.users; | 参数: None
+[2026-09-03 16:02:19] [INFO] 🔍 查询成功，共检索到 15 行数据。
+[2026-09-03 16:05:07] [ERROR] ❌ 执行查询 SQL 失败: (1054, "Unknown column 'c.coupon_new_id' in 'field list'") | SQL: 
+    SELECT 
+        u.UserID, 
+        u.Mobile, 
+        u.RealName,
+        c.id AS coupon_id,
+        c.coupon_new_id,
+        c.coupon_title,
+        c.status AS coupon_status,
+        c.use_time,
+        c.created_at AS coupon_created_at
+    FROM jryg_user.users u
+    INNER JOIN jryg_coupon.coupon_user_new c ON u.UserID = c.user_id
+    WHERE u.Mobile = %s 
+       OR u.Mobile = %s 
+       OR u.Mobile LIKE CONCAT('%%120', %s);
+    
+[2026-09-03 16:05:27] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-03 16:05:27] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-03 16:05:27] [INFO] 执行查询 SQL: DESCRIBE jryg_coupon.coupon_user_new; | 参数: None
+[2026-09-03 16:05:27] [INFO] 🔍 查询成功，共检索到 13 行数据。
+[2026-09-04 10:24:36] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 10:24:36] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 10:24:36] [INFO] ➕ 正在为用户 30400104 绑定微信支付分记录...
+[2026-09-04 10:24:36] [INFO] 执行非查询 SQL: 
+    INSERT INTO jryg_user.user_payscore_bind (user_id, openid, appid, service_status) 
+    VALUES (%s, %s, %s, %s)
+    ON DUPLICATE KEY UPDATE openid=%s, appid=%s, service_status=%s;
+     | 参数: (30400104, 'oQEPv0KIb-2aDKch6eDTlbSppER0', 'wx2dd647e6aa26e459', 1, 'oQEPv0KIb-2aDKch6eDTlbSppER0', 'wx2dd647e6aa26e459', 1)
+[2026-09-04 10:24:36] [INFO] 💾 事务提交成功。受影响行数: 1 | 插入ID: 30200986
+[2026-09-04 10:24:36] [INFO] 🔌 数据库连接已安全关闭。
+[2026-09-04 10:24:36] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 10:24:36] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 10:24:36] [INFO] 执行查询 SQL: SELECT * FROM jryg_user.user_payscore_bind WHERE user_id = %s; | 参数: (30400104,)
+[2026-09-04 10:24:37] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-04 10:24:37] [INFO] 🔌 数据库连接已安全关闭。
+[2026-09-04 17:15:40] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:15:40] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:15:40] [INFO] 执行查询 SQL: SHOW DATABASES; | 参数: None
+[2026-09-04 17:15:40] [INFO] 🔍 查询成功，共检索到 123 行数据。
+[2026-09-04 17:22:11] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:22:11] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:22:11] [INFO] 执行查询 SQL: SELECT * FROM jryg_order.orders WHERE id = 7359089825 OR order_id = 7359089825 LIMIT 1; | 参数: None
+[2026-09-04 17:22:11] [ERROR] ❌ 执行查询 SQL 失败: (1054, "Unknown column 'id' in 'where clause'") | SQL: SELECT * FROM jryg_order.orders WHERE id = 7359089825 OR order_id = 7359089825 LIMIT 1;
+[2026-09-04 17:22:11] [INFO] 执行查询 SQL: SELECT * FROM jryg_order.order_info WHERE id = 7359089825 OR order_id = 7359089825 LIMIT 1; | 参数: None
+[2026-09-04 17:22:11] [ERROR] ❌ 执行查询 SQL 失败: (1146, "Table 'jryg_order.order_info' doesn't exist") | SQL: SELECT * FROM jryg_order.order_info WHERE id = 7359089825 OR order_id = 7359089825 LIMIT 1;
+[2026-09-04 17:22:11] [INFO] 执行查询 SQL: SELECT * FROM jryg_order.order_pay_info WHERE id = 7359089825 OR order_id = 7359089825 LIMIT 1; | 参数: None
+[2026-09-04 17:22:11] [ERROR] ❌ 执行查询 SQL 失败: (1146, "Table 'jryg_order.order_pay_info' doesn't exist") | SQL: SELECT * FROM jryg_order.order_pay_info WHERE id = 7359089825 OR order_id = 7359089825 LIMIT 1;
+[2026-09-04 17:28:57] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:28:58] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:28:58] [INFO] 执行查询 SQL: SELECT * FROM jryg_order.orders LIMIT 1; | 参数: None
+[2026-09-04 17:28:58] [INFO] 🔍 查询成功，共检索到 0 行数据。
+[2026-09-04 17:29:32] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:29:32] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:29:32] [INFO] 执行查询 SQL: SELECT * FROM ygcx_order.orders LIMIT 1; | 参数: None
+[2026-09-04 17:29:32] [ERROR] ❌ 执行查询 SQL 失败: (1146, "Table 'ygcx_order.orders' doesn't exist") | SQL: SELECT * FROM ygcx_order.orders LIMIT 1;
+[2026-09-04 17:29:32] [INFO] 执行查询 SQL: SELECT * FROM ygcx_order.order_info LIMIT 1; | 参数: None
+[2026-09-04 17:29:32] [ERROR] ❌ 执行查询 SQL 失败: (1146, "Table 'ygcx_order.order_info' doesn't exist") | SQL: SELECT * FROM ygcx_order.order_info LIMIT 1;
+[2026-09-04 17:29:32] [INFO] 执行查询 SQL: SELECT * FROM jryg_booking_order.orders LIMIT 1; | 参数: None
+[2026-09-04 17:29:32] [ERROR] ❌ 执行查询 SQL 失败: (1146, "Table 'jryg_booking_order.orders' doesn't exist") | SQL: SELECT * FROM jryg_booking_order.orders LIMIT 1;
+[2026-09-04 17:30:08] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:30:08] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:30:08] [INFO] 执行查询 SQL: SELECT TABLE_NAME FROM information_schema.tables WHERE table_schema='jryg_order'; | 参数: None
+[2026-09-04 17:30:09] [INFO] 🔍 查询成功，共检索到 10 行数据。
+[2026-09-04 17:31:14] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:31:15] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:31:15] [INFO] 执行查询 SQL: SELECT * FROM jryg_order.car_order LIMIT 1; | 参数: None
+[2026-09-04 17:31:15] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-04 17:31:15] [INFO] 执行查询 SQL: SELECT * FROM jryg_order.base_order LIMIT 1; | 参数: None
+[2026-09-04 17:31:15] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-04 17:31:54] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:31:54] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:31:54] [INFO] 执行查询 SQL: SELECT * FROM jryg_order.base_order WHERE OrderID = 7359089825; | 参数: None
+[2026-09-04 17:31:54] [INFO] 🔍 查询成功，共检索到 0 行数据。
+[2026-09-04 17:32:32] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:32:32] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:32:32] [INFO] 执行查询 SQL: SELECT TABLE_NAME FROM information_schema.tables WHERE table_schema='ygcx_order'; | 参数: None
+[2026-09-04 17:32:32] [INFO] 🔍 查询成功，共检索到 79 行数据。
+[2026-09-04 17:32:37] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:32:37] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:32:37] [INFO] 执行查询 SQL: SELECT * FROM ygcx_order.order_base WHERE id = 7359089825 OR order_id = 7359089825; | 参数: None
+[2026-09-04 17:32:37] [ERROR] ❌ 执行查询 SQL 失败: (1054, "Unknown column 'id' in 'where clause'") | SQL: SELECT * FROM ygcx_order.order_base WHERE id = 7359089825 OR order_id = 7359089825;
+[2026-09-04 17:32:43] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:32:43] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:32:43] [INFO] 执行查询 SQL: SELECT * FROM ygcx_order.order_base LIMIT 1; | 参数: None
+[2026-09-04 17:32:43] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-04 17:34:33] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:34:33] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:34:33] [INFO] 执行查询 SQL: SELECT * FROM ygcx_order.order_base WHERE OrderID = 7359089825; | 参数: None
+[2026-09-04 17:34:33] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-04 17:34:41] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:34:41] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:34:41] [INFO] 执行查询 SQL: SELECT * FROM ygcx_order.car_order_fee LIMIT 1; | 参数: None
+[2026-09-04 17:34:41] [INFO] 🔍 查询成功，共检索到 1 行数据。
+[2026-09-04 17:34:46] [INFO] 正在尝试连接 MySQL 数据库 (172.19.0.132:3306)...
+[2026-09-04 17:34:46] [INFO] 🎉 MySQL 数据库连接成功！
+[2026-09-04 17:34:46] [INFO] 执行查询 SQL: SELECT * FROM ygcx_order.car_order_fee WHERE OrderID = 7359089825; | 参数: None
+[2026-09-04 17:34:46] [INFO] 🔍 查询成功，共检索到 1 行数据。

@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5df8c73e-4371-4cb4-b529-eb5c4258b12a" name="更改" comment="通过财务接口退款">
+    <list default="true" id="5df8c73e-4371-4cb4-b529-eb5c4258b12a" name="更改" comment="更改执行方式">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/create_coupon.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/create_coupon.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/login.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/login.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/refund_order.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/refund_order.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/running_flow.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/running_flow.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/send_coupon.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/send_coupon.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_work_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/run_work_order.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788320364490</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="更改执行方式">
+      <option name="closed" value="true" />
+      <created>1788418498335</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1788418498335</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -172,6 +183,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="优惠卷创建发放" />
     <MESSAGE value="通过财务接口退款" />
-    <option name="LAST_COMMIT_MESSAGE" value="通过财务接口退款" />
+    <MESSAGE value="更改执行方式" />
+    <option name="LAST_COMMIT_MESSAGE" value="更改执行方式" />
   </component>
 </project>

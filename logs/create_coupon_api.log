@@ -1,0 +1,49 @@
+[2026-09-04 20:45:16] [INFO] 正在准备通过接口创建优惠券...
+[2026-09-04 20:45:16] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/coupon/add_coupon
+[2026-09-04 20:45:16] [INFO] 券名称: 1 | 类型: 1 | 面值: 20 | 发行量: 11
+[2026-09-04 20:45:16] [INFO] 有效期: 2026-09-01 ~ 2026-10-13
+[2026-09-04 20:45:16] [INFO] 请求参数: {"Terminal": "3,4,5,6,7,8", "TimesVal": "[]", "AgentId": "447,470,471,9999", "ValidityType": 1, "Approval": 1, "BusinessTypeLimit": [], "CarTypeLimit": "1,9,2,3,4", "CityLimit": "", "ConsumeDesc": "", "ConsumePath": "", "CouponEndDate": "", "CouponMaxMoney": 100, "CouponName": "1", "CouponNameDy": "", "CouponStartDate": "", "CouponTagID": 21, "CouponType": 1, "CreateID": 7802, "Denomination": 20, "EndDate": "2026-10-13", "IsSpecial": 0, "IsWechatPayCoupon": 0, "LimitPerUser": 0, "NaturalPerLimit": 0, "Number": 11, "PhoneLimit": 0, "ReceiveDesc": "", "Remark": "<p>11</p>", "SendCityLimit": "", "ServerTypeLimit": "1,11,12,21,22,4,3,15", "StartDate": "2026-09-01", "UseRoleMoney": 1}
+[2026-09-04 20:45:16] [INFO] 响应状态码: 403
+[2026-09-04 20:45:16] [WARNING] 接口返回非成功状态码(10110): 凭证无效
+[2026-09-04 20:45:16] [WARNING] 完整返回: {"code": 10110, "message": "凭证无效"}
+[2026-09-04 20:45:55] [INFO] 启动浏览器以获取系统登录鉴权 Token (静默无头模式)...
+[2026-09-04 20:45:56] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-04 20:46:00] [INFO] 正在输入自动登录凭证...
+[2026-09-04 20:46:01] [INFO] 正在提交登录...
+[2026-09-04 20:46:01] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-04 20:46:02] [INFO] 成功截获 Authorization Token！
+[2026-09-04 20:46:02] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/coupon/add_coupon
+[2026-09-04 20:46:02] [INFO] 券名称: 1 | 类型: 1 | 面值: 20 | 发行量: 11
+[2026-09-04 20:46:02] [INFO] 有效期: 2026-09-01 ~ 2026-10-13
+[2026-09-04 20:46:02] [INFO] 请求参数: {"Terminal": "3,4,5,6,7,8", "TimesVal": "[]", "AgentId": "447,470,471,9999", "ValidityType": 1, "Approval": 1, "BusinessTypeLimit": [], "CarTypeLimit": "1,9,2,3,4", "CityLimit": "", "ConsumeDesc": "", "ConsumePath": "", "CouponEndDate": "", "CouponMaxMoney": 100, "CouponName": "1", "CouponNameDy": "", "CouponStartDate": "", "CouponTagID": 21, "CouponType": 1, "CreateID": 7802, "Denomination": 20, "EndDate": "2026-10-13", "IsSpecial": 0, "IsWechatPayCoupon": 0, "LimitPerUser": 0, "NaturalPerLimit": 0, "Number": 11, "PhoneLimit": 0, "ReceiveDesc": "", "Remark": "<p>11</p>", "SendCityLimit": "", "ServerTypeLimit": "1,11,12,21,22,4,3,15", "StartDate": "2026-09-01", "UseRoleMoney": 1}
+[2026-09-04 20:46:02] [INFO] 响应状态码: 200
+[2026-09-04 20:46:02] [INFO] [SUCCESS] 优惠券接口创建成功！券名称: 1 | 返回数据: {"id": 34308}
+[2026-09-04 20:50:17] [INFO] 正在准备通过直连接口创建优惠券（不启动浏览器）...
+[2026-09-04 20:50:17] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/coupon/add_coupon
+[2026-09-04 20:50:17] [INFO] 券名称: 1 | 类型: 1 | 面值: 20 | 发行量: 11
+[2026-09-04 20:50:17] [INFO] 有效期: 2026-09-01 ~ 2026-10-13
+[2026-09-04 20:50:17] [INFO] 请求参数: {"Terminal": "3,4,5,6,7,8", "TimesVal": "[]", "AgentId": "447,470,471,9999", "ValidityType": 1, "Approval": 1, "BusinessTypeLimit": [], "CarTypeLimit": "1,9,2,3,4", "CityLimit": "", "ConsumeDesc": "", "ConsumePath": "", "CouponEndDate": "", "CouponMaxMoney": 100, "CouponName": "1", "CouponNameDy": "", "CouponStartDate": "", "CouponTagID": 21, "CouponType": 1, "CreateID": 7802, "Denomination": 20, "EndDate": "2026-10-13", "IsSpecial": 0, "IsWechatPayCoupon": 0, "LimitPerUser": 0, "NaturalPerLimit": 0, "Number": 11, "PhoneLimit": 0, "ReceiveDesc": "", "Remark": "<p>11</p>", "SendCityLimit": "", "ServerTypeLimit": "1,11,12,21,22,4,3,15", "StartDate": "2026-09-01", "UseRoleMoney": 1}
+[2026-09-04 20:50:17] [INFO] 响应状态码: 403
+[2026-09-04 20:50:17] [WARNING] 接口返回非成功状态码(10110): 凭证无效
+[2026-09-04 20:50:17] [WARNING] 完整返回: {"code": 10110, "message": "凭证无效"}
+[2026-09-04 20:51:25] [INFO] 正在准备通过直连接口创建优惠券（不启动浏览器）...
+[2026-09-04 20:51:25] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/coupon/add_coupon
+[2026-09-04 20:51:25] [INFO] 券名称: 1 | 类型: 1 | 面值: 20 | 发行量: 11
+[2026-09-04 20:51:25] [INFO] 有效期: 2026-09-01 ~ 2026-10-13
+[2026-09-04 20:51:25] [INFO] 请求参数: {"Terminal": "3,4,5,6,7,8", "TimesVal": "[]", "AgentId": "447,470,471,9999", "ValidityType": 1, "Approval": 1, "BusinessTypeLimit": [], "CarTypeLimit": "1,9,2,3,4", "CityLimit": "", "ConsumeDesc": "", "ConsumePath": "", "CouponEndDate": "", "CouponMaxMoney": 100, "CouponName": "1", "CouponNameDy": "", "CouponStartDate": "", "CouponTagID": 21, "CouponType": 1, "CreateID": 7802, "Denomination": 20, "EndDate": "2026-10-13", "IsSpecial": 0, "IsWechatPayCoupon": 0, "LimitPerUser": 0, "NaturalPerLimit": 0, "Number": 11, "PhoneLimit": 0, "ReceiveDesc": "", "Remark": "<p>11</p>", "SendCityLimit": "", "ServerTypeLimit": "1,11,12,21,22,4,3,15", "StartDate": "2026-09-01", "UseRoleMoney": 1}
+[2026-09-04 20:51:25] [INFO] 响应状态码: 200
+[2026-09-04 20:51:25] [INFO] [SUCCESS] 优惠券直连接口创建成功！券名称: 1 | ID: 34309
+[2026-09-04 20:53:52] [INFO] 正在准备通过直连接口创建优惠券（不启动浏览器）...
+[2026-09-04 20:53:52] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/coupon/add_coupon
+[2026-09-04 20:53:52] [INFO] 券名称: 50元券_100张 | 类型: 1 | 面值: 50 | 发行量: 100
+[2026-09-04 20:53:52] [INFO] 有效期: 2026-09-01 ~ 2026-10-13
+[2026-09-04 20:53:52] [INFO] 请求参数: {"Terminal": "3,4,5,6,7,8", "TimesVal": "[]", "AgentId": "447,470,471,9999", "ValidityType": 1, "Approval": 1, "BusinessTypeLimit": [], "CarTypeLimit": "1,9,2,3,4", "CityLimit": "", "ConsumeDesc": "", "ConsumePath": "", "CouponEndDate": "", "CouponMaxMoney": 100, "CouponName": "50元券_100张", "CouponNameDy": "", "CouponStartDate": "", "CouponTagID": 21, "CouponType": 1, "CreateID": 7802, "Denomination": 50, "EndDate": "2026-10-13", "IsSpecial": 0, "IsWechatPayCoupon": 0, "LimitPerUser": 0, "NaturalPerLimit": 0, "Number": 100, "PhoneLimit": 0, "ReceiveDesc": "", "Remark": "<p>11</p>", "SendCityLimit": "", "ServerTypeLimit": "1,11,12,21,22,4,3,15", "StartDate": "2026-09-01", "UseRoleMoney": 1}
+[2026-09-04 20:53:53] [INFO] 响应状态码: 200
+[2026-09-04 20:53:53] [INFO] [SUCCESS] 优惠券直连接口创建成功！券名称: 50元券_100张 | ID: 34310
+[2026-09-04 20:55:24] [INFO] 正在准备通过直连接口创建优惠券（不启动浏览器）...
+[2026-09-04 20:55:24] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/coupon/add_coupon
+[2026-09-04 20:55:24] [INFO] 券名称: 1000元券_1000张 | 类型: 1 | 面值: 1000 | 发行量: 1000
+[2026-09-04 20:55:24] [INFO] 有效期: 2026-09-01 ~ 2026-10-13
+[2026-09-04 20:55:24] [INFO] 请求参数: {"Terminal": "3,4,5,6,7,8", "TimesVal": "[]", "AgentId": "447,470,471,9999", "ValidityType": 1, "Approval": 1, "BusinessTypeLimit": [], "CarTypeLimit": "1,9,2,3,4", "CityLimit": "", "ConsumeDesc": "", "ConsumePath": "", "CouponEndDate": "", "CouponMaxMoney": 100, "CouponName": "1000元券_1000张", "CouponNameDy": "", "CouponStartDate": "", "CouponTagID": 21, "CouponType": 1, "CreateID": 7802, "Denomination": 1000, "EndDate": "2026-10-13", "IsSpecial": 0, "IsWechatPayCoupon": 0, "LimitPerUser": 0, "NaturalPerLimit": 0, "Number": 1000, "PhoneLimit": 0, "ReceiveDesc": "", "Remark": "<p>11</p>", "SendCityLimit": "", "ServerTypeLimit": "1,11,12,21,22,4,3,15", "StartDate": "2026-09-01", "UseRoleMoney": 1}
+[2026-09-04 20:55:24] [INFO] 响应状态码: 200
+[2026-09-04 20:55:24] [INFO] [SUCCESS] 优惠券直连接口创建成功！券名称: 1000元券_1000张 | ID: 34311
