@@ -1,0 +1,40 @@
+[2026-09-07 16:15:10] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 16:15:10] [INFO] 接口: http://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 16:15:41] [ERROR] 发送请求时发生异常: HTTPConnectionPool(host='coupon.test.sunlightmobility.hk', port=80): Max retries exceeded with url: /jryg-coupon/coupon/send_coupon (Caused by ConnectTimeoutError(<HTTPConnection(host='coupon.test.sunlightmobility.hk', port=80) at 0x10eb128b0>, 'Connection to coupon.test.sunlightmobility.hk timed out. (connect timeout=30)'))
+[2026-09-07 16:18:45] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 16:18:45] [INFO] 接口: http://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 16:18:46] [INFO] 响应状态码: 200
+[2026-09-07 16:18:46] [INFO] [🎉 SUCCESS] 香港优惠券接口发放指令提交成功！系统提示: 正在发放，稍后在发放记录里查看发放状态
+[2026-09-07 16:41:44] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 16:41:44] [INFO] 接口: http://test-coupon.jryghq.com/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 16:41:44] [ERROR] 发送请求时发生异常: HTTPConnectionPool(host='test-coupon.jryghq.com', port=80): Max retries exceeded with url: /jryg-coupon/coupon/send_coupon (Caused by NameResolutionError("HTTPConnection(host='test-coupon.jryghq.com', port=80): Failed to resolve 'test-coupon.jryghq.com' ([Errno 8] nodename nor servname provided, or not known)"))
+[2026-09-07 16:48:36] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 16:48:36] [INFO] 接口: http://test-coupon.jryghq.com/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 16:48:36] [ERROR] 发送请求时发生异常: HTTPConnectionPool(host='test-coupon.jryghq.com', port=80): Max retries exceeded with url: /jryg-coupon/coupon/send_coupon (Caused by NameResolutionError("HTTPConnection(host='test-coupon.jryghq.com', port=80): Failed to resolve 'test-coupon.jryghq.com' ([Errno 8] nodename nor servname provided, or not known)"))
+[2026-09-07 16:58:00] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 16:58:00] [INFO] 接口: http://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 16:58:00] [INFO] 响应状态码: 200
+[2026-09-07 16:58:00] [INFO] [🎉 SUCCESS] 香港优惠券接口发放指令提交成功！系统提示: 正在发放，稍后在发放记录里查看发放状态
+[2026-09-07 17:00:30] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 17:00:30] [INFO] 接口: http://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 17:00:30] [INFO] 响应状态码: 200
+[2026-09-07 17:00:30] [INFO] [🎉 SUCCESS] 香港优惠券接口发放指令提交成功！系统提示: 正在发放，稍后在发放记录里查看发放状态
+[2026-09-07 17:28:02] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 17:28:02] [INFO] 接口: http://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 17:28:02] [INFO] 响应状态码: 200
+[2026-09-07 17:28:02] [INFO] [🎉 SUCCESS] 香港优惠券接口发放指令提交成功！系统提示: 正在发放，稍后在发放记录里查看发放状态
+[2026-09-07 17:30:27] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 17:30:27] [INFO] 接口: https://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 17:30:42] [ERROR] 发送请求时发生异常: HTTPSConnectionPool(host='coupon.test.sunlightmobility.hk', port=443): Max retries exceeded with url: /jryg-coupon/coupon/send_coupon (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1129)')))
+[2026-09-07 17:30:54] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 17:30:54] [INFO] 接口: https://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 17:31:09] [ERROR] 发送请求时发生异常: HTTPSConnectionPool(host='coupon.test.sunlightmobility.hk', port=443): Max retries exceeded with url: /jryg-coupon/coupon/send_coupon (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1129)')))
+[2026-09-07 17:31:28] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 17:31:28] [INFO] 接口: https://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 17:34:27] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 17:34:27] [INFO] 接口: https://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 17:34:43] [ERROR] 发送请求时发生异常: HTTPSConnectionPool(host='coupon.test.sunlightmobility.hk', port=443): Max retries exceeded with url: /jryg-coupon/coupon/send_coupon (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1129)')))
+[2026-09-07 17:37:21] [INFO] 正在准备发送香港优惠券...
+[2026-09-07 17:37:21] [INFO] 接口: http://coupon.test.sunlightmobility.hk/jryg-coupon/coupon/send_coupon | 手机: 11000006910 | 券列表配置: [{'CouponID': 28, 'Num': 20}]
+[2026-09-07 17:37:21] [INFO] 响应状态码: 200
+[2026-09-07 17:37:21] [INFO] [🎉 SUCCESS] 香港优惠券接口发放指令提交成功！系统提示: 正在发放，稍后在发放记录里查看发放状态
