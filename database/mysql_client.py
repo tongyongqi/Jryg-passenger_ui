@@ -301,6 +301,16 @@ def delete_all_user_coupons(user_id: int):
         return client.execute_non_query(sql, (user_id,))
 
 
+def get_driver_by_phone(phone: str):
+    """
+    根据手机号查询司机信息
+    查询 jryg_resource.driver_info 表，通过 phone 字段匹配
+    """
+    with MySQLClient() as client:
+        sql = "SELECT * FROM jryg_resource.driver_info WHERE phone = %s;"
+        return client.execute_query(sql, (phone,))
+
+
 def insert_payscore_bind(user_id: int, openid: str, appid: str = 'wxe38d5ae955d4362e', service_status: int = 1):
     """
     强制向数据库中插入/绑定微信支付分记录
@@ -360,6 +370,7 @@ def run_interactive_console():
         print("  [9] 🔌 测试数据库连通状态")
         print("  [10] 🚮 删除用户全部优惠券 (先展示，再确认删除)")
         print("  [11] 🔗 跨库联表查券 (输入手机号一键直出 UserID + 优惠券)")
+        print("  [12] 🚗 查询司机信息 (按手机号查询 jryg_resource.driver_info)")
         print("  [0] 🚪 退出控制台")
         print("=" * 65)
         
@@ -551,12 +562,29 @@ def run_interactive_console():
             except Exception as e:
                 print(f"❌ 跨库连表查券操作失败: {e}")
                 
+        elif choice == "12":
+            phone = input("💬 请输入司机手机号: ").strip()
+            if not phone:
+                print("⚠️ 手机号不能为空！")
+                continue
+            print(f"🚗 正在查询司机信息...")
+            try:
+                drivers = get_driver_by_phone(phone)
+                if drivers:
+                    print(f"🎉 成功查到 {len(drivers)} 条司机记录：")
+                    for idx, d in enumerate(drivers):
+                        print(f"  [{idx + 1}] ID: {d.get('id')} | Name: {d.get('name')} | Phone: {d.get('phone')} | IDCard: {d.get('id_card')} | Status: {d.get('status')}")
+                else:
+                    print("❌ 未查询到匹配的司机信息。")
+            except Exception as e:
+                print(f"❌ 查询司机信息时发生错误: {e}")
+
         elif choice == "0":
             print("👋 已安全退出数据库高频工具。")
             break
             
         else:
-            print("⚠️ 无效的选择，请输入 0-11 范围内的功能数字！")
+            print("⚠️ 无效的选择，请输入 0-12 范围内的功能数字！")
             
         time.sleep(1)
 

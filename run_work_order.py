@@ -22,6 +22,7 @@ import config_business
 from logger.logger import sys_logger
 from refund_order.refund_order import apply_refund
 from database.mysql_client import run_interactive_console
+import community_draw.community_draw as community_draw_module
 
 
 # ==========================================================================
@@ -46,6 +47,7 @@ def run_scheduler():
         "8-[数据库控制台]": run_mode_8_数据库控制台,
         "9-[直连发券]": run_mode_9_直连接口发券,
         "10-[接口创建券]": run_mode_10_直连接口创建优惠券,
+        "11-[社群抽奖]": run_mode_11_社群抽奖活动创建,
     }
     # --------------------------------------------------------------------------
     # 💡 优化体验：如果保持默认变量 (默认为 None)，将自动弹出交互菜单让您输入数字执行！
@@ -72,13 +74,14 @@ def run_scheduler():
         print("  [8] 🗄️ 数据库交互调试控制台（联表查券、清券、微信/芝麻绑定）")
         print("  [9] 🚀 直连接口发券（不经过扶摇，纯接口发放）")
         print("  [10] 🎫 直连接口创建优惠券（不启动浏览器，纯接口创建）")
+        print("  [11] 🎲 社群抽奖活动创建（扶摇登录截获Token，接口创建）")
         print("  [0] 🚪 退出程序")
         print("=" * 70)
         user_input = input("👉 请选择您想运行的功能编号 [1-8, 0退出]: ").strip()
         if user_input == "0" or not user_input:
             print("👋 运行已退出。")
             sys.exit(0)
-        if user_input.isdigit() and 1 <= int(user_input) <= 10:
+        if user_input.isdigit() and 1 <= int(user_input) <= 11:
             RUN_MODE = int(user_input)
         else:
             print("⚠️ 输入错误，自动退出！")
@@ -110,8 +113,10 @@ def run_scheduler():
         run_mode_9_直连接口发券(headless=HEADLESS)
     elif RUN_MODE == 10:
         run_mode_10_直连接口创建优惠券(headless=HEADLESS)
+    elif RUN_MODE == 11:
+        run_mode_11_社群抽奖活动创建(headless=HEADLESS)
     else:
-        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1-10 中的数字！")
+        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1-11 中的数字！")
 
 
 # ==========================================================================
@@ -350,6 +355,71 @@ def run_mode_10_直连接口创建优惠券(headless=True):
     sys_logger.info(f"正在执行直连接口创建优惠券流程（不启动浏览器）...")
     sys_logger.info(f"面值: {DENOMINATION}元 | 张数: {NUMBER} | 自动生成名称: {auto_name}")
     create_coupon_direct(coupon_name=auto_name, denomination=DENOMINATION, number=NUMBER)
+
+
+def run_mode_11_社群抽奖活动创建(headless=True):
+    """
+    ========================================================================
+    🎲 MODE 11. 社群抽奖活动创建配置 (扶摇登录截获Token，接口创建)
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 活动标题
+    TITLE = "接口创建"
+    # 展示标题
+    SHOW_TITLE = "123"
+    # 活动内容
+    CONTENT = "123"
+    # 活动开始时间
+    START_DATE = "2026-09-08 00:00:00"
+    # 活动结束时间
+    END_DATE = "2035-10-31 00:00:00"
+    # 抽奖开始时间
+    START_TIME = "2026-09-08 10:21:11"
+    # -----------------------------------------------
+
+    # 抽奖类型选择交互
+    print("\n" + "-" * 50)
+    print("  🎲 请选择抽奖类型:")
+    print("  [1] 🎡 大转盘 (type=1, 4个奖品)")
+    print("  [2] 📦 九宫格 (type=2, 8个奖品)")
+    print("-" * 50)
+    draw_choice = input("👉 请选择 [1=大转盘, 2=九宫格, 默认1]: ").strip()
+    if draw_choice == "2":
+        DRAW_TYPE_CHOICE = 2
+        draw_type_name = "九宫格"
+    else:
+        DRAW_TYPE_CHOICE = 1
+        draw_type_name = "大转盘"
+
+    # 奖池方式选择交互
+    print("\n" + "-" * 50)
+    print("  🎁 请选择奖池方式:")
+    print("  [1] 🤝 多平台共享奖池 (terminal=0)")
+    print("  [2] 📦 各平台独立奖池 (terminal=5/6)")
+    print("-" * 50)
+    pool_choice = input("👉 请选择 [1=共享奖池, 2=独立奖池, 默认1]: ").strip()
+    if pool_choice == "2":
+        POOL_TYPE = 2
+        pool_type_name = "各平台独立奖池"
+    else:
+        POOL_TYPE = 1
+        pool_type_name = "多平台共享奖池"
+
+    sys_logger.info("正在执行社群抽奖活动创建流程...")
+    sys_logger.info(f"活动标题: {TITLE} | 活动时间: {START_DATE} ~ {END_DATE}")
+    sys_logger.info(f"抽奖类型: {draw_type_name} (type={DRAW_TYPE_CHOICE}) | 奖池方式: {pool_type_name}")
+    asyncio.run(community_draw_module.run_flow(
+        headless=headless,
+        title=TITLE,
+        show_title=SHOW_TITLE,
+        content=CONTENT,
+        start_date=START_DATE,
+        end_date=END_DATE,
+        start_time=START_TIME,
+        draw_type_choice=DRAW_TYPE_CHOICE,
+        pool_type=POOL_TYPE,
+    ))
 
 
 # ==========================================================================
