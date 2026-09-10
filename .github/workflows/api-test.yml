@@ -7,8 +7,8 @@ on:
   # 1. 定时触发（cron）：按计划自动运行
   schedule:
     # 时间为 UTC，北京时间 = UTC + 8
-    # 每天晚上 18:00 (北京时间) → UTC 10:00
-    - cron: '0 10 * * *'
+    # 每天上午 11:05 (北京时间) → UTC 03:05
+    - cron: '5 3 * * *'
 
   # 2. 手动触发：在 GitHub Actions 页面点击 "Run workflow"
   workflow_dispatch:
@@ -59,15 +59,27 @@ jobs:
             report.html
           retention-days: 30
 
-      # Step 6: 提取错误日志尾部并发送钉钉通知
-      - name: Send DingTalk notification on failure
-        if: steps.run_tests.outputs.exit_code != '0'
+      # Step 6: 提取日志尾部并发送钉钉通知（无论成功或失败都发送）
+      - name: Send DingTalk notification
+        if: always()
         env:
           DINGTALK_WEBHOOK: ${{ secrets.DINGTALK_WEBHOOK }}
           DINGTALK_SECRET: ${{ secrets.DINGTALK_SECRET }}
+          EXIT_CODE: ${{ steps.run_tests.outputs.exit_code }}
         run: |
-          # 提取最后 50 行日志作为错误摘要
+          # 提取最后 50 行日志作为摘要
           LOG_TAIL=$(tail -n 50 test_log/run_output.log | sed 's/\\/\\\\/g; s/"/\\"/g; s/$/\\n/' | tr -d '\n')
+
+          # 根据退出码判断成功/失败
+          if [ "$EXIT_CODE" = "0" ]; then
+            TITLE="JRYG 接口自动化测试通过"
+            STATUS_ICON="✅"
+            STATUS_TEXT="全部测试通过"
+          else
+            TITLE="JRYG 接口自动化测试失败"
+            STATUS_ICON="❌"
+            STATUS_TEXT="测试存在失败用例或异常"
+          fi
 
           # 生成钉钉加签 URL
           TIMESTAMP=$(date -u +%s%3N)
@@ -81,8 +93,8 @@ jobs:
           {
             "msgtype": "markdown",
             "markdown": {
-              "title": "JRYG 接口自动化测试失败",
-              "text": "## JRYG 接口自动化测试失败通知\n\n**触发时间**: $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')\n**仓库**: ${{ github.repository }}\n**分支**: ${{ github.ref_name }}\n**运行链接**: [点击查看详情](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n\n### 错误日志（最后 50 行）:\n\`\`\`\n${LOG_TAIL}\n\`\`\`"
+              "title": "${TITLE}",
+              "text": "## ${STATUS_ICON} ${TITLE}\n\n**状态**: ${STATUS_TEXT}\n**触发时间**: $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')\n**仓库**: ${{ github.repository }}\n**分支**: ${{ github.ref_name }}\n**运行链接**: [点击查看详情](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n\n### 日志摘要（最后 50 行）:\n\`\`\`\n${LOG_TAIL}\n\`\`\`"
             },
             "at": {
               "isAtAll": true
@@ -95,4 +107,4 @@ jobs:
           curl -s -X POST "${WEBHOOK_URL}" \
             -H "Content-Type: application/json" \
             -d "${PAYLOAD}"
-          echo -e "\n钉钉通知已发送"
+          echo -e "\n钉钉通知已发送（${STATUS_ICON} ${STATUS_TEXT}）"
