@@ -4,17 +4,7 @@ name: JRYG 接口自动化测试
 # 触发方式
 # ===========================================
 on:
-<<<<<<< Updated upstream
-  # 1. 定时触发（cron）：按计划自动运行
-  schedule:
-    # 时间为 UTC，北京时间 = UTC + 8
-    # 每天下午 14:40 (北京时间) → UTC 06:40
-    - cron: '40 6 * * *'
-
-  # 2. 手动触发：在 GitHub Actions 页面点击 "Run workflow"
-=======
   # 1. 手动触发：在 GitHub Actions 页面点击 "Run workflow"
->>>>>>> Stashed changes
   workflow_dispatch:
 
   # 2. API 触发（repository_dispatch）：由外部定时器通过 API 调用触发
