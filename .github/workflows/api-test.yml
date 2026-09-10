@@ -1,0 +1,110 @@
+name: JRYG 接口自动化测试
+
+# ===========================================
+# 触发方式
+# ===========================================
+on:
+  # 1. 定时触发（cron）：按计划自动运行
+  schedule:
+    # 时间为 UTC，北京时间 = UTC + 8
+    # 每天上午 11:05 (北京时间) → UTC 03:05
+    - cron: '5 3 * * *'
+
+  # 2. 手动触发：在 GitHub Actions 页面点击 "Run workflow"
+  workflow_dispatch:
+
+  # 3. 代码推送时触发（可选，如不需要可注释掉）
+  # push:
+  #   branches: [ JRYG-接口 ]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: 拉取代码
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Step 2: 安装 Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Step 3: 安装依赖
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: 运行接口测试（捕获输出和退出码，无论成功失败都继续后续步骤）
+      - name: Run API Tests
+        id: run_tests
+        run: |
+          set +e
+          python main.py 2>&1 | tee test_log/run_output.log
+          EXIT_CODE=${PIPESTATUS[0]}
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+          exit 0
+
+      # Step 5: 上传测试日志和报告
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            test_log/
+            report.html
+          retention-days: 30
+
+      # Step 6: 提取日志尾部并发送钉钉通知（无论成功或失败都发送）
+      - name: Send DingTalk notification
+        if: always()
+        env:
+          DINGTALK_WEBHOOK: ${{ secrets.DINGTALK_WEBHOOK }}
+          DINGTALK_SECRET: ${{ secrets.DINGTALK_SECRET }}
+          EXIT_CODE: ${{ steps.run_tests.outputs.exit_code }}
+        run: |
+          # 提取最后 50 行日志作为摘要
+          LOG_TAIL=$(tail -n 50 test_log/run_output.log | sed 's/\\/\\\\/g; s/"/\\"/g; s/$/\\n/' | tr -d '\n')
+
+          # 根据退出码判断成功/失败
+          if [ "$EXIT_CODE" = "0" ]; then
+            TITLE="JRYG 接口自动化测试通过"
+            STATUS_ICON="✅"
+            STATUS_TEXT="全部测试通过"
+          else
+            TITLE="JRYG 接口自动化测试失败"
+            STATUS_ICON="❌"
+            STATUS_TEXT="测试存在失败用例或异常"
+          fi
+
+          # 生成钉钉加签 URL
+          TIMESTAMP=$(date -u +%s%3N)
+          STRING_TO_SIGN="${TIMESTAMP}\n${DINGTALK_SECRET}"
+          SIGN=$(echo -ne "${STRING_TO_SIGN}" | openssl dgst -sha256 -hmac "${DINGTALK_SECRET}" -binary | base64)
+          SIGN_ENCODED=$(python3 -c "import urllib.parse; print(urllib.parse.quote('${SIGN}', safe=''))")
+          WEBHOOK_URL="${DINGTALK_WEBHOOK}&timestamp=${TIMESTAMP}&sign=${SIGN_ENCODED}"
+
+          # 构造 Markdown 消息
+          PAYLOAD=$(cat <<EOF
+          {
+            "msgtype": "markdown",
+            "markdown": {
+              "title": "${TITLE}",
+              "text": "## ${STATUS_ICON} ${TITLE}\n\n**状态**: ${STATUS_TEXT}\n**触发时间**: $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')\n**仓库**: ${{ github.repository }}\n**分支**: ${{ github.ref_name }}\n**运行链接**: [点击查看详情](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n\n### 日志摘要（最后 50 行）:\n\`\`\`\n${LOG_TAIL}\n\`\`\`"
+            },
+            "at": {
+              "isAtAll": true
+            }
+          }
+          EOF
+          )
+
+          # 发送钉钉消息
+          curl -s -X POST "${WEBHOOK_URL}" \
+            -H "Content-Type: application/json" \
+            -d "${PAYLOAD}"
+          echo -e "\n钉钉通知已发送（${STATUS_ICON} ${STATUS_TEXT}）"
