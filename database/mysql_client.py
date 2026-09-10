@@ -326,19 +326,19 @@ def insert_payscore_bind(user_id: int, openid: str, appid: str = 'wxe38d5ae955d4
         return res
 
 
-def insert_sesame_contract(user_id: int, agreement_no: str = 'ZMOP99202403090200840076334528', app_id: str = '2021003164647030'):
+def insert_sesame_contract(user_id: int, open_id: str = '', agreement_no: str = 'ZMOP99202609090200020060550210', app_id: str = '2021003164647030'):
     """
     强制向数据库中插入/签署芝麻信用分记录
     """
     sql = """
     INSERT INTO jryg_user.user_pay_contract
     (user_id, source, mode, app_id, union_id, open_id, nick_name, agreement_no, invalid_time, status, is_del, created_at, updated_at)
-    VALUES (%s, 2, 2, %s, '', '', '', %s, '9999-01-01 00:00:00', 1, 1, NOW(), NOW())
-    ON DUPLICATE KEY UPDATE agreement_no=%s, status=1, is_del=1, updated_at=NOW();
+    VALUES (%s, 2, 2, %s, '', %s, '', %s, '9999-01-01 00:00:00', 1, 1, NOW(), NOW())
+    ON DUPLICATE KEY UPDATE open_id=%s, agreement_no=%s, status=1, is_del=1, updated_at=NOW();
     """
     with MySQLClient() as client:
-        logger.info(f"➕ 正在为用户 {user_id} 签署芝麻信用分契约记录...")
-        res = client.execute_non_query(sql, (user_id, app_id, agreement_no, agreement_no))
+        logger.info(f"➕ 正在为用户 {user_id} 签署芝麻信用分契约记录... open_id={open_id}, agreement_no={agreement_no}")
+        res = client.execute_non_query(sql, (user_id, app_id, open_id, agreement_no, open_id, agreement_no))
         return res
 
 
@@ -464,8 +464,12 @@ def run_interactive_console():
             if not uid_str or not uid_str.isdigit():
                 print("⚠️ UserID 必须为纯数字！")
                 continue
+            open_id = input("💬 请输入支付宝 OpenID (如 2088912638120024): ").strip()
+            if not open_id:
+                print("⚠️ OpenID 不能为空！")
+                continue
             try:
-                res = insert_sesame_contract(int(uid_str))
+                res = insert_sesame_contract(int(uid_str), open_id=open_id)
                 print(f"🎉 芝麻信用分契约强制签署成功！受影响行数: {res.get('affected_rows')}")
             except Exception as e:
                 print(f"❌ 签署芝麻信用分操作失败: {e}")

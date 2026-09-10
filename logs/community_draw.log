@@ -1,0 +1,171 @@
+[2026-09-08 09:50:30] [INFO] 启动浏览器以获取系统登录鉴权 Token (静默无头模式)...
+[2026-09-08 09:50:31] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-08 09:50:55] [INFO] 正在输入自动登录凭证...
+[2026-09-08 09:50:56] [INFO] 正在提交登录...
+[2026-09-08 09:50:56] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-08 09:51:02] [INFO] 成功截获 Authorization Token！
+[2026-09-08 09:51:02] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/activity/draw/add
+[2026-09-08 09:51:02] [INFO] 活动标题: 123 | 展示标题: 123
+[2026-09-08 09:51:02] [INFO] 活动时间: 2026-09-08 00:00:00 ~ 2033-10-31 00:00:00
+[2026-09-08 09:51:02] [INFO] 奖品配置: [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}]
+[2026-09-08 09:51:02] [INFO] 请求参数: {"limit_driver": 1, "limit_receive": 0, "draw_type": 1, "type": 1, "prize_type": 1, "prizes": [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}], "wx_work_follow_title": "", "wx_work_follow_type": null, "img": [], "wx_work_tag_type": 0, "wx_work_draw_user_tag": [], "wx_work_follow_user_tag": [], "terminal": "5,6", "remarks": [{"msg_type": 1, "remark": "<p>123</p>", "terminal": 5}, {"msg_type": 1, "remark": "<p>123</p>", "terminal": 6}], "is_push_msg": 2, "msg_value1": "", "msg_value2": "", "msg_value3": "", "bg_img_type": 1, "prize_attr_limit": {"draw_user_number": 10, "wins_user_number": 10}, "wx_work_follow_user": [], "title": "123", "show_title": "123", "content": "123", "start_date": "2026-09-08 00:00:00", "end_date": "2033-10-31 00:00:00", "start_time": "2026-09-08 00:00:00", "bg_img": [], "creator_id": 7802, "creator": "童永琦"}
+[2026-09-08 09:51:03] [INFO] 响应状态码: 200
+[2026-09-08 09:51:03] [INFO] [SUCCESS] 社群抽奖活动创建成功！活动标题: 123
+[2026-09-08 09:55:23] [INFO] 启动浏览器以获取系统登录鉴权 Token (静默无头模式)...
+[2026-09-08 09:55:24] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-08 09:56:04] [WARNING] 导航重试 (1/3) 失败: Page.goto: Timeout 40000ms exceeded.
+Call log:
+  - navigating to "https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage", waiting until "domcontentloaded"
+
+[2026-09-08 09:56:09] [INFO] 正在输入自动登录凭证...
+[2026-09-08 09:56:10] [INFO] 正在提交登录...
+[2026-09-08 09:56:10] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-08 09:56:19] [INFO] 成功截获 Authorization Token！
+[2026-09-08 09:56:19] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/activity/draw/add
+[2026-09-08 09:56:19] [INFO] 活动标题: 接口创建 | 展示标题: 123
+[2026-09-08 09:56:19] [INFO] 活动时间: 2026-09-08 00:00:00 ~ 2033-10-31 00:00:00
+[2026-09-08 09:56:19] [INFO] 奖品配置: [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}]
+[2026-09-08 09:56:19] [INFO] 请求参数: {"limit_driver": 1, "limit_receive": 0, "draw_type": 1, "type": 1, "prize_type": 1, "prizes": [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}], "wx_work_follow_title": "", "wx_work_follow_type": null, "img": [], "wx_work_tag_type": 0, "wx_work_draw_user_tag": [], "wx_work_follow_user_tag": [], "terminal": "5,6", "remarks": [{"msg_type": 1, "remark": "<p>123</p>", "terminal": 5}, {"msg_type": 1, "remark": "<p>123</p>", "terminal": 6}], "is_push_msg": 2, "msg_value1": "", "msg_value2": "", "msg_value3": "", "bg_img_type": 1, "prize_attr_limit": {"draw_user_number": 10, "wins_user_number": 10}, "wx_work_follow_user": [], "title": "接口创建", "show_title": "123", "content": "123", "start_date": "2026-09-08 00:00:00", "end_date": "2033-10-31 00:00:00", "start_time": "2026-09-08 00:00:00", "bg_img": [], "creator_id": 7802, "creator": "童永琦"}
+[2026-09-08 09:56:20] [INFO] 响应状态码: 200
+[2026-09-08 09:56:20] [INFO] [SUCCESS] 社群抽奖活动创建成功！活动标题: 接口创建
+[2026-09-08 10:05:56] [INFO] 启动浏览器以获取系统登录鉴权 Token (静默无头模式)...
+[2026-09-08 10:05:58] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-08 10:06:05] [INFO] 正在输入自动登录凭证...
+[2026-09-08 10:06:06] [INFO] 正在提交登录...
+[2026-09-08 10:06:06] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-08 10:06:09] [INFO] 成功截获 Authorization Token！
+[2026-09-08 10:06:10] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/activity/draw/add
+[2026-09-08 10:06:10] [INFO] 活动标题: 接口创建 | 展示标题: 123
+[2026-09-08 10:06:10] [INFO] 活动时间: 2026-09-08 00:00:00 ~ 2033-10-31 00:00:00
+[2026-09-08 10:06:10] [INFO] 奖品配置: [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}]
+[2026-09-08 10:06:10] [INFO] 请求参数: {"limit_driver": 1, "limit_receive": 0, "draw_type": 1, "type": 1, "prize_type": 1, "prizes": [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}], "wx_work_follow_title": "", "wx_work_follow_type": null, "img": [], "wx_work_tag_type": 0, "wx_work_draw_user_tag": [], "wx_work_follow_user_tag": [], "terminal": "5,6", "remarks": [{"msg_type": 1, "remark": "<p>123</p>", "terminal": 5}, {"msg_type": 1, "remark": "<p>123</p>", "terminal": 6}], "is_push_msg": 2, "msg_value1": "", "msg_value2": "", "msg_value3": "", "bg_img_type": 1, "prize_attr_limit": {"draw_user_number": 10, "wins_user_number": 10}, "wx_work_follow_user": [], "title": "接口创建", "show_title": "123", "content": "123", "start_date": "2026-09-08 00:00:00", "end_date": "2033-10-31 00:00:00", "start_time": "2026-09-08 00:00:00", "bg_img": [], "creator_id": 7802, "creator": "童永琦"}
+[2026-09-08 10:06:10] [INFO] 响应状态码: 200
+[2026-09-08 10:06:10] [INFO] [SUCCESS] 社群抽奖活动创建成功！活动标题: 接口创建
+[2026-09-08 10:06:10] [INFO] 正在查询抽奖活动列表以获取最新活动ID...
+[2026-09-08 10:06:10] [INFO] 列表查询响应状态码: 200
+[2026-09-08 10:06:10] [INFO] 最新活动: ID=109, 标题=九宫格指定奖品1022
+[2026-09-08 10:06:10] [INFO] 查询到最新活动ID: 109，开始审核...
+[2026-09-08 10:06:10] [INFO] 正在审核活动: ID=109, update_status=6
+[2026-09-08 10:06:10] [INFO] 审核响应状态码: 200
+[2026-09-08 10:06:10] [WARNING] 审核接口返回非成功状态码(30012): 抽奖活动查询异常～:当前活动状态审核操作不可执行
+[2026-09-08 10:06:20] [INFO] 启动浏览器以获取系统登录鉴权 Token (静默无头模式)...
+[2026-09-08 10:06:21] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-08 10:06:47] [INFO] 正在输入自动登录凭证...
+[2026-09-08 10:06:48] [INFO] 正在提交登录...
+[2026-09-08 10:06:48] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-08 10:06:52] [INFO] 成功截获 Authorization Token！
+[2026-09-08 10:06:52] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/activity/draw/add
+[2026-09-08 10:06:52] [INFO] 活动标题: 接口创建 | 展示标题: 123
+[2026-09-08 10:06:52] [INFO] 活动时间: 2026-09-08 00:00:00 ~ 2033-10-31 00:00:00
+[2026-09-08 10:06:52] [INFO] 奖品配置: [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}]
+[2026-09-08 10:06:52] [INFO] 请求参数: {"limit_driver": 1, "limit_receive": 0, "draw_type": 1, "type": 1, "prize_type": 1, "prizes": [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}], "wx_work_follow_title": "", "wx_work_follow_type": null, "img": [], "wx_work_tag_type": 0, "wx_work_draw_user_tag": [], "wx_work_follow_user_tag": [], "terminal": "5,6", "remarks": [{"msg_type": 1, "remark": "<p>123</p>", "terminal": 5}, {"msg_type": 1, "remark": "<p>123</p>", "terminal": 6}], "is_push_msg": 2, "msg_value1": "", "msg_value2": "", "msg_value3": "", "bg_img_type": 1, "prize_attr_limit": {"draw_user_number": 10, "wins_user_number": 10}, "wx_work_follow_user": [], "title": "接口创建", "show_title": "123", "content": "123", "start_date": "2026-09-08 00:00:00", "end_date": "2033-10-31 00:00:00", "start_time": "2026-09-08 00:00:00", "bg_img": [], "creator_id": 7802, "creator": "童永琦"}
+[2026-09-08 10:06:52] [INFO] 响应状态码: 200
+[2026-09-08 10:06:52] [INFO] [SUCCESS] 社群抽奖活动创建成功！活动标题: 接口创建
+[2026-09-08 10:06:52] [INFO] 正在查询抽奖活动列表以获取最新活动ID...
+[2026-09-08 10:06:53] [INFO] 列表查询响应状态码: 200
+[2026-09-08 10:06:53] [WARNING] 列表查询返回空数据，未能获取活动ID。
+[2026-09-08 10:06:53] [WARNING] 未能获取活动ID，跳过自动审核。可手动在后台审核。
+[2026-09-08 10:07:17] [INFO] 启动浏览器以获取系统登录鉴权 Token (静默无头模式)...
+[2026-09-08 10:07:17] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-08 10:07:36] [INFO] 正在输入自动登录凭证...
+[2026-09-08 10:07:37] [INFO] 正在提交登录...
+[2026-09-08 10:07:37] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-08 10:07:42] [INFO] 成功截获 Authorization Token！
+[2026-09-08 10:07:42] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/activity/draw/add
+[2026-09-08 10:07:42] [INFO] 活动标题: 接口创建 | 展示标题: 123
+[2026-09-08 10:07:42] [INFO] 活动时间: 2026-09-08 00:00:00 ~ 2033-10-31 00:00:00
+[2026-09-08 10:07:42] [INFO] 奖品配置: [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}]
+[2026-09-08 10:07:42] [INFO] 请求参数: {"limit_driver": 1, "limit_receive": 0, "draw_type": 1, "type": 1, "prize_type": 1, "prizes": [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}], "wx_work_follow_title": "", "wx_work_follow_type": null, "img": [], "wx_work_tag_type": 0, "wx_work_draw_user_tag": [], "wx_work_follow_user_tag": [], "terminal": "5,6", "remarks": [{"msg_type": 1, "remark": "<p>123</p>", "terminal": 5}, {"msg_type": 1, "remark": "<p>123</p>", "terminal": 6}], "is_push_msg": 2, "msg_value1": "", "msg_value2": "", "msg_value3": "", "bg_img_type": 1, "prize_attr_limit": {"draw_user_number": 10, "wins_user_number": 10}, "wx_work_follow_user": [], "title": "接口创建", "show_title": "123", "content": "123", "start_date": "2026-09-08 00:00:00", "end_date": "2033-10-31 00:00:00", "start_time": "2026-09-08 00:00:00", "bg_img": [], "creator_id": 7802, "creator": "童永琦"}
+[2026-09-08 10:07:42] [INFO] 响应状态码: 200
+[2026-09-08 10:07:42] [INFO] [SUCCESS] 社群抽奖活动创建成功！活动标题: 接口创建
+[2026-09-08 10:07:42] [INFO] 正在查询抽奖活动列表以获取最新活动ID...
+[2026-09-08 10:07:42] [INFO] 列表查询响应状态码: 200
+[2026-09-08 10:07:42] [WARNING] 未在列表中匹配到标题为 '接口创建' 的活动。
+[2026-09-08 10:07:42] [INFO]   列表[0]: ID=109, 标题=九宫格指定奖品1022
+[2026-09-08 10:07:42] [INFO]   列表[1]: ID=101, 标题=大转盘北京指定奖品
+[2026-09-08 10:07:42] [INFO]   列表[2]: ID=89, 标题=常规活动eight轮-需要加群
+[2026-09-08 10:07:42] [INFO]   列表[3]: ID=88, 标题=常规活动seven轮
+[2026-09-08 10:07:42] [INFO]   列表[4]: ID=79, 标题=oss测试
+[2026-09-08 10:07:42] [WARNING] 未能获取活动ID，跳过自动审核。可手动在后台审核。
+[2026-09-08 10:08:27] [INFO] 启动浏览器以获取系统登录鉴权 Token (静默无头模式)...
+[2026-09-08 10:08:28] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-08 10:08:37] [INFO] 正在输入自动登录凭证...
+[2026-09-08 10:08:38] [INFO] 正在提交登录...
+[2026-09-08 10:08:38] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-08 10:08:40] [INFO] 成功截获 Authorization Token！
+[2026-09-08 10:08:41] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/activity/draw/add
+[2026-09-08 10:08:41] [INFO] 活动标题: 接口创建 | 展示标题: 123
+[2026-09-08 10:08:41] [INFO] 活动时间: 2026-09-08 00:00:00 ~ 2033-10-31 00:00:00
+[2026-09-08 10:08:41] [INFO] 奖品配置: [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}]
+[2026-09-08 10:08:41] [INFO] 请求参数: {"limit_driver": 1, "limit_receive": 0, "draw_type": 1, "type": 1, "prize_type": 1, "prizes": [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}], "wx_work_follow_title": "", "wx_work_follow_type": null, "img": [], "wx_work_tag_type": 0, "wx_work_draw_user_tag": [], "wx_work_follow_user_tag": [], "terminal": "5,6", "remarks": [{"msg_type": 1, "remark": "<p>123</p>", "terminal": 5}, {"msg_type": 1, "remark": "<p>123</p>", "terminal": 6}], "is_push_msg": 2, "msg_value1": "", "msg_value2": "", "msg_value3": "", "bg_img_type": 1, "prize_attr_limit": {"draw_user_number": 10, "wins_user_number": 10}, "wx_work_follow_user": [], "title": "接口创建", "show_title": "123", "content": "123", "start_date": "2026-09-08 00:00:00", "end_date": "2033-10-31 00:00:00", "start_time": "2026-09-08 00:00:00", "bg_img": [], "creator_id": 7802, "creator": "童永琦"}
+[2026-09-08 10:08:41] [INFO] 响应状态码: 200
+[2026-09-08 10:08:41] [INFO] [SUCCESS] 社群抽奖活动创建成功！活动标题: 接口创建
+[2026-09-08 10:08:41] [INFO] 创建接口完整返回: {"code": 10000, "message": ""}
+[2026-09-08 10:08:41] [INFO] 正在查询抽奖活动列表以获取最新活动ID...
+[2026-09-08 10:08:41] [INFO] 列表查询响应状态码: 200
+[2026-09-08 10:08:41] [WARNING] 未在列表中匹配到标题为 '接口创建' 的活动。
+[2026-09-08 10:08:41] [INFO]   列表[0]: ID=109, 标题=九宫格指定奖品1022
+[2026-09-08 10:08:41] [INFO]   列表[1]: ID=101, 标题=大转盘北京指定奖品
+[2026-09-08 10:08:41] [INFO]   列表[2]: ID=89, 标题=常规活动eight轮-需要加群
+[2026-09-08 10:08:41] [INFO]   列表[3]: ID=88, 标题=常规活动seven轮
+[2026-09-08 10:08:41] [INFO]   列表[4]: ID=79, 标题=oss测试
+[2026-09-08 10:08:41] [WARNING] 未能获取活动ID，跳过自动审核。可手动在后台审核。
+[2026-09-08 10:11:18] [INFO] 启动浏览器执行社群抽奖创建+审核全流程...
+[2026-09-08 10:11:19] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-08 10:11:27] [INFO] 正在输入自动登录凭证...
+[2026-09-08 10:11:29] [INFO] 正在提交登录...
+[2026-09-08 10:11:29] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-08 10:11:30] [INFO] 成功截获 Authorization Token！
+[2026-09-08 10:11:30] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/activity/draw/add
+[2026-09-08 10:11:30] [INFO] 活动标题: 接口创建 | 展示标题: 123
+[2026-09-08 10:11:30] [INFO] 活动时间: 2026-09-08 00:00:00 ~ 2033-10-31 00:00:00
+[2026-09-08 10:11:30] [INFO] 奖品配置: [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}]
+[2026-09-08 10:11:30] [INFO] 创建响应状态码: 200
+[2026-09-08 10:11:30] [INFO] [SUCCESS] 社群抽奖活动创建成功！活动标题: 接口创建
+[2026-09-08 10:11:30] [INFO] 正在通过浏览器导航至活动管理列表页获取活动ID...
+[2026-09-08 10:11:46] [INFO] 浏览器截获未获取到ID，尝试直接用 requests 查询列表...
+[2026-09-08 10:11:46] [INFO] 正在查询抽奖活动列表以获取最新活动ID...
+[2026-09-08 10:11:46] [INFO] 列表查询响应状态码: 200
+[2026-09-08 10:11:46] [WARNING] 未在列表中匹配到标题为 '接口创建' 的活动。
+[2026-09-08 10:11:46] [INFO]   列表[0]: ID=109, 标题=九宫格指定奖品1022
+[2026-09-08 10:11:46] [INFO]   列表[1]: ID=101, 标题=大转盘北京指定奖品
+[2026-09-08 10:11:46] [INFO]   列表[2]: ID=89, 标题=常规活动eight轮-需要加群
+[2026-09-08 10:11:46] [INFO]   列表[3]: ID=88, 标题=常规活动seven轮
+[2026-09-08 10:11:46] [INFO]   列表[4]: ID=79, 标题=oss测试
+[2026-09-08 10:11:46] [WARNING] 未能获取活动ID，跳过自动审核。可手动在后台审核。
+[2026-09-08 10:19:47] [INFO] 启动浏览器执行社群抽奖创建+审核全流程...
+[2026-09-08 10:19:49] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-08 10:19:56] [INFO] 正在输入自动登录凭证...
+[2026-09-08 10:19:58] [INFO] 正在提交登录...
+[2026-09-08 10:19:58] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-08 10:19:59] [INFO] 成功截获 Authorization Token！
+[2026-09-08 10:19:59] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/activity/draw/add
+[2026-09-08 10:19:59] [INFO] 活动标题: 接口创建 | 展示标题: 123
+[2026-09-08 10:19:59] [INFO] 活动时间: 2026-09-08 00:00:00 ~ 2033-10-31 00:00:00
+[2026-09-08 10:19:59] [INFO] 奖品配置: [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}]}]
+[2026-09-08 10:19:59] [INFO] 创建响应状态码: 200
+[2026-09-08 10:19:59] [INFO] [SUCCESS] 社群抽奖活动创建成功！活动标题: 接口创建
+[2026-09-08 10:19:59] [INFO] 正在通过数据库查询最新活动ID...
+[2026-09-08 10:20:00] [INFO] 数据库查询到活动: ID=126, 标题=接口创建
+[2026-09-08 10:20:00] [INFO] 查询到活动ID: 126，开始审核...
+[2026-09-08 10:20:00] [INFO] 正在审核活动: ID=126, update_status=6
+[2026-09-08 10:20:00] [INFO] 审核响应状态码: 200
+[2026-09-08 10:20:00] [INFO] [SUCCESS] 社群抽奖活动审核成功！活动ID: 126
+[2026-09-08 10:36:08] [INFO] 启动浏览器执行社群抽奖创建+审核全流程...
+[2026-09-08 10:36:09] [INFO] 正在导航至登录页面: https://dcms-test6-tx.jryghq.com/#/admin/v1/coupon_manage
+[2026-09-08 10:36:13] [INFO] 正在输入自动登录凭证...
+[2026-09-08 10:36:15] [INFO] 正在提交登录...
+[2026-09-08 10:36:15] [INFO] 正在等待后台跳转并截获 API Authorization Token...
+[2026-09-08 10:36:16] [INFO] 成功截获 Authorization Token！
+[2026-09-08 10:36:16] [INFO] 接口: https://dcms-test6-tx.jryghq.com/admin/v1/activity/draw/add
+[2026-09-08 10:36:16] [INFO] 活动标题: 接口创建 | 展示标题: 123
+[2026-09-08 10:36:16] [INFO] 活动时间: 2026-09-08 00:00:00 ~ 2035-10-31 00:00:00
+[2026-09-08 10:36:16] [INFO] 奖品配置: [{"terminal": 0, "prize": [{"level": 0, "title": "兜底奖", "number": 999, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/YYl4KcVsTDJevVbnw5UbADqBfrEBPZDg.png", "coupon_package_id": 2374}, {"level": 1, "title": "一等奖", "number": 3, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/dA1AaXyl97iNcSoSM3eeOHw43JPdrbMX.png", "coupon_package_id": 2371}, {"level": 2, "title": "二等奖", "number": 6, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/rjH7D7TpriDnXYLEAnndDhB1FBa2K8jt.png", "coupon_package_id": 2372}, {"level": 3, "title": "三等奖", "number": 10, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/kcsQBpFS6cwz8MbX6DHsgIevkFOYhPBS.png", "coupon_package_id": 2373}, {"level": 4, "title": "四等奖", "number": 20, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/fdlPQrVBzqWxKJnCsMaYHt1OuXgR2kSm.png", "coupon_package_id": 2375}, {"level": 5, "title": "五等奖", "number": 30, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/VtZxRcWqMaLbNpYsDeJkFgHiUoPmOnLp.png", "coupon_package_id": 2376}, {"level": 6, "title": "六等奖", "number": 50, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/QwErTyUiOpAsDfGhJkLzXcVbNmMnBv.png", "coupon_package_id": 2377}, {"level": 7, "title": "七等奖", "number": 100, "img": "https://passenger-static.jryghq.com/passenger/prod/2026/09/08/ZxChVbNmLkJhGfDsaQwErTyUiOpMnB.png", "coupon_package_id": 2378}]}]
+[2026-09-08 10:36:16] [INFO] 创建响应状态码: 200
+[2026-09-08 10:36:16] [INFO] [SUCCESS] 社群抽奖活动创建成功！活动标题: 接口创建
+[2026-09-08 10:36:16] [INFO] 正在通过数据库查询最新活动ID...
+[2026-09-08 10:36:16] [INFO] 数据库查询到活动: ID=128, 标题=接口创建
+[2026-09-08 10:36:16] [INFO] 查询到活动ID: 128，开始审核...
+[2026-09-08 10:36:16] [INFO] 正在审核活动: ID=128, update_status=6
+[2026-09-08 10:36:16] [INFO] 审核响应状态码: 200
+[2026-09-08 10:36:16] [INFO] [SUCCESS] 社群抽奖活动审核成功！活动ID: 128

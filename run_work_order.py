@@ -23,6 +23,7 @@ from logger.logger import sys_logger
 from refund_order.refund_order import apply_refund
 from database.mysql_client import run_interactive_console
 import community_draw.community_draw as community_draw_module
+import create_coupon_activity.create_coupon_activity as create_coupon_activity_module
 
 
 # ==========================================================================
@@ -48,6 +49,7 @@ def run_scheduler():
         "9-[直连发券]": run_mode_9_直连接口发券,
         "10-[接口创建券]": run_mode_10_直连接口创建优惠券,
         "11-[社群抽奖]": run_mode_11_社群抽奖活动创建,
+        "12-[领券活动]": run_mode_12_领券活动创建,
     }
     # --------------------------------------------------------------------------
     # 💡 优化体验：如果保持默认变量 (默认为 None)，将自动弹出交互菜单让您输入数字执行！
@@ -75,13 +77,14 @@ def run_scheduler():
         print("  [9] 🚀 直连接口发券（不经过扶摇，纯接口发放）")
         print("  [10] 🎫 直连接口创建优惠券（不启动浏览器，纯接口创建）")
         print("  [11] 🎲 社群抽奖活动创建（扶摇登录截获Token，接口创建）")
+        print("  [12] 🎟️ 领券活动创建（扶摇登录截获Token，接口创建）")
         print("  [0] 🚪 退出程序")
         print("=" * 70)
-        user_input = input("👉 请选择您想运行的功能编号 [1-8, 0退出]: ").strip()
+        user_input = input("👉 请选择您想运行的功能编号 [1-12, 0退出]: ").strip()
         if user_input == "0" or not user_input:
             print("👋 运行已退出。")
             sys.exit(0)
-        if user_input.isdigit() and 1 <= int(user_input) <= 11:
+        if user_input.isdigit() and 1 <= int(user_input) <= 12:
             RUN_MODE = int(user_input)
         else:
             print("⚠️ 输入错误，自动退出！")
@@ -115,8 +118,10 @@ def run_scheduler():
         run_mode_10_直连接口创建优惠券(headless=HEADLESS)
     elif RUN_MODE == 11:
         run_mode_11_社群抽奖活动创建(headless=HEADLESS)
+    elif RUN_MODE == 12:
+        run_mode_12_领券活动创建(headless=HEADLESS)
     else:
-        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1-11 中的数字！")
+        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1-12 中的数字！")
 
 
 # ==========================================================================
@@ -294,8 +299,8 @@ def run_mode_7_接口退款(headless=True):
     # ------------------ 配置参数区 ------------------
     # 退款参数 (每次运行 RUN_MODE=7 前修改此处即可)
     REFUND = {
-        "order_id": 7359089847,               # 订单号 (int 类型)
-        "order_no": "2693DPEU2FWX4ER",         # 订单编号
+        "order_id": 7359094815,               # 订单号 (int 类型)
+        "order_no": "2693DPEXWFWX4ER",         # 订单编号
         "refund_amount": 30000,                 # 退款金额 (分)
         "refund_reason": "测试",                # 退款原因
         "work_id": 2                           # 工单ID
@@ -419,6 +424,89 @@ def run_mode_11_社群抽奖活动创建(headless=True):
         start_time=START_TIME,
         draw_type_choice=DRAW_TYPE_CHOICE,
         pool_type=POOL_TYPE,
+    ))
+
+
+def run_mode_12_领券活动创建(headless=True):
+    """
+    ========================================================================
+    🎟️ MODE 12. 领券活动创建配置 (扶摇登录截获Token，接口创建)
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 活动标题
+    TITLE = "微信模版消息活动"
+    # 展示标题
+    SHOW_TITLE = "微信模版消息活动"
+    # 活动编码
+    ACTIVITY_CODE = "2jr7XRaN"
+    # 活动前端页面路径
+    ACTIVITY_URL = "pages/activityCoupon/index?id=2jr7XRaN"
+    # 背景图
+    BG_IMG = "https://passenger-static.jryghq.com/passenger/dev/20250812ZS4HzJTQwD.png"
+    # 按钮标题
+    BUTTON_TITLE = "微信模版消息活动"
+    # 活动说明
+    REMARK = "<p>微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动</p>"
+    # 司机券包配置
+    DRIVER_COUPON_PACKAGE_ID = 2329
+    DRIVER_COUPON_PACKAGE_TITLE = "1111"
+    # 新用户券包配置
+    NEW_USER_PACKAGE_ID = 2323
+    NEW_USER_PACKAGE_TITLE = "新人优惠卷礼包"
+    # 老用户券包配置
+    OLD_USER_PACKAGE_ID = 2323
+    OLD_USER_PACKAGE_TITLE = "新人优惠卷礼包"
+    # 活动时间
+    START_DATE = "2025-08-12"
+    END_DATE = "2039-09-30"
+    # 库存ID
+    STOCK_ID = "LQ202508281"
+    # 适用终端 (单选)
+    print("\n" + "-" * 50)
+    print("  📱 请选择适用终端:")
+    print("  [1] 微信原生小程序 (terminal=51)")
+    print("  [2] H5 (terminal=52)")
+    print("  [3] 微信小程序嵌套H5 (terminal=53)")
+    print("  [4] 免登录H5 (terminal=54)")
+    print("-" * 50)
+    terminal_choice = input("👉 请选择 [1=微信原生小程序, 2=H5, 3=微信小程序嵌套H5, 4=免登录H5, 默认1]: ").strip()
+    if terminal_choice == "2":
+        TERMINAL = 52
+        terminal_name = "H5"
+    elif terminal_choice == "3":
+        TERMINAL = 53
+        terminal_name = "微信小程序嵌套H5"
+    elif terminal_choice == "4":
+        TERMINAL = 54
+        terminal_name = "免登录H5"
+    else:
+        TERMINAL = 51
+        terminal_name = "微信原生小程序"
+    # -----------------------------------------------
+
+    sys_logger.info("正在执行领券活动创建流程...")
+    sys_logger.info(f"活动标题: {TITLE} | 活动编码: {ACTIVITY_CODE} | 活动时间: {START_DATE} ~ {END_DATE}")
+    sys_logger.info(f"适用终端: {terminal_name} (terminal={TERMINAL})")
+    asyncio.run(create_coupon_activity_module.run_flow(
+        headless=headless,
+        title=TITLE,
+        show_title=SHOW_TITLE,
+        activity_code=ACTIVITY_CODE,
+        activity_url=ACTIVITY_URL,
+        bg_img=BG_IMG,
+        button_title=BUTTON_TITLE,
+        remark=REMARK,
+        driver_coupon_package_id=DRIVER_COUPON_PACKAGE_ID,
+        driver_coupon_package_title=DRIVER_COUPON_PACKAGE_TITLE,
+        new_user_package_id=NEW_USER_PACKAGE_ID,
+        new_user_package_title=NEW_USER_PACKAGE_TITLE,
+        old_user_package_id=OLD_USER_PACKAGE_ID,
+        old_user_package_title=OLD_USER_PACKAGE_TITLE,
+        start_date=START_DATE,
+        end_date=END_DATE,
+        stock_id=STOCK_ID,
+        terminal=TERMINAL,
     ))
 
 

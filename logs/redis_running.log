@@ -1,0 +1,13 @@
+[2026-09-08 21:47:27] [ERROR] ❌ Redis 数据库连接失败: Timeout reading from socket
+[2026-09-08 21:48:44] [ERROR] ❌ Redis 连接失败 [第1次]: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:48:45] [ERROR] ❌ Redis 连接失败 [第2次]: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:48:47] [ERROR] ❌ Redis 连接失败 [第3次]: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:48:47] [ERROR] ❌ Redis 数据库连接失败，已重试3次仍不成功: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:52:09] [ERROR] ❌ Redis 连接失败 [第1次]: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:52:10] [ERROR] ❌ Redis 连接失败 [第2次]: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:52:11] [ERROR] ❌ Redis 连接失败 [第3次]: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:52:11] [ERROR] ❌ Redis 数据库连接失败，已重试3次仍不成功: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:52:38] [ERROR] ❌ Redis 连接失败 [第1次]: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:52:39] [ERROR] ❌ Redis 连接失败 [第2次]: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:52:40] [ERROR] ❌ Redis 连接失败 [第3次]: 'int' object has no attribute 'update_supported_errors'
+[2026-09-08 21:52:40] [ERROR] ❌ Redis 数据库连接失败，已重试3次仍不成功: 'int' object has no attribute 'update_supported_errors'
