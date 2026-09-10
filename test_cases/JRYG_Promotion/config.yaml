@@ -1,0 +1,17 @@
+# ==================== 推广分类 ====================
+# 接口: GET /v3/spread/unreadnum (获取未读数)
+
+test_cases:
+  - name: "TC-030 获取未读数"
+    description: "已登录，获取推广未读数"
+    priority: "P0"
+    method: GET
+    path: "/v3/spread/unreadnum"
+    need_login: true
+    params: {}
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

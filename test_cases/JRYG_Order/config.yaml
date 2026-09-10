@@ -1,0 +1,32 @@
+# ==================== 订单分类 ====================
+# 接口: GET /v3/order/check-unfinish    (获取未完成订单信息)
+#       GET /v3/order/un-finnish/list    (获取未完成订单信息列表)
+
+test_cases:
+  - name: "TC-028 获取未完成订单信息"
+    description: "已登录，获取当前未完成订单信息"
+    priority: "P0"
+    method: GET
+    path: "/v3/order/check-unfinish"
+    need_login: true
+    params: {}
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-029 获取未完成订单信息列表"
+    description: "已登录，获取未完成订单信息列表"
+    priority: "P0"
+    method: GET
+    path: "/v3/order/un-finnish/list"
+    need_login: true
+    params: {}
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

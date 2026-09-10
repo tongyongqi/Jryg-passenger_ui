@@ -1,0 +1,20 @@
+# ==================== 首页分类 ====================
+# 接口: GET /v3/home/config (获取首页配置信息)
+
+test_cases:
+  - name: "TC-016 正常获取首页配置"
+    description: "无额外参数，期望返回首页配置信息"
+    priority: "P0"
+    method: GET
+    path: "/v3/home/config"
+    params: {}
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+      - type: json_path
+        path: "data"
+        expected: null
+        operator: "!="

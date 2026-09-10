@@ -1,0 +1,161 @@
+# ==================== 全局变量（可通过 ${var_name} 引用）====================
+
+Test_Mobile: "11000000038"
+Test_Verify_Code: "123456"     # 测试环境有效验证码
+Current_Latitude: "39.950759"    # 测试纬度
+Current_Longitude: "116.354518"  # 测试经度
+City_ID: "566"                   # 测试城市ID
+Login_ID: "7500012"              # 测试登录用户ID
+Origin_Location: "天安门广场"       # 测试起点关键字
+Data_Time: ""                       # 时间戳（框架自动替换 nonce）
+Nonce: ""                        # 设备检测 nonce
+
+# 终点
+End_Longitude: "116.391248"    # 终点经度
+Reserve_End_Longitude: "116.391248"    # 终点经度（预约）
+End_Latitude: "39.913256"      # 终点纬度
+End_Address: "金运大厦B座"       # 即时,预约终点
+
+# 起点
+Start_Longitude: "116.140656"       # 起点经度
+Start_Latitude: "40.132545"         # 起点纬度
+Start_Address: "金运大厦B座"        # 即时,预约起点
+
+# 即时下单
+Instant_Start_Longitude: "116.36"       # 即时下单起点经度
+Instant_Start_Latitude: "39.94"         # 即时订单起点纬度
+Instant_End_Detail: "西直门北大街甲43号"  # 即时订单终点详细地址
+Instant_End_Address: "金运大厦B座"    # 即时订单终点地址
+Instant_End_Location: "金运大厦"     # 选择终点位置
+Instant_Order_Start_Longitude: "116.354676"      # 起点经度
+Instant_Order_Start_Latitude: "39.950963"        # 起点纬度
+Reserve_Start_Longitude: "116.354676"      # 起点经度（预约）
+Reserve_Start_Latitude: "39.950963"        # 起点纬度（预约）
+Instant_Order_Start_Detail: "后二路与北安河路交叉口"  # 即时下单起点详细地址
+Instant_Order_Start_Address: "金运大厦"        # 即时下单起点
+
+# 即时选择起点
+Instant_Select_Start_Location: "金运大厦B座"         # 即时选择起点位置
+Instant_Select_Start_Detail: "后二路与北安河路交叉口"  # 即时选择起点详细地址
+Instant_Select_Start_Latitude: "39.94"            # 即时选择起点纬度
+Instant_Select_Start_Longitude: "116.36"          # 即时选择起点经度
+Instant_Select_Start_Poi: "B000A7R0LG"           # 即时选择起点POI ID
+Instant_Price_Token: ""             # 询价返回的 estimate_id
+Instant_Car_Type: "1"              # 即时订单车型
+Instant_City_ID: "566"              # 起点城市ID
+Instant_Total_Fee: "0"             # 询价返回的总金额（从 TC-040 提取）
+Instant_Coupon_Code: ""                   # 询价返回的优惠码（从 TC-040 提取）
+User_Mobile: "11000000038"                   # 用户手机号
+
+# 即时选择终点
+Instant_Select_End_Location: "金运大厦B座"          # 即时选择终点位置
+Instant_Select_End_Detail: "西直门北大街甲43号"      # 即时选择终点详细地址
+Instant_Select_End_Latitude: "39.950963"           # 即时选择终点纬度
+Instant_Select_End_Longitude: "116.354676"         # 即时选择终点经度
+Instant_Select_End_Poi: "B000A7R0LG"              # 即时选择终点POI ID
+
+# 即时下单
+Instant_Order_Start_Longitude_Num: "116.36"           # 即时下单起点经度（数字）
+Instant_Order_Start_Latitude_Num: "39.94"             # 即时下单起点纬度（数字）
+
+# ==================== 接站一口价 ====================
+latitude_zhongdian: "39.5098"          # 接站终点纬度（北京大兴机场）
+longitude_zhongdian: "116.4105"        # 接站终点经度（北京大兴机场）
+address_qidian: "金运大厦"                     # 接站起点关键词
+latitude_qidian: "40.079099"                    # 接站起点纬度
+longitude_qidian: "116.589655"                   # 接站起点经度
+Destination_city_id: ""                # 接站搜索终点 - 城市ID
+Destination_latitude: ""               # 接站搜索终点 - 纬度
+Destination_longitude: ""              # 接站搜索终点 - 经度
+Destination_address: ""                # 接站搜索终点 - 地址
+Destination_addressDetail: ""          # 接站搜索终点 - 地址详情
+address_zhongdian: "北京大兴机场"       # 接站终点地址关键词
+T_Pickupstation_Price_Token: ""             # 接站询价 pricemark（从 TC-096 提取）
+T_Pickupstation_Car_Type_ID: ""             # 接站车型ID（从 TC-096 提取）
+T_Pickupstation_Order_Price: ""             # 接站预估价格（从 TC-096 提取）
+T_Pickupstation_Seats: ""                   # 接站座位数（从 TC-096 提取）
+T_Pickupstation_City_ID: ""                 # 接站城市ID（从 TC-099 提取）
+T_Pickupstation_Order_Type: ""              # 接站订单类型（从 TC-099 提取）
+T_Pickupstation_Use_Time: ""                # 接站用车时间（从 TC-099 提取）
+T_Pickupstation_Coupon_Code: ""             # 接站优惠券码（从 TC-100 提取）
+T_Pickupstation_Coupon_ID: ""               # 接站优惠券ID（从 TC-100 提取）
+T_Pickupstation_Order_ID: ""                # 接站订单ID（从 TC-101 提取）
+
+# ==================== 送站一口价 ====================
+T_Origin_city_id: ""                        # 送站起点城市ID（从 TC-109 提取）
+T_Origin_latitude: ""                       # 送站起点纬度（从 TC-109 提取）
+T_Origin_longitude: ""                      # 送站起点经度（从 TC-109 提取）
+T_Origin_address: ""                        # 送站起点地址（从 TC-109 提取）
+T_Origin_addressDetail: ""                  # 送站起点地址详情（从 TC-109 提取）
+T_Sendofftrainstation_Price_Token: ""       # 送站询价 pricemark（从 TC-111 提取）
+T_Sendofftrainstation_Car_Type_ID: ""       # 送站车型ID（从 TC-111 提取）
+T_Sendofftrainstation_Order_Price: ""       # 送站预估价格（从 TC-111 提取）
+T_Sendofftrainstation_Seats: ""             # 送站座位数（从 TC-111 提取）
+T_Sendofftrainstation_City_ID: ""           # 送站城市ID（从 TC-114 提取）
+T_Sendofftrainstation_Order_Type: ""        # 送站订单类型（从 TC-114 提取）
+T_Sendofftrainstation_Use_Time: ""          # 送站用车时间（从 TC-114 提取）
+T_Sendofftrainstation_Order_ID: ""          # 送站订单ID（从 TC-115 提取）
+
+Instant_Order_ID: ""                      # 即时下单返回的订单ID（从 TC-043 提取）
+
+# 预约一口价
+Use_Time: "1723032000"                  # 预约用车时间（框架动态生成）
+Reserve_End_Poi_ID: "B000A7R0LG"       # 终点POI ID
+Reserve_Price_Token: ""               # 询价返回的 pricemark（从 TC-053 提取）
+Reserve_Car_Type_ID: ""               # 询价返回的车型ID（从 TC-053 提取）
+Reserve_Order_Price: ""               # 询价返回的预估价格（从 TC-053 提取）
+Reserve_Seats: ""                     # 询价返回的座位数（从 TC-053 提取）
+Reserve_City_ID: "566"                # 预约城市ID
+Reserve_Order_Type: "15"              # 预约订单类型
+Reserve_Use_Time: ""                  # 预约用车时间（框架动态生成）
+Reserve_Order_ID: ""                  # 预约订单ID（从 TC-058 提取）
+
+# 接机一口价
+Pickup_City_ID: "566"                # 接机城市ID
+Pickup_Order_Type: ""                # 接机订单类型 serviceType
+Pickup_Price_Token: ""               # 接机询价 pricemark
+Pickup_Car_Type_ID: ""               # 接机车型ID
+Pickup_Order_Price: ""              # 接机预估价格
+Pickup_Seats: ""                     # 接机座位数
+Pickup_Use_Time: ""                  # 接机用车时间
+Pickup_Order_ID: ""                  # 接机订单ID
+Pickup_Pay_Order_ID: ""          # 接机待支付页订单ID
+Pickup_End_Location: ""              # 接机终点位置
+Pickup_End_Detail: ""                # 接机终点详细地址
+Pickup_End_Latitude: ""              # 接机终点纬度
+Pickup_End_Longitude: ""             # 接机终点经度
+Pickup_Coupon_Code: ""                          # 接机可用优惠券码（从 TC-071 提取）
+Pickup_Coupon_ID: ""                            # 接机可用优惠券ID（从 TC-071 提取）
+
+# 送机一口价
+Sendoff_City_ID: "566"                 # 送机城市ID
+Sendoff_Latitude: "39.950751"          # 送机纬度
+Sendoff_Longitude: "116.354490"        # 送机经度
+Sendoff_Start_Latitude: ""                   # 送机起点纬度（从 TC-080 提取）
+Sendoff_Start_Longitude: ""                  # 送机起点经度（从 TC-080 提取）
+Sendoff_Start_Location: ""                   # 送机起点位置（从 TC-080 提取）
+Sendoff_Start_Detail: ""                     # 送机起点详细地址（从 TC-080 提取）
+Sendoff_Start_Poi_ID: ""                     # 送机起点POI ID（从 TC-080 提取）
+Sendoff_Price_Token: ""        # 送机询价 pricemark（从 TC-082 提取）
+Sendoff_Car_Type_ID: ""        # 送机车型ID（从 TC-082 提取）
+Sendoff_Order_Price: ""        # 送机预估价格（从 TC-082 提取）
+Sendoff_Seats: ""              # 送机座位数（从 TC-082 提取）
+Sendoff_Order_Type: ""         # 送机订单类型（从 TC-085 提取）
+Sendoff_Use_Time: ""           # 送机用车时间（从 TC-085 提取）
+Sendoff_Coupon_Code: ""        # 送机优惠券码（从 TC-086 提取）
+Sendoff_Coupon_ID: ""          # 送机优惠券ID（从 TC-086 提取）
+Sendoff_Order_ID: ""           # 送机订单ID（从 TC-087 提取）
+
+# # ========== 司机端全局变量 ==========
+# T_Current_Location: "北京网蓝购物中心"        # 当前所在位置（用于 AMap POI 搜索）
+# T_Driver_Mobile: "11005461937"            # 司机手机号
+# T_Driver_Lat: "40.087018"                 # 司机纬度
+# T_Driver_Lng: "116.413815"                # 司机经度
+# T_Driver_Token: ""                        # 司机token（从司机登录提取）
+# T_Driver_ID: ""                           # 司机driver_id（从司机登录提取）
+# T_Driver_Login_ID: ""                     # 司机login_id（从司机登录提取）
+# T_Driver_UserAgent: "YGDriver/7.23.5(Android;Android10;HJC-AN90;guanwang)"  # 司机端UA
+# T_Driver_Order_Start_Location: "探豪门源小学"  # 订单司机起点位置
+# T_Driver_PhoneNumber_T: "11075311121"     # 司机更换手机号
+# T_DCMS_PhoneNumber: "15611037673"         # 司机端升级登录账号
+# T_DCMS_Password: "0weta166"               # 司机端升级登录密码

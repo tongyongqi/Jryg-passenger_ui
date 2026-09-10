@@ -1,0 +1,433 @@
+# ==================== 个人中心分类（P2）====================
+# 前置条件: 需要登录
+
+test_cases:
+  - name: "TC-001 查看隐私协议是否更新"
+    description: "已登录，检查隐私协议是否有更新"
+    priority: "P2"
+    method: GET
+    path: "/v3/user/privacy_agreement/check"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-002 获取优惠卷到期提醒"
+    description: "已登录，获取优惠卷即将到期提醒"
+    priority: "P2"
+    method: GET
+    path: "/v3/user/coupon/remind"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-003 同意隐私协议"
+    description: "已登录，同意隐私协议"
+    priority: "P2"
+    method: POST
+    path: "/v3/user/privacy_agreement/agree"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-004 优惠卷详情"
+    description: "已登录，查看优惠卷详情"
+    priority: "P2"
+    method: POST
+    path: "/passengerApi/coupon/detail"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      code: "1fxxJGeD6Dajqly2"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-005 用户优惠卷数量"
+    description: "已登录，获取用户优惠卷数量"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/coupon/count"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-006 优惠卷抵扣金额"
+    description: "已登录，计算优惠卷抵扣金额"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/coupon/couponAmount"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      couponCode: "IhoqxpCy0d4wb0uc"
+      estimatePrice: "28.13"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-007 支付方式列表"
+    description: "已登录，获取支付方式列表"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/payMode/list"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      driverId: 941069
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-008 优惠卷日历"
+    description: "已登录，获取优惠卷日历"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/coupon/calendar"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 0
+          - 10000
+
+  - name: "TC-009 获取活动广告位"
+    description: "已登录，获取活动广告位"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/ad/site"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      typeId: 2
+      cityId: 566
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-010 首页角标"
+    description: "已登录，获取首页角标信息"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/home/cornerMark"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-011 用户PDF下载签名"
+    description: "已登录，获取用户PDF下载签名"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/user/download/pdf/sign"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      user_id: 7500012
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10010
+
+  - name: "TC-012 小程序授权模版id"
+    description: "已登录，获取小程序授权消息模版id"
+    priority: "P2"
+    method: GET
+    path: "/passengerApi/wx/applet/msgId"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-013 优惠卷兑换领取"
+    description: "已登录，用兑换码兑换优惠卷"
+    priority: "P2"
+    method: POST
+    path: "/passengerApi/coupon/gift/receive"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      code: "测试专用"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-014 个人中心广告"
+    description: "已登录，获取个人中心广告"
+    priority: "P2"
+    method: POST
+    path: "/passengerApi/marketing/personal"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-015 开平资源广告"
+    description: "已登录，获取开平资源广告"
+    priority: "P2"
+    method: POST
+    path: "/passengerApi/marketing/open/screen"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      terminal_type: "Android"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-016 礼包兑换窗口是否展示"
+    description: "已登录，检查礼包兑换窗口弹窗"
+    priority: "P2"
+    method: POST
+    path: "/passengerApi/coupon/gift/popup"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      code: "000069QcPBst/ygdh"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-017 系统配置"
+    description: "已登录，获取系统配置"
+    priority: "P2"
+    method: GET
+    path: "/v5/system/config"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-018 获取用户优惠卷列表"
+    description: "已登录，按活动获取用户优惠卷列表"
+    priority: "P2"
+    method: POST
+    path: "/v5/user/activity/couponList"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      event_id: 154
+      activity_day: "2024-01-12"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-019 行程页广告配置"
+    description: "已登录，获取行程页广告配置"
+    priority: "P2"
+    method: GET
+    path: "/v5/trip/config"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 11203
+
+  - name: "TC-020 判断是否新用户"
+    description: "已登录，根据优惠卷过期时间判断是否新用户"
+    priority: "P2"
+    method: POST
+    path: "/v5/coupon/userActivityValidCoupon"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203
+
+  - name: "TC-021 首页浮框展示"
+    description: "已登录，首页新增已有优惠信息广播栏"
+    priority: "P2"
+    method: GET
+    path: "/v5/coupon/showFrame"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      terminal: 3
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 12404
+
+  - name: "TC-022 逆地址解析"
+    description: "已登录，坐标逆地址解析"
+    priority: "P2"
+    method: GET
+    path: "/v3/lbs/regeo-point"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      latitude: "39.950734"
+      longitude: "116.354477"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 12404
+
+  - name: "TC-023 获取历史地址"
+    description: "已登录，搜索历史地址"
+    priority: "P2"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      address_type: 2
+      city_id: 566
+      keywords: "%E5%8F%91%E6%8C%A5"
+      latitude: "39.950734"
+      longitude: "116.354477"
+      service_type: 0
+      user_id: 7500012
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10203

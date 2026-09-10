@@ -1,0 +1,48 @@
+# ==================== 广告活动分类 ====================
+# 接口: POST /v3/ads/get-list (获取活动列表)
+# 前置条件: 需要登录
+
+test_cases:
+  - name: "TC-017 正常获取活动列表"
+    description: "已登录，传入 cityId，期望返回活动列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/ads/get-list"
+    need_login: true
+    params:
+      cityId: "556"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-018 不传token获取活动"
+    description: "未登录也能获取活动列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/ads/get-list"
+    params:
+      cityId: "556"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-019 活动中心-获取活动"
+    description: "已登录，活动中心获取活动列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/ads/get-list"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

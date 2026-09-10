@@ -1,0 +1,298 @@
+# ==================== 即时订单-下单分类 ====================
+# 接口: POST /v3/location/choose-address        (即时获取推荐起点/终点列表)
+#       POST /v3/bury-point/address             (即时选择起点/终点)
+#       POST /passengerApi/realOrder/estimateByTrip (询价)
+#       POST /v3/real-order/assess-line          (预估路线)
+#       POST /v3/activity/coupon/list           (获取车型可用优惠卷列表)
+#       POST /v3/real-order/place              (即时下单)
+#       GET /v3/order/check-unfinish          (获取未完成订单详情)
+#       POST /v3/order/realtime-detail        (获取订单详情)
+#       POST /v3/order/realtime-cancel        (取消订单)
+
+test_cases:
+  - name: "TC-034 即时获取推荐起点"
+    description: "已登录，获取即时订单推荐起点"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      address_type: "1"
+      city_id: "${City_ID}"
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+      nonce: "${Data_Time}"
+      user_id: "${Login_ID}"
+      keywords: "${Origin_Location}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-035 即时搜索起点"
+    description: "已登录，通过关键词搜索即时订单起点"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      address_type: "1"
+      city_id: "566"
+      id: "B000A7R0LG"
+      latitude: "40.127415"
+      longitude: "116.12329"
+      nonce: "${Data_Time}"
+      user_id: "${Login_ID}"
+      keywords: "后白虎涧村委会"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-036 即时选择起点"
+    description: "已登录，选择即时订单起点地址"
+    priority: "P0"
+    method: POST
+    path: "/v3/bury-point/address"
+    need_login: true
+    params:
+      addressType: "1"
+      chooseType: "1"
+      address: "${Instant_Select_Start_Location}"
+      addressDetail: "${Instant_Select_Start_Detail}"
+      userMobile: "${User_Mobile}"
+      cityId: "${City_ID}"
+      latitude: "${Instant_Select_Start_Latitude}"
+      longitude: "${Instant_Select_Start_Longitude}"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-037 获取终点列表"
+    description: "已登录，获取即时订单推荐终点列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      address_type: "2"
+      user_id: "${Login_ID}"
+      userMobile: "${User_Mobile}"
+      city_id: "566"
+      latitude: "${Instant_Select_Start_Latitude}"
+      longitude: "${Instant_Select_Start_Longitude}"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-038 即时搜索终点"
+    description: "已登录，通过关键词搜索即时订单终点"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      address_type: "2"
+      user_id: "${Login_ID}"
+      id: "B000A7R0LG"
+      city_id: "566"
+      latitude: "${Instant_Select_Start_Latitude}"
+      longitude: "${Instant_Select_Start_Longitude}"
+      keywords: "金运大厦"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-039 即时选择终点"
+    description: "已登录，选择即时订单终点地址"
+    priority: "P0"
+    method: POST
+    path: "/v3/bury-point/address"
+    need_login: true
+    params:
+      address: "${Instant_Select_End_Location}"
+      addressDetail: "${Instant_Select_End_Detail}"
+      addressType: "2"
+      chooseType: "1"
+      cityId: "566"
+      latitude: "${Instant_Select_End_Latitude}"
+      longitude: "${Instant_Select_End_Longitude}"
+      nonce: "${Data_Time}"
+      poi_id: "${Instant_Select_End_Poi}"
+      userMobile: "${User_Mobile}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-040 询价"
+    description: "已登录，根据起终点进行即时订单询价"
+    priority: "P0"
+    method: POST
+    path: "/passengerApi/realOrder/estimateByTrip"
+    need_login: true
+    params:
+      beginLatitude: "${Instant_Select_Start_Latitude}"
+      beginLocation: "${Instant_Select_Start_Location}"
+      beginLongitude: "${Instant_Select_Start_Longitude}"
+      begin_poi_id: "${Instant_Select_Start_Poi}"
+      cityId: "566"
+      endLatitude: "${Instant_Select_End_Latitude}"
+      endLocation: "${Instant_Select_End_Location}"
+      endLongitude: "${Instant_Select_End_Longitude}"
+      end_poi_id: "${Instant_Select_End_Poi}"
+      nonce: "${Data_Time}"
+    extract:
+      Instant_Price_Token: "data.estimates.0.price_token"
+      Instant_Car_Type: "data.estimates.0.car_type"
+      Instant_Total_Fee: "data.estimates.0.total_fee"
+      Instant_Coupon_Code: "data.estimates.0.coupon_code"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-041 预估路线"
+    description: "已登录，获取即时订单预估路线"
+    priority: "P0"
+    method: POST
+    path: "/v3/real-order/assess-line"
+    need_login: true
+    params:
+      estimate_id: "${Instant_Price_Token}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-042 获取车型可用优惠卷列表"
+    description: "已登录，获取即时订单车型可用优惠卷列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/activity/coupon/list"
+    need_login: true
+    params:
+      car_type: "${Instant_Car_Type}"
+      city_id: "${Instant_City_ID}"
+      estimate_amount: "${Instant_Total_Fee}"
+      nonce: "${Data_Time}"
+      order_type: "5"
+      service_type: "1"
+      terminal: "4"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-043 即时下单"
+    description: "已登录，创建即时订单"
+    priority: "P0"
+    method: POST
+    path: "/v3/real-order/place"
+    need_login: true
+    body_type: json
+    headers:
+      Yguseragent: "YGPassenger/5.18.0(iOS;iOS15.6.1;iPhone13,4;appstore)"
+    params:
+      agentID: "11"
+      end_poi_id: "${Instant_Select_End_Poi}"
+      beginDetailAddress: "${Instant_Select_Start_Detail}"
+      userMobileType: "iPhone13,4"
+      cityID: 566
+      userAppVersion: "5.0.0"
+      beginLocation: "${Instant_Select_Start_Location}"
+      endLatitude: "${Instant_Select_End_Latitude}"
+      begin_poi_id: "${Instant_Select_Start_Poi}"
+      agedHelper: 0
+      carCoupons:
+        - predictId: "${Instant_Price_Token}"
+          carType: "jingji"
+      presentLongitude: 116.36
+      presentLatitude: 39.94
+      beginLongitude: "${Instant_Select_Start_Longitude}"
+      userMobileVersion: "11"
+      endDetailAddress: "${Instant_Select_End_Detail}"
+      endLongitude: "${Instant_Select_End_Longitude}"
+      beginLatitude: "${Instant_Select_Start_Latitude}"
+      endLocation: "${Instant_Select_End_Location}"
+      nonce: "${Data_Time}"
+    extract:
+      Instant_Order_ID: "data.order.order_id"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-044 获取未完成订单详情"
+    description: "已登录，获取即时订单未完成订单详情"
+    priority: "P0"
+    method: GET
+    path: "/v3/order/check-unfinish"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-045 获取订单详情"
+    description: "已登录，获取即时订单实时详情"
+    priority: "P0"
+    method: POST
+    path: "/v3/order/realtime-detail"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Instant_Order_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-046 取消订单"
+    description: "已登录，取消即时订单"
+    priority: "P0"
+    method: POST
+    path: "/v3/order/realtime-cancel"
+    need_login: true
+    params:
+      cancelType: "1"
+      nonce: "${Data_Time}"
+      orderId: "${Instant_Order_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
