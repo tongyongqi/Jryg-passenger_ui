@@ -318,7 +318,21 @@ def run_mode_8_数据库控制台(headless=True):
     🗄️ MODE 8. 数据库交互调试控制台 (联表查券、清券、微信/芝麻绑定)
     ========================================================================
     """
-    sys_logger.info("正在启动 数据库交互调试控制台...")
+    print("\n" + "-" * 50)
+    print("  🗄️ 请选择数据库环境:")
+    print("  [1] 大陆测试环境（默认）")
+    print("  [2] 香港测试环境")
+    print("-" * 50)
+    db_choice = input("👉 请选择 [1=大陆, 2=香港, 默认1]: ").strip()
+
+    if db_choice == "2":
+        config_business.DB_CONFIG = dict(config_business.HK_DB_CONFIG)
+        db_environment = "香港测试环境"
+    else:
+        db_environment = "大陆测试环境"
+
+    sys_logger.info(f"正在启动数据库交互调试控制台... 当前环境: {db_environment}")
+    print(f"✅ 当前数据库环境：{db_environment}")
     run_interactive_console()
 
 

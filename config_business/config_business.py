@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # 这个文件的功能是保存各业务个性化参数配置的代码
 # config_business.py
+
+import os
 # ==========================================
 # ⚙️ 业务个性化参数配置文件 (create_coupon / send_coupon 各自专有)
 # ==========================================
@@ -77,4 +79,17 @@ DB_CONFIG = {
     "user": "jryg_tx_test",                     # 用户名
     "password": "3G$opYrLCnqZxa6a",             # 密码
     "charset": "utf8mb4"                        # 字符集
+}
+
+# 香港测试环境优惠券数据库配置
+HK_DB_CONFIG = {
+    "host": "172.31.104.3",
+    "port": 3306,
+    "user": "ygcx_test",
+    "password": os.getenv("HK_DB_PASSWORD", ""),
+    "database": "jryg_coupon",
+    "charset": "utf8mb4",
+    "connect_timeout": 0.2,
+    "read_timeout": 0.5,
+    "write_timeout": 0.5
 }

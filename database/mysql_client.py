@@ -49,18 +49,20 @@ class MySQLClient:
         """
         # 读取配置，并支持自定义参数覆盖
         base_config = getattr(config_business, "DB_CONFIG", {})
-        self.config = {
-            "host": base_config.get("host", "172.19.0.132"),
-            "port": base_config.get("port", 3306),
-            "user": base_config.get("user", "jryg_tx_test"),
-            "password": base_config.get("password", "3G$opYrLCnqZxa6a"),
-            "charset": base_config.get("charset", "utf8mb4"),
-        }
-        
+        self.config = dict(base_config)
+        self.config.setdefault("host", "172.19.0.132")
+        self.config.setdefault("port", 3306)
+        self.config.setdefault("user", "jryg_tx_test")
+        self.config.setdefault("password", "3G$opYrLCnqZxa6a")
+        self.config.setdefault("charset", "utf8mb4")
+        self.config.setdefault("connect_timeout", 10)
+        self.config.setdefault("read_timeout", 10)
+        self.config.setdefault("write_timeout", 10)
+
         # 允许在实例化或调用时注入具体的数据库名称
         if db_name:
             self.config["database"] = db_name
-            
+
         if custom_config:
             self.config.update(custom_config)
             
@@ -83,7 +85,10 @@ class MySQLClient:
                 database=self.config.get("database"),
                 charset=self.config["charset"],
                 cursorclass=DictCursor,
-                connect_timeout=10  # 10秒连接超时
+                # PyMySQL 的 connect_timeout 只接受正整数秒，毫秒配置向上兼容为至少 1 秒
+                connect_timeout=max(1, int(self.config["connect_timeout"])),
+                read_timeout=float(self.config["read_timeout"]),
+                write_timeout=float(self.config["write_timeout"])
             )
             logger.info("🎉 MySQL 数据库连接成功！")
             return self.connection
@@ -174,28 +179,47 @@ class MySQLClient:
 # 🛠️ 常用高频业务数据库操作助手函数 (DB Helper)
 # ==========================================
 
+def _is_hk_database():
+    """判断当前是否选择了香港数据库环境。"""
+    current_config = getattr(config_business, "DB_CONFIG", {})
+    hk_config = getattr(config_business, "HK_DB_CONFIG", {})
+    return bool(hk_config) and current_config.get("host") == hk_config.get("host")
+
+
+def _get_user_query_fields():
+    """统一大陆和香港用户表字段名，保证控制台输出结构一致。"""
+    if _is_hk_database():
+        return (
+            "user_id AS UserID, mobile AS Mobile, nick_name AS RealName, "
+            "enabled AS Enabled, created_at AS CreateTime"
+        )
+    return "*"
+
+
 def get_user_by_mobile(mobile: str):
     """
     根据手机号查询用户信息
     支持普通手机号和 MD5 加密手机号
     """
     import hashlib
+    fields = _get_user_query_fields()
+    mobile_column = "mobile" if _is_hk_database() else "Mobile"
     with MySQLClient() as client:
         # 1. 尝试直接查询
-        sql_direct = "SELECT * FROM jryg_user.users WHERE Mobile = %s;"
+        sql_direct = f"SELECT {fields} FROM jryg_user.users WHERE {mobile_column} = %s;"
         res = client.execute_query(sql_direct, (mobile,))
         if res:
             return res
-        
+
         # 2. 尝试 MD5 加密字段匹配查询
         md5_val = hashlib.md5(mobile.encode('utf-8')).hexdigest()
-        sql_md5 = "SELECT * FROM jryg_user.users WHERE Mobile LIKE CONCAT('%%120', %s);"
+        sql_md5 = f"SELECT {fields} FROM jryg_user.users WHERE {mobile_column} LIKE CONCAT('%%120', %s);"
         res_md5 = client.execute_query(sql_md5, (md5_val,))
         if res_md5:
             return res_md5
-            
+
         # 3. 模糊匹配查询
-        sql_like = "SELECT * FROM jryg_user.users WHERE Mobile LIKE %s;"
+        sql_like = f"SELECT {fields} FROM jryg_user.users WHERE {mobile_column} LIKE %s;"
         return client.execute_query(sql_like, (f"%{mobile}%",))
 
 
@@ -203,8 +227,10 @@ def get_user_by_id(user_id: int):
     """
     根据 UserID 获取用户信息
     """
+    fields = _get_user_query_fields()
+    user_id_column = "user_id" if _is_hk_database() else "UserID"
     with MySQLClient() as client:
-        sql = "SELECT * FROM jryg_user.users WHERE UserID = %s;"
+        sql = f"SELECT {fields} FROM jryg_user.users WHERE {user_id_column} = %s;"
         return client.execute_query(sql, (user_id,))
 
 
