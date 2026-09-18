@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Screenshots (generated during test runs)
+screenshots/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+
+# Auth tokens / secrets
+auth_token.py
+.auth_token.json
+*.token
+*.key
