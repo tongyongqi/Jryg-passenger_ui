@@ -6,24 +6,23 @@ from JRYG_Passenger_UI.common.JRYG_config import SETTINGS
 class JRYG_ADBTools:
     """ADB 移动端命令交互基础工具封装"""
     def __init__(self, udid=None):
-        self.udid = udid or SETTINGS.get("device", {}).get("udid", "10AE6U20A7001H5")
+        self.udid = udid or SETTINGS["device"]["udid"]
 
     def run_cmd(self, cmd):
-        """同步执行 ADB Shell 命令并返回清洗后的回显内容"""
+        """执行有超时和退出码检查的 ADB Shell 命令。"""
         full_cmd = ["adb", "-s", self.udid, "shell"] + cmd
-        try:
-            res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15)
-            return res.stdout.strip()
-        except subprocess.TimeoutExpired:
-            logger.error(f"ADB Shell 交互命令超时: {' '.join(full_cmd)}")
-            return ""
+        res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+        if res.stderr.strip().startswith("Error"):
+            raise RuntimeError(res.stderr.strip())
+        return res.stdout.strip()
 
     def get_top_activity(self):
         """实时获取设备顶层活跃的 Activity 栈信息"""
         out = self.run_cmd(["dumpsys", "activity", "activities"])
-        for line in out.split("\n"):
-            if "topResumedActivity" in line:
-                return line.strip()
+        for marker in ("topResumedActivity", "mResumedActivity", "ResumedActivity"):
+            for line in out.splitlines():
+                if marker in line:
+                    return line.strip()
         return "unknown"
 
     def force_stop(self, package):

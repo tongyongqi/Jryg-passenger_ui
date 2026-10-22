@@ -6,9 +6,9 @@ import pytest
 import os
 import sys
 
-# 添加必要的工作目录到 sys.path
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE_DIR)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 from JRYG_Passenger_UI.common.JRYG_connect_device import AndroidDevice
 
@@ -42,4 +42,4 @@ class TestJRYGDemo:
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v", "-s"])
+    sys.exit(pytest.main([__file__, "-v", "-s", *sys.argv[1:]]))

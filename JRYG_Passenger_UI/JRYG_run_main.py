@@ -2,15 +2,15 @@ import os
 import sys
 import pytest
 
-# 添加框架根路径与父目录至 sys.path，支持相对导入和全局引用
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(BASE_DIR)
-sys.path.append(os.path.dirname(BASE_DIR))
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
-from common.JRYG_dir_init import init_all_dirs
-from common.JRYG_config import REPORT_DIR
+from JRYG_Passenger_UI.common.JRYG_dir_init import init_all_dirs
+from JRYG_Passenger_UI.common.JRYG_config import REPORT_DIR
 
-def run_tests():
+def run_tests(extra_args=None):
     """JRYG UI 自动化测试执行引擎入口，自动生成测试报告"""
     print("\n" + "="*50)
     print("      JRYG 阳光出行测试执行引擎 (Start)")
@@ -24,20 +24,18 @@ def run_tests():
     pytest_args = [
         "-v", "-s",
         os.path.join(BASE_DIR, "cases"),
-        "-o", "python_files=JRYG_*.py",
+        "-o", "python_files=JRYG_test_*.py",
         "-o", "python_classes=TestJRYG*",
         "-o", "python_functions=test_*",
         f"--html={report_file}",
         "--self-contained-html"
     ]
     
+    pytest_args.extend(extra_args or [])
     print(f"执行用例检测，正在输出 HTML 测试报告: {report_file}")
     exit_code = pytest.main(pytest_args)
-    
-    print("="*50)
-    print("      JRYG 阳光出行测试执行引擎 (Completed)")
-    print("="*50 + "\n")
+    print(f"JRYG 测试执行结束，退出码: {exit_code}")
     return exit_code
 
 if __name__ == "__main__":
-    run_tests()
+    sys.exit(run_tests(sys.argv[1:]))
