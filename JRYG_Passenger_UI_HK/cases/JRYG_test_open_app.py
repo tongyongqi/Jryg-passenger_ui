@@ -236,6 +236,8 @@ class TestJRYGHKAndroidOrder:
         # 2. 检查“我的”页面中的登录状态
         logged_in = True
         for retry in range(5):
+            # 每轮先检测并关闭代理安全提示弹窗
+            self._dismiss_proxy_popup()
             texts = []
             try:
                 for el in self.poco(type="android.widget.TextView"):
@@ -333,7 +335,40 @@ class TestJRYGHKAndroidOrder:
         output = self._adb("shell", "dumpsys", "window", timeout=15)
         return "PopupWindow" in output
 
+    def _dismiss_proxy_popup(self):
+        """检测并关闭代理安全提示弹窗 (Notice Proxy detected... Got It)"""
+        for attempt in range(3):
+            # 通过文本匹配 "Got It" 或 "代理" 相关
+            for text_val in ["Got It", "got it", "GOT IT", "知道了", "確定", "确定"]:
+                btn = self.poco(text=text_val)
+                if btn.exists():
+                    logger.info(f"  >> [代理弹窗] 检测到代理提示弹窗，点击「{text_val}」关闭...")
+                    btn.click()
+                    time.sleep(2)
+                    return True
+            # 通过 ADB dump 匹配 "Got It" 坐标点击
+            self._adb("shell", "uiautomator", "dump", "/sdcard/_temp.xml", check=False)
+            path = os.path.join(BASE_DIR, "screenshots", "_temp.xml")
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "wb") as f:
+                subprocess.run(["adb", "-s", self.udid, "exec-out", "cat", "/sdcard/_temp.xml"], stdout=f)
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    content = f.read()
+                pattern = r'text="(Got It|got it|GOT IT|知道了|確定|确定)"[^>]*?bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"'
+                match = re.search(pattern, content)
+                if match:
+                    x1, y1, x2, y2 = int(match.group(2)), int(match.group(3)), int(match.group(4)), int(match.group(5))
+                    self._adb("shell", "input", "tap", str((x1+x2)//2), str((y1+y2)//2))
+                    logger.info(f"  >> [代理弹窗] ADB 点击关闭按钮 ({(x1+x2)//2}, {(y1+y2)//2})")
+                    time.sleep(2)
+                    return True
+            break
+        return False
+
     def _close_activity_popup(self):
+        # 0. 先检测代理安全提示弹窗
+        self._dismiss_proxy_popup()
         if self._popup_visible():
             self._tap_ratio(0.50, 0.747, "活动弹框关闭按钮")
             time.sleep(2)
