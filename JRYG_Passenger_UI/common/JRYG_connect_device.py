@@ -3,8 +3,8 @@ Android 真机连接与基础操作封装（已迁入 JRYG_Passenger_UI 结构�
 """
 
 import time
-import os
-import sys
+import subprocess
+from pathlib import Path
 
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
@@ -12,9 +12,9 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# 支持相对导入
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from JRYG_Passenger_UI.common import JRYG_device_config as config
+from JRYG_Passenger_UI.common.JRYG_config import SCREENSHOTS_DIR
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 
 class AndroidDevice:
@@ -70,24 +70,14 @@ class AndroidDevice:
         self._wait_for_home()
         return self.driver
 
-    @staticmethod
-    def _clean_uiautomator2():
-        """清理设备上的 UiAutomator2 残留进程和端口转发"""
-        import subprocess
-        udid = config.DEVICE_UDID
-
-        try:
-            subprocess.run(
-                ["adb", "-s", udid, "shell", "pkill", "-f", "uiautomator"],
-                capture_output=True, timeout=5
-            )
-            subprocess.run(
-                ["adb", "-s", udid, "forward", "--remove-all"],
-                capture_output=True, timeout=5
-            )
-            print("[清理] 已清理设备 UiAutomator2 残留")
-        except Exception:
-            pass
+    def _clean_uiautomator2(self):
+        """只清理本设备的 Appium 服务及本会话端口。"""
+        prefix = ["adb", "-s", config.DEVICE_UDID]
+        for package in ("io.appium.uiautomator2.server", "io.appium.uiautomator2.server.test"):
+            subprocess.run(prefix + ["shell", "am", "force-stop", package],
+                           capture_output=True, timeout=5, check=True)
+        subprocess.run(prefix + ["forward", "--remove", f"tcp:{self.system_port}"],
+                       capture_output=True, timeout=5)
 
     def _wait_for_home(self, ad_timeout: int = 3):
         """等待广告/闪屏结束后进入首页"""
@@ -102,7 +92,7 @@ class AndroidDevice:
                 print(f"[广告] 已点击'{keyword}'")
                 time.sleep(1)
                 break
-            except Exception:
+            except NoSuchElementException:
                 continue
 
         close_ids = [
@@ -116,15 +106,18 @@ class AndroidDevice:
                 el.click()
                 print(f"[广告] 已关闭弹窗 ({close_id})")
                 time.sleep(1)
-            except Exception:
+            except NoSuchElementException:
                 pass
 
-        print("[广告] 已进入首页")
+        print("[广告] 弹窗检查完成")
 
     def disconnect(self):
         """断开连接"""
         if self.driver:
-            self.driver.quit()
+            try:
+                self.driver.quit()
+            finally:
+                self.driver = None
             print("[断开] Session 已关闭")
 
     def tap(self, x: int, y: int):
@@ -150,41 +143,36 @@ class AndroidDevice:
     def screenshot(self, filename: str = None):
         if filename is None:
             filename = f"screenshot_{int(time.time())}.png"
-        self.driver.save_screenshot(filename)
-        print(f"[截图] 已保存: {filename}")
-        return filename
+        path = Path(filename)
+        if not path.is_absolute():
+            path = Path(SCREENSHOTS_DIR) / path
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if not self.driver.save_screenshot(str(path)):
+            raise RuntimeError(f"截图保存失败: {path}")
+        print(f"[截图] 已保存: {path}")
+        return str(path)
+
+    def _wait_for_element(self, condition, timeout, retries):
+        if retries < 0:
+            raise ValueError("retries 不能小于0")
+        for attempt in range(retries + 1):
+            try:
+                return WebDriverWait(self.driver, timeout).until(condition)
+            except Exception as exc:
+                retryable = any(text in str(exc) for text in (
+                    "socket hang up", "Connection reset", "Broken pipe"
+                ))
+                if not retryable or attempt == retries:
+                    raise
+                print(f"[重试] UiAutomator2 连接中断 ({attempt + 1}/{retries})")
+                time.sleep(3)
 
     def wait_and_tap(self, locator: tuple, timeout: int = 10, retries: int = 2):
-        for attempt in range(retries + 1):
-            try:
-                element = WebDriverWait(self.driver, timeout).until(
-                    EC.element_to_be_clickable(locator)
-                )
-                element.click()
-                return
-            except Exception as e:
-                msg = str(e)
-                if ("socket hang up" in msg or "Connection reset" in msg
-                        or "Broken pipe" in msg) and attempt < retries:
-                    print(f"[重试] UiAutomator2 连接断开，重试中 ({attempt + 1}/{retries})...")
-                    time.sleep(3)
-                    continue
-                raise
+        element = self._wait_for_element(EC.element_to_be_clickable(locator), timeout, retries)
+        element.click()
 
     def find_element(self, locator: tuple, timeout: int = 10, retries: int = 2):
-        for attempt in range(retries + 1):
-            try:
-                return WebDriverWait(self.driver, timeout).until(
-                    EC.presence_of_element_located(locator)
-                )
-            except Exception as e:
-                msg = str(e)
-                if ("socket hang up" in msg or "Connection reset" in msg
-                        or "Broken pipe" in msg) and attempt < retries:
-                    print(f"[重试] UiAutomator2 连接断开，重试中 ({attempt + 1}/{retries})...")
-                    time.sleep(3)
-                    continue
-                raise
+        return self._wait_for_element(EC.presence_of_element_located(locator), timeout, retries)
 
     def is_element_present(self, locator: tuple, timeout: int = 3) -> bool:
         try:
@@ -192,7 +180,7 @@ class AndroidDevice:
                 EC.presence_of_element_located(locator)
             )
             return True
-        except Exception:
+        except TimeoutException:
             return False
 
     def input_text(self, locator: tuple, text: str, timeout: int = 10):

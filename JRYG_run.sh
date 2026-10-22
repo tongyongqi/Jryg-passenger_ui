@@ -5,7 +5,7 @@
 
 # 获取脚本所在的根目录
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "$BASE_DIR"
+cd "$BASE_DIR" || exit 1
 
 echo "=================================================================="
 echo "          JRYG UI 自动化测试一键运行环境检查..."
@@ -34,15 +34,13 @@ echo ""
 echo "正在启动 JRYG 阳光出行测试套件..."
 if [ -f ".venv/bin/python3" ]; then
     echo "[环境] 检测到项目虚拟环境 .venv，正在使用虚拟环境中的 Python 执行测试..."
-    .venv/bin/python3 JRYG_Passenger_UI/JRYG_run_main.py
+    .venv/bin/python3 JRYG_Passenger_UI/JRYG_run_main.py "$@"
 else
-    python3 JRYG_Passenger_UI/JRYG_run_main.py
+    python3 JRYG_Passenger_UI/JRYG_run_main.py "$@"
 fi
+exit_code=$?
 
-# 4. 打印报告生成地址
-if [ -f "JRYG_auto_project/report/JRYG_test_report.html" ]; then
-    echo ""
-    echo "[完成] HTML 测试报告已成功生成，路径如下："
-    echo "  file://$BASE_DIR/JRYG_auto_project/report/JRYG_test_report.html"
-    echo ""
+if [ -f "JRYG_Passenger_UI/report/JRYG_test_report.html" ]; then
+    echo "[报告] file://$BASE_DIR/JRYG_Passenger_UI/report/JRYG_test_report.html"
 fi
+exit "$exit_code"

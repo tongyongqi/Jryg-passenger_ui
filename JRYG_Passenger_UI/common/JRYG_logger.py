@@ -1,4 +1,5 @@
 import logging
+import os
 from logging.handlers import RotatingFileHandler
 from JRYG_Passenger_UI.common.JRYG_config import LOG_FILE
 
@@ -15,6 +16,7 @@ def get_logger(name="JRYG_Auto"):
         logger.addHandler(console_handler)
         
         # 日志文件记录 (最大10MB，自动保存3个备份)
+        os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
         file_handler = RotatingFileHandler(LOG_FILE, maxBytes=10*1024*1024, backupCount=3, encoding="utf-8")
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)

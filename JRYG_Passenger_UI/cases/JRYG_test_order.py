@@ -5,16 +5,18 @@ import time
 import subprocess
 import sys
 
-# 添加测试框架核心目录至 sys.path
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE_DIR)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 from airtest.core.api import connect_device, sleep, keyevent
 from poco.drivers.android.uiautomation import AndroidUiautomationPoco
 from JRYG_Passenger_UI.common.JRYG_logger import logger
 from JRYG_Passenger_UI.common.JRYG_config import SETTINGS, TEST_DATA_FILE
+from JRYG_Passenger_UI.common.JRYG_adb_tools import JRYG_ADBTools
+from JRYG_Passenger_UI.common.JRYG_driver_flow import DriverFlowMixin
 
-class TestJRYGOrderRide:
+class TestJRYGOrderRide(DriverFlowMixin):
     """阳光出行起终点呼叫、车型选择、模拟接单、尾号验证、收款完单全业务闭环测试"""
 
     @classmethod
@@ -23,54 +25,191 @@ class TestJRYGOrderRide:
         connect_device(f"android://127.0.0.1:5037/{udid}")
         cls.poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
         cls.udid = udid
+        cls.adb = JRYG_ADBTools(udid)
         cls.passenger_pkg = SETTINGS["packages"]["passenger"]
         cls.driver_pkg = SETTINGS["packages"]["driver"]
-        
+
         with open(TEST_DATA_FILE, "r", encoding="utf-8") as f:
             cls.test_data = json.load(f)
-        logger.info("设备连接完毕，已经提取测试数据，开始全闭环自动呼叫业务流程测试")
+
+        logger.info("设备连接完毕，应用进程由用例启动阶段统一处理，保留应用数据")
 
     def test_complete_ride_flow(self):
-        """全自动流转业务测试用例 (State-Machine Driven)"""
-        start_addr = self.test_data["start_address"]
-        dest_addr = self.test_data["dest_address"]
-        phone_number = self.test_data["phone_number"]
-        verify_code = self.test_data["verify_code"]
-        verify_tail = self.test_data["verify_tail"]
-        
-        progress = {}
+        """乘客下单、司机接单完单、乘客返回首页。"""
         logger.info("【呼叫完单测试】强制拉起乘客端 App 并准备运行状态流转...")
         self._launch_app(self.passenger_pkg)
         sleep(2)
+        self._run_ride_flow()
 
-        # 通过状态监控执行多阶段操作状态机循环
+    def _run_ride_flow(self, progress=None):
+        start_addr = self.test_data["start_address"]
+        dest_addr = self.test_data["dest_address"]
+        verify_tail = self.test_data["verify_tail"]
+        progress = dict(progress or {})
+        state = "not_started"
+        self._last_state = None
+
+        # ==================== 状态机循环 ====================
+        # 流程顺序：打开app → 授权 → 登录 → 下单 → 下单后续操作
         for cycle in range(60):
             state = self._detect_state()
             logger.info(f"当前流转 [循环 {cycle}] -> 页面状态: {state}")
 
+            self._check_stall(state, timeout=120 if state == "driver_listening" else 60)
+            if state == "order_failed":
+                pytest.fail(f"乘客呼叫失败或订单被取消，停止流程: {self._get_all_texts()}")
+            if all(progress.get(key) for key in (
+                "order_started", "trip_started", "collection_submitted"
+            )) and state in ("driver_home", "driver_listening", "driver_finished"):
+                progress["flow_complete"] = True
+                logger.info("【司机端完单】已确认收款后的结束状态，准备切回乘客端")
+                break
+
+            # ── 阶段1: 打开app ──
             if state == "launcher":
-                logger.info("当前位于桌面，强制启动乘客端 App...")
+                logger.info("【阶段1-打开app】当前位于桌面，强制启动乘客端 App...")
                 self._launch_app(self.passenger_pkg)
                 continue
 
             if state == "blockcanary":
-                logger.info("识别到 BlockCanary/LeakCanary 残留，发送 BACK 返回键清理...")
+                logger.info("【阶段1-打开app】识别到 BlockCanary/LeakCanary 残留，发送 BACK 返回键清理...")
                 keyevent("BACK")
                 sleep(2)
                 continue
 
-            if state == "trip_finished":
-                logger.info("乘客端处于行程结束页面，点击 '点击回首页' 返回首页以开展新一轮下单...")
-                btn = self.poco(text="点击回首页")
-                if not btn.exists():
-                    btn = self.poco(text="返回首页")
-                if btn.exists():
-                    btn.click()
+            # ── 阶段2: 授权（隐私协议 + 系统权限） ──
+            if state == "privacy_agreement":
+                logger.info("【阶段2-授权】识别到隐私协议弹窗，勾选复选框并点击 '同意'...")
+                # 司机端需要先勾选"我已仔细阅读"复选框
+                check_box = self.poco(f"{self.driver_pkg}:id/tv_btn_check")
+                if check_box.exists():
+                    logger.info("勾选司机端隐私协议复选框...")
+                    self.poco(f"{self.driver_pkg}:id/ll_content_tips").click()
+                    sleep(1)
+                # 点击同意按钮（乘客端/司机端通用）
+                agree_btn = self.poco(text="同意")
+                if not agree_btn.exists():
+                    agree_btn = self.poco(f"{self.passenger_pkg}:id/tv_button_agree")
+                if not agree_btn.exists():
+                    agree_btn = self.poco(f"{self.driver_pkg}:id/tv_privacy_yes")
+                if agree_btn.exists():
+                    agree_btn.click()
+                else:
+                    subprocess.run(["adb", "-s", self.udid, "shell", "input", "tap", "770", "2590"])
                 sleep(3)
                 continue
 
+            if state == "permission_dialog":
+                logger.info("【阶段2-授权】识别到系统权限弹窗，点击 '使用应用时允许' 授权...")
+                allow_btn = self.poco(text="使用应用时允许")
+                if not allow_btn.exists():
+                    allow_btn = self.poco(text="允许")
+                if allow_btn.exists():
+                    allow_btn.click()
+                else:
+                    subprocess.run(["adb", "-s", self.udid, "shell", "input", "tap", "586", "2178"])
+                sleep(3)
+                continue
+
+            # ── 阶段3: 登录 ──
+            if state == "login":
+                logger.info("【阶段3-登录】识别到登录页面，执行登录流程...")
+
+                # 先检查是否有协议二次确认弹窗（不同意/同意）
+                agree_dialog = self.poco(text="同意")
+                disagree_dialog = self.poco(text="不同意")
+                if agree_dialog.exists() and disagree_dialog.exists():
+                    logger.info("检测到服务协议二次确认弹窗，点击 '同意'...")
+                    agree_dialog.click()
+                    sleep(2)
+
+                phone_input = self.poco(f"{self.passenger_pkg}:id/et_phone_num")
+                if not phone_input.exists():
+                    phone_input = self.poco(type="android.widget.EditText")
+                if phone_input.exists():
+                    # 检查是否已在验证码输入阶段
+                    code_label = self.poco(textMatches=".*验证码.*")
+                    if code_label.exists():
+                        logger.info("已在验证码输入阶段，直接输入验证码...")
+                        code_input = self.poco(type="android.widget.EditText")
+                        if code_input.exists():
+                            code_input.click()
+                            sleep(0.5)
+                            code_input.set_text(self.test_data.get("verify_code", "123456"))
+                            sleep(1)
+                            confirm_btn = self.poco(text="确认")
+                            if not confirm_btn.exists():
+                                confirm_btn = self.poco(text="登录")
+                            if not confirm_btn.exists():
+                                confirm_btn = self.poco(textMatches=".*确认|登录.*")
+                            if confirm_btn.exists():
+                                confirm_btn.click()
+                            sleep(5)
+                        continue
+
+                    # 手机号输入阶段
+                    phone_input.click()
+                    sleep(0.5)
+                    phone_input.set_text(self.test_data.get("phone_number", "11000000038"))
+                    sleep(1)
+
+                    # 勾选协议
+                    checkbox = self.poco(f"{self.passenger_pkg}:id/cb_agree")
+                    if not checkbox.exists():
+                        checkbox = self.poco(type="android.widget.CheckBox")
+                    if checkbox.exists():
+                        try:
+                            if not checkbox.attr("checked"):
+                                checkbox.click()
+                                sleep(0.5)
+                        except Exception:
+                            checkbox.click()
+                            sleep(0.5)
+
+                    # 点击下一步
+                    next_btn = self.poco(text="下一步")
+                    if not next_btn.exists():
+                        next_btn = self.poco(textMatches=".*下一步.*")
+                    if next_btn.exists():
+                        next_btn.click()
+                    sleep(2)
+
+                    # 处理可能出现的协议二次确认弹窗
+                    agree_dialog2 = self.poco(text="同意")
+                    disagree_dialog2 = self.poco(text="不同意")
+                    if agree_dialog2.exists() and disagree_dialog2.exists():
+                        logger.info("点击下一步后弹出协议二次确认，点击 '同意'...")
+                        agree_dialog2.click()
+                        sleep(3)
+
+                    # 输入验证码
+                    code_input = self.poco(f"{self.passenger_pkg}:id/et_code")
+                    if not code_input.exists():
+                        code_input = self.poco(type="android.widget.EditText")
+                    if code_input.exists():
+                        code_input.click()
+                        sleep(0.5)
+                        code_input.set_text(self.test_data.get("verify_code", "123456"))
+                        sleep(1)
+
+                        # 点击确认/登录
+                        confirm_btn = self.poco(text="确认")
+                        if not confirm_btn.exists():
+                            confirm_btn = self.poco(text="登录")
+                        if not confirm_btn.exists():
+                            confirm_btn = self.poco(textMatches=".*确认|登录.*")
+                        if confirm_btn.exists():
+                            confirm_btn.click()
+                        sleep(5)
+                else:
+                    logger.warning("登录页面未找到手机号输入框")
+                    keyevent("BACK")
+                    sleep(2)
+                continue
+
+            # ── 阶段4: 下单（设置起终点 → 询价 → 收银台 → 呼叫） ──
             if state == "ad":
-                logger.info("识别到广告浮窗，执行叉号点击关闭...")
+                logger.info("【阶段4-下单】识别到广告浮窗，执行叉号点击关闭...")
                 try:
                     self.poco(f"{self.passenger_pkg}:id/iv_cancel").click()
                 except Exception:
@@ -80,7 +219,7 @@ class TestJRYGOrderRide:
 
             if state == "home":
                 if not progress.get("start_done"):
-                    logger.info("在乘客首页，点击起点栏位...")
+                    logger.info("【阶段4-下单】在乘客首页，点击起点栏位...")
                     start_layout = self.poco(f"{self.passenger_pkg}:id/ll_start")
                     if not start_layout.exists():
                         start_layout = self.poco(f"{self.passenger_pkg}:id/tv_start_address")
@@ -88,7 +227,7 @@ class TestJRYGOrderRide:
                         start_layout.click()
                     sleep(2)
                 elif not progress.get("dest_done"):
-                    logger.info("在乘客首页，点击目的地输入栏...")
+                    logger.info("【阶段4-下单】在乘客首页，点击目的地输入栏...")
                     dest = self.poco(f"{self.passenger_pkg}:id/rl_destination_layout")
                     if not dest.exists():
                         dest = self.poco(text="想要去哪里？")
@@ -96,19 +235,32 @@ class TestJRYGOrderRide:
                         dest.click()
                     sleep(2)
                 else:
-                    logger.info("起点和目的地均已设置完毕")
+                    # 验证目的地是否真正设置成功
+                    dest_text = self.poco(f"{self.passenger_pkg}:id/tv_destination")
+                    if dest_text.exists():
+                        try:
+                            actual_dest = dest_text.get_text()
+                        except Exception:
+                            actual_dest = ""
+                        if actual_dest and actual_dest != "想要去哪里？" and actual_dest.strip():
+                            logger.info(f"【阶段4-下单】起点和目的地均已设置完毕，目的地: {actual_dest}")
+                        else:
+                            logger.warning(f"【阶段4-下单】目的地实际为空('{actual_dest}')，重置 dest_done 以重新设置目的地...")
+                            progress["dest_done"] = False
+                    else:
+                        logger.info("【阶段4-下单】起点和目的地均已设置完毕")
                 continue
 
             if state == "search":
                 if not progress.get("start_done"):
-                    logger.info(f"在搜索页面，输入并选定起点: {start_addr}")
-                    self._search_and_select(start_addr)
-                    progress["start_done"] = True
+                    logger.info(f"【阶段4-下单】在搜索页面，输入并选定起点: {start_addr}")
+                    if self._search_and_select(start_addr):
+                        progress["start_done"] = True
                     sleep(4)
                 elif not progress.get("dest_done"):
-                    logger.info(f"在搜索页面，输入并选定目的地: {dest_addr}")
-                    self._search_and_select(dest_addr)
-                    progress["dest_done"] = True
+                    logger.info(f"【阶段4-下单】在搜索页面，输入并选定目的地: {dest_addr}")
+                    if self._search_and_select(dest_addr):
+                        progress["dest_done"] = True
                     sleep(4)
                 else:
                     keyevent("BACK")
@@ -116,27 +268,86 @@ class TestJRYGOrderRide:
                 continue
 
             if state == "quote":
-                logger.info("进入询价车款挑选页面，勾选并提交 '阳光优选' 确认呼叫...")
+                logger.info("【阶段4-下单】进入询价车款挑选页面，勾选并提交 '阳光优选' 确认呼叫...")
                 self._handle_quote()
                 continue
 
             if state == "cashier":
-                logger.info("进入在线收银台，切换先付后乘标签并勾选微信支付...")
-                self._handle_cashier()
-                progress["pay_done"] = True
+                logger.info("【阶段4-下单】进入在线收银台，校验微信支付并提交呼叫...")
+                try:
+                    self._handle_cashier()
+                except Exception:
+                    logger.exception("【收银台失败】已尝试提交=%s", getattr(self, "_cashier_submitted", False))
+                    raise
+                progress["order_started"] = True
+                self._switch_to_driver()
                 continue
 
             if state == "calling":
-                logger.info("乘客端已呼叫车辆中。马上切换至司机端接单...")
-                self._launch_app(self.driver_pkg)
-                # 重构 Poco 以保证驱动层同步
-                self.poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
+                progress["order_started"] = True
+                self._switch_to_driver()
+                continue
+
+            if state == "trip_finished":
+                if progress.get("order_started"):
+                    pytest.fail("本次乘客订单已结束，但尚未确认司机端收款完成，停止重复下单")
+                logger.info("【阶段4-下单】关闭旧订单结束页，返回乘客首页")
+                self._click_first(texts=("点击回首页", "返回首页", "回到首页"), package=self.passenger_pkg)
+                sleep(3)
+                continue
+
+            # ── 阶段4.5: 司机端登录（如未登录则先登录） ──
+            if state == "driver_tourist_home":
+                logger.info("【司机端登录】司机端未登录，在游客首页，点击 '登录/注册' 进入登录页...")
+                login_btn = self.poco(f"{self.driver_pkg}:id/btn_login")
+                if login_btn.exists():
+                    login_btn.click()
+                else:
+                    login_btn = self.poco(text="登录/注册")
+                    if login_btn.exists():
+                        login_btn.click()
+                sleep(3)
+                continue
+
+            if state == "driver_login":
+                self._driver_login()
+                continue
+
+            if state == "driver_verify_code":
+                self._input_driver_code()
+                continue
+
+            if state == "driver_home":
+                if not self._request_drive_out():
+                    sleep(3)
+                continue
+
+            if state == "driver_popup":
+                self._click_first(ids=(f"{self.driver_pkg}:id/iv_cancel",))
                 sleep(2)
                 continue
 
-            # 处理司机端各弹窗与流程状态
+            # ── 司机端听单中 ──
+            if state == "driver_listening":
+                logger.info("【司机端听单】司机端正在听单，等待乘客下单...")
+                sleep(3)
+                continue
+
+            # ── 司机端接单弹窗 ──
+            if state == "driver_accept_order":
+                logger.info("【司机端接单】检测到接单弹窗，点击抢单/接单...")
+                btn = self.poco(text="抢单")
+                if not btn.exists():
+                    btn = self.poco(text="接单")
+                if btn.exists():
+                    btn.click()
+                    logger.info("已点击抢单/接单")
+                sleep(3)
+                continue
+
+            # ── 阶段5: 下单后续操作（司机端接单 → 到达 → 接乘客 → 行程 → 完单） ──
             if state == "driver_ok":
-                logger.info("司机端系统消息，点击 '好的' 关闭弹框...")
+                logger.info("【阶段5-后续操作】司机端系统消息，点击 '好的' 关闭弹框...")
                 ok_btn = self.poco(text="好的")
                 if ok_btn.exists():
                     ok_btn.click()
@@ -144,7 +355,7 @@ class TestJRYGOrderRide:
                 continue
 
             if state == "driver_known":
-                logger.info("司机端提示框，点击并关闭...")
+                logger.info("【阶段5-后续操作】司机端提示框，点击并关闭...")
                 btn = self.poco(text="我知道了")
                 if not btn.exists():
                     btn = self.poco(text="知道了")
@@ -154,7 +365,7 @@ class TestJRYGOrderRide:
                 continue
 
             if state == "driver_ready":
-                logger.info("点击 '准备出发' 前往乘客起点...")
+                logger.info("【阶段5-后续操作】点击 '准备出发' 前往乘客起点...")
                 btn = self.poco(text="准备出发")
                 if not btn.exists():
                     btn = self.poco(text="到达上车地点")
@@ -166,19 +377,19 @@ class TestJRYGOrderRide:
                 continue
 
             if state == "driver_at_pickup":
-                logger.info("司机已到达，滑动 '到达上车地点'...")
+                logger.info("【阶段5-后续操作】司机已到达，滑动 '到达上车地点'...")
                 self._slide_drag_view()
                 sleep(3)
                 continue
 
             if state == "driver_wait_passenger":
-                logger.info("司机已在起点等候，滑动 '已接到乘客'...")
+                logger.info("【阶段5-后续操作】司机已在起点等候，滑动 '已接到乘客'...")
                 self._slide_drag_view()
                 sleep(3)
                 continue
 
             if state == "driver_verify_phone":
-                logger.info(f"遇到安全尾号验证，对输入焦点执行 adb 键入手机尾号两位: {verify_tail}")
+                logger.info(f"【阶段5-后续操作】遇到安全尾号验证，键入手机尾号两位: {verify_tail}")
                 self.poco.click([0.5, 0.32])
                 sleep(1)
                 subprocess.run(["adb", "-s", self.udid, "shell", "input", "text", verify_tail])
@@ -186,176 +397,170 @@ class TestJRYGOrderRide:
                 continue
 
             if state == "driver_in_trip":
-                logger.info("行程正在进行中！司机端模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...")
+                progress["trip_started"] = True
+                logger.info("【阶段5-后续操作】行程进行中！模拟驾车 5 秒后，滑动 '到达目的地' 准备结算...")
                 sleep(5)
                 self._slide_drag_view()
                 sleep(3)
                 continue
 
             if state == "driver_bill":
-                logger.info("点击稍后查看以关闭遮挡弹窗，然后滑动 '发起收款'...")
+                logger.info("【阶段5-后续操作】点击稍后查看关闭遮挡弹窗，然后滑动 '发起收款'...")
                 btn_later = self.poco(text="稍后查看")
                 if btn_later.exists():
                     btn_later.click()
                     sleep(1)
-                self._slide_drag_view()
+                if self._slide_drag_view():
+                    progress["collection_submitted"] = True
                 sleep(3)
                 continue
 
             if state == "driver_fee_abnormal":
-                logger.info("系统检测到费用异常弹窗，点击 '拒绝' 以拒绝免单并继续正常收款...")
+                logger.info("【阶段5-后续操作】费用异常弹窗，点击 '拒绝' 继续正常收款...")
                 btn_refuse = self.poco(text="拒绝")
                 if btn_refuse.exists():
                     btn_refuse.click()
                 sleep(3)
                 continue
 
-            if state == "driver_bill_finished":
-                logger.info("【业务成功】司机端完单、发起收款，自动完成收车，全闭环操作通过！")
-                progress["flow_complete"] = True
-                break
+            if state == "driver_other":
+                logger.warning("未识别司机页面，等待刷新，不重启正在进行的订单")
 
             sleep(2)
 
-        # 切换到乘客端进行结算结果判定
-        logger.info("业务流转成功，立即切回乘客端核对完单结果账单...")
-        self._launch_app(self.passenger_pkg)
-        sleep(6)
-        
-        texts = self._get_all_texts()
-        joined = " ".join(texts)
-        assert "行程结束" in joined or "待支付" in joined or "元" in joined or "账单" in joined, "核对失败：乘客端未正确到达订单终期页面"
-        logger.info("【核对完毕】乘客端已完单并且自动计算折扣完毕")
+        assert progress.get("flow_complete"), (
+            f"司机端订单流程未结束，最后状态: {state}，进度: {progress}，"
+            f"页面: {self._get_top_activity_full()}，文本: {self._get_all_texts()}"
+        )
+        self._return_to_passenger_home()
+        logger.info("【流程完成】司机端订单已结束，乘客端已返回首页")
 
     # ==================== 底层操作函数封装 ====================
 
+    def _switch_to_driver(self):
+        logger.info("【双端衔接】乘客已进入呼叫页面，打开司机端接单，不停止乘客端")
+        self.adb.start_app(self.driver_pkg, SETTINGS["packages"]["driver_activity"])
+        for _ in range(15):
+            activity = self._get_top_activity_full().lower()
+            if self.driver_pkg in activity:
+                logger.info("【双端衔接】司机端已在前台，继续接单和各状态滑动")
+                return
+            if "permissioncontroller" in activity or "grantpermissions" in activity:
+                return
+            sleep(1)
+        raise RuntimeError(f"切换司机端失败，当前页面: {self._get_top_activity_full()}")
+
+    def _return_to_passenger_home(self):
+        logger.info("【乘客端收尾】切回乘客端，返回首页")
+        launch_command = [
+            "adb", "-s", self.udid, "shell", "am", "start", "-n",
+            f"{self.passenger_pkg}/{SETTINGS['packages']['passenger_activity']}"
+        ]
+        subprocess.run(launch_command, capture_output=True, text=True, timeout=15, check=True)
+        deadline = time.monotonic() + 60
+        back_attempts = 0
+        foreground_attempts = 0
+        while time.monotonic() < deadline:
+            activity = self._get_top_activity_full().lower()
+            if any(name in activity for name in ("blockcanary", "leakcanary", "displayactivity")):
+                logger.info("【乘客端收尾】关闭卡顿监控页面")
+                keyevent("BACK")
+                sleep(2)
+                continue
+            if self.passenger_pkg not in activity:
+                if foreground_attempts < 2:
+                    logger.info("【乘客端收尾】返回键后离开乘客端，重新唤起乘客端")
+                    subprocess.run(launch_command, capture_output=True, text=True, timeout=15, check=True)
+                    foreground_attempts += 1
+                sleep(2)
+                continue
+
+            cancel_btn = self.poco(f"{self.passenger_pkg}:id/iv_cancel")
+            if cancel_btn.exists():
+                cancel_btn.click()
+                sleep(2)
+                continue
+
+            for text in ("点击回首页", "返回首页", "回到首页"):
+                button = self.poco(text=text, package=self.passenger_pkg)
+                if not button.exists():
+                    button = self.poco(desc=text, package=self.passenger_pkg)
+                if button.exists():
+                    logger.info("【乘客端收尾】点击 '%s'", text)
+                    button.click()
+                    sleep(2)
+                    break
+            else:
+                home_visible = (
+                    self.poco(f"{self.passenger_pkg}:id/ll_start").exists()
+                    or self.poco(f"{self.passenger_pkg}:id/rl_destination_layout").exists()
+                )
+                if "ygahomeactivity" in activity and home_visible:
+                    logger.info("【乘客端收尾】已确认乘客首页显示")
+                    return
+                texts = " ".join(self._get_all_texts())
+                if back_attempts < 3 and any(
+                    text in texts for text in ("行程结束", "订单已完成", "待支付", "评价本次行程")
+                ):
+                    logger.info("【乘客端收尾】结束页无回首页按钮，按返回键")
+                    keyevent("BACK")
+                    back_attempts += 1
+                sleep(2)
+
+        pytest.fail(
+            f"司机端已完单，但乘客端60秒内未返回首页；"
+            f"页面: {self._get_top_activity_full()}，文本: {self._get_all_texts()}"
+        )
+
     def _detect_state(self):
-        activity = self._get_top_activity().lower()
-        
+        activity = self._get_top_activity_full().lower()
         if "launcher" in activity:
             return "launcher"
-        if "blockcanary" in activity or "displayactivity" in activity or "leakcanary" in activity:
+        if any(name in activity for name in ("blockcanary", "displayactivity", "leakcanary")):
             return "blockcanary"
+        if "permissioncontroller" in activity or "grantpermissions" in activity:
+            return "permission_dialog"
 
-        # 1. 快速匹配 (极速的 exists 校验，无延迟且不消耗 RPC 请求)
-        if "com.jryg.driver" in activity:
-            if self.poco(text="拒绝").exists() and self.poco(text="同意").exists():
-                return "driver_fee_abnormal"
-            if self.poco(text="好的").exists():
-                return "driver_ok"
-            if self.poco(text="我知道了").exists() or self.poco(text="知道了").exists():
-                return "driver_known"
-            if self.poco(text="准备出发").exists() or self.poco(text="出发").exists():
-                return "driver_ready"
-            if self.poco(text="到达上车地点").exists():
-                return "driver_at_pickup"
-            if self.poco(text="已接到乘客").exists():
-                return "driver_wait_passenger"
-            if self.poco(textMatches=".*验证.*").exists() or self.poco(textMatches=".*后两位.*").exists():
-                return "driver_verify_phone"
-            if self.poco(text="到达目的地").exists() or self.poco(textMatches=".*送乘客.*").exists():
-                return "driver_in_trip"
-            if self.poco(text="未确认账单").exists() or self.poco(text="发起收款").exists():
-                return "driver_bill"
-            if self.poco(text="今日营收").exists() or self.poco(text="听单检测").exists():
-                return "driver_bill_finished"
-        else:
-            if self.poco(f"{self.passenger_pkg}:id/iv_cancel").exists():
-                return "ad"
-            if "addresssearch" in activity:
-                return "search"
-            if "immediateorderprocess" in activity:
-                if self.poco(text="点击回首页").exists() or self.poco(text="行程结束").exists() or self.poco(textMatches=".*行程结束.*").exists():
-                    return "trip_finished"
-                return "calling"
-            if self.poco(text="确认支付并呼叫").exists() or self.poco(text="先付后乘").exists() or self.poco(text="先付费后乘车").exists():
-                return "cashier"
-            if self.poco(text="确认呼叫").exists() or self.poco(text="阳光优选").exists():
-                return "quote"
-            if "ygahomeactivity" in activity:
-                return "home"
-
-        # 2. 兜底匹配 (获取所有文本进行多条件复合判定)
-        texts = self._get_all_texts()
+        package = self.driver_pkg if self.driver_pkg in activity else self.passenger_pkg
+        texts, names = self._page_content(package)
         joined = " ".join(texts)
-
-        # 司机端应用内状态
-        if "com.jryg.driver" in activity:
-            if "拒绝" in texts and "同意" in texts:
-                return "driver_fee_abnormal"
-            if "好的" in texts:
-                return "driver_ok"
-            if "我知道了" in texts or "知道了" in texts:
-                return "driver_known"
-            if "准备出发" in texts or "出发" in texts:
-                return "driver_ready"
-            if "到达上车地点" in texts:
-                return "driver_at_pickup"
-            if "已接到乘客" in texts:
-                return "driver_wait_passenger"
-            if "验证身份" in texts or "tv_verify_phone_title" in joined or "后两位" in joined:
-                return "driver_verify_phone"
-            if "到达目的地" in texts or "送乘客" in texts:
-                return "driver_in_trip"
-            if "未确认账单" in texts or "tv_title" in joined or "发起收款" in texts:
-                return "driver_bill"
-            if "今日营收" in texts or "听单检测" in texts:
-                return "driver_bill_finished"
-            return "driver_other"
-
-        # 乘客端应用内状态
-        if self.poco(f"{self.passenger_pkg}:id/iv_cancel").exists():
+        if "同意" in texts and ("ygaloadingactivity" in activity or (
+            "不同意" in texts and any(text in joined for text in ("隐私", "协议", "个人信息"))
+        )):
+            return "privacy_agreement"
+        driver_state = self._driver_state(activity, texts, names)
+        if driver_state:
+            return driver_state
+        if self.passenger_pkg not in activity:
+            return "unknown"
+        if "login" in activity:
+            return "login"
+        cashier_ids = {f"{self.passenger_pkg}:id/cashier_title", f"{self.passenger_pkg}:id/btn_confirm"}
+        if cashier_ids <= names or texts & {"确认支付并呼叫", "先付后乘", "先付费后乘车"}:
+            return "cashier"
+        if f"{self.passenger_pkg}:id/iv_cancel" in names:
             return "ad"
         if "addresssearch" in activity:
             return "search"
+        if any(text in joined for text in ("呼叫超时", "已自动取消订单", "订单已取消")):
+            return "order_failed"
+        if texts & {"点击回首页", "返回首页", "回到首页", "行程结束", "订单已完成"}:
+            return "trip_finished"
         if "immediateorderprocess" in activity or "正在为您呼叫" in joined:
-            if "点击回首页" in joined or "行程结束" in joined:
-                return "trip_finished"
             return "calling"
-        if "确认支付并呼叫" in joined or "先付后乘" in joined:
-            return "cashier"
-        if "阳光优选" in joined or "确认呼叫" in joined:
+        if texts & {"确认呼叫", "阳光优选"}:
             return "quote"
         if "ygahomeactivity" in activity:
             return "home"
-            
         return "unknown"
 
-    def _get_top_activity(self):
-        res = subprocess.run(
-            ["adb", "-s", self.udid, "shell", "dumpsys", "activity", "activities"],
-            capture_output=True, text=True, timeout=10
-        )
-        for line in res.stdout.split("\n"):
-            if "topResumedActivity" in line:
-                return line.strip()
-        return "unknown"
-
-    def _launch_app(self, package):
-        subprocess.run(["adb", "-s", self.udid, "shell", "am", "force-stop", package], capture_output=True)
-        sleep(1)
-        subprocess.run(["adb", "-s", self.udid, "shell", "monkey", "-p", package, "-c", "android.intent.category.LAUNCHER", "1"], capture_output=True)
+    def _launch_app(self, package, force_stop_other=True):
+        if force_stop_other:
+            other = self.driver_pkg if package == self.passenger_pkg else self.passenger_pkg
+            self.adb.force_stop(other)
+        self.adb.force_stop(package)
+        self.adb.run_cmd(["monkey", "-p", package, "-c", "android.intent.category.LAUNCHER", "1"])
         sleep(6)
-
-    def _handle_blockcanary(self):
-        try:
-            subprocess.run(["adb", "-s", self.udid, "shell", "input", "tap", "586", "2670"], capture_output=True)
-        except Exception:
-            pass
-
-    def _get_all_texts(self):
-        texts = []
-        try:
-            for el in self.poco(type="android.widget.TextView"):
-                try:
-                    t = el.get_text()
-                    if t and t.strip():
-                        texts.append(t)
-                except Exception:
-                    pass
-        except Exception:
-            pass
-        return texts
 
     def _search_and_select(self, keyword):
         et = self.poco(f"{self.passenger_pkg}:id/et_search")
@@ -365,14 +570,32 @@ class TestJRYGOrderRide:
         sleep(0.5)
         et.set_text(keyword)
         sleep(3)
-        
+
+        # 尝试多种方式选中搜索结果
+        # 方式1: 通过 rl_parent 容器点击第一条结果
         parent = self.poco(f"{self.passenger_pkg}:id/rl_parent")
         if parent.exists():
             parent[0].click()
-        else:
-            result = self.poco(textMatches=f".*{keyword[:3]}.*")
-            if result.exists():
-                result[0].click()
+            return True
+
+        # 方式2: 通过文本模糊匹配
+        result = self.poco(textMatches=f".*{keyword[:3]}.*")
+        if result.exists():
+            result[0].click()
+            return True
+
+        # 方式3: 通过 rv/list 容器的第一个子项点击
+        for rid in ["rv_search_result", "rv_address", "list_view", "recyclerView"]:
+            container = self.poco(f"{self.passenger_pkg}:id/{rid}")
+            if container.exists():
+                try:
+                    container.offspring(type="android.widget.RelativeLayout")[0].click()
+                    return True
+                except Exception:
+                    pass
+
+        logger.warning(f"搜索结果选中失败，关键词: {keyword}")
+        return False
 
     def _handle_quote(self):
         car_names = self.poco(f"{self.passenger_pkg}:id/tv_car_type_name")
@@ -392,23 +615,74 @@ class TestJRYGOrderRide:
             btn.click()
         sleep(4)
 
+    def _wechat_payment_controls(self):
+        wechat = self.poco(f"{self.passenger_pkg}:id/pay_title", text="微信支付")
+        if not wechat.exists():
+            raise RuntimeError("收银台未找到微信支付选项")
+        row = wechat.parent().parent()
+        if row.attr("name") != f"{self.passenger_pkg}:id/pay_root":
+            raise RuntimeError("微信支付选项的容器结构不匹配，停止支付操作")
+        checkbox = row.offspring(f"{self.passenger_pkg}:id/pay_cb")
+        if not checkbox.exists():
+            raise RuntimeError("微信支付选项未找到对应勾选框")
+        return row, checkbox
+
     def _handle_cashier(self):
-        pay_first = self.poco(text="先付后乘")
-        if not pay_first.exists():
-            pay_first = self.poco(text="先付费后乘车")
-        if pay_first.exists():
-            pay_first.click()
-            sleep(2)
-        wechat = self.poco(text="微信支付")
-        if wechat.exists():
-            wechat.click()
-            sleep(2)
-        btn = self.poco(text="确认支付并呼叫")
-        if not btn.exists():
-            btn = self.poco(text="确认呼叫")
-        if btn.exists():
-            btn.click()
-        sleep(5)
+        if getattr(self, "_cashier_submitted", False):
+            raise RuntimeError("已点击确认支付并呼叫，禁止重复提交，请检查支付结果")
+        if self._detect_state() != "cashier":
+            raise RuntimeError("当前不是乘客收银台，停止支付操作")
+
+        wechat = self.poco(f"{self.passenger_pkg}:id/pay_title", text="微信支付")
+        if not wechat.exists():
+            self._click_first(texts=("先付后乘",))
+            for _ in range(10):
+                if wechat.exists():
+                    break
+                sleep(1)
+        if not wechat.exists():
+            raise RuntimeError(f"收银台未找到微信支付选项: {self._get_all_texts()}")
+
+        row, checkbox = self._wechat_payment_controls()
+        selected = checkbox.attr("checked") is True
+        if not selected:
+            logger.info("【收银台】点击微信支付所在行，勾选微信支付")
+            row.parent().click()
+            for attempt in range(10):
+                sleep(1)
+                _, checkbox = self._wechat_payment_controls()
+                selected = checkbox.attr("checked") is True
+                logger.info("【收银台】重新定位微信支付，第%d次校验 checked=%s", attempt + 1, selected)
+                if selected:
+                    break
+        if not selected:
+            logger.error("【收银台】刷新节点后微信支付仍未勾选，未点击确认支付并呼叫")
+            raise RuntimeError("点击后微信支付仍未勾选，禁止提交支付")
+        logger.info("【收银台】已确认微信支付勾选状态: checked=True")
+
+        button = self.poco(f"{self.passenger_pkg}:id/btn_confirm", text="确认支付并呼叫")
+        if not button.exists():
+            raise RuntimeError("收银台未找到确认支付并呼叫按钮")
+        if not button.attr("enabled"):
+            raise RuntimeError("确认支付并呼叫按钮不可用，停止提交")
+        self._cashier_submitted = True
+        button.click()
+        logger.info("【收银台】已点击确认支付并呼叫，等待呼叫结果")
+        for _ in range(15):
+            sleep(1)
+            state = self._detect_state()
+            if state == "calling":
+                logger.info("【收银台】确认支付并呼叫后已进入乘客呼叫页面")
+                return True
+            if state == "order_failed":
+                raise RuntimeError(f"提交后呼叫失败: {self._get_all_texts()}")
+            activity = self._get_top_activity_full()
+            if "com.tencent.mm/" in activity:
+                raise RuntimeError("已提交并跳转微信支付，尚未完成外部支付，不重复点击或切换司机端")
+        raise RuntimeError(
+            f"确认支付并呼叫后15秒内未进入呼叫页面，不重复提交；"
+            f"Activity: {self._get_top_activity_full()}；文本: {self._get_all_texts()}"
+        )
 
     def _slide_drag_view(self):
         drag_view = self.poco("com.jryg.driver:id/ll_drag_view")
@@ -420,3 +694,6 @@ class TestJRYGOrderRide:
             y = pos[1]
             self.poco.swipe([x_start, y], [x_end, y], duration=1.5)
             logger.info("横向滑块滑动指令执行完成")
+            return True
+        logger.warning("当前页面未找到司机端滑块，未执行滑动")
+        return False

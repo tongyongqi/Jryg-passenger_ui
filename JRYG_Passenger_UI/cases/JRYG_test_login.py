@@ -1,16 +1,15 @@
-import pytest
+import json
 import time
 import os
 import sys
 
-# 添加测试框架根目录及原脚本目录到 sys.path，保证 Appium 辅助类能被正常调用
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PARENT_DIR = os.path.dirname(BASE_DIR)
-sys.path.append(BASE_DIR)
-sys.path.append(PARENT_DIR)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
+from selenium.common.exceptions import TimeoutException
 from JRYG_Passenger_UI.common.JRYG_logger import logger
-from JRYG_Passenger_UI.common.JRYG_config import SETTINGS
+from JRYG_Passenger_UI.common.JRYG_config import SETTINGS, TEST_DATA_FILE
 from JRYG_Passenger_UI.common.JRYG_connect_device import AndroidDevice
 
 class TestJRYGLogin:
@@ -29,9 +28,6 @@ class TestJRYGLogin:
 
     def test_passenger_login(self):
         """测试：验证输入手机号、获取验证码并完成自动登录流程"""
-        from JRYG_Passenger_UI.common.JRYG_config import TEST_DATA_FILE
-        import json
-        
         with open(TEST_DATA_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
             
@@ -64,7 +60,7 @@ class TestJRYGLogin:
             agree_btn = self.device.find_element(self.device.by_text("同意并继续"), timeout=3)
             agree_btn.click()
             time.sleep(1)
-        except Exception:
+        except TimeoutException:
             pass
             
         # 4. 寻找并输入 6 位快捷登录短信验证码
@@ -77,6 +73,7 @@ class TestJRYGLogin:
         # 5. 点击提交“登录”
         btn_login = self.device.find_element(self.device.by_text("登录"))
         btn_login.click()
-        time.sleep(5)
-        
-        logger.info("JRYG 乘客端登录流程步骤执行全部通过")
+        assert self.device.is_element_present(
+            self.device.by_id(f"{pkg}:id/ll_start"), timeout=15
+        ), "提交登录后未进入乘客首页"
+        logger.info("JRYG 乘客端登录后首页验证通过")
