@@ -1,0 +1,21 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{9272412 u0 com.jryg.client/com.android.jryghq.usercenter.personal.privatemanager.PrivateManagerActivity t540 d0}",
+  "texts": [
+    "如您撤回协议，将无法体验阳光出行的全部功能",
+    "我再想想",
+    "确定要撤回协议吗？",
+    "确认撤回"
+  ],
+  "events": [
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_revoke_setting",
+      "package": "com.jryg.client"
+    }
+  ]
+}

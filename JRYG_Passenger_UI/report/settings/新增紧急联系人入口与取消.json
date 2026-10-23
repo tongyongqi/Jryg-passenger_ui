@@ -1,0 +1,33 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{8e0a533 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}",
+  "texts": [
+    "删除",
+    "左滑删除紧急联系人",
+    "我是一(186****1725)",
+    "新增紧急联系人",
+    "添加紧急联系人",
+    "添加紧急联系人后，当您开启自动分享行程或者使用一键报警求助功能，行程信息会通过短信自动分享给紧急联系人",
+    "自动分享行程",
+    "西直门(186****1727)",
+    "西直门外的(186****1242)",
+    ""
+  ],
+  "events": [
+    {
+      "action": "click",
+      "target": "rl_contract",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "assert_document_body",
+      "terms": [
+        "紧急联系人"
+      ]
+    },
+    {
+      "action": "click",
+      "target": "新增紧急联系人",
+      "package": "com.jryg.client"
+    }
+  ]
+}

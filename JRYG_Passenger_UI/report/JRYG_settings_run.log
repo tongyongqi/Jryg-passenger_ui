@@ -1,0 +1,199 @@
+..F...F....F..........FFFFFFFFFFFF..F.......FF                           [100%]
+=================================== FAILURES ===================================
+_ TestJRYGSettings.test_settings_function[\u65b0\u589e\u7d27\u6025\u8054\u7cfb\u4eba\u5165\u53e3\u4e0e\u53d6\u6d88] _
+AssertionError: 新增联系人表单或数量上限提示超时；页面=topResumedActivity=ActivityRecord{8e0a533 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=删除 | 左滑删除紧急联系人 | 我是一(186****1725) | 新增紧急联系人 | 添加紧急联系人 | 添加紧急联系人后，当您开启自动分享行程或者使用一键报警求助功能，行程信息会通过短信自动分享给紧急联系人 | 自动分享行程 | 西直门(186****1727) | 西直门外的(186****1242) | 
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:24:19,370 - JRYG_Auto - INFO - 【设置验证】点击 rl_contract
+2026-10-22 20:24:22,289 - JRYG_Auto - INFO - 【设置验证】点击 新增紧急联系人
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_contract
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 新增紧急联系人
+_ TestJRYGSettings.test_settings_function[\u652f\u4ed8\u65b9\u5f0f\u5217\u8868] _
+AssertionError: 支付开通按钮禁用: [{'channel': '微信支付分', 'label': '去开通', 'enabled': False}, {'channel': '芝麻先享', 'label': '去开通', 'enabled': False}, {'channel': '抖音', 'label': '去开通', 'enabled': False}]
+assert False
+ +  where False = all(<generator object TestJRYGSettings.check_payments.<locals>.<genexpr> at 0x11a5ff900>)
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:25:22,929 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_pay
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_frequent_pay
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae\u89c4\u5219\u76ee\u5f55] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{df83640 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:25:55,345 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:26:34,390 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:26:36,995 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u7528\u6237\u534f\u8bae] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{59254a3 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | 
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:30:48,251 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:31:26,801 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:31:28,689 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u4e2a\u4eba\u4fe1\u606f\u4fdd\u62a4\u53ca\u9690\u79c1\u653f\u7b56] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{8e0c37d u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:32:09,360 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:32:47,463 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:32:49,807 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u5f55\u97f3\u5904\u7406\u534f\u8bae] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{fe3754f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | 
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:33:31,653 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:34:10,316 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:34:12,840 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u81ea\u52a8\u9a7e\u9a76\u4fe1\u606f\u670d\u52a1\u534f\u8bae] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{bd091b6 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:34:54,029 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:35:32,522 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:35:35,365 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u5c0f\u9a6c\u667a\u884c\u7528\u6237\u670d\u52a1\u534f\u8bae] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{12888ba u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | 
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:36:16,765 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:36:54,702 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:36:56,844 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u5c0f\u9a6c\u667a\u884c\u9690\u79c1\u534f\u8bae] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{3c99344 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | 
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:37:37,626 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:38:16,014 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:38:19,428 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u81ea\u52a8\u9a7e\u9a76\u4fe1\u606f\u670d\u52a1\u9690\u79c1\u653f\u7b56] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{1f18d05 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | 
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:39:00,645 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:39:38,830 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:39:41,355 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u9633\u4ed4\u667a\u80fd\u5bf9\u8bdd\u52a9\u624b\u670d\u52a1] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{ea4a96f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:40:22,708 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:41:00,666 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:41:03,567 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u8ba1\u4ef7\u89c4\u5219] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{f10a10a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | 
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:41:44,227 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:42:21,916 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:42:24,476 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u51c6\u5165\u89c4\u5219] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{363e35a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:43:05,973 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:43:44,462 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:43:47,660 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u5224\u8d23\u89c4\u5219] _
+AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{a74c948 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=判责规则 | 小马智行用户服务协议 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 用户协议 | 自动驾驶信息服务协议 | 自动驾驶信息服务隐私政策 | 调价公示
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:44:29,133 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:45:07,146 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-22 20:45:09,426 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+WARNING  JRYG_Auto:JRYG_settings_flow.py:164 只读页面首次加载超时，重新进入一次: 平台协议目录
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+_ TestJRYGSettings.test_settings_function[\u5e73\u53f0\u534f\u8bae-\u8c03\u4ef7\u516c\u793a] _
+AssertionError: 调价公示离开协议目录超时；页面=topResumedActivity=ActivityRecord{195a8a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=准入规则 | 判责规则 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 用户协议 | 自动驾驶信息服务协议 | 自动驾驶信息服务隐私政策 | 计价规则 | 调价公示 | 阳仔智能对话助手服务 | 
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:45:51,825 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:45:55,658 - JRYG_Auto - INFO - 【设置验证】点击 调价公示
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 调价公示
+_ TestJRYGSettings.test_settings_function[\u8ba1\u4ef7\u89c4\u5219-\u9633\u5149\u8212\u4eab] _
+AssertionError: 文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{c853ec8 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=计价规则 | 
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:47:52,562 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-22 20:47:55,599 - JRYG_Auto - INFO - 【设置验证】点击 计价规则
+2026-10-22 20:47:58,353 - JRYG_Auto - INFO - 【设置验证】点击 阳光舒享
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_doc
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 计价规则
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 阳光舒享
+_ TestJRYGSettings.test_settings_function[\u6e05\u9664\u7f13\u5b58\u53d6\u6d88] _
+AssertionError: 等待文本 ('清除缓存', '取消', '确认')超时；页面=topResumedActivity=ActivityRecord{bd45d68 u0 com.jryg.client/com.android.jryghq.usercenter.my.YGUMoreActivity t540 d0}；文本=0.0M | ICP备案信息查询地址：https://beian.miit.gov.cn | v5.29.0 | 个人信息收集清单 | 京ICP备12020916号-4A | 常用地址 | 平台协议与规则 | 支付方式 | 永久注销账号 | 注销账号后将无法恢复 | 测试中心 | 消息通知管理 | 清除缓存 | 版本信息 | 第三方信息共享清单 | 紧急联系人 | 设置 | 退出登录 | 隐私中心
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:51:23,281 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_clean
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_clean
+_ TestJRYGSettings.test_settings_function[\u6e05\u9664\u7f13\u5b58\u786e\u8ba4\u4e0e\u767b\u5f55\u6001\u4fdd\u7559] _
+AssertionError: 等待文本 ('清除缓存', '取消', '确认')超时；页面=topResumedActivity=ActivityRecord{bd45d68 u0 com.jryg.client/com.android.jryghq.usercenter.my.YGUMoreActivity t540 d0}；文本=0.0M | ICP备案信息查询地址：https://beian.miit.gov.cn | v5.29.0 | 个人信息收集清单 | 京ICP备12020916号-4A | 常用地址 | 平台协议与规则 | 支付方式 | 永久注销账号 | 注销账号后将无法恢复 | 测试中心 | 消息通知管理 | 清除缓存 | 版本信息 | 第三方信息共享清单 | 紧急联系人 | 设置 | 退出登录 | 隐私中心
+----------------------------- Captured stderr call -----------------------------
+2026-10-22 20:51:53,383 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_clean
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_Auto:JRYG_settings_flow.py:99 【设置验证】点击 rl_more_clean
+=============================== warnings summary ===============================
+../../Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35
+  /Users/tongyongqi/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+../../../../Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/site-packages/past/builtins/misc.py:45
+  /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/site-packages/past/builtins/misc.py:45: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    from imp import reload
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/report/JRYG_settings_report.html -
+=========================== short test summary info ============================
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u65b0\u589e\u7d27\u6025\u8054\u7cfb\u4eba\u5165\u53e3\u4e0e\u53d6\u6d88]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u652f\u4ed8\u65b9\u5f0f\u5217\u8868]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae\u89c4\u5219\u76ee\u5f55]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u7528\u6237\u534f\u8bae]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u4e2a\u4eba\u4fe1\u606f\u4fdd\u62a4\u53ca\u9690\u79c1\u653f\u7b56]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u5f55\u97f3\u5904\u7406\u534f\u8bae]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u81ea\u52a8\u9a7e\u9a76\u4fe1\u606f\u670d\u52a1\u534f\u8bae]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u5c0f\u9a6c\u667a\u884c\u7528\u6237\u670d\u52a1\u534f\u8bae]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u5c0f\u9a6c\u667a\u884c\u9690\u79c1\u534f\u8bae]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u81ea\u52a8\u9a7e\u9a76\u4fe1\u606f\u670d\u52a1\u9690\u79c1\u653f\u7b56]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u9633\u4ed4\u667a\u80fd\u5bf9\u8bdd\u52a9\u624b\u670d\u52a1]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u8ba1\u4ef7\u89c4\u5219]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u51c6\u5165\u89c4\u5219]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u5224\u8d23\u89c4\u5219]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u5e73\u53f0\u534f\u8bae-\u8c03\u4ef7\u516c\u793a]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u8ba1\u4ef7\u89c4\u5219-\u9633\u5149\u8212\u4eab]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u6e05\u9664\u7f13\u5b58\u53d6\u6d88]
+FAILED JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\u6e05\u9664\u7f13\u5b58\u786e\u8ba4\u4e0e\u767b\u5f55\u6001\u4fdd\u7559]
+18 failed, 28 passed, 2 warnings in 1703.58s (0:28:23)

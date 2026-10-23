@@ -50,14 +50,6 @@ def load_around_captures():
         return json.load(f)
 
 
-def clear_captures():
-    """清空捕获文件，供测试初始化使用"""
-    for filepath in [PLACE_CAPTURE_FILE, AROUND_CAPTURE_FILE]:
-        os.makedirs(os.path.dirname(filepath), exist_ok=True)
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump([], f)
-
-
 def _parse_response_body(entry):
     """解析响应 body（JSON 字符串 → dict）"""
     resp = entry.get("response")
@@ -75,14 +67,6 @@ def _parse_response_body(entry):
 def _get_first_place_entry():
     """获取第一条 place 捕获记录"""
     entries = load_place_captures()
-    if not entries:
-        return None
-    return entries[-1]
-
-
-def _get_first_around_entry():
-    """获取第一条 around 捕获记录"""
-    entries = load_around_captures()
     if not entries:
         return None
     return entries[-1]
@@ -125,19 +109,6 @@ def _is_english(text):
         return False
     ascii_letters = [c for c in letters if ord(c) < 128]
     return len(ascii_letters) / len(letters) > 0.7
-
-
-def _is_simplified_chinese(text):
-    """判断文本是否为简体中文"""
-    if not text:
-        return False
-    if _is_english(text):
-        return False
-    if _is_traditional_chinese(text):
-        return False
-    # 有 CJK 字符但不是繁体也不是英文，认为是简体
-    has_cjk = any('\u4e00' <= c <= '\u9fff' for c in text)
-    return has_cjk
 
 
 # ============ 验证方法 ============

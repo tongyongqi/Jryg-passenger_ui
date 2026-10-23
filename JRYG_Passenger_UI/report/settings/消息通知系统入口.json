@@ -1,0 +1,16 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{235346c u0 com.vivo.systemuiplugin/com.vivo.systemui.statusbar.notification.settings.channels.NotificationSettingsActivity t540 d0}",
+  "texts": [],
+  "events": [
+    {
+      "action": "click",
+      "target": "rl_notify_manage",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "notify_status",
+      "package": "com.jryg.client"
+    }
+  ]
+}

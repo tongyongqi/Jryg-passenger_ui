@@ -1,0 +1,23 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{8e0c37d u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}",
+  "texts": [
+    "平台协议与规则"
+  ],
+  "events": [
+    {
+      "action": "click",
+      "target": "rl_more_doc",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "retry_read_only_page",
+      "target": "平台协议目录",
+      "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{58108b1 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则"
+    },
+    {
+      "action": "click",
+      "target": "rl_more_doc",
+      "package": "com.jryg.client"
+    }
+  ]
+}

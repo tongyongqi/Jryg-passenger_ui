@@ -110,8 +110,3 @@ def _flush_to(capture_list, capture_file):
     os.makedirs(os.path.dirname(capture_file), exist_ok=True)
     with open(capture_file, "w", encoding="utf-8") as f:
         json.dump(capture_list, f, ensure_ascii=False, indent=2)
-
-
-# 兼容旧接口
-def _flush():
-    _flush_to(_captured_requests, POI_CAPTURE_FILE)

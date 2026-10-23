@@ -11,7 +11,11 @@ from JRYG_Passenger_UI.common.JRYG_dir_init import init_all_dirs
 from JRYG_Passenger_UI.common.JRYG_config import REPORT_DIR
 
 def run_tests(extra_args=None):
-    """JRYG UI 自动化测试执行引擎入口，自动生成测试报告"""
+    """JRYG UI 自动化测试执行引擎入口，自动生成测试报告。
+
+    :param extra_args: 可选的 pytest 命令行参数列表，格式为 list[str]，
+                       例如 ['-k', 'test_login'] 用于筛选用例，默认为 None 即执行全部用例。
+    """
     print("\n" + "="*50)
     print("      JRYG 阳光出行测试执行引擎 (Start)")
     print("="*50)

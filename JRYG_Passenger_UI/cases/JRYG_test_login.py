@@ -13,16 +13,22 @@ from JRYG_Passenger_UI.common.JRYG_config import SETTINGS, TEST_DATA_FILE
 from JRYG_Passenger_UI.common.JRYG_connect_device import AndroidDevice
 
 class TestJRYGLogin:
-    """阳光出行乘客端登录相关测试用例类"""
+    """阳光出行乘客端登录相关测试用例类。
+
+    前置条件：设备已连接、Appium Server 已启动、测试数据 JSON 中包含 phone_number 和 verify_code。
+    预期结果：乘客端完成手机号 + 验证码登录后进入首页。
+    """
     
     @classmethod
     def setup_class(cls):
+        """类级 setup：创建 AndroidDevice 并连接 Appium Server。"""
         cls.device = AndroidDevice()
         cls.driver = cls.device.connect()
         logger.info("【乘客端】Appium Session 已创建，开始执行登录测试")
 
     @classmethod
     def teardown_class(cls):
+        """类级 teardown：断开 Appium Session，释放设备连接。"""
         cls.device.disconnect()
         logger.info("【乘客端】登录测试流程运行完毕，Session 已安全断开")
 

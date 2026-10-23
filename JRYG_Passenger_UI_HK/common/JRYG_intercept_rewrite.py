@@ -44,8 +44,7 @@ mitmproxy 插件：手动操作 App 触发请求后，抓包并篡改服务端�
 
 import json
 import time
-import copy
-from mitmproxy import http, ctx
+from mitmproxy import http
 
 
 # ============================================================================
@@ -250,7 +249,6 @@ def response(flow: http.HTTPFlow) -> None:
 
     try:
         resp_data = json.loads(raw)
-        original_data = copy.deepcopy(resp_data)  # 保留原始数据用于对比
 
         # 执行所有篡改动作
         changes = []
@@ -296,12 +294,12 @@ def response(flow: http.HTTPFlow) -> None:
                     modified_json = json.dumps(resp_data, ensure_ascii=False).encode("utf-8")
                     flow.response.headers["Content-Type"] = "application/json; charset=utf-8"
                     flow.response.content = modified_json
-                    print(f"[兜底篡改完成]")
+                    print("[兜底篡改完成]")
                     print(f"[新响应体] {modified_json.decode('utf-8')[:2000]}")
                 else:
-                    print(f"[无篡改] 配置中的字段均未命中，且 data 下无 list 字段")
+                    print("[无篡改] 配置中的字段均未命中，且 data 下无 list 字段")
             else:
-                print(f"[无篡改] 配置中的字段均未命中")
+                print("[无篡改] 配置中的字段均未命中")
 
     except json.JSONDecodeError as e:
         print(f"[JSON解析失败] {e}，响应原样返回")

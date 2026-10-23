@@ -1,5 +1,4 @@
 import subprocess
-import time
 from JRYG_Passenger_UI.common.JRYG_logger import logger
 from JRYG_Passenger_UI.common.JRYG_config import SETTINGS
 
@@ -34,19 +33,6 @@ class JRYG_ADBTools:
         """根据包名与核心入口 Activity 启动 App"""
         logger.info(f"拉起 Android App: {package}/{activity}")
         self.run_cmd(["am", "start", "-n", f"{package}/{activity}"])
-
-    def tap(self, x, y):
-        """通过物理像素坐标执行点击"""
-        logger.info(f"坐标点击操作: ({x}, {y})")
-        self.run_cmd(["input", "tap", str(x), str(y)])
-
-    def input_text(self, text):
-        """通过第三方剪贴板工具安全键入字符串文本（规避原生 adb 输入中文乱码）"""
-        escaped = text.replace("'", "'\\''")
-        self.run_cmd(["am", "broadcast", "-a", "clipper.set", "-e", "text", f"'{escaped}'"])
-        time.sleep(0.5)
-        self.run_cmd(["input", "keyevent", "KEYCODE_PASTE"])
-        logger.info(f"剪贴板文本写入: {text}")
 
     def press_key(self, keycode):
         """触发特定的物理按键值事件"""

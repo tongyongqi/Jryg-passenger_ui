@@ -42,6 +42,14 @@ class TestJRYGOrderRide(DriverFlowMixin):
         self._run_ride_flow()
 
     def _run_ride_flow(self, progress=None):
+        """执行完整行程流程的状态机循环。
+
+        遍历 打开app → 授权 → 登录 → 下单 → 下单后续操作 各阶段，
+        通过 _detect_state 检测当前页面状态并路由到对应处理逻辑，
+        直到行程完成或订单失败时退出循环。
+
+        :param progress: 可选的进度字典，用于跨阶段传递已完成步骤标记。
+        """
         start_addr = self.test_data["start_address"]
         dest_addr = self.test_data["dest_address"]
         verify_tail = self.test_data["verify_tail"]
@@ -513,6 +521,10 @@ class TestJRYGOrderRide(DriverFlowMixin):
         )
 
     def _detect_state(self):
+        """检测当前页面状态，返回状态字符串（如 launcher/login/quote/calling/cashier 等）。
+
+        通过判断 top activity 名称和页面文本内容，区分乘客端和司机端的不同业务阶段。
+        """
         activity = self._get_top_activity_full().lower()
         if "launcher" in activity:
             return "launcher"
@@ -555,6 +567,7 @@ class TestJRYGOrderRide(DriverFlowMixin):
         return "unknown"
 
     def _launch_app(self, package, force_stop_other=True):
+        """启动指定 App，可选先强杀另一端 App 以避免干扰。"""
         if force_stop_other:
             other = self.driver_pkg if package == self.passenger_pkg else self.passenger_pkg
             self.adb.force_stop(other)
@@ -563,6 +576,10 @@ class TestJRYGOrderRide(DriverFlowMixin):
         sleep(6)
 
     def _search_and_select(self, keyword):
+        """在地址搜索页输入关键词并选中第一条搜索结果。
+
+        尝试多种定位策略（rl_parent 容器、文本模糊匹配、RecyclerView 子项）。
+        """
         et = self.poco(f"{self.passenger_pkg}:id/et_search")
         if not et.exists():
             et = self.poco(type="android.widget.EditText")
@@ -598,6 +615,7 @@ class TestJRYGOrderRide(DriverFlowMixin):
         return False
 
     def _handle_quote(self):
+        """在报价页选择"阳光优选"车型并点击确认呼叫。"""
         car_names = self.poco(f"{self.passenger_pkg}:id/tv_car_type_name")
         if car_names.exists():
             for i in range(len(car_names)):
@@ -616,6 +634,7 @@ class TestJRYGOrderRide(DriverFlowMixin):
         sleep(4)
 
     def _wechat_payment_controls(self):
+        """定位收银台微信支付选项的容器行和勾选框，返回 (row, checkbox)。"""
         wechat = self.poco(f"{self.passenger_pkg}:id/pay_title", text="微信支付")
         if not wechat.exists():
             raise RuntimeError("收银台未找到微信支付选项")
@@ -628,6 +647,7 @@ class TestJRYGOrderRide(DriverFlowMixin):
         return row, checkbox
 
     def _handle_cashier(self):
+        """处理收银台支付流程：勾选微信支付 → 点击确认支付并呼叫 → 等待进入呼叫页面。"""
         if getattr(self, "_cashier_submitted", False):
             raise RuntimeError("已点击确认支付并呼叫，禁止重复提交，请检查支付结果")
         if self._detect_state() != "cashier":
@@ -685,6 +705,7 @@ class TestJRYGOrderRide(DriverFlowMixin):
         )
 
     def _slide_drag_view(self):
+        """在司机端执行横向滑块滑动操作，返回是否成功。"""
         drag_view = self.poco("com.jryg.driver:id/ll_drag_view")
         if drag_view.exists():
             pos = drag_view.get_position()

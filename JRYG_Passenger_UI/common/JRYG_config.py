@@ -37,4 +37,5 @@ def load_settings():
                 raise ValueError(f"配置缺少 {section}.{key}: {SETTINGS_FILE}")
     return settings
 
+# 模块导入时即加载全局配置（包含 device 和 packages 段），后续直接引用 SETTINGS 即可
 SETTINGS = load_settings()

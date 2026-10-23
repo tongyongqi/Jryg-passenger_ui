@@ -8,9 +8,6 @@ import sys
 import subprocess
 
 from appium import webdriver
-from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 # 支持导入同层级公共模块
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -132,44 +129,3 @@ class JRYG_HKDevice:
         if self.driver:
             self.driver.quit()
             logger.info("【港版连接】Session 通道已安全断开并释放")
-
-    # ==================== 跨平台快捷定位方法封装 ====================
-
-    def find_element(self, locator: tuple, timeout: int = 15):
-        """高容错显式等待查找元素"""
-        return WebDriverWait(self.driver, timeout).until(
-            EC.presence_of_element_located(locator)
-        )
-
-    def click_element(self, locator: tuple, timeout: int = 15):
-        """高容错显式等待并点击元素"""
-        element = WebDriverWait(self.driver, timeout).until(
-            EC.element_to_be_clickable(locator)
-        )
-        element.click()
-
-    def is_element_present(self, locator: tuple, timeout: int = 4) -> bool:
-        """判定元素当前是否存在"""
-        try:
-            WebDriverWait(self.driver, timeout).until(
-                EC.presence_of_element_located(locator)
-            )
-            return True
-        except Exception:
-            return False
-
-    @staticmethod
-    def by_id(resource_id: str):
-        return AppiumBy.ID, resource_id
-
-    @staticmethod
-    def by_text(text: str, platform="iOS"):
-        if platform.upper() == "IOS":
-            # iOS 采用更加稳定高效的 Class Chain 定位文本
-            return AppiumBy.iOS_CLASS_CHAIN, f'**/XCUIElementTypeAny[`label == "{text}"`]'
-        else:
-            return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{text}")'
-
-    @staticmethod
-    def by_xpath(xpath: str):
-        return AppiumBy.XPATH, xpath

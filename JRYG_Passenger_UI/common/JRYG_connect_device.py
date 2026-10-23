@@ -59,7 +59,7 @@ class AndroidDevice:
         appium_url = f"http://{config.APPIUM_HOST}:{config.APPIUM_PORT}"
         print(f"[连接] Appium Server: {appium_url}")
         print(f"[连接] 设备 UDID: {config.DEVICE_UDID}")
-        print(f"[连接] 正在启动 session，请稍候...")
+        print("[连接] 正在启动 session，请稍候...")
 
         self.driver = webdriver.Remote(appium_url, options=options)
         print(f"[连接] 成功！Session ID: {self.driver.session_id}")
@@ -121,12 +121,15 @@ class AndroidDevice:
             print("[断开] Session 已关闭")
 
     def tap(self, x: int, y: int):
+        """通过物理像素坐标执行单击操作。"""
         self.driver.tap([(x, y)], duration=100)
 
     def swipe(self, start_x: int, start_y: int, end_x: int, end_y: int, duration: int = 500):
+        """通过起点和终点坐标执行滑动手势。"""
         self.driver.swipe(start_x, start_y, end_x, end_y, duration)
 
     def swipe_up(self, duration: int = 500):
+        """从屏幕底部 80% 滑动至顶部 20%，模拟上划手势。"""
         size = self.driver.get_window_size()
         start_x = size["width"] // 2
         start_y = int(size["height"] * 0.8)
@@ -134,6 +137,7 @@ class AndroidDevice:
         self.swipe(start_x, start_y, start_x, end_y, duration)
 
     def swipe_down(self, duration: int = 500):
+        """从屏幕顶部 20% 滑动至底部 80%，模拟下划手势。"""
         size = self.driver.get_window_size()
         start_x = size["width"] // 2
         start_y = int(size["height"] * 0.2)
@@ -141,6 +145,7 @@ class AndroidDevice:
         self.swipe(start_x, start_y, start_x, end_y, duration)
 
     def screenshot(self, filename: str = None):
+        """截取当前屏幕并保存至 screenshots 目录，返回文件路径。"""
         if filename is None:
             filename = f"screenshot_{int(time.time())}.png"
         path = Path(filename)
@@ -167,14 +172,12 @@ class AndroidDevice:
                 print(f"[重试] UiAutomator2 连接中断 ({attempt + 1}/{retries})")
                 time.sleep(3)
 
-    def wait_and_tap(self, locator: tuple, timeout: int = 10, retries: int = 2):
-        element = self._wait_for_element(EC.element_to_be_clickable(locator), timeout, retries)
-        element.click()
-
     def find_element(self, locator: tuple, timeout: int = 10, retries: int = 2):
+        """在指定超时内查找并返回元素对象，超时抛出异常。"""
         return self._wait_for_element(EC.presence_of_element_located(locator), timeout, retries)
 
     def is_element_present(self, locator: tuple, timeout: int = 3) -> bool:
+        """判断元素是否在指定超时内出现，返回布尔值。"""
         try:
             WebDriverWait(self.driver, timeout).until(
                 EC.presence_of_element_located(locator)
@@ -184,6 +187,7 @@ class AndroidDevice:
             return False
 
     def input_text(self, locator: tuple, text: str, timeout: int = 10):
+        """定位元素后清空内容并输入文本。"""
         element = self.find_element(locator, timeout)
         element.clear()
         element.send_keys(text)
@@ -192,16 +196,10 @@ class AndroidDevice:
 
     @staticmethod
     def by_id(resource_id: str):
+        """通过 resource_id 构建定位器元组。"""
         return AppiumBy.ID, resource_id
 
     @staticmethod
     def by_text(text: str):
+        """通过精确文本构建 UiSelector 定位器元组。"""
         return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{text}")'
-
-    @staticmethod
-    def by_text_contains(text: str):
-        return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{text}")'
-
-    @staticmethod
-    def by_xpath(xpath: str):
-        return AppiumBy.XPATH, xpath

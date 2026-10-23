@@ -11,7 +11,6 @@
 
 import os
 import sys
-import time
 import subprocess
 import re
 import pytest
@@ -20,7 +19,7 @@ import pytest
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
-from airtest.core.api import connect_device, sleep, keyevent
+from airtest.core.api import connect_device, sleep
 from poco.drivers.android.uiautomation import AndroidUiautomationPoco
 from JRYG_Passenger_UI_HK.common.JRYG_logger import logger
 from JRYG_Passenger_UI_HK.common.JRYG_config import SETTINGS
