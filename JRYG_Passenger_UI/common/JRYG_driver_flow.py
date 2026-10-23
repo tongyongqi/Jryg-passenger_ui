@@ -110,6 +110,8 @@ class DriverFlowMixin:
             return "driver_home"
         if texts & {"听单中", "正在听单", "听单"}:
             return "driver_listening"
+        if "服务中" in texts or "(出发去接乘客)" in joined or "出发去接乘客" in joined:
+            return "driver_in_service"
         if "ygahomepageactivity" in activity and texts & {"今日营收", "听单检测"}:
             return "driver_home"
         return "driver_other"

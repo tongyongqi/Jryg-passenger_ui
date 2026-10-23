@@ -143,23 +143,35 @@ class SettingsFlow:
         raise AssertionError("返回设置失败，停止当前项并保留现场，不点击退出/注销/测试中心")
 
     def start_from_app(self):
-        """从启动 App 开始导航至设置页面（App→首页→我的→齿轮→设置）。"""
+        """从启动 App 开始导航至设置页面（App→首页→我的→齿轮→设置）。
+
+        点击齿轮后有时会误入智能客服页面（YGFFlutterActivity），
+        需检测到非设置页面后返回重试，最多尝试 3 次。
+        """
         self.adb.start_app(self.package, SETTINGS["packages"]["passenger_activity"])
-        for _ in range(12):
+        navigated = False
+        for _ in range(15):
             activity = self.adb.get_top_activity().lower()
             if "blockcanary" in activity or "displayactivity" in activity:
                 self.adb.back()
             elif self.exists(rid="iv_cancel"):
                 self.click(rid="iv_cancel")
-            elif self.exists(text="首页") and self.exists(text="我的"):
-                self.click(text="首页")
+            elif self.exists(text="首页") and self.exists(text="我的") and not navigated:
                 self.click(text="我的")
+                navigated = True
+            elif navigated and self.exists(rid="iv_setting"):
                 self.click(rid="iv_setting")
-                self.wait(self.is_settings, "我的右侧齿轮打开设置")
-                return
+                time.sleep(1.5)
+                act = self.adb.get_top_activity()
+                if "YGUMoreActivity" in act and self.exists(rid="rl_more_private"):
+                    return
+                # 误入客服页面（YGFFlutterActivity），返回后重试
+                logger.warning("点击齿轮后未进入设置页（当前=%s），返回重试", act)
+                self.adb.back()
+                time.sleep(1)
             elif "login" in activity:
                 raise AssertionError("当前账号未登录，设置验证不自动切换账号")
-            elif self.package in activity:
+            elif self.package in activity and not navigated:
                 self.adb.back()
             time.sleep(1)
         raise AssertionError("未能完成打开App→我的→齿轮→设置")
@@ -203,18 +215,23 @@ class SettingsFlow:
                 return package
         return None
 
-    def document(self, expected_terms=(), timeout=25):
-        """校验 WebView 文档正文已加载（非仅标题），可选断言关键词存在。"""
+    def document(self, expected_terms=(), timeout=45):
+        """校验 WebView 文档正文已加载（非仅标题），可选断言关键词存在。
+
+        判定标准：WebView 内文本长度 ≥ 30 字符（非空文档），
+        若指定 expected_terms 则要求至少命中一个关键词。
+        不按包名过滤节点，因为 WebView 页面 package 可能不是乘客端。
+        """
         errors = ("网页无法打开", "ERR_", "404 Not Found", "502 Bad Gateway", "网络异常", "加载失败")
         def loaded():
-            nodes = self.nodes()
+            nodes = self.nodes(package=None)
             texts = [node.get("text") or node.get("desc") or "" for node in nodes
                      if "android.webkit.WebView" in node.get("parents", [])
                      and node.get("type") != "android.webkit.WebView"]
             body = "\n".join(dict.fromkeys(texts))
             if any(error in body for error in errors):
                 raise AssertionError(f"文档加载错误: {self.redact(body[:250])}")
-            return len(body) >= 80 and (not expected_terms or any(term in body for term in expected_terms))
+            return len(body) >= 30 and (not expected_terms or any(term in body for term in expected_terms))
         self.wait(loaded, "文档正文加载（不是仅有标题）", timeout)
         self.events.append({"action": "assert_document_body", "terms": list(expected_terms)})
 

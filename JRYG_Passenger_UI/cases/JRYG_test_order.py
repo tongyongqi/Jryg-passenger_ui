@@ -431,6 +431,11 @@ class TestJRYGOrderRide(DriverFlowMixin):
                 sleep(3)
                 continue
 
+            if state == "driver_in_service":
+                logger.info("【司机端服务中】检测到司机端有进行中订单（出发去接乘客），等待状态推进...")
+                sleep(3)
+                continue
+
             if state == "driver_other":
                 logger.warning("未识别司机页面，等待刷新，不重启正在进行的订单")
 
@@ -572,7 +577,9 @@ class TestJRYGOrderRide(DriverFlowMixin):
             other = self.driver_pkg if package == self.passenger_pkg else self.passenger_pkg
             self.adb.force_stop(other)
         self.adb.force_stop(package)
-        self.adb.run_cmd(["monkey", "-p", package, "-c", "android.intent.category.LAUNCHER", "1"])
+        activity = SETTINGS["packages"]["passenger_activity"] if package == self.passenger_pkg \
+            else SETTINGS["packages"]["driver_activity"]
+        self.adb.start_app(package, activity)
         sleep(6)
 
     def _search_and_select(self, keyword):
