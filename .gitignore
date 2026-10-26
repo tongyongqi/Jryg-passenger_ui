@@ -23,3 +23,14 @@ JRYG_auto_project/screenshots/*.png
 
 # macOS system files
 .DS_Store
+
+# Local credentials and generated automation output
+.env
+.env.*
+!.env.example
+*.local.yaml
+*.local.json
+JRYG_Passenger_*/logs/
+JRYG_Passenger_*/report/
+JRYG_Passenger_*/screenshots/
+JRYG_Passenger_*/data/captures/

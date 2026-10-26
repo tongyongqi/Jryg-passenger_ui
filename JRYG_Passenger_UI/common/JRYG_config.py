@@ -14,8 +14,8 @@ LOGS_DIR = os.path.join(BASE_DIR, "logs")
 SCREENSHOTS_DIR = os.path.join(BASE_DIR, "screenshots")
 
 # 各全局配置文件、测试数据与日志文件路径
-SETTINGS_FILE = os.path.join(CONFIG_DIR, "JRYG_settings.yaml")
-TEST_DATA_FILE = os.path.join(DATA_DIR, "JRYG_test_data.json")
+SETTINGS_FILE = os.environ.get("JRYG_SETTINGS_FILE", os.path.join(CONFIG_DIR, "JRYG_settings.yaml"))
+TEST_DATA_FILE = os.environ.get("JRYG_TEST_DATA_FILE", os.path.join(DATA_DIR, "JRYG_test_data.json"))
 LOG_FILE = os.path.join(LOGS_DIR, "JRYG_run.log")
 
 def load_settings():
@@ -37,4 +37,5 @@ def load_settings():
                 raise ValueError(f"配置缺少 {section}.{key}: {SETTINGS_FILE}")
     return settings
 
+# 模块导入时即加载全局配置（包含 device 和 packages 段），后续直接引用 SETTINGS 即可
 SETTINGS = load_settings()

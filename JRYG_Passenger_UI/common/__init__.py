@@ -1,1 +1,1 @@
-# JRYG Auto Project Package Initialization
+# JRYG 自动化测试项目公共模块包初始化

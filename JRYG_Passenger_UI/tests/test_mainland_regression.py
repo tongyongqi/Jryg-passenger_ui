@@ -1,3 +1,9 @@
+"""大陆乘客端 UI 自动化离线回归测试套件。
+
+覆盖司机端状态识别、登录流程、验证码输入、卡顿检测、收银台支付、
+订单流程完整性、返回首页、包名过滤等核心逻辑的单元测试。
+所有测试均使用 Mock 隔离设备，无需真实连接。
+"""
 from types import SimpleNamespace
 from unittest.mock import Mock
 import subprocess
@@ -16,6 +22,7 @@ from JRYG_Passenger_UI.common import JRYG_connect_device as device_module
 
 @pytest.fixture
 def flow(monkeypatch):
+    """构造 Mock 版 DriverFlowMixin 实例，用于隔离测试司机端状态逻辑。"""
     monkeypatch.setattr(flow_module, "sleep", Mock())
     obj = flow_module.DriverFlowMixin()
     obj.driver_pkg = "com.jryg.driver"
@@ -44,16 +51,19 @@ def flow(monkeypatch):
     (set(), "driver_other"),
 ])
 def test_driver_state_priority(flow, texts, expected):
+    """验证司机端状态识别的优先级和准确性。"""
     assert flow._driver_state("com.jryg.driver/.ygahomepageactivity", texts, set()) == expected
 
 
 def test_driver_state_package_and_popup(flow):
+    """验证非司机端包名返回 None，弹窗状态优先于业务状态。"""
     assert flow._driver_state("com.jryg.client/.login", {"登录/注册"}, set()) is None
     assert flow._driver_state("com.jryg.driver/.ygahomepageactivity", {"今日营收"},
                               {"com.jryg.driver:id/iv_cancel"}) == "driver_popup"
 
 
 def test_page_content_reads_one_tree(flow):
+    """验证 _page_content 遍历控件树提取文本和 name，且只调用一次 dump。"""
     flow.poco.agent.hierarchy.dump.return_value = {
         "name": "root", "payload": {}, "children": [
             {"name": "button", "payload": {"text": " 返回首页 "}},
@@ -68,6 +78,7 @@ def test_page_content_reads_one_tree(flow):
 
 @pytest.mark.parametrize("marker", ["topResumedActivity", "mResumedActivity", "ResumedActivity"])
 def test_adb_activity_variants(marker):
+    """验证 ADB get_top_activity 兼容不同 Android 版本的 Activity 标记字段。"""
     adb = adb_module.JRYG_ADBTools("test-device")
     line = f"{marker}: ActivityRecord{{x com.jryg.driver/.Home t1}}"
     adb.run_cmd = Mock(return_value=line)
@@ -75,6 +86,7 @@ def test_adb_activity_variants(marker):
 
 
 def test_adb_top_activity_priority():
+    """验证 topResumedActivity 优先级高于 ResumedActivity。"""
     adb = adb_module.JRYG_ADBTools("test-device")
     adb.run_cmd = Mock(return_value="ResumedActivity: old\ntopResumedActivity: current")
     assert adb.get_top_activity() == "topResumedActivity: current"
@@ -83,12 +95,14 @@ def test_adb_top_activity_priority():
 @pytest.mark.parametrize("error", [subprocess.TimeoutExpired("adb", 15),
                                    subprocess.CalledProcessError(1, "adb")])
 def test_adb_errors_propagate(monkeypatch, error):
+    """验证 ADB 子进程超时和调用错误正确向上传播。"""
     monkeypatch.setattr(adb_module.subprocess, "run", Mock(side_effect=error))
     with pytest.raises(type(error)):
         adb_module.JRYG_ADBTools("test-device").run_cmd(["dumpsys", "activity"])
 
 
 def test_stall_reports_page(flow, monkeypatch):
+    """验证卡顿检测在超时后抛出包含页面信息的断言。"""
     clock = Mock(side_effect=[0, 59, 60])
     monkeypatch.setattr(flow_module, "time", SimpleNamespace(monotonic=clock))
     flow._get_all_texts = Mock(return_value=["发起收款"])
@@ -99,6 +113,7 @@ def test_stall_reports_page(flow, monkeypatch):
 
 
 def test_state_change_resets_stall(flow, monkeypatch):
+    """验证状态变化时卡顿计时器重置。"""
     monkeypatch.setattr(flow_module, "time", SimpleNamespace(monotonic=Mock(side_effect=[0, 59, 60])))
     flow._check_stall("driver_in_trip")
     flow._check_stall("driver_bill")
@@ -108,6 +123,7 @@ def test_state_change_resets_stall(flow, monkeypatch):
 
 @pytest.mark.parametrize("count", [0, 2, 5, 7])
 def test_otp_rejects_partial_layout(flow, count):
+    """验证验证码输入框数量非 1 或 6 时报错。"""
     container = Mock()
     container.exists.return_value = True
     container.offspring.return_value = [Mock() for _ in range(count)]
@@ -117,6 +133,7 @@ def test_otp_rejects_partial_layout(flow, count):
 
 
 def test_otp_six_boxes_resume_without_duplicate_first_digit(flow):
+    """验证六格验证码已填入首位时跳过该位，不重复输入。"""
     container = Mock()
     container.exists.return_value = True
     inputs = [Mock() for _ in range(6)]
@@ -135,6 +152,7 @@ def test_otp_six_boxes_resume_without_duplicate_first_digit(flow):
 
 @pytest.mark.parametrize("checked", [True, False])
 def test_driver_login_order(flow, checked):
+    """验证司机登录流程顺序：输入手机号→（未勾选则勾选协议）→下一步。"""
     calls = []
     phone, checkbox, next_button, missing = (Mock() for _ in range(4))
     missing.exists.return_value = False
@@ -152,6 +170,7 @@ def test_driver_login_order(flow, checked):
 
 
 def test_debug_click_is_not_success(monkeypatch):
+    """验证调试流程在听单状态时返回成功，在出车后未听单时返回失败。"""
     obj = debug_module.DebugDriverFlow.__new__(debug_module.DebugDriverFlow)
     obj.driver_phone, obj.verify_code = "test", "123456"
     obj.logged_in, obj.drived_out = False, False
@@ -171,6 +190,7 @@ def test_debug_click_is_not_success(monkeypatch):
     (["calling", "driver_home"], False),
 ])
 def test_order_completion_guard(monkeypatch, states, success):
+    """验证订单流程完整性守卫：缺少中间状态时判定失败。"""
     obj = order_module.TestJRYGOrderRide()
     obj.test_data = dict(start_address="start", dest_address="dest", verify_tail="38")
     obj.passenger_pkg, obj.driver_pkg = "com.jryg.client", "com.jryg.driver"
@@ -196,6 +216,7 @@ def test_order_completion_guard(monkeypatch, states, success):
 
 
 def test_order_detection_uses_one_activity_and_tree(monkeypatch):
+    """验证乘客端状态检测只调用一次 Activity 查询和一次控件树遍历。"""
     obj = order_module.TestJRYGOrderRide()
     obj.driver_pkg, obj.passenger_pkg = "com.jryg.driver", "com.jryg.client"
     obj._get_top_activity_full = Mock(return_value="com.jryg.client/.YGAImmediateOrderProcessActivity")
@@ -206,6 +227,7 @@ def test_order_detection_uses_one_activity_and_tree(monkeypatch):
 
 
 def test_runner_preserves_exit_code_and_excludes_debug(monkeypatch):
+    """验证运行器保留 pytest 退出码且排除调试文件。"""
     monkeypatch.setattr(runner, "init_all_dirs", Mock())
     fake_pytest = SimpleNamespace(main=Mock(return_value=1))
     monkeypatch.setattr(runner, "pytest", fake_pytest)
@@ -216,12 +238,14 @@ def test_runner_preserves_exit_code_and_excludes_debug(monkeypatch):
 
 
 def test_device_config_uses_yaml():
+    """验证设备配置从 YAML 读取且与 config 模块一致。"""
     assert device_config.DEVICE_UDID == config.SETTINGS["device"]["udid"]
     assert device_config.APP_ACTIVITY == config.SETTINGS["packages"]["passenger_activity"]
     assert device_config.SYSTEM_PORT == config.SETTINGS["device"]["system_port"]
 
 
 def test_appium_cleanup_is_scoped(monkeypatch):
+    """验证 uiautomator2 清理只移除指定端口，不全局 kill。"""
     command = Mock()
     monkeypatch.setattr(device_module.subprocess, "run", command)
     device_module.AndroidDevice(system_port=9999)._clean_uiautomator2()
@@ -231,6 +255,7 @@ def test_appium_cleanup_is_scoped(monkeypatch):
 
 
 def test_disconnect_clears_session():
+    """验证 disconnect 后 driver 被清理且只 quit 一次。"""
     device = device_module.AndroidDevice()
     driver = Mock()
     device.driver = driver
@@ -242,6 +267,7 @@ def test_disconnect_clears_session():
 
 @pytest.mark.parametrize("initial", ["finish", "home", "ad", "monitor", "wrong_package"])
 def test_return_to_passenger_home(monkeypatch, initial):
+    """验证返回乘客首页的各种场景：完单页、首页、广告弹窗、监控页、错误包名。"""
     obj = order_module.TestJRYGOrderRide()
     obj.udid, obj.passenger_pkg = "test-device", "com.jryg.client"
     page = [initial]
@@ -279,6 +305,7 @@ def test_return_to_passenger_home(monkeypatch, initial):
 
 
 def test_cancelled_order_is_not_calling():
+    """验证呼叫超时取消订单状态为 order_failed 而非 calling。"""
     obj = order_module.TestJRYGOrderRide()
     obj.passenger_pkg, obj.driver_pkg = "com.jryg.client", "com.jryg.driver"
     obj._get_top_activity_full = Mock(return_value="com.jryg.client/.YGAImmediateOrderProcessActivity")
@@ -288,6 +315,7 @@ def test_cancelled_order_is_not_calling():
 
 @pytest.fixture(autouse=True)
 def isolate_regression_logs(monkeypatch):
+    """自动 fixture：替换所有模块的 logger 为 Mock，避免测试日志污染。"""
     for module in (order_module, debug_module, flow_module, adb_module):
         monkeypatch.setattr(module, "logger", Mock())
 
@@ -295,6 +323,7 @@ def isolate_regression_logs(monkeypatch):
 @pytest.mark.parametrize("activity", ["YGAHomeActivity", "YGAImmediateOrderProcessActivity"])
 @pytest.mark.parametrize("names", [set(), {"com.jryg.client:id/cashier_title", "com.jryg.client:id/btn_confirm"}])
 def test_cashier_tip_is_not_trip_finished(activity, names):
+    """验证收银台提示文案不误判为行程结束。"""
     obj = order_module.TestJRYGOrderRide()
     obj.passenger_pkg, obj.driver_pkg = "com.jryg.client", "com.jryg.driver"
     obj._get_top_activity_full = Mock(return_value=f"com.jryg.client/.{activity}")
@@ -304,6 +333,7 @@ def test_cashier_tip_is_not_trip_finished(activity, names):
 
 
 def test_settlement_tip_alone_does_not_mean_finished():
+    """验证仅结算提示文案不会误判为行程结束。"""
     obj = order_module.TestJRYGOrderRide()
     obj.passenger_pkg, obj.driver_pkg = "com.jryg.client", "com.jryg.driver"
     obj._get_top_activity_full = Mock(return_value="com.jryg.client/.YGAHomeActivity")
@@ -313,6 +343,7 @@ def test_settlement_tip_alone_does_not_mean_finished():
 
 @pytest.fixture
 def cashier(monkeypatch):
+    """构造收银台测试上下文：Mock 控件树模拟微信支付选择和提交。"""
     obj = order_module.TestJRYGOrderRide()
     obj.passenger_pkg = "com.jryg.client"
     monkeypatch.setattr(order_module, "sleep", Mock())
@@ -349,6 +380,7 @@ def cashier(monkeypatch):
 
 @pytest.mark.parametrize("already_checked", [False, True])
 def test_cashier_selects_wechat_before_submit(cashier, already_checked):
+    """验证收银台先勾选微信支付再提交，且禁止重复提交。"""
     cashier.checked[0] = already_checked
     assert cashier.obj._handle_cashier() is True
     assert cashier.events == (["submit"] if already_checked else ["select_wechat", "submit"])
@@ -360,6 +392,7 @@ def test_cashier_selects_wechat_before_submit(cashier, already_checked):
 
 
 def test_cashier_missing_wechat_prevents_submit(cashier):
+    """验证未找到微信支付控件时不提交。"""
     cashier.title.exists.return_value = False
     with pytest.raises(RuntimeError, match="未找到微信支付"):
         cashier.obj._handle_cashier()
@@ -367,6 +400,7 @@ def test_cashier_missing_wechat_prevents_submit(cashier):
 
 
 def test_cashier_unchecked_prevents_submit(cashier):
+    """验证微信支付未勾选时不提交。"""
     cashier.row.parent.return_value.click.side_effect = None
     with pytest.raises(RuntimeError, match="仍未勾选"):
         cashier.obj._handle_cashier()
@@ -375,6 +409,7 @@ def test_cashier_unchecked_prevents_submit(cashier):
 
 @pytest.mark.parametrize("problem", ["row", "checkbox", "button", "disabled"])
 def test_cashier_invalid_controls_prevent_submit(cashier, problem):
+    """验证收银台控件异常或禁用时不提交。"""
     if problem == "row":
         cashier.row.attr.return_value = "other_row"
     elif problem == "checkbox":
@@ -389,6 +424,7 @@ def test_cashier_invalid_controls_prevent_submit(cashier, problem):
 
 
 def test_cashier_submission_timeout_is_not_retried(cashier):
+    """验证提交后超时未进入呼叫页面时报错且不重试。"""
     cashier.obj._detect_state.side_effect = None
     cashier.obj._detect_state.return_value = "cashier"
     with pytest.raises(RuntimeError, match="15秒内未进入呼叫页面"):
@@ -400,6 +436,7 @@ def test_cashier_submission_timeout_is_not_retried(cashier):
 
 
 def test_cashier_external_wechat_is_not_payment_success(cashier):
+    """验证跳转外部微信页面不等于支付成功。"""
     cashier.obj._detect_state.side_effect = ["cashier", "unknown"]
     cashier.obj._get_top_activity_full.return_value = "com.tencent.mm/.WalletActivity"
     with pytest.raises(RuntimeError, match="尚未完成外部支付"):
@@ -408,12 +445,14 @@ def test_cashier_external_wechat_is_not_payment_success(cashier):
 
 
 def test_cashier_failed_call_is_not_success(cashier):
+    """验证呼叫失败状态不误判为成功。"""
     cashier.obj._detect_state.side_effect = ["cashier", "order_failed"]
     with pytest.raises(RuntimeError, match="呼叫失败"):
         cashier.obj._handle_cashier()
 
 
 def test_cashier_wrong_page_prevents_actions(cashier):
+    """验证非收银台页面不执行任何支付操作。"""
     cashier.obj._detect_state.side_effect = ["home"]
     with pytest.raises(RuntimeError, match="当前不是乘客收银台"):
         cashier.obj._handle_cashier()
@@ -421,6 +460,7 @@ def test_cashier_wrong_page_prevents_actions(cashier):
 
 
 def test_cashier_click_error_is_not_retried(cashier):
+    """验证点击异常时直接报错且不重试。"""
     cashier.button.click.side_effect = RuntimeError("connection lost")
     with pytest.raises(RuntimeError, match="connection lost"):
         cashier.obj._handle_cashier()
@@ -431,6 +471,7 @@ def test_cashier_click_error_is_not_retried(cashier):
 
 @pytest.mark.parametrize("pending_reads", [0, 2])
 def test_cashier_requeries_snapshot_after_select(cashier, pending_reads):
+    """验证勾选微信支付后重新查询控件快照，避免 Poco 旧节点缓存。"""
     original_select = cashier.obj.poco.side_effect
     snapshots = []
     remaining = [pending_reads]
@@ -462,6 +503,7 @@ def test_cashier_requeries_snapshot_after_select(cashier, pending_reads):
 
 
 def test_cashier_log_records_pre_submit_failure(cashier, monkeypatch):
+    """验证收银台提交前失败时记录 exception 日志。"""
     obj = cashier.obj
     obj.test_data = {"start_address": "start", "dest_address": "dest", "verify_tail": "38"}
     obj._launch_app = Mock()
@@ -474,6 +516,7 @@ def test_cashier_log_records_pre_submit_failure(cashier, monkeypatch):
 
 
 def test_flutter_desc_is_read_as_visible_text(flow):
+    """验证 Flutter 无障碍 desc 字段被作为可见文本读取（text 为空时）。"""
     flow.poco.agent.hierarchy.dump.return_value = {"payload": {}, "children": [
         {"payload": {"desc": "已完成", "visible": True}},
         {"payload": {"desc": "已支付", "visible": True}},
@@ -492,12 +535,14 @@ def test_flutter_desc_is_read_as_visible_text(flow):
     ("ygatraveldetailflutteractivity", {"未确认账单", "已完成", "返回首页"}, "driver_bill"),
 ])
 def test_driver_completed_page_requires_evidence(flow, activity, texts, expected):
+    """验证司机完单页面需要充分证据（已完成+已支付/返回首页）才判定 finished。"""
     assert flow._driver_state(f"com.jryg.driver/.{activity}", texts, set()) == expected
 
 
 @pytest.mark.parametrize("foreground", ["com.jryg.driver/.YGALoadingActivity",
                                          "com.android.permissioncontroller/.GrantPermissionsActivity"])
 def test_switch_driver_preserves_passenger(monkeypatch, foreground):
+    """验证切换司机端时不强制停止乘客端。"""
     obj = order_module.TestJRYGOrderRide()
     obj.driver_pkg = "com.jryg.driver"
     obj.adb = Mock()
@@ -509,6 +554,7 @@ def test_switch_driver_preserves_passenger(monkeypatch, foreground):
 
 
 def test_switch_driver_times_out_without_restarting(monkeypatch):
+    """验证切换司机端超时时报错且不强制停止。"""
     obj = order_module.TestJRYGOrderRide()
     obj.driver_pkg = "com.jryg.driver"
     obj.adb = Mock()
@@ -522,6 +568,7 @@ def test_switch_driver_times_out_without_restarting(monkeypatch):
 
 @pytest.mark.parametrize("entry_state", ["calling", "cashier"])
 def test_calling_continues_driver_slides_and_returns_home(monkeypatch, entry_state):
+    """验证呼叫/收银台入口后继续司机端滑动流程并返回乘客首页。"""
     obj = order_module.TestJRYGOrderRide()
     obj.test_data = {"start_address": "start", "dest_address": "dest", "verify_tail": "38"}
     obj.passenger_pkg, obj.driver_pkg = "com.jryg.client", "com.jryg.driver"
@@ -550,6 +597,7 @@ def test_calling_continues_driver_slides_and_returns_home(monkeypatch, entry_sta
 
 
 def test_completed_page_alone_cannot_finish_new_order(monkeypatch):
+    """验证仅有完单页面不能判定新订单流程结束。"""
     obj = order_module.TestJRYGOrderRide()
     obj.test_data = {"start_address": "start", "dest_address": "dest", "verify_tail": "38"}
     obj._detect_state = Mock(return_value="driver_finished")
@@ -564,6 +612,7 @@ def test_completed_page_alone_cannot_finish_new_order(monkeypatch):
 
 
 def test_passenger_state_ignores_driver_floating_home_button():
+    """验证乘客端状态检测忽略司机悬浮窗"点击回首页"按钮（包名过滤）。"""
     obj = order_module.TestJRYGOrderRide()
     obj.driver_pkg, obj.passenger_pkg = "com.jryg.driver", "com.jryg.client"
     obj._get_top_activity_full = Mock(return_value="com.jryg.client/.YGAHomeActivity")
@@ -581,6 +630,7 @@ def test_passenger_state_ignores_driver_floating_home_button():
 
 @pytest.mark.parametrize("page", ["home", "finished"])
 def test_return_home_never_clicks_driver_floating_window(monkeypatch, page):
+    """验证返回首页时不会误点司机悬浮窗按钮。"""
     obj = order_module.TestJRYGOrderRide()
     obj.udid, obj.passenger_pkg = "test-device", "com.jryg.client"
     current = [page]
@@ -611,12 +661,14 @@ def test_return_home_never_clicks_driver_floating_window(monkeypatch, page):
 
 
 def test_click_first_supports_package_filter(flow):
+    """验证 _click_first 支持按包名过滤点击。"""
     flow.poco.return_value.exists.return_value = True
     assert flow._click_first(texts=("返回首页",), package="com.jryg.client")
     flow.poco.assert_called_once_with(text="返回首页", package="com.jryg.client")
 
 
 def test_return_home_reactivates_passenger_after_monitor_back(monkeypatch):
+    """验证从监控页返回后重新激活乘客端 App。"""
     obj = order_module.TestJRYGOrderRide()
     obj.udid, obj.passenger_pkg = "test-device", "com.jryg.client"
     obj._get_top_activity_full = Mock(side_effect=[

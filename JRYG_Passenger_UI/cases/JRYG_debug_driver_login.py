@@ -1,3 +1,11 @@
+"""司机端完整流程单独调试入口。
+
+从隐私协议→登录→验证码→出车→听单，全流程独立运行，
+不依赖乘客端下单。用于快速验证司机端登录出车链路是否正常。
+
+使用方式：直接运行 python JRYG_debug_driver_login.py
+返回：True=流程完成（已出车听单），False=流程未完成
+"""
 import os
 import json
 import sys
@@ -15,9 +23,14 @@ from JRYG_Passenger_UI.common.JRYG_driver_flow import DriverFlowMixin
 
 
 class DebugDriverFlow(DriverFlowMixin):
-    """司机端完整流程单独调试：隐私协议→登录→验证码→出车"""
+    """司机端完整流程单独调试：隐私协议→登录→验证码→出车。
+
+    继承 DriverFlowMixin 获取司机端状态检测、登录、验证码输入、出车等通用能力。
+    与 TestJRYGOrderRide 不同，该类不需要乘客端下单，纯粹验证司机端链路。
+    """
 
     def __init__(self):
+        """初始化设备连接、Poco 实例、司机/乘客包名、测试数据。"""
         udid = SETTINGS["device"]["udid"]
         connect_device(f"android://127.0.0.1:5037/{udid}")
         self.poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
@@ -30,25 +43,35 @@ class DebugDriverFlow(DriverFlowMixin):
         with open(TEST_DATA_FILE, "r", encoding="utf-8") as f:
             self.test_data = json.load(f)
 
-        self.verify_code = "123456"
-        self.driver_phone = self.test_data.get("driver_phone", "11070893898")
+        self.verify_code = self.test_data["verify_code"]
+        self.driver_phone = self.test_data["driver_phone"]
         self.logged_in = False
         self.drived_out = False
 
     # ==================== 底层操作函数 ====================
 
     def _launch_driver(self):
+        """启动司机端 App。"""
         self.adb.start_app(self.driver_pkg, self.driver_activity)
 
     def _force_stop_driver(self):
+        """强制停止司机端 App。"""
         self.adb.force_stop(self.driver_pkg)
 
     def _force_stop_passenger(self):
+        """强制停止乘客端 App，避免双端互相干扰。"""
         self.adb.force_stop(self.passenger_pkg)
 
     # ==================== 状态检测 ====================
 
     def _detect_state(self):
+        """检测司机端当前页面状态，综合系统弹窗和司机端业务状态。
+
+        检测顺序：
+          1. 系统级状态：launcher、blockcanary、permission_dialog
+          2. 司机端业务状态：通过 _driver_state 检测（继承自 DriverFlowMixin）
+          3. 未知状态：返回 "unknown"
+        """
         activity = self._get_top_activity_full().lower()
         if "launcher" in activity:
             return "launcher"
@@ -62,6 +85,23 @@ class DebugDriverFlow(DriverFlowMixin):
     # ==================== 调试主流程 ====================
 
     def run(self):
+        """调试主流程：从干净状态启动司机端，循环检测状态并驱动至听单。
+
+        流程：
+          1. 强制停止两端 App，确保干净状态
+          2. 启动司机端 App
+          3. 状态机循环（最多 60 次）：
+             - privacy_agreement → 勾选协议 + 点击同意
+             - permission_dialog → 点击允许
+             - driver_tourist_home → 点击登录/注册
+             - driver_login → 输入手机号登录
+             - driver_verify_code → 输入验证码
+             - driver_home → 点击出车
+             - driver_listening → 出车成功，返回 True
+          4. 遇到已有订单状态（accept_order/in_trip 等）则返回 False
+
+        :return: True=出车听单成功，False=流程未完成
+        """
         logger.info("=" * 60)
         logger.info("【司机端完整流程调试】手机号: %s, 验证码: %s", self.driver_phone, self.verify_code)
         logger.info("=" * 60)

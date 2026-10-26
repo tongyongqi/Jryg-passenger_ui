@@ -1,8 +1,8 @@
 {
-  "start_address": "时代之光名苑",
-  "dest_address": "蓟门桥地铁A口",
-  "phone_number": "11000000038",
-  "verify_code": "123456",
-  "verify_tail": "38",
-  "driver_phone": "11070893898"
+  "start_address": "TEST_START_ADDRESS",
+  "dest_address": "TEST_DEST_ADDRESS",
+  "phone_number": "TEST_PASSENGER_MOBILE",
+  "verify_code": "TEST_CAPTCHA",
+  "verify_tail": "TEST_PHONE_TAIL",
+  "driver_phone": "TEST_DRIVER_MOBILE"
 }
