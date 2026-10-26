@@ -138,50 +138,6 @@ class TestJRYGHKAndroidOrder:
         self.poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
         time.sleep(5)
 
-    def _detect_current_state(self):
-        """通过前台 Activity 与 UI 关键内容判断当前所在登录/业务状态"""
-        activity = self._current_activity().lower()
-        if self.package not in activity:
-            return "launcher"
-
-        # 极速匹配
-        if self.poco(text="同意").exists() and self.poco(text="不同意").exists():
-            return "privacy_agreement"
-        if self.poco(text="去授權").exists() and self.poco(text="取消").exists():
-            return "permission_dialog"
-        if self.poco(text="使用应用时允许").exists() or self.poco(text="仅在使用中允许").exists():
-            return "system_location_permission"
-        if self.poco(text="請輸入驗證碼").exists() or self.poco(textMatches=".*重新獲取.*").exists():
-            return "login_code_input"
-        if self.poco(text="請輸入手機號").exists() or self.poco(text="取得驗證碼").exists():
-            return "login_phone_input"
-        if self.poco(text="登錄/註冊").exists():
-            return "mine_unlogged"
-        
-        # 通过拉取全部TextView作复合判断
-        texts = []
-        try:
-            for el in self.poco(type="android.widget.TextView"):
-                t = el.get_text()
-                if t:
-                    texts.append(t.strip())
-        except Exception:
-            pass
-        joined = " ".join(texts)
-
-        if "歡迎登錄" in joined or "請輸入手機號" in joined:
-            return "login_phone_input"
-        if "請輸入驗證碼" in joined:
-            return "login_code_input"
-        if "登錄/註冊" in joined:
-            return "mine_unlogged"
-        if "想要去哪裡？" in joined:
-            if "1727" in joined or "****" in joined:
-                return "home_logged"
-            return "home_unlogged"
-
-        return "unknown"
-
     def _tap_by_text(self, target_text):
         """通过 adb dump 正则查找目标 text 并物理点击"""
         self._adb("shell", "uiautomator", "dump", "/sdcard/_temp.xml", check=False)
@@ -218,7 +174,7 @@ class TestJRYGHKAndroidOrder:
 
     def _ensure_logged_in(self):
         """保障登录：进入个人中心，检查是否登录，若未登录则一键登录，最后必须切换回首页"""
-        phone_number = "11001727"
+        phone_number = "110000001"
         verify_code = "123456"
         logger.info(f"【登录校验】进入个人中心检查登录状态，预备登录手机号: {phone_number}...")
 

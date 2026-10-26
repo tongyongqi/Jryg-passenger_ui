@@ -33,13 +33,16 @@ fi
 # 当前 Vivo Android 15 会主动终止 UiAutomator2 instrumentation，
 # 港版端到端流程改用稳定的 ADB + Airtest 通道，无需重复启动 Appium Server。
 echo ""
-echo "正在启动 JRYG 港版测试套件..."
-if [ -f ".venv/bin/python3" ]; then
+echo "正在启动 JRYG 港版 UI 测试套件..."
+if [ -x "JRYG_Passenger_UI_HK/.venv/bin/python3" ]; then
+    JRYG_Passenger_UI_HK/.venv/bin/python3 JRYG_Passenger_UI_HK/JRYG_run_main.py "$@"
+elif [ -f ".venv/bin/python3" ]; then
     echo "[环境] 检测到项目虚拟环境 .venv，正在使用虚拟环境中的 Python 执行测试..."
-    .venv/bin/python3 JRYG_Passenger_UI_HK/JRYG_run_main.py
+    .venv/bin/python3 JRYG_Passenger_UI_HK/JRYG_run_main.py "$@"
 else
-    python3 JRYG_Passenger_UI_HK/JRYG_run_main.py
+    python3 JRYG_Passenger_UI_HK/JRYG_run_main.py "$@"
 fi
+exit_code=$?
 
 # 4. 打印报告生成地址
 if [ -f "JRYG_Passenger_UI_HK/report/JRYG_test_report_hk.html" ]; then
@@ -48,3 +51,4 @@ if [ -f "JRYG_Passenger_UI_HK/report/JRYG_test_report_hk.html" ]; then
     echo "  file://$BASE_DIR/JRYG_Passenger_UI_HK/report/JRYG_test_report_hk.html"
     echo ""
 fi
+exit "$exit_code"

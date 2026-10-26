@@ -27,10 +27,13 @@ from mitmproxy import http
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # 各接口的捕获文件路径
-POI_CAPTURE_FILE = os.path.join(BASE_DIR, "JRYG_Passenger_UI_HK", "logs", "JRYG_poi_capture.json")
-PLACE_CAPTURE_FILE = os.path.join(BASE_DIR, "JRYG_Passenger_UI_HK", "logs", "JRYG_place_capture.json")
-AROUND_CAPTURE_FILE = os.path.join(BASE_DIR, "JRYG_Passenger_UI_HK", "logs", "JRYG_around_capture.json")
-PAYMENT_MODE_CAPTURE_FILE = os.path.join(BASE_DIR, "JRYG_Passenger_UI_HK", "logs", "JRYG_payment_mode_capture.json")
+CAPTURE_DIR = os.path.abspath(os.path.expanduser(os.environ.get(
+    "HK_CAPTURE_DIR", os.path.join(BASE_DIR, "JRYG_Passenger_UI_HK", "logs")
+)))
+POI_CAPTURE_FILE = os.path.join(CAPTURE_DIR, "JRYG_poi_capture.json")
+PLACE_CAPTURE_FILE = os.path.join(CAPTURE_DIR, "JRYG_place_capture.json")
+AROUND_CAPTURE_FILE = os.path.join(CAPTURE_DIR, "JRYG_around_capture.json")
+PAYMENT_MODE_CAPTURE_FILE = os.path.join(CAPTURE_DIR, "JRYG_payment_mode_capture.json")
 
 # 目标接口路径关键字
 POI_TARGET_PATH = "/map-service/v1/a_map/poi"
@@ -110,8 +113,3 @@ def _flush_to(capture_list, capture_file):
     os.makedirs(os.path.dirname(capture_file), exist_ok=True)
     with open(capture_file, "w", encoding="utf-8") as f:
         json.dump(capture_list, f, ensure_ascii=False, indent=2)
-
-
-# 兼容旧接口
-def _flush():
-    _flush_to(_captured_requests, POI_CAPTURE_FILE)

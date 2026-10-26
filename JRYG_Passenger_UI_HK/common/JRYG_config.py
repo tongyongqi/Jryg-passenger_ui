@@ -13,7 +13,7 @@ LOGS_DIR = os.path.join(BASE_DIR, "logs")
 SCREENSHOTS_DIR = os.path.join(BASE_DIR, "screenshots")
 
 # 全局配置文件路径
-SETTINGS_FILE = os.path.join(CONFIG_DIR, "JRYG_settings.yaml")
+SETTINGS_FILE = os.environ.get("HK_UI_SETTINGS_FILE", os.path.join(CONFIG_DIR, "JRYG_settings.yaml"))
 LOG_FILE = os.path.join(LOGS_DIR, "JRYG_run.log")
 
 def load_settings():
