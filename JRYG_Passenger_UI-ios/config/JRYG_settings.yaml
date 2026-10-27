@@ -1,0 +1,12 @@
+device:
+  udid: "00008120-000E79E03472201E"
+  name: "测试机15"
+  platform_name: "iOS"
+  platform_version: "26.6"
+  device_name: "iPhone15"
+  appium_host: "127.0.0.1"
+  appium_port: 4723
+  wda_url: "http://127.0.0.1:8100"
+
+packages:
+  passenger: "com.sunlightmobility.client"
