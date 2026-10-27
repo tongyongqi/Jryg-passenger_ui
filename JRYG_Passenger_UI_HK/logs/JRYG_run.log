@@ -5579,3 +5579,45 @@ assert False
 2026-10-26 20:26:14,017 - JRYG_HK_Auto - INFO - 【HK Driver API】响应 status=200 | body={"code":10000,"data":{"order_no":"26A6OBKWECNW","order":{"order_status":8,"order_status_name":"已完成","pay_status":1,"pay_status_name":"已支付","start_address":"銅鑼灣","end_address":"香港特別行政區","order_type_name":"即時","accept_time":"2026-10-26 20:24:53","finish_time":"2026-10-26 20:26:09"},"fee":{"order_fee":"88","unit":"HKD","show_fee_detail":true,"bill_detail_url":"http://h5driver-test.sunlightmobility.hk/#/order/price-detail?order_no=26A6OBKWECNW"},"order_attribute_list":[{"key":"mibiao","type":"image","text":"咪錶","text_color":"#FFFC4146","background_color":"#FFFFEFEF","image_url":"https://hqygcx-app-driver.oss-cn-hongkong.aliyuncs.com/static/app/car_type_image/%E5%92%AA%E9%8C%B6-%E6%A0%87%E7%AD%BE%E7%BB%84%E4%BB%B6-3.png"}],"market_attribute_list":[]},"message":"ok"}
 2026-10-26 20:26:14,017 - JRYG_HK_Auto - INFO - 【HK Driver API】POST /driverApi/home/handleWorkStatus | body={'event_source': '1', 'handle_status': '0', 'nonce': '1793017574017'} | sign=4E57BEFDF8EB18F5BE23B664E6D84CA9
 2026-10-26 20:26:14,144 - JRYG_HK_Auto - INFO - 【HK Driver API】响应 status=200 | body={"code":10000,"data":{"voice_text":"收车成功，您辛苦了","more_tips":{"more_enable":false,"title":"","content":"","more_scene":0},"car_online_exception":{"title":"","message":"","type":0,"jump_info":{"url":""},"hint_msg":""},"temporary_status":0,"popup_text":"","order_deciding_msg":"","order_deciding_voice":"","order_deciding_type":0,"order_deciding_wait_time":0},"message":""}
+2026-10-27 19:49:22,748 - JRYG_HK_Auto - INFO - 【初始化】Android 设备已连接并建立 Poco，分辨率: 1080x2400
+2026-10-27 19:49:22,751 - JRYG_HK_Auto - INFO - 【步骤 1】从桌面启动港版 App...
+2026-10-27 19:49:24,482 - JRYG_HK_Auto - INFO -   >> 港版 App 已启动并处于前台: mFocusedApp=ActivityRecord{fafd2cd u0 com.sunlightmobility.client/.home.YGAHomeActivity t759}
+2026-10-27 19:49:34,425 - JRYG_HK_Auto - INFO - 【步骤 2】关闭活动弹框...
+2026-10-27 19:49:34,719 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_route_00_home.png
+2026-10-27 19:49:40,087 - JRYG_HK_Auto - INFO -   >> 未检测到代理检测提示框，继续执行
+2026-10-27 19:49:40,172 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-10-27 19:49:40,172 - JRYG_HK_Auto - INFO - 【步骤 3】保障登录状态...
+2026-10-27 19:49:40,173 - JRYG_HK_Auto - INFO - 【登录校验】进入个人中心检查登录状态，预备手机号: 11001727...
+2026-10-27 19:49:45,650 - JRYG_HK_Auto - INFO -   >> 未检测到代理检测提示框，继续执行
+2026-10-27 19:49:45,797 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-10-27 19:49:51,395 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 0: 11:43 8月19日周一 100% • 为保护电池，充电已暂停
+2026-10-27 19:49:52,852 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 1: 11:43 8月19日周一 100% • 为保护电池，充电已暂停
+2026-10-27 19:49:54,446 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 2: 11:43 8月19日周一 100% • 为保护电池，充电已暂停
+2026-10-27 19:49:56,055 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 3: 11:43 8月19日周一 100% • 为保护电池，充电已暂停
+2026-10-27 19:49:57,653 - JRYG_HK_Auto - INFO -   >> [我的页面文本嗅探] 循环 4: 11:43 8月19日周一 100% • 为保护电池，充电已暂停
+2026-10-27 19:49:58,654 - JRYG_HK_Auto - INFO -   >> 【已登录】跳过登录步骤。
+2026-10-27 19:50:02,931 - JRYG_HK_Auto - WARNING -   >> 切回首页未确认，重试 (1)...
+2026-10-27 19:50:07,212 - JRYG_HK_Auto - WARNING -   >> 切回首页未确认，重试 (2)...
+2026-10-27 19:50:11,524 - JRYG_HK_Auto - WARNING -   >> 切回首页未确认，重试 (3)...
+2026-10-27 19:50:19,905 - JRYG_HK_Auto - INFO -   >> 未检测到代理检测提示框，继续执行
+2026-10-27 19:50:19,988 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-10-27 19:50:19,988 - JRYG_HK_Auto - INFO - 【步骤 4】设置起点：铜锣湾...
+2026-10-27 19:50:19,988 - JRYG_HK_Auto - INFO - 正在点击起点栏位...
+2026-10-27 19:50:20,109 - JRYG_HK_Auto - INFO -   >> 已点击出发地址: (540, 1780)
+2026-10-27 19:50:39,503 - JRYG_HK_Auto - WARNING -   >> 未定位到输入框控件，执行坐标点击并退回 Airtest 输入...
+2026-10-27 19:50:39,593 - JRYG_HK_Auto - INFO -   >> 已点击搜索栏输入焦点: (540, 360)
+2026-10-27 19:50:58,378 - JRYG_HK_Auto - ERROR -   >> [Airtest Input 失败] stdout[b''] stderr[b"\nException occurred while executing 'text':\njava.lang.NullPointerException: Attempt to get length of null array\n\tat com.android.server.input.InputShellCommand.sendText(InputShellCommand.java:390)\n\tat com.android.server.input.InputShellCommand.runText(InputShellCommand.java:362)\n\tat com.android.server.input.InputShellCommand.onCommand(InputShellCommand.java:287)\n\tat com.android.modules.utils.BasicShellCommandHandler.exec(BasicShellCommandHandler.java:97)\n\tat android.os.ShellCommand.exec(ShellCommand.java:38)\n\tat com.android.server.input.InputManagerService.onShellCommand(InputManagerService.java:3353)\n\tat android.os.Binder.shellCommand(Binder.java:1230)\n\tat android.os.Binder.onTransact(Binder.java:1043)\n\tat android.hardware.input.IInputManager$Stub.onTransact(IInputManager.java:1428)\n\tat android.os.Binder.execTransactInternal(Binder.java:1505)\n\tat android.os.Binder.execTransact(Binder.java:1444)\n"]
+2026-10-27 19:51:03,704 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_route_01_origin_results.png
+2026-10-27 19:51:14,337 - JRYG_HK_Auto - INFO -   >> 已点击第一条铜锣湾结果: (540, 357)
+2026-10-27 19:51:25,765 - JRYG_HK_Auto - INFO -   >> 未检测到代理检测提示框，继续执行
+2026-10-27 19:51:25,859 - JRYG_HK_Auto - INFO -   >> 当前没有活动弹框
+2026-10-27 19:51:25,859 - JRYG_HK_Auto - INFO - 【步骤 5】设置终点：香港大学...
+2026-10-27 19:51:25,860 - JRYG_HK_Auto - INFO - 正在点击目的地栏位...
+2026-10-27 19:51:26,073 - JRYG_HK_Auto - INFO -   >> 已点击目的地: (540, 1948)
+2026-10-27 19:51:45,685 - JRYG_HK_Auto - WARNING -   >> 未定位到输入框控件，执行坐标点击并退回 Airtest 输入...
+2026-10-27 19:51:45,767 - JRYG_HK_Auto - INFO -   >> 已点击搜索栏输入焦点: (540, 360)
+2026-10-27 19:51:48,014 - JRYG_HK_Auto - INFO -   >> [Airtest Input] 已成功键入: 香港大学
+2026-10-27 19:51:53,313 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_route_02_destination_results.png
+2026-10-27 19:52:03,927 - JRYG_HK_Auto - INFO -   >> 已点击第一条香港大学结果: (367, 367)
+2026-10-27 19:52:14,316 - JRYG_HK_Auto - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK/screenshots/JRYG_route_03_route_selected.png
+2026-10-27 19:52:14,317 - JRYG_HK_Auto - INFO - 【成功】港版 App 已启动并完成起点铜锣湾、终点香港大学的选择！

@@ -1,4 +1,4 @@
-"""清空 Redis 司机派单缓存 — 独立可执行脚本。
+"""清空 Redis 司机派单缓存 — 独立可执行脚本（支持香港 / 大陆多环境）。
 
 功能：清理 dispatcher:driver 下的 agent 和 phone 缓存，避免上次测试的派单缓存干扰调度。
   - agent:repeat:*   → 司机重复派单限制缓存
@@ -6,17 +6,26 @@
 
 说明：只清理 agent 和 phone 两类缓存，不清空 grab（抢单活动）和 publish（派发轮次）。
 
-单独执行方式：
-    # 方式1：直接运行（清理全部 driver 缓存）
+支持的环境：
+  - 香港-test    香港测试环境
+  - 大陆-test6   大陆测试6环境
+  - 大陆-pre     大陆 pre 预发布环境
+
+执行方式：
+    # 方式1：交互式运行（不传 --env 时，弹出环境选择菜单）
     python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py
 
-    # 方式2：只查看不删除
+    # 方式2：直接指定环境（跳过交互菜单）
+    python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --env 大陆-test6
+    python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --env 大陆-pre
+
+    # 方式3：只查看不删除
     python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --list
 
-    # 方式3：只清理指定司机的缓存
+    # 方式4：只清理指定司机的缓存
     python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --driver-id 31
 
-    # 方式4：安静模式（不打印每个 key）
+    # 方式5：安静模式（不打印每个 key）
     python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --quiet
 
 说明：
@@ -38,22 +47,83 @@ if PROJECT_ROOT not in sys.path:
 from JRYG_Passenger_API_HK.common.redis_cache_cleaner import (
     clean_driver_cache,
     list_driver_cache,
+    resolve_env,
+    ENVIRONMENTS,
+    DEFAULT_ENV,
 )
-from JRYG_Passenger_API_HK.common.hk_config import config
+
+
+def prompt_env():
+    """交互式选择 Redis 环境。
+
+    打印环境列表，等待用户输入序号，返回选中的环境标识。
+    """
+    env_keys = list(ENVIRONMENTS.keys())
+    print("=" * 50)
+    print("  请选择要清理的 Redis 环境")
+    print("=" * 50)
+    for i, key in enumerate(env_keys, 1):
+        conf = ENVIRONMENTS[key]
+        print(f"  {i}. {key:<12} {conf['name']}  "
+              f"({conf['host']}:{conf['port']} db={conf['db']})")
+    print("=" * 50)
+
+    while True:
+        try:
+            raw = input(f"请输入序号 (1-{len(env_keys)})，回车默认 [{DEFAULT_ENV}]: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\n已取消")
+            sys.exit(0)
+
+        if raw == "":
+            selected = DEFAULT_ENV
+            break
+
+        # 支持输入序号或环境标识
+        if raw.isdigit():
+            idx = int(raw)
+            if 1 <= idx <= len(env_keys):
+                selected = env_keys[idx - 1]
+                break
+        elif raw in ENVIRONMENTS:
+            selected = raw
+            break
+
+        print(f"  ✗ 无效输入 '{raw}'，请重新选择")
+
+    return selected
 
 
 def main():
     """命令行入口。"""
+    env_choices = list(ENVIRONMENTS.keys())
+    env_help = "\n".join(
+        f"  {key:<12} {ENVIRONMENTS[key]['name']}  "
+        f"({ENVIRONMENTS[key]['host']}:{ENVIRONMENTS[key]['port']} db={ENVIRONMENTS[key]['db']})"
+        for key in env_choices
+    )
+
     parser = argparse.ArgumentParser(
-        description="清空香港 Redis 司机派单缓存（可独立执行）",
+        description="清空 Redis 司机派单缓存（支持香港/大陆多环境，可独立执行）",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
+        epilog=f"""
+可用环境:
+{env_help}
+
 示例:
-  %(prog)s                      # 清理全部 driver 缓存
+  %(prog)s                      # 交互式选择环境后清理
+  %(prog)s --env 大陆-test6      # 直接清理大陆测试6环境缓存
+  %(prog)s --env 大陆-pre        # 直接清理大陆 pre 环境缓存
   %(prog)s --list               # 只查看缓存，不删除
   %(prog)s --driver-id 31       # 只清理指定司机的缓存
   %(prog)s --quiet              # 安静模式，不打印每个 key
 """,
+    )
+    parser.add_argument(
+        "--env",
+        default=None,
+        choices=env_choices,
+        help="Redis 环境标识（不传则交互式选择）",
     )
     parser.add_argument(
         "--list",
@@ -73,13 +143,26 @@ def main():
     )
     args = parser.parse_args()
 
-    # 打印连接信息
-    print(f"Redis: {config.REDIS_HOST}:{config.REDIS_PORT} (db={config.REDIS_DB})")
+    # 如果未指定 --env，进入交互式选择
+    if args.env is None:
+        selected_env = prompt_env()
+    else:
+        selected_env = args.env
+
+    # 解析环境并打印连接信息
+    conf = resolve_env(selected_env)
+    print()
+    print(f"环境: {selected_env} ({conf['name']})")
+    print(f"Redis: {conf['host']}:{conf['port']} (db={conf['db']})")
     print()
 
     if args.list:
         # 只查看模式
-        list_driver_cache()
+        try:
+            list_driver_cache(env=selected_env)
+        except Exception as e:
+            print(f"✗ 查询失败: {e}")
+            sys.exit(1)
         return
 
     # 清理模式
@@ -92,7 +175,7 @@ def main():
         print("清理全部 driver Redis 缓存...")
 
     try:
-        deleted = clean_driver_cache(driver_id=driver_id, verbose=verbose)
+        deleted = clean_driver_cache(driver_id=driver_id, verbose=verbose, env=selected_env)
         print()
         if deleted > 0:
             print(f"✓ 清理完成，共删除 {deleted} 个 key")
