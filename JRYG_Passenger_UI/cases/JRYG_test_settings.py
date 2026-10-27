@@ -1,4 +1,4 @@
-"""大陆乘客端设置页面功能自动化测试。
+"""乘客端设置页面功能自动化测试。
 
 每次运行只执行一遍完整的顺序流程，逐个进入设置页面所有功能项
 （排除退出登录、测试中心、注销账号），验证页面加载与操作。
@@ -7,6 +7,16 @@
   - 常用地址搜索（蓟门桥地铁a口）
   - 平台协议与规则：进入后点击所有子功能，包括计价规则下属各车型、准入规则下属各子项
   - 隐私中心各文档、系统权限管理、版本信息、清除缓存
+
+测试策略：
+  - 所有子项封装为独立的 check_xxx 方法，每个方法独立 try/except 不中断整体流程
+  - 最终汇总所有子项的 pass/fail 结果，若有任一失败则 pytest.fail
+  - 使用 SettingsFlow 封装层提供 open/click/wait/expect/document/evidence/record 等能力
+  - 安全护栏：禁止点击退出登录、测试中心、注销账号（ensure_allowed 校验）
+
+前置条件：
+  - 设备已连接、Appium Server 已启动
+  - 乘客端 App 已登录（start_from_app 会从 App 启动导航至设置页面）
 """
 import re
 import sys
@@ -15,6 +25,7 @@ from pathlib import Path
 
 import pytest
 
+# 将项目根目录添加到 sys.path，确保 common 模块可被正确导入
 PROJECT_ROOT = str(Path(__file__).resolve().parents[2])
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
@@ -23,7 +34,9 @@ from JRYG_Passenger_UI.common.JRYG_settings_flow import SettingsFlow, SETTING_IT
 from JRYG_Passenger_UI.common.JRYG_logger import logger
 
 
-# 隐私中心下属文档列表：每个元素为 (resource_id, 标题, 正文关键词元组)
+# ==================== 隐私中心下属文档配置 ====================
+# 每个元素为 (resource_id, 标题, 正文关键词元组)
+# 用于验证隐私中心各文档的 WebView 正文是否正确加载
 PRIVACY_DOCUMENTS = [
     ("rl_private_summary", "隐私政策摘要", ("信息", "隐私")),
     ("rl_private_policy", "隐私政策", ("隐私", "信息")),
@@ -32,31 +45,55 @@ PRIVACY_DOCUMENTS = [
     ("rl_third_policy", "第三方信息共享清单", ("SDK",)),
 ]
 
-# 平台协议与规则目录下所有文档标题
+# ==================== 平台协议与规则目录下所有文档标题 ====================
+# 计价规则和准入规则包含子级菜单，需要特殊处理（check_platform_document_multi）
 PLATFORM_DOCUMENTS = [
     "用户协议", "个人信息保护及隐私政策", "录音处理协议", "自动驾驶信息服务协议",
     "小马智行用户服务协议", "小马智行隐私协议", "自动驾驶信息服务隐私政策",
     "阳仔智能对话助手服务", "计价规则", "准入规则", "判责规则", "调价公示",
 ]
 
-# 计价规则子项：5种车型
+# 计价规则子项：5 种车型，每个进入后验证正文关键词（元/公里/费用）
 PRICING_MODELS = ("阳光快车", "阳光优选", "阳光舒享", "六座专车", "豪华臻享")
 
-# 准入规则子项：4个二级详情
+# 准入规则子项：4 个二级详情，进入后验证文档正文加载
 ACCESS_RULES = ("车辆等级规则", "驾驶员准入标准", "车辆准入标准", "其他")
 
 
 class TestJRYGSettings:
-    """设置页面功能测试，顺序执行所有子项验证，每次只运行一遍。"""
+    """设置页面功能测试，顺序执行所有子项验证，每次只运行一遍。
+
+    测试架构：
+      - setup_class: 创建 SettingsFlow 实例，从 App 启动导航至设置页面
+      - test_settings_all_functions: 主测试方法，顺序执行所有子项验证
+      - check_xxx 系列: 各功能项的独立验证方法
+
+    设计原则：
+      - 每个子项独立 try/except，单项失败不中断整体流程
+      - 最终汇总错误列表，若有失败则 pytest.fail 并列出所有失败项
+      - 安全护栏：禁止操作退出登录、测试中心、注销账号
+    """
 
     @classmethod
     def setup_class(cls):
-        """类级初始化：创建 SettingsFlow 实例并从 App 启动导航至设置页面。"""
+        """类级初始化：创建 SettingsFlow 实例并从 App 启动导航至设置页面。
+
+        SettingsFlow 封装了设备连接、Poco 控件树遍历、文本断言、
+        文档正文校验、只读重试、结果落盘等能力。
+        start_from_app 流程：App→首页→我的→齿轮→设置（含误入客服页重试）
+        """
         cls.flow = SettingsFlow()
         cls.flow.start_from_app()
 
     def test_settings_all_functions(self):
-        """顺序执行设置页面所有功能验证，每个子项独立 try/except 不中断整体流程。"""
+        """顺序执行设置页面所有功能验证，每个子项独立 try/except 不中断整体流程。
+
+        步骤组织方式：
+          1. steps 列表：每个元素为 (标签, 方法, 参数) 三元组
+          2. 遍历 steps，每步先 return_settings 回到设置主页，再执行子项验证
+          3. 子项失败时采集 evidence（页面快照），记录到 results.json
+          4. 最终汇总 errors，若有失败则 pytest.fail
+        """
         steps = [
             ("菜单完整性与正常入口", self.check_inventory, None),
             ("紧急联系人列表", self.check_contacts, None),
@@ -92,19 +129,23 @@ class TestJRYGSettings:
         steps.append(("清除缓存确认与登录态保留", self.check_cache_confirm, None))
 
         errors = []
+        # 遍历所有步骤，每步独立 try/except，失败不中断后续步骤
         for label, method, data in steps:
             error = None
             try:
+                # 每步先返回设置主页，确保从已知状态开始操作
                 self.flow.return_settings()
                 method(data)
             except Exception as exc:
                 error = f"{type(exc).__name__}: {exc}"
-                self.flow.evidence(label)
+                self.flow.evidence(label)  # 采集失败页面快照
+            # 尝试返回设置页，确保下一步能从设置主页开始
             try:
                 self.flow.return_settings()
             except Exception as exc:
                 error = f"{error or ''}; 返回设置失败: {exc}"
                 self.flow.evidence(f"{label}_return")
+            # 记录单条测试结果并写入 results.json
             self.flow.record(label, "failed" if error else "passed",
                              error or "页面内容/操作结果及返回设置均通过")
             if error:
@@ -113,17 +154,25 @@ class TestJRYGSettings:
             else:
                 logger.info(f"【设置测试】{label} 通过")
 
+        # 汇总所有失败项，若存在失败则标记整个测试为 FAILED
         if errors:
             pytest.fail(f"{len(errors)}/{len(steps)} 项失败:\n" + "\n".join(errors), pytrace=False)
 
     def check_inventory(self, _):
-        """验证设置菜单包含所有预期入口且无未覆盖项。"""
+        """验证设置菜单包含所有预期入口且无未覆盖项。
+
+        检查逻辑：
+          1. 断言 SETTING_ITEMS 中定义的所有 resource_id 均出现在页面控件树中
+          2. 反向校验：页面中发现的 rl_ 开头入口不应超出已知集合（防止新增入口遗漏测试）
+        """
         flow = self.flow
         flow.expect("设置")
         names = {node["name"] for node in flow.nodes()}
+        # 正向校验：所有预期入口必须存在
         for rid, label in SETTING_ITEMS.items():
             assert f"{flow.package}:id/{rid}" in names, f"设置菜单缺少 {label}"
-        known = set(SETTING_ITEMS) | {"rl_more_zhuxiao"}
+        # 反向校验：不应发现未覆盖的入口
+        known = set(SETTING_ITEMS) | {"rl_more_zhuxiao"}  # rl_more_zhuxiao 为注销账号入口，单独排除
         discovered = {name.split(":id/")[-1] for name in names if ":id/rl_" in name}
         assert discovered <= known, f"发现未覆盖设置入口: {discovered - known}"
 
@@ -156,13 +205,18 @@ class TestJRYGSettings:
         )), "未展示联系人表单或上限校验"
 
     def check_address(self, rid):
-        """验证常用地址搜索功能（常用一/常用二），搜索蓟门桥地铁a口。"""
+        """验证常用地址搜索功能（常用一/常用二），搜索蓟门桥地铁a口。
+
+        流程：进入常用地址 → 点击常用一/常用二 → 输入搜索关键词 → 验证搜索结果出现
+        参数 rid: "rl_home"（常用一）或 "rl_company"（常用二）
+        """
         flow = self.flow
-        flow.open("rl_frequent_address")
+        flow.open("rl_frequent_address")  # 返回设置 → 滚动定位 → 点击常用地址入口
         flow.expect("常用地址", "常用一", "常用二")
-        flow.click(rid=rid)
+        flow.click(rid=rid)  # 点击常用一或常用二进入搜索页
         flow.wait(lambda: flow.exists(rid="et_search"), "地址编辑搜索页")
         flow.element(rid="et_search").set_text("蓟门桥地铁a口")
+        # 等待搜索结果出现：页面中出现"蓟门桥"关键词（排除输入框自身文本），或结果列表项出现
         flow.wait(lambda: any("蓟门桥" in text for text in flow.texts()
                              if text != "蓟门桥地铁a口") or flow.exists(rid="tv_address_name"), "蓟门桥地铁a口搜索结果")
         assert "AddressSearch" in flow.adb.get_top_activity(), "搜索页未正常打开"
@@ -228,14 +282,19 @@ class TestJRYGSettings:
         flow.expect("功能类型", "SDK名称", "使用目的", "收集的个人信息种类", package=None)
 
     def check_platform(self, _):
-        """验证平台协议与规则目录加载正常（带只读重试，滚动确保全部可见）。"""
+        """验证平台协议与规则目录加载正常（带只读重试，滚动确保全部可见）。
+
+        平台协议目录是 WebView 页面，package 可能不是乘客端，因此不按包名过滤。
+        滚动最多 3 次确保底部文档（计价规则/判责规则/调价公示）可见。
+        首次加载超时会自动重新进入重试一次（read_only_retry）。
+        """
         flow = self.flow
         def load():
-            flow.open("rl_more_doc")
+            flow.open("rl_more_doc")  # 返回设置 → 点击平台协议与规则入口
             # 不按包名过滤获取全部文本（WebView 页面 package 可能不是乘客端）
             flow.wait(lambda: "平台协议" in flow.texts(package=None) or "用户协议" in flow.texts(package=None),
                       "平台协议目录加载", timeout=30)
-            # 滚动确保全部文档可见
+            # 滚动确保全部文档可见（底部文档出现说明全部已加载）
             for _ in range(3):
                 all_texts = flow.texts(package=None)
                 if all(t in all_texts for t in ("计价规则", "判责规则", "调价公示")):
@@ -246,7 +305,11 @@ class TestJRYGSettings:
         flow.read_only_retry(load, "平台协议目录")
 
     def _scroll_to_text(self, text, max_swipes=5):
-        """在当前页面滚动查找指定文本，找到返回 True。"""
+        """在当前页面滚动查找指定文本，找到返回 True。
+
+        向上滚动最多 max_swipes 次，每次滚动后检查目标文本是否出现。
+        不按包名过滤文本，因为 WebView 页面 package 可能不是乘客端。
+        """
         flow = self.flow
         for _ in range(max_swipes):
             if flow.exists(text=text) or text in flow.texts(package=None):
@@ -285,18 +348,28 @@ class TestJRYGSettings:
 
         计价规则子项：阳光快车、阳光优选、阳光舒享、六座专车、豪华臻享
         准入规则子项：车辆等级规则、驾驶员准入标准、车辆准入标准、其他
+
+        遍历策略：
+          1. 进入计价规则/准入规则列表页（需先进入平台协议目录再点击进入）
+          2. 滚动确保所有子项可见
+          3. 逐个点击子功能 → 等待进入详情页 → 验证 WebView 正文加载 → ADB 返回 → 回到列表页
+          4. 每个子项独立 try/except，单项失败不中断后续子项验证
+
+        参数 title: "计价规则" 或 "准入规则"
         """
         flow = self.flow
+        # 根据标题选择子项列表和预期正文关键词
         sub_items = list(PRICING_MODELS) if title == "计价规则" else list(ACCESS_RULES)
         expected_terms = ("元", "公里", "费用") if title == "计价规则" else ()
 
         # 进入计价规则/准入规则列表页
-        self.check_platform(None)
-        self._scroll_to_text(title, max_swipes=5)
+        self.check_platform(None)  # 先进入平台协议目录
+        self._scroll_to_text(title, max_swipes=5)  # 滚动找到目标标题
         flow.click(text=title)
+        # 等待离开平台协议目录（不再同时出现多个目录标题）
         flow.wait(lambda: not {"用户协议", "平台协议", "平台规则"} <= flow.texts(package=None),
                   f"{title}离开协议目录", timeout=20)
-        # 滚动确保所有子项可见
+        # 滚动确保所有子项可见（最后一个子项可见说明全部已加载）
         self._scroll_to_text(sub_items[-1], max_swipes=3)
         flow.expect(title, *sub_items[:2])
 
@@ -305,14 +378,18 @@ class TestJRYGSettings:
             sub_label = f"{title}-{sub}"
             sub_error = None
             try:
+                # 滚动找到子项并点击
                 self._scroll_to_text(sub, max_swipes=3)
                 flow.click(text=sub)
+                # 等待进入详情页（子项标题从页面消失，或不再处于协议目录）
                 flow.wait(lambda: sub not in flow.texts() or not {"用户协议", "平台协议"} <= flow.texts(),
                           f"{sub}进入详情页", timeout=20)
+                # 验证 WebView 文档正文加载（计价规则需包含费用相关关键词）
                 flow.document(expected_terms, timeout=45)
             except Exception as exc:
                 sub_error = f"{type(exc).__name__}: {exc}"
                 flow.evidence(sub_label)
+            # 返回列表页
             try:
                 flow.adb.back()
                 time.sleep(1)
@@ -383,18 +460,24 @@ class TestJRYGSettings:
         assert flow.element(rid="tv_more").get_text() == before, "取消后缓存数值异常改变"
 
     def check_cache_confirm(self, _):
-        """验证清除缓存确认后归零且登录态保留。"""
+        """验证清除缓存确认后归零且登录态保留。
+
+        流程：点击清除缓存 → 确认弹窗 → 等待缓存数值归零 → 返回"我的"页 →
+        断言手机号仍显示（登录态保留） → 重新进入设置页
+        """
         flow = self.flow
         flow.click(rid="rl_more_clean")
         flow.expect("清除缓存", "取消", "确认")
-        flow.click(rid="positive")
+        flow.click(rid="positive")  # 点击确认按钮
+        # 等待缓存数值归零（匹配 0 / 0.0 / 0B / 0KB 等格式）
         flow.wait(lambda: bool(re.fullmatch(r"0(?:\.0+)?\s*[KMG]?B?", flow.element(rid="tv_more").get_text(), re.I)),
                   "App内缓存清理至0", timeout=15)
-        flow.adb.back()
+        flow.adb.back()  # 返回"我的"页
+        # 断言登录态保留：手机号仍显示且不含"登录"字样
         flow.wait(lambda: flow.exists(rid="tv_mine_phone"), "清缓存后仍保留登录态")
         phone = flow.element(rid="tv_mine_phone").get_text()
         assert re.search(r"\d", phone) and "登录" not in phone
-        flow.click(rid="iv_setting")
+        flow.click(rid="iv_setting")  # 重新进入设置页供后续步骤使用
 
 
 if __name__ == "__main__":

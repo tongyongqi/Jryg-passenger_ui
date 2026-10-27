@@ -1,0 +1,156 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{98eb6c5 u0 com.jryg.client/com.android.jryghq.usercenter.my.YGUMoreActivity t659 d0}",
+  "texts": [
+    "57.09M",
+    "ICP备案信息查询地址：https://beian.miit.gov.cn",
+    "v5.29.0",
+    "个人信息收集清单",
+    "京ICP备12020916号-4A",
+    "常用地址",
+    "平台协议与规则",
+    "支付方式",
+    "永久注销账号",
+    "注销账号后将无法恢复",
+    "测试中心",
+    "消息通知管理",
+    "清除缓存",
+    "版本信息",
+    "第三方信息共享清单",
+    "紧急联系人",
+    "设置",
+    "退出登录",
+    "隐私中心"
+  ],
+  "events": [
+    {
+      "action": "click",
+      "target": "首页",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "我的",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "iv_setting",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_contract",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_frequent_address",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_frequent_address",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_home",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_frequent_address",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_company",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_frequent_pay",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_notify_manage",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_notify_manage",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_person_policy",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_private_summary",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_private_policy",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_record_policy",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_person_policy",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_third_policy",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_private_setting",
+      "package": "com.jryg.client"
+    }
+  ]
+}

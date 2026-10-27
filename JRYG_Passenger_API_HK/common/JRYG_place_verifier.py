@@ -8,18 +8,18 @@
   5. pname/adname 保持高德原始返回值
   6. 周围搜索默认简体中文
 
-依赖文件：
-    JRYG_Passenger_UI_HK/logs/JRYG_place_capture.json     — 上游 /map-service/v2/place 捕获
-    JRYG_Passenger_UI_HK/logs/JRYG_around_capture.json   — 下游高德 /v3/place/around 捕获
+依赖 HK_CAPTURE_DIR 目录下的 JRYG_place_capture.json 和
+JRYG_around_capture.json；默认目录为接口项目 data/captures。
 """
 
 import json
 import os
 import re
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-PLACE_CAPTURE_FILE = os.path.join(BASE_DIR, "JRYG_Passenger_UI_HK", "logs", "JRYG_place_capture.json")
-AROUND_CAPTURE_FILE = os.path.join(BASE_DIR, "JRYG_Passenger_UI_HK", "logs", "JRYG_around_capture.json")
+from JRYG_Passenger_API_HK.common.JRYG_config import CAPTURE_DIR
+
+PLACE_CAPTURE_FILE = os.path.join(CAPTURE_DIR, "JRYG_place_capture.json")
+AROUND_CAPTURE_FILE = os.path.join(CAPTURE_DIR, "JRYG_around_capture.json")
 
 # 繁体中文 Unicode 范围（基本区 + 扩展区）
 TRADITIONAL_PATTERN = re.compile(

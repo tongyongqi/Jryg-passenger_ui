@@ -6,3 +6,4 @@ pocoui>=1.0.94
 pytest-html>=4.2.0
 PyYAML>=6.0.3
 typing_extensions>=4.16.0
+requests>=2.31.0

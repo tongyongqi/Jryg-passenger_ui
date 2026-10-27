@@ -1,20 +1,10 @@
 {
-  "activity": "topResumedActivity=ActivityRecord{c853ec8 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}",
+  "activity": "topResumedActivity=ActivityRecord{dd51f7f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}",
   "texts": [
     "计价规则",
     ""
   ],
   "events": [
-    {
-      "action": "click",
-      "target": "rl_more_doc",
-      "package": "com.jryg.client"
-    },
-    {
-      "action": "click",
-      "target": "计价规则",
-      "package": "com.jryg.client"
-    },
     {
       "action": "click",
       "target": "阳光舒享",

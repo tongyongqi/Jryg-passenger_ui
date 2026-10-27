@@ -3634,3 +3634,1165 @@ AssertionError: 页面状态 driver_other 已持续 61 秒未推进；Activity: 
 2026-10-23 17:20:01,766 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038
 2026-10-23 17:20:01,998 - JRYG_Auto - INFO - 【乘客端】检测到已处于登录状态（首页），跳过登录输入步骤，登录验证通过！
 2026-10-23 17:20:03,154 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-10-23 17:40:25,959 - JRYG_Auto - INFO - 【预约用车测试】设备连接完毕，准备执行预约用车流程
+2026-10-23 17:40:25,961 - JRYG_Auto - INFO - 【预约用车测试】启动乘客端 App，开始预约用车流程...
+2026-10-23 17:40:25,961 - JRYG_Auto - INFO - 强制终止 App 进程: com.jryg.driver
+2026-10-23 17:40:26,121 - JRYG_Auto - INFO - 强制终止 App 进程: com.jryg.client
+2026-10-23 17:40:26,366 - JRYG_Auto - INFO - 拉起 Android App: com.jryg.client/com.jryg.client.activity.loading.YGALoadingActivity
+2026-10-23 17:40:34,718 - JRYG_Auto - INFO - 当前流转 [循环 0] -> 页面状态: ad
+2026-10-23 17:40:34,719 - JRYG_Auto - INFO - 【阶段4】关闭广告弹窗...
+2026-10-23 17:40:41,412 - JRYG_Auto - INFO - 当前流转 [循环 1] -> 页面状态: home
+2026-10-23 17:40:41,414 - JRYG_Auto - INFO - 【阶段4】在首页，点击「预约用车」入口...
+2026-10-23 17:40:44,379 - JRYG_Auto - INFO - 已通过文本点击「预约用车」
+2026-10-23 17:40:46,763 - JRYG_Auto - INFO - 当前流转 [循环 2] -> 页面状态: time_picker
+2026-10-23 17:40:46,763 - JRYG_Auto - INFO - 【阶段4】检测到时间选择器，选择预约时间...
+2026-10-23 17:40:55,238 - JRYG_Auto - INFO - 预约时间已选择并确认
+2026-10-23 17:40:57,487 - JRYG_Auto - INFO - 当前流转 [循环 3] -> 页面状态: unknown
+2026-10-23 17:41:00,113 - JRYG_Auto - INFO - 当前流转 [循环 4] -> 页面状态: unknown
+2026-10-23 17:41:02,331 - JRYG_Auto - INFO - 当前流转 [循环 5] -> 页面状态: unknown
+2026-10-23 17:41:05,124 - JRYG_Auto - INFO - 当前流转 [循环 6] -> 页面状态: unknown
+2026-10-23 17:41:07,392 - JRYG_Auto - INFO - 当前流转 [循环 7] -> 页面状态: unknown
+2026-10-23 17:41:09,577 - JRYG_Auto - INFO - 当前流转 [循环 8] -> 页面状态: unknown
+2026-10-23 17:41:11,781 - JRYG_Auto - INFO - 当前流转 [循环 9] -> 页面状态: unknown
+2026-10-23 17:41:14,266 - JRYG_Auto - INFO - 当前流转 [循环 10] -> 页面状态: unknown
+2026-10-23 17:41:16,456 - JRYG_Auto - INFO - 当前流转 [循环 11] -> 页面状态: unknown
+2026-10-23 17:41:18,678 - JRYG_Auto - INFO - 当前流转 [循环 12] -> 页面状态: unknown
+2026-10-23 17:41:20,906 - JRYG_Auto - INFO - 当前流转 [循环 13] -> 页面状态: unknown
+2026-10-23 17:41:23,547 - JRYG_Auto - INFO - 当前流转 [循环 14] -> 页面状态: unknown
+2026-10-23 17:41:26,139 - JRYG_Auto - INFO - 当前流转 [循环 15] -> 页面状态: unknown
+2026-10-23 17:41:28,357 - JRYG_Auto - INFO - 当前流转 [循环 16] -> 页面状态: unknown
+2026-10-23 17:41:30,703 - JRYG_Auto - INFO - 当前流转 [循环 17] -> 页面状态: unknown
+2026-10-23 17:41:32,908 - JRYG_Auto - INFO - 当前流转 [循环 18] -> 页面状态: unknown
+2026-10-23 17:41:35,118 - JRYG_Auto - INFO - 当前流转 [循环 19] -> 页面状态: unknown
+2026-10-23 17:41:37,891 - JRYG_Auto - INFO - 当前流转 [循环 20] -> 页面状态: unknown
+2026-10-23 17:41:40,124 - JRYG_Auto - INFO - 当前流转 [循环 21] -> 页面状态: unknown
+2026-10-23 17:41:42,358 - JRYG_Auto - INFO - 当前流转 [循环 22] -> 页面状态: unknown
+2026-10-23 17:41:45,417 - JRYG_Auto - INFO - 当前流转 [循环 23] -> 页面状态: unknown
+2026-10-23 17:41:48,152 - JRYG_Auto - INFO - 当前流转 [循环 24] -> 页面状态: unknown
+2026-10-23 17:41:50,338 - JRYG_Auto - INFO - 当前流转 [循环 25] -> 页面状态: unknown
+2026-10-23 17:41:52,523 - JRYG_Auto - INFO - 当前流转 [循环 26] -> 页面状态: unknown
+2026-10-23 17:41:54,692 - JRYG_Auto - INFO - 当前流转 [循环 27] -> 页面状态: unknown
+2026-10-23 17:41:56,865 - JRYG_Auto - INFO - 当前流转 [循环 28] -> 页面状态: unknown
+2026-10-23 17:41:59,662 - JRYG_Auto - INFO - 当前流转 [循环 29] -> 页面状态: unknown
+2026-10-23 17:41:59,663 - JRYG_Auto - WARNING - 【卡顿检测】状态 unknown 已停留 62s（阈值 60s）
+2026-10-23 17:41:59,663 - JRYG_Auto - WARNING - 【卡顿检测】状态 unknown 已停留 60s，启动自动诊断...
+2026-10-23 17:41:59,759 - JRYG_Auto - WARNING - 【卡顿诊断】当前 Activity: topResumedActivity=ActivityRecord{a16a662 u0 com.jryg.client/.activity.book.book.YGABookActivity t657 d0}
+2026-10-23 17:42:00,121 - JRYG_Auto - INFO - 【卡顿诊断】未知卡顿，尝试通用恢复: 关闭弹框 → 返回 → 重新进入页面
+2026-10-23 17:42:05,243 - JRYG_Auto - WARNING - 【卡顿诊断】通用恢复无效，尝试强制重启 App...
+2026-10-23 17:42:05,244 - JRYG_Auto - INFO - 强制终止 App 进程: com.jryg.driver
+2026-10-23 17:42:05,386 - JRYG_Auto - INFO - 强制终止 App 进程: com.jryg.client
+2026-10-23 17:42:05,597 - JRYG_Auto - INFO - 拉起 Android App: com.jryg.client/com.jryg.client.activity.loading.YGALoadingActivity
+2026-10-23 17:42:11,782 - JRYG_Auto - INFO - 【卡顿恢复】已执行恢复操作(第1次)，继续流程
+2026-10-23 17:42:11,847 - JRYG_Auto - INFO - 当前流转 [循环 30] -> 页面状态: launcher
+2026-10-23 17:42:11,848 - JRYG_Auto - INFO - 【阶段1】位于桌面，启动乘客端...
+2026-10-23 17:42:11,848 - JRYG_Auto - INFO - 强制终止 App 进程: com.jryg.driver
+2026-10-23 17:42:11,924 - JRYG_Auto - INFO - 强制终止 App 进程: com.jryg.client
+2026-10-23 17:42:12,039 - JRYG_Auto - INFO - 拉起 Android App: com.jryg.client/com.jryg.client.activity.loading.YGALoadingActivity
+2026-10-23 17:42:18,345 - JRYG_Auto - INFO - 当前流转 [循环 31] -> 页面状态: ad
+2026-10-23 17:42:18,346 - JRYG_Auto - INFO - 【阶段4】关闭广告弹窗...
+2026-10-23 17:42:25,145 - JRYG_Auto - INFO - 当前流转 [循环 32] -> 页面状态: home
+2026-10-23 17:42:25,145 - JRYG_Auto - INFO - 【阶段4】在首页，点击「预约用车」入口...
+2026-10-23 17:42:27,179 - JRYG_Auto - INFO - 已通过文本点击「预约用车」
+2026-10-23 17:42:29,665 - JRYG_Auto - INFO - 当前流转 [循环 33] -> 页面状态: time_picker
+2026-10-23 17:42:29,666 - JRYG_Auto - INFO - 【阶段4】检测到时间选择器，选择预约时间...
+2026-10-23 17:42:38,630 - JRYG_Auto - INFO - 预约时间已选择并确认
+2026-10-23 17:42:41,272 - JRYG_Auto - INFO - 当前流转 [循环 34] -> 页面状态: unknown
+2026-10-23 17:54:39,816 - JRYG_Auto - INFO - 拉起 Android App: com.jryg.client/com.jryg.client.activity.loading.YGALoadingActivity
+2026-10-23 17:54:45,599 - JRYG_Auto - INFO - 【设置验证】点击 首页
+2026-10-23 17:54:50,760 - JRYG_Auto - INFO - 【设置验证】点击 我的
+2026-10-23 17:54:54,166 - JRYG_Auto - INFO - 【设置验证】点击 iv_setting
+2026-10-23 17:54:57,311 - JRYG_Auto - INFO - 【多级遍历】设置一级菜单共 10 项，开始深度优先遍历
+2026-10-23 17:54:57,311 - JRYG_Auto - INFO - 【多级遍历】▼ 进入一级菜单: L1-1-rl_contract
+2026-10-23 17:54:58,134 - JRYG_Auto - INFO - 【设置验证】点击 rl_contract
+2026-10-23 17:55:02,682 - JRYG_Auto - INFO - 【多级遍历】L1-1-rl_contract 页面子项: []
+2026-10-23 17:55:02,683 - JRYG_Auto - INFO - 【多级遍历】▲ 一级菜单 L1-1-rl_contract 遍历完成
+2026-10-23 17:55:02,683 - JRYG_Auto - INFO - 【多级遍历】▼ 进入一级菜单: L1-2-rl_frequent_address
+2026-10-23 17:55:05,053 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 17:55:09,439 - JRYG_Auto - INFO - 【多级遍历】L1-2-rl_frequent_address 页面子项: [('rl_home', ''), ('rl_company', '')]
+2026-10-23 17:55:09,439 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-2-rl_frequent_address > L2-1-rl_home
+2026-10-23 17:55:12,687 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 17:55:16,609 - JRYG_Auto - INFO - 【设置验证】点击 rl_home
+2026-10-23 17:55:20,819 - JRYG_Auto - INFO - 【多级遍历】L1-2-rl_frequent_address > L2-1-rl_home 子项: []
+2026-10-23 17:55:20,819 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-2-rl_frequent_address > L2-1-rl_home 遍历完成
+2026-10-23 17:55:20,819 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-2-rl_frequent_address > L2-2-rl_company
+2026-10-23 17:55:27,033 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 17:55:30,880 - JRYG_Auto - INFO - 【设置验证】点击 rl_company
+2026-10-23 17:55:35,149 - JRYG_Auto - INFO - 【多级遍历】L1-2-rl_frequent_address > L2-2-rl_company 子项: [('rl_root', ''), ('rl_parent', '')]
+2026-10-23 17:55:35,150 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-2-rl_frequent_address > L2-2-rl_company > L3-1-rl_root
+2026-10-23 17:55:39,187 - JRYG_Auto - ERROR - 【多级遍历】L1-2-rl_frequent_address > L2-2-rl_company > L3-1-rl_root 遍历异常: 设置入口不在测试允许清单: rl_company
+2026-10-23 17:55:39,714 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-2-rl_frequent_address > L2-2-rl_company > L3-2-rl_parent
+2026-10-23 17:55:39,998 - JRYG_Auto - ERROR - 【多级遍历】L1-2-rl_frequent_address > L2-2-rl_company > L3-2-rl_parent 遍历异常: 设置入口不在测试允许清单: rl_company
+2026-10-23 17:55:40,537 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-2-rl_frequent_address > L2-2-rl_company 遍历完成
+2026-10-23 17:55:40,538 - JRYG_Auto - INFO - 【多级遍历】▲ 一级菜单 L1-2-rl_frequent_address 遍历完成
+2026-10-23 17:55:40,538 - JRYG_Auto - INFO - 【多级遍历】▼ 进入一级菜单: L1-3-rl_frequent_pay
+2026-10-23 17:55:41,713 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_pay
+2026-10-23 17:55:45,904 - JRYG_Auto - INFO - 【多级遍历】L1-3-rl_frequent_pay 页面子项: []
+2026-10-23 17:55:45,905 - JRYG_Auto - INFO - 【多级遍历】▲ 一级菜单 L1-3-rl_frequent_pay 遍历完成
+2026-10-23 17:55:45,905 - JRYG_Auto - INFO - 【多级遍历】▼ 进入一级菜单: L1-4-rl_notify_manage
+2026-10-23 17:55:49,213 - JRYG_Auto - INFO - 【设置验证】点击 rl_notify_manage
+2026-10-23 17:55:54,178 - JRYG_Auto - INFO - 【多级遍历】L1-4-rl_notify_manage 页面子项: [('rl_person_policy', '')]
+2026-10-23 17:55:54,178 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-4-rl_notify_manage > L2-1-rl_person_policy
+2026-10-23 17:55:56,124 - JRYG_Auto - INFO - 【设置验证】点击 rl_notify_manage
+2026-10-23 17:56:02,363 - JRYG_Auto - INFO - 【设置验证】点击 rl_person_policy
+2026-10-23 17:56:06,547 - JRYG_Auto - INFO - 【多级遍历】L1-4-rl_notify_manage > L2-1-rl_person_policy 子项: []
+2026-10-23 17:56:06,547 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-4-rl_notify_manage > L2-1-rl_person_policy 遍历完成
+2026-10-23 17:56:06,548 - JRYG_Auto - INFO - 【多级遍历】▲ 一级菜单 L1-4-rl_notify_manage 遍历完成
+2026-10-23 17:56:06,548 - JRYG_Auto - INFO - 【多级遍历】▼ 进入一级菜单: L1-5-rl_more_private
+2026-10-23 17:56:09,726 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 17:56:13,951 - JRYG_Auto - INFO - 【多级遍历】L1-5-rl_more_private 页面子项: [('rl_private_summary', ''), ('rl_private_policy', ''), ('rl_record_policy', ''), ('rl_person_policy', ''), ('rl_third_policy', ''), ('rl_private_setting', ''), ('rl_revoke_setting', '')]
+2026-10-23 17:56:13,952 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-1-rl_private_summary
+2026-10-23 17:56:15,919 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 17:56:19,797 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_summary
+2026-10-23 17:56:23,993 - JRYG_Auto - INFO - 【多级遍历】L1-5-rl_more_private > L2-1-rl_private_summary 子项: []
+2026-10-23 17:56:23,993 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-5-rl_more_private > L2-1-rl_private_summary 遍历完成
+2026-10-23 17:56:23,993 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-2-rl_private_policy
+2026-10-23 17:56:27,574 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 17:56:31,890 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_policy
+2026-10-23 17:56:36,262 - JRYG_Auto - INFO - 【多级遍历】L1-5-rl_more_private > L2-2-rl_private_policy 子项: []
+2026-10-23 17:56:36,263 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-5-rl_more_private > L2-2-rl_private_policy 遍历完成
+2026-10-23 17:56:36,263 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-3-rl_record_policy
+2026-10-23 17:56:40,358 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 17:56:44,296 - JRYG_Auto - INFO - 【设置验证】点击 rl_record_policy
+2026-10-23 17:56:48,478 - JRYG_Auto - INFO - 【多级遍历】L1-5-rl_more_private > L2-3-rl_record_policy 子项: []
+2026-10-23 17:56:48,479 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-5-rl_more_private > L2-3-rl_record_policy 遍历完成
+2026-10-23 17:56:48,479 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-4-rl_person_policy
+2026-10-23 17:56:52,437 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 17:56:56,433 - JRYG_Auto - INFO - 【设置验证】点击 rl_person_policy
+2026-10-23 17:57:00,992 - JRYG_Auto - INFO - 【多级遍历】L1-5-rl_more_private > L2-4-rl_person_policy 子项: []
+2026-10-23 17:57:00,993 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-5-rl_more_private > L2-4-rl_person_policy 遍历完成
+2026-10-23 17:57:00,993 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-5-rl_third_policy
+2026-10-23 17:57:04,988 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 17:57:09,190 - JRYG_Auto - INFO - 【设置验证】点击 rl_third_policy
+2026-10-23 17:57:13,702 - JRYG_Auto - INFO - 【多级遍历】L1-5-rl_more_private > L2-5-rl_third_policy 子项: []
+2026-10-23 17:57:13,703 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-5-rl_more_private > L2-5-rl_third_policy 遍历完成
+2026-10-23 17:57:13,703 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-6-rl_private_setting
+2026-10-23 17:57:16,966 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 17:57:21,176 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_setting
+2026-10-23 17:57:25,694 - JRYG_Auto - INFO - 【多级遍历】L1-5-rl_more_private > L2-6-rl_private_setting 子项: [('rl_private_location', ''), ('rl_private_mike', ''), ('rl_private_contacts', '')]
+2026-10-23 17:57:25,694 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-6-rl_private_setting > L3-1-rl_private_location
+2026-10-23 17:57:28,391 - JRYG_Auto - ERROR - 【多级遍历】L1-5-rl_more_private > L2-6-rl_private_setting > L3-1-rl_private_location 遍历异常: 设置入口不在测试允许清单: rl_private_setting
+2026-10-23 17:57:28,879 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-6-rl_private_setting > L3-2-rl_private_mike
+2026-10-23 17:57:29,159 - JRYG_Auto - ERROR - 【多级遍历】L1-5-rl_more_private > L2-6-rl_private_setting > L3-2-rl_private_mike 遍历异常: 设置入口不在测试允许清单: rl_private_setting
+2026-10-23 17:57:29,611 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-6-rl_private_setting > L3-3-rl_private_contacts
+2026-10-23 17:57:30,593 - JRYG_Auto - ERROR - 【多级遍历】L1-5-rl_more_private > L2-6-rl_private_setting > L3-3-rl_private_contacts 遍历异常: 设置入口不在测试允许清单: rl_private_setting
+2026-10-23 17:57:31,154 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-5-rl_more_private > L2-6-rl_private_setting 遍历完成
+2026-10-23 17:57:31,154 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-5-rl_more_private > L2-7-rl_revoke_setting
+2026-10-23 17:57:31,967 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 17:57:36,850 - JRYG_Auto - INFO - 【设置验证】点击 rl_revoke_setting
+2026-10-23 17:57:41,027 - JRYG_Auto - INFO - 【多级遍历】L1-5-rl_more_private > L2-7-rl_revoke_setting 子项: []
+2026-10-23 17:57:41,028 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-5-rl_more_private > L2-7-rl_revoke_setting 遍历完成
+2026-10-23 17:57:41,028 - JRYG_Auto - INFO - 【多级遍历】▲ 一级菜单 L1-5-rl_more_private 遍历完成
+2026-10-23 17:57:41,028 - JRYG_Auto - INFO - 【多级遍历】▼ 进入一级菜单: L1-6-rl_person_policy
+2026-10-23 17:57:44,190 - JRYG_Auto - INFO - 【设置验证】点击 rl_person_policy
+2026-10-23 17:57:48,646 - JRYG_Auto - INFO - 【多级遍历】L1-6-rl_person_policy 页面子项: []
+2026-10-23 17:57:48,647 - JRYG_Auto - INFO - 【多级遍历】▲ 一级菜单 L1-6-rl_person_policy 遍历完成
+2026-10-23 17:57:48,647 - JRYG_Auto - INFO - 【多级遍历】▼ 进入一级菜单: L1-7-rl_third_policy
+2026-10-23 17:57:50,562 - JRYG_Auto - INFO - 【设置验证】点击 rl_third_policy
+2026-10-23 17:57:54,717 - JRYG_Auto - INFO - 【多级遍历】L1-7-rl_third_policy 页面子项: []
+2026-10-23 17:57:54,718 - JRYG_Auto - INFO - 【多级遍历】▲ 一级菜单 L1-7-rl_third_policy 遍历完成
+2026-10-23 17:57:54,718 - JRYG_Auto - INFO - 【多级遍历】▼ 进入一级菜单: L1-8-rl_more_doc
+2026-10-23 17:57:57,249 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 17:58:01,635 - JRYG_Auto - INFO - 【多级遍历】L1-8-rl_more_doc 页面子项: []
+2026-10-23 17:58:01,635 - JRYG_Auto - INFO - 【多级遍历】▲ 一级菜单 L1-8-rl_more_doc 遍历完成
+2026-10-23 17:58:01,635 - JRYG_Auto - INFO - 【多级遍历】▼ 进入一级菜单: L1-9-rl_more_version
+2026-10-23 17:58:04,223 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_version
+2026-10-23 17:58:09,134 - JRYG_Auto - INFO - 【多级遍历】L1-9-rl_more_version 页面子项: [('rl_contract', ''), ('rl_frequent_address', ''), ('rl_frequent_pay', ''), ('rl_notify_manage', ''), ('rl_more_private', ''), ('rl_person_policy', ''), ('rl_third_policy', ''), ('rl_more_doc', ''), ('rl_more_version', ''), ('rl_more_clean', '')]
+2026-10-23 17:58:09,134 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-9-rl_more_version > L2-1-rl_contract
+2026-10-23 17:58:10,819 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_version
+2026-10-23 17:58:15,296 - JRYG_Auto - INFO - 【设置验证】点击 rl_contract
+2026-10-23 17:58:19,650 - JRYG_Auto - INFO - 【多级遍历】L1-9-rl_more_version > L2-1-rl_contract 子项: []
+2026-10-23 17:58:19,651 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-9-rl_more_version > L2-1-rl_contract 遍历完成
+2026-10-23 17:58:19,651 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-9-rl_more_version > L2-2-rl_frequent_address
+2026-10-23 17:58:22,217 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_version
+2026-10-23 17:58:26,124 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 17:58:30,881 - JRYG_Auto - INFO - 【多级遍历】L1-9-rl_more_version > L2-2-rl_frequent_address 子项: [('rl_home', ''), ('rl_company', '')]
+2026-10-23 17:58:30,882 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-9-rl_more_version > L2-2-rl_frequent_address > L3-1-rl_home
+2026-10-23 17:58:33,597 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 17:58:37,372 - JRYG_Auto - INFO - 【设置验证】点击 rl_home
+2026-10-23 17:58:42,102 - JRYG_Auto - INFO - 【多级遍历】L1-9-rl_more_version > L2-2-rl_frequent_address > L3-1-rl_home 子项: [('rl_root', ''), ('rl_parent', '')]
+2026-10-23 17:58:42,102 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-9-rl_more_version > L2-2-rl_frequent_address > L3-1-rl_home > L4-1-rl_root
+2026-10-23 17:58:45,658 - JRYG_Auto - ERROR - 【多级遍历】L1-9-rl_more_version > L2-2-rl_frequent_address > L3-1-rl_home > L4-1-rl_root 遍历异常: 设置入口不在测试允许清单: rl_home
+2026-10-23 17:58:46,170 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-9-rl_more_version > L2-2-rl_frequent_address > L3-1-rl_home > L4-2-rl_parent
+2026-10-23 17:58:46,477 - JRYG_Auto - ERROR - 【多级遍历】L1-9-rl_more_version > L2-2-rl_frequent_address > L3-1-rl_home > L4-2-rl_parent 遍历异常: 设置入口不在测试允许清单: rl_home
+2026-10-23 17:58:47,569 - JRYG_Auto - INFO - 【多级遍历】▲ 子菜单 L1-9-rl_more_version > L2-2-rl_frequent_address > L3-1-rl_home 遍历完成
+2026-10-23 17:58:47,570 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-9-rl_more_version > L2-2-rl_frequent_address > L3-2-rl_company
+2026-10-23 17:58:49,668 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 17:58:53,497 - JRYG_Auto - INFO - 【设置验证】点击 rl_company
+2026-10-23 17:58:58,209 - JRYG_Auto - INFO - 【多级遍历】L1-9-rl_more_version > L2-2-rl_frequent_address > L3-2-rl_company 子项: [('rl_root', ''), ('rl_parent', '')]
+2026-10-23 17:58:58,210 - JRYG_Auto - INFO - 【多级遍历】▼ 进入子菜单: L1-9-rl_more_version > L2-2-rl_frequent_address > L3-2-rl_company > L4-1-rl_root
+2026-10-23 18:31:35,753 - JRYG_Auto - INFO - 拉起 Android App: com.jryg.client/com.jryg.client.activity.loading.YGALoadingActivity
+2026-10-23 18:31:36,757 - JRYG_Auto - INFO - 【设置验证】点击 首页
+2026-10-23 18:31:41,566 - JRYG_Auto - INFO - 【设置验证】点击 我的
+2026-10-23 18:31:44,388 - JRYG_Auto - INFO - 【设置验证】点击 iv_setting
+2026-10-23 18:34:11,316 - JRYG_Auto - INFO - 拉起 Android App: com.jryg.client/com.jryg.client.activity.loading.YGALoadingActivity
+2026-10-23 18:34:12,391 - JRYG_Auto - INFO - 【设置验证】点击 我的
+2026-10-23 18:34:20,996 - JRYG_Auto - INFO - 【设置验证】点击 iv_setting
+2026-10-23 18:34:25,705 - JRYG_Auto - INFO - 【设置测试】菜单完整性与正常入口 通过
+2026-10-23 18:34:26,469 - JRYG_Auto - INFO - 【设置验证】点击 rl_contract
+2026-10-23 18:34:31,160 - JRYG_Auto - INFO - 【设置测试】紧急联系人列表 通过
+2026-10-23 18:34:32,026 - JRYG_Auto - INFO - 【设置验证】点击 rl_contract
+2026-10-23 18:34:34,958 - JRYG_Auto - INFO - 【设置验证】点击 新增紧急联系人
+2026-10-23 18:34:59,695 - JRYG_Auto - ERROR - 【设置测试】新增紧急联系人入口与取消 失败: AssertionError: 新增联系人表单或数量上限提示超时；页面=topResumedActivity=ActivityRecord{de1d u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=删除 | 左滑删除紧急联系人 | 我是一(186****1725) | 新增紧急联系人 | 添加紧急联系人 | 添加紧急联系人后，当您开启自动分享行程或者使用一键报警求助功能，行程信息会通过短信自动分享给紧急联系人 | 自动分享行程 | 西直门(186****1727) | 西直门外的(186****1242) | 
+2026-10-23 18:35:02,011 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 18:35:04,712 - JRYG_Auto - INFO - 【设置验证】点击 rl_home
+2026-10-23 18:35:13,438 - JRYG_Auto - INFO - 【设置测试】常用一地址搜索 通过
+2026-10-23 18:35:14,796 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 18:35:17,828 - JRYG_Auto - INFO - 【设置验证】点击 rl_company
+2026-10-23 18:35:25,519 - JRYG_Auto - INFO - 【设置测试】常用二地址搜索 通过
+2026-10-23 18:35:26,260 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 18:35:29,044 - JRYG_Auto - INFO - 【设置验证】点击 tv_clear
+2026-10-23 18:35:33,203 - JRYG_Auto - INFO - 【设置测试】常用地址清空与空态 通过
+2026-10-23 18:35:34,790 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_pay
+2026-10-23 18:35:40,342 - JRYG_Auto - ERROR - 【设置测试】支付方式列表 失败: AssertionError: 支付开通按钮禁用: [{'channel': '微信支付分', 'label': '去开通', 'enabled': False}, {'channel': '芝麻先享', 'label': '去开通', 'enabled': False}, {'channel': '抖音', 'label': '去开通', 'enabled': False}]
+assert False
+ +  where False = all(<generator object TestJRYGSettings.check_payments.<locals>.<genexpr> at 0x109140430>)
+2026-10-23 18:35:42,144 - JRYG_Auto - INFO - 【设置验证】点击 rl_notify_manage
+2026-10-23 18:35:45,141 - JRYG_Auto - INFO - 【设置验证】点击 notify_status
+2026-10-23 18:35:50,457 - JRYG_Auto - INFO - 【设置测试】消息通知系统入口 通过
+2026-10-23 18:35:51,313 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:35:55,331 - JRYG_Auto - INFO - 【设置测试】隐私中心菜单 通过
+2026-10-23 18:35:56,562 - JRYG_Auto - INFO - 【设置验证】点击 rl_person_policy
+2026-10-23 18:36:01,557 - JRYG_Auto - INFO - 【设置测试】个人信息收集清单 通过
+2026-10-23 18:36:02,835 - JRYG_Auto - INFO - 【设置验证】点击 rl_third_policy
+2026-10-23 18:36:07,672 - JRYG_Auto - INFO - 【设置测试】第三方信息共享清单 通过
+2026-10-23 18:36:08,461 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:36:47,296 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-23 18:36:50,414 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:36:54,223 - JRYG_Auto - INFO - 【设置测试】平台协议规则目录 通过
+2026-10-23 18:36:55,017 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:36:57,756 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_setting
+2026-10-23 18:37:04,933 - JRYG_Auto - INFO - 【设置测试】系统权限管理目录 通过
+2026-10-23 18:37:06,054 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:37:08,777 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_setting
+2026-10-23 18:37:12,680 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_location
+2026-10-23 18:37:19,896 - JRYG_Auto - INFO - 【设置测试】定位权限系统入口 通过
+2026-10-23 18:37:20,748 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:37:23,485 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_setting
+2026-10-23 18:37:27,164 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_mike
+2026-10-23 18:37:34,029 - JRYG_Auto - INFO - 【设置测试】麦克风权限系统入口 通过
+2026-10-23 18:37:35,495 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:37:38,258 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_setting
+2026-10-23 18:37:41,497 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_contacts
+2026-10-23 18:37:48,473 - JRYG_Auto - INFO - 【设置测试】通讯录权限系统入口 通过
+2026-10-23 18:37:50,595 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:37:53,530 - JRYG_Auto - INFO - 【设置验证】点击 rl_revoke_setting
+2026-10-23 18:37:56,404 - JRYG_Auto - INFO - 【设置验证】点击 我再想想
+2026-10-23 18:38:00,365 - JRYG_Auto - INFO - 【设置测试】撤回隐私协议取消 通过
+2026-10-23 18:38:02,566 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:38:05,603 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_summary
+2026-10-23 18:38:10,855 - JRYG_Auto - INFO - 【设置测试】隐私中心-隐私政策摘要 通过
+2026-10-23 18:38:12,564 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:38:15,263 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_policy
+2026-10-23 18:38:21,188 - JRYG_Auto - INFO - 【设置测试】隐私中心-隐私政策 通过
+2026-10-23 18:38:22,064 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:38:25,042 - JRYG_Auto - INFO - 【设置验证】点击 rl_record_policy
+2026-10-23 18:39:02,754 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: rl_record_policy
+2026-10-23 18:39:05,855 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:39:08,868 - JRYG_Auto - INFO - 【设置验证】点击 rl_record_policy
+2026-10-23 18:39:14,061 - JRYG_Auto - INFO - 【设置测试】隐私中心-行程录音处理协议 通过
+2026-10-23 18:39:15,309 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:39:17,993 - JRYG_Auto - INFO - 【设置验证】点击 rl_person_policy
+2026-10-23 18:39:23,134 - JRYG_Auto - INFO - 【设置测试】隐私中心-个人信息收集清单 通过
+2026-10-23 18:39:23,973 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:39:26,740 - JRYG_Auto - INFO - 【设置验证】点击 rl_third_policy
+2026-10-23 18:40:04,853 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: rl_third_policy
+2026-10-23 18:40:08,582 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:40:11,395 - JRYG_Auto - INFO - 【设置验证】点击 rl_third_policy
+2026-10-23 18:40:52,037 - JRYG_Auto - ERROR - 【设置测试】隐私中心-第三方信息共享清单 失败: AssertionError: 文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{ffce613 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=第三方信息共享清单 | 
+2026-10-23 18:40:53,966 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:40:56,680 - JRYG_Auto - INFO - 【设置验证】点击 用户协议
+2026-10-23 18:41:02,901 - JRYG_Auto - INFO - 【设置测试】平台协议-用户协议 通过
+2026-10-23 18:41:04,104 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:41:06,811 - JRYG_Auto - INFO - 【设置验证】点击 个人信息保护及隐私政策
+2026-10-23 18:41:12,836 - JRYG_Auto - INFO - 【设置测试】平台协议-个人信息保护及隐私政策 通过
+2026-10-23 18:41:13,663 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:41:16,408 - JRYG_Auto - INFO - 【设置验证】点击 录音处理协议
+2026-10-23 18:41:21,696 - JRYG_Auto - INFO - 【设置测试】平台协议-录音处理协议 通过
+2026-10-23 18:41:22,544 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:41:25,268 - JRYG_Auto - INFO - 【设置验证】点击 自动驾驶信息服务协议
+2026-10-23 18:41:31,187 - JRYG_Auto - INFO - 【设置测试】平台协议-自动驾驶信息服务协议 通过
+2026-10-23 18:41:31,980 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:41:34,708 - JRYG_Auto - INFO - 【设置验证】点击 小马智行用户服务协议
+2026-10-23 18:41:39,983 - JRYG_Auto - INFO - 【设置测试】平台协议-小马智行用户服务协议 通过
+2026-10-23 18:41:40,836 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:42:18,736 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-23 18:42:21,712 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:43:03,436 - JRYG_Auto - ERROR - 【设置测试】平台协议-小马智行隐私协议 失败: AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{eb87516 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则 | 
+2026-10-23 18:43:04,665 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:43:43,389 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-23 18:43:46,171 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:44:36,419 - JRYG_Auto - ERROR - 【设置测试】平台协议-自动驾驶信息服务隐私政策 失败: AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{89e7b42 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则
+2026-10-23 18:44:37,677 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:45:15,729 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-23 18:45:18,078 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:45:58,525 - JRYG_Auto - ERROR - 【设置测试】平台协议-阳仔智能对话助手服务 失败: AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{e2307ae u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则
+2026-10-23 18:45:59,659 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:46:02,480 - JRYG_Auto - INFO - 【设置验证】点击 计价规则
+2026-10-23 18:46:05,729 - JRYG_Auto - INFO - 【设置验证】点击 阳光快车
+2026-10-23 18:46:35,983 - JRYG_Auto - INFO - 【设置测试】计价规则-阳光快车 通过
+2026-10-23 18:46:36,198 - JRYG_Auto - INFO - 【设置验证】点击 阳光优选
+2026-10-23 18:46:56,747 - JRYG_Auto - INFO - 【设置测试】计价规则-阳光优选 通过
+2026-10-23 18:46:56,992 - JRYG_Auto - INFO - 【设置验证】点击 阳光舒享
+2026-10-23 18:47:36,453 - JRYG_Auto - ERROR - 【设置测试】计价规则-阳光舒享 失败: AssertionError: 文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{dd51f7f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=计价规则 | 
+2026-10-23 18:47:37,058 - JRYG_Auto - INFO - 【设置验证】点击 六座专车
+2026-10-23 18:47:46,788 - JRYG_Auto - INFO - 【设置测试】计价规则-六座专车 通过
+2026-10-23 18:47:46,995 - JRYG_Auto - INFO - 【设置验证】点击 豪华臻享
+2026-10-23 18:47:58,813 - JRYG_Auto - INFO - 【设置测试】计价规则-豪华臻享 通过
+2026-10-23 18:48:01,918 - JRYG_Auto - INFO - 【设置测试】平台协议-计价规则（含子项遍历） 通过
+2026-10-23 18:48:03,141 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:48:05,873 - JRYG_Auto - INFO - 【设置验证】点击 准入规则
+2026-10-23 18:48:08,766 - JRYG_Auto - INFO - 【设置验证】点击 车辆等级规则
+2026-10-23 18:48:12,506 - JRYG_Auto - INFO - 【设置测试】准入规则-车辆等级规则 通过
+2026-10-23 18:48:12,704 - JRYG_Auto - INFO - 【设置验证】点击 驾驶员准入标准
+2026-10-23 18:48:16,576 - JRYG_Auto - INFO - 【设置测试】准入规则-驾驶员准入标准 通过
+2026-10-23 18:48:17,304 - JRYG_Auto - INFO - 【设置验证】点击 车辆准入标准
+2026-10-23 18:48:21,061 - JRYG_Auto - INFO - 【设置测试】准入规则-车辆准入标准 通过
+2026-10-23 18:48:21,268 - JRYG_Auto - INFO - 【设置验证】点击 其他
+2026-10-23 18:48:25,238 - JRYG_Auto - INFO - 【设置测试】准入规则-其他 通过
+2026-10-23 18:48:27,731 - JRYG_Auto - INFO - 【设置测试】平台协议-准入规则（含子项遍历） 通过
+2026-10-23 18:48:28,841 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:48:46,374 - JRYG_Auto - ERROR - 【设置测试】平台协议-判责规则 失败: AssertionError: 定位 判责规则超时；页面=topResumedActivity=ActivityRecord{94cd36f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=个人信息保护及隐私政策 | 准入规则 | 小马智行用户服务协议 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 用户协议 | 自动驾驶信息服务协议 | 自动驾驶信息服务隐私政策 | 计价规则 | 调价公示 | 阳仔智能对话助手服务 | 
+2026-10-23 18:48:47,158 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:48:49,919 - JRYG_Auto - INFO - 【设置验证】点击 调价公示
+2026-10-23 18:49:15,472 - JRYG_Auto - ERROR - 【设置测试】平台协议-调价公示 失败: AssertionError: 调价公示离开协议目录超时；页面=topResumedActivity=ActivityRecord{c70c4f4 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=个人信息保护及隐私政策 | 准入规则 | 判责规则 | 小马智行用户服务协议 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 用户协议 | 自动驾驶信息服务协议 | 自动驾驶信息服务隐私政策 | 计价规则 | 调价公示 | 阳仔智能对话助手服务 | 
+2026-10-23 18:49:16,536 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_version
+2026-10-23 18:49:19,678 - JRYG_Auto - INFO - 【设置测试】版本信息与安装版本一致 通过
+2026-10-23 18:49:20,521 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_clean
+2026-10-23 18:49:23,315 - JRYG_Auto - INFO - 【设置验证】点击 negative
+2026-10-23 18:49:26,490 - JRYG_Auto - INFO - 【设置测试】清除缓存取消 通过
+2026-10-23 18:49:26,889 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_clean
+2026-10-23 18:49:29,591 - JRYG_Auto - INFO - 【设置验证】点击 positive
+2026-10-23 18:49:34,746 - JRYG_Auto - INFO - 【设置验证】点击 iv_setting
+2026-10-23 18:49:37,577 - JRYG_Auto - INFO - 【设置测试】清除缓存确认与登录态保留 通过
+2026-10-23 18:52:15,640 - JRYG_Auto - INFO - 拉起 Android App: com.jryg.client/com.jryg.client.activity.loading.YGALoadingActivity
+2026-10-23 18:52:21,309 - JRYG_Auto - INFO - 【设置验证】点击 我的
+2026-10-23 18:52:27,866 - JRYG_Auto - INFO - 【设置验证】点击 iv_setting
+2026-10-23 18:52:33,719 - JRYG_Auto - INFO - 【设置测试】菜单完整性与正常入口 通过
+2026-10-23 18:52:34,559 - JRYG_Auto - INFO - 【设置验证】点击 rl_contract
+2026-10-23 18:52:38,610 - JRYG_Auto - INFO - 【设置测试】紧急联系人列表 通过
+2026-10-23 18:52:39,444 - JRYG_Auto - INFO - 【设置验证】点击 rl_contract
+2026-10-23 18:52:42,717 - JRYG_Auto - INFO - 【设置验证】点击 新增紧急联系人
+2026-10-23 18:53:08,702 - JRYG_Auto - ERROR - 【设置测试】新增紧急联系人入口与取消 失败: AssertionError: 新增联系人表单或数量上限提示超时；页面=topResumedActivity=ActivityRecord{1b29eb0 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=删除 | 左滑删除紧急联系人 | 我是一(186****1725) | 新增紧急联系人 | 添加紧急联系人 | 添加紧急联系人后，当您开启自动分享行程或者使用一键报警求助功能，行程信息会通过短信自动分享给紧急联系人 | 自动分享行程 | 西直门(186****1727) | 西直门外的(186****1242) | 
+2026-10-23 18:53:09,567 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 18:53:12,285 - JRYG_Auto - INFO - 【设置验证】点击 rl_home
+2026-10-23 18:53:19,969 - JRYG_Auto - INFO - 【设置测试】常用一地址搜索 通过
+2026-10-23 18:53:21,597 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 18:53:24,306 - JRYG_Auto - INFO - 【设置验证】点击 rl_company
+2026-10-23 18:53:32,899 - JRYG_Auto - INFO - 【设置测试】常用二地址搜索 通过
+2026-10-23 18:53:33,735 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_address
+2026-10-23 18:53:36,766 - JRYG_Auto - INFO - 【设置验证】点击 tv_clear
+2026-10-23 18:53:40,715 - JRYG_Auto - INFO - 【设置测试】常用地址清空与空态 通过
+2026-10-23 18:53:41,924 - JRYG_Auto - INFO - 【设置验证】点击 rl_frequent_pay
+2026-10-23 18:53:46,788 - JRYG_Auto - INFO - 【设置测试】支付方式列表 通过
+2026-10-23 18:53:48,008 - JRYG_Auto - INFO - 【设置验证】点击 rl_notify_manage
+2026-10-23 18:53:50,771 - JRYG_Auto - INFO - 【设置验证】点击 notify_status
+2026-10-23 18:53:57,144 - JRYG_Auto - INFO - 【设置测试】消息通知系统入口 通过
+2026-10-23 18:53:57,879 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:54:03,103 - JRYG_Auto - INFO - 【设置测试】隐私中心菜单 通过
+2026-10-23 18:54:04,351 - JRYG_Auto - INFO - 【设置验证】点击 rl_person_policy
+2026-10-23 18:54:08,337 - JRYG_Auto - INFO - 【设置测试】个人信息收集清单 通过
+2026-10-23 18:54:09,193 - JRYG_Auto - INFO - 【设置验证】点击 rl_third_policy
+2026-10-23 18:54:13,196 - JRYG_Auto - INFO - 【设置测试】第三方信息共享清单 通过
+2026-10-23 18:54:13,894 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:54:36,669 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-23 18:54:39,795 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:55:05,175 - JRYG_Auto - ERROR - 【设置测试】平台协议规则目录 失败: AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{aa08a7e u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则 | 
+2026-10-23 18:55:06,257 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:55:09,350 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_setting
+2026-10-23 18:55:16,421 - JRYG_Auto - INFO - 【设置测试】系统权限管理目录 通过
+2026-10-23 18:55:17,211 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:55:20,321 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_setting
+2026-10-23 18:55:24,709 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_location
+2026-10-23 18:55:31,283 - JRYG_Auto - INFO - 【设置测试】定位权限系统入口 通过
+2026-10-23 18:55:32,079 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:55:34,851 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_setting
+2026-10-23 18:55:39,149 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_mike
+2026-10-23 18:55:47,415 - JRYG_Auto - INFO - 【设置测试】麦克风权限系统入口 通过
+2026-10-23 18:55:48,574 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:55:51,327 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_setting
+2026-10-23 18:55:55,244 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_contacts
+2026-10-23 18:56:02,444 - JRYG_Auto - INFO - 【设置测试】通讯录权限系统入口 通过
+2026-10-23 18:56:04,396 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:56:07,442 - JRYG_Auto - INFO - 【设置验证】点击 rl_revoke_setting
+2026-10-23 18:56:10,145 - JRYG_Auto - INFO - 【设置验证】点击 我再想想
+2026-10-23 18:56:14,365 - JRYG_Auto - INFO - 【设置测试】撤回隐私协议取消 通过
+2026-10-23 18:56:15,499 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:56:18,586 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_summary
+2026-10-23 18:56:23,691 - JRYG_Auto - INFO - 【设置测试】隐私中心-隐私政策摘要 通过
+2026-10-23 18:56:24,823 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:56:27,826 - JRYG_Auto - INFO - 【设置验证】点击 rl_private_policy
+2026-10-23 18:56:32,989 - JRYG_Auto - INFO - 【设置测试】隐私中心-隐私政策 通过
+2026-10-23 18:56:34,667 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:56:37,829 - JRYG_Auto - INFO - 【设置验证】点击 rl_record_policy
+2026-10-23 18:56:42,910 - JRYG_Auto - INFO - 【设置测试】隐私中心-行程录音处理协议 通过
+2026-10-23 18:56:44,050 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:56:46,795 - JRYG_Auto - INFO - 【设置验证】点击 rl_person_policy
+2026-10-23 18:56:51,932 - JRYG_Auto - INFO - 【设置测试】隐私中心-个人信息收集清单 通过
+2026-10-23 18:56:52,770 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:56:55,928 - JRYG_Auto - INFO - 【设置验证】点击 rl_third_policy
+2026-10-23 18:57:34,135 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: rl_third_policy
+2026-10-23 18:57:37,550 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_private
+2026-10-23 18:57:40,249 - JRYG_Auto - INFO - 【设置验证】点击 rl_third_policy
+2026-10-23 18:58:21,914 - JRYG_Auto - ERROR - 【设置测试】隐私中心-第三方信息共享清单 失败: AssertionError: 文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{e081930 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=第三方信息共享清单
+2026-10-23 18:58:23,020 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:59:07,852 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-23 18:59:10,184 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 18:59:35,534 - JRYG_Auto - ERROR - 【设置测试】平台协议-用户协议 失败: AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{9bbfb95 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则 | 
+2026-10-23 18:59:36,319 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 19:00:14,594 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-23 19:00:17,407 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 19:00:42,225 - JRYG_Auto - ERROR - 【设置测试】平台协议-个人信息保护及隐私政策 失败: AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{f3f5177 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则
+2026-10-23 19:00:43,354 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 19:01:07,712 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-23 19:01:09,567 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 19:01:35,219 - JRYG_Auto - ERROR - 【设置测试】平台协议-录音处理协议 失败: AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{fe979ea u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则
+2026-10-23 19:01:36,405 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 19:02:00,336 - JRYG_Auto - WARNING - 只读页面首次加载超时，重新进入一次: 平台协议目录
+2026-10-23 19:02:03,035 - JRYG_Auto - INFO - 【设置验证】点击 rl_more_doc
+2026-10-23 19:02:24,953 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 200, in read_only_retry
+    return operation()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 231, in load
+    flow.wait(lambda: "平台协议" in flow.texts() or "用户协议" in flow.texts(),
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 90, in wait
+    raise AssertionError(f"{description}超时；页面={self.adb.get_top_activity()}；文本={self.redact(' | '.join(sorted(self.texts())))}")
+AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{3465a2b u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 99, in test_settings_all_functions
+    method(data)
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 263, in check_platform_document
+    self.check_platform(None)
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 240, in check_platform
+    flow.read_only_retry(load, "平台协议目录")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 208, in read_only_retry
+    return operation()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 231, in load
+    flow.wait(lambda: "平台协议" in flow.texts() or "用户协议" in flow.texts(),
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 87, in wait
+    if predicate():
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 231, in <lambda>
+    flow.wait(lambda: "平台协议" in flow.texts() or "用户协议" in flow.texts(),
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 79, in texts
+    return {value.strip() for node in self.nodes(package)
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 75, in nodes
+    return self.flatten(self.poco.agent.hierarchy.dump(), package or self.package)
+  File "/Users/tongyongqi/Library/Python/3.9/lib/python/site-packages/poco/utils/retry.py", line 20, in wrapped
+    raise ex
+  File "/Users/tongyongqi/Library/Python/3.9/lib/python/site-packages/poco/utils/retry.py", line 15, in wrapped
+    return func(*args, **kwargs)
+  File "/Users/tongyongqi/Library/Python/3.9/lib/python/site-packages/poco/utils/hrpc/hierarchy.py", line 37, in dump
+    return self.dumper.dumpHierarchy()
+  File "/Users/tongyongqi/Library/Python/3.9/lib/python/site-packages/hrpc/object_proxy.py", line 92, in __call__
+    return self._client__.evaluate(self.__call_no_evaluate__(remote_obj_cache, *args))
+  File "/Users/tongyongqi/Library/Python/3.9/lib/python/site-packages/hrpc/client.py", line 63, in evaluate
+    self.transport.send({'id': reqid, 'uri': obj_proxy._uri__, 'method': obj_proxy._invocation_path__},
+  File "/Users/tongyongqi/Library/Python/3.9/lib/python/site-packages/hrpc/transport/http.py", line 27, in send
+    raise TransportDisconnected(e)
+hrpc.exceptions.TransportDisconnected: HTTPConnectionPool(host='127.0.0.1', port=47621): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x118e66610>: Failed to establish a new connection: [Errno 61] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,094 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,097 - JRYG_Auto - ERROR - 【设置测试】平台协议-自动驾驶信息服务协议 失败: TransportDisconnected: HTTPConnectionPool(host='127.0.0.1', port=47621): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x118e66610>: Failed to establish a new connection: [Errno 61] Connection refused')); 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,177 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,255 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,258 - JRYG_Auto - ERROR - 【设置测试】平台协议-小马智行用户服务协议 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,336 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,414 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,417 - JRYG_Auto - ERROR - 【设置测试】平台协议-小马智行隐私协议 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,495 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,577 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,580 - JRYG_Auto - ERROR - 【设置测试】平台协议-自动驾驶信息服务隐私政策 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,659 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,737 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,740 - JRYG_Auto - ERROR - 【设置测试】平台协议-阳仔智能对话助手服务 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,817 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,894 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,897 - JRYG_Auto - ERROR - 【设置测试】平台协议-计价规则（含子项遍历） 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:25,975 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,052 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,055 - JRYG_Auto - ERROR - 【设置测试】平台协议-准入规则（含子项遍历） 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,137 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,214 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,216 - JRYG_Auto - ERROR - 【设置测试】平台协议-判责规则 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,291 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,367 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,370 - JRYG_Auto - ERROR - 【设置测试】平台协议-调价公示 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,446 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,522 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,525 - JRYG_Auto - ERROR - 【设置测试】版本信息与安装版本一致 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,600 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,677 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,680 - JRYG_Auto - ERROR - 【设置测试】清除缓存取消 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,757 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 98, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,833 - JRYG_Auto - ERROR - 设置失败页面证据采集失败
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/cases/JRYG_test_settings.py", line 104, in test_settings_all_functions
+    self.flow.return_settings()
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 134, in return_settings
+    if self.is_settings() and not self.exists(rid="dialog_container"):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 129, in is_settings
+    return "YGUMoreActivity" in self.adb.get_top_activity() and self.exists(rid="rl_more_private")
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_settings_flow.py", line 255, in evidence
+    detail = {"activity": self.adb.get_top_activity(), "texts": sorted(self.texts()), "events": self.events}
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 20, in get_top_activity
+    out = self.run_cmd(["dumpsys", "activity", "activities"])
+  File "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI/common/JRYG_adb_tools.py", line 13, in run_cmd
+    res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=15, check=True)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-23 19:02:26,836 - JRYG_Auto - ERROR - 【设置测试】清除缓存确认与登录态保留 失败: CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.
+2026-10-26 10:43:08,545 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-10-26 10:43:08,548 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038，验证码: 123456
+2026-10-26 10:43:08,657 - JRYG_Auto - INFO - 【乘客端】检测到已处于登录状态（首页），跳过登录输入步骤，登录验证通过！
+2026-10-26 10:43:09,188 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-10-26 10:43:34,664 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-10-26 10:43:34,667 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038，验证码: 123456
+2026-10-26 10:43:52,560 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-10-26 10:44:30,079 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-10-26 10:44:30,080 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 11000000038，验证码: 123456
+2026-10-26 10:44:36,828 - JRYG_Auto - INFO - 【乘客端】已点击隐私协议同意按钮
+2026-10-26 10:44:50,025 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-10-26 10:49:19,574 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-10-26 10:49:19,577 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 56789012，验证码: 123456
+2026-10-26 10:49:23,077 - JRYG_Auto - INFO - 【乘客端】已点击隐私协议同意按钮
+2026-10-26 10:49:30,745 - JRYG_Auto - INFO - 【乘客端】已跳过权限授权弹窗
+2026-10-26 10:49:47,019 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-10-26 10:51:35,511 - JRYG_Auto - INFO - 【乘客端】Appium Session 已创建，开始执行登录测试
+2026-10-26 10:51:35,515 - JRYG_Auto - INFO - 正在进行登录，加载测试数据手机号: 56789012，验证码: 123456
+2026-10-26 10:51:39,211 - JRYG_Auto - INFO - 【乘客端】已点击隐私协议同意按钮
+2026-10-26 10:51:47,173 - JRYG_Auto - INFO - 【乘客端】已跳过权限授权弹窗
+2026-10-26 10:51:59,996 - JRYG_Auto - INFO - 【乘客端】已通过坐标点击关闭广告弹窗
+2026-10-26 10:52:07,792 - JRYG_Auto - INFO - 【乘客端】已从首页导航至登录页
+2026-10-26 10:52:10,738 - JRYG_Auto - INFO - 【乘客端】已输入手机号: 56789012
+2026-10-26 10:52:11,482 - JRYG_Auto - INFO - 【乘客端】已勾选用户协议
+2026-10-26 10:52:11,821 - JRYG_Auto - INFO - 【乘客端】已点击获取验证码按钮
+2026-10-26 10:52:14,979 - JRYG_Auto - INFO - 【乘客端】已进入验证码输入页，开始输入验证码
+2026-10-26 10:52:19,774 - JRYG_Auto - INFO - 【乘客端】已输入验证码: 123456
+2026-10-26 10:52:19,971 - JRYG_Auto - INFO - JRYG 乘客端登录后首页验证通过
+2026-10-26 10:52:20,528 - JRYG_Auto - INFO - 【乘客端】登录测试流程运行完毕，Session 已安全断开
+2026-10-27 12:02:22,508 - JRYG_Auto - WARNING - 检测到设备 39041FDJH00MNY 存在代理: null，正在清除...
+2026-10-27 12:02:52,881 - JRYG_Auto - INFO - 设备 39041FDJH00MNY 未检测到代理，无需清除
+2026-10-27 12:03:04,137 - JRYG_Auto - WARNING - 检测到设备 39041FDJH00MNY 存在代理: 127.0.0.1:8888，正在清除...
+2026-10-27 12:03:04,378 - JRYG_Auto - INFO - 已清除设备 39041FDJH00MNY 的 HTTP 代理设置
+2026-10-27 12:03:04,545 - JRYG_Auto - INFO - 设备 39041FDJH00MNY 代理已成功清除

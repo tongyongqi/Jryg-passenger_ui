@@ -1,4 +1,4 @@
-"""设置页面多级菜单深度优先遍历测试。
+"""设置页面多级菜单深度优先遍历（DFS）测试。
 
 遍历设置页面所有一级菜单项，逐个进入后判断是否包含下级子菜单，
 若有则继续进入下级，到达最深层后返回上一级，再进入同级下一个子页面，
@@ -13,6 +13,12 @@
   进入菜单A → 判断A是否有子菜单 → 有则进入A的第一个子菜单A1
   → 判断A1是否有子菜单 → 有则继续进入... 直到最深层
   → 返回上一级 → 进入A的第二个子菜单A2 → ... 如此循环
+
+安全策略：
+  - 全程不修改任何用户数据，仅做页面打开与返回验证
+  - 排除项：退出登录、测试中心、注销账号不点击（_is_excluded 校验）
+  - 递归最大深度 4 层，防止无限循环
+  - 单项异常不中断整体遍历，记录错误后继续下一项
 """
 import re
 import sys
@@ -21,6 +27,7 @@ from pathlib import Path
 
 import pytest
 
+# 将项目根目录添加到 sys.path，确保 common 模块可被正确导入
 PROJECT_ROOT = str(Path(__file__).resolve().parents[2])
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
@@ -29,7 +36,7 @@ from JRYG_Passenger_UI.common.JRYG_settings_flow import SettingsFlow, SETTING_IT
 from JRYG_Passenger_UI.common.JRYG_logger import logger
 
 
-# 排除项：退出登录、测试中心、注销账号不点击
+# 排除项说明：退出登录、测试中心、注销账号不点击
 # 这些在 SETTING_ITEMS 之外，但需要额外防止在子级页面中误触
 
 
@@ -43,13 +50,24 @@ class TestJRYGSettingsMenuTraversal:
 
     @classmethod
     def setup_class(cls):
-        """初始化 SettingsFlow 并导航至设置页面。"""
+        """初始化 SettingsFlow 并导航至设置页面。
+
+        traversal_log 列表用于记录整个遍历路径，每条记录包含：
+        label（路径标签）、depth（层级）、activity、page_texts、sub_items、error
+        """
         cls.flow = SettingsFlow()
         cls.flow.start_from_app()
         cls.traversal_log = []  # 记录遍历路径
 
     def test_menu_traversal(self):
-        """深度优先遍历设置页面所有菜单层级。"""
+        """深度优先遍历设置页面所有菜单层级。
+
+        流程：
+          1. 确保从设置主页开始
+          2. 获取一级菜单项列表（rl_ 开头的可点击行，按 Y 坐标排序）
+          3. 逐个进入一级菜单，采集页面信息，递归遍历下级
+          4. 最终断言：至少遍历 5 个一级菜单，且至少存在一级多级菜单
+        """
         flow = self.flow
 
         # 确保从设置主页开始
@@ -118,12 +136,19 @@ class TestJRYGSettingsMenuTraversal:
         assert has_multi_level, "所有一级菜单均无下级子菜单，未验证多级遍历能力"
 
     def _traverse_children(self, parent_label, sub_items, depth, parent_rid):
-        """递归遍历子菜单项。
+        """递归遍历子菜单项（DFS 核心逻辑）。
 
-        :param parent_label: 父级标签
+        流程：
+          1. 返回父级页面（return_settings → open parent_rid）
+          2. 滚动定位并点击当前子项
+          3. 采集子级页面信息，记录到 traversal_log
+          4. 如果子级页面还包含下级子菜单，递归调用自身
+          5. 单项异常不中断，记录错误后继续下一子项
+
+        :param parent_label: 父级标签（如 "L1-1-紧急联系人"）
         :param sub_items: 子项列表 [(rid, text), ...]
-        :param depth: 当前深度
-        :param parent_rid: 父级 resource_id（用于重新进入）
+        :param depth: 当前深度（一级=1，二级=2，...）
+        :param parent_rid: 父级 resource_id（用于重新进入父级页面）
         """
         flow = self.flow
         max_depth = 4  # 最多递归 4 层防止无限循环
@@ -184,6 +209,11 @@ class TestJRYGSettingsMenuTraversal:
 
         扫描 Poco 控件树，提取以 rl_ 开头的可点击行，
         返回 [(resource_id_short, text)] 列表，按 Y 坐标排序。
+
+        特殊处理：
+          - 排除 EXCLUDED_IDS 中的项（注销账号等）
+          - 如果节点无 text，在兄弟节点中按 Y 坐标相近查找文本
+          - 去重：同一 rid 只保留第一次出现
         """
         flow = self.flow
         nodes = flow.nodes()
@@ -228,7 +258,11 @@ class TestJRYGSettingsMenuTraversal:
         }
 
     def _find_text_in_same_row(self, nodes, target_node, target_bounds):
-        """在 Y 坐标相近的节点中查找文本内容。"""
+        """在 Y 坐标相近的节点中查找文本内容。
+
+        某些可点击行（rl_ 开头）本身没有 text，文本在同级兄弟节点中。
+        通过 bounds 坐标计算 Y 轴中心，在阈值 80px 内查找含文本的节点。
+        """
         if not target_bounds:
             return ""
         import re as _re
@@ -247,7 +281,11 @@ class TestJRYGSettingsMenuTraversal:
         return ""
 
     def _scroll_and_click(self, rid, text):
-        """滚动定位并点击指定菜单项，支持按 rid 或 text 定位。"""
+        """滚动定位并点击指定菜单项，支持按 rid 或 text 定位。
+
+        先尝试滚动 3 次找到目标，再优先按 rid 点击，其次按 text 点击，
+        均未找到则抛出 AssertionError。
+        """
         flow = self.flow
         # 尝试滚动 3 次找到目标
         for _ in range(3):

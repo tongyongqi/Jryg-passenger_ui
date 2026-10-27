@@ -19,6 +19,9 @@ env/
 JRYG_auto_project/report/*.html
 JRYG_auto_project/logs/*.log
 JRYG_auto_project/screenshots/*.png
+JRYG_Passenger_API_HK/logs/
+JRYG_Passenger_API_HK/report/
+JRYG_Passenger_API_HK/data/captures/
 .html
 
 # macOS system files

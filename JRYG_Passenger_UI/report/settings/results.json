@@ -12,11 +12,6 @@
       "events": [
         {
           "action": "click",
-          "target": "首页",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
           "target": "我的",
           "package": "com.jryg.client"
         },
@@ -48,7 +43,7 @@
     {
       "case": "新增紧急联系人入口与取消",
       "status": "failed",
-      "detail": "AssertionError: 新增联系人表单或数量上限提示超时；页面=topResumedActivity=ActivityRecord{8e0a533 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=删除 | 左滑删除紧急联系人 | 我是一(186****1725) | 新增紧急联系人 | 添加紧急联系人 | 添加紧急联系人后，当您开启自动分享行程或者使用一键报警求助功能，行程信息会通过短信自动分享给紧急联系人 | 自动分享行程 | 西直门(186****1727) | 西直门外的(186****1242) | ",
+      "detail": "AssertionError: 新增联系人表单或数量上限提示超时；页面=topResumedActivity=ActivityRecord{1b29eb0 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=删除 | 左滑删除紧急联系人 | 我是一(186****1725) | 新增紧急联系人 | 添加紧急联系人 | 添加紧急联系人后，当您开启自动分享行程或者使用一键报警求助功能，行程信息会通过短信自动分享给紧急联系人 | 自动分享行程 | 西直门(186****1727) | 西直门外的(186****1242) | ",
       "events": [
         {
           "action": "click",
@@ -121,8 +116,8 @@
     },
     {
       "case": "支付方式列表",
-      "status": "failed",
-      "detail": "AssertionError: 支付开通按钮禁用: [{'channel': '微信支付分', 'label': '去开通', 'enabled': False}, {'channel': '芝麻先享', 'label': '去开通', 'enabled': False}, {'channel': '抖音', 'label': '去开通', 'enabled': False}]\nassert False\n +  where False = all(<generator object TestJRYGSettings.check_payments.<locals>.<genexpr> at 0x11a5ff900>)",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
       "events": [
         {
           "action": "click",
@@ -148,7 +143,7 @@
               "enabled": false
             }
           ],
-          "boundary": "不开通先乘后付/免密扣款授权"
+          "boundary": "不开通先乘后付/免密扣款授权；未开通按钮禁用属正常"
         }
       ]
     },
@@ -220,7 +215,7 @@
     {
       "case": "平台协议规则目录",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{df83640 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则",
+      "detail": "AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{aa08a7e u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则 | ",
       "events": [
         {
           "action": "click",
@@ -230,7 +225,7 @@
         {
           "action": "retry_read_only_page",
           "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{6756404 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=个人信息保护及隐私政策 | 准入规则 | 判责规则 | 小马智行用户服务协议 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 用户协议 | 自动驾驶信息服务协议 | 自动驾驶信息服务隐私政策 | 调价公示 | 阳仔智能对话助手服务 | "
+          "reason": "平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{a25e551 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则"
         },
         {
           "action": "click",
@@ -408,21 +403,6 @@
           "package": "com.jryg.client"
         },
         {
-          "action": "retry_read_only_page",
-          "target": "rl_record_policy",
-          "reason": "文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{5813988 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=录音处理协议"
-        },
-        {
-          "action": "click",
-          "target": "rl_more_private",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "rl_record_policy",
-          "package": "com.jryg.client"
-        },
-        {
           "action": "assert_document_body",
           "terms": [
             "录音"
@@ -446,21 +426,6 @@
           "package": "com.jryg.client"
         },
         {
-          "action": "retry_read_only_page",
-          "target": "rl_person_policy",
-          "reason": "文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{ef06cf4 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=个人信息清单"
-        },
-        {
-          "action": "click",
-          "target": "rl_more_private",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "rl_person_policy",
-          "package": "com.jryg.client"
-        },
-        {
           "action": "assert_document_body",
           "terms": [
             "手机号"
@@ -470,8 +435,8 @@
     },
     {
       "case": "隐私中心-第三方信息共享清单",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
+      "status": "failed",
+      "detail": "AssertionError: 文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{e081930 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=第三方信息共享清单",
       "events": [
         {
           "action": "click",
@@ -484,17 +449,26 @@
           "package": "com.jryg.client"
         },
         {
-          "action": "assert_document_body",
-          "terms": [
-            "SDK"
-          ]
+          "action": "retry_read_only_page",
+          "target": "rl_third_policy",
+          "reason": "文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{cca522f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=第三方信息共享清单 | "
+        },
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_third_policy",
+          "package": "com.jryg.client"
         }
       ]
     },
     {
       "case": "平台协议-用户协议",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{59254a3 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | ",
+      "detail": "AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{9bbfb95 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则 | ",
       "events": [
         {
           "action": "click",
@@ -504,7 +478,7 @@
         {
           "action": "retry_read_only_page",
           "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{834317 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | "
+          "reason": "等待文本 ('平台协议', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{9259345 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=个人信息保护及隐私政策 | 准入规则 | 判责规则 | 小马智行用户服务协议 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 自动驾驶信息服务协议 | 阳仔智能对话助手服务"
         },
         {
           "action": "click",
@@ -516,7 +490,7 @@
     {
       "case": "平台协议-个人信息保护及隐私政策",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{8e0c37d u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则",
+      "detail": "AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{f3f5177 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则",
       "events": [
         {
           "action": "click",
@@ -526,7 +500,7 @@
         {
           "action": "retry_read_only_page",
           "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{58108b1 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则"
+          "reason": "等待文本 ('平台协议', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{1302c66 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=准入规则 | 判责规则 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 计价规则 | 调价公示 | 阳仔智能对话助手服务"
         },
         {
           "action": "click",
@@ -538,7 +512,7 @@
     {
       "case": "平台协议-录音处理协议",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{fe3754f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | ",
+      "detail": "AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{fe979ea u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则",
       "events": [
         {
           "action": "click",
@@ -548,7 +522,7 @@
         {
           "action": "retry_read_only_page",
           "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{157bd72 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则"
+          "reason": "平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{cccad38 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则"
         },
         {
           "action": "click",
@@ -560,7 +534,7 @@
     {
       "case": "平台协议-自动驾驶信息服务协议",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{bd091b6 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则",
+      "detail": "TransportDisconnected: HTTPConnectionPool(host='127.0.0.1', port=47621): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x118e66610>: Failed to establish a new connection: [Errno 61] Connection refused')); 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
       "events": [
         {
           "action": "click",
@@ -570,7 +544,7 @@
         {
           "action": "retry_read_only_page",
           "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{cd00920 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | "
+          "reason": "平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{3465a2b u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则"
         },
         {
           "action": "click",
@@ -582,475 +556,68 @@
     {
       "case": "平台协议-小马智行用户服务协议",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{12888ba u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | ",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "retry_read_only_page",
-          "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{71374c7 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则"
-        },
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
       "case": "平台协议-小马智行隐私协议",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{3c99344 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | ",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "retry_read_only_page",
-          "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{ae55805 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=准入规则 | 判责规则 | 小马智行用户服务协议 | 平台协议 | 平台协议与规则 | 平台规则 | 自动驾驶信息服务协议 | 自动驾驶信息服务隐私政策 | 计价规则 | 调价公示 | "
-        },
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
       "case": "平台协议-自动驾驶信息服务隐私政策",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{1f18d05 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | ",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "retry_read_only_page",
-          "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{9b90ae5 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则"
-        },
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
       "case": "平台协议-阳仔智能对话助手服务",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{ea4a96f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "retry_read_only_page",
-          "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{3a218fa u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | "
-        },
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
-      "case": "平台协议-计价规则",
+      "case": "平台协议-计价规则（含子项遍历）",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{f10a10a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | ",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "retry_read_only_page",
-          "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{d2d2203 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则"
-        },
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
-      "case": "平台协议-准入规则",
+      "case": "平台协议-准入规则（含子项遍历）",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{363e35a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "retry_read_only_page",
-          "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{260ed6 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则"
-        },
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
       "case": "平台协议-判责规则",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{a74c948 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=判责规则 | 小马智行用户服务协议 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 用户协议 | 自动驾驶信息服务协议 | 自动驾驶信息服务隐私政策 | 调价公示",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "retry_read_only_page",
-          "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{d5f216 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | "
-        },
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
       "case": "平台协议-调价公示",
       "status": "failed",
-      "detail": "AssertionError: 调价公示离开协议目录超时；页面=topResumedActivity=ActivityRecord{195a8a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=准入规则 | 判责规则 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 用户协议 | 自动驾驶信息服务协议 | 自动驾驶信息服务隐私政策 | 计价规则 | 调价公示 | 阳仔智能对话助手服务 | ",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "调价公示",
-          "package": "com.jryg.client"
-        }
-      ]
-    },
-    {
-      "case": "计价规则-阳光快车",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "retry_read_only_page",
-          "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{29fd53a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则"
-        },
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "计价规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "阳光快车",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "assert_document_body",
-          "terms": [
-            "元",
-            "公里",
-            "费用"
-          ]
-        }
-      ]
-    },
-    {
-      "case": "计价规则-阳光优选",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "计价规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "阳光优选",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "assert_document_body",
-          "terms": [
-            "元",
-            "公里",
-            "费用"
-          ]
-        }
-      ]
-    },
-    {
-      "case": "计价规则-阳光舒享",
-      "status": "failed",
-      "detail": "AssertionError: 文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{c853ec8 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=计价规则 | ",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "计价规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "阳光舒享",
-          "package": "com.jryg.client"
-        }
-      ]
-    },
-    {
-      "case": "计价规则-六座专车",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "计价规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "六座专车",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "assert_document_body",
-          "terms": [
-            "元",
-            "公里",
-            "费用"
-          ]
-        }
-      ]
-    },
-    {
-      "case": "计价规则-豪华臻享",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "retry_read_only_page",
-          "target": "平台协议目录",
-          "reason": "等待文本 ('平台协议', '平台规则', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{34c1dff u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}；文本=平台协议与规则 | "
-        },
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "计价规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "豪华臻享",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "assert_document_body",
-          "terms": [
-            "元",
-            "公里",
-            "费用"
-          ]
-        }
-      ]
-    },
-    {
-      "case": "准入规则-车辆等级规则",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "准入规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "车辆等级规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "assert_document_body",
-          "terms": []
-        }
-      ]
-    },
-    {
-      "case": "准入规则-驾驶员准入标准",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "准入规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "驾驶员准入标准",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "assert_document_body",
-          "terms": []
-        }
-      ]
-    },
-    {
-      "case": "准入规则-车辆准入标准",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "准入规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "车辆准入标准",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "assert_document_body",
-          "terms": []
-        }
-      ]
-    },
-    {
-      "case": "准入规则-其他",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_doc",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "准入规则",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "click",
-          "target": "其他",
-          "package": "com.jryg.client"
-        },
-        {
-          "action": "assert_document_body",
-          "terms": []
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
       "case": "版本信息与安装版本一致",
-      "status": "passed",
-      "detail": "页面内容/操作结果及返回设置均通过",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_version",
-          "package": "com.jryg.client"
-        }
-      ]
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
       "case": "清除缓存取消",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('清除缓存', '取消', '确认')超时；页面=topResumedActivity=ActivityRecord{bd45d68 u0 com.jryg.client/com.android.jryghq.usercenter.my.YGUMoreActivity t540 d0}；文本=0.0M | ICP备案信息查询地址：https://beian.miit.gov.cn | v5.29.0 | 个人信息收集清单 | 京ICP备12020916号-4A | 常用地址 | 平台协议与规则 | 支付方式 | 永久注销账号 | 注销账号后将无法恢复 | 测试中心 | 消息通知管理 | 清除缓存 | 版本信息 | 第三方信息共享清单 | 紧急联系人 | 设置 | 退出登录 | 隐私中心",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_clean",
-          "package": "com.jryg.client"
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     },
     {
       "case": "清除缓存确认与登录态保留",
       "status": "failed",
-      "detail": "AssertionError: 等待文本 ('清除缓存', '取消', '确认')超时；页面=topResumedActivity=ActivityRecord{bd45d68 u0 com.jryg.client/com.android.jryghq.usercenter.my.YGUMoreActivity t540 d0}；文本=0.0M | ICP备案信息查询地址：https://beian.miit.gov.cn | v5.29.0 | 个人信息收集清单 | 京ICP备12020916号-4A | 常用地址 | 平台协议与规则 | 支付方式 | 永久注销账号 | 注销账号后将无法恢复 | 测试中心 | 消息通知管理 | 清除缓存 | 版本信息 | 第三方信息共享清单 | 紧急联系人 | 设置 | 退出登录 | 隐私中心",
-      "events": [
-        {
-          "action": "click",
-          "target": "rl_more_clean",
-          "package": "com.jryg.client"
-        }
-      ]
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
     }
   ],
   "scope": "未新增/删除真实联系人、未开通扣款授权、未撤回隐私协议；对应功能验证入口和取消返回"

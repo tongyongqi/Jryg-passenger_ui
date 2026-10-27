@@ -1,5 +1,5 @@
 device:
-  udid: "10AE6U20A7001H5"             # 使用检测到的 Android 真机 UDID
+  udid: "39041FDJH00MNY"             # 使用检测到的 Android 真机 UDID (Pixel 8)
   platform_name: "Android"               # 平台类型切换为 Android
   platform_version: "15"            # Android 手机系统版本
   device_name: "Android_Device"         # Android 手机设备名

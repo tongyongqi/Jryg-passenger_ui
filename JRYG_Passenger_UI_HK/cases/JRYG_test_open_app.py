@@ -174,7 +174,7 @@ class TestJRYGHKAndroidOrder:
 
     def _ensure_logged_in(self):
         """保障登录：进入个人中心，检查是否登录，若未登录则一键登录，最后必须切换回首页"""
-        phone_number = "11001727"
+        phone_number = "110000001"
         verify_code = "123456"
         logger.info(f"【登录校验】进入个人中心检查登录状态，预备登录手机号: {phone_number}...")
 

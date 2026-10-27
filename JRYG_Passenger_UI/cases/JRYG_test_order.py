@@ -1,3 +1,27 @@
+"""阳光出行乘客端+司机端全链路订单自动化测试。
+
+完整业务闭环：乘客下单 → 司机接单 → 到达 → 接乘客 → 行程 → 收款完单
+
+流程概述：
+  阶段1: 打开乘客端 App
+  阶段2: 授权（隐私协议 + 系统权限弹窗）
+  阶段3: 登录（手机号 + 验证码）
+  阶段4: 下单（设置起点/目的地 → 搜索选择地址 → 询价选车型 → 收银台支付 → 呼叫）
+  阶段4.5: 司机端登录（如未登录则先登录）+ 出车听单
+  阶段5: 司机端接单流程（接单 → 准备出发 → 到达 → 接乘客 → 验证尾号 → 行程 → 收款完单）
+  收尾: 切回乘客端返回首页
+
+设计模式：
+  - 状态机循环：通过 _detect_state 检测当前页面状态，路由到对应处理逻辑
+  - DriverFlowMixin：提供司机端状态检测、登录、验证码输入、出车、卡顿检测等通用能力
+  - progress 字典：跨阶段传递已完成步骤标记（start_done/dest_done/order_started 等）
+  - 卡顿检测：_check_stall 当页面状态持续超时未推进时抛出断言
+
+前置条件：
+  - 设备已连接、Appium Server 已启动
+  - 测试数据 JSON 中包含 start_address、dest_address、phone_number、verify_code、verify_tail
+  - 司机端 App 已安装
+"""
 import pytest
 import os
 import json
@@ -5,6 +29,7 @@ import time
 import subprocess
 import sys
 
+# 将项目根目录添加到 sys.path，确保 common 模块可被正确导入
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
@@ -17,18 +42,29 @@ from JRYG_Passenger_UI.common.JRYG_adb_tools import JRYG_ADBTools
 from JRYG_Passenger_UI.common.JRYG_driver_flow import DriverFlowMixin
 
 class TestJRYGOrderRide(DriverFlowMixin):
-    """阳光出行起终点呼叫、车型选择、模拟接单、尾号验证、收款完单全业务闭环测试"""
+    """阳光出行起终点呼叫、车型选择、模拟接单、尾号验证、收款完单全业务闭环测试
+
+    继承 DriverFlowMixin 获取司机端状态检测、登录、验证码输入、出车等通用能力。
+    通过状态机循环驱动双端 App 完成从下单到完单的全流程。
+    """
 
     @classmethod
     def setup_class(cls):
+        """类级 setup：连接设备、创建 Poco 实例、加载测试数据。
+
+        使用 airtest connect_device 连接 Android 设备，
+        AndroidUiautomationPoco 创建 Poco 实例用于 UI 操作，
+        JRYG_ADBTools 封装 ADB 命令用于 App 启动/停止等操作。
+        """
         udid = SETTINGS["device"]["udid"]
         connect_device(f"android://127.0.0.1:5037/{udid}")
         cls.poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
         cls.udid = udid
         cls.adb = JRYG_ADBTools(udid)
-        cls.passenger_pkg = SETTINGS["packages"]["passenger"]
-        cls.driver_pkg = SETTINGS["packages"]["driver"]
+        cls.passenger_pkg = SETTINGS["packages"]["passenger"]  # 乘客端包名
+        cls.driver_pkg = SETTINGS["packages"]["driver"]        # 司机端包名
 
+        # 加载测试数据：起终点地址、手机号、验证码、手机尾号
         with open(TEST_DATA_FILE, "r", encoding="utf-8") as f:
             cls.test_data = json.load(f)
 
@@ -44,11 +80,21 @@ class TestJRYGOrderRide(DriverFlowMixin):
     def _run_ride_flow(self, progress=None):
         """执行完整行程流程的状态机循环。
 
-        遍历 打开app → 授权 → 登录 → 下单 → 下单后续操作 各阶段，
-        通过 _detect_state 检测当前页面状态并路由到对应处理逻辑，
-        直到行程完成或订单失败时退出循环。
+        核心机制：通过 _detect_state 检测当前页面状态，路由到对应处理逻辑，
+        直到行程完成或订单失败时退出循环。最多循环 60 次。
 
-        :param progress: 可选的进度字典，用于跨阶段传递已完成步骤标记。
+        状态流程：
+          阶段1: launcher/blockcanary → 启动 App
+          阶段2: privacy_agreement/permission_dialog → 授权弹窗处理
+          阶段3: login → 手机号+验证码登录
+          阶段4: ad/home/search/quote/cashier/calling → 乘客下单
+          阶段4.5: driver_tourist_home/driver_login/driver_verify_code → 司机端登录
+          阶段5: driver_accept_order → driver_ready → driver_at_pickup →
+                  driver_wait_passenger → driver_verify_phone → driver_in_trip →
+                  driver_bill → driver_finished → 切回乘客端
+
+        :param progress: 可选的进度字典，用于跨阶段传递已完成步骤标记
+                         （start_done/dest_done/order_started/trip_started/collection_submitted）
         """
         start_addr = self.test_data["start_address"]
         dest_addr = self.test_data["dest_address"]
@@ -75,7 +121,7 @@ class TestJRYGOrderRide(DriverFlowMixin):
 
             # ── 阶段1: 打开app ──
             if state == "launcher":
-                logger.info("【阶段1-打开app】当前位于桌面，强制启动乘客端 App...")
+                logger.info("【阶段1-打开app】当前位于桌面，强制启动乘客端 App...")‘
                 self._launch_app(self.passenger_pkg)
                 continue
 
@@ -451,6 +497,11 @@ class TestJRYGOrderRide(DriverFlowMixin):
     # ==================== 底层操作函数封装 ====================
 
     def _switch_to_driver(self):
+        """双端衔接：从乘客端切换到司机端 App。
+
+        乘客端下单进入呼叫页面后，通过 ADB 启动司机端 App。
+        等待司机端进入前台（最多 15 秒），同时处理可能出现的系统权限弹窗。
+        """
         logger.info("【双端衔接】乘客已进入呼叫页面，打开司机端接单，不停止乘客端")
         self.adb.start_app(self.driver_pkg, SETTINGS["packages"]["driver_activity"])
         for _ in range(15):
@@ -464,6 +515,11 @@ class TestJRYGOrderRide(DriverFlowMixin):
         raise RuntimeError(f"切换司机端失败，当前页面: {self._get_top_activity_full()}")
 
     def _return_to_passenger_home(self):
+        """司机端完单后切回乘客端，返回首页。
+
+        通过 ADB am start 启动乘客端 App，最多等待 60 秒确认回到首页。
+        处理可能遇到的：卡顿监控页、广告弹窗、行程结束页（点击回首页/返回键）。
+        """
         logger.info("【乘客端收尾】切回乘客端，返回首页")
         launch_command = [
             "adb", "-s", self.udid, "shell", "am", "start", "-n",
@@ -526,9 +582,18 @@ class TestJRYGOrderRide(DriverFlowMixin):
         )
 
     def _detect_state(self):
-        """检测当前页面状态，返回状态字符串（如 launcher/login/quote/calling/cashier 等）。
+        """检测当前页面状态，返回状态字符串。
 
-        通过判断 top activity 名称和页面文本内容，区分乘客端和司机端的不同业务阶段。
+        检测顺序（优先级从高到低）：
+          1. 系统级状态：launcher（桌面）、blockcanary（卡顿监控）、permission_dialog（权限弹窗）
+          2. 隐私协议：privacy_agreement
+          3. 司机端状态：通过 _driver_state 检测司机端各业务阶段
+          4. 乘客端状态：login、cashier、ad、search、order_failed、trip_finished、calling、quote、home
+
+        返回值：状态字符串，如 launcher/privacy_agreement/login/home/search/quote/cashier/calling/
+                driver_login/driver_verify_code/driver_home/driver_listening/driver_accept_order/
+                driver_ready/driver_at_pickup/driver_wait_passenger/driver_verify_phone/
+                driver_in_trip/driver_bill/driver_finished 等
         """
         activity = self._get_top_activity_full().lower()
         if "launcher" in activity:
@@ -585,7 +650,13 @@ class TestJRYGOrderRide(DriverFlowMixin):
     def _search_and_select(self, keyword):
         """在地址搜索页输入关键词并选中第一条搜索结果。
 
-        尝试多种定位策略（rl_parent 容器、文本模糊匹配、RecyclerView 子项）。
+        定位策略（按优先级降级）：
+          方式1: 通过 rl_parent 容器点击第一条结果
+          方式2: 通过文本模糊匹配（前 3 个字符）点击结果
+          方式3: 通过 RecyclerView 容器的第一个子项点击
+
+        :param keyword: 搜索关键词（如起终点地址）
+        :return: True 选中成功，False 选中失败
         """
         et = self.poco(f"{self.passenger_pkg}:id/et_search")
         if not et.exists():
@@ -622,7 +693,10 @@ class TestJRYGOrderRide(DriverFlowMixin):
         return False
 
     def _handle_quote(self):
-        """在报价页选择"阳光优选"车型并点击确认呼叫。"""
+        """在报价页选择"阳光优选"车型并点击确认呼叫。
+
+        流程：遍历车型列表 → 找到"阳光优选"并点击 → 点击确认呼叫按钮 → 等待跳转
+        """
         car_names = self.poco(f"{self.passenger_pkg}:id/tv_car_type_name")
         if car_names.exists():
             for i in range(len(car_names)):
@@ -641,7 +715,12 @@ class TestJRYGOrderRide(DriverFlowMixin):
         sleep(4)
 
     def _wechat_payment_controls(self):
-        """定位收银台微信支付选项的容器行和勾选框，返回 (row, checkbox)。"""
+        """定位收银台微信支付选项的容器行和勾选框。
+
+        结构：pay_title(微信支付) → parent → parent(pay_root 行容器) → offspring(pay_cb 勾选框)
+        返回 (row, checkbox) 两个 Poco 控件对象，供 _handle_cashier 使用。
+        如果结构不匹配或缺少勾选框，抛出 RuntimeError 停止支付操作。
+        """
         wechat = self.poco(f"{self.passenger_pkg}:id/pay_title", text="微信支付")
         if not wechat.exists():
             raise RuntimeError("收银台未找到微信支付选项")
@@ -654,7 +733,15 @@ class TestJRYGOrderRide(DriverFlowMixin):
         return row, checkbox
 
     def _handle_cashier(self):
-        """处理收银台支付流程：勾选微信支付 → 点击确认支付并呼叫 → 等待进入呼叫页面。"""
+        """处理收银台支付流程：勾选微信支付 → 点击确认支付并呼叫 → 等待进入呼叫页面。
+
+        安全机制：
+          - _cashier_submitted 标志位防止重复提交
+          - 勾选后重新校验 checked 状态（最多 10 次刷新）
+          - 确认按钮必须 enabled 才允许点击
+          - 点击后等待 15 秒确认进入呼叫页面，超时则报错
+          - 如果跳转微信支付页面则报错（外部支付未完成）
+        """
         if getattr(self, "_cashier_submitted", False):
             raise RuntimeError("已点击确认支付并呼叫，禁止重复提交，请检查支付结果")
         if self._detect_state() != "cashier":
@@ -712,7 +799,11 @@ class TestJRYGOrderRide(DriverFlowMixin):
         )
 
     def _slide_drag_view(self):
-        """在司机端执行横向滑块滑动操作，返回是否成功。"""
+        """在司机端执行横向滑块滑动操作，返回是否成功。
+
+        定位 ll_drag_view 滑块控件，从左端滑至右端模拟滑动确认。
+        用于"到达上车地点"、"已接到乘客"、"到达目的地"、"发起收款"等操作。
+        """
         drag_view = self.poco("com.jryg.driver:id/ll_drag_view")
         if drag_view.exists():
             pos = drag_view.get_position()

@@ -18,12 +18,15 @@
   3. 高德 /v3/place/around 下游请求已被捕获
 
 运行方式：
-  pytest -v -s JRYG_Passenger_UI_HK/cases/JRYG_test_place_around.py
+  python3 JRYG_Passenger_API_HK/JRYG_run_main.py --suite capture
+  设置 HK_CAPTURE_DIR 指向本次抓包 JSON 所在目录。
 """
 
 import pytest
 
-from JRYG_Passenger_UI_HK.common.JRYG_place_verifier import (
+pytestmark = pytest.mark.capture
+
+from JRYG_Passenger_API_HK.common.JRYG_place_verifier import (
     print_verification_report,
     verify_place_type_around,
     verify_language_passthrough,
