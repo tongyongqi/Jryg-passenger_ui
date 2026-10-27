@@ -2,7 +2,7 @@ import time
 
 from airtest.core.api import sleep
 
-from JRYG_Passenger_UI.common.JRYG_logger import logger
+from jryg_android.JRYG_logger import logger
 
 
 class DriverFlowMixin:

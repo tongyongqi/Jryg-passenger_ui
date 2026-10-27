@@ -1,8 +1,8 @@
 """
-Android 真机 UI 自动化配置文件（已迁入 JRYG_Passenger_UI 项目结构）
+Android 真机 UI 自动化配置文件（已迁入 JRYG_Passenger_UI-android 项目结构）
 """
 
-from JRYG_Passenger_UI.common.JRYG_config import SETTINGS
+from jryg_android.JRYG_config import SETTINGS
 
 DEVICE_UDID = SETTINGS["device"]["udid"]               # 设备唯一标识
 DEVICE_NAME = SETTINGS["device"].get("name", "")       # 设备名称（可选）

@@ -32,8 +32,8 @@ PROJECT_ROOT = str(Path(__file__).resolve().parents[2])
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from JRYG_Passenger_UI.common.JRYG_settings_flow import SettingsFlow, SETTING_ITEMS, EXCLUDED_TEXT, EXCLUDED_IDS
-from JRYG_Passenger_UI.common.JRYG_logger import logger
+from jryg_android.JRYG_settings_flow import SettingsFlow, SETTING_ITEMS, EXCLUDED_TEXT, EXCLUDED_IDS
+from jryg_android.JRYG_logger import logger
 
 
 # 排除项说明：退出登录、测试中心、注销账号不点击

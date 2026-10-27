@@ -30,8 +30,8 @@ PROJECT_ROOT = str(Path(__file__).resolve().parents[2])
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from JRYG_Passenger_UI.common.JRYG_settings_flow import SettingsFlow, SETTING_ITEMS
-from JRYG_Passenger_UI.common.JRYG_logger import logger
+from jryg_android.JRYG_settings_flow import SettingsFlow, SETTING_ITEMS
+from jryg_android.JRYG_logger import logger
 
 
 # ==================== 隐私中心下属文档配置 ====================

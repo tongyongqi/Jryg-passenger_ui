@@ -1,5 +1,5 @@
 """
-Android 真机连接与基础操作封装（已迁入 JRYG_Passenger_UI 结构）
+Android 真机连接与基础操作封装（已迁入 JRYG_Passenger_UI-android 结构）
 """
 
 import time
@@ -12,8 +12,8 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from JRYG_Passenger_UI.common import JRYG_device_config as config
-from JRYG_Passenger_UI.common.JRYG_config import SCREENSHOTS_DIR
+from . import JRYG_device_config as config
+from .JRYG_config import SCREENSHOTS_DIR
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 

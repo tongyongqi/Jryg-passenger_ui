@@ -1,5 +1,5 @@
 import os
-from JRYG_Passenger_UI.common.JRYG_config import (
+from jryg_android.JRYG_config import (
     REPORT_DIR, LOGS_DIR, SCREENSHOTS_DIR, DATA_DIR, CONFIG_DIR
 )
 

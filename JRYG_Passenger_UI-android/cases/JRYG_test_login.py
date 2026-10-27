@@ -37,9 +37,9 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
 from selenium.common.exceptions import TimeoutException
-from JRYG_Passenger_UI.common.JRYG_logger import logger
-from JRYG_Passenger_UI.common.JRYG_config import SETTINGS, TEST_DATA_FILE
-from JRYG_Passenger_UI.common.JRYG_connect_device import AndroidDevice
+from jryg_android.JRYG_logger import logger
+from jryg_android.JRYG_config import SETTINGS, TEST_DATA_FILE
+from jryg_android.JRYG_connect_device import AndroidDevice
 
 
 class TestJRYGLogin:

@@ -3,12 +3,11 @@ import sys
 import pytest
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.dirname(BASE_DIR)
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 
-from JRYG_Passenger_UI.common.JRYG_dir_init import init_all_dirs
-from JRYG_Passenger_UI.common.JRYG_config import REPORT_DIR
+from jryg_android.JRYG_dir_init import init_all_dirs
+from jryg_android.JRYG_config import REPORT_DIR
 
 # 大陆 UI 自动化测试执行顺序：
 # 1. 登录 → 进入首页

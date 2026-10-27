@@ -18,7 +18,7 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(_
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from JRYG_Passenger_UI.common.JRYG_connect_device import AndroidDevice
+from jryg_android.JRYG_connect_device import AndroidDevice
 
 
 class TestJRYGDemo:

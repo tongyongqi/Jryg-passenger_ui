@@ -36,10 +36,10 @@ if PROJECT_ROOT not in sys.path:
 
 from airtest.core.api import connect_device, sleep, keyevent
 from poco.drivers.android.uiautomation import AndroidUiautomationPoco
-from JRYG_Passenger_UI.common.JRYG_logger import logger
-from JRYG_Passenger_UI.common.JRYG_config import SETTINGS, TEST_DATA_FILE
-from JRYG_Passenger_UI.common.JRYG_adb_tools import JRYG_ADBTools
-from JRYG_Passenger_UI.common.JRYG_driver_flow import DriverFlowMixin
+from jryg_android.JRYG_logger import logger
+from jryg_android.JRYG_config import SETTINGS, TEST_DATA_FILE
+from jryg_android.JRYG_adb_tools import JRYG_ADBTools
+from jryg_android.JRYG_driver_flow import DriverFlowMixin
 
 class TestJRYGOrderRide(DriverFlowMixin):
     """阳光出行起终点呼叫、车型选择、模拟接单、尾号验证、收款完单全业务闭环测试
@@ -121,7 +121,7 @@ class TestJRYGOrderRide(DriverFlowMixin):
 
             # ── 阶段1: 打开app ──
             if state == "launcher":
-                logger.info("【阶段1-打开app】当前位于桌面，强制启动乘客端 App...")‘
+                logger.info("【阶段1-打开app】当前位于桌面，强制启动乘客端 App...")
                 self._launch_app(self.passenger_pkg)
                 continue
 

@@ -10,14 +10,26 @@ import subprocess
 
 import pytest
 
-from JRYG_Passenger_UI import JRYG_run_main as runner
-from JRYG_Passenger_UI.cases import JRYG_test_order as order_module
-from JRYG_Passenger_UI.cases import JRYG_debug_driver_login as debug_module
-from JRYG_Passenger_UI.common import JRYG_adb_tools as adb_module
-from JRYG_Passenger_UI.common import JRYG_config as config
-from JRYG_Passenger_UI.common import JRYG_device_config as device_config
-from JRYG_Passenger_UI.common import JRYG_driver_flow as flow_module
-from JRYG_Passenger_UI.common import JRYG_connect_device as device_module
+from jryg_android import JRYG_run_main as runner
+from jryg_android import JRYG_device_config as config
+from jryg_android import JRYG_driver_flow as flow_module
+from jryg_android import JRYG_connect_device as device_module
+
+# cases 目录中的模块需要通过文件路径导入
+import importlib.util
+import os as _os
+
+_CASES_DIR = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "cases")
+
+def _load_case_module(filename):
+    spec = importlib.util.spec_from_file_location(filename[:-3], _os.path.join(_CASES_DIR, filename))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+order_module = _load_case_module("JRYG_test_order.py")
+debug_module = _load_case_module("JRYG_debug_driver_login.py")
+adb_module = __import__("jryg_android.JRYG_adb_tools", fromlist=["JRYG_adb_tools"])
 
 
 @pytest.fixture

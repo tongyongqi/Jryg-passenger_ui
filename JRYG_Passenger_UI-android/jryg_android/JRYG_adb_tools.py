@@ -1,6 +1,6 @@
 import subprocess
-from JRYG_Passenger_UI.common.JRYG_logger import logger
-from JRYG_Passenger_UI.common.JRYG_config import SETTINGS
+from jryg_android.JRYG_logger import logger
+from jryg_android.JRYG_config import SETTINGS
 
 class JRYG_ADBTools:
     """ADB 移动端命令交互基础工具封装"""

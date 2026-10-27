@@ -16,10 +16,10 @@ sys.path.insert(0, PROJECT_ROOT)
 
 from airtest.core.api import connect_device, sleep, keyevent
 from poco.drivers.android.uiautomation import AndroidUiautomationPoco
-from JRYG_Passenger_UI.common.JRYG_logger import logger
-from JRYG_Passenger_UI.common.JRYG_config import SETTINGS, TEST_DATA_FILE
-from JRYG_Passenger_UI.common.JRYG_adb_tools import JRYG_ADBTools
-from JRYG_Passenger_UI.common.JRYG_driver_flow import DriverFlowMixin
+from jryg_android.JRYG_logger import logger
+from jryg_android.JRYG_config import SETTINGS, TEST_DATA_FILE
+from jryg_android.JRYG_adb_tools import JRYG_ADBTools
+from jryg_android.JRYG_driver_flow import DriverFlowMixin
 
 
 class DebugDriverFlow(DriverFlowMixin):

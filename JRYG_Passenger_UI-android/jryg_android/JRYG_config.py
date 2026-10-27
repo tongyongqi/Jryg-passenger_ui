@@ -1,11 +1,11 @@
 import os
 import yaml
 
-# 项目根目录 JRYG_Passenger_UI
+# 项目根目录 JRYG_Passenger_UI-android
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 各核心目录路径
-COMMON_DIR = os.path.join(BASE_DIR, "common")
+COMMON_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_DIR = os.path.join(BASE_DIR, "config")
 CASES_DIR = os.path.join(BASE_DIR, "cases")
 DATA_DIR = os.path.join(BASE_DIR, "data")

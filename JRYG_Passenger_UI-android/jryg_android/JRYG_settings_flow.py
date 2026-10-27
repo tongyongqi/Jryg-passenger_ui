@@ -12,9 +12,9 @@ from pathlib import Path
 from airtest.core.api import connect_device
 from poco.drivers.android.uiautomation import AndroidUiautomationPoco
 
-from JRYG_Passenger_UI.common.JRYG_adb_tools import JRYG_ADBTools
-from JRYG_Passenger_UI.common.JRYG_config import SETTINGS, REPORT_DIR
-from JRYG_Passenger_UI.common.JRYG_logger import logger
+from jryg_android.JRYG_adb_tools import JRYG_ADBTools
+from jryg_android.JRYG_config import SETTINGS, REPORT_DIR
+from jryg_android.JRYG_logger import logger
 
 
 # 排除项：不点击退出登录、测试中心、注销账号
