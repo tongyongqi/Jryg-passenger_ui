@@ -26,28 +26,29 @@ from JRYG_Passenger_API_HK.cases.JRYG_test_hk_api import HKApiClient
 from JRYG_Passenger_API_HK.cases.JRYG_test_hk_driver_api import HKDriverApiClient, DRIVER_LATITUDE, DRIVER_LONGITUDE
 from JRYG_Passenger_API_HK.common.jryg_socket_client import JRYGSocketClient
 from JRYG_Passenger_API_HK.common.redis_cache_cleaner import clean_driver_cache
+from JRYG_Passenger_API_HK.common.hk_config import config
 
-# 搜索关键词
-BEGIN_SEARCH_KEYWORD = "銅鑼灣"
-END_SEARCH_KEYWORD = "香港"
+# 搜索关键词（从统一配置读取，支持环境变量覆盖）
+BEGIN_SEARCH_KEYWORD = config.BEGIN_SEARCH_KEYWORD
+END_SEARCH_KEYWORD = config.END_SEARCH_KEYWORD
 
 # 搜索定位坐标
-SEARCH_LATITUDE = "22.278893"
-SEARCH_LONGITUDE = "114.180418"
+SEARCH_LATITUDE = config.SEARCH_LATITUDE
+SEARCH_LONGITUDE = config.SEARCH_LONGITUDE
 
 # 司机默认位置（铜锣湾附近）
-DRIVER_LAT = DRIVER_LATITUDE  # 22.277409
-DRIVER_LNG = DRIVER_LONGITUDE  # 114.188752
+DRIVER_LAT = DRIVER_LATITUDE  # 从 driver_api 引用（已从配置读取）
+DRIVER_LNG = DRIVER_LONGITUDE  # 从 driver_api 引用（已从配置读取）
 
-# 账单金额
-ORDER_AMOUNT = "88"
-OTHER_AMOUNT = "0"
+# 账单金额（已统一，原 "88" 与 dual 的 "5" 不一致问题已修复）
+ORDER_AMOUNT = config.ORDER_AMOUNT
+OTHER_AMOUNT = config.OTHER_AMOUNT
 
-# 等待时间
-STATUS_WAIT = 2  # 状态变更间隔（秒）
-GRAB_WAIT = 5  # 接单后等待（秒）
-POLLING_TIMEOUT = 120  # polling超时（秒）— 增加到120秒等系统调度
-POLLING_INTERVAL = 3  # polling间隔（秒）
+# 等待时间（从统一配置读取）
+STATUS_WAIT = config.STATUS_WAIT  # 状态变更间隔（秒）
+GRAB_WAIT = config.GRAB_WAIT  # 接单后等待（秒）
+POLLING_TIMEOUT = config.POLLING_TIMEOUT  # polling超时（秒）
+POLLING_INTERVAL = config.POLLING_INTERVAL  # polling间隔（秒）
 
 
 def step(n, title):
@@ -84,11 +85,11 @@ def main():
     print("=" * 60)
 
     # ================================================================
-    # 【测试前置】清理 Redis 缓存（避免上次测试的派单/抢单缓存干扰）
-    # 如果不清理，上次测试的 agent/phone/grab/publish 缓存可能导致
-    # polling 拿到旧订单或调度引擎不派发新订单
+    # 【测试前置】清理 Redis 缓存（避免上次测试的派单缓存干扰）
+    # 清理 agent（司机重复派单限制）和 phone（手机号重复派单限制）缓存，
+    # 不清理 grab/publish，否则可能影响抢单活动和派发轮次
     # ================================================================
-    step(0, "清理 Redis driver 缓存（agent/phone/grab/publish）")
+    step(0, "清理 Redis driver 缓存（agent/phone）")
     try:
         deleted = clean_driver_cache()
         ok(f"Redis 缓存清理完成，删除 {deleted} 个 key")

@@ -25,26 +25,29 @@ import threading
 import time
 import math
 
+from JRYG_Passenger_API_HK.common.hk_config import config
+
 
 class JRYGSocketClient:
     """司机端 Socket 长连接客户端。"""
 
-    GATEWAY_HOST = "43.128.0.173"  # gateway-test.sunlightmobility.hk 真实IP
-    GATEWAY_PORT = 9527
+    GATEWAY_HOST = config.SOCKET_GATEWAY_HOST  # gateway-test.sunlightmobility.hk 真实IP
+    GATEWAY_PORT = config.SOCKET_GATEWAY_PORT
 
     MSG_LOGIN = 1026
     MSG_HEART = 1022
     MSG_LOCATION = 1017
 
-    def __init__(self, access_token, lat=22.277409, lng=114.188752):
+    def __init__(self, access_token, lat=None, lng=None):
         """
         :param access_token: HTTP 登录返回的 access_token（作为 Socket openToken）
-        :param lat: 纬度
-        :param lng: 经度
+        :param lat: 纬度（默认用配置中的司机定位纬度）
+        :param lng: 经度（默认用配置中的司机定位经度）
         """
         self.access_token = access_token
-        self.lat = float(lat)
-        self.lng = float(lng)
+        # 默认使用配置中的司机定位坐标
+        self.lat = float(lat if lat is not None else config.DRIVER_LATITUDE)
+        self.lng = float(lng if lng is not None else config.DRIVER_LONGITUDE)
         self.sock = None
         self.sequence = 1
         self.connected = False
@@ -105,9 +108,10 @@ class JRYGSocketClient:
         """构建登录消息 messageId=1026"""
         seq = self._next_seq()
         token_bytes = self.access_token.encode()
-        app_version_bytes = b"1.2.2"
-        device_type_bytes = b"Pixel 8"
-        system_version_bytes = b"14"
+        # 设备参数从统一配置读取（与 driver_api 引用同一来源，避免不一致）
+        app_version_bytes = config.DRIVER_APP_VERSION.encode()
+        device_type_bytes = config.DRIVER_DEVICE_MODEL.encode()
+        system_version_bytes = config.DRIVER_OS_VERSION.replace("Android", "").encode()
 
         body = self._concat(
             self._int4_be(self.MSG_LOGIN),          # messageId

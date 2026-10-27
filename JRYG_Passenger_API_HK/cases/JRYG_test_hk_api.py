@@ -41,46 +41,47 @@ except ImportError:
     requests = None
 
 from JRYG_Passenger_API_HK.common.JRYG_logger import logger
+from JRYG_Passenger_API_HK.common.hk_config import config
 
 
-# ==================== 接口配置 ====================
+# ==================== 接口配置（从统一配置读取） ====================
 
 # 测试环境基地址
-BASE_URL = os.environ.get("HK_API_BASE_URL", "http://app-client-test.sunlightmobility.hk")
+BASE_URL = config.PASSENGER_BASE_URL
 
 # 请求超时（秒）
-REQUEST_TIMEOUT = 15
+REQUEST_TIMEOUT = config.REQUEST_TIMEOUT
 
 # 测试手机号
-TEST_MOBILE = "11018251727"
+TEST_MOBILE = config.PASSENGER_MOBILE
 
 # 香港区号
-AREA_CODE = "+852"
+AREA_CODE = config.AREA_CODE
 
 # 测试环境固定验证码
-TEST_CAPTCHA = "123456"
+TEST_CAPTCHA = config.PASSENGER_CAPTCHA
 
 # App 版本信息
-APP_VERSION = "1.4.0"
-APP_TERMINAL = "Android"
-OS_VERSION = "Android16"
-DEVICE_MODEL = "SM-S9280"
-CHANNEL = "guanwang"
+APP_VERSION = config.PASSENGER_APP_VERSION
+APP_TERMINAL = config.PASSENGER_APP_TERMINAL
+OS_VERSION = config.PASSENGER_OS_VERSION
+DEVICE_MODEL = config.PASSENGER_DEVICE_MODEL
+CHANNEL = config.PASSENGER_CHANNEL
 
 # 设备标识（接口签名所需固定标识）
-DEVICE_NO = "cdf56abe2fb0aba6-3E697AB8C454206BC0EEC57C7E3B17D876F7FCFF"
+DEVICE_NO = config.PASSENGER_DEVICE_NO
 
 # 城市 ID
-CITY_ID = "514"
+CITY_ID = config.CITY_ID
 
 # 登录方式: 0 表示验证码登录
-LOGIN_METHOD = "0"
+LOGIN_METHOD = config.LOGIN_METHOD
 
 # 验证码场景值: 100 表示登录验证码
-SMS_SCENE = "100"
+SMS_SCENE = config.SMS_SCENE
 
 # 签名密钥
-SIGN_KEY = "RCY9H4c9Cc9z6KaKrunTToWsjCERRexY"
+SIGN_KEY = config.SIGN_KEY
 
 
 def _build_hint_content():

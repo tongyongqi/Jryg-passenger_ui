@@ -42,32 +42,33 @@ from JRYG_Passenger_API_HK.cases.JRYG_test_hk_driver_api import HKDriverApiClien
 from JRYG_Passenger_API_HK.common.JRYG_logger import logger
 from JRYG_Passenger_API_HK.common.jryg_socket_client import JRYGSocketClient
 from JRYG_Passenger_API_HK.common.redis_cache_cleaner import clean_driver_cache
+from JRYG_Passenger_API_HK.common.hk_config import config
 
-# 搜索关键词
-BEGIN_SEARCH_KEYWORD = "銅鑼灣"
-END_SEARCH_KEYWORD = "香港"
+# 搜索关键词（从统一配置读取，支持环境变量覆盖）
+BEGIN_SEARCH_KEYWORD = config.BEGIN_SEARCH_KEYWORD
+END_SEARCH_KEYWORD = config.END_SEARCH_KEYWORD
 
 # 搜索定位坐标
-SEARCH_LATITUDE = "22.278893"
-SEARCH_LONGITUDE = "114.180418"
+SEARCH_LATITUDE = config.SEARCH_LATITUDE
+SEARCH_LONGITUDE = config.SEARCH_LONGITUDE
 
-# 司机端默认填写金额
-ORDER_AMOUNT = "5"
-OTHER_AMOUNT = "0"
+# 司机端默认填写金额（已统一，原 "5" vs e2e 的 "88" 不一致问题已修复）
+ORDER_AMOUNT = config.ORDER_AMOUNT
+OTHER_AMOUNT = config.OTHER_AMOUNT
 
 # 状态变更轮询等待时间（秒）
-STATUS_WAIT = 2
+STATUS_WAIT = config.STATUS_WAIT
 
 # Socket 长连接位置上报稳定等待（秒）
-SOCKET_STABILIZE_WAIT = 10
+SOCKET_STABILIZE_WAIT = config.SOCKET_STABILIZE_WAIT
 
 # 轮询订单超时（秒）— Socket 上报位置后需等待系统调度派单
-POLLING_TIMEOUT = 120
-POLLING_INTERVAL = 3
+POLLING_TIMEOUT = config.POLLING_TIMEOUT
+POLLING_INTERVAL = config.POLLING_INTERVAL
 
 # 模拟行驶步数（结束行程前需沿导航移动足够距离）
-MOVE_STEPS = 30
-MOVE_INTERVAL = 2
+MOVE_STEPS = config.MOVE_STEPS
+MOVE_INTERVAL = config.MOVE_INTERVAL
 
 
 class TestHKDualEndFlow:
@@ -267,7 +268,7 @@ class TestHKDualEndFlow:
         time.sleep(SOCKET_STABILIZE_WAIT)
 
     def _driver_clean_cache(self):
-        """清理 Redis 司机派单缓存（避免上次测试的缓存干扰调度）。"""
+        """清理 Redis 司机 agent/phone 派单缓存（避免上次测试的缓存干扰调度）。"""
         try:
             deleted = clean_driver_cache()
             logger.info(f"【HK DualEnd】Redis 司机缓存清理完成，删除 {deleted} 个 key")

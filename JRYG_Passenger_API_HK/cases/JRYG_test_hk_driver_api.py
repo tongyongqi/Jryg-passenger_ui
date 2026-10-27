@@ -65,53 +65,54 @@ except ImportError:
     requests = None
 
 from JRYG_Passenger_API_HK.common.JRYG_logger import logger
+from JRYG_Passenger_API_HK.common.hk_config import config
 
 
-# ==================== 司机端接口配置 ====================
+# ==================== 司机端接口配置（从统一配置读取） ====================
 
 # 司机端测试环境基地址
-DRIVER_BASE_URL = os.environ.get("HK_DRIVER_API_BASE_URL", "http://driver-test.sunlightmobility.hk")
+DRIVER_BASE_URL = config.DRIVER_BASE_URL
 
 # 请求超时（秒）
-REQUEST_TIMEOUT = 15
+REQUEST_TIMEOUT = config.REQUEST_TIMEOUT
 
 # 司机测试手机号（从App日志获取，司机ID=31, name=T師傅）
-DRIVER_MOBILE = "11000005"
+DRIVER_MOBILE = config.DRIVER_MOBILE
 
 # 香港区号
-AREA_CODE = "+852"
+AREA_CODE = config.AREA_CODE
 
 # 测试环境固定验证码
-TEST_CAPTCHA = "123456"
+TEST_CAPTCHA = config.DRIVER_CAPTCHA
 
 # App 版本信息
-APP_VERSION = "1.2.2"
-APP_TERMINAL = "Android"
-OS_VERSION = "Android14"
-DEVICE_MODEL = "Pixel 8"
-CHANNEL = "guangwang"
+APP_VERSION = config.DRIVER_APP_VERSION
+APP_TERMINAL = config.DRIVER_APP_TERMINAL
+OS_VERSION = config.DRIVER_OS_VERSION
+DEVICE_MODEL = config.DRIVER_DEVICE_MODEL
+CHANNEL = config.DRIVER_CHANNEL
 
 # 设备标识（从App日志获取）
-DEVICE_NO = "82870dca777fcd5b-7D6F0B63B272F42F8DBBFD3644226913A8DA66D2"
+DEVICE_NO = config.DRIVER_DEVICE_NO
 
 # 高德IMEI（servingOrder接口需要）
-GAODE_IMEI = "##amapf210603d-ef00-4912-b3af-47b776a426ef"
+GAODE_IMEI = config.DRIVER_GAODE_IMEI
 
 # 城市 ID
-CITY_ID = "514"
+CITY_ID = config.CITY_ID
 
 # 登录方式
-LOGIN_METHOD = "0"
+LOGIN_METHOD = config.LOGIN_METHOD
 
 # 验证码场景值
-SMS_SCENE = "100"
+SMS_SCENE = config.SMS_SCENE
 
 # 签名密钥
-SIGN_KEY = "RCY9H4c9Cc9z6KaKrunTToWsjCERRexY"
+SIGN_KEY = config.SIGN_KEY
 
 # 定位坐标（模拟司机位置）
-DRIVER_LATITUDE = "22.277409"
-DRIVER_LONGITUDE = "114.188752"
+DRIVER_LATITUDE = config.DRIVER_LATITUDE
+DRIVER_LONGITUDE = config.DRIVER_LONGITUDE
 
 
 def _build_driver_hint_content():

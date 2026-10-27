@@ -1,31 +1,29 @@
 """香港 Redis 缓存清理工具。
 
-每次执行接口自动化测试前，清理 dispatcher:driver 下的缓存：
+每次执行接口自动化测试前，清理 dispatcher:driver 下的 agent 和 phone 缓存：
   - agent:repeat:*  → 司机重复派单限制缓存
   - phone:repeat:*  → 司机手机号重复派单限制缓存
-  - grab:activity:* → 抢单活动缓存
-  - publish:rounds:* → 派发轮次缓存
 
 用法：
     from JRYG_Passenger_API_HK.common.redis_cache_cleaner import clean_driver_cache
-    clean_driver_cache()          # 清理所有 driver 缓存
+    clean_driver_cache()          # 清理 agent + phone 缓存
     clean_driver_cache(driver_id=311451)  # 只清理指定司机的缓存
 """
 
 import redis
 
-# 香港 Redis 连接配置
-REDIS_HOST = "172.31.104.4"
-REDIS_PORT = 6379
-REDIS_PASSWORD = "ygcx_test2@wqBEUSwzxmDv8hpO"
-REDIS_DB = 8
+from JRYG_Passenger_API_HK.common.hk_config import config
 
-# 需要清理的 key 模式
+# 香港 Redis 连接配置（从统一配置读取，支持环境变量覆盖）
+REDIS_HOST = config.REDIS_HOST
+REDIS_PORT = config.REDIS_PORT
+REDIS_PASSWORD = config.REDIS_PASSWORD
+REDIS_DB = config.REDIS_DB
+
+# 需要清理的 key 模式（只清理 agent 和 phone，不清空 grab/publish）
 DRIVER_CACHE_PATTERNS = [
-    "dispatcher:driver:agent:*",    # agent 缓存
-    "dispatcher:driver:phone:*",    # phone 缓存
-    "dispatcher:driver:grab:*",     # 抢单活动缓存
-    "dispatcher:driver:publish:*",  # 派发轮次缓存
+    "dispatcher:driver:agent:*",    # agent 缓存（司机重复派单限制）
+    "dispatcher:driver:phone:*",    # phone 缓存（手机号重复派单限制）
 ]
 
 

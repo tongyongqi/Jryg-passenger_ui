@@ -24,5 +24,9 @@ JRYG_Passenger_API_HK/report/
 JRYG_Passenger_API_HK/data/captures/
 .html
 
+# Environment variables (敏感信息，不提交)
+.env
+JRYG_Passenger_API_HK/.env
+
 # macOS system files
 .DS_Store
