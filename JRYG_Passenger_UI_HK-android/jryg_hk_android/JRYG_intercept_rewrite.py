@@ -8,10 +8,10 @@ mitmproxy 插件：手动操作 App 触发请求后，抓包并篡改服务端�
 
 使用方式（WireGuard 模式，解决 Flutter App 不走代理问题）：
     # 1. 用 python3.12 启动 mitmproxy WireGuard 模式
-    python3.12 -m mitmproxy wireguard -s JRYG_Passenger_UI_HK/common/JRYG_intercept_rewrite.py
+    python3.12 -m mitmproxy wireguard -s JRYG_Passenger_UI_HK-android/jryg_hk_android/JRYG_intercept_rewrite.py
 
     # 2. 或者用 mitmdump WireGuard 模式（终端输出更清晰）
-    python3.12 -m mitmdump wireguard -s JRYG_Passenger_UI_HK/common/JRYG_intercept_rewrite.py
+    python3.12 -m mitmdump wireguard -s JRYG_Passenger_UI_HK-android/jryg_hk_android/JRYG_intercept_rewrite.py
 
     # 3. 启动后终端会显示二维码和连接信息
     #    在手机上扫码连接 WireGuard VPN（或通过 adb reverse 自动连接）

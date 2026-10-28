@@ -13,8 +13,8 @@ from poco.drivers.android.uiautomation import AndroidUiautomationPoco
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
-from JRYG_Passenger_UI_HK.common.JRYG_config import SETTINGS
-from JRYG_Passenger_UI_HK.common.JRYG_logger import logger
+from jryg_hk_android.JRYG_config import SETTINGS
+from jryg_hk_android.JRYG_logger import logger
 
 
 @pytest.mark.skipif(

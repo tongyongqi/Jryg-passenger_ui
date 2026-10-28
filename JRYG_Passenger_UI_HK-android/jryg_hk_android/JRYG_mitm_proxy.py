@@ -7,15 +7,15 @@
   4. /passenger/payment/mode            — 支付方式接口
 
 使用方式（终端启动）：
-    mitmdump -s JRYG_Passenger_UI_HK/common/JRYG_mitm_proxy.py -p 8080
+    mitmdump -s JRYG_Passenger_UI_HK-android/jryg_hk_android/JRYG_mitm_proxy.py -p 8080
 
 或通过 run_hk.sh 自动启动（见 JRYG_run_hk.sh 中 mitmdump 集成段）。
 
 捕获结果写入：
-    JRYG_Passenger_UI_HK/logs/JRYG_poi_capture.json       — POI 接口
-    JRYG_Passenger_UI_HK/logs/JRYG_place_capture.json    — v2/place 接口
-    JRYG_Passenger_UI_HK/logs/JRYG_around_capture.json    — 高德 /v3/place/around 接口
-    JRYG_Passenger_UI_HK/logs/JRYG_payment_mode_capture.json — 支付方式接口
+    JRYG_Passenger_UI_HK-android/logs/JRYG_poi_capture.json       — POI 接口
+    JRYG_Passenger_UI_HK-android/logs/JRYG_place_capture.json    — v2/place 接口
+    JRYG_Passenger_UI_HK-android/logs/JRYG_around_capture.json    — 高德 /v3/place/around 接口
+    JRYG_Passenger_UI_HK-android/logs/JRYG_payment_mode_capture.json — 支付方式接口
 """
 
 import json
@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # 各接口的捕获文件路径
 CAPTURE_DIR = os.path.abspath(os.path.expanduser(os.environ.get(
-    "HK_CAPTURE_DIR", os.path.join(BASE_DIR, "JRYG_Passenger_UI_HK", "logs")
+    "HK_CAPTURE_DIR", os.path.join(BASE_DIR, "JRYG_Passenger_UI_HK-android", "logs")
 )))
 POI_CAPTURE_FILE = os.path.join(CAPTURE_DIR, "JRYG_poi_capture.json")
 PLACE_CAPTURE_FILE = os.path.join(CAPTURE_DIR, "JRYG_place_capture.json")

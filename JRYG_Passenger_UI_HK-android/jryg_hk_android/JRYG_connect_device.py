@@ -1,69 +1,34 @@
-"""
-港版阳光出行——真机设备物理通道连接与交互二次封装（自适应 Android/iOS 双端）
-"""
+"""港版阳光出行 Android 真机连接。"""
 
 import time
-import os
-import sys
 import subprocess
 
 from appium import webdriver
 
-# 支持导入同层级公共模块
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from JRYG_Passenger_UI_HK.common.JRYG_config import SETTINGS
-from JRYG_Passenger_UI_HK.common.JRYG_logger import logger
+from .JRYG_config import SETTINGS
+from .JRYG_logger import logger
 
 
 class JRYG_HKDevice:
-    """自适应 Android 和 iOS 双平台的一键真机 App 唤起与连接类"""
+    """Android 真机 App 唤起与连接。"""
 
     def __init__(self):
         self.driver: webdriver.Remote = None
         self.device_cfg = SETTINGS.get("device", {})
         self.pkg_cfg = SETTINGS.get("packages", {})
         
-        self.platform = self.device_cfg.get("platform_name", "iOS").upper()
-        self.udid = self.device_cfg.get("udid", "00008120-000E79E03472201E")
-        self.app_pkg = self.pkg_cfg.get("passenger_hk", "com.jryg.client.hk")
-        self.app_activity = self.pkg_cfg.get("passenger_hk_activity", "")
+        self.platform = self.device_cfg.get("platform_name", "Android").upper()
+        self.udid = self.device_cfg["udid"]
+        self.app_pkg = self.pkg_cfg["passenger_hk"]
+        self.app_activity = self.pkg_cfg["passenger_hk_activity"]
 
     def connect(self) -> webdriver.Remote:
-        """
-        核心连接入口：根据 settings.yaml 配置自动调度 Android/iOS 连接策略
-        """
+        """读取本目录的 Android 配置并建立连接。"""
+        if self.platform != "ANDROID":
+            raise ValueError("Android 目录只能使用 Android 设备配置")
         appium_url = f"http://{self.device_cfg.get('appium_host', '127.0.0.1')}:{self.device_cfg.get('appium_port', 4723)}"
         logger.info(f"【港版连接】启动 Appium 自动化 Session. URL: {appium_url} | 平台: {self.platform}")
-
-        if self.platform == "IOS":
-            return self._connect_ios(appium_url)
-        else:
-            return self._connect_android(appium_url)
-
-    def _connect_ios(self, appium_url: str) -> webdriver.Remote:
-        """iOS 平台专属 Appium (XCUITest) 连接策略"""
-        from appium.options.ios import XCUITestOptions
-        
-        options = XCUITestOptions()
-        options.platform_name = "iOS"
-        options.udid = self.udid
-        options.device_name = self.device_cfg.get("device_name", "iPhone111111")
-        options.platform_version = self.device_cfg.get("platform_version", "26.5")
-        options.automation_name = "XCUITest"
-        
-        # 强制配置免安装 WDA，指向本地转发的 8100 端口，实现毫秒级快速启动
-        wda_url = self.device_cfg.get("wda_url", "http://127.0.0.1:8100")
-        options.web_driver_agent_url = wda_url
-        
-        options.bundle_id = self.app_pkg
-        options.no_reset = True
-        options.auto_grant_permissions = True
-        options.new_command_timeout = 600
-
-        logger.info(f"【iOS】正在通过 WDA 快速拉起港版 App '{self.app_pkg}'...")
-        self.driver = webdriver.Remote(appium_url, options=options)
-        logger.info(f"【iOS】拉起成功！Session ID: {self.driver.session_id}")
-        return self.driver
+        return self._connect_android(appium_url)
 
     def _connect_android(self, appium_url: str) -> webdriver.Remote:
         """Android 平台专属 Appium (UiAutomator2) 连接策略"""
