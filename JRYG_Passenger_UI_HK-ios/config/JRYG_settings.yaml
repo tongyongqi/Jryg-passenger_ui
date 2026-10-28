@@ -1,0 +1,11 @@
+device:
+  udid: "00008120-000E79E03472201E"        # iOS 真机 iPhone15 UDID
+  platform_name: "iOS"                     # 平台类型切换为 iOS
+  platform_version: "26.6"                 # iOS 手机系统版本
+  device_name: "iPhone15"                  # iOS 手机设备名 (苹果15)
+  appium_host: "127.0.0.1"
+  appium_port: 4723
+  wda_url: "http://127.0.0.1:8100"
+
+packages:
+  passenger_hk: "com.sunlightmobility.client"
