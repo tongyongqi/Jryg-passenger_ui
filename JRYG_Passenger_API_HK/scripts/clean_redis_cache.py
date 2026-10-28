@@ -11,28 +11,6 @@
   - 大陆-test6   大陆测试6环境
   - 大陆-pre     大陆 pre 预发布环境
 
-执行方式：
-    # 方式1：交互式运行（不传 --env 时，弹出环境选择菜单）
-    python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py
-
-    # 方式2：直接指定环境（跳过交互菜单）
-    python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --env 大陆-test6
-    python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --env 大陆-pre
-
-    # 方式3：只查看不删除
-    python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --list
-
-    # 方式4：只清理指定司机的缓存
-    python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --driver-id 31
-
-    # 方式5：安静模式（不打印每个 key）
-    python JRYG_Passenger_API_HK/scripts/clean_redis_cache.py --quiet
-
-说明：
-    - 本脚本可独立运行，不依赖 pytest
-    - 接口自动化测试每次执行时仍会自动调用 clean_driver_cache()
-      （在 test_e2e_full_flow.py 和 JRYG_test_hk_dual_end_flow.py 的 setup 中）
-    - 本脚本仅作为手动清理工具，方便在测试前/后单独执行
 """
 
 import sys
