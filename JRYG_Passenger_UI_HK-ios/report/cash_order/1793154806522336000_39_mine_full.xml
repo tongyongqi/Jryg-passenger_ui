@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光司機版" label="陽光司機版" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="621" bundleId="com.sunlightmobility.driver">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="103" index="0" traits=""/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="103" index="0" traits=""/>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="true" accessible="true" x="0" y="59" width="56" height="44" index="1" traits="Image"/>
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="設置" name="設置" label="設置" enabled="true" visible="true" accessible="true" x="343" y="59" width="35" height="44" index="2" traits="StaticText"/>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="103" index="2" traits=""/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="2" traits="">
+                          <XCUIElementTypeScrollView type="XCUIElementTypeScrollView" enabled="true" visible="false" accessible="false" x="0" y="103" width="393" height="613" index="0" traits=""/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                            <XCUIElementTypeButton type="XCUIElementTypeButton" name="個人資料&#10;T呵呵呵&#10;香港大利旅游有限公司4286" label="個人資料&#10;T呵呵呵&#10;香港大利旅游有限公司4286" enabled="true" visible="true" accessible="true" x="16" y="135" width="361" height="64" index="0" traits="Button"/>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="true" accessible="false" x="19" y="138" width="58" height="58" index="1" traits="Image"/>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="true" accessible="false" x="208" y="151" width="7" height="10" index="2" traits="Image"/>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="車輛信息" name="車輛信息" label="車輛信息" enabled="true" visible="true" accessible="true" x="33" y="249" width="69" height="24" index="2" traits="StaticText"/>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="TU7679" name="TU7679" label="TU7679" enabled="true" visible="true" accessible="true" x="33" y="279" width="88" height="31" index="3" traits="StaticText"/>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="比亚迪 (红色) 5座" name="比亚迪 (红色) 5座" label="比亚迪 (红色) 5座" enabled="true" visible="true" accessible="true" x="33" y="312" width="130" height="23" index="4" traits="StaticText"/>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="我的工具" name="我的工具" label="我的工具" enabled="true" visible="true" accessible="true" x="33" y="391" width="69" height="24" index="5" traits="StaticText"/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="6" traits="">
+                            <XCUIElementTypeScrollView type="XCUIElementTypeScrollView" enabled="true" visible="false" accessible="false" x="33" y="431" width="327" height="59" index="0" traits=""/>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" name="服務中心" label="服務中心" enabled="true" visible="true" accessible="true" x="33" y="431" width="82" height="59" index="1" traits="Image"/>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" name="我的行程" label="我的行程" enabled="true" visible="true" accessible="true" x="114" y="431" width="83" height="59" index="2" traits="Image"/>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" name="規則中心" label="規則中心" enabled="true" visible="true" accessible="true" x="196" y="431" width="83" height="59" index="3" traits="Image"/>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" name="錢包" label="錢包" enabled="true" visible="true" accessible="true" x="278" y="431" width="82" height="59" index="4" traits="Image"/>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="推薦活動" name="推薦活動" label="推薦活動" enabled="true" visible="true" accessible="true" x="16" y="544" width="361" height="29" index="7" traits="StaticText"/>
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="true" accessible="true" x="16" y="587" width="361" height="113" index="8" traits="Image"/>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="2" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+          <XCUIElementTypeButton type="XCUIElementTypeButton" name="doraemon logo" label="doraemon logo" enabled="true" visible="false" accessible="true" x="0" y="284" width="30" height="30" index="0" traits="Button"/>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

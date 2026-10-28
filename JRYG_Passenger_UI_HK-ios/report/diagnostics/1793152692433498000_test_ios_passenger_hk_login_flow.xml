@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光出行" label="陽光出行" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="1561" bundleId="com.sunlightmobility.client">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="Image"/>
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits=""/>
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="2" traits=""/>
+          </XCUIElementTypeOther>
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="55" y="301" width="283" height="250" index="1" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="55" y="301" width="283" height="250" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="55" y="301" width="283" height="250" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="55" y="301" width="283" height="250" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="55" y="301" width="283" height="250" index="0" traits="">
+                    <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="false" accessible="false" x="55" y="301" width="283" height="250" index="0" traits="Image"/>
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="55" y="301" width="283" height="250" index="1" traits=""/>
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="55" y="301" width="283" height="250" index="2" traits=""/>
+                  </XCUIElementTypeOther>
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="55" y="301" width="283" height="250" index="1" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="使用者協議與私隱政策" name="使用者協議與私隱政策" label="使用者協議與私隱政策" enabled="true" visible="true" accessible="true" x="71" y="331" width="251" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" name="請您認真閱讀《的士資訊平台使用者協議》及《個人資料保護及私隱政策》的條款內容，同意後可開始使用我們的服務" label="請您認真閱讀《的士資訊平台使用者協議》及《個人資料保護及私隱政策》的條款內容，同意後可開始使用我們的服務" enabled="true" visible="true" accessible="true" x="71" y="368" width="251" height="95" index="1" traits=""/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="不同意" label="不同意" enabled="true" visible="true" accessible="true" x="71" y="483" width="120" height="47" index="2" traits="Button">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="不同意" name="不同意" label="不同意" enabled="true" visible="true" accessible="false" x="107" y="495" width="48" height="23" index="0" traits="StaticText"/>
+                    </XCUIElementTypeButton>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="同意" label="同意" enabled="true" visible="true" accessible="true" x="202" y="483" width="120" height="47" index="3" traits="Button">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="同意" name="同意" label="同意" enabled="true" visible="true" accessible="false" x="246" y="495" width="32" height="23" index="0" traits="StaticText"/>
+                    </XCUIElementTypeButton>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+    </XCUIElementTypeOther>
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_login_bg" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="257" index="0" traits="Image"/>
+              <XCUIElementTypeButton type="XCUIElementTypeButton" name="slm base back arrow" label="slm base back arrow" enabled="true" visible="false" accessible="true" x="4" y="59" width="47" height="46" index="1" traits="Button">
+                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="4" y="59" width="1" height="0" index="0" traits="StaticText"/>
+              </XCUIElementTypeButton>
+              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="歡迎登錄陽光出行" name="歡迎登錄陽光出行" label="歡迎登錄陽光出行" enabled="true" visible="false" accessible="true" x="25" y="101" width="226" height="36" index="2" traits="StaticText"/>
+              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_login_bg_logo" enabled="true" visible="false" accessible="false" x="250" y="109" width="127" height="84" index="3" traits="Image"/>
+              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="未註冊的手機號將自動創建帳號" name="未註冊的手機號將自動創建帳號" label="未註冊的手機號將自動創建帳號" enabled="true" visible="false" accessible="true" x="25" y="149" width="226" height="19" index="4" traits="StaticText"/>
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="205" width="369" height="285" index="5" traits=""/>
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="24" y="221" width="345" height="56" index="6" traits="">
+                <XCUIElementTypeTextField type="XCUIElementTypeTextField" value="1101 2620 1100 172" label="" enabled="true" visible="false" accessible="true" x="24" y="221" width="337" height="56" index="0" placeholderValue="請輸入手機號" traits="">
+                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value=" +852 " name=" +852 " label=" +852 " enabled="true" visible="false" accessible="false" x="32" y="227" width="60" height="44" index="0" traits="StaticText"/>
+                </XCUIElementTypeTextField>
+              </XCUIElementTypeOther>
+              <XCUIElementTypeButton type="XCUIElementTypeButton" name="取得驗證碼" label="取得驗證碼" enabled="true" visible="false" accessible="true" x="24" y="297" width="345" height="47" index="7" traits="Button">
+                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="取得驗證碼" name="取得驗證碼" label="取得驗證碼" enabled="true" visible="false" accessible="false" x="154" y="308" width="85" height="25" index="0" traits="StaticText"/>
+              </XCUIElementTypeButton>
+              <XCUIElementTypeButton type="XCUIElementTypeButton" name="slm icon privacy noselect butt" label="slm icon privacy noselect butt" enabled="true" visible="false" accessible="true" x="24" y="364" width="18" height="19" index="8" traits="Button"/>
+              <XCUIElementTypeOther type="XCUIElementTypeOther" name="已閱讀並同意《的士資訊平台使用者協議》及《個人資料保護及私隱政策》" label="已閱讀並同意《的士資訊平台使用者協議》及《個人資料保護及私隱政策》" enabled="true" visible="false" accessible="true" x="46" y="364" width="323" height="42" index="9" traits=""/>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="2" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

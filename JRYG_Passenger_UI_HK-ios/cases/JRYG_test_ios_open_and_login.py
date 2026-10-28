@@ -87,68 +87,12 @@ class TestJRYGHKIosOneKeyLogin:
             pass
 
     def _click_text(self, target_text):
-        """通过 Poco 或 WDA xpath 点击指定文本控件"""
-        # 优先 Poco textMatches
-        el = self.poco(textMatches=f".*{target_text}.*")
-        if el.exists():
-            el.click()
-            logger.info(f"  >> [Poco] 成功点击: {target_text}")
-            return True
-        # WDA xpath 兜底
-        xpath = f'//*[contains(@label, "{target_text}") or contains(@value, "{target_text}")]'
-        wda_el = self.client(xpath=xpath)
-        if wda_el.exists:
-            wda_el.click()
-            logger.info(f"  >> [WDA] 成功点击: {target_text}")
-            return True
-        return False
+        """精确匹配可见文本，避免同意命中不同意以及点击隐藏元素。"""
+        return self.monitor.click_text(self.client, target_text)
 
     def _detect_current_state(self):
-        """核心：通过 UI 关键内容嗅探当前所在业务节点"""
-        # 检测隐私协议同意弹窗
-        if self.poco(textMatches=".*同意.*|.*Agree.*").exists() and self.poco(textMatches=".*不同意.*|.*Disagree.*|.*拒絕.*|.*拒绝.*").exists():
-            return "privacy_agreement"
-
-        # 检测位置权限弹窗
-        if self.poco(textMatches=".*去授權.*|.*去授权.*|.*Allow.*|.*允許.*|.*允许.*").exists():
-            return "permission_dialog"
-
-        # 检测验证码输入页
-        if self.poco(textMatches=".*請輸入驗證碼.*|.*请输入验证码.*|.*重新獲取.*|.*重新获取.*|.*驗證碼.*|.*验证码.*").exists():
-            return "login_code_input"
-
-        # 检测手机号输入页
-        if self.poco(textMatches=".*請輸入手機號.*|.*请输入手机号.*|.*取得驗證碼.*|.*获取验证码.*|.*歡迎登錄.*|.*欢迎登录.*").exists():
-            return "login_phone_input"
-
-        # 检测未登录态个人中心
-        if self.poco(textMatches=".*登錄/註冊.*|.*登录/注册.*").exists():
-            return "mine_unlogged"
-
-        # 嗅探全部文本做复合判断
-        texts = []
-        try:
-            for el in self.poco(type="XCUIElementTypeStaticText"):
-                t = el.get_text()
-                if t:
-                    texts.append(t.strip())
-        except Exception:
-            pass
-        joined = " ".join(texts)
-        logger.info(f"  >> [iOS 页面文本嗅探] joined: {joined[:200]}")
-
-        if "登錄/註冊" in joined or "登录/注册" in joined:
-            return "mine_unlogged"
-        if "請輸入驗證碼" in joined or "验证码" in joined:
-            return "login_code_input"
-        if "請輸入手機號" in joined or "歡迎登錄" in joined or "欢迎登录" in joined:
-            return "login_phone_input"
-        if "想去哪裡" in joined or "想要去哪" in joined or "想去哪" in joined:
-            if "1727" in joined or "****" in joined or "會員" in joined or "会员" in joined or "我的行程" in joined:
-                return "home_logged"
-            return "home_unlogged"
-
-        return "unknown"
+        """单次读取可见页面树，避免手机号页被验证码按钮误判。"""
+        return self.monitor.inspect().state
 
     def test_ios_passenger_hk_login_flow(self):
         """测试用例 -ios：执行一键打开并自动登录完整闭环流程"""
@@ -163,10 +107,20 @@ class TestJRYGHKIosOneKeyLogin:
         # 2. 自动处理系统弹窗
         self._accept_alert()
 
-        # 3. 通过状态监控执行状态机循环
+        deadline = time.monotonic() + 180
+        last_state = None
+        state_since = time.monotonic()
         for cycle in range(30):
             state = self._detect_current_state()
+            now = time.monotonic()
+            if state != last_state:
+                last_state, state_since = state, now
+            assert now < deadline and now - state_since < 40, f"登录流程停滞，当前页面={state}"
             logger.info(f"当前流转 [循环 {cycle}] -> 页面状态: {state}")
+
+            if state == "activity_popup":
+                self.monitor.dismiss_activity_popup(self.client)
+                continue
 
             # 1. 隐私服务协议弹窗处理
             if state == "privacy_agreement":
@@ -189,15 +143,11 @@ class TestJRYGHKIosOneKeyLogin:
             # 3. 乘客端主页（已授权进入）处理 -> 点击『我的』
             if state == "home_unlogged":
                 logger.info("【步骤 4 -ios】已成功进入港版 App 首页，正在点击下方导航栏『我的』...")
-                # 通过 Poco 点击底部导航
-                tab_mine = self.poco(textMatches=".*我的.*|.*Me.*|.*個人.*|.*个人.*")
-                if tab_mine.exists():
-                    tab_mine.click()
-                else:
-                    # 物理高容错坐标点击底部导航右侧"我的"标签
-                    logger.info("  >> 采用物理坐标 (0.83, 0.97) 点击底部『我的』标签...")
-                    self.client.click(0.83, 0.97)
-                time.sleep(3)
+                assert self._click_text("我的"), "首页没有可见的我的标签"
+                self.monitor.wait_for(
+                    "进入个人中心或登录授权页",
+                    lambda page: page.state in ("mine_unlogged", "mine_logged", "privacy_agreement", "permission_dialog", "login_phone_input"),
+                )
                 continue
 
             # 4. 个人中心未登录态处理 -> 点击『登錄/註冊』
@@ -214,70 +164,40 @@ class TestJRYGHKIosOneKeyLogin:
 
                 # 键入手机号 - 通过 WDA 查找 TextField
                 phone_field = self.client(type="TextField")
-                if phone_field.exists:
-                    phone_field.click()
-                    time.sleep(0.5)
-                    self.client.send_keys(phone_number)
-                    logger.info(f"  >> [WDA] 已成功键入手机号: {phone_number}")
-                else:
-                    # 物理点击输入框区域并输入
-                    logger.info("  >> 采用物理坐标 (0.5, 0.25) 点击手机号输入框...")
-                    self.client.click(0.5, 0.25)
-                    time.sleep(1)
-                    self.client.send_keys(phone_number)
-                time.sleep(1.5)
+                assert phone_field.exists, "手机号输入框不存在"
+                phone_field.click()
+                phone_field.clear_text()
+                self.client.send_keys(phone_number)
 
-                # 勾选隐私协议 - iOS 端通过点击复选框或"已閱讀並同意"文本
-                agree_text = self.poco(textMatches=".*已閱讀並同意.*|.*已阅读并同意.*|.*同意.*")
-                if agree_text.exists():
-                    # 点击文本左侧的复选框
-                    try:
-                        pos = agree_text.get_position()
-                        size = agree_text.get_size()
-                        # 偏左点击复选框
-                        x = pos[0] - size[0] / 2 + 0.03
-                        y = pos[1]
-                        self.client.click(x, y)
-                        logger.info("  >> 成功勾选隐私协议复选框")
-                    except Exception:
-                        agree_text.click()
-                        logger.info("  >> 直接点击同意文本")
-                    time.sleep(1)
-
-                # 点击取得验证码
-                if not self._click_text("取得驗證碼"):
-                    self._click_text("获取验证码")
-                # 物理兜底
-                if not self.poco(textMatches=".*取得驗證碼.*|.*获取验证码.*").exists():
-                    logger.info("  >> 采用物理坐标 (0.5, 0.55) 点击取得验证码按钮...")
-                    self.client.click(0.5, 0.55)
-                time.sleep(4)
+                assert self._click_text("取得驗證碼") or self._click_text("获取验证码"), "未找到获取验证码按钮"
+                self.monitor.wait_for(
+                    "进入验证码页或协议确认页",
+                    lambda page: page.state in ("login_code_input", "privacy_agreement"),
+                )
                 continue
 
             # 6. 真实验证码输入页面处理 -> 键入验证码 123456 -> 自动登录
             if state == "login_code_input":
                 logger.info(f"【步骤 7 -ios】正在验证码输入页：输入验证码: {verify_code}...")
                 code_field = self.client(type="TextField")
-                if code_field.exists:
-                    code_field.click()
-                    time.sleep(0.5)
-                    self.client.send_keys(verify_code)
-                    logger.info(f"  >> [WDA] 已成功键入验证码: {verify_code}")
-                else:
-                    logger.info("  >> 采用物理坐标 (0.5, 0.25) 点击验证码输入框...")
-                    self.client.click(0.5, 0.25)
-                    time.sleep(1)
-                    self.client.send_keys(verify_code)
-                time.sleep(6)  # 等待登录服务器网络交互并跳转
+                assert code_field.exists, "验证码输入框不存在"
+                code_field.click()
+                self.client.send_keys(verify_code)
+                self.monitor.wait_for(
+                    "验证码提交后登录成功",
+                    lambda page: page.state in ("mine_logged", "home_unlogged", "activity_popup"),
+                )
                 continue
 
             # 7. 成功登录状态验证
-            if state == "home_logged":
-                logger.info("【成功 -ios】一键打开并登录港版阳光出行 iOS 测试成功！手机号已正确核对绑定。")
+            if state == "mine_logged":
+                assert self.monitor.last_page.matches_account(phone_number), "个人中心账号与测试账号不符"
+                logger.info("【成功 -ios】已在个人中心确认登录态。")
                 self._screenshot("JRYG_ios_login_success.png")
-                break
+                return
 
             time.sleep(2)
+        raise AssertionError(f"登录状态机重试耗尽，最后页面={last_state}")
 
     def test_ios_passenger_hk_booking_flow(self):
         """测试用例 -ios：登录成功后切换回首页，输入起终点，选择优惠券，点击确认呼叫"""

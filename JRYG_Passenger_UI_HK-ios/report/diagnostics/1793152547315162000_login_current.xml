@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光出行" label="陽光出行" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="1559" bundleId="com.sunlightmobility.client">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="769" index="0" traits="">
+                      <XCUIElementTypeTable type="XCUIElementTypeTable" name="登錄/註冊, 我的行程, 聯繫客服" label="登錄/註冊, 我的行程, 聯繫客服" enabled="true" visible="true" accessible="true" x="0" y="0" width="393" height="709" index="0" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="374" index="0" traits="">
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_default_header" enabled="true" visible="true" accessible="false" x="21" y="117" width="74" height="74" index="0" traits="Image"/>
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" name="登錄/註冊" label="登錄/註冊" enabled="true" visible="true" accessible="true" x="107" y="141" width="95" height="26" index="1" traits="StaticText, Button"/>
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" name="slm icon mine setting" label="slm icon mine setting" enabled="true" visible="true" accessible="true" x="343" y="141" width="26" height="26" index="2" traits="Button">
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="343" y="141" width="1" height="1" index="0" traits="StaticText"/>
+                          </XCUIElementTypeButton>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="224" width="179" height="96" index="3" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="224" width="179" height="96" index="0" traits="">
+                              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_mine_journey" enabled="true" visible="false" accessible="false" x="25" y="237" width="34" height="34" index="0" traits="Image"/>
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="我的行程" name="我的行程" label="我的行程" enabled="true" visible="true" accessible="true" x="25" y="283" width="160" height="25" index="1" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="202" y="224" width="179" height="96" index="4" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="202" y="224" width="179" height="96" index="0" traits="">
+                              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_mine_connect" enabled="true" visible="false" accessible="false" x="215" y="237" width="35" height="34" index="0" traits="Image"/>
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="聯繫客服" name="聯繫客服" label="聯繫客服" enabled="true" visible="true" accessible="true" x="215" y="283" width="161" height="25" index="1" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeOther>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="垂直滚动条, 1页" label="垂直滚动条, 1页" enabled="true" visible="false" accessible="false" x="360" y="49" width="30" height="651" index="1" traits="Adjustable">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="387" y="387" width="3" height="310" index="0" traits=""/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="水平滚动条, 1页" label="水平滚动条, 1页" enabled="true" visible="false" accessible="false" x="9" y="676" width="375" height="30" index="2" traits="Adjustable">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="703" width="369" height="3" index="0" traits=""/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeButton type="XCUIElementTypeButton" name="登錄/註冊" label="登錄/註冊" enabled="true" visible="true" accessible="true" x="107" y="141" width="95" height="26" index="3" traits="StaticText, Button"/>
+                        <XCUIElementTypeButton type="XCUIElementTypeButton" name="slm icon mine setting" label="slm icon mine setting" enabled="true" visible="true" accessible="true" x="343" y="141" width="26" height="26" index="4" traits="Button">
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="343" y="141" width="1" height="1" index="0" traits="StaticText"/>
+                        </XCUIElementTypeButton>
+                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="我的行程" name="我的行程" label="我的行程" enabled="true" visible="true" accessible="true" x="25" y="283" width="160" height="25" index="5" traits="StaticText"/>
+                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="聯繫客服" name="聯繫客服" label="聯繫客服" enabled="true" visible="true" accessible="true" x="215" y="283" width="161" height="25" index="6" traits="StaticText"/>
+                      </XCUIElementTypeTable>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+          <XCUIElementTypeTabBar type="XCUIElementTypeTabBar" name="标签页栏" label="标签页栏" enabled="true" visible="true" accessible="false" x="0" y="769" width="393" height="83" index="1" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="769" width="131" height="56" index="0" traits="">
+              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_tabbar_home_normal" enabled="true" visible="true" accessible="false" x="52" y="776" width="27" height="26" index="0" traits="Image"/>
+              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="主頁" name="主頁" label="主頁" enabled="true" visible="true" accessible="true" x="0" y="803" width="131" height="15" index="1" traits="StaticText"/>
+            </XCUIElementTypeOther>
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="131" y="769" width="131" height="56" index="1" traits="">
+              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_tabbar_coupon_normal" enabled="true" visible="true" accessible="false" x="183" y="776" width="27" height="26" index="0" traits="Image"/>
+              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="優惠券" name="優惠券" label="優惠券" enabled="true" visible="true" accessible="true" x="131" y="803" width="131" height="15" index="1" traits="StaticText"/>
+            </XCUIElementTypeOther>
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="262" y="769" width="131" height="56" index="2" traits="">
+              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_tabbar_mine_selected" enabled="true" visible="true" accessible="false" x="314" y="776" width="27" height="26" index="0" traits="Image"/>
+              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="我的" name="我的" label="我的" enabled="true" visible="true" accessible="true" x="262" y="803" width="131" height="15" index="1" traits="StaticText"/>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeTabBar>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

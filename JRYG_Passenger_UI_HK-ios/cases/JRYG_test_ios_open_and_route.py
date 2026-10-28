@@ -81,58 +81,35 @@ class TestJRYGHKIosOpenAndRoute:
     def _close_activity_popup(self):
         """关闭首页可能出现的广告/促销弹框"""
         self._accept_alert()
-        for ad_btn_text in ["iv_cancel", "close", "关闭", "叉號", "叉号"]:
-            ad_el = self.poco(ad_btn_text)
-            if ad_el.exists():
-                ad_el.click()
-                logger.info(f"  >> 成功关闭首页促销大图弹框 (标识: {ad_btn_text})")
-                time.sleep(2)
-                return
-        # 尝试通过坐标关闭弹框
-        close_xpath = self.client(xpath='//*[contains(@label, "close") or contains(@label, "關閉") or contains(@label, "关闭") or contains(@label, "叉")]')
-        if close_xpath.exists:
-            close_xpath.click()
-            logger.info("  >> [WDA] 成功关闭弹框")
-            time.sleep(2)
-        else:
-            logger.info("  >> 当前没有活动弹框")
+        self.monitor.dismiss_activity_popup(self.client)
 
     def _click_search_and_input(self, value):
         """点击搜索框并输入文本"""
         logger.info(f"正在输入: {value}...")
-        # 检测 TextField 出现
-        for wait_sec in range(10):
-            tf = self.client(type="TextField")
-            if tf.exists:
-                tf.click()
-                time.sleep(0.5)
-                break
-            # Poco 兜底
-            if self.poco(type="XCUIElementTypeTextField").exists():
-                self.poco(type="XCUIElementTypeTextField").click()
-                time.sleep(0.5)
-                break
-            time.sleep(1)
-
+        self.monitor.wait_for("进入地址搜索页", lambda page: page.state == "address_search")
+        tf = self.client(type="TextField")
+        assert tf.exists, "地址搜索输入框不存在"
+        tf.click()
+        tf.clear_text()
         self.client.send_keys(value)
         logger.info(f"  >> [WDA] 已成功键入: {value}")
         time.sleep(5)
 
-    def _select_first_search_result(self, fallback_x, fallback_y, name):
-        """选择搜索结果列表首项"""
-        first_cell = self.client(type="Cell")
-        if first_cell.exists:
-            first_cell[0].click()
-            logger.info(f"  >> [WDA] 成功选中首个搜索结果: {name}")
-        else:
-            # Poco 兜底
-            first_item = self.poco(type="XCUIElementTypeCell")
-            if first_item.exists():
-                first_item[0].click()
-                logger.info(f"  >> [Poco] 成功选中首个搜索结果: {name}")
-            else:
-                logger.info(f"  >> 通过物理坐标 ({fallback_x}, {fallback_y}) 强制点击首行{name}结果...")
-                self.client.click(fallback_x, fallback_y)
+    def _select_first_search_result(self, name):
+        """等待真实地址结果，按可见单元格选择匹配项。"""
+        translation = str.maketrans("銅鑼灣學", "铜锣湾学")
+
+        def matching_cells(page):
+            return [node for node in page.nodes if node.tag.endswith("Cell")
+                    and name in " ".join(
+                        child.get("label", "") + child.get("value", "")
+                        for child in node.iter()).translate(translation)]
+
+        page = self.monitor.wait_for(f"搜索结果: {name}", lambda current: bool(matching_cells(current)))
+        cell = matching_cells(page)[0]
+        self.client.click(int(float(cell.get("x")) + float(cell.get("width")) / 2),
+                          int(float(cell.get("y")) + float(cell.get("height")) / 2))
+        logger.info(f"已选择匹配的搜索结果: {name}")
 
     # ==================== 登录保障 ====================
 
@@ -143,42 +120,13 @@ class TestJRYGHKIosOpenAndRoute:
 
         self._close_activity_popup()
 
-        # 点击底部『我的』标签
-        btn_mine = self.poco(textMatches=".*我的.*|.*Me.*|.*個人.*|.*个人.*")
-        if btn_mine.exists():
-            btn_mine.click()
-            logger.info("  >> [Poco] 成功点击『我的』标签")
-        else:
-            mine_xpath = self.client(xpath='//*[contains(@label, "我的") or contains(@value, "我的")]')
-            if mine_xpath.exists:
-                mine_xpath.click()
-                logger.info("  >> [WDA] 成功点击『我的』标签")
-            else:
-                logger.info("  >> 采用物理坐标 (0.83, 0.97) 点击底部『我的』标签...")
-                self.client.click(0.83, 0.97)
-        time.sleep(5)
+        assert self.monitor.click_text(self.client, "我的"), "未找到可见的我的标签"
 
-        # 检查登录状态
-        logged_in = True
-        for retry in range(5):
-            texts = []
-            try:
-                for el in self.poco(type="XCUIElementTypeStaticText"):
-                    t = el.get_text()
-                    if t:
-                        texts.append(t.strip())
-            except Exception:
-                pass
-            joined = " ".join(texts)
-            logger.info(f"  >> [iOS 我的页面文本嗅探] 循环 {retry}: {joined[:200]}")
-
-            if "登錄/註冊" in joined or "登录/注册" in joined:
-                logged_in = False
-                break
-            elif "1727" in joined or "****" in joined or "會員" in joined or "会员" in joined or "我的行程" in joined:
-                logged_in = True
-                break
-            time.sleep(1)
+        page = self.monitor.wait_for(
+            "进入个人中心并识别登录态",
+            lambda current: current.state in ("mine_unlogged", "mine_logged"),
+        )
+        logged_in = page.state == "mine_logged"
 
         if not logged_in:
             logger.info("  >> 【未登录 -ios】检测到处于未登录态，准备执行登录流程...")
@@ -230,7 +178,7 @@ class TestJRYGHKIosOpenAndRoute:
                     code_xpath.click()
                 else:
                     self.client.click(0.5, 0.55)
-            time.sleep(4)
+            self.monitor.wait_for("进入验证码页", lambda page: page.state == "login_code_input")
 
             # 输入验证码
             logger.info(f"  >> 键入验证码 {verify_code}...")
@@ -250,67 +198,55 @@ class TestJRYGHKIosOpenAndRoute:
 
         # 切回首页
         logger.info("【登录校验结束 -ios】正在切换并回到乘客端首页选项卡...")
-        for i in range(3):
-            # 点击底部首页标签
-            self.client.click(0.15, 0.97)
-            time.sleep(4)
+        assert self.monitor.click_text(self.client, "主頁", "首页"), "未找到可见的首页标签"
 
-            # 嗅探当前页面是否已经含有首页的标志性元素
-            tv_start = self.poco(textMatches=".*起點.*|.*起点.*|.*当前位置.*|.*當前位置.*|.*您在哪.*")
-            tv_dest = self.poco(textMatches=".*想去哪.*|.*目的地.*|.*去哪.*")
-            if tv_start.exists() or tv_dest.exists():
-                logger.info("  >> 成功确认切回乘客端主页！")
-                break
-            logger.warning(f"  >> 切回首页未成功确认，尝试重新点击 (尝试次数: {i+1})...")
-
-        time.sleep(2)
+        self._close_activity_popup()
+        self.monitor.wait_for(
+            "返回乘客首页", lambda page: page.state == "home_unlogged",
+            recover=lambda page: self.monitor.dismiss_activity_popup(self.client)
+            if page.state == "activity_popup" else None,
+        )
 
     # ==================== 起终点设置 ====================
 
     def _set_origin(self):
         """设置起点：铜锣湾"""
         logger.info("正在点击起点栏位...")
-        start_el = self.poco(textMatches=".*起點.*|.*起点.*|.*当前位置.*|.*當前位置.*|.*请输入起点.*|.*輸入起點.*|.*输入起点.*|.*您在哪.*|.*您從哪.*|.*您从哪.*")
-        if start_el.exists():
-            start_el.click()
-            logger.info("  >> [Poco] 成功点击起点栏位")
-        else:
-            start_xpath = self.client(xpath='//*[contains(@label, "起點") or contains(@value, "起點") or contains(@label, "起点") or contains(@value, "起点") or contains(@label, "当前位置") or contains(@value, "当前位置") or contains(@label, "當前位置") or contains(@value, "當前位置") or contains(@label, "您在哪") or contains(@value, "您在哪")]')
-            if start_xpath.exists:
-                start_xpath.click()
-                logger.info("  >> [WDA] 成功点击起点栏位")
-            else:
-                logger.info("  >> 采用物理坐标 (0.5, 0.76) 点击起点区域...")
-                self.client.click(0.5, 0.76)
+        page = self.monitor.inspect()
+        assert page.state == "home_unlogged", f"设置起点前不是首页: {page.state}"
+        origin_buttons = [
+            node for node in page.root.findall(".//XCUIElementTypeScrollView//XCUIElementTypeButton")
+            if node.get("visible") == "true" and not node.get("label")
+            and not node.get("name") and float(node.get("width", 0)) > 100
+        ]
+        assert len(origin_buttons) == 1, "无法唯一识别首页起点按钮，停止坐标兜底"
+        origin = origin_buttons[0]
+        self.client.click(int(float(origin.get("x")) + float(origin.get("width")) / 2),
+                          int(float(origin.get("y")) + float(origin.get("height")) / 2))
 
         time.sleep(3)
         self._click_search_and_input("铜锣湾")
         self._screenshot("JRYG_ios_route_01_origin_results.png")
-        self._select_first_search_result(0.50, 0.25, "铜锣湾")
+        self._select_first_search_result("铜锣湾")
         time.sleep(6)
         self._close_activity_popup()
 
     def _set_destination(self):
         """设置终点：香港大学"""
         logger.info("正在点击目的地栏位...")
-        dest_el = self.poco(textMatches=".*想去哪.*|.*想去哪里.*|.*目的地.*|.*去哪.*|.*輸入目的地.*|.*输入目的地.*|.*要去哪.*|.*要去邊.*")
-        if dest_el.exists():
-            dest_el.click()
-            logger.info("  >> [Poco] 成功点击目的地栏位")
-        else:
-            dest_xpath = self.client(xpath='//*[contains(@label, "想去") or contains(@value, "想去") or contains(@label, "哪裡") or contains(@value, "哪裡") or contains(@label, "哪里") or contains(@value, "哪里") or contains(@label, "输入目的地") or contains(@value, "输入目的地") or contains(@label, "輸入目的地") or contains(@value, "輸入目的地")]')
-            if dest_xpath.exists:
-                dest_xpath.click()
-                logger.info("  >> [WDA] 成功点击目的地栏位")
-            else:
-                logger.info("  >> 采用物理坐标 (0.5, 0.68) 点击目的地区域...")
-                self.client.click(0.5, 0.68)
+        assert self.monitor.click_text(
+            self.client, "想去哪裡？", "想去哪裡", "輸入目的地", "slm_icon_main_end_address_border"
+        ), "未找到可见的目的地入口"
 
         time.sleep(3)
         self._click_search_and_input("香港大学")
         self._screenshot("JRYG_ios_route_02_destination_results.png")
-        self._select_first_search_result(0.50, 0.25, "香港大学")
-        time.sleep(10)
+        self._select_first_search_result("香港大学")
+        self.monitor.wait_for(
+            "确认起终点及路线报价页",
+            lambda page: page.state == "route_selected"
+            and page.has("銅鑼灣", "铜锣湾") and page.has("香港大學", "香港大学"),
+        )
 
     # ==================== 测试用例 ====================
 

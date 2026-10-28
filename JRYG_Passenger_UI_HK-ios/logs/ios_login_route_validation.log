@@ -1,0 +1,240 @@
+JRYG 港版 iOS UI 自动化 -ios
+[准备设备] WDA 启动中，探测 1/90；详情: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/logs/wda-ios.log
+
+==================================================
+      JRYG 港版阳光出行 iOS 测试执行引擎 -ios (Start)
+==================================================
+输出香港 iOS UI 测试报告: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/JRYG_test_report_hk_ios.html
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/../.venv/bin/python3
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.7.1-x86_64-i386-64bit', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'metadata': '3.1.1', 'html': '4.2.0'}}
+rootdir: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios
+configfile: pytest.ini
+plugins: metadata-3.1.1, html-4.2.0
+collecting ... collected 7 items / 5 deselected / 2 selected
+
+cases/JRYG_test_ios_open_and_login.py::TestJRYGHKIosOneKeyLogin::test_ios_passenger_hk_login_flow 2026-10-28 10:01:08,930 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+
+-------------------------------- live log setup --------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:42 【iOS 一键登录 -ios】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-10-28 10:01:08,938 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 28 2026 09:46:40', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.100', 'wifiIP': '192.168.219.100'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': None}
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:47 【iOS 一键登录 -ios】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 28 2026 09:46:40', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.100', 'wifiIP': '192.168.219.100'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': None}
+2026-10-28 10:01:09,695 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】Poco 控件树驱动加载完成，已准备就绪。
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:58 【iOS 一键登录 -ios】Poco 控件树驱动加载完成，已准备就绪。
+2026-10-28 10:01:09,696 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】启动业务流转，预备登录手机号: 11001727
+-------------------------------- live log call ---------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:102 【iOS 一键登录 -ios】启动业务流转，预备登录手机号: 11001727
+2026-10-28 10:01:09,696 - JRYG_HK_ios - INFO - 【iOS -ios】正在拉起港版 App: com.sunlightmobility.client
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:74 【iOS -ios】正在拉起港版 App: com.sunlightmobility.client
+[10:01:10][INFO]<airtest.core.ios.rotation> update orientation None->PORTRAIT
+INFO     airtest.core.ios.rotation:rotation.py:85 update orientation None->PORTRAIT
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=activity_popup
+2026-10-28 10:01:22,934 - JRYG_HK_ios - INFO - 当前流转 [循环 0] -> 页面状态: activity_popup
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 0] -> 页面状态: activity_popup
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=activity_popup
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:134 [自动恢复] 关闭活动弹窗 icon hd gb
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+2026-10-28 10:01:26,260 - JRYG_HK_ios - INFO - 当前流转 [循环 1] -> 页面状态: home_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 1] -> 页面状态: home_unlogged
+2026-10-28 10:01:26,261 - JRYG_HK_ios - INFO - 【步骤 4 -ios】已成功进入港版 App 首页，正在点击下方导航栏『我的』...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:145 【步骤 4 -ios】已成功进入港版 App 首页，正在点击下方导航栏『我的』...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:127 [页面操作] 点击可见控件 ('我的',)
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=mine_logged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=mine_logged
+2026-10-28 10:01:28,830 - JRYG_HK_ios - INFO - 当前流转 [循环 2] -> 页面状态: mine_logged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 2] -> 页面状态: mine_logged
+2026-10-28 10:01:28,830 - JRYG_HK_ios - INFO - 【成功 -ios】已在个人中心确认登录态。
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:199 【成功 -ios】已在个人中心确认登录态。
+2026-10-28 10:01:29,062 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_login_success.png
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:69   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_login_success.png
+PASSED2026-10-28 10:01:29,063 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】自动化运行结束。
+
+------------------------------ live log teardown -------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:62 【iOS 一键登录 -ios】自动化运行结束。
+
+cases/JRYG_test_ios_open_and_route.py::TestJRYGHKIosOpenAndRoute::test_ios_open_app_and_select_route 2026-10-28 10:01:29,064 - JRYG_HK_ios - INFO - 【iOS 路线 -ios】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+
+-------------------------------- live log setup --------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:34 【iOS 路线 -ios】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-10-28 10:01:29,068 - JRYG_HK_ios - INFO - 【iOS 路线 -ios】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 28 2026 09:46:40', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.100', 'wifiIP': '192.168.219.100'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'AB60F452-4309-4F86-8D51-82F57ADCB588'}
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:39 【iOS 路线 -ios】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 28 2026 09:46:40', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.100', 'wifiIP': '192.168.219.100'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'AB60F452-4309-4F86-8D51-82F57ADCB588'}
+[10:01:29][WARNING]<airtest.core.api> Device:00008120-000E79E03472201E updated <airtest.core.ios.ios.IOS object at 0x10d2af370> -> <airtest.core.ios.ios.IOS object at 0x12344d100>
+WARNING  airtest.core.api:helper.py:56 Device:00008120-000E79E03472201E updated <airtest.core.ios.ios.IOS object at 0x10d2af370> -> <airtest.core.ios.ios.IOS object at 0x12344d100>
+2026-10-28 10:01:29,790 - JRYG_HK_ios - INFO - 【iOS 路线 -ios】Poco 控件树驱动加载完成，已准备就绪。
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:48 【iOS 路线 -ios】Poco 控件树驱动加载完成，已准备就绪。
+2026-10-28 10:01:29,792 - JRYG_HK_ios - INFO - 【步骤 1 -ios】从桌面启动港版 App...
+-------------------------------- live log call ---------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:267 【步骤 1 -ios】从桌面启动港版 App...
+2026-10-28 10:01:29,792 - JRYG_HK_ios - INFO - 【iOS -ios】正在拉起港版 App: com.sunlightmobility.client
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:66 【iOS -ios】正在拉起港版 App: com.sunlightmobility.client
+[10:01:30][INFO]<airtest.core.ios.rotation> update orientation None->PORTRAIT
+INFO     airtest.core.ios.rotation:rotation.py:85 update orientation None->PORTRAIT
+2026-10-28 10:01:41,156 - JRYG_HK_ios - INFO - 【步骤 2 -ios】关闭活动弹框...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:270 【步骤 2 -ios】关闭活动弹框...
+2026-10-28 10:01:41,430 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_route_00_home.png
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:61   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_route_00_home.png
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=activity_popup
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:134 [自动恢复] 关闭活动弹窗 icon hd gb
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+2026-10-28 10:01:47,261 - JRYG_HK_ios - INFO -   >> 当前没有活动弹框
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:99   >> 当前没有活动弹框
+2026-10-28 10:01:47,262 - JRYG_HK_ios - INFO - 【步骤 3 -ios】保障登录状态...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:274 【步骤 3 -ios】保障登录状态...
+2026-10-28 10:01:47,263 - JRYG_HK_ios - INFO - 【登录校验 -ios】进入个人中心检查登录状态，预备手机号: 11001727...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:134 【登录校验 -ios】进入个人中心检查登录状态，预备手机号: 11001727...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+2026-10-28 10:01:50,981 - JRYG_HK_ios - INFO -   >> 当前没有活动弹框
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:99   >> 当前没有活动弹框
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:127 [页面操作] 点击可见控件 ('我的',)
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=mine_logged
+2026-10-28 10:01:53,072 - JRYG_HK_ios - INFO -   >> 【已登录 -ios】检测到已处于登录态，跳过登录录入步骤。
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:212   >> 【已登录 -ios】检测到已处于登录态，跳过登录录入步骤。
+2026-10-28 10:01:53,073 - JRYG_HK_ios - INFO - 【登录校验结束 -ios】正在切换并回到乘客端首页选项卡...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:215 【登录校验结束 -ios】正在切换并回到乘客端首页选项卡...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=mine_logged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:127 [页面操作] 点击可见控件 ('主頁', '首页')
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+2026-10-28 10:01:58,015 - JRYG_HK_ios - INFO -   >> 当前没有活动弹框
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:99   >> 当前没有活动弹框
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=unknown
+2026-10-28 10:02:06,218 - JRYG_HK_ios - INFO -   >> 当前没有活动弹框
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:99   >> 当前没有活动弹框
+2026-10-28 10:02:06,218 - JRYG_HK_ios - INFO - 【步骤 4 -ios】设置起点：铜锣湾...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:278 【步骤 4 -ios】设置起点：铜锣湾...
+2026-10-28 10:02:06,218 - JRYG_HK_ios - INFO - 正在点击起点栏位...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:225 正在点击起点栏位...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=activity_popup
+2026-10-28 10:02:07,436 - JRYG_HK_ios - ERROR - 【流程失败 -ios】设置起点前不是首页: activity_popup
+assert 'activity_popup' == 'home_unlogged'
+  
+  - home_unlogged
+  + activity_popup
+ERROR    JRYG_HK_ios:JRYG_test_ios_open_and_route.py:287 【流程失败 -ios】设置起点前不是首页: activity_popup
+assert 'activity_popup' == 'home_unlogged'
+  
+  - home_unlogged
+  + activity_popup
+2026-10-28 10:02:07,735 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_route_error.png
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:61   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_route_error.png
+FAILED
+------------------------------ live log teardown -------------------------------
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=activity_popup
+ERROR    jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:112 [卡点现场] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793152929203779000_test_ios_open_app_and_select_route
+2026-10-28 10:02:09,424 - JRYG_HK_ios - INFO - 【iOS 路线 -ios】自动化运行结束。
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:52 【iOS 路线 -ios】自动化运行结束。
+
+
+=================================== FAILURES ===================================
+_________ TestJRYGHKIosOpenAndRoute.test_ios_open_app_and_select_route _________
+
+self = <cases.JRYG_test_ios_open_and_route.TestJRYGHKIosOpenAndRoute object at 0x123455820>
+
+    def test_ios_open_app_and_select_route(self):
+        """启动港版 iOS App，选择起点铜锣湾、终点香港大学 -ios。"""
+        try:
+            logger.info("【步骤 1 -ios】从桌面启动港版 App...")
+            self._launch_app()
+    
+            logger.info("【步骤 2 -ios】关闭活动弹框...")
+            self._screenshot("JRYG_ios_route_00_home.png")
+            self._close_activity_popup()
+    
+            logger.info("【步骤 3 -ios】保障登录状态...")
+            self._ensure_logged_in()
+            self._close_activity_popup()
+    
+            logger.info("【步骤 4 -ios】设置起点：铜锣湾...")
+>           self._set_origin()
+
+cases/JRYG_test_ios_open_and_route.py:279: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <cases.JRYG_test_ios_open_and_route.TestJRYGHKIosOpenAndRoute object at 0x123455820>
+
+    def _set_origin(self):
+        """设置起点：铜锣湾"""
+        logger.info("正在点击起点栏位...")
+        page = self.monitor.inspect()
+>       assert page.state == "home_unlogged", f"设置起点前不是首页: {page.state}"
+E       AssertionError: 设置起点前不是首页: activity_popup
+E       assert 'activity_popup' == 'home_unlogged'
+E         
+E         - home_unlogged
+E         + activity_popup
+
+cases/JRYG_test_ios_open_and_route.py:227: AssertionError
+------------------------------ Captured log setup ------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:34 【iOS 路线 -ios】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:39 【iOS 路线 -ios】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 28 2026 09:46:40', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.100', 'wifiIP': '192.168.219.100'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'AB60F452-4309-4F86-8D51-82F57ADCB588'}
+WARNING  airtest.core.api:helper.py:56 Device:00008120-000E79E03472201E updated <airtest.core.ios.ios.IOS object at 0x10d2af370> -> <airtest.core.ios.ios.IOS object at 0x12344d100>
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:48 【iOS 路线 -ios】Poco 控件树驱动加载完成，已准备就绪。
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:267 【步骤 1 -ios】从桌面启动港版 App...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:66 【iOS -ios】正在拉起港版 App: com.sunlightmobility.client
+INFO     airtest.core.ios.rotation:rotation.py:85 update orientation None->PORTRAIT
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:270 【步骤 2 -ios】关闭活动弹框...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:61   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_route_00_home.png
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=activity_popup
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:134 [自动恢复] 关闭活动弹窗 icon hd gb
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:99   >> 当前没有活动弹框
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:274 【步骤 3 -ios】保障登录状态...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:134 【登录校验 -ios】进入个人中心检查登录状态，预备手机号: 11001727...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:99   >> 当前没有活动弹框
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:127 [页面操作] 点击可见控件 ('我的',)
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=mine_logged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:212   >> 【已登录 -ios】检测到已处于登录态，跳过登录录入步骤。
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:215 【登录校验结束 -ios】正在切换并回到乘客端首页选项卡...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=mine_logged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:127 [页面操作] 点击可见控件 ('主頁', '首页')
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:99   >> 当前没有活动弹框
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=unknown
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:99   >> 当前没有活动弹框
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:278 【步骤 4 -ios】设置起点：铜锣湾...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:225 正在点击起点栏位...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=activity_popup
+ERROR    JRYG_HK_ios:JRYG_test_ios_open_and_route.py:287 【流程失败 -ios】设置起点前不是首页: activity_popup
+assert 'activity_popup' == 'home_unlogged'
+  
+  - home_unlogged
+  + activity_popup
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:61   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_route_error.png
+---------------------------- Captured log teardown -----------------------------
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:96 [页面检测] state=activity_popup
+ERROR    jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:112 [卡点现场] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793152929203779000_test_ios_open_app_and_select_route
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_route.py:52 【iOS 路线 -ios】自动化运行结束。
+=============================== warnings summary ===============================
+../.venv/lib/python3.9/site-packages/urllib3/__init__.py:35
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+cases/JRYG_test_ios_open_and_route.py::TestJRYGHKIosOpenAndRoute::test_ios_open_app_and_select_route
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/airtest/core/helper.py:56: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+    cls.LOGGING.warn("Device:%s updated %s -> %s" % (dev.uuid, instance, dev))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/JRYG_test_report_hk_ios.html -
+=========================== short test summary info ============================
+FAILED cases/JRYG_test_ios_open_and_route.py::TestJRYGHKIosOpenAndRoute::test_ios_open_app_and_select_route - AssertionError: 设置起点前不是首页: activity_popup
+assert 'activity_popup' == 'home_unlogged'
+  
+  - home_unlogged
+  + activity_popup
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+======= 1 failed, 1 passed, 5 deselected, 2 warnings in 60.79s (0:01:00) =======
+==================================================
+      JRYG 港版阳光出行 iOS 测试执行引擎 -ios (Completed)
+==================================================
+
+[报告] file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/JRYG_test_report_hk_ios.html
+
+RUN_EXIT_CODE=1

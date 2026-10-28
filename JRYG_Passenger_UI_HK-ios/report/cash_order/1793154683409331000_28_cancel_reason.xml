@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光出行" label="陽光出行" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="1573" bundleId="com.sunlightmobility.client">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" name="mamapview" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationcontainer" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationview" enabled="true" visible="false" accessible="false" x="275" y="102" width="37" height="37" index="0" traits="">
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_anno_start" enabled="true" visible="false" accessible="false" x="275" y="102" width="37" height="37" index="0" traits="Image"/>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="259" y="142" width="68" height="19" index="1" traits="">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="銅鑼灣" name="銅鑼灣" label="銅鑼灣" enabled="true" visible="false" accessible="true" x="271" y="142" width="44" height="19" index="0" traits="StaticText"/>
+                                </XCUIElementTypeOther>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationview" enabled="true" visible="false" accessible="false" x="84" y="357" width="31" height="47" index="1" traits="">
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" name="driver_supposeCars" enabled="true" visible="false" accessible="false" x="84" y="357" width="31" height="47" index="0" traits="Image"/>
+                              </XCUIElementTypeOther>
+                            </XCUIElementTypeOther>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" name="malogo" enabled="true" visible="false" accessible="true" x="5" y="827" width="80" height="20" index="2" traits="Image"/>
+                          </XCUIElementTypeOther>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                        <XCUIElementTypeScrollView type="XCUIElementTypeScrollView" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="457" width="393" height="391" index="0" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="457" width="393" height="391" index="0" traits="">
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="457" width="393" height="197" index="0" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="457" width="393" height="42" index="0" traits="">
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="457" width="393" height="42" index="0" traits="">
+                                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="slm icon tool location" label="slm icon tool location" enabled="true" visible="false" accessible="true" x="340" y="457" width="43" height="42" index="0" traits="Button"/>
+                                  </XCUIElementTypeOther>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_order_service_top_masker" enabled="true" visible="false" accessible="false" x="0" y="522" width="393" height="132" index="1" traits="Image"/>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="534" width="369" height="21" index="2" traits="">
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="534" width="369" height="21" index="0" traits="">
+                                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="如需發票，請向司機索取紙本發票。" name="如需發票，請向司機索取紙本發票。" label="如需發票，請向司機索取紙本發票。" enabled="true" visible="false" accessible="true" x="12" y="534" width="369" height="21" index="0" traits="StaticText"/>
+                                  </XCUIElementTypeOther>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="567" width="369" height="74" index="3" traits="">
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="567" width="369" height="74" index="0" traits="">
+                                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="29" y="584" width="62" height="18" index="0" traits="">
+                                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="29" y="584" width="62" height="18" index="0" traits="">
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="打錶的士" name="打錶的士" label="打錶的士" enabled="true" visible="false" accessible="true" x="32" y="583" width="55" height="20" index="0" traits="StaticText"/>
+                                      </XCUIElementTypeOther>
+                                    </XCUIElementTypeOther>
+                                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="司機正在趕來接您" name="司機正在趕來接您" label="司機正在趕來接您" enabled="true" visible="false" accessible="true" x="94" y="581" width="135" height="24" index="1" traits="StaticText"/>
+                                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="司機正努力趕來接您，請提前到上車點等候" name="司機正努力趕來接您，請提前到上車點等候" label="司機正努力趕來接您，請提前到上車點等候" enabled="true" visible="false" accessible="true" x="29" y="611" width="335" height="18" index="2" traits="StaticText"/>
+                                  </XCUIElementTypeOther>
+                                </XCUIElementTypeOther>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="653" width="393" height="195" index="1" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="653" width="369" height="195" index="0" traits="">
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="653" width="369" height="130" index="0" traits="">
+                                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="653" width="369" height="130" index="0" traits="">
+                                      <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="false" accessible="false" x="253" y="658" width="115" height="86" index="0" traits="Image"/>
+                                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="AG767 · 紅色" name="AG767 · 紅色" label="AG767 · 紅色" enabled="true" visible="false" accessible="true" x="29" y="668" width="138" height="39" index="1" traits="StaticText"/>
+                                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="雷克萨斯LM系-MPV" name="雷克萨斯LM系-MPV" label="雷克萨斯LM系-MPV" enabled="true" visible="false" accessible="true" x="29" y="714" width="119" height="19" index="2" traits="StaticText"/>
+                                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="29" y="747" width="72" height="26" index="3" traits="">
+                                        <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="false" accessible="false" x="29" y="747" width="26" height="26" index="0" traits="Image"/>
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="非師傅" name="非師傅" label="非師傅" enabled="true" visible="false" accessible="true" x="62" y="750" width="39" height="19" index="1" traits="StaticText"/>
+                                      </XCUIElementTypeOther>
+                                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="25" y="782" width="343" height="1" index="4" traits=""/>
+                                    </XCUIElementTypeOther>
+                                  </XCUIElementTypeOther>
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="782" width="369" height="66" index="1" traits="">
+                                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="782" width="369" height="66" index="0" traits="">
+                                      <XCUIElementTypeButton type="XCUIElementTypeButton" enabled="true" visible="false" accessible="true" x="24" y="790" width="116" height="50" index="0" traits="Button">
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="24" y="790" width="1" height="1" index="0" traits="StaticText"/>
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="聯繫司機" name="聯繫司機" label="聯繫司機" enabled="true" visible="false" accessible="false" x="26" y="817" width="1" height="1" index="1" traits="StaticText"/>
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="聯繫司機" name="聯繫司機" label="聯繫司機" enabled="true" visible="false" accessible="false" x="26" y="817" width="112" height="19" index="2" traits="StaticText"/>
+                                      </XCUIElementTypeButton>
+                                      <XCUIElementTypeButton type="XCUIElementTypeButton" enabled="true" visible="false" accessible="true" x="139" y="790" width="115" height="50" index="1" traits="Button">
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="139" y="790" width="1" height="1" index="0" traits="StaticText"/>
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="聯繫客服" name="聯繫客服" label="聯繫客服" enabled="true" visible="false" accessible="false" x="141" y="817" width="1" height="1" index="1" traits="StaticText"/>
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="聯繫客服" name="聯繫客服" label="聯繫客服" enabled="true" visible="false" accessible="false" x="141" y="817" width="111" height="19" index="2" traits="StaticText"/>
+                                      </XCUIElementTypeButton>
+                                      <XCUIElementTypeButton type="XCUIElementTypeButton" enabled="true" visible="false" accessible="true" x="253" y="790" width="115" height="50" index="2" traits="Button">
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="253" y="790" width="1" height="1" index="0" traits="StaticText"/>
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="取消訂單" name="取消訂單" label="取消訂單" enabled="true" visible="false" accessible="false" x="255" y="817" width="1" height="1" index="1" traits="StaticText"/>
+                                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="取消訂單" name="取消訂單" label="取消訂單" enabled="true" visible="false" accessible="false" x="255" y="817" width="111" height="19" index="2" traits="StaticText"/>
+                                      </XCUIElementTypeButton>
+                                    </XCUIElementTypeOther>
+                                  </XCUIElementTypeOther>
+                                </XCUIElementTypeOther>
+                              </XCUIElementTypeOther>
+                            </XCUIElementTypeOther>
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="847" width="393" height="151" index="1" traits=""/>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="847" width="393" height="462" index="1" traits=""/>
+                        </XCUIElementTypeScrollView>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="2" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="335" width="393" height="517" index="0" traits="">
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_order_cancel_accepted_bg" enabled="true" visible="true" accessible="false" x="0" y="337" width="393" height="158" index="0" traits="Image"/>
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" enabled="true" visible="true" accessible="true" x="359" y="351" width="18" height="18" index="1" traits="Button">
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="359" y="351" width="1" height="1" index="0" traits="StaticText"/>
+                          </XCUIElementTypeButton>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="司機正快馬加鞭趕來，重新叫車需要等更久，可以再等等嗎？" name="司機正快馬加鞭趕來，重新叫車需要等更久，可以再等等嗎？" label="司機正快馬加鞭趕來，重新叫車需要等更久，可以再等等嗎？" enabled="true" visible="true" accessible="true" x="25" y="511" width="343" height="59" index="2" traits="StaticText"/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="25" y="582" width="343" height="47" index="3" traits="">
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="若行程有變，本單可免費取消行程" name="若行程有變，本單可免費取消行程" label="若行程有變，本單可免費取消行程" enabled="true" visible="true" accessible="true" x="37" y="595" width="319" height="22" index="0" traits="StaticText"/>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" name="聯繫司機" label="聯繫司機" enabled="true" visible="true" accessible="true" x="25" y="641" width="96" height="34" index="4" traits="Button">
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="聯繫司機" name="聯繫司機" label="聯繫司機" enabled="true" visible="true" accessible="false" x="53" y="647" width="60" height="22" index="0" traits="StaticText"/>
+                          </XCUIElementTypeButton>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="38" y="716" width="138" height="44" index="5" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="38" y="716" width="138" height="37" index="0" traits=""/>
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="今日僅剩5次機會" name="今日僅剩5次機會" label="今日僅剩5次機會" enabled="true" visible="true" accessible="true" x="43" y="725" width="127" height="20" index="1" traits="StaticText"/>
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="96" y="752" width="21" height="8" index="2" traits=""/>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" name="不用車了" label="不用車了" enabled="true" visible="true" accessible="true" x="25" y="764" width="163" height="46" index="6" traits="Button">
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="不用車了" name="不用車了" label="不用車了" enabled="true" visible="true" accessible="false" x="72" y="775" width="69" height="24" index="0" traits="StaticText"/>
+                          </XCUIElementTypeButton>
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" name="我再想想" label="我再想想" enabled="true" visible="true" accessible="true" x="205" y="764" width="163" height="46" index="7" traits="Button">
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="我再想想" name="我再想想" label="我再想想" enabled="true" visible="true" accessible="false" x="252" y="775" width="69" height="24" index="0" traits="StaticText"/>
+                          </XCUIElementTypeButton>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_navi_arrow_left" enabled="true" visible="false" accessible="false" x="12" y="61" width="43" height="42" index="3" traits="Image"/>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

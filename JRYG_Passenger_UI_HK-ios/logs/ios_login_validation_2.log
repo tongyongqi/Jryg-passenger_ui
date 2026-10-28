@@ -1,0 +1,292 @@
+JRYG 港版 iOS UI 自动化 -ios
+[准备设备] WDA 启动中，探测 1/90；详情: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/logs/wda-ios.log
+
+==================================================
+      JRYG 港版阳光出行 iOS 测试执行引擎 -ios (Start)
+==================================================
+输出香港 iOS UI 测试报告: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/JRYG_test_report_hk_ios.html
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/../.venv/bin/python3
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.7.1-x86_64-i386-64bit', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'metadata': '3.1.1', 'html': '4.2.0'}}
+rootdir: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios
+configfile: pytest.ini
+plugins: metadata-3.1.1, html-4.2.0
+collecting ... collected 7 items / 6 deselected / 1 selected
+
+cases/JRYG_test_ios_open_and_login.py::TestJRYGHKIosOneKeyLogin::test_ios_passenger_hk_login_flow 2026-10-28 09:55:27,805 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+
+-------------------------------- live log setup --------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:42 【iOS 一键登录 -ios】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-10-28 09:55:27,812 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 28 2026 09:46:40', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.100', 'wifiIP': '192.168.219.100'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': None}
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:47 【iOS 一键登录 -ios】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 28 2026 09:46:40', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.100', 'wifiIP': '192.168.219.100'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': None}
+2026-10-28 09:55:28,660 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】Poco 控件树驱动加载完成，已准备就绪。
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:58 【iOS 一键登录 -ios】Poco 控件树驱动加载完成，已准备就绪。
+2026-10-28 09:55:28,662 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】启动业务流转，预备登录手机号: 11001727
+-------------------------------- live log call ---------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:102 【iOS 一键登录 -ios】启动业务流转，预备登录手机号: 11001727
+2026-10-28 09:55:28,662 - JRYG_HK_ios - INFO - 【iOS -ios】正在拉起港版 App: com.sunlightmobility.client
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:74 【iOS -ios】正在拉起港版 App: com.sunlightmobility.client
+[09:55:29][INFO]<airtest.core.ios.rotation> update orientation None->PORTRAIT
+INFO     airtest.core.ios.rotation:rotation.py:85 update orientation None->PORTRAIT
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=activity_popup
+2026-10-28 09:55:41,838 - JRYG_HK_ios - INFO - 当前流转 [循环 0] -> 页面状态: activity_popup
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 0] -> 页面状态: activity_popup
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=activity_popup
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:125 [自动恢复] 关闭活动弹窗 icon hd gb
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=home_unlogged
+2026-10-28 09:55:44,971 - JRYG_HK_ios - INFO - 当前流转 [循环 1] -> 页面状态: home_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 1] -> 页面状态: home_unlogged
+2026-10-28 09:55:44,971 - JRYG_HK_ios - INFO - 【步骤 4 -ios】已成功进入港版 App 首页，正在点击下方导航栏『我的』...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:145 【步骤 4 -ios】已成功进入港版 App 首页，正在点击下方导航栏『我的』...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:118 [页面操作] 点击可见控件 ('我的',)
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=mine_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=mine_unlogged
+2026-10-28 09:55:48,165 - JRYG_HK_ios - INFO - 当前流转 [循环 2] -> 页面状态: mine_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 2] -> 页面状态: mine_unlogged
+2026-10-28 09:55:48,165 - JRYG_HK_ios - INFO - 【步骤 5 -ios】已进入个人中心，正在点击『登錄/註冊』进入账号录入页...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:152 【步骤 5 -ios】已进入个人中心，正在点击『登錄/註冊』进入账号录入页...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=mine_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:118 [页面操作] 点击可见控件 ('登錄/註冊',)
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=login_phone_input
+2026-10-28 09:55:54,061 - JRYG_HK_ios - INFO - 当前流转 [循环 3] -> 页面状态: login_phone_input
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 3] -> 页面状态: login_phone_input
+2026-10-28 09:55:54,061 - JRYG_HK_ios - INFO - 【步骤 6 -ios】正在手机号输入页：键入号码、勾选协议、并点击『取得驗證碼』...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:160 【步骤 6 -ios】正在手机号输入页：键入号码、勾选协议、并点击『取得驗證碼』...
+2026-10-28 09:55:55,740 - JRYG_HK_ios - INFO -   >> [WDA] 已成功键入手机号: 11001727
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:168   >> [WDA] 已成功键入手机号: 11001727
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=login_phone_input
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:118 [页面操作] 点击可见控件 ('取得驗證碼',)
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+ERROR    jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:103 [卡点现场] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793152589093826000_进入验证码页
+FAILED
+------------------------------ live log teardown -------------------------------
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+ERROR    jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:103 [卡点现场] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793152590026233000_test_ios_passenger_hk_login_flow
+2026-10-28 09:56:30,231 - JRYG_HK_ios - INFO - 【iOS 一键登录 -ios】自动化运行结束。
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:62 【iOS 一键登录 -ios】自动化运行结束。
+
+
+=================================== FAILURES ===================================
+__________ TestJRYGHKIosOneKeyLogin.test_ios_passenger_hk_login_flow ___________
+
+self = <cases.JRYG_test_ios_open_and_login.TestJRYGHKIosOneKeyLogin object at 0x11c2c6a00>
+
+    def test_ios_passenger_hk_login_flow(self):
+        """测试用例 -ios：执行一键打开并自动登录完整闭环流程"""
+        phone_number = "11001727"
+        verify_code = "123456"
+    
+        logger.info(f"【iOS 一键登录 -ios】启动业务流转，预备登录手机号: {phone_number}")
+    
+        # 1. 拉起 App
+        self._launch_app()
+    
+        # 2. 自动处理系统弹窗
+        self._accept_alert()
+    
+        deadline = time.monotonic() + 180
+        last_state = None
+        state_since = time.monotonic()
+        for cycle in range(30):
+            state = self._detect_current_state()
+            now = time.monotonic()
+            if state != last_state:
+                last_state, state_since = state, now
+            assert now < deadline and now - state_since < 40, f"登录流程停滞，当前页面={state}"
+            logger.info(f"当前流转 [循环 {cycle}] -> 页面状态: {state}")
+    
+            if state == "activity_popup":
+                self.monitor.dismiss_activity_popup(self.client)
+                continue
+    
+            # 1. 隐私服务协议弹窗处理
+            if state == "privacy_agreement":
+                logger.info("【步骤 1 -ios】检测到隐私政策服务弹窗，正在寻找并点击『同意』...")
+                self._click_text("同意")
+                time.sleep(3)
+                continue
+    
+            # 2. 地理位置权限申请框处理
+            if state == "permission_dialog":
+                logger.info("【步骤 2 -ios】检测到位置权限授权提示框，正在点击『去授權』/『允許』...")
+                if not self._click_text("去授權"):
+                    self._click_text("去授权")
+                # 处理系统级弹窗
+                time.sleep(1)
+                self._accept_alert()
+                time.sleep(3)
+                continue
+    
+            # 3. 乘客端主页（已授权进入）处理 -> 点击『我的』
+            if state == "home_unlogged":
+                logger.info("【步骤 4 -ios】已成功进入港版 App 首页，正在点击下方导航栏『我的』...")
+                assert self._click_text("我的"), "首页没有可见的我的标签"
+                self.monitor.wait_for("进入个人中心", lambda page: page.state in ("mine_unlogged", "mine_logged"))
+                continue
+    
+            # 4. 个人中心未登录态处理 -> 点击『登錄/註冊』
+            if state == "mine_unlogged":
+                logger.info("【步骤 5 -ios】已进入个人中心，正在点击『登錄/註冊』进入账号录入页...")
+                if not self._click_text("登錄/註冊"):
+                    self._click_text("登录/注册")
+                time.sleep(4)
+                continue
+    
+            # 5. 真实手机号输入页面处理 -> 键入手机号 + 勾选隐私 -> 获取验证码
+            if state == "login_phone_input":
+                logger.info("【步骤 6 -ios】正在手机号输入页：键入号码、勾选协议、并点击『取得驗證碼』...")
+    
+                # 键入手机号 - 通过 WDA 查找 TextField
+                phone_field = self.client(type="TextField")
+                if phone_field.exists:
+                    phone_field.click()
+                    time.sleep(0.5)
+                    self.client.send_keys(phone_number)
+                    logger.info(f"  >> [WDA] 已成功键入手机号: {phone_number}")
+                else:
+                    # 物理点击输入框区域并输入
+                    logger.info("  >> 采用物理坐标 (0.5, 0.25) 点击手机号输入框...")
+                    self.client.click(0.5, 0.25)
+                    time.sleep(1)
+                    self.client.send_keys(phone_number)
+                time.sleep(1.5)
+    
+                # 勾选隐私协议 - iOS 端通过点击复选框或"已閱讀並同意"文本
+                agree_text = self.poco(textMatches=".*已閱讀並同意.*|.*已阅读并同意.*|.*同意.*")
+                if agree_text.exists():
+                    # 点击文本左侧的复选框
+                    try:
+                        pos = agree_text.get_position()
+                        size = agree_text.get_size()
+                        # 偏左点击复选框
+                        x = pos[0] - size[0] / 2 + 0.03
+                        y = pos[1]
+                        self.client.click(x, y)
+                        logger.info("  >> 成功勾选隐私协议复选框")
+                    except Exception:
+                        agree_text.click()
+                        logger.info("  >> 直接点击同意文本")
+                    time.sleep(1)
+    
+                assert self._click_text("取得驗證碼") or self._click_text("获取验证码"), "未找到获取验证码按钮"
+>               self.monitor.wait_for("进入验证码页", lambda page: page.state == "login_code_input")
+
+cases/JRYG_test_ios_open_and_login.py:195: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <jryg_hk_ios.JRYG_page_monitor.IOSPageMonitor object at 0x11c2de340>
+description = '进入验证码页'
+predicate = <function TestJRYGHKIosOneKeyLogin.test_ios_passenger_hk_login_flow.<locals>.<lambda> at 0x11c30daf0>
+timeout = 30, interval = 1
+
+    def wait_for(self, description, predicate, timeout=30, interval=1):
+        deadline = time.monotonic() + timeout
+        last_error = None
+        while time.monotonic() < deadline:
+            try:
+                page = self.inspect(timeout=min(self.request_timeout, max(0.1, deadline - time.monotonic())))
+                if predicate(page):
+                    return page
+            except (requests.RequestException, ET.ParseError, ValueError, RuntimeError) as exc:
+                last_error = exc
+                logger.warning("[页面检测] %s: %s", description, exc)
+            time.sleep(min(interval, max(0, deadline - time.monotonic())))
+        state = self.last_page.state if self.last_page else "unavailable"
+        evidence = self.capture(description)
+>       raise AssertionError(f"{description} 超时({timeout}s)，当前页面={state}，最后错误={last_error}，现场={evidence}")
+E       AssertionError: 进入验证码页 超时(30s)，当前页面=privacy_agreement，最后错误=None，现场=/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793152589093826000_进入验证码页
+
+jryg_hk_ios/JRYG_page_monitor.py:143: AssertionError
+------------------------------ Captured log setup ------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:42 【iOS 一键登录 -ios】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:47 【iOS 一键登录 -ios】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 28 2026 09:46:40', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.100', 'wifiIP': '192.168.219.100'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': None}
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:58 【iOS 一键登录 -ios】Poco 控件树驱动加载完成，已准备就绪。
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:102 【iOS 一键登录 -ios】启动业务流转，预备登录手机号: 11001727
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:74 【iOS -ios】正在拉起港版 App: com.sunlightmobility.client
+INFO     airtest.core.ios.rotation:rotation.py:85 update orientation None->PORTRAIT
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=activity_popup
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 0] -> 页面状态: activity_popup
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=activity_popup
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:125 [自动恢复] 关闭活动弹窗 icon hd gb
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=home_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 1] -> 页面状态: home_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:145 【步骤 4 -ios】已成功进入港版 App 首页，正在点击下方导航栏『我的』...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=home_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:118 [页面操作] 点击可见控件 ('我的',)
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=mine_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=mine_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 2] -> 页面状态: mine_unlogged
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:152 【步骤 5 -ios】已进入个人中心，正在点击『登錄/註冊』进入账号录入页...
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=mine_unlogged
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:118 [页面操作] 点击可见控件 ('登錄/註冊',)
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=login_phone_input
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:119 当前流转 [循环 3] -> 页面状态: login_phone_input
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:160 【步骤 6 -ios】正在手机号输入页：键入号码、勾选协议、并点击『取得驗證碼』...
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:168   >> [WDA] 已成功键入手机号: 11001727
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=login_phone_input
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:118 [页面操作] 点击可见控件 ('取得驗證碼',)
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+ERROR    jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:103 [卡点现场] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793152589093826000_进入验证码页
+---------------------------- Captured log teardown -----------------------------
+INFO     jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:87 [页面检测] state=privacy_agreement
+ERROR    jryg_hk_ios.JRYG_page_monitor:JRYG_page_monitor.py:103 [卡点现场] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793152590026233000_test_ios_passenger_hk_login_flow
+INFO     JRYG_HK_ios:JRYG_test_ios_open_and_login.py:62 【iOS 一键登录 -ios】自动化运行结束。
+=============================== warnings summary ===============================
+../.venv/lib/python3.9/site-packages/urllib3/__init__.py:35
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/JRYG_test_report_hk_ios.html -
+=========================== short test summary info ============================
+FAILED cases/JRYG_test_ios_open_and_login.py::TestJRYGHKIosOneKeyLogin::test_ios_passenger_hk_login_flow - AssertionError: 进入验证码页 超时(30s)，当前页面=privacy_agreement，最后错误=None，现场=/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793152589093826000_进入验证码页
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+============ 1 failed, 6 deselected, 1 warning in 62.71s (0:01:02) =============
+==================================================
+      JRYG 港版阳光出行 iOS 测试执行引擎 -ios (Completed)
+==================================================
+
+[报告] file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/JRYG_test_report_hk_ios.html
+
+RUN_EXIT_CODE=1

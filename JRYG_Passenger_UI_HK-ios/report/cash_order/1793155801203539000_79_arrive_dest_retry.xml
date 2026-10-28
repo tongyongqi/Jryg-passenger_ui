@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光司機版" label="陽光司機版" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="621" bundleId="com.sunlightmobility.driver">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="103" index="0" traits="">
+                  <XCUIElementTypeButton type="XCUIElementTypeButton" name="ca icon back black" label="ca icon back black" enabled="true" visible="true" accessible="true" x="0" y="59" width="44" height="44" index="0" traits="Button"/>
+                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="確認賬單" name="確認賬單" label="確認賬單" enabled="true" visible="true" accessible="true" x="162" y="69" width="69" height="24" index="1" traits="StaticText"/>
+                </XCUIElementTypeOther>
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="16" y="133" width="361" height="21" index="1" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="16" y="133" width="44" height="22" index="0" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="true" accessible="true" x="16" y="128" width="44" height="32" index="0" traits="StaticText"/>
+                  </XCUIElementTypeOther>
+                  <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="true" accessible="false" x="66" y="134" width="36" height="20" index="1" traits="Image"/>
+                </XCUIElementTypeOther>
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="189" width="369" height="69" index="2" traits="">
+                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="請提醒乘客於車內完成付款！&#10;如有附加費，請與乘客溝通後再添加" name="請提醒乘客於車內完成付款！&#10;如有附加費，請與乘客溝通後再添加" label="請提醒乘客於車內完成付款！&#10;如有附加費，請與乘客溝通後再添加" enabled="true" visible="true" accessible="true" x="56" y="199" width="312" height="49" index="0" traits="StaticText"/>
+                  <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_order_confirm_bill_tips" enabled="true" visible="true" accessible="false" x="25" y="212" width="23" height="23" index="1" traits="Image"/>
+                </XCUIElementTypeOther>
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="270" width="369" height="162" index="3" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="270" width="369" height="75" index="0" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="車費" name="車費" label="車費" enabled="true" visible="true" accessible="true" x="29" y="295" width="34" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeTextField type="XCUIElementTypeTextField" value="請輸入車費" label="" enabled="true" visible="true" accessible="true" x="74" y="295" width="242" height="25" index="1" placeholderValue="請輸入車費" traits=""/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="HKD" name="HKD" label="HKD" enabled="true" visible="true" accessible="true" x="326" y="295" width="38" height="25" index="2" traits="StaticText"/>
+                  </XCUIElementTypeOther>
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="357" width="369" height="75" index="1" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="附加費" name="附加費" label="附加費" enabled="true" visible="true" accessible="true" x="29" y="382" width="51" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeTextField type="XCUIElementTypeTextField" value="請輸入附加費" label="" enabled="true" visible="true" accessible="true" x="91" y="382" width="225" height="25" index="1" placeholderValue="請輸入附加費" traits=""/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="HKD" name="HKD" label="HKD" enabled="true" visible="true" accessible="true" x="326" y="382" width="38" height="25" index="2" traits="StaticText"/>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="140" y="406" width="176" height="94" index="4" traits="">
+                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="請記得添加附加費，金額請以實際產生為準" name="請記得添加附加費，金額請以實際產生為準" label="請記得添加附加費，金額請以實際產生為準" enabled="true" visible="true" accessible="true" x="152" y="420" width="152" height="72" index="0" traits="StaticText"/>
+                </XCUIElementTypeOther>
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="761" width="393" height="91" index="5" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="761" width="369" height="68" index="0" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="761" width="369" height="68" index="0" traits="">
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_an_jbbj" enabled="true" visible="true" accessible="false" x="12" y="761" width="369" height="68" index="0" traits="Image"/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_order_detail_hdjtcs" enabled="true" visible="true" accessible="false" x="17" y="766" width="58" height="58" index="1" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="確認收款" name="確認收款" label="確認收款" enabled="true" visible="true" accessible="true" x="150" y="778" width="93" height="33" index="2" traits="StaticText"/>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="2" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+          <XCUIElementTypeButton type="XCUIElementTypeButton" name="doraemon logo" label="doraemon logo" enabled="true" visible="false" accessible="true" x="0" y="284" width="30" height="30" index="0" traits="Button">
+            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="0" y="284" width="0" height="0" index="0" traits="StaticText"/>
+          </XCUIElementTypeButton>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

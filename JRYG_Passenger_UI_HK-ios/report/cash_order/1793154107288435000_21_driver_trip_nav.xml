@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光司機版" label="陽光司機版" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="621" bundleId="com.sunlightmobility.driver">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeNavigationBar type="XCUIElementTypeNavigationBar" name="我的行程" enabled="true" visible="true" accessible="false" x="0" y="53" width="393" height="45" index="0" traits="">
+            <XCUIElementTypeButton type="XCUIElementTypeButton" enabled="false" visible="true" accessible="true" x="16" y="64" width="22" height="23" index="0" traits="NotEnabled, Button"/>
+            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="我的行程" name="我的行程" label="我的行程" enabled="true" visible="true" accessible="true" x="160" y="62" width="73" height="26" index="1" traits="Header"/>
+          </XCUIElementTypeNavigationBar>
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="97" width="393" height="755" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="97" width="393" height="56" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="17" y="97" width="88" height="56" index="0" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="默認日期" name="默認日期" label="默認日期" enabled="true" visible="true" accessible="true" x="17" y="113" width="69" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_rl_icon_ddlb_arrow_down_nor" enabled="true" visible="true" accessible="false" x="93" y="121" width="12" height="8" index="1" traits="Image"/>
+                  </XCUIElementTypeOther>
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="322" y="97" width="54" height="56" index="1" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="全部" name="全部" label="全部" enabled="true" visible="true" accessible="true" x="322" y="113" width="35" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_rl_icon_ddlb_arrow_down_nor" enabled="true" visible="true" accessible="false" x="364" y="121" width="12" height="8" index="1" traits="Image"/>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+                <XCUIElementTypeTable type="XCUIElementTypeTable" enabled="true" visible="true" accessible="false" x="0" y="152" width="393" height="700" index="1" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" name="2026-10-27" enabled="true" visible="true" accessible="false" x="0" y="152" width="393" height="44" index="0" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="2026-10-27" name="2026-10-27" label="2026-10-27" enabled="true" visible="true" accessible="true" x="19" y="167" width="100" height="25" index="0" traits="Header, StaticText"/>
+                  </XCUIElementTypeOther>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="0" y="195" width="393" height="202" index="1" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已完成" name="已完成" label="已完成" enabled="true" visible="true" accessible="true" x="317" y="223" width="51" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="true" accessible="true" x="25" y="217" width="47" height="33" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="18:07:20" name="18:07:20" label="18:07:20" enabled="true" visible="true" accessible="true" x="48" y="253" width="66" height="27" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="銅鑼灣(地鐵站)" name="銅鑼灣(地鐵站)" label="銅鑼灣(地鐵站)" enabled="true" visible="true" accessible="true" x="50" y="287" width="113" height="24" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港(地鐵站)" name="香港(地鐵站)" label="香港(地鐵站)" enabled="true" visible="true" accessible="true" x="51" y="318" width="95" height="24" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A6OJEWECNW" name="26A6OJEWECNW" label="26A6OJEWECNW" enabled="true" visible="true" accessible="true" x="48" y="349" width="124" height="21" index="5" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="true" accessible="true" x="177" y="351" width="33" height="18" index="6" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="0" y="396" width="393" height="201" index="2" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已取消" name="已取消" label="已取消" enabled="true" visible="true" accessible="true" x="317" y="424" width="51" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="true" accessible="true" x="25" y="417" width="47" height="34" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="18:06:06" name="18:06:06" label="18:06:06" enabled="true" visible="true" accessible="true" x="48" y="453" width="67" height="28" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="銅鑼灣(地鐵站)" name="銅鑼灣(地鐵站)" label="銅鑼灣(地鐵站)" enabled="true" visible="true" accessible="true" x="50" y="487" width="113" height="25" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="港珠澳大桥香港车辆通关广场" name="港珠澳大桥香港车辆通关广场" label="港珠澳大桥香港车辆通关广场" enabled="true" visible="true" accessible="true" x="50" y="518" width="170" height="25" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A6OJ6WECNW" name="26A6OJ6WECNW" label="26A6OJ6WECNW" enabled="true" visible="true" accessible="true" x="48" y="549" width="123" height="22" index="5" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="true" accessible="true" x="177" y="551" width="32" height="18" index="6" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="0" y="596" width="393" height="202" index="3" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="16.11HKD" name="16.11HKD" label="16.11HKD" enabled="true" visible="true" accessible="true" x="285" y="748" width="83" height="26" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已完成" name="已完成" label="已完成" enabled="true" visible="true" accessible="true" x="317" y="625" width="51" height="24" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="true" accessible="true" x="25" y="618" width="47" height="33" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="17:20:49" name="17:20:49" label="17:20:49" enabled="true" visible="true" accessible="true" x="48" y="654" width="66" height="28" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="Causeway Bay Station Exit D2" name="Causeway Bay Station Exit D2" label="Causeway Bay Station Exit D2" enabled="true" visible="true" accessible="true" x="50" y="688" width="170" height="25" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港大学(地铁站)" name="香港大学(地铁站)" label="香港大学(地铁站)" enabled="true" visible="true" accessible="true" x="50" y="719" width="130" height="25" index="5" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A6OH2WECNW" name="26A6OH2WECNW" label="26A6OH2WECNW" enabled="true" visible="true" accessible="true" x="48" y="750" width="126" height="22" index="6" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="true" accessible="true" x="180" y="752" width="32" height="18" index="7" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="0" y="797" width="393" height="202" index="4" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已取消" name="已取消" label="已取消" enabled="true" visible="true" accessible="true" x="317" y="825" width="51" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="true" accessible="true" x="25" y="819" width="47" height="33" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="16:13:18" name="16:13:18" label="16:13:18" enabled="true" visible="false" accessible="true" x="48" y="855" width="60" height="27" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="Causeway Bay (Subway Station)" name="Causeway Bay (Subway Station)" label="Causeway Bay (Subway Station)" enabled="true" visible="false" accessible="true" x="50" y="889" width="170" height="24" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區" name="香港特別行政區" label="香港特別行政區" enabled="true" visible="false" accessible="true" x="50" y="920" width="119" height="24" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A6ODYWECNW" name="26A6ODYWECNW" label="26A6ODYWECNW" enabled="true" visible="false" accessible="true" x="48" y="951" width="127" height="21" index="5" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="false" accessible="true" x="180" y="953" width="33" height="18" index="6" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="0" y="998" width="393" height="200" index="5" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="0.90HKD" name="0.90HKD" label="0.90HKD" enabled="true" visible="false" accessible="true" x="297" y="1148" width="71" height="26" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已完成" name="已完成" label="已完成" enabled="true" visible="false" accessible="true" x="317" y="1026" width="51" height="25" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A4ILWWECNW" name="26A4ILWWECNW" label="26A4ILWWECNW" enabled="true" visible="false" accessible="true" x="48" y="1150" width="121" height="22" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特别行政区" name="香港特别行政区" label="香港特别行政区" enabled="true" visible="false" accessible="true" x="50" y="1119" width="119" height="25" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="銅鑼灣(地鐵站)" name="銅鑼灣(地鐵站)" label="銅鑼灣(地鐵站)" enabled="true" visible="false" accessible="true" x="50" y="1088" width="113" height="25" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="15:20:16" name="15:20:16" label="15:20:16" enabled="true" visible="false" accessible="true" x="48" y="1055" width="63" height="27" index="5" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="false" accessible="true" x="25" y="1019" width="47" height="34" index="6" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="false" accessible="true" x="175" y="1152" width="32" height="18" index="7" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="0" y="1197" width="393" height="202" index="6" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="14.67HKD" name="14.67HKD" label="14.67HKD" enabled="true" visible="false" accessible="true" x="0" y="152" width="83" height="27" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已完成" name="已完成" label="已完成" enabled="true" visible="false" accessible="true" x="0" y="152" width="51" height="25" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A4ILOWECNW" name="26A4ILOWECNW" label="26A4ILOWECNW" enabled="true" visible="false" accessible="true" x="0" y="152" width="118" height="22" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特别行政区" name="香港特别行政区" label="香港特别行政区" enabled="true" visible="false" accessible="true" x="0" y="152" width="118" height="25" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="Causeway Bay (Subway Station)" name="Causeway Bay (Subway Station)" label="Causeway Bay (Subway Station)" enabled="true" visible="false" accessible="true" x="0" y="152" width="169" height="25" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="15:13:47" name="15:13:47" label="15:13:47" enabled="true" visible="false" accessible="true" x="0" y="152" width="62" height="26" index="5" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="false" accessible="true" x="0" y="152" width="47" height="34" index="6" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="false" accessible="true" x="0" y="152" width="32" height="18" index="7" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="0" y="1398" width="393" height="202" index="7" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已取消" name="已取消" label="已取消" enabled="true" visible="false" accessible="true" x="0" y="152" width="51" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A4ILKWECNW" name="26A4ILKWECNW" label="26A4ILKWECNW" enabled="true" visible="false" accessible="true" x="0" y="152" width="117" height="22" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特别行政区" name="香港特别行政区" label="香港特别行政区" enabled="true" visible="false" accessible="true" x="0" y="152" width="118" height="25" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="Causeway Bay (Subway Station)" name="Causeway Bay (Subway Station)" label="Causeway Bay (Subway Station)" enabled="true" visible="false" accessible="true" x="0" y="152" width="169" height="25" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="15:12:40" name="15:12:40" label="15:12:40" enabled="true" visible="false" accessible="true" x="0" y="152" width="62" height="26" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="false" accessible="true" x="0" y="152" width="47" height="34" index="5" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="false" accessible="true" x="0" y="152" width="32" height="18" index="6" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="0" y="1599" width="393" height="201" index="8" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="14.67HKD" name="14.67HKD" label="14.67HKD" enabled="true" visible="false" accessible="true" x="0" y="152" width="83" height="27" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已完成" name="已完成" label="已完成" enabled="true" visible="false" accessible="true" x="0" y="152" width="51" height="25" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A6ODSWECNW" name="26A6ODSWECNW" label="26A6ODSWECNW" enabled="true" visible="false" accessible="true" x="0" y="152" width="125" height="22" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特别行政区" name="香港特别行政区" label="香港特别行政区" enabled="true" visible="false" accessible="true" x="0" y="152" width="118" height="25" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="銅鑼灣(地鐵站)" name="銅鑼灣(地鐵站)" label="銅鑼灣(地鐵站)" enabled="true" visible="false" accessible="true" x="0" y="152" width="112" height="25" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="15:10:07" name="15:10:07" label="15:10:07" enabled="true" visible="false" accessible="true" x="0" y="152" width="61" height="26" index="5" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="false" accessible="true" x="0" y="152" width="47" height="34" index="6" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="false" accessible="true" x="0" y="152" width="32" height="18" index="7" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="0" y="1799" width="393" height="202" index="9" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已取消" name="已取消" label="已取消" enabled="true" visible="false" accessible="true" x="0" y="152" width="51" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A6ODQWECNW" name="26A6ODQWECNW" label="26A6ODQWECNW" enabled="true" visible="false" accessible="true" x="0" y="152" width="127" height="22" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特别行政区" name="香港特别行政区" label="香港特别行政区" enabled="true" visible="false" accessible="true" x="0" y="152" width="118" height="25" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="銅鑼灣(地鐵站)" name="銅鑼灣(地鐵站)" label="銅鑼灣(地鐵站)" enabled="true" visible="false" accessible="true" x="0" y="152" width="112" height="25" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="15:02:09" name="15:02:09" label="15:02:09" enabled="true" visible="false" accessible="true" x="0" y="152" width="66" height="26" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="false" accessible="true" x="0" y="152" width="47" height="34" index="5" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="false" accessible="true" x="0" y="152" width="32" height="18" index="6" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="0" y="2000" width="393" height="202" index="10" traits="">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已取消" name="已取消" label="已取消" enabled="true" visible="false" accessible="true" x="0" y="152" width="51" height="25" index="0" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="26A6ODOWECNW" name="26A6ODOWECNW" label="26A6ODOWECNW" enabled="true" visible="false" accessible="true" x="0" y="152" width="127" height="22" index="1" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特别行政区" name="香港特别行政区" label="香港特别行政区" enabled="true" visible="false" accessible="true" x="0" y="152" width="118" height="25" index="2" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="銅鑼灣" name="銅鑼灣" label="銅鑼灣" enabled="true" visible="false" accessible="true" x="0" y="152" width="51" height="25" index="3" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="14:45:25" name="14:45:25" label="14:45:25" enabled="true" visible="false" accessible="true" x="0" y="152" width="66" height="26" index="4" traits="StaticText"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="即時" name="即時" label="即時" enabled="true" visible="false" accessible="true" x="0" y="152" width="47" height="34" index="5" traits="StaticText"/>
+                    <XCUIElementTypeButton type="XCUIElementTypeButton" name="複製" label="複製" enabled="true" visible="false" accessible="true" x="0" y="152" width="32" height="18" index="6" traits="StaticText, Button"/>
+                  </XCUIElementTypeCell>
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="垂直滚动条, 4页" label="垂直滚动条, 4页" enabled="true" visible="false" accessible="false" x="360" y="177" width="30" height="620" index="11" traits="Adjustable">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="387" y="180" width="3" height="207" index="0" traits=""/>
+                  </XCUIElementTypeOther>
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="水平滚动条, 1页" label="水平滚动条, 1页" enabled="true" visible="false" accessible="false" x="55" y="819" width="283" height="30" index="12" traits="Adjustable">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="58" y="846" width="277" height="3" index="0" traits=""/>
+                  </XCUIElementTypeOther>
+                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="上拉刷新" name="上拉刷新" label="上拉刷新" enabled="true" visible="false" accessible="true" x="0" y="2235" width="393" height="45" index="13" traits="StaticText"/>
+                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="下拉刷新" name="下拉刷新" label="下拉刷新" enabled="true" visible="false" accessible="true" x="0" y="137" width="393" height="16" index="14" traits="StaticText"/>
+                </XCUIElementTypeTable>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="2" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+          <XCUIElementTypeButton type="XCUIElementTypeButton" name="doraemon logo" label="doraemon logo" enabled="true" visible="false" accessible="true" x="0" y="284" width="30" height="30" index="0" traits="Button"/>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

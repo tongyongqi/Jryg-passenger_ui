@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光司機版" label="陽光司機版" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="621" bundleId="com.sunlightmobility.driver">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" name="mamapview" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="762" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="762" index="0" traits=""/>
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationcontainer" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="762" index="1" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationview" enabled="true" visible="true" accessible="false" x="4" y="239" width="33" height="51" index="0" traits="">
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_order_map_qd" enabled="true" visible="true" accessible="false" x="4" y="239" width="33" height="51" index="0" traits="Image"/>
+                    </XCUIElementTypeOther>
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" name="mauserlocationview" enabled="true" visible="true" accessible="false" x="182" y="356" width="29" height="49" index="1" traits="">
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_ddxq_car" enabled="true" visible="true" accessible="false" x="182" y="356" width="29" height="49" index="0" traits="Image"/>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                  <XCUIElementTypeImage type="XCUIElementTypeImage" name="malogo" enabled="true" visible="false" accessible="true" x="5" y="736" width="80" height="21" index="2" traits="Image"/>
+                </XCUIElementTypeOther>
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="762" index="1" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="59" width="60" height="37" index="0" traits="">
+                    <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_back_black" enabled="true" visible="true" accessible="false" x="12" y="66" width="22" height="23" index="0" traits="Image"/>
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="返回" name="返回" label="返回" enabled="true" visible="true" accessible="true" x="34" y="67" width="28" height="21" index="1" traits="StaticText"/>
+                  </XCUIElementTypeOther>
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="584" width="393" height="178" index="1" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="584" width="393" height="178" index="0" traits="">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="175" y="590" width="43" height="4" index="0" traits=""/>
+                      <XCUIElementTypeButton type="XCUIElementTypeButton" name="展開" label="展開" enabled="true" visible="true" accessible="true" x="325" y="602" width="52" height="34" index="1" traits="Button">
+                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="展開" name="展開" label="展開" enabled="true" visible="true" accessible="false" x="323" y="608" width="30" height="22" index="0" traits="StaticText"/>
+                      </XCUIElementTypeButton>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="16" y="606" width="299" height="27" index="2" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="16" y="606" width="169" height="32" index="0" traits="">
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="等乘客 即時" name="等乘客 即時" label="等乘客 即時" enabled="true" visible="true" accessible="true" x="16" y="599" width="169" height="45" index="0" traits="StaticText"/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="true" accessible="false" x="190" y="611" width="40" height="22" index="1" traits="Image"/>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="16" y="653" width="298" height="88" index="3" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="16" y="653" width="298" height="39" index="0" traits="">
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北角(地鐵站)" name="北角(地鐵站)" label="北角(地鐵站)" enabled="true" visible="true" accessible="true" x="40" y="653" width="274" height="39" index="0" traits="StaticText"/>
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_order_qd" enabled="true" visible="true" accessible="false" x="16" y="663" width="19" height="19" index="1" traits="Image"/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="24" y="681" width="3" height="32" index="1" traits=""/>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="16" y="702" width="298" height="39" index="2" traits="">
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港大學" name="香港大學" label="香港大學" enabled="true" visible="true" accessible="true" x="40" y="702" width="274" height="39" index="0" traits="StaticText"/>
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_order_zd" enabled="true" visible="true" accessible="false" x="16" y="712" width="19" height="18" index="1" traits="Image"/>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeButton type="XCUIElementTypeButton" name="ca icon order detail phone" label="ca icon order detail phone" enabled="true" visible="true" accessible="true" x="344" y="681" width="33" height="32" index="4" traits="Button"/>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="761" width="393" height="91" index="2" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="761" width="369" height="68" index="0" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="761" width="369" height="68" index="0" traits="">
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_blue_anbj" enabled="true" visible="true" accessible="false" x="12" y="761" width="369" height="68" index="0" traits="Image"/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="ca_icon_order_detail_hdjtls" enabled="true" visible="true" accessible="false" x="17" y="766" width="58" height="58" index="1" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="已接載乘客" name="已接載乘客" label="已接載乘客" enabled="true" visible="true" accessible="true" x="139" y="778" width="116" height="33" index="2" traits="StaticText"/>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="2" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="284" width="30" height="30" index="0" traits="">
+          <XCUIElementTypeButton type="XCUIElementTypeButton" name="doraemon logo" label="doraemon logo" enabled="true" visible="false" accessible="true" x="0" y="284" width="30" height="30" index="0" traits="Button">
+            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="0" y="284" width="0" height="0" index="0" traits="StaticText"/>
+          </XCUIElementTypeButton>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

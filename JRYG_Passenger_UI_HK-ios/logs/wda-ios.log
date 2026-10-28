@@ -1,0 +1,947 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/WebDriverAgent.xcodeproj -scheme WebDriverAgentRunner -derivedDataPath /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/DerivedData-ios -destination id=00008120-000E79E03472201E
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (2 targets)
+    Target 'WebDriverAgentRunner' in project 'WebDriverAgent'
+        ➜ Explicit dependency on target 'WebDriverAgentLib' in project 'WebDriverAgent'
+    Target 'WebDriverAgentLib' in project 'WebDriverAgent' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -x objective-c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: cf70ede3018768692f3e3e8f1e02efb0
+Build description path: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/DerivedData-ios/Build/Intermediates.noindex/XCBuildData/cf70ede3018768692f3e3e8f1e02efb0.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/DerivedData-ios/SDKStatCaches.noindex/iphoneos26.5-23F73-32daed1954a7d5dd0789fcaf2a9bb78b.sdkstatcache
+    cd /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/WebDriverAgent.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -o /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/DerivedData-ios/SDKStatCaches.noindex/iphoneos26.5-23F73-32daed1954a7d5dd0789fcaf2a9bb78b.sdkstatcache
+
+ProcessInfoPlistFile /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/DerivedData-ios/Build/Products/Debug-iphoneos/WebDriverAgentLib.framework/Info.plist /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/WebDriverAgentLib/Info.plist (in target 'WebDriverAgentLib' from project 'WebDriverAgent')
+    cd /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent
+    builtin-infoPlistUtility /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/WebDriverAgentLib/Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/DerivedData-ios/Build/Products/Debug-iphoneos/WebDriverAgentLib.framework/Info.plist
+
+ProcessInfoPlistFile /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/DerivedData-ios/Build/Products/Debug-iphoneos/WebDriverAgentRunner-Runner.app/PlugIns/WebDriverAgentRunner.xctest/Info.plist /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/WebDriverAgentRunner/Info.plist (in target 'WebDriverAgentRunner' from project 'WebDriverAgent')
+    cd /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent
+    builtin-infoPlistUtility /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/WebDriverAgentRunner/Info.plist -producttype com.apple.product-type.bundle.ui-testing -expandbuildsettings -format binary -platform iphoneos -additionalcontentfile /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/DerivedData-ios/Build/Intermediates.noindex/WebDriverAgent.build/Debug-iphoneos/WebDriverAgentRunner.build/ProductTypeInfoPlistAdditions.plist -requiredArchitecture arm64 -o /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/iOS-Tagent/DerivedData-ios/Build/Products/Debug-iphoneos/WebDriverAgentRunner-Runner.app/PlugIns/WebDriverAgentRunner.xctest/Info.plist
+warning: The value for NSLocationAlwaysUsageDescription must be a non-empty string. (in target 'WebDriverAgentRunner' from project 'WebDriverAgent')
+warning: The value for NSLocationAlwaysAndWhenInUseUsageDescription must be a non-empty string. (in target 'WebDriverAgentRunner' from project 'WebDriverAgent')
+warning: The value for NSLocationWhenInUseUsageDescription must be a non-empty string. (in target 'WebDriverAgentRunner' from project 'WebDriverAgent')
+
+2026-10-28 10:07:22.032606+0800 WebDriverAgentRunner-Runner[1572:562002] [Default] Running tests...
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'All tests' started at 2026-10-28 10:07:22.462.
+Test Suite 'WebDriverAgentRunner.xctest' started at 2026-10-28 10:07:22.463.
+Test Suite 'UITestingUITests' started at 2026-10-28 10:07:22.463.
+    t =      nans Suite Set Up
+2026-10-28 10:07:22.482291+0800 WebDriverAgentRunner-Runner[1572:562002] [MC] Reading from public effective user settings.
+2026-10-28 10:07:22.483167+0800 WebDriverAgentRunner-Runner[1572:562002] [User Defaults] Couldn't write values for keys (
+    KeyboardAutocorrection
+) in CFPrefsPlistSource<0x109d74580> (Domain: com.apple.keyboard.preferences, User: kCFPreferencesCurrentUser, ByHost: No, Container: (null), Contents Need Refresh: No): setting preferences outside an application's container requires user-preference-write or file-write-data sandbox access
+2026-10-28 10:07:22.483614+0800 WebDriverAgentRunner-Runner[1572:562002] [User Defaults] Couldn't write values for keys (
+    "KeyboardAutocorrection_changedAt"
+) in CFPrefsPlistSource<0x109d74580> (Domain: com.apple.keyboard.preferences, User: kCFPreferencesCurrentUser, ByHost: No, Container: (null), Contents Need Refresh: No): setting preferences outside an application's container requires user-preference-write or file-write-data sandbox access
+2026-10-28 10:07:22.483814+0800 WebDriverAgentRunner-Runner[1572:562002] [User Defaults] Couldn't write values for keys (
+    "KeyboardAutocorrection_buildAtChange"
+) in CFPrefsPlistSource<0x109d74580> (Domain: com.apple.keyboard.preferences, User: kCFPreferencesCurrentUser, ByHost: No, Container: (null), Contents Need Refresh: No): setting preferences outside an application's container requires user-preference-write or file-write-data sandbox access
+2026-10-28 10:07:22.483968+0800 WebDriverAgentRunner-Runner[1572:562002] [User Defaults] Couldn't write values for keys (
+    "KeyboardAutocorrection_previousValue"
+) in CFPrefsPlistSource<0x109d74580> (Domain: com.apple.keyboard.preferences, User: kCFPreferencesCurrentUser, ByHost: No, Container: (null), Contents Need Refresh: No): setting preferences outside an application's container requires user-preference-write or file-write-data sandbox access
+2026-10-28 10:07:22.484382+0800 WebDriverAgentRunner-Runner[1572:562002] [User Defaults] Couldn't write values for keys (
+    "KeyboardAutocorrection_analyzedAt"
+) in CFPrefsPlistSource<0x109d74580> (Domain: com.apple.keyboard.preferences, User: kCFPreferencesCurrentUser, ByHost: No, Container: (null), Contents Need Refresh: No): setting preferences outside an application's container requires user-preference-write or file-write-data sandbox access
+2026-10-28 10:07:22.497049+0800 WebDriverAgentRunner-Runner[1572:562002] [MC] Reading from public effective user settings.
+2026-10-28 10:07:22.497641+0800 WebDriverAgentRunner-Runner[1572:562002] [User Defaults] Couldn't write values for keys (
+    KeyboardPrediction
+) in CFPrefsPlistSource<0x109d74580> (Domain: com.apple.keyboard.preferences, User: kCFPreferencesCurrentUser, ByHost: No, Container: (null), Contents Need Refresh: No): setting preferences outside an application's container requires user-preference-write or file-write-data sandbox access
+2026-10-28 10:07:22.497850+0800 WebDriverAgentRunner-Runner[1572:562002] [User Defaults] Couldn't write values for keys (
+    KeyboardShowPredictionBar
+) in CFPrefsPlistSource<0x109d74580> (Domain: com.apple.keyboard.preferences, User: kCFPreferencesCurrentUser, ByHost: No, Container: (null), Contents Need Refresh: No): setting preferences outside an application's container requires user-preference-write or file-write-data sandbox access
+2026-10-28 10:07:22.498061+0800 WebDriverAgentRunner-Runner[1572:562002] [User Defaults] Couldn't write values for keys (
+    DidShowGestureKeyboardIntroduction
+) in CFPrefsPlistSource<0x109d74580> (Domain: com.apple.keyboard.preferences, User: kCFPreferencesCurrentUser, ByHost: No, Container: (null), Contents Need Refresh: No): setting preferences outside an application's container requires user-preference-write or file-write-data sandbox access
+Test Case '-[UITestingUITests testRunner]' started.
+    t =     0.00s Start Test at 2026-10-28 10:07:22.503
+    t =     0.00s Set Up
+2026-10-28 10:07:22.505234+0800 WebDriverAgentRunner-Runner[1572:562002] Built at Oct 28 2026 09:46:39
+2026-10-28 10:07:22.531082+0800 WebDriverAgentRunner-Runner[1572:562002] ServerURLHere->http://192.168.219.100:8100<-ServerURLHere
+2026-10-28 10:07:22.768767+0800 WebDriverAgentRunner-Runner[1572:562002] Using singleton test manager
+    t =     1.44s Get all elements bound by index for: Descendants matching type StatusBar
+    t =     1.45s     Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =     1.53s     Find: Descendants matching type StatusBar
+    t =     1.53s Find the StatusBar (Element at index 0)
+    t =     1.54s     Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =     1.61s     Find: Descendants matching type StatusBar
+    t =     1.61s     Find: Element at index 0
+    t =     1.63s Find the Application 'com.apple.springboard'
+    t =     1.63s     Requesting snapshot of accessibility hierarchy for app with pid 35
+2026-10-28 10:07:24.547770+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+    t =     2.06s Open com.apple.springboard
+    t =     2.06s     Activate com.apple.springboard
+2026-10-28 10:07:24.581515+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.apple.springboard is in idle state (including animations)
+    t =     2.08s         Wait for com.apple.springboard to idle
+2026-10-28 10:07:25.569898+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+    t =     3.14s Open com.sunlightmobility.client
+    t =     3.15s     Launch com.sunlightmobility.client
+    t =     3.15s         Terminate com.sunlightmobility.client:1571
+    t =     4.30s         Setting up automation session
+2026-10-28 10:07:26.904471+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =     4.40s         Wait for com.sunlightmobility.client to idle
+    t =    13.96s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    13.96s     Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    14.07s     Find: Descendants matching type Any
+    t =    14.07s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    14.08s Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    14.15s Find: Descendants matching type Any
+    t =    14.15s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    14.16s Find: Element at index 0
+    t =    14.16s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    14.17s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    14.25s     Find: Descendants matching type Any
+    t =    14.25s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    14.26s Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    14.30s Find: Descendants matching type Any
+    t =    14.30s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    14.30s Find: Element at index 0
+2026-10-28 10:07:36.820948+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:36.822343+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    14.32s Wait for com.sunlightmobility.client to idle
+    t =    14.32s Find the Application 'com.sunlightmobility.client'
+    t =    14.33s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:36.950892+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:07:38.200248+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:38.200778+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    15.70s Wait for com.sunlightmobility.client to idle
+    t =    15.71s Find the Application 'com.sunlightmobility.client'
+    t =    15.71s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:38.301535+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    16.95s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (196.0, 653.0)
+2026-10-28 10:07:39.453715+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    16.95s     Wait for com.sunlightmobility.client to idle
+    t =    16.96s     Find the Application 'com.sunlightmobility.client'
+    t =    16.96s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    17.00s Application is configured to skip UI interruption handling
+    t =    17.11s     Synthesize event
+    t =    17.12s         Find the Application 'com.sunlightmobility.client'
+    t =    17.13s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    17.19s         Find the Application 'com.sunlightmobility.client'
+    t =    17.19s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    17.26s         Find the Application 'com.sunlightmobility.client'
+    t =    17.26s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:40.111116+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    17.61s     Wait for com.sunlightmobility.client to idle
+2026-10-28 10:07:40.281874+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:40.282445+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    17.78s Wait for com.sunlightmobility.client to idle
+    t =    17.79s Find the Application 'com.sunlightmobility.client'
+    t =    17.79s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:40.409480+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    18.43s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    18.44s     Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    18.53s     Find: Descendants matching type Any
+    t =    18.53s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    18.54s Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    18.61s Find: Descendants matching type Any
+    t =    18.61s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    18.61s Find: Element at index 0
+    t =    18.62s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    18.62s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    18.67s     Find: Descendants matching type Any
+    t =    18.67s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    18.67s Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    18.71s Find: Descendants matching type Any
+    t =    18.72s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    18.72s Find: Element at index 0
+2026-10-28 10:07:41.231905+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:41.232102+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    18.73s Wait for com.sunlightmobility.client to idle
+    t =    18.73s Find the Application 'com.sunlightmobility.client'
+    t =    18.74s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:41.331983+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:07:41.840132+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:41.840408+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    19.34s Wait for com.sunlightmobility.client to idle
+    t =    19.35s Find the Application 'com.sunlightmobility.client'
+    t =    19.35s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:41.930232+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    19.89s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (327.0, 810.0)
+2026-10-28 10:07:42.391295+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    19.89s     Wait for com.sunlightmobility.client to idle
+    t =    19.90s     Find the Application 'com.sunlightmobility.client'
+    t =    19.90s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    19.93s Application is configured to skip UI interruption handling
+    t =    19.93s     Synthesize event
+    t =    19.94s         Find the Application 'com.sunlightmobility.client'
+    t =    19.94s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    19.97s         Find the Application 'com.sunlightmobility.client'
+    t =    19.97s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    20.02s         Find the Application 'com.sunlightmobility.client'
+    t =    20.02s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:42.846690+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    20.34s     Wait for com.sunlightmobility.client to idle
+2026-10-28 10:07:43.560770+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:43.561445+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    21.06s Wait for com.sunlightmobility.client to idle
+    t =    21.07s Find the Application 'com.sunlightmobility.client'
+    t =    21.07s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:43.658807+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:07:43.998672+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:43.998938+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    21.50s Wait for com.sunlightmobility.client to idle
+    t =    21.50s Find the Application 'com.sunlightmobility.client'
+    t =    21.51s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:44.065112+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    21.84s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (65.0, 810.0)
+2026-10-28 10:07:44.340724+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    21.84s     Wait for com.sunlightmobility.client to idle
+    t =    21.85s     Find the Application 'com.sunlightmobility.client'
+    t =    21.85s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    21.87s Application is configured to skip UI interruption handling
+    t =    21.87s     Synthesize event
+    t =    21.87s         Find the Application 'com.sunlightmobility.client'
+    t =    21.87s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    21.89s         Find the Application 'com.sunlightmobility.client'
+    t =    21.89s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    21.91s         Find the Application 'com.sunlightmobility.client'
+    t =    21.91s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:44.704218+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    22.20s     Wait for com.sunlightmobility.client to idle
+    t =    22.89s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    22.90s     Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    22.99s     Find: Descendants matching type Any
+    t =    23.00s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    23.00s Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    23.09s Find: Descendants matching type Any
+    t =    23.09s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    23.09s Find: Element at index 0
+    t =    23.10s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    23.10s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    23.15s     Find: Descendants matching type Any
+    t =    23.16s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    23.16s Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    23.20s Find: Descendants matching type Any
+    t =    23.20s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    23.20s Find: Element at index 0
+2026-10-28 10:07:45.717671+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:45.717869+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    23.22s Wait for com.sunlightmobility.client to idle
+    t =    23.22s Find the Application 'com.sunlightmobility.client'
+    t =    23.22s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:45.811279+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:07:46.580225+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:46.580590+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    24.08s Wait for com.sunlightmobility.client to idle
+    t =    24.09s Find the Application 'com.sunlightmobility.client'
+    t =    24.09s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:46.663190+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:07:47.690855+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:47.691594+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    25.19s Wait for com.sunlightmobility.client to idle
+    t =    25.20s Find the Application 'com.sunlightmobility.client'
+    t =    25.20s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:47.786918+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:07:48.911502+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:48.912047+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    26.41s Wait for com.sunlightmobility.client to idle
+    t =    26.42s Find the Application 'com.sunlightmobility.client'
+    t =    26.42s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:49.006090+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    27.65s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (196.0, 653.0)
+2026-10-28 10:07:50.149620+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    27.65s     Wait for com.sunlightmobility.client to idle
+    t =    27.66s     Find the Application 'com.sunlightmobility.client'
+    t =    27.67s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    27.70s Application is configured to skip UI interruption handling
+    t =    27.70s     Synthesize event
+    t =    27.70s         Find the Application 'com.sunlightmobility.client'
+    t =    27.71s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    27.73s         Find the Application 'com.sunlightmobility.client'
+    t =    27.74s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    27.77s         Find the Application 'com.sunlightmobility.client'
+    t =    27.77s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:50.592984+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    28.09s     Wait for com.sunlightmobility.client to idle
+2026-10-28 10:07:50.698510+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:50.699441+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    28.20s Wait for com.sunlightmobility.client to idle
+    t =    28.21s Find the Application 'com.sunlightmobility.client'
+    t =    28.21s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:50.820247+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:07:52.337119+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:52.338072+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    29.84s Wait for com.sunlightmobility.client to idle
+    t =    29.85s Find the Application 'com.sunlightmobility.client'
+    t =    29.85s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:52.466097+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    30.50s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    30.50s     Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    30.59s     Find: Descendants matching type Any
+    t =    30.59s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    30.60s Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    30.67s Find: Descendants matching type Any
+    t =    30.67s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    30.67s Find: Element at index 0
+    t =    30.68s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    30.68s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    30.72s     Find: Descendants matching type Any
+    t =    30.73s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    30.73s Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    30.77s Find: Descendants matching type Any
+    t =    30.77s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    30.77s Find: Element at index 0
+2026-10-28 10:07:53.285519+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:53.285703+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    30.78s Wait for com.sunlightmobility.client to idle
+    t =    30.79s Find the Application 'com.sunlightmobility.client'
+    t =    30.79s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:53.391685+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:07:53.951697+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:53.952026+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    31.45s Wait for com.sunlightmobility.client to idle
+    t =    31.46s Find the Application 'com.sunlightmobility.client'
+    t =    31.46s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:54.030065+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    31.97s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (196.0, 614.0)
+2026-10-28 10:07:54.475115+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    31.97s     Wait for com.sunlightmobility.client to idle
+    t =    31.98s     Find the Application 'com.sunlightmobility.client'
+    t =    31.98s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    32.01s Application is configured to skip UI interruption handling
+    t =    32.01s     Synthesize event
+    t =    32.02s         Find the Application 'com.sunlightmobility.client'
+    t =    32.02s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    32.05s         Find the Application 'com.sunlightmobility.client'
+    t =    32.05s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    32.08s         Find the Application 'com.sunlightmobility.client'
+    t =    32.08s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:54.881448+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    32.38s     Wait for com.sunlightmobility.client to idle
+2026-10-28 10:07:58.471230+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:07:58.472278+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    35.97s Wait for com.sunlightmobility.client to idle
+    t =    35.98s Find the Application 'com.sunlightmobility.client'
+    t =    35.99s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:07:58.756119+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    38.00s Get all elements bound by accessibility element for: Descendants matching type TextField
+    t =    38.01s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    38.08s     Find: Descendants matching type TextField
+    t =    38.09s Find the "您從哪裡出發" TextField
+    t =    38.09s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    38.16s     Find: Descendants matching type TextField
+    t =    38.16s     Find: Identity Binding
+    t =    38.17s Get all elements bound by accessibility element for: Descendants matching type TextField
+    t =    38.17s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    38.24s     Find: Descendants matching type TextField
+    t =    38.25s Find the "您從哪裡出發" TextField
+    t =    38.25s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    38.31s     Find: Descendants matching type TextField
+    t =    38.31s     Find: Identity Binding
+    t =    38.32s Find the "您從哪裡出發" TextField
+    t =    38.33s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    38.40s     Find: Descendants matching type TextField
+    t =    38.40s     Find: Identity Binding
+    t =    38.41s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (221.0, 86.0)
+2026-10-28 10:08:00.913045+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    38.41s     Wait for com.sunlightmobility.client to idle
+    t =    38.41s     Find the Application 'com.sunlightmobility.client'
+    t =    38.42s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    38.48s Application is configured to skip UI interruption handling
+    t =    38.49s     Synthesize event
+    t =    38.49s         Find the Application 'com.sunlightmobility.client'
+    t =    38.49s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    38.56s         Find the Application 'com.sunlightmobility.client'
+    t =    38.57s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    38.64s         Find the Application 'com.sunlightmobility.client'
+    t =    38.65s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:01.512539+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    39.01s     Wait for com.sunlightmobility.client to idle
+    t =    39.03s Get all elements bound by accessibility element for: Descendants matching type TextField
+    t =    39.03s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    39.16s     Find: Descendants matching type TextField
+    t =    39.17s Find the "您從哪裡出發" TextField
+    t =    39.17s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    39.25s     Find: Descendants matching type TextField
+    t =    39.25s     Find: Identity Binding
+    t =    39.26s Find the "您從哪裡出發" TextField
+    t =    39.26s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    39.34s     Find: Descendants matching type TextField
+    t =    39.34s     Find: Identity Binding
+2026-10-28 10:08:07.417197+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:07.417357+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    44.91s Wait for com.sunlightmobility.client to idle
+    t =    44.92s Find the Application 'com.sunlightmobility.client'
+    t =    44.92s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:07.730470+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    48.90s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (196.0, 165.0)
+2026-10-28 10:08:11.407058+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    48.90s     Wait for com.sunlightmobility.client to idle
+    t =    48.91s     Find the Application 'com.sunlightmobility.client'
+    t =    48.91s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    49.00s Application is configured to skip UI interruption handling
+    t =    49.00s     Synthesize event
+    t =    49.00s         Find the Application 'com.sunlightmobility.client'
+    t =    49.01s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    49.11s         Find the Application 'com.sunlightmobility.client'
+    t =    49.12s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    49.22s         Find the Application 'com.sunlightmobility.client'
+    t =    49.22s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:12.109771+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    49.61s     Wait for com.sunlightmobility.client to idle
+2026-10-28 10:08:14.085317+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:14.086459+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    51.58s Wait for com.sunlightmobility.client to idle
+    t =    51.60s Find the Application 'com.sunlightmobility.client'
+    t =    51.60s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:14.215201+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    56.00s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    56.01s     Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    56.11s     Find: Descendants matching type Any
+    t =    56.11s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    56.12s Requesting snapshot of accessibility hierarchy for app with pid 35
+    t =    56.20s Find: Descendants matching type Any
+    t =    56.20s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    56.21s Find: Element at index 0
+    t =    56.21s Get all elements bound by index for: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    56.22s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    56.26s     Find: Descendants matching type Any
+    t =    56.27s     Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    56.27s Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    56.31s Find: Descendants matching type Any
+    t =    56.31s Find: Elements matching predicate 'elementType IN {7, 5, 46}'
+    t =    56.32s Find: Element at index 0
+2026-10-28 10:08:18.831880+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:18.832075+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    56.33s Wait for com.sunlightmobility.client to idle
+    t =    56.33s Find the Application 'com.sunlightmobility.client'
+    t =    56.34s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:18.942662+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:08:19.488645+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:19.488967+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    56.99s Wait for com.sunlightmobility.client to idle
+    t =    56.99s Find the Application 'com.sunlightmobility.client'
+    t =    57.00s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:19.578752+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    57.51s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (196.0, 663.0)
+2026-10-28 10:08:20.011900+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    57.51s     Wait for com.sunlightmobility.client to idle
+    t =    57.52s     Find the Application 'com.sunlightmobility.client'
+    t =    57.52s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    57.55s Application is configured to skip UI interruption handling
+    t =    57.55s     Synthesize event
+    t =    57.67s         Find the Application 'com.sunlightmobility.client'
+    t =    57.67s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    57.72s         Find the Application 'com.sunlightmobility.client'
+    t =    57.72s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    57.77s         Find the Application 'com.sunlightmobility.client'
+    t =    57.77s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:20.596141+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    58.09s     Wait for com.sunlightmobility.client to idle
+2026-10-28 10:08:24.061514+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:24.062754+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    61.56s Wait for com.sunlightmobility.client to idle
+    t =    61.57s Find the Application 'com.sunlightmobility.client'
+    t =    61.58s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:24.306541+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    63.38s Get all elements bound by accessibility element for: Descendants matching type TextField
+    t =    63.38s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    63.45s     Find: Descendants matching type TextField
+    t =    63.46s Find the "請輸入落車點" TextField
+    t =    63.46s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    63.53s     Find: Descendants matching type TextField
+    t =    63.54s     Find: Identity Binding
+    t =    63.55s Get all elements bound by accessibility element for: Descendants matching type TextField
+    t =    63.55s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    63.63s     Find: Descendants matching type TextField
+    t =    63.64s Find the "請輸入落車點" TextField
+    t =    63.64s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    63.71s     Find: Descendants matching type TextField
+    t =    63.71s     Find: Identity Binding
+    t =    63.72s Find the "請輸入落車點" TextField
+    t =    63.72s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    63.79s     Find: Descendants matching type TextField
+    t =    63.79s     Find: Identity Binding
+    t =    63.81s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (221.0, 86.0)
+2026-10-28 10:08:26.308730+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    63.81s     Wait for com.sunlightmobility.client to idle
+    t =    63.81s     Find the Application 'com.sunlightmobility.client'
+    t =    63.81s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    63.87s Application is configured to skip UI interruption handling
+    t =    63.88s     Synthesize event
+    t =    63.88s         Find the Application 'com.sunlightmobility.client'
+    t =    63.88s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    63.95s         Find the Application 'com.sunlightmobility.client'
+    t =    63.95s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    64.02s         Find the Application 'com.sunlightmobility.client'
+    t =    64.02s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:26.890296+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    64.39s     Wait for com.sunlightmobility.client to idle
+2026-10-28 10:08:26.928936+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:26.929522+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    64.43s Wait for com.sunlightmobility.client to idle
+    t =    64.82s Find the Application 'com.sunlightmobility.client'
+    t =    64.83s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:27.569753+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    66.74s Get all elements bound by accessibility element for: Descendants matching type TextField
+    t =    66.74s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    66.82s     Find: Descendants matching type TextField
+    t =    66.83s Find the "請輸入落車點" TextField
+    t =    66.83s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    66.90s     Find: Descendants matching type TextField
+    t =    66.90s     Find: Identity Binding
+    t =    67.04s Find the "請輸入落車點" TextField
+    t =    67.04s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    67.13s     Find: Descendants matching type TextField
+    t =    67.13s     Find: Identity Binding
+2026-10-28 10:08:35.197183+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:35.197359+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    72.69s Wait for com.sunlightmobility.client to idle
+    t =    72.70s Find the Application 'com.sunlightmobility.client'
+    t =    72.70s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:35.408175+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:08:36.538969+0800 WebDriverAgentRunner-Runner[1572:562002] Cannot determine visiblity of XCUIElementTypeActivityIndicator (进行中) natively: Error Domain=com.apple.dt.xctest.automation-support.error Code=11 "Accessibility error kAXErrorInvalidUIElement from AXUIElementCopyMultipleAttributeValues for 2025" UserInfo={accessibility-error=-25202, NSLocalizedDescription=Accessibility error kAXErrorInvalidUIElement from AXUIElementCopyMultipleAttributeValues for 2025}. Defaulting to: 0
+2026-10-28 10:08:36.540941+0800 WebDriverAgentRunner-Runner[1572:562002] Cannot determine accessibility of 'XCUIElementTypeActivityIndicator (进行中)' natively: Error Domain=com.apple.dt.xctest.automation-support.error Code=11 "Accessibility error kAXErrorInvalidUIElement from AXUIElementCopyMultipleAttributeValues for 2016" UserInfo={accessibility-error=-25202, NSLocalizedDescription=Accessibility error kAXErrorInvalidUIElement from AXUIElementCopyMultipleAttributeValues for 2016}. Defaulting to: 0
+2026-10-28 10:08:36.543249+0800 WebDriverAgentRunner-Runner[1572:562002] Cannot determine visiblity of XCUIElementTypeStaticText (正在搜索) natively: Error Domain=com.apple.dt.xctest.automation-support.error Code=11 "Accessibility error kAXErrorInvalidUIElement from AXUIElementCopyMultipleAttributeValues for 2025" UserInfo={accessibility-error=-25202, NSLocalizedDescription=Accessibility error kAXErrorInvalidUIElement from AXUIElementCopyMultipleAttributeValues for 2025}. Defaulting to: 0
+2026-10-28 10:08:36.545180+0800 WebDriverAgentRunner-Runner[1572:562002] Cannot determine accessibility of 'XCUIElementTypeStaticText (正在搜索)' natively: Error Domain=com.apple.dt.xctest.automation-support.error Code=11 "Accessibility error kAXErrorInvalidUIElement from AXUIElementCopyMultipleAttributeValues for 2016" UserInfo={accessibility-error=-25202, NSLocalizedDescription=Accessibility error kAXErrorInvalidUIElement from AXUIElementCopyMultipleAttributeValues for 2016}. Defaulting to: 0
+2026-10-28 10:08:38.015062+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:38.015937+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    75.51s Wait for com.sunlightmobility.client to idle
+    t =    75.53s Find the Application 'com.sunlightmobility.client'
+    t =    75.53s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:38.354038+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+    t =    79.58s Tap Application 'com.sunlightmobility.client'[0.00, 0.00] -> (196.0, 165.0)
+2026-10-28 10:08:42.082553+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    79.58s     Wait for com.sunlightmobility.client to idle
+    t =    79.59s     Find the Application 'com.sunlightmobility.client'
+    t =    79.59s         Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    79.69s Application is configured to skip UI interruption handling
+    t =    79.69s     Synthesize event
+    t =    79.69s         Find the Application 'com.sunlightmobility.client'
+    t =    79.70s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    79.81s         Find the Application 'com.sunlightmobility.client'
+    t =    79.81s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+    t =    79.92s         Find the Application 'com.sunlightmobility.client'
+    t =    79.92s             Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:42.801727+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 10s until com.sunlightmobility.client is in idle state (including animations)
+    t =    80.30s     Wait for com.sunlightmobility.client to idle
+2026-10-28 10:08:43.249527+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:43.249936+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    80.75s Wait for com.sunlightmobility.client to idle
+    t =    80.76s Find the Application 'com.sunlightmobility.client'
+    t =    80.76s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:43.299604+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+2026-10-28 10:08:44.536836+0800 WebDriverAgentRunner-Runner[1572:562002] Getting the most recent active application (out of 1 total items)
+2026-10-28 10:08:44.538039+0800 WebDriverAgentRunner-Runner[1572:562002] Waiting up to 2s until com.sunlightmobility.client is in idle state (including animations)
+    t =    82.04s Wait for com.sunlightmobility.client to idle
+    t =    82.05s Find the Application 'com.sunlightmobility.client'
+    t =    82.05s     Requesting snapshot of accessibility hierarchy for app with pid 1573
+2026-10-28 10:08:44.669612+0800 WebDriverAgentRunner-Runner[1572:562002] The following attributes were requested to be included into the XML: {(
+    FBIndexAttribute,
+    FBXAttribute,
+    FBLabelAttribute,
+    FBHeightAttribute,
+    FBAccessibleAttribute,
+    FBNameAttribute,
+    FBPlaceholderValueAttribute,
+    FBWidthAttribute,
+    FBVisibleAttribute,
+    FBValueAttribute,
+    FBYAttribute,
+    FBEnabledAttribute,
+    FBTypeAttribute,
+    FBTraitsAttribute
+)}
+** BUILD INTERRUPTED **

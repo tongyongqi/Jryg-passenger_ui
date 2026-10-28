@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光出行" label="陽光出行" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="1573" bundleId="com.sunlightmobility.client">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="103" index="0" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="103" index="0" traits="">
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_navi_arrow_left" enabled="true" visible="true" accessible="false" x="12" y="66" width="43" height="43" index="0" traits="Image"/>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" name="mamapview" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationcontainer" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationview" enabled="true" visible="true" accessible="false" x="62" y="282" width="37" height="37" index="0" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="40" y="235" width="80" height="43" index="0" traits="">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港大學" name="香港大學" label="香港大學" enabled="true" visible="true" accessible="true" x="63" y="247" width="56" height="19" index="0" traits="StaticText"/>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_anno_end" enabled="true" visible="true" accessible="false" x="62" y="282" width="37" height="37" index="1" traits="Image"/>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationview" enabled="true" visible="true" accessible="false" x="294" y="292" width="37" height="37" index="1" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="279" y="245" width="68" height="43" index="0" traits="">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="銅鑼灣" name="銅鑼灣" label="銅鑼灣" enabled="true" visible="true" accessible="true" x="308" y="258" width="44" height="18" index="0" traits="StaticText"/>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_anno_start" enabled="true" visible="true" accessible="false" x="294" y="292" width="37" height="37" index="1" traits="Image"/>
+                              </XCUIElementTypeOther>
+                            </XCUIElementTypeOther>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" name="malogo" enabled="true" visible="false" accessible="true" x="5" y="827" width="80" height="20" index="2" traits="Image"/>
+                          </XCUIElementTypeOther>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="585" width="393" height="267" index="2" traits="">
+                        <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_order_dispatch_bottom_masker" enabled="true" visible="true" accessible="false" x="0" y="585" width="393" height="95" index="0" traits="Image"/>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="585" width="369" height="232" index="1" traits="">
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="正在確認起終點" name="正在確認起終點" label="正在確認起終點" enabled="true" visible="true" accessible="true" x="29" y="603" width="118" height="24" index="0" traits="StaticText"/>
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="true" accessible="false" x="156" y="606" width="17" height="18" index="1" traits="Image"/>
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_dispatch_start_address" enabled="true" visible="true" accessible="false" x="29" y="637" width="13" height="13" index="2" traits="Image"/>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="銅鑼灣" name="銅鑼灣" label="銅鑼灣" enabled="true" visible="true" accessible="true" x="45" y="635" width="39" height="18" index="3" traits="StaticText"/>
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_dispatch_middle_wire" enabled="true" visible="true" accessible="false" x="92" y="637" width="13" height="13" index="4" traits="Image"/>
+                          <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_dispatch_end_address" enabled="true" visible="true" accessible="false" x="113" y="637" width="13" height="13" index="5" traits="Image"/>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港大學" name="香港大學" label="香港大學" enabled="true" visible="true" accessible="true" x="125" y="635" width="52" height="18" index="6" traits="StaticText"/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="25" y="669" width="343" height="127" index="7" traits=""/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="680" width="393" height="172" index="2" traits=""/>
+                      </XCUIElementTypeOther>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

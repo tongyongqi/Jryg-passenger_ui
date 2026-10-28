@@ -66,6 +66,9 @@ if ! wda_ready; then
         for ((i=0; i<90; i++)); do
             if wda_ready; then break; fi
             if ! kill -0 "$XCODE_PID" 2>/dev/null; then break; fi
+            if ((i % 10 == 0)); then
+                echo "[准备设备] WDA 启动中，探测 $((i+1))/90；详情: $BASE_DIR/logs/wda-ios.log"
+            fi
             sleep 2
         done
     fi
