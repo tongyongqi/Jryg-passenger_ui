@@ -1,0 +1,33 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{c70c4f4 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}",
+  "texts": [
+    "个人信息保护及隐私政策",
+    "准入规则",
+    "判责规则",
+    "小马智行用户服务协议",
+    "小马智行隐私协议",
+    "平台协议",
+    "平台协议与规则",
+    "平台规则",
+    "录音处理协议",
+    "用户协议",
+    "自动驾驶信息服务协议",
+    "自动驾驶信息服务隐私政策",
+    "计价规则",
+    "调价公示",
+    "阳仔智能对话助手服务",
+    ""
+  ],
+  "events": [
+    {
+      "action": "click",
+      "target": "rl_more_doc",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "调价公示",
+      "package": "com.jryg.client"
+    }
+  ]
+}

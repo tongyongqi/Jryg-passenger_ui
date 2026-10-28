@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title id="head-title">JRYG_settings_report.html</title>
+      <style type="text/css">body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  vertical-align: top;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+#environment ul {
+  margin: 0;
+  padding: 0 20px;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+.col-links__extra {
+  margin-right: 3px;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+#results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+#results-table th,
+#results-table td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  text-align: left;
+}
+#results-table th {
+  font-weight: bold;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.logwrapper {
+  max-height: 230px;
+  overflow-y: scroll;
+  background-color: #e6e6e6;
+}
+.logwrapper.expanded {
+  max-height: none;
+}
+.logwrapper.expanded .logexpander:after {
+  content: "collapse [-]";
+}
+.logwrapper .logexpander {
+  z-index: 1;
+  position: sticky;
+  top: 10px;
+  width: max-content;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin: 10px 0 10px calc(100% - 80px);
+  cursor: pointer;
+  background-color: #e6e6e6;
+}
+.logwrapper .logexpander:after {
+  content: "expand [+]";
+}
+.logwrapper .logexpander:hover {
+  color: #000;
+  border-color: #000;
+}
+.logwrapper .log {
+  min-height: 40px;
+  position: relative;
+  top: -50px;
+  height: calc(100% + 50px);
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  padding: 5px;
+  padding-right: 80px;
+  white-space: pre-wrap;
+}
+
+div.media {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin: 0 5px;
+  overflow: hidden;
+  width: 320px;
+}
+
+.media-container {
+  display: grid;
+  grid-template-columns: 25px auto 25px;
+  align-items: center;
+  flex: 1 1;
+  overflow: hidden;
+  height: 200px;
+}
+
+.media-container--fullscreen {
+  grid-template-columns: 0px auto 0px;
+}
+
+.media-container__nav--right,
+.media-container__nav--left {
+  text-align: center;
+  cursor: pointer;
+}
+
+.media-container__viewport {
+  cursor: pointer;
+  text-align: center;
+  height: inherit;
+}
+.media-container__viewport img,
+.media-container__viewport video {
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+}
+
+.media__name,
+.media__counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex: 0 0 25px;
+  align-items: center;
+}
+
+.collapsible td:not(.col-links) {
+  cursor: pointer;
+}
+.collapsible td:not(.col-links):hover::after {
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.col-result {
+  width: 130px;
+}
+.col-result:hover::after {
+  content: " (hide details)";
+}
+
+.col-result.collapsed:hover::after {
+  content: " (show details)";
+}
+
+#environment-header h2:hover::after {
+  content: " (hide details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#environment-header.collapsed h2:hover::after {
+  content: " (show details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+.sortable.desc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: -12.5px;
+  border: 10px solid #4caf50;
+  border-bottom: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+.sortable.asc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: 12.5px;
+  border: 10px solid #4caf50;
+  border-top: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.hidden, .summary__reload__button.hidden {
+  display: none;
+}
+
+.summary__data {
+  flex: 0 0 550px;
+}
+.summary__reload {
+  flex: 1 1;
+  display: flex;
+  justify-content: center;
+}
+.summary__reload__button {
+  flex: 0 0 300px;
+  display: flex;
+  color: white;
+  font-weight: bold;
+  background-color: #4caf50;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.summary__reload__button:hover {
+  background-color: #46a049;
+}
+.summary__spacer {
+  flex: 0 0 550px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters,
+.collapse {
+  display: flex;
+  align-items: center;
+}
+.filters button,
+.collapse button {
+  color: #999;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.filters button:hover,
+.collapse button:hover {
+  color: #ccc;
+}
+
+.filter__label {
+  margin-right: 10px;
+}
+
+      </style>
+    
+  </head>
+  <body>
+    <h1 id="title">JRYG_settings_report.html</h1>
+    <p>Report generated on 22-Oct-2026 at 20:52:18 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+        v4.2.0</p>
+    <div id="environment-header">
+      <h2>Environment</h2>
+    </div>
+    <table id="environment"></table>
+    <!-- TEMPLATES -->
+      <template id="template_environment_row">
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </template>
+    <template id="template_results-table__body--empty">
+      <tbody class="results-table-row">
+        <tr id="not-found-message">
+          <td colspan="4">No results found. Check the filters.</td>
+        </tr>
+      </tbody>
+    </template>
+    <template id="template_results-table__tbody">
+      <tbody class="results-table-row">
+        <tr class="collapsible">
+        </tr>
+        <tr class="extras-row">
+          <td class="extra" colspan="4">
+            <div class="extraHTML"></div>
+            <div class="media">
+              <div class="media-container">
+                  <div class="media-container__nav--left">&lt;</div>
+                  <div class="media-container__viewport">
+                    <img src="" />
+                    <video controls>
+                      <source src="" type="video/mp4">
+                    </video>
+                  </div>
+                  <div class="media-container__nav--right">&gt;</div>
+                </div>
+                <div class="media__name"></div>
+                <div class="media__counter"></div>
+            </div>
+            <div class="logwrapper">
+              <div class="logexpander"></div>
+              <div class="log"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </template>
+    <!-- END TEMPLATES -->
+    <div class="summary">
+      <div class="summary__data">
+        <h2>Summary</h2>
+        <div class="additional-summary prefix">
+        </div>
+        <p class="run-count">46 tests took 00:28:24.</p>
+        <p class="filter">(Un)check the boxes to filter the results.</p>
+        <div class="summary__reload">
+          <div class="summary__reload__button hidden" onclick="location.reload()">
+            <div>There are still tests running. <br />Reload this page to get the latest results!</div>
+          </div>
+        </div>
+        <div class="summary__spacer"></div>
+        <div class="controls">
+          <div class="filters">
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" >
+            <span class="failed">18 Failed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" >
+            <span class="passed">28 Passed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled>
+            <span class="skipped">0 Skipped,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xfailed" disabled>
+            <span class="xfailed">0 Expected failures,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xpassed" disabled>
+            <span class="xpassed">0 Unexpected passes,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="error" disabled>
+            <span class="error">0 Errors,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="rerun" disabled>
+            <span class="rerun">0 Reruns</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="retried" disabled>
+            <span class="retried">0 Retried,</span>
+          </div>
+          <div class="collapse">
+            <button id="show_all_details">Show all details</button>&nbsp;/&nbsp;<button id="hide_all_details">Hide all details</button>
+          </div>
+        </div>
+      </div>
+      <div class="additional-summary summary">
+      </div>
+      <div class="additional-summary postfix">
+      </div>
+    </div>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable" data-column-type="result">Result</th>
+          <th class="sortable" data-column-type="testId">Test</th>
+          <th class="sortable" data-column-type="duration">Duration</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+    </table>
+  <footer>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.9.6&#34;, &#34;Platform&#34;: &#34;macOS-26.7.1-x86_64-i386-64bit&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;8.4.2&#34;, &#34;pluggy&#34;: &#34;1.6.0&#34;}, &#34;Plugins&#34;: {&#34;metadata&#34;: &#34;3.1.1&#34;, &#34;html&#34;: &#34;4.2.0&#34;}}, &#34;tests&#34;: {&#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u83dc\\u5355\\u5b8c\\u6574\\u6027\\u4e0e\\u6b63\\u5e38\\u5165\\u53e3]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u83dc\\u5355\\u5b8c\\u6574\\u6027\\u4e0e\\u6b63\\u5e38\\u5165\\u53e3]&#34;, &#34;duration&#34;: &#34;00:00:18&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u83dc\\u5355\\u5b8c\\u6574\\u6027\\u4e0e\\u6b63\\u5e38\\u5165\\u53e3]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:18&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;---------------------------- Captured stderr setup -----------------------------\n2026-10-22 20:23:58,367 - JRYG_Auto - INFO - \u62c9\u8d77 Android App: com.jryg.client/com.jryg.client.activity.loading.YGALoadingActivity\n2026-10-22 20:24:01,654 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9996\u9875\n2026-10-22 20:24:06,597 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u6211\u7684\n2026-10-22 20:24:09,609 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb iv_setting\n\n------------------------------ Captured log setup ------------------------------\nINFO     JRYG_Auto:JRYG_adb_tools.py:35 \u62c9\u8d77 Android App: com.jryg.client/com.jryg.client.activity.loading.YGALoadingActivity\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9996\u9875\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u6211\u7684\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb iv_setting\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7d27\\u6025\\u8054\\u7cfb\\u4eba\\u5217\\u8868]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7d27\\u6025\\u8054\\u7cfb\\u4eba\\u5217\\u8868]&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7d27\\u6025\\u8054\\u7cfb\\u4eba\\u5217\\u8868]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:24:14,225 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_contract\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_contract\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u65b0\\u589e\\u7d27\\u6025\\u8054\\u7cfb\\u4eba\\u5165\\u53e3\\u4e0e\\u53d6\\u6d88]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u65b0\\u589e\\u7d27\\u6025\\u8054\\u7cfb\\u4eba\\u5165\\u53e3\\u4e0e\\u53d6\\u6d88]&#34;, &#34;duration&#34;: &#34;00:00:29&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u65b0\\u589e\\u7d27\\u6025\\u8054\\u7cfb\\u4eba\\u5165\\u53e3\\u4e0e\\u53d6\\u6d88]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:29&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u65b0\u589e\u8054\u7cfb\u4eba\u8868\u5355\u6216\u6570\u91cf\u4e0a\u9650\u63d0\u793a\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{8e0a533 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5220\u9664 | \u5de6\u6ed1\u5220\u9664\u7d27\u6025\u8054\u7cfb\u4eba | \u6211\u662f\u4e00(186****1725) | \u65b0\u589e\u7d27\u6025\u8054\u7cfb\u4eba | \u6dfb\u52a0\u7d27\u6025\u8054\u7cfb\u4eba | \u6dfb\u52a0\u7d27\u6025\u8054\u7cfb\u4eba\u540e\uff0c\u5f53\u60a8\u5f00\u542f\u81ea\u52a8\u5206\u4eab\u884c\u7a0b\u6216\u8005\u4f7f\u7528\u4e00\u952e\u62a5\u8b66\u6c42\u52a9\u529f\u80fd\uff0c\u884c\u7a0b\u4fe1\u606f\u4f1a\u901a\u8fc7\u77ed\u4fe1\u81ea\u52a8\u5206\u4eab\u7ed9\u7d27\u6025\u8054\u7cfb\u4eba | \u81ea\u52a8\u5206\u4eab\u884c\u7a0b | \u897f\u76f4\u95e8(186****1727) | \u897f\u76f4\u95e8\u5916\u7684(186****1242) | \uf110\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:24:19,370 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_contract\n2026-10-22 20:24:22,289 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u65b0\u589e\u7d27\u6025\u8054\u7cfb\u4eba\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_contract\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u65b0\u589e\u7d27\u6025\u8054\u7cfb\u4eba\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e38\\u7528\\u4e00\\u5730\\u5740\\u641c\\u7d22]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e38\\u7528\\u4e00\\u5730\\u5740\\u641c\\u7d22]&#34;, &#34;duration&#34;: &#34;00:00:14&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e38\\u7528\\u4e00\\u5730\\u5740\\u641c\\u7d22]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:14&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:24:49,128 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_frequent_address\n2026-10-22 20:24:51,827 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_home\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_frequent_address\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_home\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e38\\u7528\\u4e8c\\u5730\\u5740\\u641c\\u7d22]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e38\\u7528\\u4e8c\\u5730\\u5740\\u641c\\u7d22]&#34;, &#34;duration&#34;: &#34;00:00:12&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e38\\u7528\\u4e8c\\u5730\\u5740\\u641c\\u7d22]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:12&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:25:02,745 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_frequent_address\n2026-10-22 20:25:05,447 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_company\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_frequent_address\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_company\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e38\\u7528\\u5730\\u5740\\u6e05\\u7a7a\\u4e0e\\u7a7a\\u6001]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e38\\u7528\\u5730\\u5740\\u6e05\\u7a7a\\u4e0e\\u7a7a\\u6001]&#34;, &#34;duration&#34;: &#34;00:00:08&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e38\\u7528\\u5730\\u5740\\u6e05\\u7a7a\\u4e0e\\u7a7a\\u6001]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:08&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:25:15,026 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_frequent_address\n2026-10-22 20:25:17,807 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb tv_clear\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_frequent_address\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb tv_clear\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u652f\\u4ed8\\u65b9\\u5f0f\\u5217\\u8868]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u652f\\u4ed8\\u65b9\\u5f0f\\u5217\\u8868]&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u652f\\u4ed8\\u65b9\\u5f0f\\u5217\\u8868]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u652f\u4ed8\u5f00\u901a\u6309\u94ae\u7981\u7528: [{&amp;#x27;channel&amp;#x27;: &amp;#x27;\u5fae\u4fe1\u652f\u4ed8\u5206&amp;#x27;, &amp;#x27;label&amp;#x27;: &amp;#x27;\u53bb\u5f00\u901a&amp;#x27;, &amp;#x27;enabled&amp;#x27;: False}, {&amp;#x27;channel&amp;#x27;: &amp;#x27;\u829d\u9ebb\u5148\u4eab&amp;#x27;, &amp;#x27;label&amp;#x27;: &amp;#x27;\u53bb\u5f00\u901a&amp;#x27;, &amp;#x27;enabled&amp;#x27;: False}, {&amp;#x27;channel&amp;#x27;: &amp;#x27;\u6296\u97f3&amp;#x27;, &amp;#x27;label&amp;#x27;: &amp;#x27;\u53bb\u5f00\u901a&amp;#x27;, &amp;#x27;enabled&amp;#x27;: False}]\nassert False\n +  where False = all(&amp;lt;generator object TestJRYGSettings.check_payments.&amp;lt;locals&amp;gt;.&amp;lt;genexpr&amp;gt; at 0x11a5ff900&amp;gt;)\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:25:22,929 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_frequent_pay\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_frequent_pay\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u6d88\\u606f\\u901a\\u77e5\\u7cfb\\u7edf\\u5165\\u53e3]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u6d88\\u606f\\u901a\\u77e5\\u7cfb\\u7edf\\u5165\\u53e3]&#34;, &#34;duration&#34;: &#34;00:00:10&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u6d88\\u606f\\u901a\\u77e5\\u7cfb\\u7edf\\u5165\\u53e3]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:10&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:25:29,246 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_notify_manage\n2026-10-22 20:25:31,989 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb notify_status\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_notify_manage\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb notify_status\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3\\u83dc\\u5355]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3\\u83dc\\u5355]&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3\\u83dc\\u5355]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:25:39,102 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u4e2a\\u4eba\\u4fe1\\u606f\\u6536\\u96c6\\u6e05\\u5355]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u4e2a\\u4eba\\u4fe1\\u606f\\u6536\\u96c6\\u6e05\\u5355]&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u4e2a\\u4eba\\u4fe1\\u606f\\u6536\\u96c6\\u6e05\\u5355]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:25:44,885 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_person_policy\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_person_policy\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7b2c\\u4e09\\u65b9\\u4fe1\\u606f\\u5171\\u4eab\\u6e05\\u5355]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7b2c\\u4e09\\u65b9\\u4fe1\\u606f\\u5171\\u4eab\\u6e05\\u5355]&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7b2c\\u4e09\\u65b9\\u4fe1\\u606f\\u5171\\u4eab\\u6e05\\u5355]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:25:50,093 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_third_policy\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_third_policy\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae\\u89c4\\u5219\\u76ee\\u5f55]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae\\u89c4\\u5219\\u76ee\\u5f55]&#34;, &#34;duration&#34;: &#34;00:01:23&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae\\u89c4\\u5219\\u76ee\\u5f55]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:23&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{df83640 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:25:55,345 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:26:34,390 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:26:36,995 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7cfb\\u7edf\\u6743\\u9650\\u7ba1\\u7406\\u76ee\\u5f55]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7cfb\\u7edf\\u6743\\u9650\\u7ba1\\u7406\\u76ee\\u5f55]&#34;, &#34;duration&#34;: &#34;00:00:12&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7cfb\\u7edf\\u6743\\u9650\\u7ba1\\u7406\\u76ee\\u5f55]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:12&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:27:19,132 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:27:22,569 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_setting\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_setting\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5b9a\\u4f4d\\u6743\\u9650\\u7cfb\\u7edf\\u5165\\u53e3]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5b9a\\u4f4d\\u6743\\u9650\\u7cfb\\u7edf\\u5165\\u53e3]&#34;, &#34;duration&#34;: &#34;00:00:15&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5b9a\\u4f4d\\u6743\\u9650\\u7cfb\\u7edf\\u5165\\u53e3]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:15&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:27:31,201 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:27:34,611 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_setting\n2026-10-22 20:27:37,972 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_location\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_setting\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_location\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9ea6\\u514b\\u98ce\\u6743\\u9650\\u7cfb\\u7edf\\u5165\\u53e3]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9ea6\\u514b\\u98ce\\u6743\\u9650\\u7cfb\\u7edf\\u5165\\u53e3]&#34;, &#34;duration&#34;: &#34;00:00:15&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9ea6\\u514b\\u98ce\\u6743\\u9650\\u7cfb\\u7edf\\u5165\\u53e3]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:15&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:27:46,601 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:27:49,490 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_setting\n2026-10-22 20:27:52,970 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_mike\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_setting\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_mike\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u901a\\u8baf\\u5f55\\u6743\\u9650\\u7cfb\\u7edf\\u5165\\u53e3]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u901a\\u8baf\\u5f55\\u6743\\u9650\\u7cfb\\u7edf\\u5165\\u53e3]&#34;, &#34;duration&#34;: &#34;00:00:17&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u901a\\u8baf\\u5f55\\u6743\\u9650\\u7cfb\\u7edf\\u5165\\u53e3]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:17&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:28:02,573 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:28:05,372 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_setting\n2026-10-22 20:28:09,285 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_contacts\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_setting\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_contacts\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u64a4\\u56de\\u9690\\u79c1\\u534f\\u8bae\\u53d6\\u6d88]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u64a4\\u56de\\u9690\\u79c1\\u534f\\u8bae\\u53d6\\u6d88]&#34;, &#34;duration&#34;: &#34;00:00:11&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u64a4\\u56de\\u9690\\u79c1\\u534f\\u8bae\\u53d6\\u6d88]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:11&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:28:17,621 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:28:20,490 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_revoke_setting\n2026-10-22 20:28:23,787 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u6211\u518d\u60f3\u60f3\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_revoke_setting\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u6211\u518d\u60f3\u60f3\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u9690\\u79c1\\u653f\\u7b56\\u6458\\u8981]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u9690\\u79c1\\u653f\\u7b56\\u6458\\u8981]&#34;, &#34;duration&#34;: &#34;00:00:11&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u9690\\u79c1\\u653f\\u7b56\\u6458\\u8981]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:11&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:28:29,858 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:28:32,604 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_summary\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_summary\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u9690\\u79c1\\u653f\\u7b56]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u9690\\u79c1\\u653f\\u7b56]&#34;, &#34;duration&#34;: &#34;00:00:10&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u9690\\u79c1\\u653f\\u7b56]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:10&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:28:39,531 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:28:42,480 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_policy\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_private_policy\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u884c\\u7a0b\\u5f55\\u97f3\\u5904\\u7406\\u534f\\u8bae]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u884c\\u7a0b\\u5f55\\u97f3\\u5904\\u7406\\u534f\\u8bae]&#34;, &#34;duration&#34;: &#34;00:00:56&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u884c\\u7a0b\\u5f55\\u97f3\\u5904\\u7406\\u534f\\u8bae]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:56&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:28:50,472 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:28:53,192 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_record_policy\n2026-10-22 20:29:31,227 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: rl_record_policy\n2026-10-22 20:29:35,847 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:29:38,570 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_record_policy\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_record_policy\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: rl_record_policy\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_record_policy\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u4e2a\\u4eba\\u4fe1\\u606f\\u6536\\u96c6\\u6e05\\u5355]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u4e2a\\u4eba\\u4fe1\\u606f\\u6536\\u96c6\\u6e05\\u5355]&#34;, &#34;duration&#34;: &#34;00:00:53&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u4e2a\\u4eba\\u4fe1\\u606f\\u6536\\u96c6\\u6e05\\u5355]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:53&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:29:45,457 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:29:48,213 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_person_policy\n2026-10-22 20:30:26,563 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: rl_person_policy\n2026-10-22 20:30:29,793 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:30:32,512 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_person_policy\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_person_policy\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: rl_person_policy\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_person_policy\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u7b2c\\u4e09\\u65b9\\u4fe1\\u606f\\u5171\\u4eab\\u6e05\\u5355]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u7b2c\\u4e09\\u65b9\\u4fe1\\u606f\\u5171\\u4eab\\u6e05\\u5355]&#34;, &#34;duration&#34;: &#34;00:00:09&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u9690\\u79c1\\u4e2d\\u5fc3-\\u7b2c\\u4e09\\u65b9\\u4fe1\\u606f\\u5171\\u4eab\\u6e05\\u5355]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:09&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:30:38,884 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\n2026-10-22 20:30:41,626 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_third_policy\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_private\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_third_policy\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u7528\\u6237\\u534f\\u8bae]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u7528\\u6237\\u534f\\u8bae]&#34;, &#34;duration&#34;: &#34;00:01:22&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u7528\\u6237\\u534f\\u8bae]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:22&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{59254a3 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \uf110\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:30:48,251 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:31:26,801 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:31:28,689 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u4e2a\\u4eba\\u4fe1\\u606f\\u4fdd\\u62a4\\u53ca\\u9690\\u79c1\\u653f\\u7b56]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u4e2a\\u4eba\\u4fe1\\u606f\\u4fdd\\u62a4\\u53ca\\u9690\\u79c1\\u653f\\u7b56]&#34;, &#34;duration&#34;: &#34;00:01:22&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u4e2a\\u4eba\\u4fe1\\u606f\\u4fdd\\u62a4\\u53ca\\u9690\\u79c1\\u653f\\u7b56]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:22&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{8e0c37d u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:32:09,360 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:32:47,463 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:32:49,807 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5f55\\u97f3\\u5904\\u7406\\u534f\\u8bae]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5f55\\u97f3\\u5904\\u7406\\u534f\\u8bae]&#34;, &#34;duration&#34;: &#34;00:01:23&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5f55\\u97f3\\u5904\\u7406\\u534f\\u8bae]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:23&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{fe3754f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \uf110\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:33:31,653 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:34:10,316 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:34:12,840 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u81ea\\u52a8\\u9a7e\\u9a76\\u4fe1\\u606f\\u670d\\u52a1\\u534f\\u8bae]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u81ea\\u52a8\\u9a7e\\u9a76\\u4fe1\\u606f\\u670d\\u52a1\\u534f\\u8bae]&#34;, &#34;duration&#34;: &#34;00:01:23&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u81ea\\u52a8\\u9a7e\\u9a76\\u4fe1\\u606f\\u670d\\u52a1\\u534f\\u8bae]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:23&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{bd091b6 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:34:54,029 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:35:32,522 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:35:35,365 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5c0f\\u9a6c\\u667a\\u884c\\u7528\\u6237\\u670d\\u52a1\\u534f\\u8bae]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5c0f\\u9a6c\\u667a\\u884c\\u7528\\u6237\\u670d\\u52a1\\u534f\\u8bae]&#34;, &#34;duration&#34;: &#34;00:01:21&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5c0f\\u9a6c\\u667a\\u884c\\u7528\\u6237\\u670d\\u52a1\\u534f\\u8bae]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:21&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{12888ba u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \uf110\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:36:16,765 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:36:54,702 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:36:56,844 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5c0f\\u9a6c\\u667a\\u884c\\u9690\\u79c1\\u534f\\u8bae]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5c0f\\u9a6c\\u667a\\u884c\\u9690\\u79c1\\u534f\\u8bae]&#34;, &#34;duration&#34;: &#34;00:01:22&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5c0f\\u9a6c\\u667a\\u884c\\u9690\\u79c1\\u534f\\u8bae]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:22&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{3c99344 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \uf110\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:37:37,626 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:38:16,014 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:38:19,428 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u81ea\\u52a8\\u9a7e\\u9a76\\u4fe1\\u606f\\u670d\\u52a1\\u9690\\u79c1\\u653f\\u7b56]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u81ea\\u52a8\\u9a7e\\u9a76\\u4fe1\\u606f\\u670d\\u52a1\\u9690\\u79c1\\u653f\\u7b56]&#34;, &#34;duration&#34;: &#34;00:01:23&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u81ea\\u52a8\\u9a7e\\u9a76\\u4fe1\\u606f\\u670d\\u52a1\\u9690\\u79c1\\u653f\\u7b56]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:23&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{1f18d05 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \uf110\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:39:00,645 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:39:38,830 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:39:41,355 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u9633\\u4ed4\\u667a\\u80fd\\u5bf9\\u8bdd\\u52a9\\u624b\\u670d\\u52a1]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u9633\\u4ed4\\u667a\\u80fd\\u5bf9\\u8bdd\\u52a9\\u624b\\u670d\\u52a1]&#34;, &#34;duration&#34;: &#34;00:01:22&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u9633\\u4ed4\\u667a\\u80fd\\u5bf9\\u8bdd\\u52a9\\u624b\\u670d\\u52a1]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:22&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{ea4a96f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:40:22,708 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:41:00,666 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:41:03,567 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u8ba1\\u4ef7\\u89c4\\u5219]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u8ba1\\u4ef7\\u89c4\\u5219]&#34;, &#34;duration&#34;: &#34;00:01:21&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u8ba1\\u4ef7\\u89c4\\u5219]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:21&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{f10a10a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \uf110\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:41:44,227 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:42:21,916 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:42:24,476 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u51c6\\u5165\\u89c4\\u5219]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u51c6\\u5165\\u89c4\\u5219]&#34;, &#34;duration&#34;: &#34;00:01:24&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u51c6\\u5165\\u89c4\\u5219]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:24&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{363e35a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:43:05,973 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:43:44,462 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:43:47,660 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5224\\u8d23\\u89c4\\u5219]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5224\\u8d23\\u89c4\\u5219]&#34;, &#34;duration&#34;: &#34;00:01:22&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u5224\\u8d23\\u89c4\\u5219]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:22&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u5e73\u53f0\u534f\u8bae&amp;#x27;, &amp;#x27;\u5e73\u53f0\u89c4\u5219&amp;#x27;, &amp;#x27;\u7528\u6237\u534f\u8bae&amp;#x27;, &amp;#x27;\u8ba1\u4ef7\u89c4\u5219&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{a74c948 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u5224\u8d23\u89c4\u5219 | \u5c0f\u9a6c\u667a\u884c\u7528\u6237\u670d\u52a1\u534f\u8bae | \u5c0f\u9a6c\u667a\u884c\u9690\u79c1\u534f\u8bae | \u5e73\u53f0\u534f\u8bae | \u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \u5e73\u53f0\u89c4\u5219 | \u5f55\u97f3\u5904\u7406\u534f\u8bae | \u7528\u6237\u534f\u8bae | \u81ea\u52a8\u9a7e\u9a76\u4fe1\u606f\u670d\u52a1\u534f\u8bae | \u81ea\u52a8\u9a7e\u9a76\u4fe1\u606f\u670d\u52a1\u9690\u79c1\u653f\u7b56 | \u8c03\u4ef7\u516c\u793a\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:44:29,133 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:45:07,146 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:45:09,426 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u8c03\\u4ef7\\u516c\\u793a]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u8c03\\u4ef7\\u516c\\u793a]&#34;, &#34;duration&#34;: &#34;00:00:32&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u5e73\\u53f0\\u534f\\u8bae-\\u8c03\\u4ef7\\u516c\\u793a]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:32&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u8c03\u4ef7\u516c\u793a\u79bb\u5f00\u534f\u8bae\u76ee\u5f55\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{195a8a u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u51c6\u5165\u89c4\u5219 | \u5224\u8d23\u89c4\u5219 | \u5e73\u53f0\u534f\u8bae | \u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \u5e73\u53f0\u89c4\u5219 | \u5f55\u97f3\u5904\u7406\u534f\u8bae | \u7528\u6237\u534f\u8bae | \u81ea\u52a8\u9a7e\u9a76\u4fe1\u606f\u670d\u52a1\u534f\u8bae | \u81ea\u52a8\u9a7e\u9a76\u4fe1\u606f\u670d\u52a1\u9690\u79c1\u653f\u7b56 | \u8ba1\u4ef7\u89c4\u5219 | \u8c03\u4ef7\u516c\u793a | \u9633\u4ed4\u667a\u80fd\u5bf9\u8bdd\u52a9\u624b\u670d\u52a1 | \uf110\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:45:51,825 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:45:55,658 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8c03\u4ef7\u516c\u793a\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8c03\u4ef7\u516c\u793a\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u9633\\u5149\\u5feb\\u8f66]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u9633\\u5149\\u5feb\\u8f66]&#34;, &#34;duration&#34;: &#34;00:01:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u9633\\u5149\\u5feb\\u8f66]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:46:22,790 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:47:01,289 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:47:03,667 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:47:06,418 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\n2026-10-22 20:47:09,620 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9633\u5149\u5feb\u8f66\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9633\u5149\u5feb\u8f66\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u9633\\u5149\\u4f18\\u9009]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u9633\\u5149\\u4f18\\u9009]&#34;, &#34;duration&#34;: &#34;00:00:23&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u9633\\u5149\\u4f18\\u9009]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:23&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:47:28,099 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:47:30,840 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\n2026-10-22 20:47:33,619 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9633\u5149\u4f18\u9009\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9633\u5149\u4f18\u9009\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u9633\\u5149\\u8212\\u4eab]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u9633\\u5149\\u8212\\u4eab]&#34;, &#34;duration&#34;: &#34;00:00:51&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u9633\\u5149\\u8212\\u4eab]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:51&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u6587\u6863\u6b63\u6587\u52a0\u8f7d\uff08\u4e0d\u662f\u4ec5\u6709\u6807\u9898\uff09\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{c853ec8 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t540 d0}\uff1b\u6587\u672c=\u8ba1\u4ef7\u89c4\u5219 | \uf110\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:47:52,562 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:47:55,599 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\n2026-10-22 20:47:58,353 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9633\u5149\u8212\u4eab\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9633\u5149\u8212\u4eab\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u516d\\u5ea7\\u4e13\\u8f66]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u516d\\u5ea7\\u4e13\\u8f66]&#34;, &#34;duration&#34;: &#34;00:00:42&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u516d\\u5ea7\\u4e13\\u8f66]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:42&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:48:41,824 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:48:44,592 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\n2026-10-22 20:48:47,374 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u516d\u5ea7\u4e13\u8f66\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u516d\u5ea7\u4e13\u8f66\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u8c6a\\u534e\\u81fb\\u4eab]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u8c6a\\u534e\\u81fb\\u4eab]&#34;, &#34;duration&#34;: &#34;00:01:01&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u8ba1\\u4ef7\\u89c4\\u5219-\\u8c6a\\u534e\\u81fb\\u4eab]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:01:01&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:49:25,850 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:50:03,598 - JRYG_Auto - WARNING - \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\n2026-10-22 20:50:06,282 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:50:09,029 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\n2026-10-22 20:50:11,821 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8c6a\u534e\u81fb\u4eab\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nWARNING  JRYG_Auto:JRYG_settings_flow.py:164 \u53ea\u8bfb\u9875\u9762\u9996\u6b21\u52a0\u8f7d\u8d85\u65f6\uff0c\u91cd\u65b0\u8fdb\u5165\u4e00\u6b21: \u5e73\u53f0\u534f\u8bae\u76ee\u5f55\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8ba1\u4ef7\u89c4\u5219\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8c6a\u534e\u81fb\u4eab\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u8f66\\u8f86\\u7b49\\u7ea7\\u89c4\\u5219]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u8f66\\u8f86\\u7b49\\u7ea7\\u89c4\\u5219]&#34;, &#34;duration&#34;: &#34;00:00:14&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u8f66\\u8f86\\u7b49\\u7ea7\\u89c4\\u5219]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:14&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:50:25,593 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:50:28,352 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u51c6\u5165\u89c4\u5219\n2026-10-22 20:50:31,353 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8f66\u8f86\u7b49\u7ea7\u89c4\u5219\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u51c6\u5165\u89c4\u5219\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8f66\u8f86\u7b49\u7ea7\u89c4\u5219\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u9a7e\\u9a76\\u5458\\u51c6\\u5165\\u6807\\u51c6]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u9a7e\\u9a76\\u5458\\u51c6\\u5165\\u6807\\u51c6]&#34;, &#34;duration&#34;: &#34;00:00:13&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u9a7e\\u9a76\\u5458\\u51c6\\u5165\\u6807\\u51c6]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:13&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:50:38,719 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:50:41,465 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u51c6\u5165\u89c4\u5219\n2026-10-22 20:50:44,265 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9a7e\u9a76\u5458\u51c6\u5165\u6807\u51c6\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u51c6\u5165\u89c4\u5219\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u9a7e\u9a76\u5458\u51c6\u5165\u6807\u51c6\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u8f66\\u8f86\\u51c6\\u5165\\u6807\\u51c6]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u8f66\\u8f86\\u51c6\\u5165\\u6807\\u51c6]&#34;, &#34;duration&#34;: &#34;00:00:15&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u8f66\\u8f86\\u51c6\\u5165\\u6807\\u51c6]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:15&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:50:51,736 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:50:55,659 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u51c6\u5165\u89c4\u5219\n2026-10-22 20:50:58,445 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8f66\u8f86\u51c6\u5165\u6807\u51c6\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u51c6\u5165\u89c4\u5219\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u8f66\u8f86\u51c6\u5165\u6807\u51c6\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u5176\\u4ed6]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u5176\\u4ed6]&#34;, &#34;duration&#34;: &#34;00:00:13&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u51c6\\u5165\\u89c4\\u5219-\\u5176\\u4ed6]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:13&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:51:06,488 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\n2026-10-22 20:51:09,581 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u51c6\u5165\u89c4\u5219\n2026-10-22 20:51:12,361 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u5176\u4ed6\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_doc\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u51c6\u5165\u89c4\u5219\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb \u5176\u4ed6\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7248\\u672c\\u4fe1\\u606f\\u4e0e\\u5b89\\u88c5\\u7248\\u672c\\u4e00\\u81f4]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7248\\u672c\\u4fe1\\u606f\\u4e0e\\u5b89\\u88c5\\u7248\\u672c\\u4e00\\u81f4]&#34;, &#34;duration&#34;: &#34;00:00:04&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u7248\\u672c\\u4fe1\\u606f\\u4e0e\\u5b89\\u88c5\\u7248\\u672c\\u4e00\\u81f4]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:04&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:51:19,790 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_version\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_version\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u6e05\\u9664\\u7f13\\u5b58\\u53d6\\u6d88]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u6e05\\u9664\\u7f13\\u5b58\\u53d6\\u6d88]&#34;, &#34;duration&#34;: &#34;00:00:30&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u6e05\\u9664\\u7f13\\u5b58\\u53d6\\u6d88]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:30&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u6e05\u9664\u7f13\u5b58&amp;#x27;, &amp;#x27;\u53d6\u6d88&amp;#x27;, &amp;#x27;\u786e\u8ba4&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{bd45d68 u0 com.jryg.client/com.android.jryghq.usercenter.my.YGUMoreActivity t540 d0}\uff1b\u6587\u672c=0.0M | ICP\u5907\u6848\u4fe1\u606f\u67e5\u8be2\u5730\u5740\uff1ahttps://beian.miit.gov.cn | v5.29.0 | \u4e2a\u4eba\u4fe1\u606f\u6536\u96c6\u6e05\u5355 | \u4eacICP\u590712020916\u53f7-4A | \u5e38\u7528\u5730\u5740 | \u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \u652f\u4ed8\u65b9\u5f0f | \u6c38\u4e45\u6ce8\u9500\u8d26\u53f7 | \u6ce8\u9500\u8d26\u53f7\u540e\u5c06\u65e0\u6cd5\u6062\u590d | \u6d4b\u8bd5\u4e2d\u5fc3 | \u6d88\u606f\u901a\u77e5\u7ba1\u7406 | \u6e05\u9664\u7f13\u5b58 | \u7248\u672c\u4fe1\u606f | \u7b2c\u4e09\u65b9\u4fe1\u606f\u5171\u4eab\u6e05\u5355 | \u7d27\u6025\u8054\u7cfb\u4eba | \u8bbe\u7f6e | \u9000\u51fa\u767b\u5f55 | \u9690\u79c1\u4e2d\u5fc3\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:51:23,281 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_clean\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_clean\n\n&#34;}], &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u6e05\\u9664\\u7f13\\u5b58\\u786e\\u8ba4\\u4e0e\\u767b\\u5f55\\u6001\\u4fdd\\u7559]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u6e05\\u9664\\u7f13\\u5b58\\u786e\\u8ba4\\u4e0e\\u767b\\u5f55\\u6001\\u4fdd\\u7559]&#34;, &#34;duration&#34;: &#34;00:00:25&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;JRYG_Passenger_UI/cases/JRYG_test_settings.py::TestJRYGSettings::test_settings_function[\\u6e05\\u9664\\u7f13\\u5b58\\u786e\\u8ba4\\u4e0e\\u767b\\u5f55\\u6001\\u4fdd\\u7559]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:25&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;AssertionError: \u7b49\u5f85\u6587\u672c (&amp;#x27;\u6e05\u9664\u7f13\u5b58&amp;#x27;, &amp;#x27;\u53d6\u6d88&amp;#x27;, &amp;#x27;\u786e\u8ba4&amp;#x27;)\u8d85\u65f6\uff1b\u9875\u9762=topResumedActivity=ActivityRecord{bd45d68 u0 com.jryg.client/com.android.jryghq.usercenter.my.YGUMoreActivity t540 d0}\uff1b\u6587\u672c=0.0M | ICP\u5907\u6848\u4fe1\u606f\u67e5\u8be2\u5730\u5740\uff1ahttps://beian.miit.gov.cn | v5.29.0 | \u4e2a\u4eba\u4fe1\u606f\u6536\u96c6\u6e05\u5355 | \u4eacICP\u590712020916\u53f7-4A | \u5e38\u7528\u5730\u5740 | \u5e73\u53f0\u534f\u8bae\u4e0e\u89c4\u5219 | \u652f\u4ed8\u65b9\u5f0f | \u6c38\u4e45\u6ce8\u9500\u8d26\u53f7 | \u6ce8\u9500\u8d26\u53f7\u540e\u5c06\u65e0\u6cd5\u6062\u590d | \u6d4b\u8bd5\u4e2d\u5fc3 | \u6d88\u606f\u901a\u77e5\u7ba1\u7406 | \u6e05\u9664\u7f13\u5b58 | \u7248\u672c\u4fe1\u606f | \u7b2c\u4e09\u65b9\u4fe1\u606f\u5171\u4eab\u6e05\u5355 | \u7d27\u6025\u8054\u7cfb\u4eba | \u8bbe\u7f6e | \u9000\u51fa\u767b\u5f55 | \u9690\u79c1\u4e2d\u5fc3\n\n----------------------------- Captured stderr call -----------------------------\n2026-10-22 20:51:53,383 - JRYG_Auto - INFO - \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_clean\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_Auto:JRYG_settings_flow.py:99 \u3010\u8bbe\u7f6e\u9a8c\u8bc1\u3011\u70b9\u51fb rl_more_clean\n\n&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;JRYG_settings_report.html&#34;}"></div>
+    <script>
+      (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')
+
+class DataManager {
+    setManager(data) {
+        const collapsedCategories = [...getCollapsedCategory(data.renderCollapsed)]
+        const collapsedIds = []
+        const tests = Object.values(data.tests).flat().map((test, index) => {
+            const collapsed = collapsedCategories.includes(test.result.toLowerCase())
+            const id = `test_${index}`
+            if (collapsed) {
+                collapsedIds.push(id)
+            }
+            return {
+                ...test,
+                id,
+                collapsed,
+            }
+        })
+        const dataBlob = { ...data, tests }
+        this.data = { ...dataBlob }
+        this.renderData = { ...dataBlob }
+        setCollapsedIds(collapsedIds)
+    }
+
+    get allData() {
+        return { ...this.data }
+    }
+
+    resetRender() {
+        this.renderData = { ...this.data }
+    }
+
+    setRender(data) {
+        this.renderData.tests = [...data]
+    }
+
+    toggleCollapsedItem(id) {
+        this.renderData.tests = this.renderData.tests.map((test) =>
+            test.id === id ? { ...test, collapsed: !test.collapsed } : test,
+        )
+    }
+
+    set allCollapsed(collapsed) {
+        this.renderData = { ...this.renderData, tests: [...this.renderData.tests.map((test) => (
+            { ...test, collapsed }
+        ))] }
+    }
+
+    get testSubset() {
+        return [...this.renderData.tests]
+    }
+
+    get environment() {
+        return this.renderData.environment
+    }
+
+    get initialSort() {
+        return this.data.initialSort
+    }
+}
+
+module.exports = {
+    manager: new DataManager(),
+}
+
+},{"./storage.js":8}],2:[function(require,module,exports){
+const mediaViewer = require('./mediaviewer.js')
+const templateEnvRow = document.getElementById('template_environment_row')
+const templateResult = document.getElementById('template_results-table__tbody')
+
+function htmlToElements(html) {
+    const temp = document.createElement('template')
+    temp.innerHTML = html
+    return temp.content.childNodes
+}
+
+const find = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return elem.querySelector(selector)
+}
+
+const findAll = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return [...elem.querySelectorAll(selector)]
+}
+
+const dom = {
+    getStaticRow: (key, value) => {
+        const envRow = templateEnvRow.content.cloneNode(true)
+        const isObj = typeof value === 'object' && value !== null
+        const values = isObj ? Object.keys(value).map((k) => `${k}: ${value[k]}`) : null
+
+        const valuesElement = htmlToElements(
+            values ? `<ul>${values.map((val) => `<li>${val}</li>`).join('')}<ul>` : `<div>${value}</div>`)[0]
+        const td = findAll('td', envRow)
+        td[0].textContent = key
+        td[1].appendChild(valuesElement)
+
+        return envRow
+    },
+    getResultTBody: ({ testId, id, log, extras, resultsTableRow, tableHtml, result, collapsed }) => {
+        const resultBody = templateResult.content.cloneNode(true)
+        resultBody.querySelector('tbody').classList.add(result.toLowerCase())
+        resultBody.querySelector('tbody').id = testId
+        resultBody.querySelector('.collapsible').dataset.id = id
+
+        resultsTableRow.forEach((html) => {
+            const t = document.createElement('template')
+            t.innerHTML = html
+            resultBody.querySelector('.collapsible').appendChild(t.content)
+        })
+
+        if (log) {
+            // Wrap lines starting with "E" with span.error to color those lines red
+            const wrappedLog = log.replace(/^E.*$/gm, (match) => `<span class="error">${match}</span>`)
+            resultBody.querySelector('.log').innerHTML = wrappedLog
+        } else {
+            resultBody.querySelector('.log').remove()
+        }
+
+        if (collapsed) {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.add('collapsed')
+            resultBody.querySelector('.extras-row').classList.add('hidden')
+        } else {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.remove('collapsed')
+        }
+
+        const media = []
+        extras?.forEach(({ name, format_type, content }) => {
+            if (['image', 'video'].includes(format_type)) {
+                media.push({ path: content, name, format_type })
+            }
+
+            if (format_type === 'html') {
+                resultBody.querySelector('.extraHTML').insertAdjacentHTML('beforeend', `<div>${content}</div>`)
+            }
+        })
+        mediaViewer.setup(resultBody, media)
+
+        // Add custom html from the pytest_html_results_table_html hook
+        tableHtml?.forEach((item) => {
+            resultBody.querySelector('td[class="extra"]').insertAdjacentHTML('beforeend', item)
+        })
+
+        return resultBody
+    },
+}
+
+module.exports = {
+    dom,
+    htmlToElements,
+    find,
+    findAll,
+}
+
+},{"./mediaviewer.js":6}],3:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const storageModule = require('./storage.js')
+
+const getFilteredSubSet = (filter) =>
+    manager.allData.tests.filter(({ result }) => filter.includes(result.toLowerCase()))
+
+const doInitFilter = () => {
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+}
+
+const doFilter = (type, show) => {
+    if (show) {
+        storageModule.showCategory(type)
+    } else {
+        storageModule.hideCategory(type)
+    }
+
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+
+    const sortColumn = storageModule.getSort()
+    doSort(sortColumn, true)
+}
+
+module.exports = {
+    doFilter,
+    doInitFilter,
+}
+
+},{"./datamanager.js":1,"./sort.js":7,"./storage.js":8}],4:[function(require,module,exports){
+const { redraw, bindEvents, renderStatic } = require('./main.js')
+const { doInitFilter } = require('./filter.js')
+const { doInitSort } = require('./sort.js')
+const { manager } = require('./datamanager.js')
+const data = JSON.parse(document.getElementById('data-container').dataset.jsonblob)
+
+function init() {
+    manager.setManager(data)
+    doInitFilter()
+    doInitSort()
+    renderStatic()
+    redraw()
+    bindEvents()
+}
+
+init()
+
+},{"./datamanager.js":1,"./filter.js":3,"./main.js":5,"./sort.js":7}],5:[function(require,module,exports){
+const { dom, find, findAll } = require('./dom.js')
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const { doFilter } = require('./filter.js')
+const {
+    getVisible,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    getSortDirection,
+    possibleFilters,
+} = require('./storage.js')
+
+const removeChildren = (node) => {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild)
+    }
+}
+
+const renderStatic = () => {
+    const renderEnvironmentTable = () => {
+        const environment = manager.environment
+        const rows = Object.keys(environment).map((key) => dom.getStaticRow(key, environment[key]))
+        const table = document.getElementById('environment')
+        removeChildren(table)
+        rows.forEach((row) => table.appendChild(row))
+    }
+    renderEnvironmentTable()
+}
+
+const addItemToggleListener = (elem) => {
+    elem.addEventListener('click', ({ target }) => {
+        const id = target.parentElement.dataset.id
+        manager.toggleCollapsedItem(id)
+
+        const collapsedIds = getCollapsedIds()
+        if (collapsedIds.includes(id)) {
+            const updated = collapsedIds.filter((item) => item !== id)
+            setCollapsedIds(updated)
+        } else {
+            collapsedIds.push(id)
+            setCollapsedIds(collapsedIds)
+        }
+        redraw()
+    })
+}
+
+const renderContent = (tests) => {
+    const sortAttr = getSort(manager.initialSort)
+    const sortAsc = JSON.parse(getSortDirection())
+    const rows = tests.map(dom.getResultTBody)
+    const table = document.getElementById('results-table')
+    const tableHeader = document.getElementById('results-table-head')
+
+    const newTable = document.createElement('table')
+    newTable.id = 'results-table'
+
+    // remove all sorting classes and set the relevant
+    findAll('.sortable', tableHeader).forEach((elem) => elem.classList.remove('asc', 'desc'))
+    tableHeader.querySelector(`.sortable[data-column-type="${sortAttr}"]`)?.classList.add(sortAsc ? 'desc' : 'asc')
+    newTable.appendChild(tableHeader)
+
+    if (!rows.length) {
+        const emptyTable = document.getElementById('template_results-table__body--empty').content.cloneNode(true)
+        newTable.appendChild(emptyTable)
+    } else {
+        rows.forEach((row) => {
+            if (!!row) {
+                findAll('.collapsible td:not(.col-links', row).forEach(addItemToggleListener)
+                find('.logexpander', row).addEventListener('click',
+                    (evt) => evt.target.parentNode.classList.toggle('expanded'),
+                )
+                newTable.appendChild(row)
+            }
+        })
+    }
+
+    table.replaceWith(newTable)
+}
+
+const renderDerived = () => {
+    const currentFilter = getVisible()
+    possibleFilters.forEach((result) => {
+        const input = document.querySelector(`input[data-test-result="${result}"]`)
+        input.checked = currentFilter.includes(result)
+    })
+}
+
+const bindEvents = () => {
+    const filterColumn = (evt) => {
+        const { target: element } = evt
+        const { testResult } = element.dataset
+
+        doFilter(testResult, element.checked)
+        const collapsedIds = getCollapsedIds()
+        const updated = manager.renderData.tests.map((test) => {
+            return {
+                ...test,
+                collapsed: collapsedIds.includes(test.id),
+            }
+        })
+        manager.setRender(updated)
+        redraw()
+    }
+
+    const header = document.getElementById('environment-header')
+    header.addEventListener('click', () => {
+        const table = document.getElementById('environment')
+        table.classList.toggle('hidden')
+        header.classList.toggle('collapsed')
+    })
+
+    findAll('input[name="filter_checkbox"]').forEach((elem) => {
+        elem.addEventListener('click', filterColumn)
+    })
+
+    findAll('.sortable').forEach((elem) => {
+        elem.addEventListener('click', (evt) => {
+            const { target: element } = evt
+            const { columnType } = element.dataset
+            doSort(columnType)
+            redraw()
+        })
+    })
+
+    document.getElementById('show_all_details').addEventListener('click', () => {
+        manager.allCollapsed = false
+        setCollapsedIds([])
+        redraw()
+    })
+    document.getElementById('hide_all_details').addEventListener('click', () => {
+        manager.allCollapsed = true
+        const allIds = manager.renderData.tests.map((test) => test.id)
+        setCollapsedIds(allIds)
+        redraw()
+    })
+}
+
+const redraw = () => {
+    const { testSubset } = manager
+
+    renderContent(testSubset)
+    renderDerived()
+}
+
+module.exports = {
+    redraw,
+    bindEvents,
+    renderStatic,
+}
+
+},{"./datamanager.js":1,"./dom.js":2,"./filter.js":3,"./sort.js":7,"./storage.js":8}],6:[function(require,module,exports){
+class MediaViewer {
+    constructor(assets) {
+        this.assets = assets
+        this.index = 0
+    }
+
+    nextActive() {
+        this.index = this.index === this.assets.length - 1 ? 0 : this.index + 1
+        return [this.activeFile, this.index]
+    }
+
+    prevActive() {
+        this.index = this.index === 0 ? this.assets.length - 1 : this.index -1
+        return [this.activeFile, this.index]
+    }
+
+    get currentIndex() {
+        return this.index
+    }
+
+    get activeFile() {
+        return this.assets[this.index]
+    }
+}
+
+
+const setup = (resultBody, assets) => {
+    if (!assets.length) {
+        resultBody.querySelector('.media').classList.add('hidden')
+        return
+    }
+
+    const mediaViewer = new MediaViewer(assets)
+    const container = resultBody.querySelector('.media-container')
+    const leftArrow = resultBody.querySelector('.media-container__nav--left')
+    const rightArrow = resultBody.querySelector('.media-container__nav--right')
+    const mediaName = resultBody.querySelector('.media__name')
+    const counter = resultBody.querySelector('.media__counter')
+    const imageEl = resultBody.querySelector('img')
+    const sourceEl = resultBody.querySelector('source')
+    const videoEl = resultBody.querySelector('video')
+
+    const setImg = (media, index) => {
+        if (media?.format_type === 'image') {
+            imageEl.src = media.path
+
+            imageEl.classList.remove('hidden')
+            videoEl.classList.add('hidden')
+        } else if (media?.format_type === 'video') {
+            sourceEl.src = media.path
+
+            videoEl.classList.remove('hidden')
+            imageEl.classList.add('hidden')
+        }
+
+        mediaName.innerText = media?.name
+        counter.innerText = `${index + 1} / ${assets.length}`
+    }
+    setImg(mediaViewer.activeFile, mediaViewer.currentIndex)
+
+    const moveLeft = () => {
+        const [media, index] = mediaViewer.prevActive()
+        setImg(media, index)
+    }
+    const doRight = () => {
+        const [media, index] = mediaViewer.nextActive()
+        setImg(media, index)
+    }
+    const openImg = () => {
+        window.open(mediaViewer.activeFile.path, '_blank')
+    }
+    if (assets.length === 1) {
+        container.classList.add('media-container--fullscreen')
+    } else {
+        leftArrow.addEventListener('click', moveLeft)
+        rightArrow.addEventListener('click', doRight)
+    }
+    imageEl.addEventListener('click', openImg)
+}
+
+module.exports = {
+    setup,
+}
+
+},{}],7:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const storageModule = require('./storage.js')
+
+const genericSort = (list, key, ascending, customOrder) => {
+    let sorted
+    if (customOrder) {
+        sorted = list.sort((a, b) => {
+            const aValue = a.result.toLowerCase()
+            const bValue = b.result.toLowerCase()
+
+            const aIndex = customOrder.findIndex((item) => item.toLowerCase() === aValue)
+            const bIndex = customOrder.findIndex((item) => item.toLowerCase() === bValue)
+
+            // Compare the indices to determine the sort order
+            return aIndex - bIndex
+        })
+    } else {
+        sorted = list.sort((a, b) => a[key] === b[key] ? 0 : a[key] > b[key] ? 1 : -1)
+    }
+
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const durationSort = (list, ascending) => {
+    const parseDuration = (duration) => {
+        if (duration.includes(':')) {
+            // If it's in the format "HH:mm:ss"
+            const [hours, minutes, seconds] = duration.split(':').map(Number)
+            return (hours * 3600 + minutes * 60 + seconds) * 1000
+        } else {
+            // If it's in the format "nnn ms"
+            return parseInt(duration)
+        }
+    }
+    const sorted = list.sort((a, b) => parseDuration(a['duration']) - parseDuration(b['duration']))
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const doInitSort = () => {
+    const type = storageModule.getSort(manager.initialSort)
+    const ascending = storageModule.getSortDirection()
+    const list = manager.testSubset
+    const initialOrder = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed', 'Skipped', 'Passed']
+
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    if (type?.toLowerCase() === 'original') {
+        manager.setRender(list)
+    } else {
+        let sortedList
+        switch (type) {
+        case 'duration':
+            sortedList = durationSort(list, ascending)
+            break
+        case 'result':
+            sortedList = genericSort(list, type, ascending, initialOrder)
+            break
+        default:
+            sortedList = genericSort(list, type, ascending)
+            break
+        }
+        manager.setRender(sortedList)
+    }
+}
+
+const doSort = (type, skipDirection) => {
+    const newSortType = storageModule.getSort(manager.initialSort) !== type
+    const currentAsc = storageModule.getSortDirection()
+    let ascending
+    if (skipDirection) {
+        ascending = currentAsc
+    } else {
+        ascending = newSortType ? false : !currentAsc
+    }
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    const list = manager.testSubset
+    const sortedList = type === 'duration' ? durationSort(list, ascending) : genericSort(list, type, ascending)
+    manager.setRender(sortedList)
+}
+
+module.exports = {
+    doInitSort,
+    doSort,
+}
+
+},{"./datamanager.js":1,"./storage.js":8}],8:[function(require,module,exports){
+const possibleFilters = [
+    'passed',
+    'skipped',
+    'failed',
+    'error',
+    'xfailed',
+    'xpassed',
+    'rerun',
+]
+
+const getVisible = () => {
+    const url = new URL(window.location.href)
+    const settings = new URLSearchParams(url.search).get('visible')
+    const lower = (item) => {
+        const lowerItem = item.toLowerCase()
+        if (possibleFilters.includes(lowerItem)) {
+            return lowerItem
+        }
+        return null
+    }
+    return settings === null ?
+        possibleFilters :
+        [...new Set(settings?.split(',').map(lower).filter((item) => item))]
+}
+
+const hideCategory = (categoryToHide) => {
+    const url = new URL(window.location.href)
+    const visibleParams = new URLSearchParams(url.search).get('visible')
+    const currentVisible = visibleParams ? visibleParams.split(',') : [...possibleFilters]
+    const settings = [...new Set(currentVisible)].filter((f) => f !== categoryToHide).join(',')
+
+    url.searchParams.set('visible', settings)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const showCategory = (categoryToShow) => {
+    if (typeof window === 'undefined') {
+        return
+    }
+    const url = new URL(window.location.href)
+    const currentVisible = new URLSearchParams(url.search).get('visible')?.split(',').filter(Boolean) ||
+        [...possibleFilters]
+    const settings = [...new Set([categoryToShow, ...currentVisible])]
+    const noFilter = possibleFilters.length === settings.length || !settings.length
+
+    noFilter ? url.searchParams.delete('visible') : url.searchParams.set('visible', settings.join(','))
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getSort = (initialSort) => {
+    const url = new URL(window.location.href)
+    let sort = new URLSearchParams(url.search).get('sort')
+    if (!sort) {
+        sort = initialSort || 'result'
+    }
+    return sort
+}
+
+const setSort = (type) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('sort', type)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getCollapsedCategory = (renderCollapsed) => {
+    let categories
+    if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href)
+        const collapsedItems = new URLSearchParams(url.search).get('collapsed')
+        switch (true) {
+        case !renderCollapsed && collapsedItems === null:
+            categories = ['passed']
+            break
+        case collapsedItems?.length === 0 || /^["']{2}$/.test(collapsedItems):
+            categories = []
+            break
+        case /^all$/.test(collapsedItems) || collapsedItems === null && /^all$/.test(renderCollapsed):
+            categories = [...possibleFilters]
+            break
+        default:
+            categories = collapsedItems?.split(',').map((item) => item.toLowerCase()) || renderCollapsed
+            break
+        }
+    } else {
+        categories = []
+    }
+    return categories
+}
+
+const getSortDirection = () => JSON.parse(sessionStorage.getItem('sortAsc')) || false
+const setSortDirection = (ascending) => sessionStorage.setItem('sortAsc', ascending)
+
+const getCollapsedIds = () => JSON.parse(sessionStorage.getItem('collapsedIds')) || []
+const setCollapsedIds = (list) => sessionStorage.setItem('collapsedIds', JSON.stringify(list))
+
+module.exports = {
+    getVisible,
+    hideCategory,
+    showCategory,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    setSort,
+    getSortDirection,
+    setSortDirection,
+    getCollapsedCategory,
+    possibleFilters,
+}
+
+},{}]},{},[4]);
+    </script>
+  </footer>
+  </body>
+</html>

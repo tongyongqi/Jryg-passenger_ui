@@ -1,0 +1,22 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{7786e6c u0 com.jryg.client/.ui.mine.more.FrequentUseAddressActivity t540 d0}",
+  "texts": [
+    "常用一",
+    "常用二",
+    "常用地址",
+    "清空",
+    "设置常用的地址"
+  ],
+  "events": [
+    {
+      "action": "click",
+      "target": "rl_frequent_address",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "tv_clear",
+      "package": "com.jryg.client"
+    }
+  ]
+}

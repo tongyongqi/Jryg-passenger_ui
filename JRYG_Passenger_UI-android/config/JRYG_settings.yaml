@@ -1,0 +1,17 @@
+device:
+  udid: "39041FDJH00MNY"
+  name: "一叶随风"
+  platform_version: "15"
+  appium_host: "127.0.0.1"
+  appium_port: 4723
+  system_port: 8201
+
+packages:
+  passenger: "com.sunlightmobility.client"
+  passenger_activity: "com.sunlightmobility.client.launcher.YGALoadingActivity"
+  driver: "com.sunlightmobility.driver"
+  driver_activity: "com.sunlightmobility.driver.launcher.YGALoadingActivity"
+
+
+
+

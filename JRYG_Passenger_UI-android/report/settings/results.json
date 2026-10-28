@@ -1,0 +1,624 @@
+{
+  "excluded": [
+    "退出登录",
+    "测试中心",
+    "注销账号"
+  ],
+  "results": [
+    {
+      "case": "菜单完整性与正常入口",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "我的",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "iv_setting",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "紧急联系人列表",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_contract",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "assert_document_body",
+          "terms": [
+            "紧急联系人"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "新增紧急联系人入口与取消",
+      "status": "failed",
+      "detail": "AssertionError: 新增联系人表单或数量上限提示超时；页面=topResumedActivity=ActivityRecord{1b29eb0 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=删除 | 左滑删除紧急联系人 | 我是一(186****1725) | 新增紧急联系人 | 添加紧急联系人 | 添加紧急联系人后，当您开启自动分享行程或者使用一键报警求助功能，行程信息会通过短信自动分享给紧急联系人 | 自动分享行程 | 西直门(186****1727) | 西直门外的(186****1242) | ",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_contract",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "assert_document_body",
+          "terms": [
+            "紧急联系人"
+          ]
+        },
+        {
+          "action": "click",
+          "target": "新增紧急联系人",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "常用一地址搜索",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_frequent_address",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_home",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "常用二地址搜索",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_frequent_address",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_company",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "常用地址清空与空态",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_frequent_address",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "tv_clear",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "支付方式列表",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_frequent_pay",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "assert_payment_channels",
+          "states": [
+            {
+              "channel": "微信支付分",
+              "label": "去开通",
+              "enabled": false
+            },
+            {
+              "channel": "芝麻先享",
+              "label": "去开通",
+              "enabled": false
+            },
+            {
+              "channel": "抖音",
+              "label": "去开通",
+              "enabled": false
+            }
+          ],
+          "boundary": "不开通先乘后付/免密扣款授权；未开通按钮禁用属正常"
+        }
+      ]
+    },
+    {
+      "case": "消息通知系统入口",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_notify_manage",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "notify_status",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "隐私中心菜单",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "个人信息收集清单",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_person_policy",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "assert_document_body",
+          "terms": [
+            "手机号"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "第三方信息共享清单",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_third_policy",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "assert_document_body",
+          "terms": [
+            "SDK"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "平台协议规则目录",
+      "status": "failed",
+      "detail": "AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{aa08a7e u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则 | ",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "retry_read_only_page",
+          "target": "平台协议目录",
+          "reason": "平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{a25e551 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则"
+        },
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "系统权限管理目录",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_private_setting",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "定位权限系统入口",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_private_setting",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_private_location",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "麦克风权限系统入口",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_private_setting",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_private_mike",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "通讯录权限系统入口",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_private_setting",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_private_contacts",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "撤回隐私协议取消",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_revoke_setting",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "我再想想",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "隐私中心-隐私政策摘要",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_private_summary",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "assert_document_body",
+          "terms": [
+            "信息",
+            "隐私"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "隐私中心-隐私政策",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_private_policy",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "assert_document_body",
+          "terms": [
+            "隐私",
+            "信息"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "隐私中心-行程录音处理协议",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_record_policy",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "assert_document_body",
+          "terms": [
+            "录音"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "隐私中心-个人信息收集清单",
+      "status": "passed",
+      "detail": "页面内容/操作结果及返回设置均通过",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_person_policy",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "assert_document_body",
+          "terms": [
+            "手机号"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "隐私中心-第三方信息共享清单",
+      "status": "failed",
+      "detail": "AssertionError: 文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{e081930 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=第三方信息共享清单",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_third_policy",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "retry_read_only_page",
+          "target": "rl_third_policy",
+          "reason": "文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{cca522f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=第三方信息共享清单 | "
+        },
+        {
+          "action": "click",
+          "target": "rl_more_private",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "click",
+          "target": "rl_third_policy",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "平台协议-用户协议",
+      "status": "failed",
+      "detail": "AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{9bbfb95 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则 | ",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "retry_read_only_page",
+          "target": "平台协议目录",
+          "reason": "等待文本 ('平台协议', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{9259345 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=个人信息保护及隐私政策 | 准入规则 | 判责规则 | 小马智行用户服务协议 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 自动驾驶信息服务协议 | 阳仔智能对话助手服务"
+        },
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "平台协议-个人信息保护及隐私政策",
+      "status": "failed",
+      "detail": "AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{f3f5177 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "retry_read_only_page",
+          "target": "平台协议目录",
+          "reason": "等待文本 ('平台协议', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{1302c66 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=准入规则 | 判责规则 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 计价规则 | 调价公示 | 阳仔智能对话助手服务"
+        },
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "平台协议-录音处理协议",
+      "status": "failed",
+      "detail": "AssertionError: 平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{fe979ea u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "retry_read_only_page",
+          "target": "平台协议目录",
+          "reason": "平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{cccad38 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则"
+        },
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "平台协议-自动驾驶信息服务协议",
+      "status": "failed",
+      "detail": "TransportDisconnected: HTTPConnectionPool(host='127.0.0.1', port=47621): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x118e66610>: Failed to establish a new connection: [Errno 61] Connection refused')); 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": [
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        },
+        {
+          "action": "retry_read_only_page",
+          "target": "平台协议目录",
+          "reason": "平台协议目录加载超时；页面=topResumedActivity=ActivityRecord{3465a2b u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=平台协议与规则"
+        },
+        {
+          "action": "click",
+          "target": "rl_more_doc",
+          "package": "com.jryg.client"
+        }
+      ]
+    },
+    {
+      "case": "平台协议-小马智行用户服务协议",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "平台协议-小马智行隐私协议",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "平台协议-自动驾驶信息服务隐私政策",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "平台协议-阳仔智能对话助手服务",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "平台协议-计价规则（含子项遍历）",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "平台协议-准入规则（含子项遍历）",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "平台协议-判责规则",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "平台协议-调价公示",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "版本信息与安装版本一致",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "清除缓存取消",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    },
+    {
+      "case": "清除缓存确认与登录态保留",
+      "status": "failed",
+      "detail": "CalledProcessError: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.; 返回设置失败: Command '['adb', '-s', '10AE6U20A7001H5', 'shell', 'dumpsys', 'activity', 'activities']' returned non-zero exit status 1.",
+      "events": []
+    }
+  ],
+  "scope": "未新增/删除真实联系人、未开通扣款授权、未撤回隐私协议；对应功能验证入口和取消返回"
+}

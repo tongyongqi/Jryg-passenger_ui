@@ -1,0 +1,39 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{edae7e8 u0 com.jryg.client/com.android.jryghq.usercenter.my.wxscore.YGUWxScoreSettingActivity t663 d0}",
+  "texts": [
+    "| 先乘后付",
+    "去开通",
+    "微信支付分",
+    "抖音",
+    "支付方式",
+    "芝麻先享"
+  ],
+  "events": [
+    {
+      "action": "click",
+      "target": "rl_frequent_pay",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "assert_payment_channels",
+      "states": [
+        {
+          "channel": "微信支付分",
+          "label": "去开通",
+          "enabled": false
+        },
+        {
+          "channel": "芝麻先享",
+          "label": "去开通",
+          "enabled": false
+        },
+        {
+          "channel": "抖音",
+          "label": "去开通",
+          "enabled": false
+        }
+      ],
+      "boundary": "不开通先乘后付/免密扣款授权"
+    }
+  ]
+}

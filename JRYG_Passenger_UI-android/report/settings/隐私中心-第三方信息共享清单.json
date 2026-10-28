@@ -1,0 +1,33 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{e081930 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}",
+  "texts": [
+    "第三方信息共享清单"
+  ],
+  "events": [
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_third_policy",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "retry_read_only_page",
+      "target": "rl_third_policy",
+      "reason": "文档正文加载（不是仅有标题）超时；页面=topResumedActivity=ActivityRecord{cca522f u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=第三方信息共享清单 | "
+    },
+    {
+      "action": "click",
+      "target": "rl_more_private",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "click",
+      "target": "rl_third_policy",
+      "package": "com.jryg.client"
+    }
+  ]
+}

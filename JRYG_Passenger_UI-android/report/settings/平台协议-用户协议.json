@@ -1,0 +1,24 @@
+{
+  "activity": "topResumedActivity=ActivityRecord{9bbfb95 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}",
+  "texts": [
+    "平台协议与规则",
+    ""
+  ],
+  "events": [
+    {
+      "action": "click",
+      "target": "rl_more_doc",
+      "package": "com.jryg.client"
+    },
+    {
+      "action": "retry_read_only_page",
+      "target": "平台协议目录",
+      "reason": "等待文本 ('平台协议', '用户协议', '计价规则')超时；页面=topResumedActivity=ActivityRecord{9259345 u0 com.jryg.client/com.android.jryghq.bussiness.webview.YGWH5WebActivity t663 d0}；文本=个人信息保护及隐私政策 | 准入规则 | 判责规则 | 小马智行用户服务协议 | 小马智行隐私协议 | 平台协议 | 平台协议与规则 | 平台规则 | 录音处理协议 | 自动驾驶信息服务协议 | 阳仔智能对话助手服务"
+    },
+    {
+      "action": "click",
+      "target": "rl_more_doc",
+      "package": "com.jryg.client"
+    }
+  ]
+}
