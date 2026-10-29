@@ -3,6 +3,7 @@
 --suite all      常规接口回归（默认）
 --suite auth     乘客认证接口
 --suite order    乘客下单流程
+--suite refund   乘客退款接口（收银台 applyTradeRefund）
 --suite dual     双端接口流程
 --suite e2e      Socket 定位、缓存清理、下单至收款
 --suite capture  抓包接口断言，输入目录由 HK_CAPTURE_DIR 指定
@@ -24,6 +25,7 @@ SUITES = {
     "all": None,
     "auth": "JRYG_test_hk_api.py",
     "order": "JRYG_test_hk_order_flow.py",
+    "refund": "JRYG_test_hk_refund.py",
     "dual": "JRYG_test_hk_dual_end_flow.py",
     "e2e": "test_e2e_full_flow.py",
     "capture": "JRYG_test_place_around.py",
@@ -38,7 +40,10 @@ def run_tests(argv=None):
     import pytest
 
     target = CASES_DIR / SUITES[args.suite] if SUITES[args.suite] else CASES_DIR
-    selection = args.suite if args.suite in ("e2e", "capture") else "not capture and not e2e"
+    if args.suite == "refund":
+        selection = "refund"
+    else:
+        selection = args.suite if args.suite in ("e2e", "capture") else "not capture and not e2e and not refund"
     options = ["-c", str(BASE_DIR / "pytest.ini"), str(target), "-m", selection, "-v"]
     if not any(option in ("--collect-only", "--co") for option in pytest_args):
         init_all_dirs()

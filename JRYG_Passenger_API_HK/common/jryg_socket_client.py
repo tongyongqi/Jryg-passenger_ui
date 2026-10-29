@@ -301,7 +301,7 @@ class JRYGSocketClient:
         print("[Socket] 已发送登录消息")
 
         # 等待登录成功
-        for _ in range(50):
+        for _ in range(150):
             if self.logged_in:
                 break
             time.sleep(0.1)
