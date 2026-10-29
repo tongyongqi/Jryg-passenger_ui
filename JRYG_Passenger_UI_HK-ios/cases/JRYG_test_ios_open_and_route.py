@@ -29,6 +29,9 @@ class TestJRYGHKIosOpenAndRoute:
 
     @classmethod
     def setup_class(cls):
+        """类级初始化：建立设备连接、缓存设备信息并创建 Poco 控件树驱动。
+
+        :return: None。"""
         cls.wda_url = SETTINGS["device"].get("wda_url", "http://127.0.0.1:8100")
         cls.bundle_id = SETTINGS["packages"].get("passenger_hk", "com.sunlightmobility.client")
         logger.info(f"【iOS 路线 -ios】正在尝试连接 WDA 物理通道: {cls.wda_url}")
@@ -49,6 +52,9 @@ class TestJRYGHKIosOpenAndRoute:
 
     @classmethod
     def teardown_class(cls):
+        """类级清理：释放设备连接与相关资源。
+
+        :return: None。"""
         logger.info("【iOS 路线 -ios】自动化运行结束。")
 
     # ==================== 通用操作封装 ====================
@@ -100,6 +106,9 @@ class TestJRYGHKIosOpenAndRoute:
         translation = str.maketrans("銅鑼灣學", "铜锣湾学")
 
         def matching_cells(page):
+            """TestJRYGHKIosOpenAndRoute.matching_cells —— 公开方法：matching cells。
+
+        :return: None"""
             return [node for node in page.nodes if node.tag.endswith("Cell")
                     and name in " ".join(
                         child.get("label", "") + child.get("value", "")
@@ -114,6 +123,9 @@ class TestJRYGHKIosOpenAndRoute:
     # ==================== 登录保障 ====================
 
     def _ensure_logged_in(self):
+        """保障登录：检查登录态，未登录则执行登录流程，最后切回首页。
+
+        :return: None。流程异常通过 AssertionError / RuntimeError 中断。"""
         phone_number = "11001727"
         verify_code = "123456"
         logger.info(f"【登录校验 -ios】进入个人中心检查登录状态，预备手机号: {phone_number}...")

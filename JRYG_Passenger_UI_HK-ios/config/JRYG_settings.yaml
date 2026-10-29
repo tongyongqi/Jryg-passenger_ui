@@ -9,3 +9,13 @@ device:
 
 packages:
   passenger_hk: "com.sunlightmobility.client"
+
+order_validation:
+  expected_driver_phone: "11000005"
+  max_attempts: 5
+  dispatch_timeout: 90
+  state_timeout: 30
+  completion_timeout: 90
+  total_timeout: 900
+  start_names: ["北角(地鐵站)", "北角地鐵站"]
+  end_names: ["香港大學"]

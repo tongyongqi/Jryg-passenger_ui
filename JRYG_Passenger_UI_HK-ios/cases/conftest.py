@@ -12,6 +12,9 @@ from jryg_hk_ios.JRYG_page_monitor import IOSPageMonitor
 
 @pytest.fixture(scope="session", autouse=True)
 def bounded_wda_requests():
+    """bounded_wda_requests —— pytest 夹具函数，在用例执行前后准备或清理测试环境。
+
+        :return: None（yield 之前为前置处理，之后为后置处理）。"""
     previous = wda.HTTP_TIMEOUT
     wda.HTTP_TIMEOUT = 20
     yield
@@ -20,13 +23,28 @@ def bounded_wda_requests():
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
+    """pytest_runtest_makereport —— pytest 钩子函数，在报告生成阶段补充断言、
+        标记结果或收集失败现场信息。
+
+        :param item: 当前执行的用例对象。
+        :param call: 本次调用阶段的执行结果。
+        :return: None"""
     outcome = yield
     report = outcome.get_result()
+    if report.when == "call" and report.passed and item.path.name == "JRYG_test_ios_e2e_order.py":
+        if getattr(item.instance, "e2e_verified", False) is not True:
+            report.outcome = "failed"
+            report.longrepr = "未完成真实订单、目标司机和支付终态校验，禁止E2E通过"
+        else:
+            report.user_properties.append(("order_verified", True))
     setattr(item, "rep_" + report.when, report)
 
 
 @pytest.fixture(autouse=True)
 def ios_page_diagnostics(request):
+    """ios_page_diagnostics —— pytest 夹具函数，在用例执行前后准备或清理测试环境。
+
+        :return: None（yield 之前为前置处理，之后为后置处理）。"""
     instance = request.instance
     if instance is None or not hasattr(instance, "client"):
         yield

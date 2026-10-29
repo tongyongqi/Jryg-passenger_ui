@@ -10,6 +10,9 @@ from jryg_hk_ios.JRYG_page_monitor import IOSPage, IOSPageMonitor
 
 
 def page(*texts):
+    """page —— 公开方法：page。
+
+        :return: None"""
     return IOSPage("<App>" + "".join(
         f"<XCUIElementTypeStaticText label={quoteattr(text)} visible='true'/>"
         for text in texts
@@ -30,6 +33,9 @@ def page(*texts):
     ((), "unknown"),
 ])
 def test_page_states(texts, state):
+    """test_page_states —— 测试用例：验证 page states 场景。
+
+        :return: None"""
     assert page(*texts).state == state
 
 
@@ -38,16 +44,25 @@ def test_page_states(texts, state):
     ("****9927", False), ("22001727", False), ("其他文本1727", False),
 ])
 def test_account_requires_all_visible_digits_to_match(account, expected):
+    """test_account_requires_all_visible_digits_to_match —— 测试用例：验证 account requires all visible digits to match 场景。
+
+        :return: None"""
     assert page(account, "我的行程").matches_account("11001727") is expected
 
 
 def test_hidden_code_title_is_not_a_code_page():
+    """test_hidden_code_title_is_not_a_code_page —— 测试用例：验证 hidden code title is not a code page 场景。
+
+        :return: None"""
     current = IOSPage("<App><Text label='請輸入驗證碼' visible='false'/>"
                       "<Button label='取得驗證碼' visible='true'/></App>")
     assert current.state == "login_phone_input"
 
 
 def test_popup_closes_and_checks_transition(tmp_path):
+    """test_popup_closes_and_checks_transition —— 测试用例：验证 popup closes and checks transition 场景。
+
+        :return: None"""
     monitor = IOSPageMonitor("http://127.0.0.1:8100", tmp_path)
     popup = IOSPage("<App><Button label='icon hd gb' x='182' y='639' width='29' height='29'/></App>")
     monitor.inspect = Mock(side_effect=[popup, popup, page("想去哪裡？")])
@@ -59,6 +74,9 @@ def test_popup_closes_and_checks_transition(tmp_path):
 
 
 def test_wait_timeout_fails_and_saves_xml_even_without_screenshot(tmp_path):
+    """test_wait_timeout_fails_and_saves_xml_even_without_screenshot —— 测试用例：验证 wait timeout fails and saves xml even without screenshot 场景。
+
+        :return: None"""
     monitor = IOSPageMonitor("http://127.0.0.1:8100", tmp_path)
     monitor.last_page = page("icon hd gb")
     monitor._get = Mock(side_effect=requests.Timeout("offline"))
@@ -69,6 +87,9 @@ def test_wait_timeout_fails_and_saves_xml_even_without_screenshot(tmp_path):
 
 
 def test_delayed_popup_can_be_recovered_during_wait(tmp_path):
+    """test_delayed_popup_can_be_recovered_during_wait —— 测试用例：验证 delayed popup can be recovered during wait 场景。
+
+        :return: None"""
     monitor = IOSPageMonitor("http://127.0.0.1:8100", tmp_path)
     home = page("想去哪裡？")
     monitor.inspect = Mock(side_effect=[page(), page("icon hd gb"), home])
@@ -83,6 +104,9 @@ def test_delayed_popup_can_be_recovered_during_wait(tmp_path):
 
 
 def test_http_requests_are_bounded_and_ignore_proxy_for_usb(tmp_path):
+    """test_http_requests_are_bounded_and_ignore_proxy_for_usb —— 测试用例：验证 http requests are bounded and ignore proxy for usb 场景。
+
+        :return: None"""
     monitor = IOSPageMonitor("http://127.0.0.1:8100", tmp_path)
     assert monitor.http.trust_env is False
     response = Mock()
@@ -95,6 +119,9 @@ def test_http_requests_are_bounded_and_ignore_proxy_for_usb(tmp_path):
 
 
 def test_click_uses_visible_element_bounds_and_exact_label(tmp_path):
+    """test_click_uses_visible_element_bounds_and_exact_label —— 测试用例：验证 click uses visible element bounds and exact label 场景。
+
+        :return: None"""
     monitor = IOSPageMonitor("http://127.0.0.1:8100", tmp_path)
     monitor.inspect = Mock(return_value=IOSPage(
         "<App><Button label='不同意' x='10' y='10' width='40' height='20'/>"
@@ -108,6 +135,9 @@ def test_click_uses_visible_element_bounds_and_exact_label(tmp_path):
 
 
 def test_missing_visible_control_does_not_click_coordinates(tmp_path):
+    """test_missing_visible_control_does_not_click_coordinates —— 测试用例：验证 missing visible control does not click coordinates 场景。
+
+        :return: None"""
     monitor = IOSPageMonitor("http://127.0.0.1:8100", tmp_path)
     monitor.inspect = Mock(return_value=page("unknown"))
     client = Mock()
@@ -117,6 +147,9 @@ def test_missing_visible_control_does_not_click_coordinates(tmp_path):
 
 
 def test_wda_error_is_not_treated_as_page(tmp_path):
+    """test_wda_error_is_not_treated_as_page —— 测试用例：验证 wda error is not treated as page 场景。
+
+        :return: None"""
     monitor = IOSPageMonitor("http://127.0.0.1:8100", tmp_path)
     response = Mock()
     response.json.return_value = {"value": {"error": "invalid session id"}}

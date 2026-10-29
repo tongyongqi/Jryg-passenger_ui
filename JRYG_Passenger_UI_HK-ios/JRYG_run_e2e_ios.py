@@ -45,7 +45,7 @@ def run_tests(argv=None):
 
     # E2E 全流程用例文件
     e2e_test_files = [
-        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_e2e_flow.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_e2e_order.py"),
     ]
 
     # 过滤出实际存在的文件
@@ -74,17 +74,17 @@ def run_tests(argv=None):
     print(f"  >> 额外参数: {extra_args or '(无)'}")
     print("-" * 60)
 
-    exit_code = pytest.main(pytest_args + extra_args)
+    from jryg_hk_ios.JRYG_run_result import E2EResult
+    result = E2EResult()
+    exit_code = pytest.main(pytest_args + extra_args, plugins=[result])
+    exit_code, message = result.outcome(exit_code, any(arg in ("--collect-only", "--co") for arg in extra_args))
 
     print("=" * 60)
-    if exit_code == 0:
-        print("   JRYG 港版阳光出行 iOS E2E 全流程测试 → 全部通过 ✓")
-    else:
-        print(f"   JRYG 港版阳光出行 iOS E2E 全流程测试 → 存在失败 (exit_code={exit_code})")
+    print(f"   JRYG 港版 iOS E2E → {message} (exit_code={exit_code})")
     print("=" * 60 + "\n")
 
     # 报告路径提示
-    if os.path.exists(report_file):
+    if not any(arg in ("--collect-only", "--co") for arg in extra_args) and os.path.exists(report_file):
         print(f"[报告] file://{report_file}")
 
     return exit_code

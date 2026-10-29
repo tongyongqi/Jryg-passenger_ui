@@ -1,3 +1,7 @@
+"""JRYG_Passenger_UI_HK-ios 自动化模块 —— JRYG_run_main_ios.py
+==============================================================================
+"""
+
 import os
 import sys
 import pytest
@@ -23,12 +27,23 @@ def run_tests(argv=None):
 
     extra_args = list(argv or [])
 
-    # 收集所有 iOS 专用测试文件
+    # 收集所有 iOS 专用测试文件（cases/ 目录下 JRYG_test_ios_*.py）
     ios_test_files = [
+        # 基础流程用例
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_open_and_login.py"),
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_open_and_route.py"),
-        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_open_app.py"),
-        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_open_and_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_booking_flow.py"),
+        # E2E 全流程（重构版）
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_e2e_order.py"),
+        # 参数化下单用例（车型 × 支付方式，8 种组合）
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_cash_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_epayment_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_alipay_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_bankcard_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_charter_cash_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_charter_epayment_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_charter_alipay_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_charter_bankcard_order.py"),
     ]
 
     # 过滤出实际存在的文件
