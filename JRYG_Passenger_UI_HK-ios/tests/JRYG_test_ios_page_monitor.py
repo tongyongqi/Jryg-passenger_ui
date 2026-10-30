@@ -2,6 +2,8 @@
 
 使用最小 XML 页面树和 Mock 模拟页面切换、HTTP 返回及点击操作，
 覆盖页面状态识别、测试账号匹配、弹窗恢复、请求超时和失败现场保存。
+本文件验证IOSPage公共解析契约，不创建App会话；共享图标与首页文案同时出现
+的组合用于验证活动弹窗与主页面识别的优先级，不能只依赖图标推断登录状态。
 """
 
 # 用模拟对象替代 HTTP 请求、页面读取和真机点击。
@@ -13,7 +15,7 @@ import pytest
 # 使用 requests 的超时异常模拟 WDA 不可用。
 import requests
 
-from jryg_hk_ios.JRYG_page_monitor import IOSPage, IOSPageMonitor
+from ui_framework.JRYG_page_monitor import IOSPage, IOSPageMonitor
 
 
 def page(*texts):

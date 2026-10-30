@@ -9,8 +9,9 @@
   4. 支持命令行参数透传（如 --collect-only）
 
 测试用例组合（车型 × 支付方式）：
-  - 打錶的士：現金(cash) / 電子支付(epayment) / Alipay HK(alipay)
-  - 包車價的士：Alipay HK(alipay) / 信用卡(bankcard) / 八達通(octopus, 暂不执行)
+  - 打錶的士：現金(cash) / 電子支付后付（银行卡、Alipay HK独立文件）/ 直接Alipay HK
+  - 旧电子支付银行卡文件保留显式入口，默认运行器不重复提交同一场景
+  - 包車價的士：Alipay HK(alipay) / 信用卡(bankcard)
 ==============================================================================
 """
 
@@ -18,18 +19,15 @@ import os
 import sys
 import pytest
 
-# 添加框架根路径与父目录至 sys.path，支持相对导入和全局引用
-# BASE_DIR = JRYG_Passenger_UI_HK-ios（本文件所在目录）
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# 将框架根路径加入 sys.path，确保能 import jryg_hk_ios 包
-sys.path.append(BASE_DIR)
-# 将项目根路径（JRYG_PassengerIUi）加入 sys.path，支持跨项目导入 API 层
-sys.path.append(os.path.dirname(BASE_DIR))
+# 从runners目录定位项目根，直接运行与python -m运行使用相同配置和用例路径。
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 
 # 导入目录初始化函数，确保运行前报告/日志/截图/配置目录已存在
-from jryg_hk_ios.JRYG_dir_init import init_all_dirs
+from ui_framework.JRYG_dir_init import init_all_dirs
 # 导入报告输出目录路径
-from jryg_hk_ios.JRYG_config import REPORT_DIR
+from ui_framework.JRYG_config import REPORT_DIR
 
 def run_tests(argv=None):
     """JRYG 港版 iOS UI 自动化测试执行引擎入口。
@@ -59,14 +57,14 @@ def run_tests(argv=None):
     # 收集所有 iOS 专用测试文件（cases/ 目录下 JRYG_test_ios_*.py）
     # 参数化下单用例（车型 × 支付方式组合）
     ios_test_files = [
-        # 打錶的士：現金 / 電子支付（信用卡路径）/ Alipay HK
+        # 打錶的士：現金 / 電子支付后付（银行卡、Alipay HK）/ 直接Alipay HK
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_cash_order.py"),
-        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_epayment_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_epayment_bankcard_order.py"),
+        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_epayment_alipay_order.py"),
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_alipay_order.py"),
-        # 包車價的士：Alipay HK / 信用卡/扣帳卡 / 八達通（八達通暂不执行）
+        # 包車價的士：Alipay HK / 信用卡/扣帳卡
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_charter_alipay_order.py"),
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_charter_bankcard_order.py"),
-        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_charter_octopus_order.py"),
     ]
 
     # 过滤出实际存在的文件（避免文件缺失导致 pytest 报错）

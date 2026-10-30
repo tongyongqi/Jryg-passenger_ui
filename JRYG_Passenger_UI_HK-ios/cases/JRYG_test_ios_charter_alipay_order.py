@@ -3,15 +3,17 @@
 ==============================================================================
 车型：包車價的士（charter）—— 固定一口价，先付後乘
 支付：Alipay HK（alipay）—— 订单结束后通过 Safari AlipayHK 完成支付
+公共调用：启动/地址由iOSBase处理；下单预付收银台由OrderBase编排，后续付款
+委托_ios_pay，不把预付确认并呼叫与后付确认支付合并为同一次点击。
 
 完整流程：
-  阶段 0（UI）  ：预清理 —— 取消遗留的进行中订单 / 处理未支付订单
-  阶段 1（接口）：司机端 API 登录 → 出车上线 → Socket → 清理缓存
+  阶段 0（UI）  ：打开司机 App → 点击出车并确认听单
+  阶段 1（UI）  ：切乘客 App 处理遗留订单，不调用司机业务接口
   阶段 2（UI）  ：拉起 App → 配置起终点 → 选择包車價的士 → 確認呼叫
                → 预付页面弹出 → 选择 Alipay HK 支付方式 → 確認支付並呼叫
                → 检测登录态 → 未登录则登录后重新下单 → 等待下单成功
-  阶段 3（接口）：轮询订单获取 order_no → 接单 → 状态流转
-               → 确认账单 → 确认收款 → 收车下线
+  阶段 3（UI）  ：切司机 App → 接单 → 滑动到达/接载/结束 → 填写并确认账单
+               提交后切回乘客，不调用业务接口、不自动收车
   阶段 4（UI）  ：订单结束后检测到支付页面 → 选择 Alipay HK → 確認支付
                → Safari 支付页 Pay Now → SUCCESS → 返回 App → 返回首页
 ==============================================================================
@@ -23,14 +25,14 @@ import pytest
 
 # 获取 UI 框架根路径（本文件所在目录的上级 = JRYG_Passenger_UI_HK-ios）
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# 将框架根路径加入 sys.path，确保能 import jryg_hk_ios 包
+# 将框架根路径加入 sys.path，确保能 import ui_framework 包
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
 # 导入港版 iOS 自动化配置（设备信息、平台等）
-from jryg_hk_ios.JRYG_config import SETTINGS
+from ui_framework.JRYG_config import SETTINGS
 # 导入参数化下单基类，子类只需设置 CAR_TYPE 和 PAYMENT 即可自动执行全流程
-from cases.JRYG_test_ios_order_base import TestOrderBase
+from ui_framework.JRYG_order_flow import TestOrderBase
 
 
 # 当设备配置为 Android 时跳过此 iOS 测试用例，避免跨平台误执行

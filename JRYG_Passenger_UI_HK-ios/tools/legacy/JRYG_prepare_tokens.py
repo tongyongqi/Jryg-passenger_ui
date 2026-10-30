@@ -1,4 +1,7 @@
-"""准备 E2E 测试所需的乘客端 token 和司机端会话文件。
+"""历史接口辅助工具：准备乘客端 token 和司机端会话文件。
+
+当前香港iOS全UI订单不调用本文件；直接运行可能发送登录请求并写会话文件，
+不能用于司机UI出车、接单或支付核验的替代路径。保留历史入口，不改变其逻辑。
 
 用 urllib 直接发 HTTP 请求（绕过 requests/urllib3 兼容性问题）。
 
@@ -21,8 +24,9 @@ import urllib.parse # URL 编码表单数据
 import urllib.request  # 发送 HTTP 请求（绕过 requests 依赖）
 from pathlib import Path  # 文件路径操作
 
-# 项目根路径（JRYG_PassengerIUi），加入 sys.path 以导入 API 层配置
-BASE_DIR = Path(__file__).resolve().parent.parent
+# 历史工具从tools/legacy定位原工作区根，输出仍保留在香港UI项目的tmp中。
+UI_DIR = Path(__file__).resolve().parents[2]
+BASE_DIR = UI_DIR.parent
 sys.path.insert(0, str(BASE_DIR))
 
 # 导入港版 API 配置（签名密钥、手机号、URL 等）
@@ -215,7 +219,7 @@ def main():
     session = login_driver()
 
     # 创建 tmp 目录（存放会话文件）
-    tmp_dir = Path(__file__).resolve().parent / "tmp"
+    tmp_dir = UI_DIR / "tmp"
     tmp_dir.mkdir(exist_ok=True)
 
     # 将司机端会话 JSON 写入文件，供后续测试读取

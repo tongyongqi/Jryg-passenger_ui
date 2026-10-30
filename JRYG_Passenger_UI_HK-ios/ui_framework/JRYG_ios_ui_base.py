@@ -2,6 +2,8 @@
 港版阳光出行 iOS 乘客端 —— 公共基础方法（Base Class）
 ==============================================================================
 所有 iOS 测试用例继承此类，共享设备连接、地址搜索、车型选择、截图等公共操作。
+公共启动由_ios_prepare_passenger_app处理遮挡，_ios_configure_addresses只设置地址；
+页面文本委托IOSPage解析，支付继承HKIOSPaymentMixin，订单顺序不在工具层重排。
 
 本类提供以下功能模块：
   1. 设备连接：setup_class 连接 WDA + Poco，teardown_class 释放连接
@@ -23,29 +25,30 @@ import xml.etree.ElementTree as ET
 
 # WDA（WebDriverAgent）iOS 自动化驱动
 import wda
-# Airtest 设备连接（用于初始化 Poco 控件树）
-from airtest.core.api import connect_device
-# Poco iOS 控件树驱动，提供基于 UI 控件树的高层操作 API
-from poco.drivers.ios import iosPoco
 
 # 框架根路径（JRYG_Passenger_UI_HK-ios），加入 sys.path 供跨目录导入
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
 # 导入港版 iOS 自动化配置（设备信息、目录路径等）
-from jryg_hk_ios.JRYG_config import SETTINGS
+from ui_framework.JRYG_config import SETTINGS
 # 导入统一日志记录器
-from jryg_hk_ios.JRYG_logger import logger
+from ui_framework.JRYG_logger import logger
 # 导入 UI 元素定位常量（XPath、关键词、坐标、测试数据）
-from jryg_hk_ios import JRYG_ios_ui_elements as E
+from ui_framework import JRYG_ios_ui_elements as E
+from ui_framework.JRYG_ios_payment import HKIOSPaymentMixin
 
 
-class iOSBase:
+class iOSBase(HKIOSPaymentMixin):
     """iOS 自动化测试公共基类，提供设备连接与通用操作封装"""
 
     @classmethod
     def setup_class(cls):
-        """连接 WDA 物理通道，初始化 Poco 控件树驱动"""
+        """连接WDA后初始化Poco；设备依赖仅在执行阶段加载，不干扰pytest收集。
+
+        Poco内置旧six导入器不支持find_spec，不能在pytest加载conftest前注册。
+        Airtest也只在此处加载，避免离线导入或仅收集时探测设备依赖。
+        """
         cls.wda_url = SETTINGS["device"].get("wda_url", "http://127.0.0.1:8100")
         logger.info(f"【iOS 自动化】正在尝试连接 WDA 物理通道: {cls.wda_url}")
 
@@ -58,6 +61,9 @@ class iOSBase:
                 f"【iOS 连接失败】请确认 WDA 已在手机上正常运行，且通过 tidevice/iproxy 转发了 8100 端口！ 错误原因: {e}"
             )
             pytest.skip("WDA 物理通道未就绪，跳过 iOS 自动化用例")
+
+        from airtest.core.api import connect_device
+        from poco.drivers.ios import iosPoco
 
         connect_device(f"ios:///{cls.wda_url}")
         cls.poco = iosPoco()
@@ -72,19 +78,16 @@ class iOSBase:
 
     # ==================== 通用操作 ====================
 
-    @staticmethod
-    def _ios_get_source_xml():
-        """获取当前页面的 WDA XML 源码字符串。
+    def _ios_get_source_xml(self):
+        """从当前乘客WDA客户端获取页面XML，不固定8100端口。
 
         用于需要按元素属性（label/name/rect）精确定位并自行计算坐标的场景
         （例如 Safari WebView 内的元素必须坐标点击，element uuid 点击无效）。
 
         :return: XML 字符串，失败返回空字符串。
         """
-        import requests
         try:
-            r = requests.get("http://127.0.0.1:8100/source?format=xml", timeout=12)
-            return r.json().get("value", "") or ""
+            return self.client.source(format="xml") or ""
         except Exception as e:
             logger.warning(f"获取页面源码失败: {e}")
             return ""
@@ -93,30 +96,15 @@ class iOSBase:
     def _ios_get_all_texts(client):
         """获取当前页面所有可见文本。
 
-        直接请求 WDA /source?format=xml 接口获取页面树 XML，
-        解析后提取所有可见节点的 label/name/value 文本（去重保序）。
-        用于页面状态判断（如检测"確認呼叫"、"取消訂單"等关键词）。
+        使用传入客户端读取页面树，委托 IOSPage 的可见性及去重保序规则。
+        不固定8100端口，双设备时始终读取调用方的设备；读取超时由WDA客户端管理。
 
-        :param client: WDA 客户端（仅用于保持接口一致性，实际请求直接走 HTTP）。
-        :return: 文本列表（去重保序），失败返回空列表。
+        :param client: 当前乘客页面所属的 WDA 客户端。
+        :return: 文本列表（去重保序），读取或解析失败返回空列表。
         """
-        import requests
+        from ui_framework.JRYG_page_monitor import IOSPage
         try:
-            # 直接请求 WDA HTTP 接口获取页面树 XML
-            r = requests.get("http://127.0.0.1:8100/source?format=xml", timeout=12)
-            root = ET.fromstring(r.json()["value"])
-            texts = []
-            # 遍历所有节点，只收集 visible != false 的节点文本
-            for node in root.iter():
-                if node.get("visible", "true") == "false":
-                    continue
-                # 从 label/name/value 三个属性提取文本
-                for key in ("label", "name", "value"):
-                    val = node.get(key, "")
-                    if val.strip():
-                        texts.append(val.strip())
-            # 去重保序（dict.fromkeys 保持插入顺序）
-            return list(dict.fromkeys(texts))
+            return list(IOSPage(client.source(format="xml")).texts)
         except Exception as e:
             logger.warning(f"获取页面文本失败: {e}")
             return []
@@ -266,7 +254,7 @@ class iOSBase:
         :return: IOSPageMonitor 实例。
         """
         if not hasattr(self, "monitor") or self.monitor is None:
-            from jryg_hk_ios.JRYG_page_monitor import IOSPageMonitor
+            from ui_framework.JRYG_page_monitor import IOSPageMonitor
             output_dir = os.path.join(BASE_DIR, "report", "diagnostics")
             self.monitor = IOSPageMonitor(self.wda_url, output_dir)
         return self.monitor
@@ -723,11 +711,15 @@ class iOSBase:
     # ==================== 公共流程步骤 ====================
 
     def _ios_launch_setup_and_addresses(self, tag, start_addr="", end_addr=""):
-        """公共步骤：拉起App → 处理弹窗 → 跳过引导页 → 关闭广告 → 配置起点 → 配置终点
+        """初始下单：启动清理后配置起终点；当前页重选不得调用此启动入口。"""
+        self._ios_prepare_passenger_app(tag)
+        self._ios_configure_addresses(tag, start_addr, end_addr)
 
-        :param tag: 日志标签。
-        :param start_addr: 起点地址文本。
-        :param end_addr: 终点地址文本。
+    def _ios_prepare_passenger_app(self, tag, *, launch_wait=10, alert_wait=2):
+        """共用启动步骤：桌面→乘客App→系统权限→隐私→引导→广告。
+
+        正常下单保留10秒启动/2秒权限等待；预清理传8秒/1秒。
+        仅清理启动遮挡，不取消订单、不登录、不支付，也不重置司机状态。
         """
         # 步骤 1：回到桌面
         logger.info(f"【{tag} 步骤 1】正在回到桌面...")
@@ -737,13 +729,13 @@ class iOSBase:
         # 步骤 2：拉起乘客端 App
         logger.info(f"【{tag} 步骤 2】正在拉起 App: {E.PASSENGER_BUNDLE_ID}")
         self.client.session(E.PASSENGER_BUNDLE_ID)
-        time.sleep(10)
+        time.sleep(launch_wait)
 
-        # 步骤 3：处理系统弹窗（权限请求等）
+        # 系统权限不存在时继续检查应用内遮挡；真实控件失败由后续流程判断。
         logger.info(f"【{tag} 步骤 3】处理系统弹窗...")
         try:
             self.client.alert.accept()
-            time.sleep(2)
+            time.sleep(alert_wait)
         except Exception:
             pass
 
@@ -769,7 +761,11 @@ class iOSBase:
                 time.sleep(2)
                 break
 
-        # 步骤 4：配置起点
+    def _ios_configure_addresses(self, tag, start_addr, end_addr):
+        """依次搜索起点和终点；只处理地址，不启动App、不选择车型或付款。
+
+        初次下单和登录后重选共用本方法。起点搜索抛错时不继续终点或后续步骤。
+        """
         logger.info(f"【{tag} 步骤 4】配置起点: {start_addr}")
         self._ios_search_address(is_start=True, address=start_addr)
 
@@ -952,7 +948,7 @@ class iOSBase:
                             time.sleep(0.5)
                             self.client.send_keys(value)
                             time.sleep(1)
-                            logger.info(f"  >> [{tag}] 已填写{label}: {value} (placeholder={ph})")
+                            logger.info(f"  >> [{tag}] 已填写{label} (placeholder={ph}，内容不记录)")
                             filled = True
                             break
                     except Exception as e:
@@ -961,9 +957,7 @@ class iOSBase:
             # 方式 2：通过 WDA XML 获取 TextField 坐标直接点击
             if not filled:
                 try:
-                    import requests as _req
-                    r = _req.get("http://127.0.0.1:8100/source?format=xml", timeout=12)
-                    root = ET.fromstring(r.json()["value"])
+                    root = ET.fromstring(self.client.source(format="xml"))
                     target_tf = None
                     for node in root.iter():
                         if "TextField" not in node.tag:
@@ -1002,13 +996,13 @@ class iOSBase:
                         time.sleep(0.5)
                         self.client.send_keys(value)
                         time.sleep(1)
-                        logger.info(f"  >> [{tag}] 坐标填写{label}: {value} ({cx},{cy})")
+                        logger.info(f"  >> [{tag}] 坐标填写{label} ({cx},{cy}，内容不记录)")
                         filled = True
                 except Exception as e:
                     logger.warning(f"  >> [{tag}] 坐标填写{label}异常: {e}")
 
             if not filled:
-                logger.warning(f"  >> [{tag}] 未找到{label}输入框")
+                raise RuntimeError(f"{tag}: {label}未填写，停止提交支付")
 
         self._ios_screenshot(f"JRYG_ios_{tag}_bank_form_filled.png")
         time.sleep(1)
@@ -1044,7 +1038,7 @@ class iOSBase:
         :return: True 表示点击成功。
         """
         try:
-            for el in self.client(className=class_name):
+            for el in self.client(className=class_name).find_elements():
                 try:
                     if label_kw in (el.label or ""):
                         el.click()
@@ -1095,7 +1089,7 @@ class iOSBase:
             logger.info(f"  >> [{tag}] 已聚焦 OTP 输入框")
             time.sleep(1.5)
         except Exception as e:
-            logger.warning(f"  >> [{tag}] 聚焦 OTP 输入框异常: {e}")
+            raise RuntimeError(f"{tag}: 聚焦OTP失败，停止验证") from e
 
         # ---- 步骤 3：退格清空残留内容 ----
         try:
@@ -1105,15 +1099,15 @@ class iOSBase:
             logger.info(f"  >> [{tag}] 已清空输入框")
             time.sleep(0.5)
         except Exception as e:
-            logger.warning(f"  >> [{tag}] 清空输入框异常: {e}")
+            raise RuntimeError(f"{tag}: 清空OTP失败，停止验证") from e
 
         # ---- 步骤 4：输入 OTP ----
         try:
             self.client.send_keys(otp_code)
-            logger.info(f"  >> [{tag}] 已输入 OTP: {otp_code}")
+            logger.info(f"  >> [{tag}] 已输入 OTP（内容不记录）")
             time.sleep(1)
         except Exception as e:
-            logger.warning(f"  >> [{tag}] 输入 OTP 异常: {e}")
+            raise RuntimeError(f"{tag}: 输入OTP失败，停止验证") from e
 
         # ---- 步骤 5：点击 Verify & Proceed（element uuid 点击，坐标 tap 无效） ----
         clicked = self._ios_click_element_by_label("Verify")
@@ -1141,6 +1135,8 @@ class iOSBase:
         otp_done = False
         for i in range(15):
             cur_texts = self._ios_get_all_texts(self.client)
+            if any(kw in t for t in cur_texts for kw in ("Payment Failed", "Authentication Failed", "Incorrect OTP", "支付失敗", "支付失败", "驗證失敗", "验证失败")):
+                raise RuntimeError(f"{tag}: 3DS支付验证失败")
             if any(kw in t for t in cur_texts for kw in E.OTP_SUCCESS_KEYWORDS):
                 logger.info(f"  >> [{tag}] 3DS 验证成功")
                 otp_done = True
@@ -1153,8 +1149,8 @@ class iOSBase:
             time.sleep(2)
 
         if not otp_done:
-            logger.warning(f"  >> [{tag}] 3DS 弹层未关闭，可能 OTP 输入无效")
             self._ios_screenshot(f"JRYG_ios_{tag}_otp_failed.png")
+            raise TimeoutError(f"{tag}: 3DS弹层未关闭，停止后续流程")
 
         # ---- 步骤 7：处理"打開/打开"弹窗返回 App ----
         if otp_done:
@@ -1169,37 +1165,9 @@ class iOSBase:
                     logger.info(f"  >> [{tag}] 已点击'打開'返回 App")
                     time.sleep(5)
 
-        # ---- Verify 后：等待 3DS 成功页 ----
-        logger.info(f"  >> [{tag}] 等待 3DS 验证结果...")
-        otp_success = False
-        for i in range(15):
-            page_texts = self._ios_get_all_texts(self.client)
-            if any(kw in t for t in page_texts for kw in E.OTP_SUCCESS_KEYWORDS):
-                logger.info(f"  >> [{tag}] 3DS 验证成功")
-                otp_success = True
-                break
-            # 已离开 OTP 页面（回到 App 或支付结果页）
-            if not any(kw in t for t in page_texts for kw in E.OTP_PAGE_KEYWORDS):
-                logger.info(f"  >> [{tag}] 已离开 OTP 页面")
-                otp_success = True
-                break
-            time.sleep(2)
-
-        # 处理"打開/打开"弹窗 → 返回 App
-        if otp_success:
-            time.sleep(2)
-            page_texts = self._ios_get_all_texts(self.client)
-            if any(kw in t for t in page_texts for kw in E.OTP_RETURN_APP_KEYWORDS):
-                open_btn = self.client(text="打開")
-                if not open_btn.exists:
-                    open_btn = self.client(text="打开")
-                if open_btn.exists:
-                    open_btn.click()
-                    logger.info(f"  >> [{tag}] 已点击'打開'返回 App")
-                    time.sleep(5)
-
-        if not otp_success:
-            logger.warning(f"  >> [{tag}] 3DS 验证结果未确认")
+        # 此处仅完成3DS输入、提交及页面退出；到账由司机同订单详情最终核验。
+        # 不重复等待/点击 Verify，避免把同一次付款重提。
+        logger.info(f"  >> [{tag}] 3DS步骤已结束，待司机同订单支付状态核验")
 
     def _ios_select_payment(self, tag, payment="cash"):
         """选择支付方式。
@@ -1215,7 +1183,7 @@ class iOSBase:
         - 包車價的士：选车型 → 確認呼叫 → 预付页面选支付方式 → 確認支付並呼叫
 
         :param tag: 日志标签。
-        :param payment: 支付方式标识（cash/epayment/alipay/bankcard/octopus）。
+        :param payment: 支付方式标识（cash/epayment/alipay/bankcard）。
         :raises AssertionError: 未找到支付方式选项时抛出。
         """
         keywords_map = {
@@ -1223,7 +1191,6 @@ class iOSBase:
             "epayment": E.EPAYMENT_KEYWORDS,
             "alipay": E.ALIPAY_KEYWORDS,
             "bankcard": E.BANKCARD_KEYWORDS,
-            "octopus": E.OCTOPUS_KEYWORDS,
         }
         keywords = keywords_map.get(payment, [payment])
 

@@ -1,6 +1,7 @@
 """港版 iOS 测试用例 conftest —— pytest 夹具与钩子配置。
 
 本文件定义 session 级和 function 级的 pytest 夹具（fixture），
+仅负责测试生命周期、请求时限与失败取证，不自动重下单、重付或收车。
 在用例执行前后自动准备/清理测试环境：
 
   1. bounded_wda_requests  ：session 级，限制 WDA HTTP 超时为 20s，避免卡死
@@ -15,11 +16,14 @@ import pytest
 import wda
 
 # 导入自动化配置，获取 WDA 地址等设备信息
-from jryg_hk_ios.JRYG_config import SETTINGS
+from ui_framework.JRYG_config import SETTINGS
 # 导入统一日志记录器，夹具中使用 logger 记录警告信息
-from jryg_hk_ios.JRYG_logger import logger
+from ui_framework.JRYG_logger import logger
 # 导入页面监控器，用于失败时保存卡点现场
-from jryg_hk_ios.JRYG_page_monitor import IOSPageMonitor
+from ui_framework.JRYG_page_monitor import IOSPageMonitor
+
+# 旧电子支付银行卡文件保留显式运行入口；目录扫描只收集新的独立银行卡场景。
+collect_ignore = ["JRYG_test_ios_meter_epayment_order.py"]
 
 
 @pytest.fixture(scope="session", autouse=True)

@@ -7,16 +7,18 @@
 #   2. 从 YAML 配置读取设备 UDID 和 WDA 地址
 #   3. 检测 WDA 是否已就绪，未就绪则自动启动 iproxy + xcodebuild
 #   4. 执行 pytest 测试并输出 HTML 报告路径
+# 普通运行可能创建订单及提交测试支付；--collect-only仅收集，不启动设备。
+# 第三方WDA工程只用于设备服务，乘客/司机订单业务由Python用例通过UI操作。
 #
 # 用法：
-#   ./JRYG_run_hk_ios.sh                    # 执行全部测试
-#   ./JRYG_run_hk_ios.sh --collect-only     # 仅收集用例不执行
-#   ./JRYG_run_hk_ios.sh -k meter_cash      # 按关键词筛选执行
+#   ./runners/JRYG_run_hk_ios.sh                    # 项目根下执行全部测试
+#   ./runners/JRYG_run_hk_ios.sh --collect-only     # 仅收集用例不执行
+#   ./runners/JRYG_run_hk_ios.sh -k meter_cash      # 按关键词筛选执行
 # ==============================================================================
 set -u  # 引用未定义变量时报错
 
-# 确定脚本所在目录并 cd 进去
-BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# 脚本归档在runners；资源、虚拟环境和产物始终相对项目根定位。
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$BASE_DIR" || exit 1
 
 # 选择 Python 解释器：优先使用 .venv 虚拟环境，其次项目根 .venv，最后回退系统 python3
@@ -32,7 +34,7 @@ fi
 for arg in "$@"; do
     case "$arg" in
         --collect-only|--co|--help|-h)
-            exec "$PYTHON" "$BASE_DIR/JRYG_run_main_ios.py" "$@"
+            exec "$PYTHON" "$BASE_DIR/runners/JRYG_run_main_ios.py" "$@"
             ;;
     esac
 done
@@ -47,8 +49,8 @@ for tool in xcrun xcodebuild iproxy curl; do
 done
 
 # 从 YAML 配置读取设备 UDID 和 WDA 地址
-DEVICE_UDID=$("$PYTHON" -c 'from jryg_hk_ios.JRYG_config import SETTINGS; print(SETTINGS["device"]["udid"])') || exit 1
-WDA_URL=$("$PYTHON" -c 'from jryg_hk_ios.JRYG_config import SETTINGS; print(SETTINGS["device"]["wda_url"])') || exit 1
+DEVICE_UDID=$("$PYTHON" -c 'from ui_framework.JRYG_config import SETTINGS; print(SETTINGS["device"]["udid"])') || exit 1
+WDA_URL=$("$PYTHON" -c 'from ui_framework.JRYG_config import SETTINGS; print(SETTINGS["device"]["wda_url"])') || exit 1
 
 # 验证设备已连接
 xcrun devicectl device info details -d "$DEVICE_UDID" --timeout 20 >/dev/null || exit 1
@@ -116,7 +118,7 @@ if ! wda_ready; then
 fi
 
 # 执行 pytest 测试
-"$PYTHON" "$BASE_DIR/JRYG_run_main_ios.py" "$@"
+"$PYTHON" "$BASE_DIR/runners/JRYG_run_main_ios.py" "$@"
 exit_code=$?
 
 # 输出 HTML 报告路径

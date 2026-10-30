@@ -2,6 +2,7 @@
 
 所有路径都以项目根目录（JRYG_Passenger_UI_HK-ios）为基准，
 保证在不同机器上执行时路径一致。
+本模块只读取配置和组织路径，不启动真机；配置值交给UI及运行时模块使用。
 """
 
 import os
@@ -11,7 +12,7 @@ import yaml
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 各核心目录路径
-COMMON_DIR = os.path.dirname(os.path.abspath(__file__))  # 本包所在目录（jryg_hk_ios）
+COMMON_DIR = os.path.dirname(os.path.abspath(__file__))  # 本包所在目录（ui_framework）
 CONFIG_DIR = os.path.join(BASE_DIR, "config")            # 配置文件目录
 CASES_DIR = os.path.join(BASE_DIR, "cases")              # 用例目录
 REPORT_DIR = os.path.join(BASE_DIR, "report")            # 报告/页面树/截图输出目录

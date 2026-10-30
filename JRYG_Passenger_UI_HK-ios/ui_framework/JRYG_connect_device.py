@@ -2,6 +2,7 @@
 
 通过独立的 iOS 设备配置连接 Appium / WDA，
 只允许连接测试环境指定的本地或内网 Appium 通道。
+设备会话由配置指定；连接方法不负责创建订单、获取业务token或完成支付。
 """
 
 from appium import webdriver

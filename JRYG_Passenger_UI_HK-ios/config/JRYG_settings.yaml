@@ -1,3 +1,6 @@
+# 香港iOS测试配置：设备、司机及乘客测试数据由各公共模块读取。
+# 司机auto模式复用乘客设备并顺序切换；后付渠道由独立用例指定，不改下单配置。
+# 账号、卡表单与验证码仅用于已授权测试，不在代码注释或运行日志中复制其值。
 device:
   udid: "00008120-000E79E03472201E"        # iOS 真机 iPhone15 UDID
   platform_name: "iOS"                     # 平台类型切换为 iOS
@@ -6,6 +9,17 @@ device:
   appium_host: "127.0.0.1"
   appium_port: 4723
   wda_url: "http://127.0.0.1:8100"
+
+driver:
+  # auto：无独立 WDA 时共用设备顺序切换；shared 强制共用；dual 强制双设备。
+  device_mode: "auto"
+  # 留空复用乘客 WDA；双设备填写真实司机 WDA 地址，不自动假设 8200 已启动。
+  wda_url: ""
+  # 账单通过司机页面填写；环境变量 HK_ORDER_AMOUNT/HK_OTHER_AMOUNT 可覆盖。
+  fare: "5"
+  surcharge: "0"
+  # 如页面要求校验乘客尾号，在此填四位测试尾号，不自动猜测。
+  passenger_tail: ""
 
 packages:
   passenger_hk: "com.sunlightmobility.client"
