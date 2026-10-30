@@ -7,18 +7,36 @@
 设计约束：
   - 读取必须有超时上限，不能因页面卡死而无限等待。
   - 状态识别只依据页面可见文本，任何未知情况都返回 "unknown" 而非猜测。
+
+页面状态识别（IOSPage.state 属性）：
+  - permission_dialog    ：系统权限弹窗（Alert 控件）
+  - login_phone_input    ：手机号输入页（"取得驗證碼"等关键词）
+  - login_code_input     ：验证码输入页（"請輸入驗證碼"等关键词）
+  - mine_unlogged        ：个人中心未登录（"登錄/註冊"）
+  - mine_logged          ：个人中心已登录（有脱敏账号 + "我的行程"）
+  - privacy_agreement    ：隐私协议弹窗（"同意"+"不同意"）
+  - activity_popup       ：活动弹窗/全屏广告（"icon hd gb"）
+  - order_active         ：订单进行中（"司機正在趕來"等）
+  - payment_failed       ：支付失败（"未能查閱到付款記錄"）
+  - order_cancelled      ：订单已取消（"訂單已取消"）
+  - order_complete       ：行程结束（"行程結束"）
+  - route_selected       ：路线选择页（"確認呼叫"）
+  - address_search       ：地址搜索页（TextField + "搜尋"）
+  - home_unlogged        ：首页（"想去哪裡"）
+  - unknown              ：无法识别的页面
 """
 
-import base64
-import logging
-import re
-import time
-import xml.etree.ElementTree as ET
-from pathlib import Path
-from urllib.parse import urlparse
+import base64       # 用于解码 WDA 截图的 base64 数据
+import logging      # 标准日志模块
+import re           # 正则表达式，用于账号脱敏匹配
+import time         # 时间相关操作（轮询等待、文件名时间戳）
+import xml.etree.ElementTree as ET  # 解析 WDA 返回的页面树 XML
+from pathlib import Path  # 路径操作，用于卡点文件输出
+from urllib.parse import urlparse  # 解析 WDA URL，判断是否本地连接
 
-import requests
+import requests     # HTTP 请求，用于向 WDA 发送 GET 请求读取页面树/截图
 
+# 使用与主框架相同的日志器名称，保持日志统一
 logger = logging.getLogger("JRYG_HK_ios")
 
 

@@ -305,8 +305,8 @@ class HKDriverApiClient:
         return self.post("/driverApi/home/handleWorkStatus", body, trace_id)
 
     def get_out_car_status(self, trace_id=None):
-        """查询出车状态 POST /driverApi/home/outCarStatus。"""
-        return self.post("/driverApi/home/outCarStatus", {}, trace_id)
+        """查询出车状态 GET /driverApi/home/outCarStatus。"""
+        return self.get("/driverApi/home/outCarStatus", trace_id=trace_id)
 
     def grab_order(self, order_no, trace_id=None):
         """接单 POST /driverApi/order/grab。"""

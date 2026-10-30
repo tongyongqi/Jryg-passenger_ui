@@ -174,9 +174,12 @@ class HKConfig:
 
     # Socket 位置上报稳定等待（秒）
     SOCKET_STABILIZE_WAIT = 10
+    DRIVER_READY_TIMEOUT = float(os.environ.get("HK_DRIVER_READY_TIMEOUT", "20"))
+    DRIVER_LOCATION_MAX_AGE = float(os.environ.get("HK_DRIVER_LOCATION_MAX_AGE", "10"))
+    DRIVER_LOCATION_MIN_ACKS = 2
 
-    # 轮询订单超时（秒）
-    POLLING_TIMEOUT = 120
+    # 轮询订单超时（秒）— 乘客端呼叫超时为 5 分钟(300s)，轮询需略长于该值
+    POLLING_TIMEOUT = 330
 
     # 轮询间隔（秒）
     POLLING_INTERVAL = 3

@@ -3,39 +3,54 @@
 用 urllib 直接发 HTTP 请求（绕过 requests/urllib3 兼容性问题）。
 
 生成：
-  1. 乘客端登录 access_token → 写入 tmp/passenger_token.txt
+  1. 乘客端登录 access_token → 写入 tmp/passenger_token.txt（已弃用，不再获取）
   2. 司机端 smsCodeLogin 完整 JSON 回包 → 写入 tmp/driver_session.json
 
 输出 export 命令供 source 使用。
+
+注意：乘客端 token 不再获取（与 App UI 登录互踢），改用司机端降级方案。
 """
 
-import base64
-import hashlib
-import json
+import base64       # 编码 Yg-Header-Hint-Content 头
+import hashlib      # 生成 MD5 签名
+import json         # 解析/序列化 JSON 响应
 import os
 import sys
-import time
-import urllib.parse
-import urllib.request
-from pathlib import Path
+import time         # 时间戳（nonce、trace_id）
+import urllib.parse # URL 编码表单数据
+import urllib.request  # 发送 HTTP 请求（绕过 requests 依赖）
+from pathlib import Path  # 文件路径操作
 
+# 项目根路径（JRYG_PassengerIUi），加入 sys.path 以导入 API 层配置
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR))
 
+# 导入港版 API 配置（签名密钥、手机号、URL 等）
 from JRYG_Passenger_API_HK.common.hk_config import config
 
+# 签名密钥（用于接口请求签名）
 SIGN_KEY = config.SIGN_KEY
+# 区号（港版 +852）
 AREA_CODE = config.AREA_CODE
+# 乘客端测试手机号
 PASSENGER_MOBILE = config.PASSENGER_MOBILE
+# 司机端测试手机号
 DRIVER_MOBILE = config.DRIVER_MOBILE
+# 测试验证码（固定 123456）
 CAPTCHA = "123456"
 
+# 乘客端 API 基地址
 PASSENGER_BASE = config.PASSENGER_BASE_URL
+# 司机端 API 基地址
 DRIVER_BASE = config.DRIVER_BASE_URL
 
+# 司机端设备编号
 DRIVER_DEVICE_NO = config.DRIVER_DEVICE_NO
+# 司机端初始纬度（香港）
 DRIVER_LATITUDE = config.DRIVER_LATITUDE
+# 司机端初始经度（香港）
 DRIVER_LONGITUDE = config.DRIVER_LONGITUDE
+# 城市 ID（香港）
 CITY_ID = config.CITY_ID
 
 
@@ -190,20 +205,28 @@ def login_driver():
 
 
 def main():
-    # 乘客端 token 不再获取（与 App 登录互踢，改用司机端降级）
-    """main —— 公开方法：main。
+    """主入口：执行司机端登录并保存会话文件。
 
-        :return: None"""
+    乘客端 token 不再获取（与 App UI 登录互踢，改用司机端降级方案）。
+
+    :return: (空字符串, 司机端会话文件路径) 元组。
+    """
+    # 执行司机端登录，获取完整 JSON 回包
     session = login_driver()
 
+    # 创建 tmp 目录（存放会话文件）
     tmp_dir = Path(__file__).resolve().parent / "tmp"
     tmp_dir.mkdir(exist_ok=True)
+
+    # 将司机端会话 JSON 写入文件，供后续测试读取
     session_file = tmp_dir / "driver_session.json"
     session_file.write_text(json.dumps(session, ensure_ascii=False, indent=2), encoding="utf-8")
 
+    # 乘客端 token 文件留空（不再使用）
     token_file = tmp_dir / "passenger_token.txt"
     token_file.write_text("", encoding="utf-8")
 
+    # 输出 export 命令，供 shell source 使用
     print(f"\n[完成]")
     print(f"  passenger_token=（不再使用，改用司机端降级）")
     print(f"  session_file={session_file}")
@@ -216,4 +239,5 @@ def main():
 
 
 if __name__ == "__main__":
+    # 直接运行此文件时执行 main()，生成会话文件
     main()

@@ -2,6 +2,16 @@
 港版阳光出行 iOS 乘客端 —— 公共基础方法（Base Class）
 ==============================================================================
 所有 iOS 测试用例继承此类，共享设备连接、地址搜索、车型选择、截图等公共操作。
+
+本类提供以下功能模块：
+  1. 设备连接：setup_class 连接 WDA + Poco，teardown_class 释放连接
+  2. 通用操作：获取页面 XML/文本/TextField、截图、关闭键盘
+  3. 通用弹框处理：按钮点击（Poco→WDA→坐标三级降级）、循环关闭弹框
+  4. 登录流程：隐私协议处理、UI 登录（手机号+验证码状态机）、登录态检测
+  5. 地址搜索：点击入口→输入地址→等待结果→选择结果→验证跳转
+  6. 公共流程步骤：拉起App→配置起终点→选车型→确认呼叫→确认支付→银行卡表单→OTP
+  7. 支付方式选择：统一面板流程（可選服務→选支付方式→確認選擇）
+  8. 下单结果等待：轮询页面文本判断成功/失败/距离太近/超时
 ==============================================================================
 """
 
@@ -11,15 +21,22 @@ import time
 import pytest
 import xml.etree.ElementTree as ET
 
+# WDA（WebDriverAgent）iOS 自动化驱动
 import wda
+# Airtest 设备连接（用于初始化 Poco 控件树）
 from airtest.core.api import connect_device
+# Poco iOS 控件树驱动，提供基于 UI 控件树的高层操作 API
 from poco.drivers.ios import iosPoco
 
+# 框架根路径（JRYG_Passenger_UI_HK-ios），加入 sys.path 供跨目录导入
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
+# 导入港版 iOS 自动化配置（设备信息、目录路径等）
 from jryg_hk_ios.JRYG_config import SETTINGS
+# 导入统一日志记录器
 from jryg_hk_ios.JRYG_logger import logger
+# 导入 UI 元素定位常量（XPath、关键词、坐标、测试数据）
 from jryg_hk_ios import JRYG_ios_ui_elements as E
 
 
@@ -56,20 +73,49 @@ class iOSBase:
     # ==================== 通用操作 ====================
 
     @staticmethod
-    def _ios_get_all_texts(client):
-        """获取当前页面所有可见文本"""
+    def _ios_get_source_xml():
+        """获取当前页面的 WDA XML 源码字符串。
+
+        用于需要按元素属性（label/name/rect）精确定位并自行计算坐标的场景
+        （例如 Safari WebView 内的元素必须坐标点击，element uuid 点击无效）。
+
+        :return: XML 字符串，失败返回空字符串。
+        """
         import requests
         try:
             r = requests.get("http://127.0.0.1:8100/source?format=xml", timeout=12)
+            return r.json().get("value", "") or ""
+        except Exception as e:
+            logger.warning(f"获取页面源码失败: {e}")
+            return ""
+
+    @staticmethod
+    def _ios_get_all_texts(client):
+        """获取当前页面所有可见文本。
+
+        直接请求 WDA /source?format=xml 接口获取页面树 XML，
+        解析后提取所有可见节点的 label/name/value 文本（去重保序）。
+        用于页面状态判断（如检测"確認呼叫"、"取消訂單"等关键词）。
+
+        :param client: WDA 客户端（仅用于保持接口一致性，实际请求直接走 HTTP）。
+        :return: 文本列表（去重保序），失败返回空列表。
+        """
+        import requests
+        try:
+            # 直接请求 WDA HTTP 接口获取页面树 XML
+            r = requests.get("http://127.0.0.1:8100/source?format=xml", timeout=12)
             root = ET.fromstring(r.json()["value"])
             texts = []
+            # 遍历所有节点，只收集 visible != false 的节点文本
             for node in root.iter():
                 if node.get("visible", "true") == "false":
                     continue
+                # 从 label/name/value 三个属性提取文本
                 for key in ("label", "name", "value"):
                     val = node.get(key, "")
                     if val.strip():
                         texts.append(val.strip())
+            # 去重保序（dict.fromkeys 保持插入顺序）
             return list(dict.fromkeys(texts))
         except Exception as e:
             logger.warning(f"获取页面文本失败: {e}")
@@ -77,17 +123,26 @@ class iOSBase:
 
     @staticmethod
     def _ios_get_textfields():
-        """获取当前页面所有 TextField 的坐标和值"""
+        """获取当前页面所有 TextField 的坐标和值。
+
+        请求 WDA 页面树 XML，提取所有可见 TextField 的中心坐标 (cx, cy) 和当前值。
+        用于银行卡表单等 WebView 场景下的字段定位（元素 uuid 不可靠时用坐标点击）。
+
+        :return: 字典列表，每个字典含 value/cx/cy 三个键，失败返回空列表。
+        """
         import requests
         try:
             r = requests.get("http://127.0.0.1:8100/source?format=xml", timeout=12)
             root = ET.fromstring(r.json()["value"])
             out = []
             for n in root.iter():
+                # 只处理 TextField 类型节点
                 if "TextField" not in n.tag:
                     continue
+                # 跳过不可见的 TextField
                 if n.get("visible", "true") == "false":
                     continue
+                # 计算中心坐标
                 x, y = int(n.get("x", "0")), int(n.get("y", "0"))
                 w, h = int(n.get("width", "0")), int(n.get("height", "0"))
                 out.append(dict(value=n.get("value", ""), cx=x + w // 2, cy=y + h // 2))
@@ -97,26 +152,104 @@ class iOSBase:
             return []
 
     def _ios_screenshot(self, filename):
-        """截图并保存到 screenshots 目录"""
+        """截图并保存到 screenshots 目录。
+
+        :param filename: 截图文件名（含 .png 后缀）。
+        """
+        # 截图输出路径：screenshots/ 目录下
         path = os.path.join(BASE_DIR, "screenshots", filename)
+        # 确保目录存在
         os.makedirs(os.path.dirname(path), exist_ok=True)
         try:
+            # 调用 WDA 截图接口
             self.client.screenshot(path)
             logger.info(f"  >> 截图已保存: {path}")
         except Exception as e:
             logger.warning(f"  >> 截图失败: {e}")
 
     def _ios_dismiss_keyboard(self):
-        """关闭 iOS 键盘"""
+        """关闭 iOS 键盘。
+
+        优先点击键盘上的"完成/Done"按钮，找不到则点击空白区域收起键盘。
+        """
+        # 方式 1：点击键盘上的"完成/Done"按钮
         done_btn = self.client(xpath=E.KEYBOARD_DONE_XPATH)
         if done_btn.exists:
             done_btn.click()
             time.sleep(1)
             logger.info("  >> 已点击'完成'关闭键盘")
             return
+        # 方式 2：点击空白区域收起键盘（坐标 196,128 为屏幕上方空白区）
         self.client.click(196, 128)
         time.sleep(1)
         logger.info("  >> 已点击空白区域关闭键盘")
+
+    # ==================== 通用弹框处理 ====================
+
+    def _ios_click_dialog_button(self, keywords, tag="", fallback_coord=None,
+                                  wait_after=2, log_prefix=""):
+        """通用弹框按钮点击：Poco精确 → Poco模糊 → WDA → 坐标 fallback。
+
+        统一封装弹框确认按钮的点击逻辑，支持简繁体关键词列表，
+        依次尝试 Poco 精确匹配、Poco 模糊匹配、WDA textContains、
+        物理坐标兜底，命中任一即点击并返回 True。
+
+        :param keywords: 按钮关键词列表（如 ["不用車了", "不用车了", "確認取消"]）。
+        :param tag: 日志标签。
+        :param fallback_coord: 兜底坐标 (x, y)，None 则不使用坐标兜底。
+        :param wait_after: 点击后等待秒数。
+        :param log_prefix: 日志前缀（如 "预清理"）。
+        :return: True 表示点击成功，False 表示未找到按钮。
+        """
+        prefix = f"【{tag}】{log_prefix}" if log_prefix else f"【{tag}】" if tag else ""
+        for kw in keywords:
+            # 1. Poco 精确匹配
+            btn = self.poco(text=kw)
+            if btn.exists():
+                btn.click()
+                logger.info(f"{prefix}Poco 点击 '{kw}'")
+                time.sleep(wait_after)
+                return True
+            # 2. Poco 模糊匹配
+            btn = self.poco(textMatches=f".*{kw}.*")
+            if btn.exists():
+                btn.click()
+                logger.info(f"{prefix}Poco 模糊匹配点击 '{kw}'")
+                time.sleep(wait_after)
+                return True
+            # 3. WDA textContains
+            btn_wda = self.client(textContains=kw)
+            if btn_wda.exists:
+                btn_wda.click()
+                logger.info(f"{prefix}WDA 点击 '{kw}'")
+                time.sleep(wait_after)
+                return True
+
+        # 4. 坐标兜底
+        if fallback_coord:
+            self.client.click(*fallback_coord)
+            logger.info(f"{prefix}物理坐标点击 {fallback_coord}")
+            time.sleep(wait_after)
+            return True
+
+        return False
+
+    def _ios_dismiss_dialogs(self, keywords_list, tag="", max_rounds=3, wait_after=1):
+        """循环检测并关闭多个弹框。
+
+        每轮扫描页面，依次尝试关键词列表中的按钮，命中则点击并继续下一轮，
+        直到无弹框或达到最大轮数。适用于取消订单后可能连续弹出多个确认框的场景。
+
+        :param keywords_list: 每组关键词列表（如 ["確定", "确定", "好", "OK"]）。
+        :param tag: 日志标签。
+        :param max_rounds: 最大检测轮数。
+        :param wait_after: 每次点击后等待秒数。
+        """
+        for _ in range(max_rounds):
+            clicked = self._ios_click_dialog_button(
+                keywords_list, tag=tag, wait_after=wait_after)
+            if not clicked:
+                break
 
     # ==================== 登录流程 ====================
 
@@ -167,8 +300,7 @@ class iOSBase:
     def _ios_ui_login(self, phone=None, code=None, tag="登录"):
         """执行完整的 UI 登录流程（手机号 + 验证码），基于 IOSPageMonitor 状态机。
 
-        与单独运行登录用例（JRYG_test_ios_open_and_login.py）使用完全相同的
-        状态机方式：每轮检测当前页面状态，根据状态执行对应操作，确保：
+        使用状态机方式：每轮检测当前页面状态，根据状态执行对应操作，确保：
         - 协议复选框用 monitor.click_text 精确匹配（不误点"不同意"）
         - 验证码页用 monitor.wait_for 等待页面切换完成（键盘保持打开）
         - 验证码输入先尝试 TextField，失败则逐个键盘按键
@@ -352,10 +484,138 @@ class iOSBase:
 
     # ==================== 地址搜索 ====================
 
-    def _ios_search_address(self, is_start=True, address=""):
-        """通用地址搜索：点击入口 → 输入地址 → 选择搜索结果
+    # 取消订单确认弹框的关键词（简繁体）
+    CANCEL_CONFIRM_KEYWORDS = ["不用車了", "不用车了", "確認取消", "确认取消", "確定", "确定", "好"]
 
-        :raises AssertionError: 未能进入搜索页或未能选中地址时抛出。
+    def _ios_select_search_result(self, is_start, address, target_text, tag=""):
+        """通用地址搜索结果选择：文本匹配 → 父Cell → 第一个Cell → 坐标 → 验证跳转。
+
+        从搜索结果列表中选中地址并验证页面跳转：
+        - 起点：选中后验证返回首页（检测"想去哪裡"等关键词）
+        - 终点：选中后验证进入路线选择页（检测"確認呼叫"/"打錶"等关键词）
+
+        选择策略（依次尝试）：
+        1. 点击包含关键词的 StaticText 的父 Cell（最稳定）
+        2. 直接点击包含关键词的 StaticText
+        3. 点击第一个 Cell（带重试，避免 stale element）
+        4. 物理坐标兜底
+
+        :param is_start: True=起点, False=终点。
+        :param address: 原始地址文本。
+        :param target_text: 去除"地铁站/地鐵站"后的简体地址。
+        :param tag: 日志标签。
+        :raises AssertionError: 选中后 10s 内未离开搜索页。
+        """
+        client = self.client
+        addr_type = "起点" if is_start else "终点"
+
+        # 简繁体关键词列表
+        search_kws = [target_text, address.replace("地铁站", "地鐵站").replace("地铁", "地鐵")]
+        found = False
+
+        for kw in search_kws:
+            try:
+                # 策略 1：点击包含关键词的 StaticText 的父 Cell
+                parent_cell = client(
+                    xpath=f'//XCUIElementTypeCell[.//XCUIElementTypeStaticText'
+                          f'[contains(@label,"{kw}") or contains(@value,"{kw}")]]')
+                if parent_cell.exists:
+                    parent_cell.click()
+                    found = True
+                    logger.info(f"  >> 文本匹配选中{addr_type}（父Cell）: {address} (kw={kw})")
+                    break
+                # 策略 2：直接点击 StaticText
+                result = client(
+                    xpath=f'//XCUIElementTypeStaticText[contains(@label,"{kw}") or contains(@value,"{kw}")]')
+                if result.exists:
+                    result.tap()
+                    found = True
+                    logger.info(f"  >> 文本匹配选中{addr_type}: {address} (kw={kw})")
+                    break
+            except Exception as e:
+                logger.warning(f"  >> 文本匹配『{kw}』异常: {e}")
+
+        # 文本匹配点击后验证是否跳转，未跳转则尝试其他方式
+        if found:
+            time.sleep(2)
+            if not client(type="TextField").exists:
+                logger.info(f"  >> {addr_type}文本匹配点击后已离开搜索页")
+            else:
+                logger.info(f"  >> {addr_type}文本匹配点击后仍在搜索页，尝试 Cell 方式")
+                found = False
+
+        # 策略 3：点击第一个 Cell（带重试，避免 stale element）
+        if not found:
+            for retry in range(3):
+                try:
+                    first_cell = client(xpath="(//XCUIElementTypeCell)[1]")
+                    if first_cell.exists:
+                        first_cell.click()
+                        found = True
+                        logger.info(f"  >> 选中{addr_type}第一个 Cell (重试 {retry+1}/3)")
+                        break
+                except Exception as e:
+                    logger.warning(f"  >> 点击 Cell 异常 (重试 {retry+1}/3): {e}")
+                    time.sleep(1)
+
+        # 策略 4：物理坐标兜底
+        if not found:
+            client.click(*E.SEARCH_FIRST_RESULT_COORD)
+            logger.info(f"  >> 物理坐标选中{addr_type}")
+
+        # ---- 验证页面已跳转离开搜索页 ----
+        jump_ok = False
+        for wait_idx in range(10):
+            time.sleep(1)
+            if not client(type="TextField").exists:
+                jump_ok = True
+                logger.info(f"  >> {addr_type}选中后已离开搜索页 ({wait_idx+1}s)")
+                break
+
+        if not jump_ok:
+            self._ios_screenshot(f"JRYG_ios_search_{addr_type}_jump_fail.png")
+            page_texts = self._ios_get_all_texts(client)
+            logger.error(f"  >> {addr_type}选中后未跳转，仍在搜索页，页面文本: {page_texts[:150]}")
+            raise AssertionError(f"{addr_type}选中后未离开搜索页(10s)")
+
+        # 起点验证返回首页；终点验证进入路线选择页
+        if is_start:
+            home_keywords = ["想去哪裡", "想去哪里", "目的地", "起點", "起点"]
+            home_ok = False
+            for wait_idx in range(10):
+                time.sleep(1)
+                page_texts = self._ios_get_all_texts(client)
+                if any(kw in t for t in page_texts for kw in home_keywords):
+                    home_ok = True
+                    logger.info(f"  >> 起点设置完成，已返回首页 ({wait_idx+1}s)")
+                    break
+            if not home_ok:
+                self._ios_screenshot("JRYG_ios_search_start_not_home.png")
+                logger.warning(f"  >> 起点选中后未检测到首页关键词，页面文本: {page_texts[:150]}")
+        else:
+            route_keywords = ["確認呼叫", "确认呼叫", "包車價", "打錶", "可選服務"]
+            route_ok = False
+            for wait_idx in range(10):
+                time.sleep(1)
+                page_texts = self._ios_get_all_texts(client)
+                if any(kw in t for t in page_texts for kw in route_keywords):
+                    route_ok = True
+                    logger.info(f"  >> 终点设置完成，已进入路线选择页 ({wait_idx+1}s)")
+                    break
+            if not route_ok:
+                self._ios_screenshot("JRYG_ios_search_end_not_route.png")
+                logger.warning(f"  >> 终点选中后未检测到路线页关键词，页面文本: {page_texts[:150]}")
+
+        time.sleep(2)
+
+    def _ios_search_address(self, is_start=True, address=""):
+        """通用地址搜索：点击入口 → 输入地址 → 等待搜索结果出现 → 选择结果 → 验证页面跳转
+
+        - 起点：选中后验证返回首页（检测"想去哪裡"等首页关键词）
+        - 终点：选中后验证进入路线选择页（检测车型选择或"確認呼叫"）
+
+        :raises AssertionError: 未能进入搜索页、搜索结果未出现、未能选中地址、
+                                 或选中后未正确跳转时抛出。
         """
         client = self.client
         poco = self.poco
@@ -374,6 +634,7 @@ class iOSBase:
                 gate = poco(textMatches=E.DEST_GATE_POCO_REGEX)
             fallback_coord = E.DEST_GATE_FALLBACK_COORD
 
+        # ---- 步骤 A：进入搜索页 ----
         entered = False
         for attempt in range(5):
             if gate and (hasattr(gate, "exists") and gate.exists or not hasattr(gate, "exists")):
@@ -392,8 +653,10 @@ class iOSBase:
                 break
 
         if not entered:
+            self._ios_screenshot(f"JRYG_ios_search_{addr_type}_enter_fail.png")
             raise AssertionError(f"未能进入{addr_type}搜索页")
 
+        # ---- 步骤 B：检查历史记录（直接命中免输入） ----
         target_text = address.replace("地鐵站", "").replace("地铁站", "").strip()
         hist_el = client(xpath=f'//XCUIElementTypeStaticText[@label="{address}" or @value="{address}"]')
         if not hist_el.exists and target_text != address:
@@ -401,47 +664,82 @@ class iOSBase:
         if hist_el.exists:
             hist_el.tap()
             logger.info(f"  >> 从历史记录选中{addr_type}: {address}")
-            time.sleep(4 if is_start else 7)
-            return
-
-        tf = client(className=E.SEARCH_TEXTFIELD_TYPE)
-        if tf.exists:
-            tf.click()
-            time.sleep(1)
-        client.send_keys(address)
-        time.sleep(4)
-
-        done = client(xpath=E.KEYBOARD_DONE_XPATH)
-        if done.exists:
-            done.tap()
-            time.sleep(2)
-
-        first_cell = client(type="Cell")
-        if first_cell.exists:
-            first_cell[0].click()
-            logger.info(f"  >> 选中{addr_type}: {address}")
-        else:
-            result = client(xpath=f'//XCUIElementTypeStaticText[contains(@label,"{target_text}") or contains(@value,"{target_text}")]')
-            if result.exists:
-                result.tap()
-                logger.info(f"  >> 文本匹配选中{addr_type}: {address}")
+            # 历史记录选中后验证页面已跳转（搜索输入框消失）
+            addr_label = "起点" if is_start else "终点"
+            for wait_idx in range(10):
+                time.sleep(1)
+                if not client(type="TextField").exists:
+                    logger.info(f"  >> {addr_label}历史记录选中后已离开搜索页 ({wait_idx+1}s)")
+                    break
             else:
-                client.click(*E.SEARCH_FIRST_RESULT_COORD)
-                logger.info(f"  >> 物理坐标选中{addr_type}")
-        time.sleep(4 if is_start else 7)
+                self._ios_screenshot(f"JRYG_ios_search_{addr_label}_hist_jump_fail.png")
+                raise AssertionError(f"{addr_label}历史记录选中后未离开搜索页(10s)")
+            time.sleep(2)
+        else:
+            # ---- 步骤 C：输入地址文本 ----
+            tf = client(className=E.SEARCH_TEXTFIELD_TYPE)
+            if tf.exists:
+                tf.click()
+                time.sleep(1)
+            client.send_keys(address)
+            logger.info(f"  >> 已输入{addr_type}文本: {address}")
+
+            # ---- 步骤 D：等待搜索结果出现（轮询最多 15 秒） ----
+            # iOS 搜索在输入过程中实时出结果，不需要点 Done
+            search_result_found = False
+            for wait_idx in range(15):
+                time.sleep(1)
+                # 检测搜索结果：Cell 元素或包含地址关键词的 StaticText
+                cells = client(type="Cell")
+                cell_count = cells.count() if callable(getattr(cells, "count", None)) else 0
+                if cells.exists and cell_count > 0:
+                    search_result_found = True
+                    logger.info(f"  >> 搜索结果已出现 ({wait_idx+1}s)，Cell 数量: {cell_count}")
+                    break
+
+                # 备选：文本匹配（同时匹配简体和繁体关键词）
+                search_kws = [target_text, address.replace("地铁站", "地鐵站").replace("地铁", "地鐵")]
+                for kw in search_kws:
+                    result = client(
+                        xpath=f'//XCUIElementTypeStaticText[contains(@label,"{kw}") or contains(@value,"{kw}")]')
+                    if result.exists:
+                        search_result_found = True
+                        logger.info(f"  >> 搜索结果已出现 ({wait_idx+1}s)，文本匹配『{kw}』")
+                        break
+                if search_result_found:
+                    break
+
+                time.sleep(1)
+
+            if not search_result_found:
+                self._ios_screenshot(f"JRYG_ios_search_{addr_type}_no_result.png")
+                page_texts = self._ios_get_all_texts(client)
+                logger.error(f"  >> 等待{addr_type}搜索结果超时，页面文本: {page_texts[:150]}")
+                raise AssertionError(f"等待{addr_type}搜索结果超时(15s)，未出现结果")
+
+            # ---- 步骤 E+F：选择搜索结果并验证跳转（调用通用封装方法） ----
+            self._ios_select_search_result(is_start, address, target_text)
 
     # ==================== 公共流程步骤 ====================
 
     def _ios_launch_setup_and_addresses(self, tag, start_addr="", end_addr=""):
-        """公共步骤：拉起App → 处理弹窗 → 跳过引导页 → 关闭广告 → 配置起点 → 配置终点"""
+        """公共步骤：拉起App → 处理弹窗 → 跳过引导页 → 关闭广告 → 配置起点 → 配置终点
+
+        :param tag: 日志标签。
+        :param start_addr: 起点地址文本。
+        :param end_addr: 终点地址文本。
+        """
+        # 步骤 1：回到桌面
         logger.info(f"【{tag} 步骤 1】正在回到桌面...")
         self.client.home()
         time.sleep(2)
 
+        # 步骤 2：拉起乘客端 App
         logger.info(f"【{tag} 步骤 2】正在拉起 App: {E.PASSENGER_BUNDLE_ID}")
         self.client.session(E.PASSENGER_BUNDLE_ID)
         time.sleep(10)
 
+        # 步骤 3：处理系统弹窗（权限请求等）
         logger.info(f"【{tag} 步骤 3】处理系统弹窗...")
         try:
             self.client.alert.accept()
@@ -452,6 +750,7 @@ class iOSBase:
         # 处理隐私协议弹框（登录后或首次进入时可能弹出）
         self._ios_dismiss_privacy_agreement()
 
+        # 跳过引导页（最多 5 次，每次点击跳过按钮后等待 3 秒）
         for i in range(5):
             guide_btn = self.client(xpath=E.GUIDE_SKIP_XPATH)
             if guide_btn.exists:
@@ -461,6 +760,7 @@ class iOSBase:
             else:
                 break
 
+        # 关闭广告弹窗（依次尝试广告关闭按钮标识）
         for ad_btn_text in E.AD_CLOSE_IDENTIFIERS:
             ad_el = self.poco(ad_btn_text)
             if ad_el.exists():
@@ -469,15 +769,27 @@ class iOSBase:
                 time.sleep(2)
                 break
 
+        # 步骤 4：配置起点
         logger.info(f"【{tag} 步骤 4】配置起点: {start_addr}")
         self._ios_search_address(is_start=True, address=start_addr)
 
+        # 步骤 5：配置终点
         logger.info(f"【{tag} 步骤 5】配置终点: {end_addr}")
         self._ios_search_address(is_start=False, address=end_addr)
-        time.sleep(7)
 
     def _ios_select_car_type(self, tag, car_type="charter"):
-        """选择车型：charter=包車價的士, meter=打錶的士"""
+        """选择车型：charter=包車價的士, meter=打錶的士
+
+        选择策略（依次降级）：
+        1. WDA 精确 XPath 匹配
+        2. Poco 模糊 textMatches 匹配
+        3. WDA contains XPath 匹配
+        4. 物理坐标兜底
+
+        :param tag: 日志标签。
+        :param car_type: 车型标识，"charter"=包車價的士 / "meter"=打錶的士。
+        """
+        # 根据车型选择对应的定位策略
         if car_type == "charter":
             xpath_exact = E.CHARTER_CAR_XPATH_EXACT
             xpath_contains = E.CHARTER_CAR_XPATH_CONTAINS
@@ -494,12 +806,14 @@ class iOSBase:
         logger.info(f"【{tag} 步骤 6】选择『{car_name}』车型...")
         car_selected = False
 
+        # 策略 1：WDA 精确 XPath 匹配
         car_el = self.client(xpath=xpath_exact)
         if car_el.exists:
             car_el.click()
             car_selected = True
             logger.info(f"  >> [WDA] 精确匹配并点击『{car_name}』")
 
+        # 策略 2：Poco 模糊 textMatches 匹配
         if not car_selected:
             poco_car = self.poco(textMatches=poco_regex)
             if poco_car.exists():
@@ -507,6 +821,7 @@ class iOSBase:
                 car_selected = True
                 logger.info(f"  >> [Poco] 模糊匹配并点击{car_name}")
 
+        # 策略 3：WDA contains XPath 匹配
         if not car_selected:
             car_el = self.client(xpath=xpath_contains)
             if car_el.exists:
@@ -514,6 +829,7 @@ class iOSBase:
                 car_selected = True
                 logger.info(f"  >> [WDA] contains 匹配并点击{car_name}")
 
+        # 策略 4：物理坐标兜底
         if not car_selected:
             logger.warning(f"  >> 未匹配到{car_name}，物理坐标点击...")
             self.client.click(*fallback_coord)
@@ -522,14 +838,23 @@ class iOSBase:
         time.sleep(3)
 
     def _ios_click_confirm_call(self, tag):
-        """点击『確認呼叫』按钮（含重试机制）"""
+        """点击『確認呼叫』按钮（含 3 次重试机制）。
+
+        尝试顺序：WDA XPath → Poco textMatches → 物理坐标兜底。
+        每次尝试失败后等待 2 秒重试，最多 3 次。
+
+        :param tag: 日志标签。
+        """
         for attempt in range(3):
+            # 先尝试 WDA XPath 匹配
             btn = self.client(xpath=E.CONFIRM_CALL_XPATH)
             if not btn.exists:
+                # WDA 找不到则尝试 Poco textMatches
                 poco_btn = self.poco(textMatches=E.CONFIRM_CALL_POCO_REGEX)
                 if poco_btn.exists():
                     btn = poco_btn
 
+            # 按钮存在则点击（WDA 和 Poco 的 exists 判断方式不同）
             if btn and (hasattr(btn, "exists") and btn.exists or not hasattr(btn, "exists")):
                 try:
                     btn.click()
@@ -540,40 +865,357 @@ class iOSBase:
                     logger.warning(f"  >> [{tag}] 点击确认呼叫异常: {e}，重试...")
                     time.sleep(2)
             else:
+                # 按钮未找到，物理坐标兜底
                 logger.warning(f"  >> [{tag}] 未找到确认呼叫按钮，物理坐标点击 (尝试 {attempt+1}/3)")
                 self.client.click(*E.CONFIRM_CALL_FALLBACK_COORD)
                 time.sleep(5)
                 return
 
+        # 3 次重试均失败
         logger.error(f"  >> [{tag}] 确认呼叫按钮点击失败，已达最大重试次数")
         self._ios_screenshot(f"JRYG_ios_{tag}_confirm_call_failed.png")
 
     def _ios_click_confirm_pay(self, tag):
-        """点击『確認支付並呼叫』按钮"""
+        """点击『確認支付並呼叫』按钮（包車價的士预付页面）。
+
+        尝试顺序：WDA XPath → Poco textMatches → 物理坐标兜底。
+
+        :param tag: 日志标签。
+        """
+        # 先尝试 WDA XPath 匹配
         btn = self.client(xpath=E.CONFIRM_PAY_XPATH)
         if not btn.exists:
+            # WDA 找不到则尝试 Poco textMatches
             poco_btn = self.poco(textMatches=E.CONFIRM_PAY_POCO_REGEX)
             if poco_btn.exists():
                 btn = poco_btn
 
+        # 按钮存在则点击
         if btn and (hasattr(btn, "exists") and btn.exists or not hasattr(btn, "exists")):
             btn.click()
             logger.info(f"  >> [{tag}] 已点击确认支付并呼叫")
         else:
+            # 物理坐标兜底
             self.client.click(*E.CONFIRM_PAY_FALLBACK_COORD)
             logger.info(f"  >> [{tag}] 物理坐标点击确认支付并呼叫")
         time.sleep(5)
 
+    def _ios_fill_bank_card_form(self, tag):
+        """填写银行卡信息并提交支付。
+
+        点击"確認支付並呼叫"后，如果选择了信用卡/扣帳卡支付方式，
+        会跳转到银行卡信息填写页面（WebView 表单），需要依次填写：
+        卡号 → 月/年 → CVV碼 → 持卡人姓名 → 点击"請支付"按钮。
+
+        :param tag: 日志标签。
+        :return: True 表示已填写并提交，False 表示未检测到银行卡页面。
+        """
+        # 轮询等待银行卡页面加载（最多 15 秒）
+        bank_page_found = False
+        for wait_idx in range(15):
+            page_texts = self._ios_get_all_texts(self.client)
+            if any(kw in t for t in page_texts for kw in E.BANK_PAGE_KEYWORDS):
+                bank_page_found = True
+                logger.info(f"  >> [{tag}] 检测到银行卡填写页面 ({wait_idx+1}s)")
+                break
+            time.sleep(1)
+
+        if not bank_page_found:
+            logger.info(f"  >> [{tag}] 未检测到银行卡填写页面(15s)")
+            return False
+
+        self._ios_screenshot(f"JRYG_ios_{tag}_bank_form_before.png")
+        time.sleep(2)
+
+        # WebView 表单：只有当前聚焦的 TextField 可见，需逐个点击占位文字激活
+        # 占位文案 → 要填入的值
+        card_fields = [
+            (["卡號", "卡号", "Card Number"], E.TEST_CARD_NUMBER, "卡号"),
+            (["月 / 年", "月/年", "MM/YY", "Expiry", "有效期"], E.TEST_CARD_EXPIRY, "月/年"),
+            (["CVV", "CVV 碼", "CVV码"], E.TEST_CARD_CVV, "CVV"),
+            (["持卡人姓名", "Name"], E.TEST_CARD_HOLDER, "持卡人姓名"),
+        ]
+
+        for field_idx, (placeholders, value, label) in enumerate(card_fields):
+            filled = False
+            # CVV/持卡人姓名：占位文字方式不可靠（StaticText 遮挡 TextField），直接用坐标
+            use_placeholder = label not in ("CVV", "持卡人姓名")
+
+            # 方式 1：点击占位文字对应的元素（StaticText 或 TextField）
+            if use_placeholder:
+                for ph in placeholders:
+                    try:
+                        el = self.client(
+                            xpath=f'//*[contains(@label, "{ph}") or contains(@value, "{ph}")]')
+                        if el.exists:
+                            el.click()
+                            time.sleep(0.5)
+                            self.client.send_keys(value)
+                            time.sleep(1)
+                            logger.info(f"  >> [{tag}] 已填写{label}: {value} (placeholder={ph})")
+                            filled = True
+                            break
+                    except Exception as e:
+                        logger.warning(f"  >> [{tag}] 填写{label}(ph={ph})异常: {e}")
+
+            # 方式 2：通过 WDA XML 获取 TextField 坐标直接点击
+            if not filled:
+                try:
+                    import requests as _req
+                    r = _req.get("http://127.0.0.1:8100/source?format=xml", timeout=12)
+                    root = ET.fromstring(r.json()["value"])
+                    target_tf = None
+                    for node in root.iter():
+                        if "TextField" not in node.tag:
+                            continue
+                        if node.get("visible", "true") == "false":
+                            continue
+                        val = node.get("value", "")
+                        # 优先匹配占位文字（说明该字段未填写）
+                        if any(ph in val for ph in placeholders):
+                            x = int(node.get("x", "0"))
+                            y = int(node.get("y", "0"))
+                            w = int(node.get("width", "0"))
+                            h = int(node.get("height", "0"))
+                            target_tf = (x + w // 2, y + h // 2)
+                            break
+                    # 备选：按 y 排序取第 field_idx 个
+                    if not target_tf:
+                        visible_tfs = []
+                        for node in root.iter():
+                            if "TextField" not in node.tag:
+                                continue
+                            if node.get("visible", "true") == "false":
+                                continue
+                            x = int(node.get("x", "0"))
+                            y = int(node.get("y", "0"))
+                            w = int(node.get("width", "0"))
+                            h = int(node.get("height", "0"))
+                            visible_tfs.append((x + w // 2, y + h // 2))
+                        visible_tfs.sort(key=lambda t: t[1])
+                        if field_idx < len(visible_tfs):
+                            target_tf = visible_tfs[field_idx]
+
+                    if target_tf:
+                        cx, cy = target_tf
+                        self.client.click(cx, cy)
+                        time.sleep(0.5)
+                        self.client.send_keys(value)
+                        time.sleep(1)
+                        logger.info(f"  >> [{tag}] 坐标填写{label}: {value} ({cx},{cy})")
+                        filled = True
+                except Exception as e:
+                    logger.warning(f"  >> [{tag}] 坐标填写{label}异常: {e}")
+
+            if not filled:
+                logger.warning(f"  >> [{tag}] 未找到{label}输入框")
+
+        self._ios_screenshot(f"JRYG_ios_{tag}_bank_form_filled.png")
+        time.sleep(1)
+
+        # 点击"請支付"按钮提交
+        logger.info(f"  >> [{tag}] 点击請支付按钮提交支付...")
+        pay_btn = self.client(xpath=E.FINAL_PAY_XPATH)
+        if not pay_btn.exists:
+            poco_btn = self.poco(textMatches=E.FINAL_PAY_POCO_REGEX)
+            if poco_btn.exists():
+                pay_btn = poco_btn
+
+        if pay_btn and (hasattr(pay_btn, "exists") and pay_btn.exists or not hasattr(pay_btn, "exists")):
+            pay_btn.click()
+            logger.info(f"  >> [{tag}] 已点击請支付按钮")
+        else:
+            self.client.click(*E.FINAL_PAY_FALLBACK_COORD)
+            logger.info(f"  >> [{tag}] 物理坐标点击請支付")
+        time.sleep(5)
+
+        # 检测是否跳转到 3D Secure OTP 验证页
+        self._ios_handle_otp_page(tag)
+        return True
+
+    def _ios_click_element_by_label(self, label_kw, class_name="XCUIElementTypeButton"):
+        """通过元素 uuid 点击控件（WebView 内元素唯一可靠的方式）。
+
+        WDA 坐标 tap（wda.Client.click → /wda/tap）对 WebView 内的
+        DOM 元素无效，必须走 POST /wda/element/{uuid}/click。
+
+        :param label_kw: 控件 label 关键词。
+        :param class_name: 元素类型（Button/TextField/StaticText 等）。
+        :return: True 表示点击成功。
+        """
+        try:
+            for el in self.client(className=class_name):
+                try:
+                    if label_kw in (el.label or ""):
+                        el.click()
+                        return True
+                except Exception:
+                    continue
+        except Exception as e:
+            logger.warning(f"  >> element 点击({label_kw}) 异常: {e}")
+        return False
+
+    def _ios_handle_otp_page(self, tag):
+        """检测并处理 3D Secure OTP 验证页。
+
+        点击"請支付"后可能跳转到银行 3DS 验证页面（Sandbox 测试环境），
+        需要输入 OTP 验证码并点击 Verify & Proceed。
+
+        注意（WebView 3DS 弹层踩坑）：
+        1. WDA source 中 TextField 的 value 永远是占位符"e.g. 123456"，
+           读不到真实输入值，不能据此判断是否已输入。
+        2. 坐标 tap 对该 WebView 内的按钮无效，必须用 element uuid 点击
+           （self.client(xpath=...).click() 内部走的就是 uuid 点击）。
+        3. 输入框若残留旧字符会导致校验失败，需先退格清空再输入。
+
+        :param tag: 日志标签。
+        """
+        page_texts = self._ios_get_all_texts(self.client)
+        if not any(kw in t for t in page_texts for kw in E.OTP_PAGE_KEYWORDS):
+            return  # 不是 OTP 页面
+
+        logger.info(f"  >> [{tag}] 检测到 3D Secure OTP 验证页，填写 OTP...")
+        self._ios_screenshot(f"JRYG_ios_{tag}_otp_page.png")
+        time.sleep(2)
+
+        otp_code = E.OTP_DEFAULT_CODE
+
+        # ---- 步骤 1：定位 OTP 输入框 ----
+        tf = None
+        try:
+            tf = self.client(type="TextField")
+        except Exception as e:
+            logger.warning(f"  >> [{tag}] 查找 OTP 输入框异常: {e}")
+
+        # ---- 步骤 2：聚焦输入框（element uuid 点击，坐标 tap 对 WebView 无效） ----
+        try:
+            if not self._ios_click_element_by_label("", "XCUIElementTypeTextField"):
+                # 兜底：坐标点击输入框（实测 393x852 下中心约 196,539）
+                self.client.click(*E.OTP_FALLBACK_COORD)
+            logger.info(f"  >> [{tag}] 已聚焦 OTP 输入框")
+            time.sleep(1.5)
+        except Exception as e:
+            logger.warning(f"  >> [{tag}] 聚焦 OTP 输入框异常: {e}")
+
+        # ---- 步骤 3：退格清空残留内容 ----
+        try:
+            for _ in range(E.OTP_CLEAR_TIMES):
+                self.client.send_keys("\b")
+                time.sleep(0.2)
+            logger.info(f"  >> [{tag}] 已清空输入框")
+            time.sleep(0.5)
+        except Exception as e:
+            logger.warning(f"  >> [{tag}] 清空输入框异常: {e}")
+
+        # ---- 步骤 4：输入 OTP ----
+        try:
+            self.client.send_keys(otp_code)
+            logger.info(f"  >> [{tag}] 已输入 OTP: {otp_code}")
+            time.sleep(1)
+        except Exception as e:
+            logger.warning(f"  >> [{tag}] 输入 OTP 异常: {e}")
+
+        # ---- 步骤 5：点击 Verify & Proceed（element uuid 点击，坐标 tap 无效） ----
+        clicked = self._ios_click_element_by_label("Verify")
+        if clicked:
+            logger.info(f"  >> [{tag}] 已点击 Verify & Proceed")
+        else:
+            try:
+                verify_poco = self.poco(textMatches=".*Verify.*|.*验证.*|.*Proceed.*")
+                if verify_poco.exists():
+                    verify_poco.click()
+                    clicked = True
+                    logger.info(f"  >> [{tag}] Poco 点击 Verify")
+            except Exception as e:
+                logger.warning(f"  >> [{tag}] Poco 点击 Verify 异常: {e}")
+
+        if not clicked:
+            # 兜底：坐标点击（WDA source 坐标：Verify 中心约 196,611）
+            self.client.click(*E.OTP_VERIFY_FALLBACK_COORD)
+            logger.info(f"  >> [{tag}] 物理坐标点击 Verify")
+
+        time.sleep(5)
+
+        # ---- 步骤 6：等待 3DS 弹层关闭（成功页或返回 App） ----
+        logger.info(f"  >> [{tag}] 等待 3DS 验证结果...")
+        otp_done = False
+        for i in range(15):
+            cur_texts = self._ios_get_all_texts(self.client)
+            if any(kw in t for t in cur_texts for kw in E.OTP_SUCCESS_KEYWORDS):
+                logger.info(f"  >> [{tag}] 3DS 验证成功")
+                otp_done = True
+                break
+            # 已离开 OTP 弹层（回到 App 支付结果页或首页）
+            if not any(kw in t for t in cur_texts for kw in E.OTP_PAGE_KEYWORDS):
+                logger.info(f"  >> [{tag}] 3DS 弹层已关闭")
+                otp_done = True
+                break
+            time.sleep(2)
+
+        if not otp_done:
+            logger.warning(f"  >> [{tag}] 3DS 弹层未关闭，可能 OTP 输入无效")
+            self._ios_screenshot(f"JRYG_ios_{tag}_otp_failed.png")
+
+        # ---- 步骤 7：处理"打開/打开"弹窗返回 App ----
+        if otp_done:
+            time.sleep(2)
+            cur_texts = self._ios_get_all_texts(self.client)
+            if any(kw in t for t in cur_texts for kw in E.OTP_RETURN_APP_KEYWORDS):
+                open_btn = self.client(text="打開")
+                if not open_btn.exists:
+                    open_btn = self.client(text="打开")
+                if open_btn.exists:
+                    open_btn.click()
+                    logger.info(f"  >> [{tag}] 已点击'打開'返回 App")
+                    time.sleep(5)
+
+        # ---- Verify 后：等待 3DS 成功页 ----
+        logger.info(f"  >> [{tag}] 等待 3DS 验证结果...")
+        otp_success = False
+        for i in range(15):
+            page_texts = self._ios_get_all_texts(self.client)
+            if any(kw in t for t in page_texts for kw in E.OTP_SUCCESS_KEYWORDS):
+                logger.info(f"  >> [{tag}] 3DS 验证成功")
+                otp_success = True
+                break
+            # 已离开 OTP 页面（回到 App 或支付结果页）
+            if not any(kw in t for t in page_texts for kw in E.OTP_PAGE_KEYWORDS):
+                logger.info(f"  >> [{tag}] 已离开 OTP 页面")
+                otp_success = True
+                break
+            time.sleep(2)
+
+        # 处理"打開/打开"弹窗 → 返回 App
+        if otp_success:
+            time.sleep(2)
+            page_texts = self._ios_get_all_texts(self.client)
+            if any(kw in t for t in page_texts for kw in E.OTP_RETURN_APP_KEYWORDS):
+                open_btn = self.client(text="打開")
+                if not open_btn.exists:
+                    open_btn = self.client(text="打开")
+                if open_btn.exists:
+                    open_btn.click()
+                    logger.info(f"  >> [{tag}] 已点击'打開'返回 App")
+                    time.sleep(5)
+
+        if not otp_success:
+            logger.warning(f"  >> [{tag}] 3DS 验证结果未确认")
+
     def _ios_select_payment(self, tag, payment="cash"):
         """选择支付方式。
 
-        支持两种交互模式：
-        1. 直接点击：页面上的支付方式选项（包車價的士等）
-        2. 弹出面板：先点击"可選服務"区域弹出支付方式选择面板，
-           在面板中选择后点击"確認選擇"（打錶的士等）
+        统一面板流程（打錶的士/包車價的士均适用）：
+        1. 点击"可選服務"区域 → 弹出支付方式选择面板
+        2. 在面板中选择目标支付方式（如已默认选中则跳过）
+        3. 点击"確認選擇"按钮 → 回到路线页
+        后续由调用方点击"確認呼叫"继续流程。
+
+        车型与支付方式选择时机：
+        - 打錶的士：选车型 → 选支付方式（面板）→ 確認選擇 → 確認呼叫
+        - 包車價的士：选车型 → 確認呼叫 → 预付页面选支付方式 → 確認支付並呼叫
 
         :param tag: 日志标签。
-        :param payment: 支付方式标识（cash/epayment/alipay/bankcard）。
+        :param payment: 支付方式标识（cash/epayment/alipay/bankcard/octopus）。
         :raises AssertionError: 未找到支付方式选项时抛出。
         """
         keywords_map = {
@@ -581,82 +1223,83 @@ class iOSBase:
             "epayment": E.EPAYMENT_KEYWORDS,
             "alipay": E.ALIPAY_KEYWORDS,
             "bankcard": E.BANKCARD_KEYWORDS,
+            "octopus": E.OCTOPUS_KEYWORDS,
         }
         keywords = keywords_map.get(payment, [payment])
-        selected = False
 
-        # ---- 模式 1：直接搜索页面上的支付方式选项 ----
+        # ---- 步骤 1：点击"可選服務"区域，弹出支付方式选择面板 ----
+        logger.info(f"  >> [{tag}] 点击'可選服務'区域，弹出支付方式选择面板...")
+        panel_opened = False
+        service_el = self.client(
+            xpath='//*[contains(@label,"可選服務") or contains(@value,"可選服務")]')
+        if service_el.exists:
+            service_el.click()
+            panel_opened = True
+            time.sleep(2)
+            logger.info(f"  >> [{tag}] 已点击'可選服務'区域，等待面板弹出")
+        else:
+            service_poco = self.poco(textMatches=".*可選服務.*")
+            if service_poco.exists():
+                service_poco.click()
+                panel_opened = True
+                time.sleep(2)
+                logger.info(f"  >> [{tag}] Poco 点击'可選服務'区域")
+
+        if not panel_opened:
+            logger.warning(f"  >> [{tag}] 未找到'可選服務'区域，尝试直接选择支付方式")
+
+        # ---- 步骤 2：在面板中选择目标支付方式（如已默认选中则跳过） ----
+        # 检测是否已默认选中目标支付方式（页面有"已選擇"+目标关键词的提示文案）
+        already_selected = False
+        page_texts = self._ios_get_all_texts(self.client)
         for kw in keywords:
-            pay_el = self.client(xpath=f'//*[contains(@label, "{kw}") or contains(@value, "{kw}")]')
-            if pay_el.exists:
-                pay_el.click()
-                selected = True
-                logger.info(f"  >> [WDA] 直接点击支付方式『{kw}』")
+            for t in page_texts:
+                if ("已選擇" in t or "已选择" in t) and kw in t:
+                    already_selected = True
+                    logger.info(f"  >> [{tag}] 支付方式『{kw}』已默认选中，跳过选择")
+                    break
+            if already_selected:
                 break
 
-        if not selected:
-            poco_regex = ".*" + ".*|.*".join(keywords) + ".*"
-            poco_pay = self.poco(textMatches=poco_regex)
-            if poco_pay.exists():
-                poco_pay.click()
-                selected = True
-                logger.info(f"  >> [Poco] 直接点击支付方式")
-
-        # ---- 模式 2：通过支付方式选择面板 ----
-        if not selected:
-            logger.info(f"  >> [{tag}] 未直接找到支付方式，尝试弹出支付方式选择面板...")
-            # 点击"可選服務"文案区域弹出面板
-            service_el = self.client(
-                xpath='//*[contains(@label,"可選服務") or contains(@value,"可選服務")]')
-            if service_el.exists:
-                service_el.click()
-                time.sleep(2)
-                logger.info(f"  >> [{tag}] 已点击'可選服務'区域，等待面板弹出")
-            else:
-                # 尝试 Poco 匹配
-                service_poco = self.poco(textMatches=".*可選服務.*")
-                if service_poco.exists():
-                    service_poco.click()
-                    time.sleep(2)
-
-            # 在面板中选择目标支付方式
+        if not already_selected:
             for kw in keywords:
                 pay_el = self.client(
                     xpath=f'//*[contains(@label,"{kw}") or contains(@value,"{kw}")]')
                 if pay_el.exists:
                     pay_el.click()
-                    selected = True
                     logger.info(f"  >> [WDA] 面板中选择支付方式『{kw}』")
+                    time.sleep(1)
                     break
-
-            if not selected:
+            else:
                 poco_regex = ".*" + ".*|.*".join(keywords) + ".*"
                 poco_pay = self.poco(textMatches=poco_regex)
                 if poco_pay.exists():
                     poco_pay.click()
-                    selected = True
                     logger.info(f"  >> [Poco] 面板中选择支付方式")
-
-            # 点击"確認選擇"按钮确认选择
-            if selected:
-                confirm_btn = self.client(
-                    textMatches="確認選擇|确认选择")
-                if confirm_btn.exists:
-                    confirm_btn.click()
-                    logger.info(f"  >> [{tag}] 已点击'確認選擇'按钮")
-                    time.sleep(2)
+                    time.sleep(1)
                 else:
-                    confirm_poco = self.poco(textMatches=".*確認選擇.*|.*确认选择.*")
-                    if confirm_poco.exists():
-                        confirm_poco.click()
-                        logger.info(f"  >> [{tag}] 已点击'確認選擇'按钮")
-                        time.sleep(2)
-                    else:
-                        logger.warning(f"  >> [{tag}] 未找到'確認選擇'按钮")
+                    self._ios_screenshot(f"JRYG_ios_{tag}_payment_notfound.png")
+                    raise AssertionError(f"未匹配到支付方式({payment})，面板无对应选项")
 
-        if not selected:
-            self._ios_screenshot(f"JRYG_ios_{tag}_payment_notfound.png")
-            raise AssertionError(f"未匹配到支付方式({payment})，页面无对应选项")
+        # ---- 步骤 3：点击"確認選擇"按钮，回到路线页 ----
+        logger.info(f"  >> [{tag}] 点击'確認選擇'按钮...")
+        confirm_clicked = False
+        confirm_btn = self.client(textMatches="確認選擇|确认选择")
+        if confirm_btn.exists:
+            confirm_btn.click()
+            confirm_clicked = True
+            logger.info(f"  >> [{tag}] 已点击'確認選擇'按钮")
+            time.sleep(2)
+        else:
+            confirm_poco = self.poco(textMatches=".*確認選擇.*|.*确认选择.*")
+            if confirm_poco.exists():
+                confirm_poco.click()
+                confirm_clicked = True
+                logger.info(f"  >> [{tag}] Poco 点击'確認選擇'按钮")
+                time.sleep(2)
+
+        if not confirm_clicked:
+            logger.info(f"  >> [{tag}] 未找到'確認選擇'按钮（可能无需确认，已回到路线页）")
 
         time.sleep(2)
 
@@ -683,6 +1326,25 @@ class iOSBase:
                 result = "fail"
                 break
 
+            # 检测"未完成訂單"弹窗 → 返回让调用方处理
+            if any(("未完成" in t and ("訂單" in t or "订单" in t))
+                   for t in page_texts):
+                logger.warning(f"  [{tag} {wait_sec*2}s] 检测到'未完成訂單'弹窗")
+                result = "ongoing_order"
+                break
+
+            # 检测包車價的士温馨提示页，点击"我知道了，準備出發"
+            if any(kw in t for t in page_texts for kw in ["溫馨提示", "温馨提示", "我知道了", "準備出發", "准备出发"]):
+                logger.info(f"  [{tag} {wait_sec*2}s] 检测到温馨提示页，点击确认...")
+                for btn_kw in ["我知道了", "準備出發", "准备出发", "我知道"]:
+                    btn = self.client(textContains=btn_kw)
+                    if btn.exists:
+                        btn.click()
+                        logger.info(f"  >> 已点击'{btn_kw}'")
+                        time.sleep(3)
+                        break
+                continue  # 继续等待下单成功
+
             # 检测"距离太近"提示
             if any(kw in t for t in page_texts
                    for kw in E.DISTANCE_TOO_CLOSE_KEYWORDS):
@@ -703,20 +1365,34 @@ class iOSBase:
         return result
 
     def _ios_fill_bank_field(self, field_index, text, label):
-        """通过坐标聚焦并填写银行卡表单字段"""
+        """通过坐标聚焦并填写银行卡表单字段。
+
+        WebView 表单中只有当前聚焦的 TextField 可见，
+        需通过坐标点击激活后再输入文本，输入完成后关闭键盘。
+
+        :param field_index: 字段索引（0=卡号, 1=月/年, 2=CVV, 3=持卡人姓名）。
+        :param text: 要输入的文本值。
+        :param label: 字段标签（用于日志）。
+        :raises AssertionError: 指定索引的 TextField 不存在时抛出。
+        """
+        # 获取当前页面所有 TextField
         fields = self._ios_get_textfields()
         if field_index >= len(fields):
             raise AssertionError(f"未找到第{field_index + 1}个TextField（{label}），当前仅有{len(fields)}个字段")
 
+        # 点击 TextField 中心坐标聚焦
         cx, cy = fields[field_index]["cx"], fields[field_index]["cy"]
         self.client.click(cx, cy)
         time.sleep(1.5)
+        # 输入文本
         self.client.send_keys(text)
         time.sleep(1.5)
 
+        # 验证输入是否成功（重新获取 TextField 列表检查值）
         fields_after = self._ios_get_textfields()
         if field_index < len(fields_after):
             actual = fields_after[field_index]["value"]
             logger.info(f"  >> {label}输入完成: '{actual}'")
 
+        # 输入完成后关闭键盘
         self._ios_dismiss_keyboard()

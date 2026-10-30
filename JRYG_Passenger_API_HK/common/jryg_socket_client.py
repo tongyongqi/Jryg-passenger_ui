@@ -19,6 +19,7 @@ ByteUtil 方法对应：
   b(byte[]...) → 拼接
 """
 
+import logging
 import socket
 import struct
 import threading
@@ -38,7 +39,7 @@ class JRYGSocketClient:
     MSG_HEART = 1022
     MSG_LOCATION = 1017
 
-    def __init__(self, access_token, lat=None, lng=None):
+    def __init__(self, access_token, lat=None, lng=None, logger=None):
         """
         :param access_token: HTTP 登录返回的 access_token（作为 Socket openToken）
         :param lat: 纬度（默认用配置中的司机定位纬度）
@@ -57,6 +58,16 @@ class JRYGSocketClient:
         self._location_thread = None
         self._running = False
         self._lock = threading.Lock()
+        self._send_lock = threading.Lock()
+        self._state = threading.Condition()
+        self._stop = threading.Event()
+        self._pending = {}
+        self._ack_sequences = {}
+        self._ack_times = {}
+        self._location_ack_count = 0
+        self._last_location = None
+        self.last_error = ""
+        self.logger = logger or logging.getLogger(__name__)
 
     def _next_seq(self):
         with self._lock:
@@ -196,15 +207,128 @@ class JRYGSocketClient:
         )
         return self._wrap_message(body)
 
+    def _send_message(self, message):
+        msg_type, seq = struct.unpack(">ii", message[4:12])
+        location = struct.unpack(">dd", message[20:36]) if msg_type == self.MSG_LOCATION else None
+        try:
+            with self._send_lock:
+                with self._state:
+                    if not self.connected or not self._running:
+                        raise ConnectionError("司机长连接已断开")
+                    self._pending[seq] = (msg_type, location)
+                    while len(self._pending) > 100:
+                        self._pending.pop(next(iter(self._pending)))
+                self.sock.sendall(message)
+            return seq
+        except Exception as exc:
+            self._mark_disconnected(f"发送失败: {exc}")
+            raise
+
+    def _record_ack(self, msg_type, seq):
+        with self._state:
+            pending = self._pending.get(seq)
+            if not self._running or not self.connected or not pending or pending[0] != msg_type:
+                return
+            self._pending.pop(seq)
+            if msg_type == self.MSG_LOGIN:
+                self.logged_in = True
+            if msg_type == self.MSG_LOCATION:
+                self._location_ack_count += 1
+            if seq > self._ack_sequences.get(msg_type, 0):
+                self._ack_sequences[msg_type] = seq
+                self._ack_times[msg_type] = time.monotonic()
+                if msg_type == self.MSG_LOCATION:
+                    self._last_location = pending[1]
+            self._state.notify_all()
+        self.logger.info("[Socket] 收到回执 type=%s sequence=%s location=%s",
+                         msg_type, seq, pending[1])
+
+    def _mark_disconnected(self, reason):
+        with self._state:
+            self.connected = False
+            self.logged_in = False
+            self._running = False
+            self.last_error = reason
+            self._pending.clear()
+            self._stop.set()
+            self._state.notify_all()
+        transport = self.sock
+        if transport is not None:
+            try:
+                transport.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+            try:
+                transport.close()
+            except OSError:
+                pass
+        self.logger.info("[Socket] 连接停止: %s", reason)
+
+    def readiness_status(self):
+        """返回连接、上报线程及定位回执的新鲜度，不包含登录凭证。"""
+        with self._state:
+            now = time.monotonic()
+            location_at = self._ack_times.get(self.MSG_LOCATION)
+            heart_at = self._ack_times.get(self.MSG_HEART)
+            return {
+                "connected": self.connected,
+                "logged_in": self.logged_in,
+                "running": self._running,
+                "workers_alive": all(t is not None and t.is_alive() for t in
+                                     (self._recv_thread, self._heart_thread, self._location_thread)),
+                "location_ack_count": self._location_ack_count,
+                "location_ack_sequence": self._ack_sequences.get(self.MSG_LOCATION, 0),
+                "heart_ack_sequence": self._ack_sequences.get(self.MSG_HEART, 0),
+                "location_age": None if location_at is None else now - location_at,
+                "heart_age": None if heart_at is None else now - heart_at,
+                "location": self._last_location,
+                "last_error": self.last_error,
+            }
+
+    def wait_until_ready(self, timeout=20, max_location_age=10, min_location_acks=2,
+                         location_sequence=0, heart_sequence=0):
+        """等待相关定位和心跳回执，同时确认后台上报线程仍存活。"""
+        deadline = time.monotonic() + timeout
+        with self._state:
+            while True:
+                state = self.readiness_status()
+                if not all(state[key] for key in ("connected", "logged_in", "running", "workers_alive")):
+                    return False
+                if (state["location_ack_count"] >= min_location_acks
+                        and state["location_ack_sequence"] >= location_sequence
+                        and state["heart_ack_sequence"] >= heart_sequence
+                        and state["location_age"] is not None
+                        and state["location_age"] <= max_location_age
+                        and state["heart_age"] is not None and state["heart_age"] <= 45
+                        and state["location"] == (self.lng, self.lat)):
+                    return True
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    return False
+                self._state.wait(min(remaining, 0.2))
+
+    def confirm_location(self, timeout=20, max_location_age=10, min_location_acks=2):
+        """下单前主动刷新心跳和定位，等待本次或更新序列的匹配回执。"""
+        try:
+            heart_seq = self._send_message(self._build_heart_message())
+            loc_seq = self._send_message(self._build_location_message())
+        except (OSError, ConnectionError):
+            return False
+        return self.wait_until_ready(timeout, max_location_age, min_location_acks,
+                                     location_sequence=loc_seq, heart_sequence=heart_seq)
+
     def _recv_all(self, n):
-        """精确读取 n 个字节"""
+        """精确读取 n 个字节，读超时不丢弃已接收的半包。"""
         data = b""
-        while len(data) < n:
-            chunk = self.sock.recv(n - len(data))
+        while self._running and len(data) < n:
+            try:
+                chunk = self.sock.recv(n - len(data))
+            except socket.timeout:
+                continue
             if not chunk:
                 return None
             data += chunk
-        return data
+        return data if len(data) == n else None
 
     def _parse_response(self, data):
         """解析服务端返回消息"""
@@ -216,134 +340,109 @@ class JRYGSocketClient:
         return msg_type, sequence
 
     def _recv_loop(self):
-        """接收线程：读取服务端消息"""
+        """接收线程：读取服务端消息。"""
         while self._running:
             try:
-                # 先读4字节长度
                 len_bytes = self._recv_all(4)
                 if not len_bytes:
-                    print("[Socket] 连接断开")
-                    self.connected = False
+                    if self._running:
+                        self._mark_disconnected("接收连接断开")
                     break
                 total_len = struct.unpack(">i", len_bytes)[0]
-                if total_len <= 0 or total_len > 65536:
-                    print(f"[Socket] 异常长度: {total_len}")
-                    continue
-                # 读取消息体
+                if total_len < 8 or total_len > 65536:
+                    self._mark_disconnected(f"异常报文长度: {total_len}")
+                    break
                 body = self._recv_all(total_len)
                 if not body:
-                    print("[Socket] 连接断开(读取消息体)")
-                    self.connected = False
+                    if self._running:
+                        self._mark_disconnected("读取消息体时断开")
                     break
                 result = self._parse_response(len_bytes + body)
                 if result:
                     msg_type, seq = result
-                    if msg_type == self.MSG_LOGIN:
-                        print(f"[Socket] 登录成功! sequence={seq}")
-                        self.logged_in = True
-                    elif msg_type == self.MSG_HEART:
-                        print(f"[Socket] 心跳返回成功 sequence={seq}")
-                    elif msg_type == self.MSG_LOCATION:
-                        print(f"[Socket] 位置上报成功 sequence={seq}")
+                    if msg_type in (self.MSG_LOGIN, self.MSG_HEART, self.MSG_LOCATION):
+                        self._record_ack(msg_type, seq)
                     else:
-                        # 可能是新订单推送等消息
-                        print(f"[Socket] 收到消息 type={msg_type} sequence={seq} len={total_len}")
-                        # 尝试提取JSON（新订单推送）
+                        self.logger.info("[Socket] 收到推送 type=%s sequence=%s len=%s",
+                                         msg_type, seq, total_len)
                         if total_len > 16:
-                            try:
-                                json_data = body[8:].decode("utf-8", errors="ignore")
-                                if "{" in json_data:
-                                    start = json_data.index("{")
-                                    print(f"[Socket] 推送内容: {json_data[start:]}")
-                            except Exception:
-                                pass
-            except Exception as e:
-                print(f"[Socket] 接收异常: {e}")
-                self.connected = False
+                            json_data = body[8:].decode("utf-8", errors="ignore")
+                            if "{" in json_data:
+                                self.logger.debug("[Socket] 推送内容: %s",
+                                                  json_data[json_data.index("{"):])
+            except Exception as exc:
+                if self._running:
+                    self._mark_disconnected(f"接收异常: {exc}")
                 break
 
     def _heart_loop(self):
-        """心跳线程：每30秒发送一次"""
+        """心跳线程：每30秒发送一次。"""
         while self._running and self.logged_in:
             try:
-                msg = self._build_heart_message()
-                self.sock.sendall(msg)
-                print("[Socket] 发送心跳")
-            except Exception as e:
-                print(f"[Socket] 心跳发送异常: {e}")
+                self._send_message(self._build_heart_message())
+            except Exception as exc:
+                self._mark_disconnected(f"心跳发送异常: {exc}")
                 break
-            time.sleep(30)
+            if self._stop.wait(30):
+                break
 
     def _location_loop(self):
-        """位置上报线程：每3秒发送一次"""
+        """位置上报线程：每3秒发送一次。"""
         while self._running and self.logged_in:
             try:
-                msg = self._build_location_message()
-                self.sock.sendall(msg)
-                print(f"[Socket] 发送位置 lat={self.lat} lng={self.lng}")
-            except Exception as e:
-                print(f"[Socket] 位置上报异常: {e}")
+                seq = self._send_message(self._build_location_message())
+                self.logger.info("[Socket] 发送位置 sequence=%s lat=%s lng=%s",
+                                 seq, self.lat, self.lng)
+            except Exception as exc:
+                self._mark_disconnected(f"位置上报异常: {exc}")
                 break
-            time.sleep(3)
+            if self._stop.wait(3):
+                break
 
     def connect(self):
-        """建立 TCP 连接"""
-        print(f"[Socket] 连接 {self.GATEWAY_HOST}:{self.GATEWAY_PORT}...")
-        self.sock = socket.create_connection((self.GATEWAY_HOST, self.GATEWAY_PORT), timeout=10)
-        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-        self.connected = True
-        self._running = True
-        print("[Socket] TCP 连接成功")
-
-        # 启动接收线程
-        self._recv_thread = threading.Thread(target=self._recv_loop, daemon=True)
-        self._recv_thread.start()
-
-        # 发送登录消息
-        login_msg = self._build_login_message()
-        self.sock.sendall(login_msg)
-        print(f"[Socket] 已发送登录消息 (token={self.access_token[:20]}...)")
-
-        # 等待登录成功
-        for _ in range(50):
-            if self.logged_in:
-                break
-            time.sleep(0.1)
-
-        if not self.logged_in:
-            print("[Socket] 登录超时!")
+        """建立连接并启动持续心跳、位置上报，失败时清理线程。"""
+        self.disconnect()
+        with self._state:
+            self._pending.clear()
+            self._ack_sequences.clear()
+            self._ack_times.clear()
+            self._location_ack_count = 0
+            self._last_location = None
+            self.last_error = ""
+            self._stop.clear()
+        try:
+            self.sock = socket.create_connection((self.GATEWAY_HOST, self.GATEWAY_PORT), timeout=10)
+            self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+            self.sock.settimeout(1)
+            self.connected = True
+            self._running = True
+            self._recv_thread = threading.Thread(target=self._recv_loop, daemon=True)
+            self._recv_thread.start()
+            self._send_message(self._build_login_message())
+            with self._state:
+                self._state.wait_for(lambda: self.logged_in or not self.connected, timeout=5)
+            if not self.logged_in or not self.connected:
+                self._mark_disconnected("Socket 登录回执超时或连接中断")
+                self.disconnect()
+                return False
+            self._heart_thread = threading.Thread(target=self._heart_loop, daemon=True)
+            self._location_thread = threading.Thread(target=self._location_loop, daemon=True)
+            self._heart_thread.start()
+            self._location_thread.start()
+            self.logger.info("[Socket] 登录确认，心跳和定位上报已启动")
+            return True
+        except Exception as exc:
+            self._mark_disconnected(f"连接失败: {exc}")
+            self.disconnect()
             return False
 
-        # 发送心跳
-        heart_msg = self._build_heart_message()
-        self.sock.sendall(heart_msg)
-
-        # 发送位置数据
-        loc_msg = self._build_location_message()
-        self.sock.sendall(loc_msg)
-
-        # 启动心跳线程
-        self._heart_thread = threading.Thread(target=self._heart_loop, daemon=True)
-        self._heart_thread.start()
-
-        # 启动位置上报线程
-        self._location_thread = threading.Thread(target=self._location_loop, daemon=True)
-        self._location_thread.start()
-
-        print("[Socket] 长连接登录成功，心跳+位置上报已启动")
-        return True
-
     def disconnect(self):
-        """断开连接"""
-        self._running = False
-        self.logged_in = False
-        self.connected = False
-        if self.sock:
-            try:
-                self.sock.close()
-            except Exception:
-                pass
-        print("[Socket] 已断开连接")
+        """停止后台上报并关闭连接，避免测试结束后留下上传线程。"""
+        self._mark_disconnected(self.last_error or "主动断开")
+        for worker in (self._recv_thread, self._heart_thread, self._location_thread):
+            if worker is not None and worker is not threading.current_thread():
+                worker.join(timeout=2)
+        self.sock = None
 
     def wait_for_order(self, timeout=120):
         """等待接收新订单推送"""

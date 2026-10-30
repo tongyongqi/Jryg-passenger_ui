@@ -2,10 +2,30 @@
 港版阳光出行 iOS 乘客端 —— 全局 UI 元素变量定义
 ==============================================================================
 所有 iOS 测试用例共享的元素定位变量，统一管理，避免硬编码。
+
+本文件定义以下几类常量：
+  1. App 基本信息（Bundle ID）
+  2. 首页元素（起点/终点入口、搜索框、键盘、引导页、广告弹窗）
+  3. 车型选择（包車價的士/打錶的士的 XPath/Poco/坐标）
+  4. 确认呼叫按钮
+  5. 收银台（先付後乘预付页面）
+  6. 支付方式选项（Alipay HK/信用卡/现金/电子支付/八達通）
+  7. 银行卡填写页 + 3D Secure OTP 验证页
+  8. Alipay HK 授权页
+  9. 下单结果判断关键词（成功/失败/处理中）
+  10. 优惠券
+  11. 测试数据（地址、银行卡号等）
+
+命名约定：
+  - XXX_XPATH      ：XPath 定位字符串
+  - XXX_POCO_REGEX ：Poco textMatches 正则表达式
+  - XXX_FALLBACK_COORD：物理坐标兜底（相对比例或绝对像素）
+  - XXX_KEYWORDS   ：关键词列表（简繁体混合匹配）
 ==============================================================================
 """
 
 # ==================== App 基本信息 ====================
+# 乘客端 App Bundle ID（港版包名，用于拉起 App）
 PASSENGER_BUNDLE_ID = "com.sunlightmobility.client"
 
 # ==================== 首页元素 ====================
@@ -115,9 +135,16 @@ OTP_VERIFY_XPATH = (
     '//XCUIElementTypeButton[contains(@label, "Verify") or contains(@name, "Verify") '
     'or contains(@label, "验证") or contains(@name, "验证")]'
 )
-OTP_VERIFY_FALLBACK_COORD = (0.5, 0.68)
+# Verify 按钮实测位置：x=44 y=585 w=305 h=53 → 中心 (196, 611)，屏幕高 852 → 比例 0.717
+OTP_VERIFY_FALLBACK_COORD = (0.5, 0.717)
 OTP_DEFAULT_CODE = "123456"
 OTP_FALLBACK_COORD = (196, 539)
+# 输入框残留字符清空次数（退格次数需 >= 已有字符数）
+OTP_CLEAR_TIMES = 12
+# Verify 后 3DS 成功页关键词（用于等待页面跳转）
+OTP_SUCCESS_KEYWORDS = ["SUCCESS", "成功", "Payment Successful", "交易成功"]
+# Verify 后需返回 App 的提示（"打開"/"打开"）
+OTP_RETURN_APP_KEYWORDS = ["打開", "打开"]
 
 # ==================== Alipay HK 授权页 ====================
 ALIPAY_AUTH_KEYWORDS = ["Alipay", "支付寶", "支付宝", "AlipayHK", "付款", "支付"]
@@ -125,7 +152,11 @@ ALIPAY_CONFIRM_BUTTONS = ["確認支付", "確認付款", "立即支付", "確�
 
 # ==================== 下单结果判断 ====================
 ORDER_SUCCESS_KEYWORDS = ["正在為您呼叫車輛", "取消訂單", "附近車輛較少", "司機"]
-ORDER_FAIL_KEYWORDS = ["未能查閱到付款記錄", "支付失敗", "支付失败", "訂單已取消", "订单已取消"]
+ORDER_FAIL_KEYWORDS = ["未能查閱到付款記錄", "支付失敗", "支付失败",
+                       "訂單已取消", "订单已取消",
+                       "訂單已超時", "订单已超时",
+                       "暫無司機接單", "暂无司机接单",
+                       "系統繁忙", "系统繁忙"]
 ORDER_PROCESSING_KEYWORDS = ["查詢結果中", "正在確認起終點", "處理中"]
 
 # ==================== 优惠券 ====================
@@ -140,19 +171,22 @@ COUPON_FALLBACK_COORD = (0.85, 0.8)
 COUPON_TARGET_TEXTS = ["100元优惠卷", "100元优惠券", "100", "100元"]
 
 # ==================== 测试数据 ====================
+# 默认起终点地址（北角地铁站 → 香港大学，距离适中不易触发"距离太近"）
 DEFAULT_START_ADDRESS = "北角地铁站"
 DEFAULT_END_ADDRESS = "香港大学"
 
-# 距离太近时的备选终点（按优先级排列）
+# 距离太近时的备选终点（按优先级排列，依次切换直到下单成功）
 FALLBACK_END_ADDRESSES = ["銅鑼灣", "中環", "尖沙咀"]
 
-# 距离太近提示关键词
+# 距离太近提示关键词（简繁体混合）
 DISTANCE_TOO_CLOSE_KEYWORDS = ["距離太近", "距离太近", "太近", "距离过近", "距離過近"]
+
+# 预约单测试地址（暂未使用）
 BOOKING_START_ADDRESS = "铜锣湾地铁站"
 BOOKING_END_ADDRESS = "香港大学"
 
-# 银行卡测试数据
-TEST_CARD_NUMBER = "4054695723100768"
-TEST_CARD_EXPIRY = "0928"
-TEST_CARD_CVV = "999"
-TEST_CARD_HOLDER = "TEST USER"
+# 银行卡测试数据（Sandbox 测试环境专用卡号）
+TEST_CARD_NUMBER = "4054695723100768"  # 测试卡号（VISA）
+TEST_CARD_EXPIRY = "0929"              # 有效期：09月/29年
+TEST_CARD_CVV = "999"                  # CVV 安全码
+TEST_CARD_HOLDER = "TEST USER"         # 持卡人姓名
