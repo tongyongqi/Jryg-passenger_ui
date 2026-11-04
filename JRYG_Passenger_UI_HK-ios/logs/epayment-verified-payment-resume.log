@@ -1,0 +1,36 @@
+/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+2026-10-30 17:34:20,680 - JRYG_HK_ios - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-10-30 17:34:20,683 - JRYG_HK_ios - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 30 2026 16:56:39', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.102', 'wifiIP': '192.168.219.102'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': 'FA1B7B74-CF96-4B7C-AB18-DDAC0A4E5721'}
+2026-10-30 17:34:21,586 - JRYG_HK_ios - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+[17:34:22][INFO]<airtest.core.ios.rotation> update orientation None->PORTRAIT
+2026-10-30 17:34:24,039 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/epayment_current_before_payment.png
+2026-10-30 17:34:24,039 - JRYG_HK_ios - INFO - 【固化流程当前订单】已确认乘客付款金额 5 HKD
+2026-10-30 17:34:24,656 - JRYG_HK_ios - INFO - 【固化流程当前订单】支付步骤 0：选择'信用卡或扣帳卡'支付方式...
+2026-10-30 17:34:25,908 - JRYG_HK_ios - INFO - 【固化流程当前订单】已选择'信用卡或扣帳卡'
+2026-10-30 17:34:27,917 - JRYG_HK_ios - INFO - 【固化流程当前订单】支付步骤 1：点击确认支付按钮...
+2026-10-30 17:34:34,676 - JRYG_HK_ios - INFO - 【固化流程当前订单】支付步骤 2：填写银行卡信息...
+2026-10-30 17:34:37,538 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 检测到银行卡填写页面 (2s)
+2026-10-30 17:34:37,768 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_固化流程当前订单_bank_form_before.png
+2026-10-30 17:34:42,910 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 已填写卡号 (placeholder=卡號，内容不记录)
+2026-10-30 17:34:45,970 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 已填写月/年 (placeholder=月 / 年，内容不记录)
+2026-10-30 17:34:49,616 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 坐标填写CVV (261,294，内容不记录)
+2026-10-30 17:34:54,248 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 坐标填写持卡人姓名 (192,268，内容不记录)
+2026-10-30 17:34:54,492 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_固化流程当前订单_bank_form_filled.png
+2026-10-30 17:34:55,498 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 点击請支付按钮提交支付...
+2026-10-30 17:34:57,654 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 已点击請支付按钮
+2026-10-30 17:35:03,609 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 检测到 3D Secure OTP 验证页，填写 OTP...
+2026-10-30 17:35:03,829 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_ios_固化流程当前订单_otp_page.png
+2026-10-30 17:35:06,676 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 已聚焦 OTP 输入框
+2026-10-30 17:35:14,481 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 已清空输入框
+2026-10-30 17:35:15,300 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 已输入 OTP（内容不记录）
+2026-10-30 17:35:19,525 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 已点击 Verify & Proceed
+2026-10-30 17:35:24,531 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 等待 3DS 验证结果...
+2026-10-30 17:35:25,159 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 3DS 弹层已关闭
+2026-10-30 17:35:28,030 - JRYG_HK_ios - INFO -   >> [固化流程当前订单] 3DS步骤已结束，待司机同订单支付状态核验
+2026-10-30 17:35:28,031 - JRYG_HK_ios - INFO - 【固化流程当前订单】银行卡及3DS步骤已提交，最终到账待司机同订单核验
+2026-10-30 17:35:28,031 - JRYG_HK_ios - INFO - 【固化流程当前订单】支付步骤 6：返回首页...
+2026-10-30 17:35:33,526 - JRYG_HK_ios - INFO - 【固化流程当前订单】已返回首页
+2026-10-30 17:35:38,383 - JRYG_HK_ios - INFO - 【teardown】保留司机 App 出车状态，不自动收车
+2026-10-30 17:35:38,383 - JRYG_HK_ios - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+续跑核验通过，订单： 26A6P1KWECNY 已完成、已支付

@@ -1,3 +1,5 @@
+"""香港Android公共日志器；导入可创建日志目录，调用方不得记录支付凭据。"""
+
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path

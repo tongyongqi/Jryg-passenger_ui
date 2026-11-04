@@ -42,7 +42,7 @@ from ui_framework.JRYG_ios_ui_base import iOSBase
 # 导入 UI 元素定位常量（XPath、关键词、坐标、测试数据）
 from ui_framework import JRYG_ios_ui_elements as E
 from ui_framework.JRYG_driver_runtime import resolve_runtime
-from ui_framework.JRYG_driver_ui import DriverUIFlow, parser as driver_parser
+from ui_framework.JRYG_driver_ui import DriverUIFlow, PHASE_NAMES, parser as driver_parser
 
 
 # ==================== 车型/支付方式映射 ====================
@@ -77,15 +77,19 @@ class TestOrderBase(iOSBase):
 
     @property
     def order_settings(self):
+        """提供本平台订单配置；Android子类覆盖以复用同一业务编排。"""
         return SETTINGS
 
     def _resolve_driver_runtime(self):
+        """根据订单配置解析司机设备模式，不连接设备或读取司机接口会话。"""
         return resolve_runtime(self.order_settings)
 
     def _driver_parser(self):
+        """提供司机参数解析器供统一校验费用及时限，平台子类可替换默认值。"""
         return driver_parser()
 
     def _create_driver_flow(self, args):
+        """以已解析参数创建司机UI状态机，平台子类可复用既有Android客户端。"""
         return DriverUIFlow(args)
 
     @property
@@ -107,6 +111,7 @@ class TestOrderBase(iOSBase):
 
     def test_order_flow(self):
         """乘客 UI 下单 → 司机 UI 接单与滑动 → UI 确认账单与支付。"""
+        self.completed_order_no = None
         car_label = CAR_TYPE_LABELS.get(self.CAR_TYPE, self.CAR_TYPE)
         pay_label = PAYMENT_LABELS.get(self.PAYMENT, self.PAYMENT)
         tag = f"{car_label}+{pay_label}"
@@ -127,42 +132,49 @@ class TestOrderBase(iOSBase):
         logger.info("=" * 60)
         self._driver_ui_go_online(tag)
 
-        # ============================================================
-        # 阶段 1：乘客端预清理
-        # ============================================================
-        logger.info("=" * 60)
-        logger.info("【阶段 1】乘客端：处理遗留订单")
-        logger.info("=" * 60)
-        self._ui_cleanup_ongoing_order(tag)
-
-        # ============================================================
-        # 阶段 2：UI 下单
-        # ============================================================
-        logger.info("=" * 60)
-        logger.info(f"【阶段 2】UI 下单：{car_label} + {pay_label}")
-        logger.info("=" * 60)
-
-        self._ios_launch_setup_and_addresses(
-            tag, E.DEFAULT_START_ADDRESS, E.DEFAULT_END_ADDRESS)
-        self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_01_car_select.png")
-
-        self._ios_select_car_type(tag, car_type=self.CAR_TYPE)
-        self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_02_selected.png")
-
-        # 支付方式选择流程因车型不同：
-        # - 打錶的士：选车型 → 在"可選服務"区域选支付方式 → 確認呼叫
-        # - 包車價的士：选车型 → 確認呼叫 → 弹出预付页面 → 选支付方式 → 確認支付並呼叫
-        if self.CAR_TYPE == "meter":
-            logger.info(f"【{tag} 步骤 7】选择{pay_label}支付方式...")
-            self._ios_select_payment(tag, payment=self.PAYMENT)
-            ordered = self._click_call_and_check_login_then_retry(tag)
+        if self.resuming_order:
+            logger.info("【%s】接续当前订单，不重设起终点、不确认呼叫、不重新预付", tag)
+            if stop_after == "accepted":
+                self.driver_ui.snapshot("existing_order_accepted")
+                logger.info("【%s】已有订单已接单；仅接单模式保留当前阶段，不推进行程或付款", tag)
+                return
         else:
-            # 包車價的士：先点击确认呼叫，弹出预付页面后选择支付方式
-            ordered = self._charter_click_call_and_select_payment(tag)
+            # ============================================================
+            # 阶段 1：乘客端预清理
+            # ============================================================
+            logger.info("=" * 60)
+            logger.info("【阶段 1】乘客端：处理遗留订单")
+            logger.info("=" * 60)
+            self._ui_cleanup_ongoing_order(tag)
 
-        assert ordered, f"{tag} UI 下单失败"
-        logger.info(f"【{tag}】UI 下单成功")
-        self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_03_order_success.png")
+            # ============================================================
+            # 阶段 2：UI 下单
+            # ============================================================
+            logger.info("=" * 60)
+            logger.info(f"【阶段 2】UI 下单：{car_label} + {pay_label}")
+            logger.info("=" * 60)
+
+            self._ios_launch_setup_and_addresses(
+                tag, E.DEFAULT_START_ADDRESS, E.DEFAULT_END_ADDRESS)
+            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_01_car_select.png")
+
+            self._ios_select_car_type(tag, car_type=self.CAR_TYPE)
+            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_02_selected.png")
+
+            # 支付方式选择流程因车型不同：
+            # - 打錶的士：选车型 → 在"可選服務"区域选支付方式 → 確認呼叫
+            # - 包車價的士：选车型 → 確認呼叫 → 弹出预付页面 → 选支付方式 → 確認支付並呼叫
+            if self.CAR_TYPE == "meter":
+                logger.info(f"【{tag} 步骤 7】选择{pay_label}支付方式...")
+                self._ios_select_payment(tag, payment=self.PAYMENT)
+                ordered = self._click_call_and_check_login_then_retry(tag)
+            else:
+                # 包車價的士：先点击确认呼叫，弹出预付页面后选择支付方式
+                ordered = self._charter_click_call_and_select_payment(tag)
+
+            assert ordered, f"{tag} UI 下单失败"
+            logger.info(f"【{tag}】UI 下单成功")
+            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_03_order_success.png")
 
         # ============================================================
         # 阶段 3：切司机 App → UI 接单 → 滑动状态 → 填写与确认账单
@@ -189,16 +201,16 @@ class TestOrderBase(iOSBase):
         # 等待 App 收到订单完成推送
         time.sleep(5)
 
-        if self.CAR_TYPE == "meter" and self.PAYMENT != "cash":
+        if self.driver_ui.last_phase == "complete":
+            logger.info("【%s】司机当前订单已支付，只返回首页并核验同订单，不重复付款", tag)
+            self._ios_back_to_home(tag)
+        elif self.CAR_TYPE == "meter" and self.PAYMENT != "cash":
             # 打表在线支付必须等到真实费用页，不能因推送稍慢跳过付款。
             self._ios_wait_current_payment(tag)
             self._ios_complete_payment(tag)
         else:
-            page_texts = self._ios_get_all_texts(self.client)
-            if any("確認支付" in t or "确认支付" in t for t in page_texts):
-                self._ios_complete_payment(tag)
-            else:
-                self._ios_back_to_home(tag)
+            logger.info("【%s】包车预付或现金订单不重复发起渠道付款，继续同订单到账核验", tag)
+            self._ios_back_to_home(tag)
 
         # 真机顺序：乘客完成支付并回首页 → 切司机 → 返回首页 → 到账详情核验同单。
         try:
@@ -206,7 +218,9 @@ class TestOrderBase(iOSBase):
         except Exception:
             self.driver_ui.snapshot("payment_verification_failed")
             raise
-        logger.info(f"【{tag} 全 UI 流程完成】订单 {self.driver_ui.order_no} 已完成且已支付")
+        self.completed_order_no = self.driver_ui.order_no
+        mode = "已有订单续跑完成" if self.resuming_order else "全 UI 流程完成"
+        logger.info(f"【{tag} {mode}】订单 {self.driver_ui.order_no} 已完成且已支付")
 
     # ==================== UI 下单辅助方法 ====================
 
@@ -214,8 +228,10 @@ class TestOrderBase(iOSBase):
         """等待真实乘客费用页，并核对付款金额等于司机刚提交的车费加附加费。"""
         from decimal import Decimal
         settings = self.order_settings.get("driver") or {}
-        expected = Decimal(str(os.environ.get("HK_ORDER_AMOUNT", settings.get("fare", "5")))) + Decimal(
-            str(os.environ.get("HK_OTHER_AMOUNT", settings.get("surcharge", "0"))))
+        expected = self.driver_ui.bill_total
+        if expected is None:
+            expected = Decimal(str(os.environ.get("HK_ORDER_AMOUNT", settings.get("fare", "5")))) + Decimal(
+                str(os.environ.get("HK_OTHER_AMOUNT", settings.get("surcharge", "0"))))
         timeout = (self.order_settings.get("order_validation") or {}).get("completion_timeout", 90)
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
@@ -245,27 +261,43 @@ class TestOrderBase(iOSBase):
 
         包車價的士点击"確認呼叫"后弹出预付车费页面（收银台），
         在该页面选择支付方式（Alipay HK / 信用卡或扣帳卡）后，
-        点击"確認支付並呼叫"完成下单。
+        点击"確認支付並呼叫"后先调用submitted阶段的公共渠道支付，再等待下单结果。
+        银行卡保留表单未出现的兼容行为；Alipay需确认SUCCESS并返回App，均不提前回首页。
+        下单成功不等于司机行程已完成或同订单最终到账。
 
         :param tag: 日志标签。
         :return: True 表示下单成功，False 表示下单失败。
         """
-        # 步骤 7：点击确认呼叫（触发预付页面弹出）
-        logger.info(f"【{tag} 步骤 7】点击确认呼叫，等待预付页面弹出...")
-        self._ios_click_confirm_call(tag)
-        time.sleep(3)
-
-        # 检测是否弹出预付页面（收银台）
-        page_texts = self._ios_get_all_texts(self.client)
-        if not any(kw in t for t in page_texts for kw in E.CASHIER_PAGE_KEYWORDS):
-            # 未弹出预付页面，可能直接下单或跳到登录页
-            logger.info(f"【{tag}】未检测到预付页面，按常规流程处理...")
-            # 回退到标准流程的等待下单结果
-            result = self._ios_wait_order_result(tag, max_checks=15)
+        for attempt in range(E.ESTIMATE_CALL_MAX_ATTEMPTS):
+            logger.info("【%s 步骤 7】确认呼叫（%s/%s），等待预付页面", tag, attempt + 1, E.ESTIMATE_CALL_MAX_ATTEMPTS)
+            if attempt == 0:
+                self._ios_click_confirm_call(tag)
+            else:
+                self._ios_click_refreshed_estimate_call(tag, self.CAR_TYPE)
+            time.sleep(3)
+            page_texts = self._ios_get_all_texts(self.client)
+            if any(kw in text for text in page_texts for kw in E.CASHIER_PAGE_KEYWORDS):
+                break
+            if any(kw in text for text in page_texts for kw in E.ESTIMATE_UPDATED_KEYWORDS):
+                result = "estimate_updated"
+            else:
+                result = self._ios_wait_order_result(tag, max_checks=15)
             if result == "success":
                 return True
-            logger.warning(f"【{tag}】未弹出预付页面且下单未成功")
-            return False
+            if result == "cashier":
+                break
+            if result != "estimate_updated":
+                logger.warning("【%s】未进入预付页面，下单结果：%s；不盲目重试呼叫", tag, result)
+                return False
+            if attempt + 1 >= E.ESTIMATE_CALL_MAX_ATTEMPTS:
+                self._ios_screenshot("JRYG_ios_estimate_retry_exhausted.png")
+                logger.error("【%s】预估重复更新，呼叫已达3次上限，未重复支付", tag)
+                return False
+            state = self._ios_reselect_refreshed_estimate(tag, self.CAR_TYPE)
+            if state == "success":
+                return True
+            if state == "cashier":
+                break
 
         # 步骤 8：在预付页面选择支付方式
         pay_label = PAYMENT_LABELS.get(self.PAYMENT, self.PAYMENT)
@@ -311,16 +343,21 @@ class TestOrderBase(iOSBase):
         :param tag: 日志标签。
         :return: True 表示下单成功，False 表示下单失败。
         """
-        max_retry = 3
+        max_retry = E.ESTIMATE_CALL_MAX_ATTEMPTS
         # 备选终点列表（距离太近时依次切换）
         fallback_ends = list(E.FALLBACK_END_ADDRESSES)
         fallback_idx = 0  # 当前使用的备选终点索引
         current_end = E.DEFAULT_END_ADDRESS
+        refreshed_estimate = False
 
         for attempt in range(max_retry):
             attempt_label = "首次" if attempt == 0 else f"重试({attempt})"
             logger.info(f"【{tag} 步骤 8】{attempt_label}点击确认呼叫（终点={current_end}）...")
-            self._ios_click_confirm_call(tag)
+            if refreshed_estimate:
+                self._ios_click_refreshed_estimate_call(tag, self.CAR_TYPE)
+                refreshed_estimate = False
+            else:
+                self._ios_click_confirm_call(tag)
             time.sleep(8)
 
             if self._ios_is_login_page():
@@ -351,6 +388,22 @@ class TestOrderBase(iOSBase):
 
                 if result == "success":
                     return True
+                if result == "estimate_updated":
+                    if attempt + 1 >= max_retry:
+                        self._ios_screenshot("JRYG_ios_estimate_retry_exhausted.png")
+                        logger.error("【%s】预估重复更新，已达呼叫上限，不切换终点或重复支付", tag)
+                        return False
+                    state = self._ios_reselect_refreshed_estimate(tag, self.CAR_TYPE)
+                    if state == "success":
+                        return True
+                    if state != "ready":
+                        return False
+                    self._ios_select_payment(tag, payment=self.PAYMENT)
+                    refreshed_estimate = True
+                    continue
+                if result == "cashier":
+                    logger.error("【%s】打表下单意外进入收银台，停止，不重新呼叫", tag)
+                    return False
 
                 # 遗留未完成订单 → 处理后重新下单
                 if result == "ongoing_order":
@@ -593,12 +646,16 @@ class TestOrderBase(iOSBase):
     # ==================== 司机端 UI 辅助方法 ====================
 
     def _driver_ui_go_online(self, tag):
-        """先打开司机 App 出车；之后顺序切换乘客下单，全部通过 WDA 页面操作。"""
+        """仅未完成订单续跑；启动前已完成订单退回听单后新下单，不能冒充本次结果。"""
         self.driver_runtime = self._resolve_driver_runtime()
         args = self._driver_parser().parse_args(["--wda-url", self.driver_runtime.wda_url, "--stop-after", "online"])
         self.driver_ui = self._create_driver_flow(args)
-        self.driver_ui.ensure_online()
-        logger.info(f"【{tag}】司机 UI 已确认听单，继续乘客下单")
+        self.resuming_order = self.driver_ui.ensure_online(resume_existing=True)
+        if self.resuming_order:
+            logger.info("【%s】检测到已有订单，当前阶段：%s；跳过乘客清理和重复下单", tag,
+                        PHASE_NAMES[self.driver_ui.last_phase])
+        else:
+            logger.info(f"【{tag}】司机 UI 已确认听单，继续乘客下单")
 
     def _driver_ui_grab_and_flow(self, tag):
         """乘客下单后切回司机，UI 接单、滑动状态并提交测试账单，不请求业务 API。"""
@@ -610,17 +667,22 @@ class TestOrderBase(iOSBase):
                 "--step-timeout", str(limits.get("state_timeout", 30)),
                 "--dispatch-timeout", str(limits.get("dispatch_timeout", 90)),
                 "--payment-timeout", str(limits.get("completion_timeout", 90)),
-                "--fare", str(os.environ.get("HK_ORDER_AMOUNT", settings.get("fare", "5"))),
-                "--surcharge", str(os.environ.get("HK_OTHER_AMOUNT", settings.get("surcharge", "0"))),
+                "--car-type", self.CAR_TYPE,
+                "--surcharge", "0" if self.PAYMENT == "cash" else str(os.environ.get("HK_OTHER_AMOUNT", settings.get("surcharge", "0"))),
                 "--payment", "cash" if self.PAYMENT == "cash" else "online"]
+        if self.CAR_TYPE == "meter":
+            fare = "5" if self.PAYMENT == "cash" else str(os.environ.get("HK_ORDER_AMOUNT", settings.get("fare", "5")))
+            args.extend(["--fare", fare])
+        # 包车车费由预付订单固定，只读取司机实际账单，不套用打表的测试金额。
         tail = os.environ.get("HK_DRIVER_PASSENGER_TAIL") or settings.get("passenger_tail")
         if tail:
             if not str(tail).isdigit() or len(str(tail)) != 4:
                 raise RuntimeError("请配置四位乘客测试尾号")
             args.extend(["--tail", str(tail)])
-        if self.PAYMENT == "cash" and os.environ.get("HK_DRIVER_CASH_COLLECTED") == "1":
+        if self.PAYMENT == "cash":
             args.append("--cash-collected")
-        self.driver_ui = self._create_driver_flow(self._driver_parser().parse_args(args))
+            logger.info("【%s】现金测试用例：车费5 HKD、附加费0 HKD；回读核对后滑动确认收款，无需额外环境开关", tag)
+        self.driver_ui.args = self._driver_parser().parse_args(args)
         try:
             self.driver_ui.run()
         except Exception:

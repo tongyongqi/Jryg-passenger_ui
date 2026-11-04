@@ -1,0 +1,88 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.7.1-x86_64-i386-64bit', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'metadata': '3.1.1', 'html': '4.2.0'}}
+rootdir: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android
+configfile: pytest.ini
+plugins: metadata-3.1.1, html-4.2.0
+collecting ... collected 1 item
+
+cases/JRYG_test_android_charter_bankcard_order.py::TestCharterBankcardAndroid::test_order_flow 2026-11-03 18:48:50,372 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:48:50,373 - JRYG_HK_ios - INFO - 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+2026-11-03 18:48:50,373 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:48:50,568 - JRYG_driver_ui - INFO - 已请求打开司机 App，等待前台页面就绪，最多30秒
+2026-11-03 18:48:52,336 - JRYG_driver_ui - INFO - 司机 App 前台已确认，继续读取业务阶段
+2026-11-03 18:48:52,500 - JRYG_driver_ui - INFO - 司机 App 已出车；接单及后续状态全部在司机页面操作
+2026-11-03 18:48:52,500 - JRYG_HK_ios - INFO - 【包車價的士+信用卡/扣帳卡】司机 UI 已确认听单，继续乘客下单
+2026-11-03 18:48:52,501 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:48:52,501 - JRYG_HK_ios - INFO - 【阶段 1】乘客端：处理遗留订单
+2026-11-03 18:48:52,501 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:48:56,964 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:48:56,964 - JRYG_HK_ios - INFO - 【阶段 2】UI 下单：包車價的士 + 信用卡/扣帳卡
+2026-11-03 18:48:56,964 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:49:00,621 - JRYG_HK_ios - INFO - Android等待唯一地址结果：北角地铁站，北角A1校验=True
+2026-11-03 18:49:02,437 - JRYG_HK_ios - INFO - Android地址及出口已确认，单次选择：A1出入口
+2026-11-03 18:49:03,081 - JRYG_HK_ios - INFO - Android已离开搜索页，选址完成：北角地铁站
+2026-11-03 18:49:06,393 - JRYG_HK_ios - INFO - Android等待唯一地址结果：香港大学，北角A1校验=False
+2026-11-03 18:49:07,020 - JRYG_HK_ios - INFO - Android地址及出口已确认，单次选择：香港大學
+2026-11-03 18:49:07,678 - JRYG_HK_ios - INFO - Android已离开搜索页，选址完成：香港大学
+2026-11-03 18:49:12,005 - JRYG_HK_ios - INFO - Android实时地图OCR路线核验：('北角(地鐵站) A1出入口', '香港大學')
+2026-11-03 18:49:13,864 - JRYG_HK_ios - INFO - 【包車價的士+信用卡/扣帳卡 步骤 7】确认呼叫（1/3），等待预付页面
+2026-11-03 18:49:17,723 - JRYG_HK_ios - INFO - 【包車價的士+信用卡/扣帳卡 步骤 8】预付页面选择信用卡/扣帳卡支付方式...
+2026-11-03 18:49:19,143 - JRYG_HK_ios - INFO - 【包車價的士+信用卡/扣帳卡 步骤 9】点击确认支付并呼叫...
+FAILED
+
+=================================== FAILURES ===================================
+__________________ TestCharterBankcardAndroid.test_order_flow __________________
+cases/JRYG_test_android_charter_bankcard_order.py:22: in test_order_flow
+    self._run_order_flow()
+jryg_hk_android/JRYG_android_order.py:282: in _run_order_flow
+    super().test_order_flow()
+_ios_verified_snapshot/ui_framework/JRYG_order_flow.py:173: in test_order_flow
+    ordered = self._charter_click_call_and_select_payment(tag)
+_ios_verified_snapshot/ui_framework/JRYG_order_flow.py:314: in _charter_click_call_and_select_payment
+    filled = self._ios_pay(tag, payment="bankcard", stage="submitted")
+_ios_verified_snapshot/ui_framework/JRYG_ios_payment.py:37: in _ios_pay
+    submitted = self._ios_fill_bank_card_form(tag)
+jryg_hk_android/JRYG_android_payment.py:50: in _ios_fill_bank_card_form
+    self._fill_payment_field(placeholders, value)
+jryg_hk_android/JRYG_android_payment.py:35: in _fill_payment_field
+    fields = self._wait(locate, f"Android 支付输入框未定位：{placeholders}", timeout=15)
+jryg_hk_android/JRYG_android_base.py:89: in _wait
+    raise TimeoutError(message)
+E   TimeoutError: Android 支付输入框未定位：['CVV']
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_HK_ios:JRYG_order_flow.py:130 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:131 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+INFO     JRYG_HK_ios:JRYG_order_flow.py:132 ============================================================
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:280 已请求打开司机 App，等待前台页面就绪，最多30秒
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:288 司机 App 前台已确认，继续读取业务阶段
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:518 司机 App 已出车；接单及后续状态全部在司机页面操作
+INFO     JRYG_HK_ios:JRYG_order_flow.py:658 【包車價的士+信用卡/扣帳卡】司机 UI 已确认听单，继续乘客下单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:145 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:146 【阶段 1】乘客端：处理遗留订单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:147 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:153 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:154 【阶段 2】UI 下单：包車價的士 + 信用卡/扣帳卡
+INFO     JRYG_HK_ios:JRYG_order_flow.py:155 ============================================================
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:126 Android等待唯一地址结果：北角地铁站，北角A1校验=True
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:131 Android地址及出口已确认，单次选择：A1出入口
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:136 Android已离开搜索页，选址完成：北角地铁站
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:126 Android等待唯一地址结果：香港大学，北角A1校验=False
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:131 Android地址及出口已确认，单次选择：香港大學
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:136 Android已离开搜索页，选址完成：香港大学
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:185 Android实时地图OCR路线核验：('北角(地鐵站) A1出入口', '香港大學')
+INFO     JRYG_HK_ios:JRYG_order_flow.py:272 【包車價的士+信用卡/扣帳卡 步骤 7】确认呼叫（1/3），等待预付页面
+INFO     JRYG_HK_ios:JRYG_order_flow.py:304 【包車價的士+信用卡/扣帳卡 步骤 8】预付页面选择信用卡/扣帳卡支付方式...
+INFO     JRYG_HK_ios:JRYG_order_flow.py:309 【包車價的士+信用卡/扣帳卡 步骤 9】点击确认支付并呼叫...
+=============================== warnings summary ===============================
+cases/JRYG_test_android_charter_bankcard_order.py::TestCharterBankcardAndroid::test_order_flow
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android/report/JRYG_charter_bankcard.html -
+=========================== short test summary info ============================
+FAILED cases/JRYG_test_android_charter_bankcard_order.py::TestCharterBankcardAndroid::test_order_flow
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+======================== 1 failed, 1 warning in 59.32s =========================

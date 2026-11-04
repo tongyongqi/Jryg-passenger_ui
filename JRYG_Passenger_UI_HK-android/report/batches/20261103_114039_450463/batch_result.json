@@ -1,0 +1,40 @@
+{
+  "exit_code": 1,
+  "interval_seconds": 10,
+  "cases": [
+    {
+      "sequence": 1,
+      "case": "JRYG_test_android_charter_alipay_order.py::TestCharterAlipayAndroid::test_order_flow",
+      "status": "failed",
+      "started_at": "2026-11-03T11:40:39",
+      "report": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android/report/batches/20261103_114039_450463/01_JRYG_test_android_charter_alipay_order.html",
+      "exit_code": 1,
+      "finished_at": "2026-11-03T11:43:08"
+    },
+    {
+      "sequence": 2,
+      "case": "JRYG_test_android_charter_bankcard_order.py::TestCharterBankcardAndroid::test_order_flow",
+      "status": "not_run"
+    },
+    {
+      "sequence": 3,
+      "case": "JRYG_test_android_meter_cash_order.py::TestMeterCashAndroid::test_order_flow",
+      "status": "not_run"
+    },
+    {
+      "sequence": 4,
+      "case": "JRYG_test_android_meter_epayment_bankcard_order.py::TestMeterEpaymentBankcardAndroid::test_order_flow",
+      "status": "not_run"
+    },
+    {
+      "sequence": 5,
+      "case": "JRYG_test_android_meter_epayment_alipay_order.py::TestMeterEpaymentAlipayAndroid::test_order_flow",
+      "status": "not_run"
+    },
+    {
+      "sequence": 6,
+      "case": "JRYG_test_android_meter_alipay_order.py::TestMeterAlipayAndroid::test_order_flow",
+      "status": "not_run"
+    }
+  ]
+}

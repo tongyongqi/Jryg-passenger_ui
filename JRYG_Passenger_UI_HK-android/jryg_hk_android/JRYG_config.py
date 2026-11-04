@@ -1,3 +1,5 @@
+"""香港Android目录与YAML配置入口；导入时加载一次，不连接设备或热更新。"""
+
 import os
 import yaml
 

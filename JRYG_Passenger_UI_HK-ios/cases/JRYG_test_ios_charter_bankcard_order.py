@@ -56,5 +56,6 @@ class TestCharterBankcard(TestOrderBase):
 
 
 if __name__ == "__main__":
-    # 支持直接运行此文件：pytest 执行本文件，-v 显示详细输出，-s 不捕获 print
-    sys.exit(pytest.main([__file__, "-v", "-s", *sys.argv[1:]]))
+    from runners.JRYG_run_case_ios import run_case
+
+    sys.exit(run_case(__file__))

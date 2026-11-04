@@ -33,4 +33,6 @@ class TestMeterEpaymentBankcard(TestOrderBase):
 
 
 if __name__ == "__main__":
-    sys.exit(pytest.main([__file__, "-v", "-s", *sys.argv[1:]]))
+    from runners.JRYG_run_case_ios import run_case
+
+    sys.exit(run_case(__file__))

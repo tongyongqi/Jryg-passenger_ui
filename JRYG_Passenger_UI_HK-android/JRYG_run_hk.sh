@@ -1,4 +1,6 @@
 #!/bin/bash
+# 香港Android启动入口：运行六个独立订单场景，可用--case文件名选择单例。
+# 帮助/仅收集模式跳过ADB探测；不启动抓包服务，原样传递pytest退出码。
 set -u
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

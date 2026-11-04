@@ -1,0 +1,82 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.7.1-x86_64-i386-64bit', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'metadata': '3.1.1', 'html': '4.2.0'}}
+rootdir: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android
+configfile: pytest.ini
+plugins: metadata-3.1.1, html-4.2.0
+collecting ... collected 1 item
+
+cases/JRYG_test_android_meter_alipay_order.py::TestMeterAlipayAndroid::test_order_flow 2026-11-04 10:14:51,668 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 10:14:51,669 - JRYG_HK_ios - INFO - 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+2026-11-04 10:14:51,669 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 10:14:51,885 - JRYG_driver_ui - INFO - 已请求打开司机 App，等待前台页面就绪，最多30秒
+2026-11-04 10:14:53,561 - JRYG_driver_ui - INFO - 司机 App 前台已确认，继续读取业务阶段
+2026-11-04 10:14:53,721 - JRYG_driver_ui - INFO - 启动前订单 26B4J5CWECNY 已完成且已支付；仅返回听单，不计入本次结果，继续新下单
+2026-11-04 10:14:54,273 - JRYG_driver_ui - INFO - Android已确认我的行程列表，单次原生返回听单首页；未出车、接单或收款
+2026-11-04 10:14:56,512 - JRYG_driver_ui - INFO - 司机 App 已出车；接单及后续状态全部在司机页面操作
+2026-11-04 10:14:56,512 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】司机 UI 已确认听单，继续乘客下单
+2026-11-04 10:14:56,513 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 10:14:56,513 - JRYG_HK_ios - INFO - 【阶段 1】乘客端：处理遗留订单
+2026-11-04 10:14:56,513 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 10:15:01,054 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 10:15:01,054 - JRYG_HK_ios - INFO - 【阶段 2】UI 下单：打錶的士 + Alipay HK
+2026-11-04 10:15:01,054 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 10:15:04,602 - JRYG_HK_ios - INFO - Android等待唯一地址结果：北角地铁站，北角A1校验=True
+2026-11-04 10:15:05,150 - JRYG_HK_ios - INFO - Android地址及出口已确认，单次选择：A1出入口
+2026-11-04 10:15:05,761 - JRYG_HK_ios - INFO - Android已离开搜索页，选址完成：北角地铁站
+2026-11-04 10:15:09,187 - JRYG_HK_ios - INFO - Android等待唯一地址结果：香港大学，北角A1校验=False
+2026-11-04 10:15:09,813 - JRYG_HK_ios - INFO - Android地址及出口已确认，单次选择：香港大學
+2026-11-04 10:15:10,452 - JRYG_HK_ios - INFO - Android已离开搜索页，选址完成：香港大学
+2026-11-04 10:15:11,781 - JRYG_HK_ios - INFO - Android实时地图OCR路线核验：None
+FAILED
+
+=================================== FAILURES ===================================
+____________________ TestMeterAlipayAndroid.test_order_flow ____________________
+cases/JRYG_test_android_meter_alipay_order.py:22: in test_order_flow
+    self._run_order_flow()
+jryg_hk_android/JRYG_android_order.py:408: in _run_order_flow
+    super().test_order_flow()
+_ios_verified_snapshot/ui_framework/JRYG_order_flow.py:157: in test_order_flow
+    self._ios_launch_setup_and_addresses(
+jryg_hk_android/JRYG_android_passenger.py:242: in _ios_launch_setup_and_addresses
+    self.prepare_passenger_route(tag, start, end, verify_login=True)
+jryg_hk_android/JRYG_android_passenger.py:238: in prepare_passenger_route
+    self._ios_configure_addresses(tag, start or E.DEFAULT_START_ADDRESS, end or E.DEFAULT_END_ADDRESS)
+jryg_hk_android/JRYG_android_passenger.py:157: in _ios_configure_addresses
+    raise AssertionError(f"Android 路线实际起终点不一致或无法唯一识别：{route}，未确认呼叫")
+E   AssertionError: Android 路线实际起终点不一致或无法唯一识别：None，未确认呼叫
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_HK_ios:JRYG_order_flow.py:130 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:131 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+INFO     JRYG_HK_ios:JRYG_order_flow.py:132 ============================================================
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:280 已请求打开司机 App，等待前台页面就绪，最多30秒
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:288 司机 App 前台已确认，继续读取业务阶段
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:502 启动前订单 26B4J5CWECNY 已完成且已支付；仅返回听单，不计入本次结果，继续新下单
+INFO     JRYG_driver_ui:JRYG_android_order.py:105 Android已确认我的行程列表，单次原生返回听单首页；未出车、接单或收款
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:518 司机 App 已出车；接单及后续状态全部在司机页面操作
+INFO     JRYG_HK_ios:JRYG_order_flow.py:658 【打錶的士+Alipay HK】司机 UI 已确认听单，继续乘客下单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:145 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:146 【阶段 1】乘客端：处理遗留订单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:147 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:153 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:154 【阶段 2】UI 下单：打錶的士 + Alipay HK
+INFO     JRYG_HK_ios:JRYG_order_flow.py:155 ============================================================
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:126 Android等待唯一地址结果：北角地铁站，北角A1校验=True
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:131 Android地址及出口已确认，单次选择：A1出入口
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:136 Android已离开搜索页，选址完成：北角地铁站
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:126 Android等待唯一地址结果：香港大学，北角A1校验=False
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:131 Android地址及出口已确认，单次选择：香港大學
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:136 Android已离开搜索页，选址完成：香港大学
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:185 Android实时地图OCR路线核验：None
+=============================== warnings summary ===============================
+cases/JRYG_test_android_meter_alipay_order.py::TestMeterAlipayAndroid::test_order_flow
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android/report/JRYG_meter_alipay_consecutive_run.html -
+=========================== short test summary info ============================
+FAILED cases/JRYG_test_android_meter_alipay_order.py::TestMeterAlipayAndroid::test_order_flow
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+======================== 1 failed, 1 warning in 24.99s =========================

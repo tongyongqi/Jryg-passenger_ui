@@ -17,7 +17,9 @@
 ==============================================================================
 """
 
+from decimal import Decimal
 import os
+import re
 import sys
 import time
 import pytest
@@ -475,6 +477,83 @@ class iOSBase(HKIOSPaymentMixin):
     # 取消订单确认弹框的关键词（简繁体）
     CANCEL_CONFIRM_KEYWORDS = ["不用車了", "不用车了", "確認取消", "确认取消", "確定", "确定", "好"]
 
+    @staticmethod
+    def _ios_north_point_exit(root):
+        """只识别东区北角地铁站结果内的出口按钮，不接受键盘Cell或其他同名出口。"""
+        matches = []
+        for cell in root.iter("XCUIElementTypeCell"):
+            if cell.get("visible") != "true" or cell.get("enabled") == "false":
+                continue
+            texts = {node.get("label") or node.get("name") or node.get("value")
+                     for node in cell.iter("XCUIElementTypeStaticText") if node.get("visible") == "true"}
+            if not texts.intersection(E.NORTH_POINT_STATION_NAMES) or E.NORTH_POINT_DISTRICT not in texts:
+                continue
+            matches.extend(node for node in cell.iter("XCUIElementTypeButton")
+                           if node.get("visible") == "true" and node.get("enabled") != "false"
+                           and (node.get("label") or node.get("name")) == E.NORTH_POINT_EXIT)
+        if len(matches) > 1:
+            raise AssertionError("北角地铁站出口不唯一，禁止选址")
+        return matches[0] if matches else None
+
+    def _ios_search_north_point_start(self):
+        """回读起点输入框，等待精确站点与区域，再点击该站A1出口；不执行模糊降级。"""
+        root = ET.fromstring(self.client.source(format="xml"))
+        fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
+        if root.get("bundleId") != E.PASSENGER_BUNDLE_ID or len(fields) != 1 or fields[0].get("placeholderValue") != E.NORTH_POINT_START_PLACEHOLDER:
+            raise AssertionError("当前不是唯一的起点搜索框，禁止输入北角或误改落车点")
+        field_xpath = f'//XCUIElementTypeTextField[@visible="true" and @placeholderValue="{E.NORTH_POINT_START_PLACEHOLDER}"]'
+        self.client(xpath=field_xpath).clear_text()
+        root = ET.fromstring(self.client.source(format="xml"))
+        fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
+        if (root.get("bundleId") != E.PASSENGER_BUNDLE_ID or len(fields) != 1
+                or fields[0].get("placeholderValue") != E.NORTH_POINT_START_PLACEHOLDER
+                or fields[0].get("value") not in (None, "", E.NORTH_POINT_START_PLACEHOLDER)):
+            raise AssertionError("起点搜索框未清空或已变化，禁止追加输入北角")
+        self.client(xpath=field_xpath).set_text(E.NORTH_POINT_SEARCH_TEXT)
+        root = ET.fromstring(self.client.source(format="xml"))
+        fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
+        if (root.get("bundleId") != E.PASSENGER_BUNDLE_ID or len(fields) != 1
+                or fields[0].get("placeholderValue") != E.NORTH_POINT_START_PLACEHOLDER
+                or fields[0].get("value") != E.NORTH_POINT_SEARCH_TEXT):
+            raise AssertionError("起点搜索词回读不是北角，禁止选择地址结果")
+        search_xpath = ('//XCUIElementTypeKeyboard//XCUIElementTypeButton[@visible="true" and @enabled="true"'
+                        ' and (@name="搜索" or @label="搜索")]')
+        if not self.client(xpath=search_xpath).exists:
+            raise AssertionError("未找到键盘搜索按钮，不能把旧列表当作北角查询结果")
+        self.client(xpath=search_xpath).click()
+        logger.info("  >> 起点已清空并回读：%s；已点击键盘搜索，等待东区北角地铁站", E.NORTH_POINT_SEARCH_TEXT)
+        deadline = time.monotonic() + 30
+        while time.monotonic() < deadline:
+            root = ET.fromstring(self.client.source(format="xml"))
+            if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+                raise AssertionError("起点搜索时乘客App已离开前台，停止选址")
+            fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
+            if len(fields) != 1 or fields[0].get("placeholderValue") != E.NORTH_POINT_START_PLACEHOLDER:
+                raise AssertionError("起点搜索框已变化，禁止点击地址结果")
+            if fields[0].get("value") == E.NORTH_POINT_SEARCH_TEXT:
+                target = self._ios_north_point_exit(root)
+                if target is not None:
+                    names = " or ".join(f'@label="{name}" or @name="{name}"' for name in E.NORTH_POINT_STATION_NAMES)
+                    xpath = (f'//XCUIElementTypeCell[@visible="true" and .//XCUIElementTypeStaticText[@visible="true" and ({names})]'
+                             f' and .//XCUIElementTypeStaticText[@visible="true" and @label="{E.NORTH_POINT_DISTRICT}"]]'
+                             f'//XCUIElementTypeButton[@visible="true" and @enabled="true" and @name="{E.NORTH_POINT_EXIT}"]')
+                    self.client(xpath=xpath).click()
+                    logger.info("  >> 已精确选择起点：北角(地鐵站) %s，区域：%s", E.NORTH_POINT_EXIT, E.NORTH_POINT_DISTRICT)
+                    break
+            time.sleep(1)
+        else:
+            self._ios_screenshot("JRYG_ios_north_point_not_found.png")
+            raise AssertionError("未找到东区北角地铁站及A1出口，未选第一条结果、未下单")
+        for _ in range(10):
+            time.sleep(1)
+            root = ET.fromstring(self.client.source(format="xml"))
+            if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+                raise AssertionError("选择起点后乘客App已离开前台")
+            if not any(node.get("visible") == "true" for node in root.iter("XCUIElementTypeTextField")):
+                return
+        self._ios_screenshot("JRYG_ios_north_point_jump_fail.png")
+        raise AssertionError("北角地铁站出口选择后未离开搜索页，停止下单")
+
     def _ios_select_search_result(self, is_start, address, target_text, tag=""):
         """通用地址搜索结果选择：文本匹配 → 父Cell → 第一个Cell → 坐标 → 验证跳转。
 
@@ -644,6 +723,10 @@ class iOSBase(HKIOSPaymentMixin):
             self._ios_screenshot(f"JRYG_ios_search_{addr_type}_enter_fail.png")
             raise AssertionError(f"未能进入{addr_type}搜索页")
 
+        if is_start and address.strip() in (*E.NORTH_POINT_STATION_NAMES, E.NORTH_POINT_SEARCH_TEXT):
+            self._ios_search_north_point_start()
+            return
+
         # ---- 步骤 B：检查历史记录（直接命中免输入） ----
         target_text = address.replace("地鐵站", "").replace("地铁站", "").strip()
         hist_el = client(xpath=f'//XCUIElementTypeStaticText[@label="{address}" or @value="{address}"]')
@@ -761,6 +844,20 @@ class iOSBase(HKIOSPaymentMixin):
                 time.sleep(2)
                 break
 
+    @staticmethod
+    def _ios_route_start_texts(root):
+        """读取起点地图标记所属容器的名称，不能用终点或历史搜索文本证明起点。"""
+        parents = {child: parent for parent in root.iter() for child in parent}
+        texts = []
+        for node in root.iter("XCUIElementTypeImage"):
+            if node.get("visible") != "true" or (node.get("name") or node.get("label")) != "slm_icon_anno_start":
+                continue
+            parent = parents.get(node)
+            if parent is not None:
+                texts.extend((child.get("label") or child.get("name") or child.get("value") or "").strip()
+                             for child in parent.iter("XCUIElementTypeStaticText") if child.get("visible") == "true")
+        return texts
+
     def _ios_configure_addresses(self, tag, start_addr, end_addr):
         """依次搜索起点和终点；只处理地址，不启动App、不选择车型或付款。
 
@@ -772,6 +869,140 @@ class iOSBase(HKIOSPaymentMixin):
         # 步骤 5：配置终点
         logger.info(f"【{tag} 步骤 5】配置终点: {end_addr}")
         self._ios_search_address(is_start=False, address=end_addr)
+        if start_addr.strip() in (*E.NORTH_POINT_STATION_NAMES, E.NORTH_POINT_SEARCH_TEXT):
+            accepted = set(E.NORTH_POINT_STATION_NAMES) | {f"{name} {E.NORTH_POINT_EXIT}" for name in E.NORTH_POINT_STATION_NAMES}
+            deadline = time.monotonic() + 15
+            actual = []
+            while time.monotonic() < deadline:
+                root = ET.fromstring(self.client.source(format="xml"))
+                if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+                    raise AssertionError("起点核验时乘客App已离开前台，停止下单")
+                actual = self._ios_route_start_texts(root)
+                if len(actual) == 1 and actual[0] in accepted:
+                    logger.info("【%s】路线实际起点已核对：%s", tag, actual[0])
+                    break
+                time.sleep(1)
+            else:
+                self._ios_screenshot("JRYG_ios_north_point_origin_mismatch.png")
+                raise AssertionError(f"路线实际起点不是北角地铁站或未识别：{actual}；未确认呼叫")
+        self._ios_call_route_key = self._ios_estimate_route_identity(
+            ET.fromstring(self.client.source(format="xml")))
+        self._ios_retry_estimate_quote = None
+
+    @staticmethod
+    def _ios_estimate_route_identity(root):
+        """仅按起终点地图标记读取原路线，隐藏历史地址不参与重试核验。"""
+        starts = iOSBase._ios_route_start_texts(root)
+        parents = {child: parent for parent in root.iter() for child in parent}
+        ends = []
+        for node in root.iter("XCUIElementTypeImage"):
+            if node.get("visible") != "true" or node.get("name") != "slm_icon_anno_end":
+                continue
+            parent = parents.get(node)
+            if parent is not None:
+                ends.extend((child.get("label") or child.get("name") or child.get("value") or "").strip()
+                            for child in parent.iter("XCUIElementTypeStaticText") if child.get("visible") == "true")
+        return (starts[0], ends[0]) if len(starts) == len(ends) == 1 and starts[0] and ends[0] else None
+
+    @staticmethod
+    def _ios_estimate_quote(root, car_type):
+        """只有同一可见车型Cell与可用呼叫按钮就绪时才返回报价，不以隐藏收银台证明刷新。"""
+        if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+            return None
+        visible = [node for node in root.iter() if node.get("visible") == "true"]
+        texts = [(node.get("label") or node.get("name") or node.get("value") or "").strip() for node in visible]
+        blocked = (*E.ESTIMATE_UPDATED_KEYWORDS, *E.CASHIER_PAGE_KEYWORDS,
+                   *E.ORDER_SUCCESS_KEYWORDS, *E.ORDER_PROCESSING_KEYWORDS, *E.ORDER_FAIL_KEYWORDS)
+        if any(keyword in text for text in texts for keyword in blocked) or any(node.tag == "XCUIElementTypeAlert" for node in visible):
+            return None
+        calls = [node for node in visible if node.tag == "XCUIElementTypeButton"
+                 and (node.get("label") or node.get("name")) in ("確認呼叫", "确认呼叫")
+                 and node.get("enabled") == "true"]
+        if len(calls) != 1:
+            return None
+        label = E.CHARTER_CAR_LABEL if car_type == "charter" else E.METER_CAR_LABEL
+        candidates = []
+        for cell in root.iter("XCUIElementTypeCell"):
+            if cell.get("visible") != "true" or cell.get("enabled") != "true":
+                continue
+            cell_texts = {(node.get("label") or node.get("name") or node.get("value") or "").strip()
+                          for node in cell.iter("XCUIElementTypeStaticText") if node.get("visible") == "true"}
+            if label not in cell_texts:
+                continue
+            if car_type == "charter":
+                prices = [match.group(1) for text in cell_texts
+                          for match in [re.fullmatch(r"包車價\s*([0-9]+(?:\.[0-9]{1,2})?)\s*HKD", text)] if match]
+                if len(prices) != 1 or Decimal(prices[0]) <= 0:
+                    continue
+                quote = format(Decimal(prices[0]).normalize(), "f")
+            else:
+                if "打錶計價" not in cell_texts:
+                    continue
+                quote = "打錶計價"
+            candidates.append(quote)
+        route = iOSBase._ios_estimate_route_identity(root)
+        return (route, candidates[0]) if route is not None and len(candidates) == 1 else None
+
+    def _ios_reselect_refreshed_estimate(self, tag, car_type):
+        """收到明确更新提示后，连续两次回读稳定报价，再精确重选同路线车型；不点击支付。"""
+        original = getattr(self, "_ios_call_route_key", None)
+        self._ios_retry_estimate_quote = None
+        if original is None:
+            raise AssertionError("缺少原路线凭据，禁止因预估更新重新呼叫")
+        logger.info("【%s】预估已更新，等待报价刷新稳定，保留原起终点：%s", tag, original)
+        previous = None
+        deadline = time.monotonic() + E.ESTIMATE_REFRESH_TIMEOUT
+        while time.monotonic() < deadline:
+            root = ET.fromstring(self.client.source(format="xml"))
+            if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+                raise AssertionError("预估刷新时乘客App已离开前台，禁止重试呼叫")
+            texts = [(node.get("label") or node.get("name") or node.get("value") or "")
+                     for node in root.iter() if node.get("visible") == "true"]
+            if any(keyword in text for text in texts for keyword in E.ORDER_FAIL_KEYWORDS):
+                raise AssertionError("预估刷新时已出现订单或支付失败，禁止重试呼叫")
+            if any(keyword in text for text in texts for keyword in E.CASHIER_PAGE_KEYWORDS):
+                return "cashier"
+            if any(keyword in text for text in texts for keyword in E.ORDER_SUCCESS_KEYWORDS):
+                return "success"
+            route = self._ios_estimate_route_identity(root)
+            if route is not None and route != original:
+                raise AssertionError(f"预估刷新后起终点已变化：{route}，禁止重试呼叫")
+            quote = self._ios_estimate_quote(root, car_type)
+            if quote is not None and quote == previous:
+                label = E.CHARTER_CAR_LABEL if car_type == "charter" else E.METER_CAR_LABEL
+                self._ios_click_estimate_car(car_type)
+                time.sleep(1)
+                current = self._ios_estimate_quote(ET.fromstring(self.client.source(format="xml")), car_type)
+                if current == quote:
+                    self._ios_retry_estimate_quote = quote
+                    logger.info("【%s】已精确重选%s，原路线及新报价回读一致：%s；尚未呼叫", tag, label, quote[1])
+                    return "ready"
+                previous = None
+            else:
+                previous = quote
+            time.sleep(1)
+        self._ios_screenshot("JRYG_ios_estimate_refresh_timeout.png")
+        raise AssertionError("预估刷新30秒内未稳定，未重试呼叫、未支付")
+
+    def _ios_click_refreshed_estimate_call(self, tag, car_type):
+        """再次核对刷新凭据后仅点击一次真实呼叫Button，不执行模糊或坐标兜底。"""
+        expected = getattr(self, "_ios_retry_estimate_quote", None)
+        current = self._ios_estimate_quote(ET.fromstring(self.client.source(format="xml")), car_type)
+        if expected is None or current != expected or current[0] != self._ios_call_route_key:
+            raise AssertionError("重试呼叫前路线或报价再次变化，停止，不重复提交")
+        self._ios_retry_estimate_quote = None
+        self._ios_click_estimate_call()
+        logger.info("【%s】预估刷新后已单次重试呼叫，继续等待收银台或订单结果", tag)
+        time.sleep(5)
+
+    def _ios_click_estimate_car(self, car_type):
+        label = E.CHARTER_CAR_LABEL if car_type == "charter" else E.METER_CAR_LABEL
+        xpath = (f'//XCUIElementTypeCell[@visible="true" and @enabled="true"'
+                 f' and .//XCUIElementTypeStaticText[@visible="true" and @label="{label}"]]')
+        self.client(xpath=xpath).click()
+
+    def _ios_click_estimate_call(self):
+        self.client(xpath='//XCUIElementTypeButton[@visible="true" and @enabled="true" and (@label="確認呼叫" or @label="确认呼叫")]').click()
 
     def _ios_select_car_type(self, tag, car_type="charter"):
         """选择车型：charter=包車價的士, meter=打錶的士
@@ -1049,84 +1280,147 @@ class iOSBase(HKIOSPaymentMixin):
             logger.warning(f"  >> element 点击({label_kw}) 异常: {e}")
         return False
 
-    def _ios_handle_otp_page(self, tag):
-        """检测并处理 3D Secure OTP 验证页。
+    @staticmethod
+    def _ios_otp_form(root):
+        """限定沙箱OTP标题所属表单及唯一可输入框，返回精确控件XPath。"""
+        if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+            raise RuntimeError("OTP核验时乘客App不在前台，禁止输入或提交")
+        visible = [node for node in root.iter() if node.get("visible") == "true"]
+        if any(node.tag == "XCUIElementTypeAlert" for node in visible):
+            raise RuntimeError("OTP页面存在弹窗，禁止输入或提交")
+        fields = [node for node in visible
+                  if node.tag in ("XCUIElementTypeTextField", "XCUIElementTypeSecureTextField")]
+        placeholder = "e.g. 123456"
+        if (len(fields) != 1 or fields[0].tag != "XCUIElementTypeTextField"
+                or fields[0].get("enabled") != "true"
+                or fields[0].get("placeholderValue") != placeholder):
+            raise RuntimeError("OTP输入框缺失、不唯一、不可输入或标识不符，禁止提交")
+        parents = {child: parent for parent in root.iter() for child in parent}
+        parent = parents.get(fields[0])
+        if parent is None or parent.tag != "XCUIElementTypeOther":
+            raise RuntimeError("OTP输入框不在已确认表单内，禁止提交")
+        texts = {(node.get("label") or node.get("name") or "") for node in parent.iter()
+                 if node.tag == "XCUIElementTypeStaticText"}
+        buttons = [node for node in parent if node.tag == "XCUIElementTypeButton"
+                   and node.get("visible") == "true" and node.get("label") == "Verify & Proceed"]
+        if not {"Sandbox Test Page", "One-Time Password (OTP)"}.issubset(texts) or len(buttons) != 1:
+            raise RuntimeError("OTP沙箱标题或同表单验证按钮不符，禁止提交")
+        form_xpath = ('//XCUIElementTypeOther[.//XCUIElementTypeStaticText[@label="Sandbox Test Page"]'
+                      ' and .//XCUIElementTypeStaticText[@label="One-Time Password (OTP)"]'
+                      ' and ./XCUIElementTypeTextField[@visible="true" and @enabled="true" and @placeholderValue="e.g. 123456"]]')
+        field_xpath = form_xpath + '/XCUIElementTypeTextField[@visible="true" and @enabled="true" and @placeholderValue="e.g. 123456"]'
+        verify_xpath = form_xpath + '/XCUIElementTypeButton[@visible="true" and @enabled="true" and @label="Verify & Proceed"]'
+        return field_xpath, verify_xpath, placeholder
 
-        点击"請支付"后可能跳转到银行 3DS 验证页面（Sandbox 测试环境），
-        需要输入 OTP 验证码并点击 Verify & Proceed。
+    @staticmethod
+    def _ios_otp_value_confirmed(value, expected, placeholder):
+        """仅精确实际值算确认；空值、占位符、掩码或长度相同均不能证明输入成功。"""
+        return (isinstance(value, str) and isinstance(expected, str) and bool(expected)
+                and value not in ("", placeholder) and expected != placeholder and value == expected)
 
-        注意（WebView 3DS 弹层踩坑）：
-        1. WDA source 中 TextField 的 value 永远是占位符"e.g. 123456"，
-           读不到真实输入值，不能据此判断是否已输入。
-        2. 坐标 tap 对该 WebView 内的按钮无效，必须用 element uuid 点击
-           （self.client(xpath=...).click() 内部走的就是 uuid 点击）。
-        3. 输入框若残留旧字符会导致校验失败，需先退格清空再输入。
-
-        :param tag: 日志标签。
-        """
-        page_texts = self._ios_get_all_texts(self.client)
-        if not any(kw in t for t in page_texts for kw in E.OTP_PAGE_KEYWORDS):
-            return  # 不是 OTP 页面
-
-        logger.info(f"  >> [{tag}] 检测到 3D Secure OTP 验证页，填写 OTP...")
-        self._ios_screenshot(f"JRYG_ios_{tag}_otp_page.png")
-        time.sleep(2)
-
-        otp_code = E.OTP_DEFAULT_CODE
-
-        # ---- 步骤 1：定位 OTP 输入框 ----
-        tf = None
-        try:
-            tf = self.client(type="TextField")
-        except Exception as e:
-            logger.warning(f"  >> [{tag}] 查找 OTP 输入框异常: {e}")
-
-        # ---- 步骤 2：聚焦输入框（element uuid 点击，坐标 tap 对 WebView 无效） ----
-        try:
-            if not self._ios_click_element_by_label("", "XCUIElementTypeTextField"):
-                # 兜底：坐标点击输入框（实测 393x852 下中心约 196,539）
-                self.client.click(*E.OTP_FALLBACK_COORD)
-            logger.info(f"  >> [{tag}] 已聚焦 OTP 输入框")
-            time.sleep(1.5)
-        except Exception as e:
-            raise RuntimeError(f"{tag}: 聚焦OTP失败，停止验证") from e
-
-        # ---- 步骤 3：退格清空残留内容 ----
-        try:
-            for _ in range(E.OTP_CLEAR_TIMES):
-                self.client.send_keys("\b")
-                time.sleep(0.2)
-            logger.info(f"  >> [{tag}] 已清空输入框")
-            time.sleep(0.5)
-        except Exception as e:
-            raise RuntimeError(f"{tag}: 清空OTP失败，停止验证") from e
-
-        # ---- 步骤 4：输入 OTP ----
-        try:
-            self.client.send_keys(otp_code)
-            logger.info(f"  >> [{tag}] 已输入 OTP（内容不记录）")
-            time.sleep(1)
-        except Exception as e:
-            raise RuntimeError(f"{tag}: 输入OTP失败，停止验证") from e
-
-        # ---- 步骤 5：点击 Verify & Proceed（element uuid 点击，坐标 tap 无效） ----
-        clicked = self._ios_click_element_by_label("Verify")
-        if clicked:
-            logger.info(f"  >> [{tag}] 已点击 Verify & Proceed")
-        else:
+    def _ios_wait_otp_value(self, field, expected, tag, *, clearing=False):
+        """仅回读同一元素，最多5秒，不重发输入；异常及日志均不包含验证码。"""
+        deadline = time.monotonic() + 5
+        while time.monotonic() < deadline:
             try:
-                verify_poco = self.poco(textMatches=".*Verify.*|.*验证.*|.*Proceed.*")
-                if verify_poco.exists():
-                    verify_poco.click()
-                    clicked = True
-                    logger.info(f"  >> [{tag}] Poco 点击 Verify")
-            except Exception as e:
-                logger.warning(f"  >> [{tag}] Poco 点击 Verify 异常: {e}")
+                _, _, placeholder = self._ios_otp_form(ET.fromstring(self.client.source(format="xml")))
+                if not field.displayed or not field.enabled:
+                    raise RuntimeError("OTP目标输入框已不可用")
+                value = field.value
+            except Exception:
+                raise RuntimeError(f"{tag}: OTP目标控件或回读异常，停止，不提交验证") from None
+            if clearing:
+                if value in ("", placeholder):
+                    return
+            elif self._ios_otp_value_confirmed(value, expected, placeholder):
+                return
+            time.sleep(0.5)
+        action = "清空" if clearing else "输入"
+        raise RuntimeError(f"{tag}: OTP{action}未通过回读核验，停止，不提交验证")
 
-        if not clicked:
-            # 兜底：坐标点击（WDA source 坐标：Verify 中心约 196,611）
-            self.client.click(*E.OTP_VERIFY_FALLBACK_COORD)
-            logger.info(f"  >> [{tag}] 物理坐标点击 Verify")
+    @staticmethod
+    def _ios_otp_readiness(root):
+        """加载中表单返回None；离开乘客App、系统弹窗或明确支付失败立即阻断。"""
+        if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+            raise RuntimeError("等待OTP时乘客App不在前台，停止，不输入或提交")
+        visible = [node for node in root.iter() if node.get("visible") == "true"]
+        if any(node.tag == "XCUIElementTypeAlert" for node in visible):
+            raise RuntimeError("等待OTP时存在系统弹窗，停止，不输入或提交")
+        texts = [(node.get("label") or node.get("name") or "") for node in visible
+                 if node.tag in ("XCUIElementTypeStaticText", "XCUIElementTypeTextView")]
+        failures = ("Payment Failed", "Authentication Failed", "Incorrect OTP", "支付失敗", "支付失败", "驗證失敗", "验证失败")
+        if any(keyword in text for text in texts for keyword in failures):
+            raise RuntimeError("等待OTP时出现支付或验证失败，停止，不输入或提交")
+        try:
+            return iOSBase._ios_otp_form(root)
+        except RuntimeError:
+            return None
+
+    def _ios_wait_otp_ready(self, tag, wait_seconds=30):
+        """只读等待同表单唯一可用OTP元素，预算共用；等待期间不聚焦、输入或付款。"""
+        deadline = time.monotonic() + wait_seconds
+        next_log = time.monotonic()
+        logger.info("【%s】等待OTP表单及输入框就绪，最多%s秒，期间不输入或提交", tag, wait_seconds)
+        while time.monotonic() < deadline:
+            try:
+                root = ET.fromstring(self.client.source(format="xml"))
+            except Exception:
+                root = None
+            if root is not None:
+                form = self._ios_otp_readiness(root)
+                if form is not None:
+                    field_xpath, verify_xpath, placeholder = form
+                    try:
+                        fields = self.client(xpath=field_xpath).find_elements()
+                        ready = len(fields) == 1 and fields[0].displayed and fields[0].enabled
+                    except Exception:
+                        ready = False
+                    if ready and time.monotonic() < deadline:
+                        return fields[0], verify_xpath, placeholder
+            if time.monotonic() >= next_log:
+                logger.info("【%s】OTP表单或控件树尚未就绪，仅等待，剩余%.0f秒", tag, max(0, deadline - time.monotonic()))
+                next_log = time.monotonic() + 5
+            time.sleep(min(0.5, max(0, deadline - time.monotonic())))
+        raise TimeoutError(f"{tag}: OTP表单或唯一可见启用输入框在{wait_seconds}秒内未就绪，未清空、输入或提交验证")
+
+    def _ios_handle_otp_page(self, tag):
+        """有界等待沙箱OTP框就绪，元素级清空输入并回读确认后，仅提交一次验证。"""
+        field, verify_xpath, placeholder = self._ios_wait_otp_ready(tag)
+        otp_code = E.OTP_DEFAULT_CODE
+        if not isinstance(otp_code, str) or not otp_code.strip() or otp_code == placeholder:
+            raise RuntimeError(f"{tag}: OTP配置无效，未输入或提交")
+        try:
+            field.tap()
+            self._ios_otp_form(ET.fromstring(self.client.source(format="xml")))
+        except Exception:
+            raise RuntimeError(f"{tag}: OTP就绪后聚焦或表单核验失败，未提交验证") from None
+        logger.info("【%s】OTP目标输入框唯一且可用，使用同一元素输入", tag)
+        try:
+            field.clear_text()
+        except Exception:
+            raise RuntimeError(f"{tag}: OTP元素清空失败，未输入或提交验证") from None
+        self._ios_wait_otp_value(field, None, tag, clearing=True)
+        logger.info("【%s】OTP清空回读通过（内容不记录）", tag)
+        try:
+            field.set_text(otp_code)
+        except Exception:
+            raise RuntimeError(f"{tag}: OTP元素输入响应异常，停止，不重复输入或提交") from None
+        self._ios_wait_otp_value(field, otp_code, tag)
+        logger.info("【%s】OTP实际值回读一致，输入核验通过（内容不记录）", tag)
+        try:
+            self._ios_otp_form(ET.fromstring(self.client.source(format="xml")))
+            buttons = self.client(xpath=verify_xpath).find_elements()
+            if (len(buttons) != 1 or not buttons[0].displayed or not buttons[0].enabled
+                    or not field.displayed or not field.enabled
+                    or not self._ios_otp_value_confirmed(field.value, otp_code, placeholder)):
+                raise RuntimeError("OTP输入再次变化或验证按钮不可用")
+        except Exception:
+            raise RuntimeError(f"{tag}: OTP提交前核验失败，停止，不提交验证") from None
+        try:
+            buttons[0].tap()
+        except Exception:
+            raise RuntimeError(f"{tag}: 验证点击已发出但响应未确认，停止，不重复提交") from None
+        logger.info("【%s】OTP提交前核验通过，已单次点击Verify & Proceed", tag)
 
         time.sleep(5)
 
@@ -1134,7 +1428,20 @@ class iOSBase(HKIOSPaymentMixin):
         logger.info(f"  >> [{tag}] 等待 3DS 验证结果...")
         otp_done = False
         for i in range(15):
-            cur_texts = self._ios_get_all_texts(self.client)
+            try:
+                current = ET.fromstring(self.client.source(format="xml"))
+                cur_texts = [(node.get("label") or node.get("name") or "")
+                             for node in current.iter() if node.get("visible") == "true"
+                             and node.tag in ("XCUIElementTypeStaticText", "XCUIElementTypeButton", "XCUIElementTypeTextView")]
+            except Exception:
+                logger.warning("【%s】3DS结果页面暂不可读取，仅等待，不重复提交", tag)
+                time.sleep(2)
+                continue
+            if not any(cur_texts):
+                time.sleep(2)
+                continue
+            if current.get("bundleId") not in (E.PASSENGER_BUNDLE_ID, "com.apple.mobilesafari"):
+                raise RuntimeError(f"{tag}: 3DS结果核验时已离开支付App，停止，不重复提交")
             if any(kw in t for t in cur_texts for kw in ("Payment Failed", "Authentication Failed", "Incorrect OTP", "支付失敗", "支付失败", "驗證失敗", "验证失败")):
                 raise RuntimeError(f"{tag}: 3DS支付验证失败")
             if any(kw in t for t in cur_texts for kw in E.OTP_SUCCESS_KEYWORDS):
@@ -1274,6 +1581,7 @@ class iOSBase(HKIOSPaymentMixin):
         """轮询等待下单结果。
 
         :return: "success"=下单成功, "too_close"=距离太近需切换终点,
+                 "cashier"=已进入收银台, "estimate_updated"=预估更新需同路线重选,
                  "fail"=下单失败, "timeout"=超时无结果。
         """
         logger.info(f"  >> [{tag}] 等待下单结果...")
@@ -1283,15 +1591,21 @@ class iOSBase(HKIOSPaymentMixin):
             page_texts = self._ios_get_all_texts(self.client)
             logger.info(f"  [{tag} {wait_sec*2}s] 页面文本: {page_texts[:200]}")
 
-            if any(kw in t for t in page_texts for kw in E.ORDER_SUCCESS_KEYWORDS):
-                logger.info(f"  [{tag} {wait_sec*2}s] 【下单成功】")
-                result = "success"
-                break
-
             if any(kw in t for t in page_texts for kw in E.ORDER_FAIL_KEYWORDS):
                 logger.warning(f"  [{tag} {wait_sec*2}s] 下单失败")
                 result = "fail"
                 break
+
+            if any(kw in text for text in page_texts for kw in E.CASHIER_PAGE_KEYWORDS):
+                logger.info("【%s】已进入收银台，不再重试确认呼叫", tag)
+                return "cashier"
+            if any(kw in t for t in page_texts for kw in E.ORDER_SUCCESS_KEYWORDS):
+                logger.info(f"  [{tag} {wait_sec*2}s] 【下单成功】")
+                result = "success"
+                break
+            if any(kw in text for text in page_texts for kw in E.ESTIMATE_UPDATED_KEYWORDS):
+                logger.warning("【%s】检测到预估更新提示，返回同路线重选流程", tag)
+                return "estimate_updated"
 
             # 检测"未完成訂單"弹窗 → 返回让调用方处理
             if any(("未完成" in t and ("訂單" in t or "订单" in t))

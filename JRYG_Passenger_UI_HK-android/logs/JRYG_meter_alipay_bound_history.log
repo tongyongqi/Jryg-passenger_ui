@@ -1,0 +1,75 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.7.1-x86_64-i386-64bit', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'metadata': '3.1.1', 'html': '4.2.0'}}
+rootdir: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android
+configfile: pytest.ini
+plugins: metadata-3.1.1, html-4.2.0
+collecting ... collected 1 item
+
+cases/JRYG_test_android_meter_alipay_order.py::TestMeterAlipayAndroid::test_order_flow 2026-11-04 09:59:14,115 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:59:14,115 - JRYG_HK_ios - INFO - 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+2026-11-04 09:59:14,115 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:59:14,367 - JRYG_driver_ui - INFO - 已请求打开司机 App，等待前台页面就绪，最多30秒
+2026-11-04 09:59:16,164 - JRYG_driver_ui - INFO - 司机 App 前台已确认，继续读取业务阶段
+2026-11-04 09:59:16,463 - JRYG_driver_ui - INFO - 司机 App 已出车；接单及后续状态全部在司机页面操作
+2026-11-04 09:59:16,463 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】司机 UI 已确认听单，继续乘客下单
+2026-11-04 09:59:16,463 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:59:16,464 - JRYG_HK_ios - INFO - 【阶段 1】乘客端：处理遗留订单
+2026-11-04 09:59:16,464 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:59:21,185 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:59:21,185 - JRYG_HK_ios - INFO - 【阶段 2】UI 下单：打錶的士 + Alipay HK
+2026-11-04 09:59:21,186 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:59:24,842 - JRYG_HK_ios - INFO - Android等待唯一地址结果：北角地铁站，北角A1校验=True
+2026-11-04 09:59:26,770 - JRYG_HK_ios - INFO - Android地址及出口已确认，单次选择：A1出入口
+2026-11-04 09:59:27,452 - JRYG_HK_ios - INFO - Android已离开搜索页，选址完成：北角地铁站
+2026-11-04 09:59:30,815 - JRYG_HK_ios - INFO - Android等待唯一地址结果：香港大学，北角A1校验=False
+2026-11-04 09:59:31,434 - JRYG_HK_ios - INFO - Android地址及出口已确认，单次选择：香港大學
+2026-11-04 09:59:32,092 - JRYG_HK_ios - INFO - Android已离开搜索页，选址完成：香港大学
+2026-11-04 09:59:38,152 - JRYG_HK_ios - INFO - Android实时地图OCR路线核验：('北角(地鐵站) A1出入口', '香港大學')
+2026-11-04 09:59:39,755 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK 步骤 7】选择Alipay HK支付方式...
+2026-11-04 09:59:40,053 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】Android打表本次已选择電子支付，后付渠道=alipay；不重复点击
+2026-11-04 09:59:40,053 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK 步骤 8】首次点击确认呼叫（终点=香港大学）...
+2026-11-04 09:59:48,912 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】点击确认呼叫后未跳到登录页，等待下单结果...
+2026-11-04 09:59:48,912 - JRYG_HK_ios - INFO -   >> [打錶的士+Alipay HK] 等待下单结果...
+2026-11-04 09:59:51,132 - JRYG_HK_ios - INFO -   [打錶的士+Alipay HK 0s] 页面文本: ['如需發票，請向司機索取紙本發票。', '打錶的士司機正在趕來接您', '司機正努力趕來接您，請提前到上車點等候', 'T', 'U7679', '紅色', '比亚迪', 'T師傅', '聯繫司機', '聯繫客服', '取消訂單', '分享行程']
+2026-11-04 09:59:51,138 - JRYG_HK_ios - INFO -   [打錶的士+Alipay HK 0s] 【下单成功】
+2026-11-04 09:59:51,138 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】UI 下单成功
+2026-11-04 09:59:51,581 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:59:51,581 - JRYG_HK_ios - INFO - 【阶段 3】司机 UI：接单→到达上车点→接载→到达目的地→确认账单
+2026-11-04 09:59:51,581 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:59:51,824 - JRYG_driver_ui - INFO - 已请求打开司机 App，等待前台页面就绪，最多30.0秒
+2026-11-04 09:59:53,346 - JRYG_driver_ui - INFO - 司机 App 前台已确认，继续读取业务阶段
+2026-11-04 10:00:04,363 - JRYG_driver_ui - INFO - 司机 UI 阶段：前往上车点
+2026-11-04 10:00:09,310 - JRYG_driver_ui - INFO - 司机 UI 阶段：等待乘客上车
+2026-11-04 10:00:14,458 - JRYG_driver_ui - INFO - 司机 UI 阶段：送乘客
+2026-11-04 10:00:47,736 - JRYG_driver_ui - WARNING - 送乘客首滑未生效，当前仍为同阶段；仅重试一次，不模拟定位
+2026-11-04 10:00:52,623 - JRYG_driver_ui - INFO - 司机 UI 阶段：确认账单
+2026-11-04 10:00:59,257 - JRYG_driver_ui - INFO - 司机 UI 阶段：已完成但未支付
+2026-11-04 10:00:59,257 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】司机 UI 账单已提交，切回乘客 App 处理支付
+2026-11-04 10:00:59,461 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 10:00:59,461 - JRYG_HK_ios - INFO - 【阶段 4】App 端：订单完成后返回首页
+2026-11-04 10:00:59,461 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 10:01:05,069 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】已确认乘客付款金额 5 HKD
+2026-11-04 10:01:05,232 - JRYG_driver_ui - INFO - 【打錶的士+Alipay HK】Android乘客付款页与司机绑定同单：26B4J58WECNY；尚未提交渠道付款
+2026-11-04 10:01:06,308 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】等待Alipay HK支付页加载，最多90秒，不重复确认支付
+2026-11-04 10:01:13,946 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】Alipay HK支付页加载中，等待Pay Now可用，剩余82秒
+2026-11-04 10:01:29,400 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】Alipay HK页面确认SUCCESS，待司机同订单到账核验
+2026-11-04 10:01:37,008 - JRYG_HK_ios - INFO - Android已单次点击返回乘客App的原生确认按钮
+2026-11-04 10:01:46,729 - JRYG_driver_ui - INFO - Android开始同订单到账核验，绑定订单=26B4J58WECNY
+2026-11-04 10:01:46,908 - JRYG_driver_ui - INFO - 已请求打开司机 App，等待前台页面就绪，最多30.0秒
+2026-11-04 10:01:48,532 - JRYG_driver_ui - INFO - 司机 App 前台已确认，继续读取业务阶段
+2026-11-04 10:01:54,954 - JRYG_driver_ui - INFO - Android已按绑定订单号打开行程详情：26B4J58WECNY
+2026-11-04 10:01:58,103 - JRYG_driver_ui - INFO - 已保存页面现场：/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android/report/driver_ui/1793757717380992000_completed_paid
+2026-11-04 10:01:58,104 - JRYG_driver_ui - INFO - Android司机同订单详情已确认已完成且已支付：26B4J58WECNY
+2026-11-04 10:01:58,104 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK 全 UI 流程完成】订单 26B4J58WECNY 已完成且已支付
+PASSED
+
+=============================== warnings summary ===============================
+cases/JRYG_test_android_meter_alipay_order.py::TestMeterAlipayAndroid::test_order_flow
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android/report/JRYG_meter_alipay_bound_history.html -
+=================== 1 passed, 1 warning in 168.28s (0:02:48) ===================

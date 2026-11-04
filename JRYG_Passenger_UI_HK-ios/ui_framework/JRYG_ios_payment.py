@@ -12,6 +12,10 @@ import time
 from ui_framework.JRYG_logger import logger
 
 
+class AlipayPaymentTapUncertainError(RuntimeError):
+    """付款点击已发出但响应异常，调用方只能等待结果，不能再次提交。"""
+
+
 class HKIOSPaymentMixin:
     """由iOSBase继承，所有香港iOS用例共享同一支付入口。"""
 
@@ -71,11 +75,40 @@ class HKIOSPaymentMixin:
                 self.client.click(196, 789)
         time.sleep(5)
 
+    def _ios_wait_and_click_alipay_pay_now(self, tag, wait_seconds=90):
+        """慢网络下有界等待可用付款控件，期间关闭重复弹窗；只发出一次付款点击。
+
+        空白页、控件未出现/禁用、取树失败可继续等；点击响应异常只等待支付结果。
+        90秒为加载与弹窗清理的共同预算，不重新下单、刷新页面或使用固定坐标。
+        """
+        deadline = time.monotonic() + wait_seconds
+        next_log = time.monotonic()
+        logger.info(f"【{tag}】等待Alipay HK支付页加载，最多{wait_seconds}秒，不重复确认支付")
+        while time.monotonic() < deadline:
+            remaining = deadline - time.monotonic()
+            try:
+                self._ios_wait_and_close_safari_alert(tag, wait_seconds=remaining)
+            except TimeoutError as exc:
+                self._ios_screenshot("alipay_page_load_timeout.png")
+                raise TimeoutError(f"{tag}: 等待Alipay HK支付页超时（{wait_seconds}秒）：{exc}") from exc
+            if time.monotonic() >= deadline:
+                break
+            try:
+                if self._ios_safari_click_by_text("Pay Now", 196, 460, allow_fallback=False):
+                    return
+            except AlipayPaymentTapUncertainError:
+                logger.warning(f"【{tag}】Pay Now点击已发出但响应未确认，仅等待SUCCESS，不重复点击")
+                return
+            if time.monotonic() >= next_log:
+                logger.info(f"【{tag}】Alipay HK支付页加载中，等待Pay Now可用，剩余{max(0, deadline - time.monotonic()):.0f}秒")
+                next_log = time.monotonic() + 10
+            time.sleep(min(1, max(0, deadline - time.monotonic())))
+        self._ios_screenshot("alipay_page_load_timeout.png")
+        raise TimeoutError(f"{tag}: 等待Alipay HK Pay Now超时（{wait_seconds}秒），未点击付款")
+
     def _ios_complete_alipay_payment(self, tag, *, return_home=True):
-        """原Alipay HK流程：Safari Pay Now → SUCCESS → 返回商户/App。"""
-        self._ios_wait_and_close_safari_alert(tag)
-        if not self._ios_safari_click_by_text("Pay Now", 196, 460, allow_fallback=False):
-            raise RuntimeError(f"{tag}: 未定位到Alipay HK Pay Now，停止支付，不重复点击")
+        """先等待Safari支付页加载并点击一次Pay Now，再确认SUCCESS并返回商户/App。"""
+        self._ios_wait_and_click_alipay_pay_now(tag)
         time.sleep(5)
         for _ in range(15):
             texts = self._ios_get_all_texts(self.client)
@@ -115,21 +148,22 @@ class HKIOSPaymentMixin:
     def _ios_wait_and_close_safari_alert(self, tag, wait_seconds=12):
         """每次识别网址无效弹窗后动态点好，连续3秒无弹窗才允许继续支付。
 
-        弹窗次数不固定；12秒内未稳定消失或好按钮定位失败则停止，不盲点付款。
-        页面读取失败也不视为弹窗已消失。返回值仅表示是否关闭过弹窗。
+        弹窗次数不固定；按调用方预算等待，默认12秒，付款前共用90秒加载预算。
+        好按钮暂未加载则继续等待；页面读取为空不视为已消失，不盲点付款。
+        返回值仅表示是否关闭过弹窗，超过预算仍未稳定消失才抛错。
         """
         alert_kw = ("打不开", "网址无效", "無法連接", "Safari浏览器打不开")
         deadline = time.monotonic() + wait_seconds
         clear_since = None
         closed = False
+        next_log = time.monotonic() + 10
         while time.monotonic() < deadline:
             texts = self._ios_get_all_texts(self.client)
             if any(any(k in t for k in alert_kw) for t in texts):
                 clear_since = None
-                if not self._ios_safari_click_by_text("好", 338, 440, exact=True, allow_fallback=False):
-                    raise RuntimeError(f"{tag}: Safari弹窗好按钮未定位，停止支付")
-                logger.info(f"【{tag}】已动态坐标点击 Safari 弹窗'好'")
-                closed = True
+                if self._ios_safari_click_by_text("好", 338, 440, exact=True, allow_fallback=False):
+                    logger.info(f"【{tag}】已动态坐标点击 Safari 弹窗'好'")
+                    closed = True
             elif texts:
                 if clear_since is None:
                     clear_since = time.monotonic()
@@ -137,11 +171,19 @@ class HKIOSPaymentMixin:
                     return closed
             else:
                 clear_since = None
-            time.sleep(0.5)
-        raise TimeoutError(f"{tag}: Safari弹窗未稳定消失，停止支付")
+            if time.monotonic() >= next_log:
+                logger.info(f"【{tag}】等待Safari页面加载或弹窗清理，剩余{max(0, deadline - time.monotonic()):.0f}秒")
+                next_log = time.monotonic() + 10
+            time.sleep(min(0.5, max(0, deadline - time.monotonic())))
+        raise TimeoutError(f"{tag}: Safari页面未加载或弹窗未稳定消失，停止支付")
 
     def _ios_safari_click_by_text(self, text_kw, fallback_x, fallback_y, exact=False, allow_fallback=True):
-        """Safari按可见元素坐标点击；付款禁用兜底，返回False时禁止外层重复点击。"""
+        """按实时XML中label和矩形定位点击，exact决定精确或包含匹配。
+
+        Pay Now被可见Safari弹窗遮挡时不点击；付款与好按钮调用禁止坐标兜底。
+        禁用兜底时False表示未发出付款点击，可继续定位；付款点击异常抛专用异常。
+        allow_fallback启用时可能点击给定坐标但仍返回False，不能据此判断已定位。
+        """
         try:
             src = self._ios_get_source_xml()
             if text_kw == "Pay Now" and any(
@@ -172,8 +214,12 @@ class HKIOSPaymentMixin:
                     return True
                 except Exception as exc:
                     logger.warning(f"  >> Safari 坐标点击 '{text_kw}' 点击异常: {exc}")
+                    if text_kw == "Pay Now":
+                        raise AlipayPaymentTapUncertainError("Pay Now点击已发出，禁止重复提交") from exc
                     if not allow_fallback:
                         return False
+        except AlipayPaymentTapUncertainError:
+            raise
         except Exception as exc:
             logger.warning(f"  >> Safari 坐标点击 '{text_kw}' 异常: {exc}")
         if not allow_fallback:

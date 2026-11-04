@@ -10,9 +10,10 @@ from .JRYG_logger import logger
 
 
 class JRYG_HKDevice:
-    """Android 真机 App 唤起与连接。"""
+    """管理港版乘客 App 的真机配置、UiAutomator2 会话建立与释放。"""
 
     def __init__(self):
+        """读取设备、包名和启动页配置，初始化未连接的驱动引用。"""
         self.driver: webdriver.Remote = None
         self.device_cfg = SETTINGS.get("device", {})
         self.pkg_cfg = SETTINGS.get("packages", {})
@@ -23,7 +24,7 @@ class JRYG_HKDevice:
         self.app_activity = self.pkg_cfg["passenger_hk_activity"]
 
     def connect(self) -> webdriver.Remote:
-        """读取本目录的 Android 配置并建立连接。"""
+        """拒绝非 Android 配置，按配置拼接 Appium 地址并建立真机会话。"""
         if self.platform != "ANDROID":
             raise ValueError("Android 目录只能使用 Android 设备配置")
         appium_url = f"http://{self.device_cfg.get('appium_host', '127.0.0.1')}:{self.device_cfg.get('appium_port', 4723)}"
@@ -31,7 +32,7 @@ class JRYG_HKDevice:
         return self._connect_android(appium_url)
 
     def _connect_android(self, appium_url: str) -> webdriver.Remote:
-        """Android 平台专属 Appium (UiAutomator2) 连接策略"""
+        """先清理自动化资源，再保留应用数据、配置自动授权并建立启动乘客 App 的会话。"""
         from appium.options.android import UiAutomator2Options
         
         self._clean_android_uia2()
@@ -60,7 +61,11 @@ class JRYG_HKDevice:
         return self.driver
 
     def _clean_android_uia2(self):
-        """清理 Android 设备上可能与 Appium 冲突的 UiAutomator2/Poco 自动化进程"""
+        """尽力停止自动化进程并清除 ADB 转发，可能中断已有自动化会话。
+
+        强停固定的 UiAutomator2/Poco 包，杀掉匹配进程，并调用 forward --remove-all；
+        各命令不校验退出码，发生异常时记录警告后继续连接，并不保证清理成功。
+        """
         try:
             automation_packages = (
                 "io.appium.uiautomator2.server",
@@ -90,7 +95,7 @@ class JRYG_HKDevice:
             logger.warning(f"【Android】自动化残留进程清理未完全执行: {exc}")
 
     def disconnect(self):
-        """安全释放 Session 通道"""
+        """驱动存在时结束 Appium 会话并记录断开结果，不捕获退出异常或清空引用。"""
         if self.driver:
             self.driver.quit()
             logger.info("【港版连接】Session 通道已安全断开并释放")

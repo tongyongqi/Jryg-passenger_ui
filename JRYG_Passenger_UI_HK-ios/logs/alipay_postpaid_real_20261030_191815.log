@@ -1,0 +1,264 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/../.venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.7.1-x86_64-i386-64bit', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'metadata': '3.1.1', 'html': '4.2.0'}}
+rootdir: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios
+configfile: pytest.ini
+plugins: metadata-3.1.1, html-4.2.0
+collecting ... collected 1 item
+
+cases/JRYG_test_ios_meter_epayment_alipay_order.py::TestMeterEpaymentAlipay::test_order_flow FAILED [100%]
+
+=================================== FAILURES ===================================
+___________________ TestMeterEpaymentAlipay.test_order_flow ____________________
+ui_framework/JRYG_order_flow.py:183: in test_order_flow
+    self._ios_complete_payment(tag)
+ui_framework/JRYG_order_flow.py:459: in _ios_complete_payment
+    return self._ios_pay(tag, payment=self.final_payment)
+ui_framework/JRYG_ios_payment.py:43: in _ios_pay
+    self._ios_complete_alipay_payment(tag)
+ui_framework/JRYG_ios_payment.py:79: in _ios_complete_alipay_payment
+    raise RuntimeError(f"{tag}: 未定位到Alipay HK Pay Now，停止支付，不重复点击")
+E   RuntimeError: 打錶的士+電子支付+后付Alipay HK: 未定位到Alipay HK Pay Now，停止支付，不重复点击
+---------------------------- Captured stderr setup -----------------------------
+2026-10-30 19:18:16,140 - JRYG_HK_ios - INFO - 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+2026-10-30 19:18:16,147 - JRYG_HK_ios - INFO - 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 30 2026 16:56:39', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.102', 'wifiIP': '192.168.219.102'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '9BF3421C-0F07-47E1-BE5C-EF608FE9689C'}
+2026-10-30 19:18:17,069 - JRYG_HK_ios - INFO - 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+------------------------------ Captured log setup ------------------------------
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:53 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:58 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 30 2026 16:56:39', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.102', 'wifiIP': '192.168.219.102'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': '9BF3421C-0F07-47E1-BE5C-EF608FE9689C'}
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:67 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+----------------------------- Captured stderr call -----------------------------
+2026-10-30 19:18:17,070 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:18:17,071 - JRYG_HK_ios - INFO - 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+2026-10-30 19:18:17,071 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:18:17,848 - JRYG_driver_ui - INFO - 司机 App 已出车；接单及后续状态全部在司机页面操作
+2026-10-30 19:18:17,848 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK】司机 UI 已确认听单，继续乘客下单
+2026-10-30 19:18:17,848 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:18:17,848 - JRYG_HK_ios - INFO - 【阶段 1】乘客端：处理遗留订单
+2026-10-30 19:18:17,848 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:18:17,848 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 1】正在回到桌面...
+[19:18:18][INFO]<airtest.core.ios.rotation> update orientation None->PORTRAIT
+2026-10-30 19:18:19,937 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 2】正在拉起 App: com.sunlightmobility.client
+2026-10-30 19:18:30,187 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 3】处理系统弹窗...
+2026-10-30 19:18:31,188 - JRYG_HK_ios - INFO - [页面检测] state=home_unlogged
+2026-10-30 19:18:34,182 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK】预清理: 当前页面文本: ['陽光出行', 'mamapview', 'maannotationcontainer', 'mauserlocationview', 'slm icon tool location', 'slm_icon_main_end_address_border', '想去哪裡？', 'icon_coupon_dest', '打車可減10.11HKD', '《私隱政策》', '《平台規則》', '水平滚动条, 1页', '0%', '标签页栏', 'slm_icon_tabbar_home_selected', '主頁', 'slm_icon_tabbar_coupon_normal', '優惠券', 'slm_icon_tabbar_mine_normal', '我的']
+2026-10-30 19:18:34,182 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK】预清理: 不在等待接单页
+2026-10-30 19:18:35,264 - JRYG_HK_ios - INFO - [页面检测] state=home_unlogged
+2026-10-30 19:18:35,265 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK】已处于登录状态，无需登录
+2026-10-30 19:18:37,334 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:18:37,336 - JRYG_HK_ios - INFO - 【阶段 2】UI 下单：打錶的士 + 電子支付
+2026-10-30 19:18:37,336 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:18:37,337 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 1】正在回到桌面...
+2026-10-30 19:18:39,466 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 2】正在拉起 App: com.sunlightmobility.client
+2026-10-30 19:18:51,854 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 3】处理系统弹窗...
+2026-10-30 19:18:52,833 - JRYG_HK_ios - INFO - [页面检测] state=home_unlogged
+2026-10-30 19:18:54,990 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 4】配置起点: 北角地铁站
+2026-10-30 19:18:54,990 - JRYG_HK_ios - INFO -   输入起点: 北角地铁站
+2026-10-30 19:19:01,387 - JRYG_HK_ios - INFO -   >> 已输入起点文本: 北角地铁站
+2026-10-30 19:19:14,016 - JRYG_HK_ios - INFO -   >> 搜索结果已出现 (1s)，Cell 数量: 28
+2026-10-30 19:19:16,069 - JRYG_HK_ios - INFO -   >> 文本匹配选中起点（父Cell）: 北角地铁站 (kw=北角)
+2026-10-30 19:19:18,160 - JRYG_HK_ios - INFO -   >> 起点文本匹配点击后已离开搜索页
+2026-10-30 19:19:19,251 - JRYG_HK_ios - INFO -   >> 起点选中后已离开搜索页 (1s)
+2026-10-30 19:19:20,965 - JRYG_HK_ios - INFO -   >> 起点设置完成，已返回首页 (1s)
+2026-10-30 19:19:22,970 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 5】配置终点: 香港大学
+2026-10-30 19:19:22,971 - JRYG_HK_ios - INFO -   输入终点: 香港大学
+2026-10-30 19:19:29,436 - JRYG_HK_ios - INFO -   >> 已输入终点文本: 香港大学
+2026-10-30 19:19:40,400 - JRYG_HK_ios - INFO -   >> 搜索结果已出现 (1s)，Cell 数量: 28
+2026-10-30 19:19:43,234 - JRYG_HK_ios - INFO -   >> 选中终点第一个 Cell (重试 1/3)
+2026-10-30 19:19:44,294 - JRYG_HK_ios - INFO -   >> 终点选中后已离开搜索页 (1s)
+2026-10-30 19:19:45,887 - JRYG_HK_ios - INFO -   >> 终点设置完成，已进入路线选择页 (1s)
+2026-10-30 19:19:48,243 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_meter_epayment_01_car_select.png
+2026-10-30 19:19:48,244 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 6】选择『打錶的士』车型...
+2026-10-30 19:19:49,195 - JRYG_HK_ios - INFO -   >> [WDA] 精确匹配并点击『打錶的士』
+2026-10-30 19:19:52,504 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_meter_epayment_02_selected.png
+2026-10-30 19:19:52,504 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 7】选择電子支付支付方式...
+2026-10-30 19:19:52,504 - JRYG_HK_ios - INFO -   >> [打錶的士+電子支付+后付Alipay HK] 点击'可選服務'区域，弹出支付方式选择面板...
+2026-10-30 19:19:55,422 - JRYG_HK_ios - INFO -   >> [打錶的士+電子支付+后付Alipay HK] 已点击'可選服務'区域，等待面板弹出
+2026-10-30 19:19:57,737 - JRYG_HK_ios - INFO -   >> [WDA] 面板中选择支付方式『電子支付』
+2026-10-30 19:19:58,741 - JRYG_HK_ios - INFO -   >> [打錶的士+電子支付+后付Alipay HK] 点击'確認選擇'按钮...
+2026-10-30 19:20:00,130 - JRYG_HK_ios - INFO -   >> [打錶的士+電子支付+后付Alipay HK] 已点击'確認選擇'按钮
+2026-10-30 19:20:04,140 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK 步骤 8】首次点击确认呼叫（终点=香港大学）...
+2026-10-30 19:20:05,760 - JRYG_HK_ios - INFO -   >> [打錶的士+電子支付+后付Alipay HK] 已点击确认呼叫 (尝试 1/3)
+2026-10-30 19:20:19,395 - JRYG_HK_ios - INFO - [页面检测] state=order_active
+2026-10-30 19:20:19,395 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK】点击确认呼叫后未跳到登录页，等待下单结果...
+2026-10-30 19:20:19,396 - JRYG_HK_ios - INFO -   >> [打錶的士+電子支付+后付Alipay HK] 等待下单结果...
+2026-10-30 19:20:22,090 - JRYG_HK_ios - INFO -   [打錶的士+電子支付+后付Alipay HK 0s] 页面文本: ['陽光出行', 'mamapview', 'maannotationcontainer', 'maannotationview', 'slm_icon_anno_start', '北角(地鐵站) A1出入口', 'driver_supposeCars', 'slm icon tool location', 'slm_icon_order_service_top_masker', '如需發票，請向司機索取紙本發票。', '打錶的士', '司機正在趕來接您', '司機正努力趕來接您，請提前到上車點等候', 'TU7679 · 紅色', '比亚迪', 'slm_ic_head_default', 'T師傅', '聯繫司機', '聯繫客服', '取消訂單', 'slm_icon_navi_arrow_left']
+2026-10-30 19:20:22,090 - JRYG_HK_ios - INFO -   [打錶的士+電子支付+后付Alipay HK 0s] 【下单成功】
+2026-10-30 19:20:22,090 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK】UI 下单成功
+2026-10-30 19:20:22,362 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_meter_epayment_03_order_success.png
+2026-10-30 19:20:22,362 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:20:22,362 - JRYG_HK_ios - INFO - 【阶段 3】司机 UI：接单→到达上车点→接载→到达目的地→确认账单
+2026-10-30 19:20:22,363 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:20:23,244 - JRYG_driver_ui - INFO - 司机 UI 阶段：前往上车点
+2026-10-30 19:20:33,703 - JRYG_driver_ui - INFO - 滑动操作：到達上車地點
+2026-10-30 19:21:04,608 - JRYG_driver_ui - WARNING - 前往上车点首滑未生效，当前仍为同阶段；仅重试一次，不模拟定位
+2026-10-30 19:21:06,555 - JRYG_driver_ui - INFO - 滑动操作：到達上車地點
+2026-10-30 19:21:09,626 - JRYG_driver_ui - INFO - 司机 UI 阶段：等待乘客上车
+2026-10-30 19:21:11,580 - JRYG_driver_ui - INFO - 滑动操作：已接載乘客
+2026-10-30 19:21:14,670 - JRYG_driver_ui - INFO - 司机 UI 阶段：送乘客
+2026-10-30 19:21:16,623 - JRYG_driver_ui - INFO - 滑动操作：到達目的地
+2026-10-30 19:21:48,268 - JRYG_driver_ui - WARNING - 送乘客首滑未生效，当前仍为同阶段；仅重试一次，不模拟定位
+2026-10-30 19:21:50,372 - JRYG_driver_ui - INFO - 滑动操作：到達目的地
+2026-10-30 19:21:53,835 - JRYG_driver_ui - INFO - 司机 UI 阶段：确认账单
+2026-10-30 19:21:53,835 - JRYG_driver_ui - INFO - 输入步骤：請輸入車費 — 查找输入框
+2026-10-30 19:21:54,237 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入車費 — 查找输入框（0.40秒）
+2026-10-30 19:21:54,237 - JRYG_driver_ui - INFO - 输入步骤：請輸入車費 — 读取输入框坐标
+2026-10-30 19:21:54,291 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入車費 — 读取输入框坐标（0.05秒）
+2026-10-30 19:21:54,292 - JRYG_driver_ui - INFO - 输入步骤：請輸入車費 — 聚焦输入框
+2026-10-30 19:21:54,766 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入車費 — 聚焦输入框（0.47秒）
+2026-10-30 19:21:54,767 - JRYG_driver_ui - INFO - 输入步骤：請輸入車費 — 清空旧内容
+2026-10-30 19:21:54,829 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入車費 — 清空旧内容（0.06秒）
+2026-10-30 19:21:54,829 - JRYG_driver_ui - INFO - 输入步骤：請輸入車費 — 输入内容
+2026-10-30 19:21:55,145 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入車費 — 输入内容（0.32秒）
+2026-10-30 19:21:55,145 - JRYG_driver_ui - INFO - 输入内容已发送：請輸入車費
+2026-10-30 19:21:55,877 - JRYG_driver_ui - INFO - 输入步骤：請輸入附加費 — 查找输入框
+2026-10-30 19:21:56,028 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入附加費 — 查找输入框（0.15秒）
+2026-10-30 19:21:56,028 - JRYG_driver_ui - INFO - 输入步骤：請輸入附加費 — 读取输入框坐标
+2026-10-30 19:21:56,073 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入附加費 — 读取输入框坐标（0.04秒）
+2026-10-30 19:21:56,073 - JRYG_driver_ui - INFO - 输入步骤：請輸入附加費 — 读取输入框坐标
+2026-10-30 19:21:56,125 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入附加費 — 读取输入框坐标（0.05秒）
+2026-10-30 19:21:56,126 - JRYG_driver_ui - INFO - 输入步骤：請輸入附加費 — 聚焦输入框
+2026-10-30 19:21:56,642 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入附加費 — 聚焦输入框（0.52秒）
+2026-10-30 19:21:56,642 - JRYG_driver_ui - INFO - 输入步骤：請輸入附加費 — 清空旧内容
+2026-10-30 19:21:56,726 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入附加費 — 清空旧内容（0.08秒）
+2026-10-30 19:21:56,727 - JRYG_driver_ui - INFO - 输入步骤：請輸入附加費 — 输入内容
+2026-10-30 19:21:57,034 - JRYG_driver_ui - INFO - 输入步骤完成：請輸入附加費 — 输入内容（0.31秒）
+2026-10-30 19:21:57,034 - JRYG_driver_ui - INFO - 输入内容已发送：請輸入附加費
+2026-10-30 19:22:00,741 - JRYG_driver_ui - INFO - 滑动操作：確認收款
+2026-10-30 19:22:04,165 - JRYG_driver_ui - INFO - 司机 UI 阶段：已完成但未支付
+2026-10-30 19:22:04,165 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK】司机 UI 账单已提交，切回乘客 App 处理支付
+2026-10-30 19:22:04,270 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:22:04,270 - JRYG_HK_ios - INFO - 【阶段 4】App 端：订单完成后返回首页
+2026-10-30 19:22:04,270 - JRYG_HK_ios - INFO - ============================================================
+2026-10-30 19:22:10,207 - JRYG_HK_ios - INFO -   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/epayment_current_before_payment.png
+2026-10-30 19:22:10,207 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK】已确认乘客付款金额 5 HKD
+2026-10-30 19:22:11,695 - JRYG_HK_ios - INFO - 【打錶的士+電子支付+后付Alipay HK】已选择'Alipay HK'
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_HK_ios:JRYG_order_flow.py:113 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:114 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+INFO     JRYG_HK_ios:JRYG_order_flow.py:115 ============================================================
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:355 司机 App 已出车；接单及后续状态全部在司机页面操作
+INFO     JRYG_HK_ios:JRYG_order_flow.py:586 【打錶的士+電子支付+后付Alipay HK】司机 UI 已确认听单，继续乘客下单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:121 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:122 【阶段 1】乘客端：处理遗留订单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:123 ============================================================
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:722 【打錶的士+電子支付+后付Alipay HK 步骤 1】正在回到桌面...
+INFO     airtest.core.ios.rotation:rotation.py:85 update orientation None->PORTRAIT
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:727 【打錶的士+電子支付+后付Alipay HK 步骤 2】正在拉起 App: com.sunlightmobility.client
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:732 【打錶的士+電子支付+后付Alipay HK 步骤 3】处理系统弹窗...
+INFO     JRYG_HK_ios:JRYG_page_monitor.py:183 [页面检测] state=home_unlogged
+INFO     JRYG_HK_ios:JRYG_order_flow.py:505 【打錶的士+電子支付+后付Alipay HK】预清理: 当前页面文本: ['陽光出行', 'mamapview', 'maannotationcontainer', 'mauserlocationview', 'slm icon tool location', 'slm_icon_main_end_address_border', '想去哪裡？', 'icon_coupon_dest', '打車可減10.11HKD', '《私隱政策》', '《平台規則》', '水平滚动条, 1页', '0%', '标签页栏', 'slm_icon_tabbar_home_selected', '主頁', 'slm_icon_tabbar_coupon_normal', '優惠券', 'slm_icon_tabbar_mine_normal', '我的']
+INFO     JRYG_HK_ios:JRYG_order_flow.py:549 【打錶的士+電子支付+后付Alipay HK】预清理: 不在等待接单页
+INFO     JRYG_HK_ios:JRYG_page_monitor.py:183 [页面检测] state=home_unlogged
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:467 【打錶的士+電子支付+后付Alipay HK】已处于登录状态，无需登录
+INFO     JRYG_HK_ios:JRYG_order_flow.py:129 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:130 【阶段 2】UI 下单：打錶的士 + 電子支付
+INFO     JRYG_HK_ios:JRYG_order_flow.py:131 ============================================================
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:722 【打錶的士+電子支付+后付Alipay HK 步骤 1】正在回到桌面...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:727 【打錶的士+電子支付+后付Alipay HK 步骤 2】正在拉起 App: com.sunlightmobility.client
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:732 【打錶的士+電子支付+后付Alipay HK 步骤 3】处理系统弹窗...
+INFO     JRYG_HK_ios:JRYG_page_monitor.py:183 [页面检测] state=home_unlogged
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:766 【打錶的士+電子支付+后付Alipay HK 步骤 4】配置起点: 北角地铁站
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:610   输入起点: 北角地铁站
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:670   >> 已输入起点文本: 北角地铁站
+WARNING  retry.api:api.py:40 WDARequestError(status=110, value={'error': 'stale element reference', 'message': 'The previously found element "Cell (Identity Binding)" is not present in the current view anymore. Make sure the application UI has the expected state. You could also try to switch the binding strategy using the \'boundElementsByIndex\' setting for the element lookup. Original error: No matches found for Identity Binding from input {(\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell,\n    Cell\n)}'}), retrying in 0.5 seconds...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:682   >> 搜索结果已出现 (1s)，Cell 数量: 28
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:510   >> 文本匹配选中起点（父Cell）: 北角地铁站 (kw=北角)
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:527   >> 起点文本匹配点击后已离开搜索页
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:557   >> 起点选中后已离开搜索页 (1s)
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:575   >> 起点设置完成，已返回首页 (1s)
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:770 【打錶的士+電子支付+后付Alipay HK 步骤 5】配置终点: 香港大学
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:616   输入终点: 香港大学
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:670   >> 已输入终点文本: 香港大学
+WARNING  retry.api:api.py:40 WDARequestError(status=110, value={'error': 'stale element reference', 'message': 'The previously found element "Cell" is not present in the current view anymore. Make sure the application UI has the expected state. Original error: Error getting main window kAXErrorInvalidUIElement'}), retrying in 0.5 seconds...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:682   >> 搜索结果已出现 (1s)，Cell 数量: 28
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:540   >> 选中终点第一个 Cell (重试 1/3)
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:557   >> 终点选中后已离开搜索页 (1s)
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:588   >> 终点设置完成，已进入路线选择页 (1s)
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:151   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_meter_epayment_01_car_select.png
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:799 【打錶的士+電子支付+后付Alipay HK 步骤 6】选择『打錶的士』车型...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:807   >> [WDA] 精确匹配并点击『打錶的士』
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:151   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_meter_epayment_02_selected.png
+INFO     JRYG_HK_ios:JRYG_order_flow.py:144 【打錶的士+電子支付+后付Alipay HK 步骤 7】选择電子支付支付方式...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1196   >> [打錶的士+電子支付+后付Alipay HK] 点击'可選服務'区域，弹出支付方式选择面板...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1204   >> [打錶的士+電子支付+后付Alipay HK] 已点击'可選服務'区域，等待面板弹出
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1235   >> [WDA] 面板中选择支付方式『電子支付』
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1250   >> [打錶的士+電子支付+后付Alipay HK] 点击'確認選擇'按钮...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1256   >> [打錶的士+電子支付+后付Alipay HK] 已点击'確認選擇'按钮
+INFO     JRYG_HK_ios:JRYG_order_flow.py:307 【打錶的士+電子支付+后付Alipay HK 步骤 8】首次点击确认呼叫（终点=香港大学）...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:854   >> [打錶的士+電子支付+后付Alipay HK] 已点击确认呼叫 (尝试 1/3)
+INFO     JRYG_HK_ios:JRYG_page_monitor.py:183 [页面检测] state=order_active
+INFO     JRYG_HK_ios:JRYG_order_flow.py:334 【打錶的士+電子支付+后付Alipay HK】点击确认呼叫后未跳到登录页，等待下单结果...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1277   >> [打錶的士+電子支付+后付Alipay HK] 等待下单结果...
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1282   [打錶的士+電子支付+后付Alipay HK 0s] 页面文本: ['陽光出行', 'mamapview', 'maannotationcontainer', 'maannotationview', 'slm_icon_anno_start', '北角(地鐵站) A1出入口', 'driver_supposeCars', 'slm icon tool location', 'slm_icon_order_service_top_masker', '如需發票，請向司機索取紙本發票。', '打錶的士', '司機正在趕來接您', '司機正努力趕來接您，請提前到上車點等候', 'TU7679 · 紅色', '比亚迪', 'slm_ic_head_default', 'T師傅', '聯繫司機', '聯繫客服', '取消訂單', 'slm_icon_navi_arrow_left']
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1285   [打錶的士+電子支付+后付Alipay HK 0s] 【下单成功】
+INFO     JRYG_HK_ios:JRYG_order_flow.py:152 【打錶的士+電子支付+后付Alipay HK】UI 下单成功
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:151   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_meter_epayment_03_order_success.png
+INFO     JRYG_HK_ios:JRYG_order_flow.py:158 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:159 【阶段 3】司机 UI：接单→到达上车点→接载→到达目的地→确认账单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:160 ============================================================
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:389 司机 UI 阶段：前往上车点
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:192 滑动操作：到達上車地點
+WARNING  JRYG_driver_ui:JRYG_driver_ui.py:430 前往上车点首滑未生效，当前仍为同阶段；仅重试一次，不模拟定位
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:192 滑动操作：到達上車地點
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:389 司机 UI 阶段：等待乘客上车
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:192 滑动操作：已接載乘客
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:389 司机 UI 阶段：送乘客
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:192 滑动操作：到達目的地
+WARNING  JRYG_driver_ui:JRYG_driver_ui.py:430 送乘客首滑未生效，当前仍为同阶段；仅重试一次，不模拟定位
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:192 滑动操作：到達目的地
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:389 司机 UI 阶段：确认账单
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入車費 — 查找输入框
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入車費 — 查找输入框（0.40秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入車費 — 读取输入框坐标
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入車費 — 读取输入框坐标（0.05秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入車費 — 聚焦输入框
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入車費 — 聚焦输入框（0.47秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入車費 — 清空旧内容
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入車費 — 清空旧内容（0.06秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入車費 — 输入内容
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入車費 — 输入内容（0.32秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:248 输入内容已发送：請輸入車費
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入附加費 — 查找输入框
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入附加費 — 查找输入框（0.15秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入附加費 — 读取输入框坐标
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入附加費 — 读取输入框坐标（0.04秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入附加費 — 读取输入框坐标
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入附加費 — 读取输入框坐标（0.05秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入附加費 — 聚焦输入框
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入附加費 — 聚焦输入框（0.52秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入附加費 — 清空旧内容
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入附加費 — 清空旧内容（0.08秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:230 输入步骤：請輸入附加費 — 输入内容
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:233 输入步骤完成：請輸入附加費 — 输入内容（0.31秒）
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:248 输入内容已发送：請輸入附加費
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:192 滑动操作：確認收款
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:389 司机 UI 阶段：已完成但未支付
+INFO     JRYG_HK_ios:JRYG_order_flow.py:167 【打錶的士+電子支付+后付Alipay HK】司机 UI 账单已提交，切回乘客 App 处理支付
+INFO     JRYG_HK_ios:JRYG_order_flow.py:173 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:174 【阶段 4】App 端：订单完成后返回首页
+INFO     JRYG_HK_ios:JRYG_order_flow.py:175 ============================================================
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:151   >> 截图已保存: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/epayment_current_before_payment.png
+INFO     JRYG_HK_ios:JRYG_order_flow.py:218 【打錶的士+電子支付+后付Alipay HK】已确认乘客付款金额 5 HKD
+INFO     JRYG_HK_ios:JRYG_ios_payment.py:61 【打錶的士+電子支付+后付Alipay HK】已选择'Alipay HK'
+--------------------------- Captured stderr teardown ---------------------------
+2026-10-30 19:22:48,701 - JRYG_HK_ios - INFO - [页面检测] state=unknown
+2026-10-30 19:22:48,894 - JRYG_HK_ios - ERROR - [卡点现场] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793359368702260000_test_order_flow
+2026-10-30 19:22:48,894 - JRYG_HK_ios - INFO - 【teardown】保留司机 App 出车状态，不自动收车
+2026-10-30 19:22:48,894 - JRYG_HK_ios - INFO - 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+---------------------------- Captured log teardown -----------------------------
+INFO     JRYG_HK_ios:JRYG_page_monitor.py:183 [页面检测] state=unknown
+ERROR    JRYG_HK_ios:JRYG_page_monitor.py:208 [卡点现场] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793359368702260000_test_order_flow
+INFO     JRYG_HK_ios:JRYG_order_flow.py:91 【teardown】保留司机 App 出车状态，不自动收车
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:74 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+=============================== warnings summary ===============================
+../.venv/lib/python3.9/site-packages/urllib3/__init__.py:35
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/JRYG_alipay_postpaid_real_20261030_191815.html -
+=========================== short test summary info ============================
+FAILED cases/JRYG_test_ios_meter_epayment_alipay_order.py::TestMeterEpaymentAlipay::test_order_flow
+=================== 1 failed, 1 warning in 273.03s (0:04:33) ===================

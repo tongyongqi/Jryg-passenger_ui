@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光出行" label="陽光出行" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="2740" bundleId="com.sunlightmobility.client">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="769" index="0" traits="">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="552" index="0" traits="">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="113" y="228" width="167" height="34" index="0" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="113" y="228" width="167" height="34" index="0" traits="">
+                              <XCUIElementTypeButton type="XCUIElementTypeButton" enabled="true" visible="false" accessible="true" x="113" y="228" width="167" height="34" index="0" traits="Button">
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="113" y="228" width="1" height="1" index="0" traits="StaticText"/>
+                              </XCUIElementTypeButton>
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="當前城市暫未開通服務" name="當前城市暫未開通服務" label="當前城市暫未開通服務" enabled="true" visible="false" accessible="true" x="125" y="236" width="127" height="18" index="1" traits="StaticText"/>
+                              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_box_black_arrow_r20x20" enabled="true" visible="false" accessible="false" x="253" y="237" width="17" height="17" index="2" traits="Image"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="183" y="236" width="27" height="26" index="1" traits=""/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="194" y="249" width="5" height="28" index="2" traits=""/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="196" y="248" width="1" height="2" index="3" traits=""/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" name="mamapview" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationcontainer" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" name="mauserlocationview" enabled="true" visible="false" accessible="false" x="184" y="264" width="25" height="25" index="0" traits="">
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" name="usecar_Direction" enabled="true" visible="false" accessible="false" x="180" y="260" width="33" height="33" index="0" traits="Image"/>
+                              </XCUIElementTypeOther>
+                            </XCUIElementTypeOther>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" name="malogo" enabled="true" visible="false" accessible="true" x="5" y="827" width="80" height="20" index="2" traits="Image"/>
+                          </XCUIElementTypeOther>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeScrollView type="XCUIElementTypeScrollView" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="779" index="1" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="530" width="393" height="196" index="0" traits="">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="530" width="393" height="53" index="0" traits="">
+                            <XCUIElementTypeButton type="XCUIElementTypeButton" name="slm icon tool location" label="slm icon tool location" enabled="true" visible="false" accessible="true" x="338" y="530" width="43" height="42" index="0" traits="Button"/>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="582" width="393" height="144" index="1" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="582" width="369" height="126" index="0" traits="">
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="23" y="582" width="347" height="43" index="0" traits="">
+                                <XCUIElementTypeButton type="XCUIElementTypeButton" enabled="true" visible="false" accessible="true" x="41" y="596" width="311" height="36" index="0" traits="Button">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="41" y="596" width="0" height="1" index="0" traits="StaticText"/>
+                                </XCUIElementTypeButton>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="35" y="609" width="10" height="10" index="1" traits=""/>
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="當前城市暫未開通服務" name="當前城市暫未開通服務" label="當前城市暫未開通服務" enabled="true" visible="false" accessible="true" x="52" y="604" width="138" height="20" index="2" traits="StaticText"/>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="false" accessible="false" x="12" y="625" width="369" height="95" index="1" traits="Image"/>
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="23" y="635" width="347" height="56" index="2" traits="">
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_main_end_address_border" enabled="true" visible="false" accessible="false" x="23" y="635" width="347" height="56" index="0" traits="Image">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="想去哪裡？" name="想去哪裡？" label="想去哪裡？" enabled="true" visible="false" accessible="true" x="52" y="648" width="106" height="30" index="0" traits="StaticText"/>
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="260" y="649" width="101" height="28" index="1" traits="">
+                                    <XCUIElementTypeImage type="XCUIElementTypeImage" name="icon_coupon_dest" enabled="true" visible="false" accessible="false" x="261" y="650" width="27" height="26" index="0" traits="Image"/>
+                                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="打車可享9折" name="打車可享9折" label="打車可享9折" enabled="true" visible="false" accessible="true" x="289" y="655" width="66" height="17" index="1" traits="StaticText"/>
+                                  </XCUIElementTypeOther>
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="35" y="659" width="10" height="9" index="2" traits=""/>
+                                </XCUIElementTypeImage>
+                              </XCUIElementTypeOther>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeOther>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="652" width="393" height="74" index="2" traits=""/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="582" width="393" height="144" index="1" traits=""/>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="725" width="393" height="62" index="2" traits="">
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" name="《私隱政策》" label="《私隱政策》" enabled="true" visible="false" accessible="true" x="101" y="732" width="83" height="20" index="0" traits="StaticText, Button"/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="196" y="735" width="1" height="15" index="1" traits=""/>
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" name="《平台規則》" label="《平台規則》" enabled="true" visible="false" accessible="true" x="209" y="732" width="83" height="20" index="2" traits="StaticText, Button"/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="778" width="393" height="853" index="3" traits=""/>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="786" width="393" height="21" index="4" traits=""/>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="水平滚动条, 1页" label="水平滚动条, 1页" enabled="true" visible="false" accessible="false" x="0" y="746" width="393" height="30" index="5" traits="Adjustable">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="383" y="773" width="7" height="3" index="0" traits=""/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="水平滚动条, 1页" label="水平滚动条, 1页" enabled="true" visible="false" accessible="false" x="0" y="746" width="393" height="30" index="6" traits="Adjustable">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="383" y="773" width="7" height="3" index="0" traits=""/>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeScrollView>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+          <XCUIElementTypeTabBar type="XCUIElementTypeTabBar" name="标签页栏" label="标签页栏" enabled="true" visible="false" accessible="false" x="0" y="769" width="393" height="83" index="1" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="769" width="131" height="56" index="0" traits="">
+              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_tabbar_home_selected" enabled="true" visible="false" accessible="false" x="52" y="776" width="27" height="26" index="0" traits="Image"/>
+              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="主頁" name="主頁" label="主頁" enabled="true" visible="false" accessible="true" x="0" y="803" width="131" height="15" index="1" traits="StaticText"/>
+            </XCUIElementTypeOther>
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="131" y="769" width="131" height="56" index="1" traits="">
+              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_tabbar_coupon_normal" enabled="true" visible="false" accessible="false" x="183" y="776" width="27" height="26" index="0" traits="Image"/>
+              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="優惠券" name="優惠券" label="優惠券" enabled="true" visible="false" accessible="true" x="131" y="803" width="131" height="15" index="1" traits="StaticText"/>
+            </XCUIElementTypeOther>
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="262" y="769" width="131" height="56" index="2" traits="">
+              <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_tabbar_mine_normal" enabled="true" visible="false" accessible="false" x="314" y="776" width="27" height="26" index="0" traits="Image"/>
+              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="我的" name="我的" label="我的" enabled="true" visible="false" accessible="true" x="262" y="803" width="131" height="15" index="1" traits="StaticText"/>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeTabBar>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="131" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="12" y="59" width="369" height="55" index="0" traits="">
+                  <XCUIElementTypeButton type="XCUIElementTypeButton" name="slm icon lbs search back" label="slm icon lbs search back" enabled="true" visible="true" accessible="true" x="20" y="73" width="26" height="26" index="0" traits="Button">
+                    <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="20" y="73" width="1" height="1" index="0" traits="StaticText"/>
+                  </XCUIElementTypeButton>
+                  <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_start_dot" enabled="true" visible="true" accessible="false" x="54" y="80" width="13" height="13" index="1" traits="Image"/>
+                  <XCUIElementTypeTextField type="XCUIElementTypeTextField" value="北角地铁站" label="" enabled="true" visible="true" accessible="true" x="75" y="75" width="293" height="22" index="2" placeholderValue="您從哪裡出發" traits=""/>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="131" width="393" height="721" index="1" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="131" width="373" height="721" index="0" traits="">
+                  <XCUIElementTypeTable type="XCUIElementTypeTable" enabled="true" visible="true" accessible="false" x="10" y="131" width="373" height="721" index="0" traits="">
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="131" width="373" height="69" index="0" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區北區Northern District" name="香港特別行政區北區Northern District" label="香港特別行政區北區Northern District" enabled="true" visible="true" accessible="true" x="51" y="169" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="131" width="373" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="22" y="199" width="349" height="2" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="157" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北區" name="北區" label="北區" enabled="true" visible="true" accessible="true" x="51" y="145" width="320" height="20" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="200" width="373" height="69" index="1" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區中西區Central &amp; Western District" name="香港特別行政區中西區Central &amp; Western District" label="香港特別行政區中西區Central &amp; Western District" enabled="true" visible="true" accessible="true" x="51" y="238" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="200" width="373" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="22" y="268" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="226" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北街" name="北街" label="北街" enabled="true" visible="true" accessible="true" x="51" y="214" width="320" height="20" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="269" width="373" height="69" index="2" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區中西區Central &amp; Western District" name="香港特別行政區中西區Central &amp; Western District" label="香港特別行政區中西區Central &amp; Western District" enabled="true" visible="true" accessible="true" x="51" y="307" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="269" width="373" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="22" y="337" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="295" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北街(公交站)" name="北街(公交站)" label="北街(公交站)" enabled="true" visible="true" accessible="true" x="51" y="283" width="320" height="20" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="338" width="373" height="69" index="3" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區中西區香港西環" name="香港特別行政區中西區香港西環" label="香港特別行政區中西區香港西環" enabled="true" visible="true" accessible="true" x="51" y="376" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="338" width="373" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="22" y="406" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="364" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北街" name="北街" label="北街" enabled="true" visible="true" accessible="true" x="51" y="352" width="320" height="20" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="407" width="373" height="69" index="4" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區觀塘區觀塘翠屏道18號Tsui Ping North Shopping Circuit" name="香港特別行政區觀塘區觀塘翠屏道18號Tsui Ping North Shopping Circuit" label="香港特別行政區觀塘區觀塘翠屏道18號Tsui Ping North Shopping Circuit" enabled="true" visible="true" accessible="true" x="51" y="445" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="407" width="373" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="22" y="475" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="433" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="翠屏北1號停車場" name="翠屏北1號停車場" label="翠屏北1號停車場" enabled="true" visible="true" accessible="true" x="51" y="421" width="320" height="20" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="476" width="373" height="69" index="5" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區西貢區Sai Kung District" name="香港特別行政區西貢區Sai Kung District" label="香港特別行政區西貢區Sai Kung District" enabled="true" visible="true" accessible="true" x="51" y="514" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="476" width="373" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="22" y="544" width="349" height="2" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="502" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="西貢北(西貢警署)(公交站)" name="西貢北(西貢警署)(公交站)" label="西貢北(西貢警署)(公交站)" enabled="true" visible="true" accessible="true" x="51" y="490" width="320" height="20" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="545" width="373" height="69" index="6" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區屯門區建發街與河田街交叉口西北120米" name="香港特別行政區屯門區建發街與河田街交叉口西北120米" label="香港特別行政區屯門區建發街與河田街交叉口西北120米" enabled="true" visible="true" accessible="true" x="51" y="583" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="545" width="373" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="22" y="613" width="349" height="2" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="571" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="山景北站" name="山景北站" label="山景北站" enabled="true" visible="true" accessible="true" x="51" y="559" width="320" height="21" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="614" width="373" height="69" index="7" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區中西區Central &amp; Western District" name="香港特別行政區中西區Central &amp; Western District" label="香港特別行政區中西區Central &amp; Western District" enabled="true" visible="true" accessible="true" x="51" y="652" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="614" width="373" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="22" y="682" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="640" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="東邊街北" name="東邊街北" label="東邊街北" enabled="true" visible="true" accessible="true" x="51" y="628" width="320" height="21" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="683" width="373" height="69" index="8" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區北區Northern District" name="香港特別行政區北區Northern District" label="香港特別行政區北區Northern District" enabled="true" visible="true" accessible="true" x="51" y="721" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="683" width="373" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="22" y="751" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="709" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北區公園北門(公交站)" name="北區公園北門(公交站)" label="北區公園北門(公交站)" enabled="true" visible="true" accessible="true" x="51" y="697" width="320" height="20" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="true" accessible="true" x="10" y="752" width="373" height="114" index="9" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區黃大仙區穎竹街8號" name="香港特別行政區黃大仙區穎竹街8號" label="香港特別行政區黃大仙區穎竹街8號" enabled="true" visible="true" accessible="true" x="51" y="790" width="320" height="17" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="10" y="752" width="373" height="114" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="22" y="865" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="true" accessible="false" x="26" y="779" width="17" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="竹園北村" name="竹園北村" label="竹園北村" enabled="true" visible="true" accessible="true" x="51" y="766" width="320" height="21" index="4" traits="StaticText"/>
+                      <XCUIElementTypeButton type="XCUIElementTypeButton" name="竹園北村停車場" label="竹園北村停車場" enabled="true" visible="true" accessible="true" x="49" y="821" width="152" height="30" index="5" traits="Button">
+                        <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="竹園北村停車場" name="竹園北村停車場" label="竹園北村停車場" enabled="true" visible="true" accessible="false" x="85" y="827" width="81" height="18" index="0" traits="StaticText"/>
+                      </XCUIElementTypeButton>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="865" width="373" height="70" index="10" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北區遊樂場" name="北區遊樂場" label="北區遊樂場" enabled="true" visible="false" accessible="true" x="51" y="880" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="865" width="373" height="70" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="22" y="934" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="26" y="892" width="17" height="17" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區北區上水新財街29號" name="香港特別行政區北區上水新財街29號" label="香港特別行政區北區上水新財街29號" enabled="true" visible="false" accessible="true" x="51" y="903" width="320" height="18" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="934" width="373" height="70" index="11" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港莎瑪港島北酒店" name="香港莎瑪港島北酒店" label="香港莎瑪港島北酒店" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="371" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="10" y="131" width="16" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區東區炮台山英皇道310號" name="香港特別行政區東區炮台山英皇道310號" label="香港特別行政區東區炮台山英皇道310號" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="17" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="1003" width="373" height="115" index="12" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北區公園" name="北區公園" label="北區公園" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="371" height="114" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="10" y="131" width="16" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區北區上水馬會道" name="香港特別行政區北區上水馬會道" label="香港特別行政區北區上水馬會道" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="17" index="4" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="321" height="30" index="5" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="151" height="30" index="0" traits=""/>
+                        <XCUIElementTypeButton type="XCUIElementTypeButton" name="北區公園停車場" label="北區公園停車場" enabled="true" visible="false" accessible="false" x="10" y="131" width="152" height="30" index="1" traits="Button">
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北區公園停車場" name="北區公園停車場" label="北區公園停車場" enabled="true" visible="false" accessible="false" x="10" y="131" width="81" height="17" index="0" traits="StaticText"/>
+                        </XCUIElementTypeButton>
+                      </XCUIElementTypeOther>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="1117" width="373" height="70" index="13" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="山景北(有軌電車站)" name="山景北(有軌電車站)" label="山景北(有軌電車站)" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="371" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="10" y="131" width="16" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區屯門區Tuen Mun District" name="香港特別行政區屯門區Tuen Mun District" label="香港特別行政區屯門區Tuen Mun District" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="17" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="1186" width="373" height="114" index="14" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北區運動場" name="北區運動場" label="北區運動場" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="371" height="114" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="10" y="131" width="16" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區北區天平路26號" name="香港特別行政區北區天平路26號" label="香港特別行政區北區天平路26號" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="17" index="4" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="321" height="30" index="5" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="151" height="30" index="0" traits=""/>
+                        <XCUIElementTypeButton type="XCUIElementTypeButton" name="北區運動場停車場" label="北區運動場停車場" enabled="true" visible="false" accessible="false" x="10" y="131" width="152" height="30" index="1" traits="Button">
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北區運動場停車場" name="北區運動場停車場" label="北區運動場停車場" enabled="true" visible="false" accessible="false" x="10" y="131" width="93" height="17" index="0" traits="StaticText"/>
+                        </XCUIElementTypeButton>
+                      </XCUIElementTypeOther>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="1299" width="373" height="70" index="15" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北區醫院" name="北區醫院" label="北區醫院" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="371" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="10" y="131" width="16" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區北區保健路9號" name="香港特別行政區北區保健路9號" label="香港特別行政區北區保健路9號" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="17" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="1368" width="373" height="70" index="16" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北衛星客運廊" name="北衛星客運廊" label="北衛星客運廊" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="371" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="10" y="131" width="16" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區離島區香港大嶼山香港國際機場翔天路1號" name="香港特別行政區離島區香港大嶼山香港國際機場翔天路1號" label="香港特別行政區離島區香港大嶼山香港國際機場翔天路1號" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="17" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="1437" width="373" height="70" index="17" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北區政府合署" name="北區政府合署" label="北區政府合署" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="371" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="10" y="131" width="16" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區北區香港粉嶺璧峰路3號" name="香港特別行政區北區香港粉嶺璧峰路3號" label="香港特別行政區北區香港粉嶺璧峰路3號" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="17" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="1506" width="373" height="70" index="18" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="Daiso Japan黃大仙中心北館店" name="Daiso Japan黃大仙中心北館店" label="Daiso Japan黃大仙中心北館店" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="371" height="69" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="349" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="10" y="131" width="16" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區黃大仙區竹園龍翔道136號中心北館地下G19、G20及G21號鋪" name="香港特別行政區黃大仙區竹園龍翔道136號中心北館地下G19、G20及G21號鋪" label="香港特別行政區黃大仙區竹園龍翔道136號中心北館地下G19、G20及G21號鋪" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="17" index="4" traits="StaticText"/>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="10" y="1575" width="373" height="115" index="19" traits="">
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="黃大仙中心北館" name="黃大仙中心北館" label="黃大仙中心北館" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="20" index="0" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="371" height="114" index="1" traits=""/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="373" height="1" index="2" traits=""/>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_search_address_location" enabled="true" visible="false" accessible="false" x="10" y="131" width="16" height="16" index="3" traits="Image"/>
+                      <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港特別行政區黃大仙區竹園龍翔道136號" name="香港特別行政區黃大仙區竹園龍翔道136號" label="香港特別行政區黃大仙區竹園龍翔道136號" enabled="true" visible="false" accessible="true" x="10" y="131" width="320" height="17" index="4" traits="StaticText"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="321" height="30" index="5" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="10" y="131" width="151" height="30" index="0" traits=""/>
+                        <XCUIElementTypeButton type="XCUIElementTypeButton" name="黃大仙中心北館立體停車場" label="黃大仙中心北館立體停車場" enabled="true" visible="false" accessible="false" x="10" y="131" width="152" height="30" index="1" traits="Button">
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="黃大仙中心北館立體停車場" name="黃大仙中心北館立體停車場" label="黃大仙中心北館立體停車場" enabled="true" visible="false" accessible="false" x="10" y="131" width="127" height="17" index="0" traits="StaticText"/>
+                        </XCUIElementTypeButton>
+                      </XCUIElementTypeOther>
+                    </XCUIElementTypeCell>
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="垂直滚动条, 3页" label="垂直滚动条, 3页" enabled="true" visible="false" accessible="false" x="350" y="131" width="30" height="676" index="20" traits="Adjustable">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="377" y="821" width="3" height="8" index="0" traits=""/>
+                    </XCUIElementTypeOther>
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="水平滚动条, 1页" label="水平滚动条, 1页" enabled="true" visible="false" accessible="false" x="55" y="819" width="283" height="30" index="21" traits="Adjustable">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="333" y="846" width="8" height="3" index="0" traits=""/>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeTable>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

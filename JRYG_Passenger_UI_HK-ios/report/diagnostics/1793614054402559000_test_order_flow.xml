@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XCUIElementTypeApplication type="XCUIElementTypeApplication" name="陽光出行" label="陽光出行" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="" processId="1314" bundleId="com.sunlightmobility.client">
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="122" index="0" traits="">
+                        <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_navi_arrow_left" enabled="true" visible="false" accessible="false" x="12" y="70" width="43" height="43" index="0" traits="Image"/>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" name="mamapview" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationcontainer" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationview" enabled="true" visible="false" accessible="false" x="289" y="323" width="37" height="37" index="0" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="228" y="267" width="159" height="52" index="0" traits="">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="北角(地鐵站) A1出入口" name="北角(地鐵站) A1出入口" label="北角(地鐵站) A1出入口" enabled="true" visible="false" accessible="true" x="240" y="275" width="117" height="36" index="0" traits="StaticText"/>
+                                  <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_box_black_arrow_r18x18" enabled="true" visible="false" accessible="false" x="362" y="283" width="19" height="19" index="1" traits="Image"/>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_anno_start" enabled="true" visible="false" accessible="false" x="289" y="323" width="37" height="37" index="1" traits="Image"/>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationview" enabled="true" visible="false" accessible="false" x="66" y="359" width="37" height="37" index="1" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="38" y="320" width="93" height="35" index="0" traits="">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="香港大學" name="香港大學" label="香港大學" enabled="true" visible="false" accessible="true" x="50" y="328" width="51" height="19" index="0" traits="StaticText"/>
+                                  <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_box_black_arrow_r18x18" enabled="true" visible="false" accessible="false" x="106" y="328" width="19" height="19" index="1" traits="Image"/>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_anno_end" enabled="true" visible="false" accessible="false" x="66" y="359" width="37" height="37" index="1" traits="Image"/>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" name="maannotationview" enabled="true" visible="false" accessible="false" x="85" y="362" width="144" height="25" index="2" traits="">
+                                <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="false" accessible="false" x="85" y="362" width="143" height="25" index="0" traits="Image"/>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="85" y="362" width="144" height="25" index="1" traits=""/>
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="全程8公里 約行駛16分鐘" name="全程8公里 約行駛16分鐘" label="全程8公里 約行駛16分鐘" enabled="true" visible="false" accessible="true" x="85" y="362" width="144" height="25" index="2" traits="StaticText"/>
+                              </XCUIElementTypeOther>
+                            </XCUIElementTypeOther>
+                            <XCUIElementTypeImage type="XCUIElementTypeImage" name="malogo" enabled="true" visible="false" accessible="true" x="5" y="827" width="80" height="20" index="2" traits="Image"/>
+                          </XCUIElementTypeOther>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="2" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="307" width="393" height="545" index="1" traits="">
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" name="icon pay alert close" label="icon pay alert close" enabled="true" visible="false" accessible="true" x="355" y="324" width="22" height="22" index="0" traits="Button"/>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="預付車費" name="預付車費" label="預付車費" enabled="true" visible="false" accessible="true" x="154" y="341" width="85" height="30" index="1" traits="StaticText"/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="387" width="393" height="406" index="2" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="163" y="387" width="67" height="20" index="0" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="用車須知" name="用車須知" label="用車須知" enabled="true" visible="false" accessible="true" x="163" y="388" width="51" height="18" index="0" traits="StaticText"/>
+                              <XCUIElementTypeImage type="XCUIElementTypeImage" name="icon_select_car_notice" enabled="true" visible="false" accessible="false" x="217" y="390" width="13" height="14" index="1" traits="Image"/>
+                            </XCUIElementTypeOther>
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="支付 16.8 HKD" name="支付 16.8 HKD" label="支付 16.8 HKD" enabled="true" visible="false" accessible="true" x="131" y="415" width="131" height="44" index="1" traits="StaticText"/>
+                            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="未乘車原路退" name="未乘車原路退" label="未乘車原路退" enabled="true" visible="false" accessible="true" x="146" y="466" width="101" height="27" index="2" traits="StaticText"/>
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="521" width="369" height="214" index="3" traits="">
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="29" y="534" width="335" height="37" index="0" traits="">
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="先付後乘" name="先付後乘" label="先付後乘" enabled="true" visible="false" accessible="true" x="29" y="541" width="64" height="23" index="0" traits="StaticText"/>
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="預付車費，行程結束後無需支付" name="預付車費，行程結束後無需支付" label="預付車費，行程結束後無需支付" enabled="true" visible="false" accessible="true" x="187" y="543" width="177" height="19" index="1" traits="StaticText"/>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeTable type="XCUIElementTypeTable" enabled="true" visible="false" accessible="false" x="16" y="583" width="361" height="152" index="1" traits="">
+                                <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="false" x="16" y="583" width="361" height="76" index="0" traits="">
+                                  <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="false" accessible="false" x="29" y="608" width="26" height="26" index="0" traits="Image"/>
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="Alipay HK" name="Alipay HK" label="Alipay HK" enabled="true" visible="false" accessible="true" x="62" y="610" width="277" height="22" index="1" traits="StaticText"/>
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="64" y="658" width="313" height="1" index="2" traits=""/>
+                                  <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_main_select_cicle_no_select" enabled="true" visible="false" accessible="false" x="347" y="612" width="17" height="18" index="3" traits="Image"/>
+                                </XCUIElementTypeCell>
+                                <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="false" x="16" y="658" width="361" height="77" index="1" traits="">
+                                  <XCUIElementTypeImage type="XCUIElementTypeImage" enabled="true" visible="false" accessible="false" x="29" y="683" width="26" height="27" index="0" traits="Image"/>
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="信用卡或扣帳卡" name="信用卡或扣帳卡" label="信用卡或扣帳卡" enabled="true" visible="false" accessible="true" x="62" y="686" width="277" height="21" index="1" traits="StaticText"/>
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="64" y="733" width="313" height="2" index="2" traits=""/>
+                                  <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_main_select_cicle_select" enabled="true" visible="false" accessible="false" x="347" y="688" width="17" height="17" index="3" traits="Image"/>
+                                </XCUIElementTypeCell>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="垂直滚动条, 1页" label="垂直滚动条, 1页" enabled="true" visible="false" accessible="false" x="343" y="583" width="31" height="152" index="2" traits="Adjustable">
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="370" y="544" width="4" height="37" index="0" traits=""/>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="水平滚动条, 1页" label="水平滚动条, 1页" enabled="true" visible="false" accessible="false" x="71" y="701" width="306" height="31" index="3" traits="Adjustable">
+                                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="-23" y="728" width="37" height="4" index="0" traits=""/>
+                                </XCUIElementTypeOther>
+                              </XCUIElementTypeTable>
+                            </XCUIElementTypeOther>
+                            <XCUIElementTypeButton type="XCUIElementTypeButton" name="確認支付並呼叫" label="確認支付並呼叫" enabled="false" visible="false" accessible="true" x="12" y="746" width="369" height="48" index="4" traits="NotEnabled, Button">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="確認支付並呼叫" name="確認支付並呼叫" label="確認支付並呼叫" enabled="true" visible="false" accessible="false" x="137" y="758" width="119" height="24" index="0" traits="StaticText"/>
+                            </XCUIElementTypeButton>
+                          </XCUIElementTypeOther>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeScrollView type="XCUIElementTypeScrollView" enabled="true" visible="false" accessible="false" x="0" y="121" width="393" height="607" index="3" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="447" width="393" height="53" index="0" traits="">
+                          <XCUIElementTypeButton type="XCUIElementTypeButton" name="slm icon tool location" label="slm icon tool location" enabled="true" visible="false" accessible="true" x="338" y="447" width="43" height="43" index="0" traits="Button"/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="500" width="369" height="228" index="1" traits="">
+                          <XCUIElementTypeTable type="XCUIElementTypeTable" enabled="true" visible="false" accessible="false" x="12" y="500" width="369" height="228" index="0" traits="">
+                            <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="12" y="500" width="369" height="76" index="0" traits="Selected">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="包車價 16.8 HKD" name="包車價 16.8 HKD" label="包車價 16.8 HKD" enabled="true" visible="false" accessible="true" x="238" y="525" width="97" height="26" index="0" traits="StaticText"/>
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="包車價的士" name="包車價的士" label="包車價的士" enabled="true" visible="false" accessible="true" x="99" y="527" width="75" height="21" index="1" traits="StaticText"/>
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="500" width="369" height="76" index="2" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="500" width="369" height="76" index="0" traits=""/>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeButton type="XCUIElementTypeButton" name="icon select car notice" label="icon select car notice" enabled="true" visible="false" accessible="true" x="177" y="529" width="18" height="17" index="3" traits="Button">
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="177" y="529" width="1" height="1" index="0" traits="StaticText"/>
+                              </XCUIElementTypeButton>
+                            </XCUIElementTypeCell>
+                            <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="12" y="576" width="369" height="76" index="1" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="打錶計價" name="打錶計價" label="打錶計價" enabled="true" visible="false" accessible="true" x="275" y="603" width="60" height="21" index="0" traits="StaticText"/>
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="打錶的士" name="打錶的士" label="打錶的士" enabled="true" visible="false" accessible="true" x="99" y="593" width="60" height="22" index="1" traits="StaticText"/>
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="576" width="369" height="76" index="2" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="576" width="369" height="76" index="0" traits=""/>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="以實際打錶價格為準" name="以實際打錶價格為準" label="以實際打錶價格為準" enabled="true" visible="false" accessible="true" x="99" y="619" width="95" height="16" index="3" traits="StaticText"/>
+                            </XCUIElementTypeCell>
+                            <XCUIElementTypeCell type="XCUIElementTypeCell" enabled="true" visible="false" accessible="true" x="12" y="652" width="369" height="76" index="2" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="實時計價 16.8 HKD" name="實時計價 16.8 HKD" label="實時計價 16.8 HKD" enabled="true" visible="false" accessible="true" x="228" y="677" width="107" height="26" index="0" traits="StaticText"/>
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="测试车型" name="测试车型" label="测试车型" enabled="true" visible="false" accessible="true" x="99" y="669" width="60" height="22" index="1" traits="StaticText"/>
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="652" width="369" height="76" index="2" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="652" width="369" height="76" index="0" traits=""/>
+                              </XCUIElementTypeOther>
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="测试一下" name="测试一下" label="测试一下" enabled="true" visible="false" accessible="true" x="99" y="695" width="43" height="16" index="3" traits="StaticText"/>
+                            </XCUIElementTypeCell>
+                          </XCUIElementTypeTable>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="853" width="393" height="853" index="2" traits=""/>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="水平滚动条, 1页" label="水平滚动条, 1页" enabled="true" visible="false" accessible="false" x="0" y="695" width="393" height="30" index="3" traits="Adjustable">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="3" y="722" width="387" height="3" index="0" traits=""/>
+                        </XCUIElementTypeOther>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" value="0%" name="水平滚动条, 1页" label="水平滚动条, 1页" enabled="true" visible="false" accessible="false" x="0" y="695" width="393" height="30" index="4" traits="Adjustable">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="3" y="722" width="387" height="3" index="0" traits=""/>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeScrollView>
+                      <XCUIElementTypeImage type="XCUIElementTypeImage" name="slm_icon_main_select_bottom_masker" enabled="true" visible="false" accessible="false" x="0" y="447" width="393" height="281" index="4" traits="Image"/>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="728" width="393" height="124" index="5" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="728" width="393" height="124" index="0" traits="">
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="749" width="369" height="58" index="0" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="12" y="749" width="369" height="58" index="0" traits="">
+                              <XCUIElementTypeButton type="XCUIElementTypeButton" name="確認呼叫" label="確認呼叫" enabled="true" visible="false" accessible="true" x="12" y="749" width="369" height="58" index="0" traits="Button">
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="確認呼叫" name="確認呼叫" label="確認呼叫" enabled="true" visible="false" accessible="false" x="160" y="765" width="73" height="26" index="0" traits="StaticText"/>
+                              </XCUIElementTypeButton>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeOther>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="54" index="0" traits=""/>
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits=""/>
+        <XCUIElementTypeWebView type="XCUIElementTypeWebView" enabled="true" visible="true" accessible="false" x="0" y="54" width="393" height="798" index="2" traits="">
+          <XCUIElementTypeWebView type="XCUIElementTypeWebView" enabled="true" visible="true" accessible="false" x="0" y="54" width="393" height="798" index="0" traits="">
+            <XCUIElementTypeWebView type="XCUIElementTypeWebView" enabled="true" visible="true" accessible="false" x="0" y="54" width="393" height="798" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="799" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="799" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="-239" width="393" height="799" index="0" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="-239" width="393" height="799" index="0" traits="">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="-239" width="393" height="799" index="0" traits="">
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="-208" width="393" height="768" index="0" traits="">
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="" name="" label="" enabled="true" visible="false" accessible="true" x="361" y="-183" width="16" height="18" index="0" traits="StaticText"/>
+                          <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="安全結帳" name="安全結帳" label="安全結帳" enabled="true" visible="false" accessible="true" x="156" y="-187" width="81" height="23" index="1" traits="StaticText"/>
+                          <XCUIElementTypeOther type="XCUIElementTypeOther" name="安全結帳" label="安全結帳" enabled="true" visible="true" accessible="false" x="0" y="-144" width="393" height="704" index="2" traits="">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="-144" width="393" height="704" index="0" traits="">
+                              <XCUIElementTypeOther type="XCUIElementTypeOther" name="安全結帳" label="安全結帳" enabled="true" visible="true" accessible="false" x="0" y="-144" width="393" height="704" index="0" traits="">
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" value="1" name="Sandbox Test Page" label="Sandbox Test Page" enabled="true" visible="false" accessible="false" x="44" y="-30" width="305" height="32" index="0" traits="Header">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="Sandbox Test Page" name="Sandbox Test Page" label="Sandbox Test Page" enabled="true" visible="false" accessible="true" x="101" y="-29" width="191" height="29" index="0" traits="Header, StaticText"/>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="44" y="8" width="305" height="38" index="1" traits="">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="Please enter any OTP to simulate 3D Secure verification." name="Please enter any OTP to simulate 3D Secure verification." label="Please enter any OTP to simulate 3D Secure verification." enabled="true" visible="false" accessible="true" x="71" y="9" width="251" height="35" index="0" traits="StaticText"/>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="ID" name="ID" label="ID" enabled="true" visible="true" accessible="true" x="61" y="89" width="14" height="20" index="2" traits="StaticText"/>
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="20261102890313410006G8053874021" name="20261102890313410006G8053874021" label="20261102890313410006G8053874021" enabled="true" visible="true" accessible="true" x="177" y="89" width="155" height="38" index="3" traits="StaticText"/>
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="Amount" name="Amount" label="Amount" enabled="true" visible="true" accessible="true" x="61" y="135" width="52" height="20" index="4" traits="StaticText"/>
+                                <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="HK$16.80" name="HK$16.80" label="HK$16.80" enabled="true" visible="true" accessible="true" x="264" y="135" width="68" height="20" index="5" traits="StaticText"/>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" name="One-Time Password (OTP)" label="One-Time Password (OTP)" enabled="true" visible="true" accessible="false" x="44" y="194" width="305" height="20" index="6" traits="">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="One-Time Password (OTP)" name="One-Time Password (OTP)" label="One-Time Password (OTP)" enabled="true" visible="true" accessible="true" x="44" y="194" width="176" height="20" index="0" traits="StaticText"/>
+                                </XCUIElementTypeOther>
+                                <XCUIElementTypeTextField type="XCUIElementTypeTextField" value="e.g. 123456" label="" enabled="true" visible="true" accessible="true" x="44" y="220" width="305" height="54" index="7" placeholderValue="e.g. 123456" traits=""/>
+                                <XCUIElementTypeButton type="XCUIElementTypeButton" name="Verify &amp; Proceed" label="Verify &amp; Proceed" enabled="false" visible="true" accessible="true" x="44" y="292" width="305" height="54" index="8" traits="NotEnabled, Button"/>
+                                <XCUIElementTypeButton type="XCUIElementTypeButton" name="Cancel" label="Cancel" enabled="true" visible="true" accessible="true" x="44" y="356" width="305" height="54" index="9" traits="Button"/>
+                                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="20" y="460" width="353" height="18" index="10" traits="">
+                                  <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="This page is only used for sandbox testing." name="This page is only used for sandbox testing." label="This page is only used for sandbox testing." enabled="true" visible="true" accessible="true" x="75" y="460" width="243" height="17" index="0" traits="StaticText"/>
+                                </XCUIElementTypeOther>
+                              </XCUIElementTypeOther>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeOther>
+                        </XCUIElementTypeOther>
+                      </XCUIElementTypeOther>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeWebView>
+          </XCUIElementTypeWebView>
+        </XCUIElementTypeWebView>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="1" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="0" width="393" height="852" index="0" traits=""/>
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="440" width="393" height="412" index="1" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="440" width="393" height="44" index="0" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="440" width="393" height="44" index="0" traits=""/>
+        </XCUIElementTypeOther>
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="440" width="393" height="44" index="1" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="440" width="393" height="44" index="0" traits="">
+            <XCUIElementTypeToolbar type="XCUIElementTypeToolbar" name="Toolbar" label="工具栏" enabled="true" visible="true" accessible="false" x="0" y="440" width="393" height="44" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="440" width="393" height="44" index="0" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="440" width="393" height="44" index="0" traits="">
+                  <XCUIElementTypeButton type="XCUIElementTypeButton" name="上一个" label="上一个" enabled="false" visible="true" accessible="true" x="0" y="440" width="48" height="44" index="0" traits="NotEnabled, Button"/>
+                  <XCUIElementTypeButton type="XCUIElementTypeButton" name="下一个" label="下一个" enabled="false" visible="true" accessible="true" x="50" y="440" width="35" height="44" index="1" traits="NotEnabled, Button"/>
+                  <XCUIElementTypeButton type="XCUIElementTypeButton" name="完成" label="完成" enabled="true" visible="true" accessible="true" x="335" y="440" width="58" height="44" index="2" traits="Button"/>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeToolbar>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+        <XCUIElementTypeOther type="XCUIElementTypeOther" name="inputView" enabled="true" visible="false" accessible="false" x="0" y="484" width="393" height="368" index="2" traits=""/>
+      </XCUIElementTypeOther>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+  <XCUIElementTypeWindow type="XCUIElementTypeWindow" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="2" traits="">
+    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="0" width="393" height="852" index="0" traits="">
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="440" width="393" height="412" index="0" traits="">
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="440" width="393" height="44" index="0" traits=""/>
+        <XCUIElementTypeOther type="XCUIElementTypeOther" name="SystemInputAssistantView" enabled="true" visible="true" accessible="false" x="0" y="484" width="393" height="77" index="1" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="484" width="393" height="77" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" name="CenterPageView" enabled="true" visible="true" accessible="false" x="0" y="484" width="393" height="77" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="-116" width="393" height="1277" index="0" traits="">
+                <XCUIElementTypeScrollView type="XCUIElementTypeScrollView" enabled="true" visible="false" accessible="false" x="0" y="484" width="393" height="77" index="0" traits=""/>
+              </XCUIElementTypeOther>
+              <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="484" width="393" height="77" index="1" traits="">
+                <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="484" width="393" height="77" index="0" traits="">
+                  <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="484" width="393" height="77" index="0" traits="">
+                    <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="484" width="393" height="77" index="0" traits="">
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="484" width="393" height="32" index="0" traits="">
+                        <XCUIElementTypeCollectionView type="XCUIElementTypeCollectionView" enabled="true" visible="true" accessible="false" x="0" y="484" width="393" height="32" index="0" traits=""/>
+                        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="515" width="393" height="1" index="1" traits=""/>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="516" width="348" height="45" index="1" traits="">
+                        <XCUIElementTypeCollectionView type="XCUIElementTypeCollectionView" enabled="true" visible="true" accessible="false" x="0" y="516" width="348" height="45" index="0" traits="">
+                          <XCUIElementTypeCell type="XCUIElementTypeCell" name="铜锣湾" label="铜锣湾, 铜牌的铜，锣鼓的锣，台湾的湾" enabled="true" visible="true" accessible="true" x="1" y="516" width="78" height="45" index="0" traits="KeyboardKey, Button">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="1" y="516" width="78" height="45" index="0" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="铜锣湾" name="铜锣湾" label="铜锣湾" enabled="true" visible="true" accessible="false" x="11" y="520" width="58" height="45" index="0" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeCell>
+                          <XCUIElementTypeCell type="XCUIElementTypeCell" name="我" label="我, 我们的我" enabled="true" visible="true" accessible="true" x="79" y="516" width="41" height="45" index="1" traits="KeyboardKey, Button">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="79" y="516" width="41" height="45" index="0" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="我" name="我" label="我" enabled="true" visible="true" accessible="false" x="89" y="520" width="21" height="45" index="0" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeCell>
+                          <XCUIElementTypeCell type="XCUIElementTypeCell" name="你" label="你, 你们的你" enabled="true" visible="true" accessible="true" x="120" y="516" width="41" height="45" index="2" traits="KeyboardKey, Button">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="120" y="516" width="41" height="45" index="0" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="你" name="你" label="你" enabled="true" visible="true" accessible="false" x="130" y="520" width="21" height="45" index="0" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeCell>
+                          <XCUIElementTypeCell type="XCUIElementTypeCell" name="在" label="在, 现在的在" enabled="true" visible="true" accessible="true" x="161" y="516" width="41" height="45" index="3" traits="KeyboardKey, Button">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="161" y="516" width="41" height="45" index="0" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="在" name="在" label="在" enabled="true" visible="true" accessible="false" x="171" y="520" width="21" height="45" index="0" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeCell>
+                          <XCUIElementTypeCell type="XCUIElementTypeCell" name="这" label="这, 这个的这" enabled="true" visible="true" accessible="true" x="202" y="516" width="41" height="45" index="4" traits="KeyboardKey, Button">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="202" y="516" width="41" height="45" index="0" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="这" name="这" label="这" enabled="true" visible="true" accessible="false" x="212" y="520" width="21" height="45" index="0" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeCell>
+                          <XCUIElementTypeCell type="XCUIElementTypeCell" name="不" label="不, 不是的不" enabled="true" visible="true" accessible="true" x="243" y="516" width="41" height="45" index="5" traits="KeyboardKey, Button">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="243" y="516" width="41" height="45" index="0" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="不" name="不" label="不" enabled="true" visible="true" accessible="false" x="253" y="520" width="21" height="45" index="0" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeCell>
+                          <XCUIElementTypeCell type="XCUIElementTypeCell" name="是" label="是, 还是的是" enabled="true" visible="true" accessible="true" x="284" y="516" width="41" height="45" index="6" traits="KeyboardKey, Button">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="284" y="516" width="41" height="45" index="0" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="是" name="是" label="是" enabled="true" visible="true" accessible="false" x="294" y="520" width="21" height="45" index="0" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeCell>
+                          <XCUIElementTypeCell type="XCUIElementTypeCell" name="一" label="一, 一二三的一" enabled="true" visible="true" accessible="true" x="325" y="516" width="41" height="45" index="7" traits="KeyboardKey, Button">
+                            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="325" y="516" width="41" height="45" index="0" traits="">
+                              <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" value="一" name="一" label="一" enabled="true" visible="true" accessible="false" x="335" y="520" width="21" height="45" index="0" traits="StaticText"/>
+                            </XCUIElementTypeOther>
+                          </XCUIElementTypeCell>
+                        </XCUIElementTypeCollectionView>
+                      </XCUIElementTypeOther>
+                      <XCUIElementTypeButton type="XCUIElementTypeButton" name="更多建议" label="更多建议" enabled="true" visible="true" accessible="true" x="348" y="520" width="45" height="45" index="2" traits="Button"/>
+                    </XCUIElementTypeOther>
+                  </XCUIElementTypeOther>
+                </XCUIElementTypeOther>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="484" width="393" height="368" index="2" traits="">
+          <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="484" width="393" height="368" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="0" y="484" width="393" height="368" index="0" traits=""/>
+          </XCUIElementTypeOther>
+        </XCUIElementTypeOther>
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="561" width="393" height="233" index="3" traits="">
+          <XCUIElementTypeKeyboard type="XCUIElementTypeKeyboard" enabled="true" visible="true" accessible="false" x="0" y="561" width="393" height="233" index="0" traits="">
+            <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="true" accessible="false" x="0" y="561" width="393" height="233" index="0" traits="">
+              <XCUIElementTypeOther type="XCUIElementTypeOther" name="UIKeyboardLayoutStar Preview" enabled="true" visible="true" accessible="false" x="0" y="561" width="393" height="233" index="0" traits="">
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="Number-Plane" label="Number-Plane" enabled="true" visible="true" accessible="true" x="0" y="568" width="79" height="54" index="0" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="，" label="，" enabled="true" visible="true" accessible="true" x="78" y="568" width="80" height="54" index="1" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="A B C " label="A B C " enabled="true" visible="true" accessible="true" x="157" y="568" width="79" height="54" index="2" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="D E F " label="D E F " enabled="true" visible="true" accessible="true" x="235" y="568" width="80" height="54" index="3" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="delete" label="删除" enabled="true" visible="true" accessible="true" x="314" y="568" width="79" height="54" index="4" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="More" label="More" enabled="true" visible="true" accessible="true" x="0" y="622" width="79" height="54" index="5" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="G H I " label="G H I " enabled="true" visible="true" accessible="true" x="78" y="622" width="80" height="54" index="6" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="J K L " label="J K L " enabled="true" visible="true" accessible="true" x="157" y="622" width="79" height="54" index="7" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="M N O " label="M N O " enabled="true" visible="true" accessible="true" x="235" y="622" width="80" height="54" index="8" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="颜文字" label="颜文字" enabled="true" visible="true" accessible="true" x="314" y="622" width="79" height="54" index="9" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="&#10;" label="&#10;" enabled="true" visible="true" accessible="true" x="314" y="669" width="79" height="108" index="10" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeButton type="XCUIElementTypeButton" name="Return" label="换行" enabled="true" visible="true" accessible="true" x="314" y="669" width="79" height="108" index="11" traits="PlaysSound, KeyboardKey, Button"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="ASCIICapable" label="ASCIICapable" enabled="true" visible="true" accessible="true" x="0" y="676" width="79" height="54" index="12" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="P Q R S " label="P Q R S " enabled="true" visible="true" accessible="true" x="78" y="676" width="80" height="54" index="13" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="T U V " label="T U V " enabled="true" visible="true" accessible="true" x="157" y="676" width="79" height="54" index="14" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="W X Y Z " label="W X Y Z " enabled="true" visible="true" accessible="true" x="235" y="676" width="80" height="54" index="15" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeButton type="XCUIElementTypeButton" name="emoji" label="表情符号" enabled="true" visible="true" accessible="true" x="0" y="730" width="79" height="54" index="16" traits="PlaysSound, KeyboardKey, Button"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="选 拼 音 " label="选 拼 音 " enabled="true" visible="true" accessible="true" x="78" y="730" width="80" height="54" index="17" traits="PlaysSound, KeyboardKey"/>
+                <XCUIElementTypeKey type="XCUIElementTypeKey" name="space" label="空格" enabled="true" visible="true" accessible="true" x="157" y="730" width="158" height="54" index="18" traits="PlaysSound, KeyboardKey"/>
+              </XCUIElementTypeOther>
+            </XCUIElementTypeOther>
+          </XCUIElementTypeKeyboard>
+        </XCUIElementTypeOther>
+        <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="true" x="0" y="561" width="393" height="291" index="4" traits="">
+          <XCUIElementTypeButton type="XCUIElementTypeButton" value="English (US)" name="下一个键盘" label="下一个键盘" enabled="true" visible="true" accessible="false" x="8" y="783" width="69" height="70" index="0" traits="KeyboardKey, Button">
+            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="8" y="783" width="1" height="1" index="0" traits="StaticText"/>
+          </XCUIElementTypeButton>
+          <XCUIElementTypeButton type="XCUIElementTypeButton" name="dictation" label="听写" enabled="true" visible="true" accessible="false" x="316" y="783" width="69" height="70" index="1" traits="KeyboardKey, Button">
+            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="316" y="783" width="1" height="1" index="0" traits="StaticText"/>
+          </XCUIElementTypeButton>
+          <XCUIElementTypeButton type="XCUIElementTypeButton" name="dictation" label="听写" enabled="true" visible="true" accessible="false" x="316" y="783" width="69" height="70" index="2" traits="KeyboardKey, Button">
+            <XCUIElementTypeStaticText type="XCUIElementTypeStaticText" enabled="true" visible="false" accessible="false" x="316" y="783" width="1" height="1" index="0" traits="StaticText"/>
+          </XCUIElementTypeButton>
+        </XCUIElementTypeOther>
+      </XCUIElementTypeOther>
+      <XCUIElementTypeOther type="XCUIElementTypeOther" enabled="true" visible="false" accessible="false" x="393" y="852" width="1" height="1" index="1" traits=""/>
+    </XCUIElementTypeOther>
+  </XCUIElementTypeWindow>
+</XCUIElementTypeApplication>

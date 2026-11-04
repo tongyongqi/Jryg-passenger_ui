@@ -1,0 +1,68 @@
+ACTIVITY MANAGER PROCESS EXIT INFO (dumpsys activity exit-info)
+Last Timestamp of Persistence Into Persistent Storage: 2026-11-03 18:13:24.161
+  package: io.appium.uiautomator2.server
+    Historical Process Exit for uid=10453
+        ApplicationExitInfo #0:
+          timestamp=2026-11-03 18:15:31.322 pid=31415 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=147MB description=stop io.appium.uiautomator2.server due to com.vivo.pem state=empty trace=null
+        ApplicationExitInfo #1:
+          timestamp=2026-11-03 18:12:16.630 pid=29847 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #2:
+          timestamp=2026-11-03 18:07:55.103 pid=27396 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=146MB description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #3:
+          timestamp=2026-11-03 18:02:23.747 pid=24898 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #4:
+          timestamp=2026-11-03 17:57:41.820 pid=23434 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #5:
+          timestamp=2026-11-03 17:57:00.589 pid=22389 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #6:
+          timestamp=2026-11-03 17:54:03.929 pid=20865 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #7:
+          timestamp=2026-11-03 17:53:46.781 pid=20521 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #8:
+          timestamp=2026-11-03 17:51:04.093 pid=19186 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #9:
+          timestamp=2026-11-03 17:43:24.153 pid=14756 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #10:
+          timestamp=2026-11-03 17:34:51.632 pid=11589 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=132MB description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #11:
+          timestamp=2026-11-03 16:39:27.364 pid=20706 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #12:
+          timestamp=2026-11-03 16:39:06.805 pid=20256 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #13:
+          timestamp=2026-11-03 16:38:48.667 pid=19810 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #14:
+          timestamp=2026-11-03 16:38:11.572 pid=19063 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=128MB description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null
+        ApplicationExitInfo #15:
+          timestamp=2026-11-03 16:31:42.860 pid=16267 realUid=10453 packageUid=10453 definingUid=10453 user=0
+          process=io.appium.uiautomator2.server reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=125 pss=0.00 rss=0.00 description=stop io.appium.uiautomator2.server due to finished inst state=empty trace=null

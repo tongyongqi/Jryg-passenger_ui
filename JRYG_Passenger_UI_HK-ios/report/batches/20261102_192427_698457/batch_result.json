@@ -1,0 +1,26 @@
+{
+  "exit_code": 0,
+  "interval_seconds": 10,
+  "cases": [
+    {
+      "sequence": 1,
+      "case": "JRYG_test_ios_meter_epayment_alipay_order.py",
+      "status": "passed",
+      "started_at": "2026-11-02T19:24:27",
+      "report": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261102_192427_698457/01_JRYG_test_ios_meter_epayment_alipay_order.html",
+      "exit_code": 0,
+      "finished_at": "2026-11-02T19:29:04",
+      "order_no": "26B4J3KWECNY"
+    },
+    {
+      "sequence": 2,
+      "case": "JRYG_test_ios_meter_alipay_order.py",
+      "status": "passed",
+      "started_at": "2026-11-02T19:29:14",
+      "report": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261102_192427_698457/02_JRYG_test_ios_meter_alipay_order.html",
+      "exit_code": 0,
+      "finished_at": "2026-11-02T19:33:46",
+      "order_no": "26B4J3MWECNY"
+    }
+  ]
+}

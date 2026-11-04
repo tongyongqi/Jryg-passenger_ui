@@ -41,9 +41,16 @@ PHASE_NAMES = {
     "online": "接单中", "offer": "新订单", "departure": "待确认出发", "pickup": "前往上车点",
     "onboard": "等待乘客上车", "tail": "乘客尾号验证", "destination": "送乘客",
     "bill": "确认账单", "unpaid": "已完成但未支付", "complete": "已完成且已支付",
-    "cancelled": "订单已取消", "unknown": "未识别页面",
+    "cancelled": "订单已取消", "network_location_error": "司机网络或定位异常",
+    "unknown": "未识别页面",
 }
+ACTIVE_ORDER_PHASES = frozenset({"departure", "pickup", "onboard", "tail", "destination", "bill", "unpaid"})
+RESUMABLE_PHASES = ACTIVE_ORDER_PHASES | {"complete"}
 LOG = get_logger("JRYG_driver_ui")
+
+
+class DriverAppNotForegroundError(RuntimeError):
+    """司机不在页面树前台；仅主动切换App的准备阶段允许有界等待。"""
 
 
 def visible_nodes(root):
@@ -64,19 +71,62 @@ def find_label(root, labels):
     return matches[0] if matches else None
 
 
-def read_order_no(root):
-    """真实司机完成页显示独立的12位订单号；必须唯一，不使用示例订单号兜底。"""
+def read_fixed_fare(root):
+    """从包车确认账单的车费容器读取唯一只读HKD金额，不把输入框缺失当固定价。
+
+    必须具有真实账单标题与收款动作，且没有可见金额输入框；金额只读不改写。
+    """
+    nodes = visible_nodes(root)
+    texts = {node_text(node) for node in nodes}
+    if not {"確認賬單", "確認收款"}.issubset(texts):
+        raise RuntimeError("包车固定价账单尚未就绪，禁止确认收款")
+    if any(node.tag in ("XCUIElementTypeTextField", "XCUIElementTypeSecureTextField") for node in nodes):
+        raise RuntimeError("包车账单出现可编辑输入框，固定价页面结构不符，停止提交")
+    labels = [node for node in nodes if node_text(node) == "車費"]
+    parents = {child: parent for parent in root.iter() for child in parent}
+    if len(labels) != 1 or labels[0] not in parents:
+        raise RuntimeError("包车账单車費区域缺失或不唯一，禁止确认收款")
+    values = []
+    for node in visible_nodes(parents[labels[0]]):
+        match = re.fullmatch(r"(\d+(?:\.\d{1,2})?)\s*HKD", node_text(node).strip())
+        if match is not None and node.tag == "XCUIElementTypeStaticText":
+            values.append(Decimal(match.group(1)))
+    if len(values) != 1:
+        raise RuntimeError("包车账单固定车费缺失或不唯一，禁止确认收款")
+    return values[0]
+
+
+def read_order_no(root, *, excluded=(), expected=None):
+    """读取唯一真实订单号，可排除启动前已完成订单并核对当前绑定订单，不使用兜底。"""
     values = {node_text(n).strip() for n in visible_nodes(root)}
     orders = {value for value in values if re.fullmatch(r"[A-Z0-9]{12}", value)
               and any(c.isdigit() for c in value) and any(c.isalpha() for c in value)}
     if len(orders) != 1:
         raise RuntimeError("司机页面订单号缺失或不唯一，停止同订单核验")
-    return orders.pop()
+    order_no = orders.pop()
+    if order_no in excluded:
+        raise RuntimeError("司机页面是启动前已完成的旧订单，不能作为本次运行结果")
+    if expected is not None and order_no != expected:
+        raise RuntimeError("司机页面已切换到其他订单，停止同订单核验")
+    return order_no
+
+
+def is_history_list(root):
+    """仅识别真实iOS历史列表，不能将列表中的已支付旧单当当前订单终态。"""
+    nodes = visible_nodes(root)
+    return (root.get("bundleId") == BUNDLE_ID
+            and any(node.tag == "XCUIElementTypeNavigationBar" and node_text(node) == "我的行程" for node in nodes)
+            and any(node.tag == "XCUIElementTypeTable" for node in nodes)
+            and "默認日期" in {node_text(node) for node in nodes})
 
 
 def detect_phase(root, accept_labels=ACCEPT_LABELS):
     """按登录、账单、真实滑块及订单终态识别阶段，未知页不猜测可执行动作。"""
+    if is_history_list(root):
+        return "unknown"
     texts = {node_text(node) for node in visible_nodes(root)}
+    if texts.intersection({"獲取網絡/位置信息異常", "获取网络/位置信息异常"}):
+        return "network_location_error"
     if "歡迎登錄/註冊陽光司機版" in texts:
         return "login"
     if "請輸入驗證碼" in texts:
@@ -162,23 +212,84 @@ class DriverUIFlow:
         self.last_phase = None
         self.deadline = None
         self.order_no = None
+        self.resume_phase = None
+        self.bill_total = None
+        self.completed_before_run = set()
+        self.awaiting_new_order = False
 
     def detect_phase(self, root):
+        """按本实例接单候选文案识别阶段，平台子类可补充原生滑块判断。"""
         return detect_phase(root, self.accept_labels)
 
     def back_from_paid_detail(self, root):
+        """核验唯一订单号后按截图位置返回详情；已支付前提由上层状态检查保证。"""
         read_order_no(root)
         width, height = self.client.window_size()
         self.client.click(round(width * 0.055), round(height * 0.071))
         LOG.info("已支付详情左上返回箭头（截图验证位置）")
+
+    def wait_for_entry_page(self):
+        """启动前允许从已确认历史列表单次返回；未知页只读等待，不推进行程。"""
+        deadline = min(self.deadline, time.monotonic() + self.args.step_timeout)
+        returned = False
+        while time.monotonic() < deadline:
+            root = self.root()
+            phase = self.detect_phase(root)
+            self._check_device_availability(phase)
+            if is_history_list(root):
+                if not returned:
+                    bars = [node for node in visible_nodes(root)
+                            if node.tag == "XCUIElementTypeNavigationBar" and node_text(node) == "我的行程"]
+                    bar_x, bar_y, bar_width, bar_height = rect(bars[0])
+                    backs = [node for node in visible_nodes(bars[0])
+                             if node.tag == "XCUIElementTypeButton" and node.get("enabled") == "true"
+                             and rect(node)[2] > 0 and rect(node)[3] > 0
+                             and center(node)[0] < bar_x + bar_width * 0.2]
+                    if len(backs) == 1:
+                        self.client.click(*center(backs[0]))
+                    else:
+                        width, height = self.client.window_size()
+                        if bar_width <= 0 or bar_height <= 0 or width <= 0 or height <= 0:
+                            raise RuntimeError("历史行程导航坐标无效，停止返回")
+                        self.client.swipe(1, round(height * 0.45), round(width * 0.75), round(height * 0.45), duration=0.5)
+                    returned = True
+                    LOG.info("已确认我的行程列表，单次返回司机首页；不出车、不接单或收款")
+            elif phase != "unknown":
+                return root, phase
+            time.sleep(self.args.interval)
+        self.snapshot("driver_entry_navigation_timeout")
+        raise TimeoutError("司机准备页恢复超时：历史列表返回未生效或仍为未知页；未重复返回或推进订单")
 
     def root(self):
         """读取司机页面树并强制验证司机App在前台，切到乘客或其他App时停止。"""
         root = ET.fromstring(self.client.source(format="xml"))
         applications = [node for node in root.iter() if node.tag == "XCUIElementTypeApplication"]
         if not applications or applications[0].get("bundleId") != BUNDLE_ID:
-            raise RuntimeError("司机 App 已不在前台，停止操作以免误触其他 App")
+            current_bundle = applications[0].get("bundleId") if applications else "未取得App节点"
+            raise DriverAppNotForegroundError(f"司机 App 已不在前台（当前：{current_bundle}），停止操作以免误触其他 App")
         return root
+
+    def _activate_driver_app(self):
+        """只激活一次并等待司机进入前台；单步和总截止时间共同限制准备阶段。
+
+        切换期间旧App或未成形XML只读等待，确认前台前不点击、不滑动或推进订单。
+        准备完成后root仍严格检查前台；不能以移除校验容忍中途切到其他App。
+        """
+        deadline = min(self.deadline, time.monotonic() + self.args.step_timeout)
+        self.client.app_activate(BUNDLE_ID)
+        LOG.info("已请求打开司机 App，等待前台页面就绪，最多%s秒", self.args.step_timeout)
+        last_error = None
+        while time.monotonic() < deadline:
+            try:
+                self.root()
+            except (DriverAppNotForegroundError, ET.ParseError) as exc:
+                last_error = exc
+            else:
+                LOG.info("司机 App 前台已确认，继续读取业务阶段")
+                return
+            time.sleep(min(self.args.interval, max(0, deadline - time.monotonic())))
+        self.snapshot("driver_activation_timeout")
+        raise TimeoutError("司机 App 启动切换超时，未确认司机前台；未出车、未接单或提交账单") from last_error
 
     def snapshot(self, name):
         """保存带时间戳的XML与截图供核验；取证失败不重做订单业务动作。"""
@@ -205,12 +316,24 @@ class DriverUIFlow:
             self.client.click(*center(target))
             LOG.info("点击操作：%s", node_text(target))
 
+    def _check_device_availability(self, phase):
+        """已知网络/定位错误立即取证并停止，不关闭提示或重复出车掩盖异常。"""
+        if phase == "network_location_error":
+            self.last_phase = phase
+            self.snapshot("network_location_error")
+            raise RuntimeError(
+                "司机App网络或定位异常：请检查司机App网络访问权限、手机定位服务和定位权限，"
+                "恢复正常后重跑；未自动关闭知道了提示、未继续下单或付款"
+            )
+
     def wait_for(self, phases, timeout=None):
-        """有界轮询目标阶段，单步时限不能超过总截止时间，已取消立即失败。"""
+        """有界等待目标阶段；网络/定位错误立即失败，inspect只读时允许报告异常。"""
         deadline = min(self.deadline, time.monotonic() + (timeout or self.args.step_timeout))
         while time.monotonic() < deadline:
             root = self.root()
             phase = self.detect_phase(root)
+            if not self.args.inspect:
+                self._check_device_availability(phase)
             if phase in phases:
                 return root, phase
             if phase == "cancelled":
@@ -311,14 +434,28 @@ class DriverUIFlow:
         self.wait_for({"destination"})
 
     def submit_bill(self, root):
-        """输入车费和附加费并回读核对后仅提交一次；现金必须显式确认已收款。"""
-        if self.args.fare is None:
-            raise RuntimeError("账单提交需显式传入 --fare，不自动填写或改动金额")
+        """包车只核对固定车费，打表填写并回读金额；收款动作仅一次，现金需确认实收。"""
         texts = {node_text(node) for node in visible_nodes(root)}
         if texts.intersection({"現金", "現金支付", "现金", "现金支付"}) and self.args.payment != "cash":
             raise RuntimeError("页面显示现金支付，但 --payment 未指定 cash，停止账单提交")
         if self.args.payment == "cash" and not self.args.cash_collected:
             raise RuntimeError("现金收款需确认实际已收款，再传入 --cash-collected")
+        if self.args.car_type == "charter":
+            fare = read_fixed_fare(root)
+            if self.args.fare is not None and fare != Decimal(self.args.fare):
+                raise RuntimeError("包车固定车费与显式预期金额不符，禁止确认收款")
+            if self.args.surcharge is not None and Decimal(self.args.surcharge) != 0:
+                raise RuntimeError("包车固定价账单无附加费输入区域，不能忽略非零附加费或修改车费")
+            root = self.root()
+            if read_fixed_fare(root) != fare:
+                raise RuntimeError("包车固定车费在提交前发生变化，禁止确认收款")
+            self.bill_total = fare
+            LOG.info("包车账单固定车费已核对：%s HKD；不填写打表车费或附加费", fare)
+            self.act(root, ACTION_LABELS["bill"])
+            self.wait_for({"unpaid", "complete"})
+            return
+        if self.args.fare is None:
+            raise RuntimeError("打表账单提交需显式传入 --fare，不自动填写或改动金额")
         self.fill(root, "請輸入車費", self.args.fare)
         if self.args.surcharge is not None:
             self.fill(self.root(), "請輸入附加費", self.args.surcharge)
@@ -335,35 +472,56 @@ class DriverUIFlow:
                 matches = False
             if not matches:
                 raise RuntimeError(f"{placeholder}输入未确认，禁止提交账单")
+        self.bill_total = Decimal(self.args.fare) + Decimal(self.args.surcharge or "0")
         self.act(root, ACTION_LABELS["bill"])
         self.wait_for({"unpaid", "complete"})
 
-    def ensure_online(self):
-        """打开已登录司机App并出车；仅可返回旧已付详情，不自动清理进行中订单。"""
-        self.client.app_activate(BUNDLE_ID)
+    def ensure_online(self, *, resume_existing=False):
+        """仅未完成订单可返回True续跑；启动前已完成订单记录后返回听单，允许新下单。
+
+        仅出车命令默认不推进旧行程；已完成旧订单不绑定为本次订单号或成功结果。
+        """
+        self.resume_phase = None
+        self.order_no = None
+        self.bill_total = None
+        self.awaiting_new_order = False
         self.deadline = time.monotonic() + self.args.timeout
-        root, phase = self.wait_for(set(PHASE_NAMES) - {"unknown"})
+        self._activate_driver_app()
+        root, phase = self.wait_for_entry_page()
         if phase in ("login", "code"):
             raise RuntimeError("司机 App 尚未登录，请先登录；本流程只打开 App 和出车")
+        if resume_existing and phase in ACTIVE_ORDER_PHASES:
+            self.last_phase = self.resume_phase = phase
+            if phase == "unpaid":
+                self.order_no = read_order_no(root, excluded=self.completed_before_run)
+            LOG.info("检测到未完成订单：%s；保留当前页面，继续剩余流程，不重新出车或下单", PHASE_NAMES[phase])
+            return True
         if phase == "complete":
-            # 上一次已支付详情可以安全返回首页；未支付或进行中订单不得自动清理。
+            previous_order = read_order_no(root)
+            self.completed_before_run.add(previous_order)
+            LOG.info("启动前订单 %s 已完成且已支付；仅返回听单，不计入本次结果，继续新下单", previous_order)
             labels = ("返回首頁", "返回", "ca_icon_back_black", "ca icon back black")
             if find_label(root, labels) is not None:
                 self.act(root, labels)
             else:
                 self.back_from_paid_detail(root)
-            root, phase = self.wait_for({"offline", "online", "offer"})
+            root, phase = self.wait_for_entry_page()
         if phase == "offline":
             self.act(root, ACTION_LABELS["offline"])
             root, phase = self.wait_for({"online", "offer"})
         if phase not in ("online", "offer"):
-            raise RuntimeError("司机已有行程或页面不适合出车，停止操作")
+            self.last_phase = phase
+            self.snapshot("driver_not_available_for_new_order")
+            raise RuntimeError(f"司机当前为{PHASE_NAMES.get(phase, phase)}，已有行程或页面不适合新下单；未自动取消或推进行程")
         self.last_phase = phase
+        self.awaiting_new_order = True
         LOG.info("司机 App 已出车；接单及后续状态全部在司机页面操作")
+        return False
 
     def check_online(self):
-        """乘客下单前只读确认司机仍在听单，不重新出车或接受未知订单。"""
+        """乘客下单前只读确认司机仍在听单，已知网络/定位错误即时阻断下单。"""
         phase = self.detect_phase(self.root())
+        self._check_device_availability(phase)
         if phase not in ("online", "offer"):
             raise RuntimeError("司机 App 已离开听单状态，停止乘客下单")
         self.last_phase = phase
@@ -375,24 +533,27 @@ class DriverUIFlow:
         未知页面或取消均不可继续。此方法不调用乘客支付或司机业务接口。
         """
         if self.args.inspect:
-            self.client.app_activate(BUNDLE_ID)
             self.deadline = time.monotonic() + self.args.timeout
+            self._activate_driver_app()
             _, phase = self.wait_for(set(PHASE_NAMES))
             LOG.info("司机 App 状态：%s；未出车、未接单、未收款", PHASE_NAMES[phase])
             return
         if self.args.stop_after == "online":
             self.ensure_online()
             return
-        self.client.app_activate(BUNDLE_ID)
         self.deadline = time.monotonic() + self.args.timeout
+        self._activate_driver_app()
         root, phase = self.wait_for(set(PHASE_NAMES) - {"unknown"})
         while time.monotonic() < self.deadline:
+            if self.resume_phase is not None and phase not in RESUMABLE_PHASES:
+                raise RuntimeError("续跑中的已有订单页面已离开，不接受新派单或重新出车")
             self.last_phase = phase
+            if phase in ACTIVE_ORDER_PHASES - {"unpaid"}:
+                self.awaiting_new_order = False
             if phase in ("unpaid", "complete"):
-                current_order = read_order_no(root)
-                if self.order_no is not None and current_order != self.order_no:
-                    raise RuntimeError("司机页面已切换到其他订单，停止操作")
-                self.order_no = current_order
+                if self.awaiting_new_order:
+                    raise RuntimeError("本次尚未确认新订单行程或账单，不能从完成页直接判定成功")
+                self.order_no = read_order_no(root, excluded=self.completed_before_run, expected=self.order_no)
             LOG.info("司机 UI 阶段：%s", PHASE_NAMES[phase])
             if phase == self.args.stop_after:
                 return
@@ -454,14 +615,15 @@ class DriverUIFlow:
         raise TimeoutError("司机 UI 流转超时；未取消订单、未收车")
 
     def wait_completed(self):
-        """按真机走通顺序：旧完成页 → 返回首页 → 收入到账详情 → 同订单已支付。"""
+        """核验本次绑定订单：账单完成页 → 收入到账详情 → 同订单已支付，排除启动前旧订单。"""
         if not self.order_no:
             raise RuntimeError("缺少本次账单订单号，不能用任意已支付订单代替核验")
-        self.client.app_activate(BUNDLE_ID)
+        if self.awaiting_new_order or self.order_no in self.completed_before_run:
+            raise RuntimeError("本次订单尚未绑定或属于启动前已完成旧订单，不能判定通过")
         self.deadline = time.monotonic() + self.args.payment_timeout
+        self._activate_driver_app()
         root, phase = self.wait_for({"unpaid", "complete"})
-        if read_order_no(root) != self.order_no:
-            raise RuntimeError("司机完成页不是本次订单，停止支付核验")
+        read_order_no(root, excluded=self.completed_before_run, expected=self.order_no)
         if phase == "unpaid":
             # 静态完成页不会自动刷新，禁止因此重付或重复确认账单。
             self.act(root, ("返回首頁",))
@@ -482,8 +644,7 @@ class DriverUIFlow:
                 root = self.root()
                 phase = self.detect_phase(root)
                 if phase in ("unpaid", "complete"):
-                    if read_order_no(root) != self.order_no:
-                        raise RuntimeError("到账详情属于其他订单，停止支付核验")
+                    read_order_no(root, excluded=self.completed_before_run, expected=self.order_no)
                     if phase == "complete":
                         break
                 time.sleep(self.args.interval)
@@ -526,7 +687,8 @@ def parser(wda_url=None):
     result.add_argument("--stop-after", choices=("online", "accepted", "pickup", "onboard", "destination", "bill", "submitted", "complete"),
                         default="online", help="accepted 仅接单后停止；submitted 提交账单后暂停等待乘客支付")
     result.add_argument("--accept-label", action="append", help="司机接单按钮的精确文案，可重复配置")
-    result.add_argument("--fare", type=amount, help="显式指定测试车费；默认不提交账单")
+    result.add_argument("--car-type", choices=("meter", "charter"), default="meter", help="meter填写打表金额；charter核对只读包车固定车费")
+    result.add_argument("--fare", type=amount, help="打表必填测试车费；包车可选预期固定车费，仅核对不改写")
     result.add_argument("--surcharge", type=amount, help="显式指定附加费，默认不改动")
     result.add_argument("--payment", choices=("online", "cash"), default="online", help="测试订单支付方式，不会修改乘客选择")
     result.add_argument("--cash-collected", action="store_true", help="确认已实际收到测试现金款")
@@ -549,8 +711,8 @@ def main():
         argument_parser.error("测试验证码必须为6位数字")
     if args.tail and (not args.tail.isdigit() or len(args.tail) != 4):
         argument_parser.error("乘客尾号必须为4位数字")
-    if args.stop_after in ("submitted", "complete") and args.fare is None and not args.inspect:
-        argument_parser.error("完整账单流程必须显式传入 --fare")
+    if args.car_type == "meter" and args.stop_after in ("submitted", "complete") and args.fare is None and not args.inspect:
+        argument_parser.error("打表完整账单流程必须显式传入 --fare")
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     wda.HTTP_TIMEOUT = 20
     flow = DriverUIFlow(args)

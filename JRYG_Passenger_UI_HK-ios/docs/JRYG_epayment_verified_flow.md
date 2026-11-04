@@ -62,13 +62,6 @@ cd JRYG_Passenger_UI_HK-ios
 HK_DRIVER_UI_STOP_AFTER=submitted HK_ORDER_AMOUNT=5 HK_OTHER_AMOUNT=0 ../.venv/bin/python -m pytest -c pytest.ini cases/JRYG_test_ios_meter_epayment_order.py::TestMeterEpayment::test_order_flow -v --tb=short --html=report/JRYG_epayment_full.html --self-contained-html
 ```
 
-执行离线顺序及失败分支回归：
-
-```bash
-cd JRYG_Passenger_UI_HK-ios
-../.venv/bin/python -m pytest -c pytest.ini tests/test_epayment_verified_flow.py tests/test_driver_readiness.py tests/test_driver_hybrid.py tests/test_driver_runtime.py tests/test_driver_ui_input.py -q -o addopts=''
-```
-
 ## 四、真实验证记录（区分通过与失败）
 
 | 验证 | 真实结果 | 证据 |
@@ -77,10 +70,9 @@ cd JRYG_Passenger_UI_HK-ios
 | 原订单 `26A4J04WECNY`，后续状态→5+0账单→乘客支付→司机详情 | 已完成且已支付；初版结束首滑未生效、静态支付页未刷新，现场有限重滑和首页详情刷新后确认通过 | `logs/epayment-current-5hkd.log`，`report/driver_ui/` 中最终详情现场；该日志包含旧核验超时，不能将整条旧命令记作通过 |
 | 17:28完整回归，订单 `26A6P1KWECNY` | 下单/接单成功，但到达滑块首滑未生效，首次pytest失败；修正滑块终点后用代码续跑完成5+0账单及付款，同订单已完成且已支付 | `report/JRYG_epayment_verified_full_20261030_172848.html`（失败报告），`logs/epayment-verified-driver-resume.log`、`logs/epayment-verified-payment-resume.log`（续跑通过） |
 | 17:38从头回归（历史失败） | 乘客呼叫成功，但司机App未出现派单。该次pytest失败，随后乘客页面确认「呼叫超時，已自動取消訂單」。没有推进司机行程或支付，没有继续重下单 | `report/JRYG_epayment_verified_final_20261030_173821.html`、`logs/epayment-verified-final-run.log` |
-| 最终离线回归 | 125 项通过；保留环境原有 urllib3/LibreSSL 警告 | 上述离线命令；覆盖真实顺序、金额校验、有限重试、OTP失败停止、同订单刷新、无派单限时停止 |
 | 18:01—18:06最新完整真机回归，订单 `26A6P22WECNY` | 单设备顺序切换全UI从头执行，1项通过，耗时301.11秒。司机出车→乘客下单→司机接单及状态→5+0账单→乘客银行卡/OTP支付→司机返回首页、查看到账详情，确认同订单已完成且已支付；未人工续跑、未调用司机业务接口、未自动收车。仅环境原有1项LibreSSL警告 | `report/JRYG_epayment_real_20261030_180133.html`、`logs/epayment_real_20261030_180133.log`、`report/driver_ui/1793354794885355000_completed_paid.png`及同名XML |
 
-代码已按实际通过步骤固化，125项离线回归通过；最新18:01完整真机pytest从头通过，订单详情确认本次订单已完成且已支付。保留之前失败与修复记录，不将历史失败改写为成功。真实派单、网络、定位与支付服务仍是外部前置，不能保证永不失败；不得修改断言掩盖环境问题。
+代码已按实际通过步骤固化；2026-10-30 18:01完整真机pytest从头通过，订单详情确认本次订单已完成且已支付。保留之前失败与修复记录，不将历史失败改写为成功。真实派单、网络、定位与支付服务仍是外部前置，不能保证永不失败；不得修改断言掩盖环境问题。
 
 ## 五、日志与关键实现文件
 
@@ -88,7 +80,4 @@ cd JRYG_Passenger_UI_HK-ios
 - `ui_framework/JRYG_order_flow.py`：先司机出车→乘客下单→司机账单→乘客支付→司机详情核验的唯一主编排。
 - `ui_framework/JRYG_ios_ui_base.py`：地址/车型/支付通用UI，卡表单字段顺序、有限UUID元素遍历、一次OTP清空输入验证。
 - `cases/JRYG_test_ios_meter_epayment_order.py`：指定本次已验证的 `meter` 与 `epayment` 参数。
-- `tests/test_driver_readiness.py`：主流程顺序与失败停止。
-- `tests/test_driver_hybrid.py`：司机滑块/账单/订单号/到账详情刷新、派单等待。
-- `tests/test_epayment_verified_flow.py`：乘客金额、卡表单输入顺序、OTP输入与异常停止。
 - `logs/JRYG_run.log`：乘客与司机UI步骤统一日志；`report/driver_ui/` 保存司机关键截图和XML，`screenshots/` 保存乘客截图。截图及历史日志可能含测试账号信息，仅用于本地验证，不对外公开。

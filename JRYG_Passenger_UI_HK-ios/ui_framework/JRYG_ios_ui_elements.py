@@ -93,6 +93,9 @@ CONFIRM_CALL_XPATH = (
 )
 CONFIRM_CALL_POCO_REGEX = ".*確認呼叫.*|.*确认呼叫.*|.*呼叫.*"
 CONFIRM_CALL_FALLBACK_COORD = (0.5, 0.95)
+ESTIMATE_UPDATED_KEYWORDS = ("預估資訊已更新，請重新選擇", "预估信息已更新，请重新选择")
+ESTIMATE_REFRESH_TIMEOUT = 30
+ESTIMATE_CALL_MAX_ATTEMPTS = 3
 
 # ==================== 收银台（先付後乘） ====================
 CASHIER_PAGE_KEYWORDS = ["預付車費", "先付後乘", "確認支付並呼叫"]
@@ -172,6 +175,11 @@ COUPON_TARGET_TEXTS = ["100元优惠卷", "100元优惠券", "100", "100元"]
 # 默认起终点地址（北角地铁站 → 香港大学，距离适中不易触发"距离太近"）
 DEFAULT_START_ADDRESS = "北角地铁站"
 DEFAULT_END_ADDRESS = "香港大学"
+NORTH_POINT_SEARCH_TEXT = "北角"
+NORTH_POINT_STATION_NAMES = ("北角(地鐵站)", "北角地鐵站", "北角地铁站")
+NORTH_POINT_DISTRICT = "香港特別行政區東區Eastern District"
+NORTH_POINT_START_PLACEHOLDER = "您從哪裡出發"
+NORTH_POINT_EXIT = "A1出入口"
 
 # 距离太近时的备选终点（按优先级排列，依次切换直到下单成功）
 FALLBACK_END_ADDRESSES = ["銅鑼灣", "中環", "尖沙咀"]

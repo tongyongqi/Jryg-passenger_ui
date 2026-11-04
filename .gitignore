@@ -27,6 +27,9 @@ JRYG_Passenger_API_HK/data/captures/
 # Environment variables (敏感信息，不提交)
 .env
 JRYG_Passenger_API_HK/.env
+# 本地 App 会话和抓包可能含登录凭据，不提交版本库
+JRYG_Passenger_UI_HK-ios/tmp/
+*.har
 
 # macOS system files
 .DS_Store

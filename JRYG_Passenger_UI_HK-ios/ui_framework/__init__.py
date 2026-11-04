@@ -26,7 +26,6 @@
 #
 # 按职责归档：
 #   - cases/   ：全部真机场景文件，只配置车型和渠道；conftest负责生命周期
-#   - tests/   ：离线回归，不与真机订单混跑
 #   - runners/ ：主运行器、司机薄入口和WDA准备Shell
 #   - tools/   ：设备检查；legacy/仅保留历史接口工具，不供UI流程调用
 #   - config/  ：配置文件；docs/保存已有验证记录

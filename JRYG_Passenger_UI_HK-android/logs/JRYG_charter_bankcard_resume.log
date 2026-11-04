@@ -1,0 +1,49 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.7.1-x86_64-i386-64bit', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'metadata': '3.1.1', 'html': '4.2.0'}}
+rootdir: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android
+configfile: pytest.ini
+plugins: metadata-3.1.1, html-4.2.0
+collecting ... collected 1 item
+
+cases/JRYG_test_android_charter_bankcard_order.py::TestCharterBankcardAndroid::test_order_flow 2026-11-03 18:58:57,255 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:58:57,256 - JRYG_HK_ios - INFO - 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+2026-11-03 18:58:57,256 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:58:57,525 - JRYG_driver_ui - INFO - 已请求打开司机 App，等待前台页面就绪，最多30秒
+2026-11-03 18:58:59,221 - JRYG_driver_ui - INFO - 司机 App 前台已确认，继续读取业务阶段
+2026-11-03 18:58:59,431 - JRYG_driver_ui - INFO - 检测到未完成订单：前往上车点；保留当前页面，继续剩余流程，不重新出车或下单
+2026-11-03 18:58:59,432 - JRYG_HK_ios - INFO - 【包車價的士+信用卡/扣帳卡】检测到已有订单，当前阶段：前往上车点；跳过乘客清理和重复下单
+2026-11-03 18:58:59,432 - JRYG_HK_ios - INFO - 【包車價的士+信用卡/扣帳卡】接续当前订单，不重设起终点、不确认呼叫、不重新预付
+2026-11-03 18:58:59,432 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:58:59,432 - JRYG_HK_ios - INFO - 【阶段 3】司机 UI：接单→到达上车点→接载→到达目的地→确认账单
+2026-11-03 18:58:59,433 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:58:59,642 - JRYG_driver_ui - INFO - 已请求打开司机 App，等待前台页面就绪，最多30.0秒
+2026-11-03 18:59:01,313 - JRYG_driver_ui - INFO - 司机 App 前台已确认，继续读取业务阶段
+2026-11-03 18:59:01,480 - JRYG_driver_ui - INFO - 司机 UI 阶段：前往上车点
+2026-11-03 18:59:06,438 - JRYG_driver_ui - INFO - 司机 UI 阶段：等待乘客上车
+2026-11-03 18:59:11,355 - JRYG_driver_ui - INFO - 司机 UI 阶段：送乘客
+2026-11-03 18:59:44,784 - JRYG_driver_ui - WARNING - 送乘客首滑未生效，当前仍为同阶段；仅重试一次，不模拟定位
+2026-11-03 18:59:49,752 - JRYG_driver_ui - INFO - 司机 UI 阶段：确认账单
+2026-11-03 18:59:49,909 - JRYG_driver_ui - INFO - Android包车固定车费已核对：15.57 HKD；单次滑动确认收款，不修改金额
+2026-11-03 18:59:54,944 - JRYG_driver_ui - INFO - 司机 UI 阶段：已完成且已支付
+2026-11-03 18:59:54,945 - JRYG_HK_ios - INFO - 【包車價的士+信用卡/扣帳卡】司机 UI 账单已提交，切回乘客 App 处理支付
+2026-11-03 18:59:55,228 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 18:59:55,228 - JRYG_HK_ios - INFO - 【阶段 4】App 端：订单完成后返回首页
+2026-11-03 18:59:55,229 - JRYG_HK_ios - INFO - ============================================================
+2026-11-03 19:00:00,232 - JRYG_HK_ios - INFO - 【包車價的士+信用卡/扣帳卡】司机当前订单已支付，只返回首页并核验同订单，不重复付款
+2026-11-03 19:00:05,115 - JRYG_driver_ui - INFO - 已请求打开司机 App，等待前台页面就绪，最多30.0秒
+2026-11-03 19:00:06,779 - JRYG_driver_ui - INFO - 司机 App 前台已确认，继续读取业务阶段
+2026-11-03 19:00:07,878 - JRYG_driver_ui - INFO - 已保存页面现场：/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android/report/driver_ui/1793703606928239000_completed_paid
+2026-11-03 19:00:07,878 - JRYG_driver_ui - INFO - 司机同订单详情已确认完成且已支付：26B4J4SWECNY
+2026-11-03 19:00:07,878 - JRYG_HK_ios - INFO - 【包車價的士+信用卡/扣帳卡 已有订单续跑完成】订单 26B4J4SWECNY 已完成且已支付
+PASSED
+
+=============================== warnings summary ===============================
+cases/JRYG_test_android_charter_bankcard_order.py::TestCharterBankcardAndroid::test_order_flow
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android/report/JRYG_charter_bankcard_resume.html -
+=================== 1 passed, 1 warning in 74.57s (0:01:14) ====================

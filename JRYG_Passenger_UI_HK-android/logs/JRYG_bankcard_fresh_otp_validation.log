@@ -1,0 +1,9 @@
+/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+2026-11-03 20:42:11,699 - JRYG_HK_ios - INFO - 【新卡支付至OTP跳页连续验证】Android只读等待同表单唯一可用OTP框，最多30秒
+2026-11-03 20:42:22,585 - JRYG_HK_ios - INFO - 【新卡支付至OTP跳页连续验证】Android OTP清空回读通过（内容不记录）
+2026-11-03 20:42:22,916 - JRYG_HK_ios - INFO - 【新卡支付至OTP跳页连续验证】Android OTP实际值回读一致（内容不记录）
+2026-11-03 20:42:25,109 - JRYG_HK_ios - INFO - 【新卡支付至OTP跳页连续验证】Android OTP提交前核验通过，单次点击Verify & Proceed
+channel_submitted True
+current_app com.sunlightmobility.client .home.YGAHomeActivity
+[('com.sunlightmobility.client:id/tvTitle', '預付車費'), ('com.sunlightmobility.client:id/ivClose', '關閉'), ('com.sunlightmobility.client:id/tip_loading', '查詢結果中')]

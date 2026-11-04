@@ -27,9 +27,11 @@ packages:
 order_validation:
   expected_driver_phone: "11000005"
   max_attempts: 5
+  # 以下时限以秒计：等派单、单个状态动作、乘客费用页/司机到账、总流程。
   dispatch_timeout: 90
   state_timeout: 30
   completion_timeout: 90
   total_timeout: 900
+  # 起终点搜索结果可接受的真实名称，用于Android共享路线匹配。
   start_names: ["北角(地鐵站)", "北角地鐵站"]
   end_names: ["香港大學"]

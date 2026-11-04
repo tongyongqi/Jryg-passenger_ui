@@ -1,0 +1,78 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.7.1-x86_64-i386-64bit', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'metadata': '3.1.1', 'html': '4.2.0'}}
+rootdir: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android
+configfile: pytest.ini
+plugins: metadata-3.1.1, html-4.2.0
+collecting ... collected 1 item
+
+cases/JRYG_test_android_meter_alipay_order.py::TestMeterAlipayAndroid::test_order_flow 2026-11-04 09:46:43,374 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:46:43,376 - JRYG_HK_ios - INFO - 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+2026-11-04 09:46:43,376 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:46:43,705 - JRYG_driver_ui - INFO - 已请求打开司机 App，等待前台页面就绪，最多30秒
+2026-11-04 09:46:45,368 - JRYG_driver_ui - INFO - 司机 App 前台已确认，继续读取业务阶段
+2026-11-04 09:46:45,582 - JRYG_driver_ui - INFO - 司机 App 已出车；接单及后续状态全部在司机页面操作
+2026-11-04 09:46:45,582 - JRYG_HK_ios - INFO - 【打錶的士+Alipay HK】司机 UI 已确认听单，继续乘客下单
+2026-11-04 09:46:45,582 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:46:45,582 - JRYG_HK_ios - INFO - 【阶段 1】乘客端：处理遗留订单
+2026-11-04 09:46:45,582 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:46:50,119 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:46:50,119 - JRYG_HK_ios - INFO - 【阶段 2】UI 下单：打錶的士 + Alipay HK
+2026-11-04 09:46:50,119 - JRYG_HK_ios - INFO - ============================================================
+2026-11-04 09:46:54,106 - JRYG_HK_ios - INFO - Android等待唯一地址结果：北角地铁站，北角A1校验=True
+2026-11-04 09:46:54,687 - JRYG_HK_ios - INFO - Android地址及出口已确认，单次选择：A1出入口
+2026-11-04 09:46:55,331 - JRYG_HK_ios - INFO - Android已离开搜索页，选址完成：北角地铁站
+2026-11-04 09:46:58,700 - JRYG_HK_ios - INFO - Android等待唯一地址结果：香港大学，北角A1校验=False
+FAILED
+
+=================================== FAILURES ===================================
+____________________ TestMeterAlipayAndroid.test_order_flow ____________________
+cases/JRYG_test_android_meter_alipay_order.py:22: in test_order_flow
+    self._run_order_flow()
+jryg_hk_android/JRYG_android_order.py:282: in _run_order_flow
+    super().test_order_flow()
+_ios_verified_snapshot/ui_framework/JRYG_order_flow.py:157: in test_order_flow
+    self._ios_launch_setup_and_addresses(
+jryg_hk_android/JRYG_android_passenger.py:242: in _ios_launch_setup_and_addresses
+    self.prepare_passenger_route(tag, start, end, verify_login=True)
+jryg_hk_android/JRYG_android_passenger.py:238: in prepare_passenger_route
+    self._ios_configure_addresses(tag, start or E.DEFAULT_START_ADDRESS, end or E.DEFAULT_END_ADDRESS)
+jryg_hk_android/JRYG_android_passenger.py:152: in _ios_configure_addresses
+    self._search_address(["tv_destination", "rl_destination_layout"], ["想要去哪", "想去哪"], end, end_names)
+jryg_hk_android/JRYG_android_passenger.py:89: in _search_address
+    return self._search_address_ready(entry_ids, keywords, address, expected_names)
+jryg_hk_android/JRYG_android_passenger.py:127: in _search_address_ready
+    self._wait(lambda: select_result() is not None, f"搜索结果未匹配目标地址及出口：{address}")
+jryg_hk_android/JRYG_android_base.py:89: in _wait
+    raise TimeoutError(message)
+E   TimeoutError: 搜索结果未匹配目标地址及出口：香港大学
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_HK_ios:JRYG_order_flow.py:130 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:131 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+INFO     JRYG_HK_ios:JRYG_order_flow.py:132 ============================================================
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:280 已请求打开司机 App，等待前台页面就绪，最多30秒
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:288 司机 App 前台已确认，继续读取业务阶段
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:518 司机 App 已出车；接单及后续状态全部在司机页面操作
+INFO     JRYG_HK_ios:JRYG_order_flow.py:658 【打錶的士+Alipay HK】司机 UI 已确认听单，继续乘客下单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:145 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:146 【阶段 1】乘客端：处理遗留订单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:147 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:153 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:154 【阶段 2】UI 下单：打錶的士 + Alipay HK
+INFO     JRYG_HK_ios:JRYG_order_flow.py:155 ============================================================
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:126 Android等待唯一地址结果：北角地铁站，北角A1校验=True
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:131 Android地址及出口已确认，单次选择：A1出入口
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:136 Android已离开搜索页，选址完成：北角地铁站
+INFO     JRYG_HK_ios:JRYG_android_passenger.py:126 Android等待唯一地址结果：香港大学，北角A1校验=False
+=============================== warnings summary ===============================
+cases/JRYG_test_android_meter_alipay_order.py::TestMeterAlipayAndroid::test_order_flow
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-android/report/JRYG_meter_alipay_payment_mode.html -
+=========================== short test summary info ============================
+FAILED cases/JRYG_test_android_meter_alipay_order.py::TestMeterAlipayAndroid::test_order_flow
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+======================== 1 failed, 1 warning in 50.53s =========================

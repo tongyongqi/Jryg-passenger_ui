@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "completed_orders": [
+    {
+      "nodeid": "cases/JRYG_test_android_charter_bankcard_order.py::TestCharterBankcardAndroid::test_order_flow",
+      "order_no": "26B4J66WECNY"
+    }
+  ]
+}

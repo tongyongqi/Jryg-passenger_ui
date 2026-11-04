@@ -1,3 +1,5 @@
+"""创建Android报告、日志、截图及配置目录；导入会执行，不清理历史文件。"""
+
 import os
 from .JRYG_config import (
     REPORT_DIR, LOGS_DIR, SCREENSHOTS_DIR, CONFIG_DIR
