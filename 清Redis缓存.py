@@ -5,12 +5,16 @@
   - phone:repeat:*  → 司机手机号重复派单限制缓存
 
 支持的 Redis 环境：
-  - 香港-test    香港测试环境（172.31.104.4:6379 db=8）
-  - 大陆-test6   大陆测试6环境（redis.tx-test6.jryghq.cn:6379 db=8）
-  - 大陆-pre     大陆 pre 预发布环境（192.168.22.2:6379 db=8）
+  - 香港-test          香港测试环境（172.31.104.4:6379 db=8）
+  - 大陆-dev           大陆开发环境（redis.tx-dev.jryghq.cn:6379 db=8）
+  - 大陆-test2         大陆测试2环境（redis.tx-test2.jryghq.cn:6379 db=8）
+  - 大陆-test4         大陆测试4环境（redis.tx-test4.jryghq.cn:6379 db=8）
+  - 大陆-test6         大陆测试6环境（redis.tx-test6.jryghq.cn:6379 db=8）
+  - 大陆-pre           大陆 pre 预发布环境（192.168.22.2:6379 db=8）
+  - 大陆-robotaxi      robotaxi 环境（redis.pre-robotaxi.jryghq.cn:6379 db=8）
 
 用法：
-    from JRYG_Passenger_API_HK.common.redis_cache_cleaner import clean_driver_cache
+    from 清Redis缓存 import clean_driver_cache
 
     clean_driver_cache()                              # 默认香港-test 环境
     clean_driver_cache(env="大陆-test6")              # 大陆测试6环境
@@ -20,34 +24,61 @@
 
 import redis
 
-from JRYG_Passenger_API_HK.common.hk_config import config as hk_config
-from JRYG_Passenger_API_HK.common.cn_config import config as cn_config
-
 # 支持的环境标识 -> Redis 连接参数
+# 配置来源：Tiny RDM 连接管理器（~/Library/Preferences/TinyRDM/connections.yaml）
 ENVIRONMENTS = {
     # 香港测试环境
     "香港-test": {
         "name": "香港测试环境",
-        "host": hk_config.REDIS_HOST,
-        "port": hk_config.REDIS_PORT,
-        "password": hk_config.REDIS_PASSWORD,
-        "db": hk_config.REDIS_DB,
+        "host": "172.31.104.4",
+        "port": 6379,
+        "password": "ygcx_test2@wqBEUSwzxmDv8hpO",
+        "db": 8,
     },
-    # 大陆测试6环境
+    # 大陆各环境
+    "大陆-dev": {
+        "name": "大陆开发环境",
+        "host": "redis.tx-dev.jryghq.cn",
+        "port": 6379,
+        "password": "jryg_tx_dev@nPYT90uU1pkJTmEN",
+        "db": 8,
+    },
+    "大陆-test2": {
+        "name": "大陆测试2环境",
+        "host": "redis.tx-test2.jryghq.cn",
+        "port": 6379,
+        "password": "jryg_tx_dev@nPYT90uU1pkJTmEN",
+        "db": 8,
+    },
+    "大陆-test4": {
+        "name": "大陆测试4环境",
+        "host": "redis.tx-test4.jryghq.cn",
+        "port": 6379,
+        "password": "jryg_tx_dev@nPYT90uU1pkJTmEN",
+        "db": 0,
+    },
     "大陆-test6": {
         "name": "大陆测试6环境",
-        "host": cn_config.REDIS_ENVIRONMENTS["test6"]["host"],
-        "port": cn_config.REDIS_ENVIRONMENTS["test6"]["port"],
-        "password": cn_config.REDIS_ENVIRONMENTS["test6"]["password"],
-        "db": cn_config.REDIS_ENVIRONMENTS["test6"]["db"],
+        "host": "redis.tx-test6.jryghq.cn",
+        "port": 6379,
+        "password": "jryg_tx_dev@nPYT90uU1pkJTmEN",
+        "db": 8,
     },
     # 大陆 pre 预发布环境
     "大陆-pre": {
         "name": "大陆pre预发布环境",
-        "host": cn_config.REDIS_ENVIRONMENTS["pre"]["host"],
-        "port": cn_config.REDIS_ENVIRONMENTS["pre"]["port"],
-        "password": cn_config.REDIS_ENVIRONMENTS["pre"]["password"],
-        "db": cn_config.REDIS_ENVIRONMENTS["pre"]["db"],
+        "host": "192.168.22.2",
+        "port": 6379,
+        "password": "RC0WQhkWxU",
+        "db": 8,
+    },
+    # robotaxi 环境
+    "大陆-robotaxi": {
+        "name": "大陆robotaxi环境",
+        "host": "redis.pre-robotaxi.jryghq.cn",
+        "port": 6379,
+        "password": "jryg_tx_dev@nPYT90uU1pkJTmEN",
+        "db": 8,
     },
 }
 
