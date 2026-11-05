@@ -151,6 +151,12 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
             summary_file = batch_dir / "batch_result.json"
             summary_file.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
             print(f"[批量报告] {summary_file}", flush=True)
+            if platform == "ios":
+                try:
+                    from ui_framework.JRYG_dingtalk_report import notify_batch
+                    notify_batch(summary_file)
+                except (Exception, KeyboardInterrupt) as exc:
+                    print(f"[钉钉报告] 通知异常（{type(exc).__name__}），不影响测试退出码，不自动重发。", flush=True)
         return exit_code
 
 

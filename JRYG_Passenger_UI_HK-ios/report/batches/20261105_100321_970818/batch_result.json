@@ -1,0 +1,55 @@
+{
+  "exit_code": 1,
+  "interval_seconds": 10,
+  "cases": [
+    {
+      "sequence": 1,
+      "case": "JRYG_test_ios_charter_alipay_order.py",
+      "status": "passed",
+      "started_at": "2026-11-05T10:03:21",
+      "report": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261105_100321_970818/01_JRYG_test_ios_charter_alipay_order.html",
+      "exit_code": 0,
+      "finished_at": "2026-11-05T10:08:10",
+      "order_no": "26B4J74WECNY"
+    },
+    {
+      "sequence": 2,
+      "case": "JRYG_test_ios_charter_bankcard_order.py",
+      "status": "passed",
+      "started_at": "2026-11-05T10:08:20",
+      "report": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261105_100321_970818/02_JRYG_test_ios_charter_bankcard_order.html",
+      "exit_code": 0,
+      "finished_at": "2026-11-05T10:13:29",
+      "order_no": "26B4J76WECNY"
+    },
+    {
+      "sequence": 3,
+      "case": "JRYG_test_ios_meter_cash_order.py",
+      "status": "passed",
+      "started_at": "2026-11-05T10:13:39",
+      "report": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261105_100321_970818/03_JRYG_test_ios_meter_cash_order.html",
+      "exit_code": 0,
+      "finished_at": "2026-11-05T10:17:55",
+      "order_no": "26B4J78WECNY"
+    },
+    {
+      "sequence": 4,
+      "case": "JRYG_test_ios_meter_epayment_bankcard_order.py",
+      "status": "failed",
+      "started_at": "2026-11-05T10:18:05",
+      "report": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261105_100321_970818/04_JRYG_test_ios_meter_epayment_bankcard_order.html",
+      "exit_code": 1,
+      "finished_at": "2026-11-05T10:23:56"
+    },
+    {
+      "sequence": 5,
+      "case": "JRYG_test_ios_meter_epayment_alipay_order.py",
+      "status": "not_run"
+    },
+    {
+      "sequence": 6,
+      "case": "JRYG_test_ios_meter_alipay_order.py",
+      "status": "not_run"
+    }
+  ]
+}

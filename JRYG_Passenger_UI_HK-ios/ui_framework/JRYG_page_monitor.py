@@ -38,6 +38,8 @@ from pathlib import Path  # 路径操作，用于卡点文件输出
 from urllib.parse import urlparse  # 解析 WDA URL，判断是否本地连接
 
 import requests     # HTTP 请求，用于向 WDA 发送 GET 请求读取页面树/截图
+import wda
+from ui_framework.JRYG_device_guard import DeviceUnlockError, ensure_unlocked, remember_foreground
 
 # 使用与主框架相同的日志器名称，保持日志统一
 logger = logging.getLogger("JRYG_HK_ios")
@@ -156,6 +158,7 @@ class IOSPageMonitor:
         if urlparse(self.url).hostname in ("localhost", "127.0.0.1", "::1"):
             # 本地 WDA 不走系统代理，避免代理导致连接失败
             self.http.trust_env = False
+        self.device_client = wda.Client(self.url)
         # 最近一次读取的页面，便于卡点时保存原始 XML
         self.last_page = None
 
@@ -179,7 +182,9 @@ class IOSPageMonitor:
 
     def inspect(self, timeout=None):
         """读取当前页面树并包装成 IOSPage。"""
+        ensure_unlocked(self.device_client)
         self.last_page = IOSPage(self._get("/source?format=xml", timeout))
+        remember_foreground(self.device_client, self.last_page.root)
         logger.info("[页面检测] state=%s", self.last_page.state)
         return self.last_page
 
@@ -270,6 +275,8 @@ class IOSPageMonitor:
                     return page
                 if recover is not None:
                     recover(page)
+            except DeviceUnlockError:
+                raise
             except (requests.RequestException, ET.ParseError, ValueError, RuntimeError) as exc:
                 # 记录最后一次错误，作为超时信息的一部分
                 last_error = exc

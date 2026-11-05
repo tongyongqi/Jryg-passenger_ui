@@ -1,0 +1,45 @@
+{
+  "exit_code": 146,
+  "interval_seconds": 10,
+  "cases": [
+    {
+      "sequence": 1,
+      "case": "JRYG_test_ios_charter_alipay_order.py",
+      "status": "passed",
+      "started_at": "2026-11-05T10:26:38",
+      "report": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261105_102638_727590/01_JRYG_test_ios_charter_alipay_order.html",
+      "exit_code": 0,
+      "finished_at": "2026-11-05T10:27:14",
+      "order_no": "26B4J7AWECNY"
+    },
+    {
+      "sequence": 2,
+      "case": "JRYG_test_ios_charter_bankcard_order.py",
+      "status": "failed",
+      "started_at": "2026-11-05T10:27:24",
+      "report": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261105_102638_727590/02_JRYG_test_ios_charter_bankcard_order.html",
+      "exit_code": 146,
+      "finished_at": "2026-11-05T10:28:48"
+    },
+    {
+      "sequence": 3,
+      "case": "JRYG_test_ios_meter_cash_order.py",
+      "status": "not_run"
+    },
+    {
+      "sequence": 4,
+      "case": "JRYG_test_ios_meter_epayment_bankcard_order.py",
+      "status": "not_run"
+    },
+    {
+      "sequence": 5,
+      "case": "JRYG_test_ios_meter_epayment_alipay_order.py",
+      "status": "not_run"
+    },
+    {
+      "sequence": 6,
+      "case": "JRYG_test_ios_meter_alipay_order.py",
+      "status": "not_run"
+    }
+  ]
+}

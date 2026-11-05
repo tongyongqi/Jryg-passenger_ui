@@ -14,6 +14,8 @@
 #   ./runners/JRYG_run_hk_ios.sh --batch            # 包车两例→打表四例，逐例清理后等待10秒
 #   ./runners/JRYG_run_hk_ios.sh                    # 兼容单pytest会话执行全部测试
 #   ./runners/JRYG_run_hk_ios.sh --collect-only     # 仅收集用例不执行
+#   ./runners/JRYG_run_hk_ios.sh --prepare-only     # 仅验证WDA就绪，不执行订单用例
+#   ./runners/JRYG_run_hk_ios.sh --inspect-driver   # 打开司机App核对页面，不出车、接单或付款
 #   ./runners/JRYG_run_hk_ios.sh -k meter_cash      # 按关键词筛选执行
 #   ./runners/JRYG_run_hk_ios.sh --case cases/JRYG_test_ios_charter_alipay_order.py
 # cases的直接Python入口同样委托本脚本准备WDA，只执行该文件。
@@ -23,6 +25,20 @@ set -u  # 引用未定义变量时报错
 # 脚本归档在runners；资源、虚拟环境和产物始终相对项目根定位。
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$BASE_DIR" || exit 1
+
+PREPARE_ONLY=0
+INSPECT_DRIVER=0
+for arg in "$@"; do
+    if [ "$arg" = "--prepare-only" ]; then PREPARE_ONLY=1; fi
+    if [ "$arg" = "--inspect-driver" ]; then INSPECT_DRIVER=1; fi
+done
+if [ "$PREPARE_ONLY" -eq 1 ] || [ "$INSPECT_DRIVER" -eq 1 ]; then
+    if [ "$#" -ne 1 ]; then
+        echo "[错误] --prepare-only和--inspect-driver须单独使用，不能与订单或批量参数混用。"
+        exit 2
+    fi
+    set --
+fi
 
 # Python直接入口透传原解释器；Shell独立运行仍优先使用项目虚拟环境。
 if [ -n "${HK_IOS_PYTHON:-}" ]; then
@@ -158,6 +174,8 @@ if ! wda_ready; then
             -scheme WebDriverAgentRunner \
             -derivedDataPath "$BASE_DIR/iOS-Tagent/DerivedData-ios" \
             -destination "id=$DEVICE_UDID" \
+            -allowProvisioningUpdates \
+            CODE_SIGN_STYLE=Automatic \
             >"$BASE_DIR/logs/wda-ios.log" 2>&1 &
         XCODE_PID=$!
         # 轮询等待 WDA 就绪（最多 90 次 × 2 秒 = 180 秒）
@@ -174,8 +192,35 @@ fi
 
 # 最终确认 WDA 已就绪
 if ! wda_ready; then
-    echo "[错误] WDA 未就绪，请检查 logs/wda-ios.log、签名和设备信任状态。"
+    if grep -q 'Developer App Certificate is not trusted' "$BASE_DIR/logs/wda-ios.log" 2>/dev/null; then
+        echo "[错误] WDA开发者证书尚未在iPhone上获得信任。"
+        echo "请在手机打开：设置 → 通用 → VPN与设备管理 → 开发者App → 信任，然后重新运行；无需打开Xcode。"
+    else
+        echo "[错误] WDA 未就绪，请检查 logs/wda-ios.log、签名和设备信任状态。"
+    fi
     exit 1
+fi
+
+"$PYTHON" -m ui_framework.JRYG_device_guard --wda-url "$WDA_URL" &
+TEST_PID=$!
+wait "$TEST_PID"
+UNLOCK_RC=$?
+TEST_PID=""
+if [ "$UNLOCK_RC" -ne 0 ]; then
+    echo "[错误] iPhone未确认解锁，停止执行订单用例；请检查锁屏密码或WDA连接。"
+    exit "$UNLOCK_RC"
+fi
+
+if [ "$PREPARE_ONLY" -eq 1 ]; then
+    echo "[设备就绪] WDA及解锁验证通过；未执行订单用例。本次启动的WDA和转发进程将在退出时清理。"
+    exit 0
+fi
+
+if [ "$INSPECT_DRIVER" -eq 1 ]; then
+    "$PYTHON" -m ui_framework.JRYG_driver_ui --inspect --wda-url "$WDA_URL" --timeout 45 --step-timeout 30 &
+    TEST_PID=$!
+    wait "$TEST_PID"
+    exit "$?"
 fi
 
 # 执行 pytest 测试

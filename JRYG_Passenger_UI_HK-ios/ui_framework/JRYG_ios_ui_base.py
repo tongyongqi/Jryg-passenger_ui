@@ -39,6 +39,7 @@ from ui_framework.JRYG_logger import logger
 # 导入 UI 元素定位常量（XPath、关键词、坐标、测试数据）
 from ui_framework import JRYG_ios_ui_elements as E
 from ui_framework.JRYG_ios_payment import HKIOSPaymentMixin
+from ui_framework.JRYG_device_guard import DeviceUnlockError, ensure_unlocked, remember_foreground
 
 
 class iOSBase(HKIOSPaymentMixin):
@@ -58,6 +59,9 @@ class iOSBase(HKIOSPaymentMixin):
             cls.client = wda.Client(cls.wda_url)
             status = cls.client.status()
             logger.info(f"【iOS 自动化】设备连接成功！ status: {status}")
+            ensure_unlocked(cls.client)
+        except DeviceUnlockError:
+            raise
         except Exception as e:
             logger.error(
                 f"【iOS 连接失败】请确认 WDA 已在手机上正常运行，且通过 tidevice/iproxy 转发了 8100 端口！ 错误原因: {e}"
@@ -105,8 +109,11 @@ class iOSBase(HKIOSPaymentMixin):
         :return: 文本列表（去重保序），读取或解析失败返回空列表。
         """
         from ui_framework.JRYG_page_monitor import IOSPage
+        ensure_unlocked(client)
         try:
-            return list(IOSPage(client.source(format="xml")).texts)
+            page = IOSPage(client.source(format="xml"))
+            remember_foreground(client, page.root)
+            return list(page.texts)
         except Exception as e:
             logger.warning(f"获取页面文本失败: {e}")
             return []
@@ -268,7 +275,10 @@ class iOSBase(HKIOSPaymentMixin):
         """
         monitor = self._ios_ensure_monitor()
         state = monitor.inspect().state
-        return state in ("login_phone_input", "login_code_input")
+        unlogged = state in ("mine_unlogged", "login_phone_input", "login_code_input")
+        if unlogged:
+            self._passenger_verified_phone = None
+        return unlogged
 
     def _ios_dismiss_privacy_agreement(self):
         """检测并处理隐私协议弹框（点击"同意"）。
@@ -287,6 +297,24 @@ class iOSBase(HKIOSPaymentMixin):
                 self.client.click(int(0.75 * 393), int(0.85 * 852))
             time.sleep(3)
 
+    def _ios_login_page(self, monitor):
+        ensure_unlocked(self.client, resume_bundle=E.PASSENGER_BUNDLE_ID)
+        current = self.client.http.get("/wda/activeAppInfo", timeout=5).value
+        if not isinstance(current, dict) or current.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+            raise RuntimeError("乘客App不在前台，停止登录，不向其他App输入凭据")
+        return monitor.inspect()
+
+    def _ios_verify_passenger_account(self, page, phone, tag):
+        if page.state != "mine_logged" or not page.matches_account(phone):
+            raise RuntimeError("乘客登录账号与测试账号不匹配，停止下单，不自动切换账号")
+        self._passenger_verified_phone = phone
+        logger.info("【%s】已在个人中心核验乘客测试账号，无需重复登录", tag)
+        monitor = self._ios_ensure_monitor()
+        if not monitor.click_text(self.client, "主頁", "首頁", "首页", "主頁，標籤頁", "首頁，標籤頁"):
+            raise RuntimeError("乘客账号已核验，但未找到返回首页入口，停止下单")
+        monitor.wait_for("账号核验后返回首页", lambda item: item.state == "home_unlogged", timeout=15)
+        return True
+
     def _ios_ui_login(self, phone=None, code=None, tag="登录"):
         """执行完整的 UI 登录流程（手机号 + 验证码），基于 IOSPageMonitor 状态机。
 
@@ -300,17 +328,23 @@ class iOSBase(HKIOSPaymentMixin):
         :param tag: 日志标签。
         :return: True 表示登录成功并进入首页，False 表示登录失败。
         """
-        phone = phone or self.LOGIN_PHONE
-        code = code or self.LOGIN_CODE
+        phone = phone or os.environ.get("HK_PASSENGER_MOBILE") or self.LOGIN_PHONE
+        code = code or os.environ.get("HK_PASSENGER_UI_CODE") or self.LOGIN_CODE
+        if not re.fullmatch(r"[0-9]{8}", phone) or not re.fullmatch(r"[0-9]{6}", code):
+            raise RuntimeError("乘客自动登录需要8位测试手机号和6位测试验证码")
         client = self.client
         monitor = self._ios_ensure_monitor()
+        phone_submitted = code_submitted = entry_opened = mine_opened = False
 
         deadline = time.monotonic() + 120
         last_state = None
         state_since = time.monotonic()
 
         for cycle in range(30):
-            state = monitor.inspect().state
+            page = self._ios_login_page(monitor)
+            state = page.state
+            if state in ("mine_unlogged", "login_phone_input", "login_code_input"):
+                self._passenger_verified_phone = None
             now = time.monotonic()
             if state != last_state:
                 last_state, state_since = state, now
@@ -346,8 +380,21 @@ class iOSBase(HKIOSPaymentMixin):
                 monitor.dismiss_activity_popup(client)
                 continue
 
+            if state == "mine_unlogged":
+                if entry_opened:
+                    return False
+                entry_opened = True
+                if not monitor.click_text(client, "登錄/註冊", "登录/注册", "登入/註冊"):
+                    return False
+                monitor.wait_for("打开乘客登录输入页", lambda item: item.state in (
+                    "login_phone_input", "login_code_input"), timeout=15)
+                continue
+
             # ---- 手机号输入页 ----
             if state == "login_phone_input":
+                if phone_submitted:
+                    logger.warning("【%s】手机号已提交但页面未完成切换，停止，不重复发送短信", tag)
+                    return False
                 logger.info(f"【{tag}】在手机号输入页：输入手机号、获取验证码...")
                 # 输入手机号
                 phone_field = client(type="TextField")
@@ -356,6 +403,8 @@ class iOSBase(HKIOSPaymentMixin):
                     phone_field.clear_text()
                     client.send_keys(phone)
                     time.sleep(1)
+                else:
+                    return False
 
                 # 勾选协议（精确匹配，避免误点"不同意"）
                 # 手机号输入页的协议复选框通常含"已閱讀"文字
@@ -365,8 +414,9 @@ class iOSBase(HKIOSPaymentMixin):
                     time.sleep(1)
 
                 # 点击"取得驗證碼"
-                if not monitor.click_text(client, "取得驗證碼"):
-                    monitor.click_text(client, "获取验证码")
+                phone_submitted = True
+                if not monitor.click_text(client, "取得驗證碼", "获取验证码", "獲取驗證碼"):
+                    return False
 
                 # 等待进入验证码页或隐私协议页
                 try:
@@ -377,11 +427,16 @@ class iOSBase(HKIOSPaymentMixin):
                     )
                 except AssertionError:
                     logger.warning(f"【{tag}】点击'取得驗證碼'后未进入验证码页")
+                    return False
                 continue
 
             # ---- 验证码输入页 ----
             if state == "login_code_input":
-                logger.info(f"【{tag}】在验证码输入页：输入验证码 {code}...")
+                if code_submitted:
+                    logger.warning("【%s】验证码已提交但未完成登录，停止，不重复输入", tag)
+                    return False
+                code_submitted = True
+                logger.info(f"【{tag}】在验证码输入页：输入测试验证码...")
                 # 先尝试标准 TextField（焦点连续时有效）
                 code_field = client(type="TextField")
                 if code_field.exists:
@@ -394,8 +449,9 @@ class iOSBase(HKIOSPaymentMixin):
                     logger.info(f"【{tag}】无 TextField，通过键盘逐个输入验证码...")
                     for digit in code:
                         key_el = client(xpath=f'//XCUIElementTypeKey[@label="{digit}"]')
-                        if key_el.exists:
-                            key_el.tap()
+                        if not key_el.exists:
+                            return False
+                        key_el.tap()
                         time.sleep(0.3)
 
                 # 等待登录完成（进入首页/个人中心/活动弹窗）
@@ -411,26 +467,26 @@ class iOSBase(HKIOSPaymentMixin):
                     )
                 except AssertionError:
                     logger.warning(f"【{tag}】验证码提交后未离开验证码页")
+                    return False
+                mine_opened = False
                 continue
 
             # ---- 已登录状态（个人中心） ----
             if state == "mine_logged":
-                logger.info(f"【{tag}】登录成功，已在个人中心确认登录态")
-                self._ios_screenshot("JRYG_ios_login_success.png")
-                return True
+                return self._ios_verify_passenger_account(page, phone, tag)
 
-            # ---- 首页（已登录或未登录） ----
-            if state == "home_unlogged":
-                # 首页说明已登录成功（跳转回来了）
-                logger.info(f"【{tag}】登录成功，已进入首页")
-                self._ios_screenshot("JRYG_ios_login_success.png")
-                return True
-
-            # ---- 路线选择页（登录后直接回到下单流程） ----
-            if state == "route_selected":
-                logger.info(f"【{tag}】登录成功，已回到下单页面")
-                self._ios_screenshot("JRYG_ios_login_success.png")
-                return True
+            if state in ("home_unlogged", "route_selected"):
+                if state == "route_selected" and getattr(self, "_passenger_verified_phone", None) == phone:
+                    return True
+                if mine_opened:
+                    logger.warning("【%s】个人中心登录核验未完成，停止下单", tag)
+                    return False
+                mine_opened = True
+                if not monitor.click_text(client, "我的", "個人中心", "个人中心", "我的，標籤頁"):
+                    return False
+                monitor.wait_for("打开乘客个人中心核验登录", lambda item: item.state in (
+                    "mine_logged", "mine_unlogged", "login_phone_input", "login_code_input"), timeout=15)
+                continue
 
             # ---- 订单进行中（登录后回到进行中订单页） ----
             if state == "order_active":
@@ -457,20 +513,22 @@ class iOSBase(HKIOSPaymentMixin):
         return False
 
     def _ios_ensure_logged_in(self, tag="登录"):
-        """确保 App 处于已登录状态，未登录则执行 UI 登录。
-
-        检测当前页面：
-        - 在登录页 → 执行 UI 登录流程
-        - 不在登录页 → 认为已登录，直接返回
-
-        :param tag: 日志标签。
-        :return: True 表示已登录或登录成功，False 表示登录失败。
-        """
-        if self._ios_is_login_page():
-            logger.info(f"【{tag}】检测到未登录（当前在登录页），执行 UI 登录...")
-            return self._ios_ui_login(tag=tag)
-        logger.info(f"【{tag}】已处于登录状态，无需登录")
-        return True
+        """已登录跳过输入，游客首页核验个人中心，未登录调用现有UI登录方法。"""
+        phone = os.environ.get("HK_PASSENGER_MOBILE") or self.LOGIN_PHONE
+        monitor = self._ios_ensure_monitor()
+        page = self._ios_login_page(monitor)
+        if page.state == "mine_logged":
+            return self._ios_verify_passenger_account(page, phone, tag)
+        if page.state == "order_active":
+            logger.info("【%s】乘客已有进行中订单，保留页面，不重新登录或下单", tag)
+            return True
+        if page.state == "route_selected" and getattr(self, "_passenger_verified_phone", None) == phone:
+            return True
+        if page.state == "unknown":
+            logger.error("【%s】无法确认乘客登录态，停止下单", tag)
+            return False
+        logger.info("【%s】核验乘客登录态，需要时调用现有UI登录方法", tag)
+        return self._ios_ui_login(tag=tag)
 
     # ==================== 地址搜索 ====================
 
@@ -796,6 +854,8 @@ class iOSBase(HKIOSPaymentMixin):
     def _ios_launch_setup_and_addresses(self, tag, start_addr="", end_addr=""):
         """初始下单：启动清理后配置起终点；当前页重选不得调用此启动入口。"""
         self._ios_prepare_passenger_app(tag)
+        if not self._ios_ensure_logged_in(tag=tag):
+            raise RuntimeError("乘客自动登录失败，停止配置地址和下单")
         self._ios_configure_addresses(tag, start_addr, end_addr)
 
     def _ios_prepare_passenger_app(self, tag, *, launch_wait=10, alert_wait=2):
@@ -804,6 +864,7 @@ class iOSBase(HKIOSPaymentMixin):
         正常下单保留10秒启动/2秒权限等待；预清理传8秒/1秒。
         仅清理启动遮挡，不取消订单、不登录、不支付，也不重置司机状态。
         """
+        ensure_unlocked(self.client)
         # 步骤 1：回到桌面
         logger.info(f"【{tag} 步骤 1】正在回到桌面...")
         self.client.home()
@@ -1356,32 +1417,65 @@ class iOSBase(HKIOSPaymentMixin):
         except RuntimeError:
             return None
 
-    def _ios_wait_otp_ready(self, tag, wait_seconds=30):
-        """只读等待同表单唯一可用OTP元素，预算共用；等待期间不聚焦、输入或付款。"""
+    @staticmethod
+    def _ios_otp_loading_reason(root):
+        visible = [node for node in root.iter() if node.get("visible") == "true"]
+        texts = {(node.get("label") or node.get("name") or "") for node in visible
+                 if node.tag in ("XCUIElementTypeStaticText", "XCUIElementTypeTextView")}
+        has_field = any(node.tag in ("XCUIElementTypeTextField", "XCUIElementTypeSecureTextField")
+                        for node in visible)
+        if (texts & {"安全結帳", "安全结账"} and not has_field
+                and not texts & {"Sandbox Test Page", "One-Time Password (OTP)"}):
+            return "安全結帳内容未加载（未出现OTP标题或输入框）"
+        if not has_field:
+            return "OTP输入框未出现"
+        return "OTP表单标识、输入框唯一性或可用性未通过核验"
+
+    def _ios_wait_otp_ready(self, tag, wait_seconds=90):
+        """只读等待同表单唯一可用OTP元素；白屏不点击、刷新或重付。"""
+        if not isinstance(wait_seconds, (int, float)) or not 0 < wait_seconds <= 180:
+            raise ValueError("OTP只读等待时限必须在0到180秒之间")
         deadline = time.monotonic() + wait_seconds
         next_log = time.monotonic()
+        reason = "尚未取得支付页面"
         logger.info("【%s】等待OTP表单及输入框就绪，最多%s秒，期间不输入或提交", tag, wait_seconds)
         while time.monotonic() < deadline:
+            ensure_unlocked(self.client, deadline=deadline)
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
             try:
-                root = ET.fromstring(self.client.source(format="xml"))
-            except Exception:
+                xml = self.client.http.get("/source?format=xml", timeout=min(5, remaining)).value
+                root = ET.fromstring(xml)
+            except ET.ParseError:
                 root = None
+                reason = "支付页面控件树尚不完整"
+            except Exception as exc:
+                root = None
+                reason = f"WDA页面读取失败（{type(exc).__name__}）"
             if root is not None:
+                remember_foreground(self.client, root)
                 form = self._ios_otp_readiness(root)
-                if form is not None:
+                reason = self._ios_otp_loading_reason(root)
+                if form is not None and time.monotonic() < deadline:
                     field_xpath, verify_xpath, placeholder = form
                     try:
                         fields = self.client(xpath=field_xpath).find_elements()
                         ready = len(fields) == 1 and fields[0].displayed and fields[0].enabled
                     except Exception:
                         ready = False
+                        reason = "WDA目标OTP元素读取失败"
+                    else:
+                        reason = "WDA目标OTP元素尚不唯一、可见或启用"
                     if ready and time.monotonic() < deadline:
                         return fields[0], verify_xpath, placeholder
             if time.monotonic() >= next_log:
-                logger.info("【%s】OTP表单或控件树尚未就绪，仅等待，剩余%.0f秒", tag, max(0, deadline - time.monotonic()))
+                logger.info("【%s】%s；仅等待，剩余%.0f秒", tag, reason, max(0, deadline - time.monotonic()))
                 next_log = time.monotonic() + 5
             time.sleep(min(0.5, max(0, deadline - time.monotonic())))
-        raise TimeoutError(f"{tag}: OTP表单或唯一可见启用输入框在{wait_seconds}秒内未就绪，未清空、输入或提交验证")
+        raise TimeoutError(
+            f"{tag}: {reason}，{wait_seconds}秒内OTP未就绪；未清空、输入或提交验证。"
+            "支付请求已发出但结果未确认，请先核对当前交易状态，不要直接重付")
 
     def _ios_handle_otp_page(self, tag):
         """有界等待沙箱OTP框就绪，元素级清空输入并回读确认后，仅提交一次验证。"""

@@ -369,10 +369,8 @@ class TestOrderBase(iOSBase):
                 login_ok = self._ios_ui_login(tag=tag)
 
                 if not login_ok:
-                    logger.error(f"【{tag}】UI 登录失败")
-                    if attempt >= max_retry - 1:
-                        return False
-                    continue
+                    logger.error(f"【{tag}】UI 登录失败，停止，不重复呼叫或发送验证码")
+                    return False
 
                 if attempt < max_retry - 1:
                     logger.info(f"【{tag}】登录成功，从当前页面重新走下单流程...")
@@ -443,7 +441,8 @@ class TestOrderBase(iOSBase):
                 if self._ios_is_login_page() and attempt < max_retry - 1:
                     logger.warning(
                         f"【{tag}】下单失败且页面在登录页，执行 UI 登录后重试...")
-                    self._ios_ui_login(tag=tag)
+                    if not self._ios_ui_login(tag=tag):
+                        return False
                     time.sleep(3)
                     self._ios_re_setup_from_current_page(
                         tag, E.DEFAULT_START_ADDRESS, current_end)
@@ -568,6 +567,8 @@ class TestOrderBase(iOSBase):
         """
         # 共用启动遮挡清理，遗留订单取消和登录判断仍留在本编排中。
         self._ios_prepare_passenger_app(tag, launch_wait=8, alert_wait=1)
+        if not self._ios_ensure_logged_in(tag=tag):
+            raise RuntimeError("乘客自动登录失败，停止遗留订单处理和下单")
 
         page_texts = self._ios_get_all_texts(self.client)
         logger.info(f"【{tag}】预清理: 当前页面文本: {page_texts[:200]}")
@@ -638,7 +639,8 @@ class TestOrderBase(iOSBase):
                     ["稍後", "稍后", "關閉", "关闭"], tag=tag, wait_after=2)
 
         # 情况 2：检测登录页
-        self._ios_ensure_logged_in(tag=tag)
+        if not self._ios_ensure_logged_in(tag=tag):
+            raise RuntimeError("乘客登录态未确认，停止下单")
 
         self.client.home()
         time.sleep(2)

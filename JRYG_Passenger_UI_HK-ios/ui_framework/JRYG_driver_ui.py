@@ -24,6 +24,7 @@ import xml.etree.ElementTree as ET
 
 import wda
 from ui_framework.JRYG_logger import get_logger
+from ui_framework.JRYG_device_guard import ensure_unlocked
 
 
 BUNDLE_ID = "com.sunlightmobility.driver"
@@ -51,6 +52,10 @@ LOG = get_logger("JRYG_driver_ui")
 
 class DriverAppNotForegroundError(RuntimeError):
     """司机不在页面树前台；仅主动切换App的准备阶段允许有界等待。"""
+
+
+class DriverPageReadError(RuntimeError):
+    """页面传输失败，不作为业务等待超时触发重滑或再次提交。"""
 
 
 def visible_nodes(root):
@@ -127,7 +132,8 @@ def detect_phase(root, accept_labels=ACCEPT_LABELS):
     texts = {node_text(node) for node in visible_nodes(root)}
     if texts.intersection({"獲取網絡/位置信息異常", "获取网络/位置信息异常"}):
         return "network_location_error"
-    if "歡迎登錄/註冊陽光司機版" in texts:
+    if ("歡迎登錄/註冊陽光司機版" in texts
+            or {"登錄/註冊", "註冊需要材料"}.issubset(texts)):
         return "login"
     if "請輸入驗證碼" in texts:
         return "code"
@@ -260,9 +266,29 @@ class DriverUIFlow:
         self.snapshot("driver_entry_navigation_timeout")
         raise TimeoutError("司机准备页恢复超时：历史列表返回未生效或仍为未知页；未重复返回或推进订单")
 
-    def root(self):
-        """读取司机页面树并强制验证司机App在前台，切到乘客或其他App时停止。"""
-        root = ET.fromstring(self.client.source(format="xml"))
+    def _read_page_value(self, endpoint, deadline):
+        timeout = min(20, self.args.step_timeout, deadline - time.monotonic())
+        if timeout <= 0:
+            raise DriverPageReadError("司机页面读取预算已耗尽，停止操作；不重滑或重提交")
+        try:
+            return self.client.http.get(endpoint, timeout=timeout).value
+        except Exception as exc:
+            raise DriverPageReadError(
+                f"WDA读取{endpoint}失败（{type(exc).__name__}），停止操作；不重启App或重提交") from exc
+
+    def root(self, read_deadline=None):
+        """先核对轻量前台信息，再读取XML；切换未完成时不采集旧App控件树。"""
+        deadline = time.monotonic() + min(20, self.args.step_timeout)
+        if self.deadline is not None:
+            deadline = min(deadline, self.deadline)
+        if read_deadline is not None:
+            deadline = min(deadline, read_deadline)
+        ensure_unlocked(self.client, deadline=deadline, resume_bundle=BUNDLE_ID)
+        current = self._read_page_value("/wda/activeAppInfo", deadline)
+        if not isinstance(current, dict) or current.get("bundleId") != BUNDLE_ID:
+            current_bundle = current.get("bundleId") if isinstance(current, dict) else "未取得前台App"
+            raise DriverAppNotForegroundError(f"司机 App 尚不在前台（当前：{current_bundle}），不读取旧App控件树")
+        root = ET.fromstring(self._read_page_value("/source?format=xml", deadline))
         applications = [node for node in root.iter() if node.tag == "XCUIElementTypeApplication"]
         if not applications or applications[0].get("bundleId") != BUNDLE_ID:
             current_bundle = applications[0].get("bundleId") if applications else "未取得App节点"
@@ -276,12 +302,13 @@ class DriverUIFlow:
         准备完成后root仍严格检查前台；不能以移除校验容忍中途切到其他App。
         """
         deadline = min(self.deadline, time.monotonic() + self.args.step_timeout)
+        ensure_unlocked(self.client, deadline=deadline)
         self.client.app_activate(BUNDLE_ID)
         LOG.info("已请求打开司机 App，等待前台页面就绪，最多%s秒", self.args.step_timeout)
         last_error = None
         while time.monotonic() < deadline:
             try:
-                self.root()
+                self.root(read_deadline=deadline)
             except (DriverAppNotForegroundError, ET.ParseError) as exc:
                 last_error = exc
             else:
@@ -390,10 +417,29 @@ class DriverUIFlow:
         if done is not None:
             self.client.click(*center(done))
 
+    def _validate_login_settings(self, *, require_mobile=False):
+        if require_mobile and not re.fullmatch(r"[0-9]{8}", self.args.mobile or ""):
+            raise RuntimeError("司机自动登录需要8位测试手机号，请配置 HK_DRIVER_MOBILE 或 --mobile")
+        if not re.fullmatch(r"[0-9]{6}", self.args.code or ""):
+            raise RuntimeError("司机自动登录需要6位测试验证码，请配置 HK_DRIVER_UI_CODE 或 --code")
+
     def login(self, root):
-        """仅使用显式测试手机号完成UI登录并确认结果，不获取业务接口会话。"""
-        if not self.args.mobile:
-            raise RuntimeError("司机尚未登录，请传入 --mobile 或先手工登录")
+        """使用测试凭据自动登录，支持注册入口；登录后只读确认，不推进已有行程。"""
+        self._validate_login_settings(require_mobile=True)
+        entry = find_label(root, ("登錄/註冊", "登录/注册", "登入/註冊"))
+        if entry is not None:
+            self.act(root, (node_text(entry),))
+            deadline = min(self.deadline, time.monotonic() + self.args.step_timeout)
+            while time.monotonic() < deadline:
+                root = self.root(read_deadline=deadline)
+                fields = [node for node in visible_nodes(root)
+                          if node.tag == "XCUIElementTypeTextField"
+                          and node.get("placeholderValue") == "請輸入手機號碼"]
+                if len(fields) == 1:
+                    break
+                time.sleep(self.args.interval)
+            else:
+                raise RuntimeError("司机登录入口未进入手机号页，停止登录，不重复点击")
         self.fill(root, "請輸入手機號碼", self.args.mobile)
         root = self.root()
         unchecked = find_label(root, ("ca icon dl wxz",))
@@ -401,20 +447,19 @@ class DriverUIFlow:
             self.client.click(*center(unchecked))
         self.dismiss_keyboard()
         self.act(self.root(), ("下一步",))
-        root, phase = self.wait_for({"code", "offline", "online", "pickup"})
+        root, phase = self.wait_for({"code", "offline", "online", "offer", "complete"} | ACTIVE_ORDER_PHASES)
         if phase == "code":
             self.enter_code(root)
 
     def enter_code(self, root):
         """只向已识别的六格验证码区域输入显式测试验证码，缺配置停止。"""
-        if not self.args.code:
-            raise RuntimeError("请手工输入验证码，或通过 HK_DRIVER_UI_CODE 配置测试验证码")
+        self._validate_login_settings()
         cells = [node for node in visible_nodes(root) if node.tag == "XCUIElementTypeCell"]
         if len(cells) != 6:
             raise RuntimeError("验证码输入区域未识别，停止操作")
         self.client.click(*center(cells[0]))
         self.client.send_keys(self.args.code)
-        self.wait_for({"offline", "online", "pickup"})
+        self.wait_for({"offline", "online", "offer", "complete"} | ACTIVE_ORDER_PHASES)
 
     def enter_tail(self, root):
         """使用显式乘客尾号验证，唯一输入框确认后才推进到送乘客阶段。"""
@@ -489,7 +534,14 @@ class DriverUIFlow:
         self._activate_driver_app()
         root, phase = self.wait_for_entry_page()
         if phase in ("login", "code"):
-            raise RuntimeError("司机 App 尚未登录，请先登录；本流程只打开 App 和出车")
+            LOG.info("司机 App 未登录，调用现有UI登录方法")
+            if phase == "login":
+                self.login(root)
+            else:
+                self.enter_code(root)
+            root, phase = self.wait_for_entry_page()
+            if phase in ("login", "code"):
+                raise RuntimeError("司机自动登录未成功，停止出车和下单，不重复发送验证码")
         if resume_existing and phase in ACTIVE_ORDER_PHASES:
             self.last_phase = self.resume_phase = phase
             if phase == "unpaid":
@@ -537,6 +589,8 @@ class DriverUIFlow:
             self._activate_driver_app()
             _, phase = self.wait_for(set(PHASE_NAMES))
             LOG.info("司机 App 状态：%s；未出车、未接单、未收款", PHASE_NAMES[phase])
+            if phase == "unknown":
+                self.snapshot("driver_inspect_unknown")
             return
         if self.args.stop_after == "online":
             self.ensure_online()
@@ -678,11 +732,15 @@ def parser(wda_url=None):
     """构建司机UI命令参数，复用运行配置与金额/超时校验，不启动设备动作。"""
     result = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     from ui_framework.JRYG_driver_runtime import resolve_runtime
+    from ui_framework.JRYG_config import SETTINGS
 
+    driver_settings = SETTINGS.get("driver", {})
     result.add_argument("--wda-url", default=resolve_runtime().wda_url if wda_url is None else wda_url)
     result.add_argument("--inspect", action="store_true", help="只打开司机 App 并检查状态")
-    result.add_argument("--mobile", default=os.environ.get("HK_DRIVER_MOBILE"), help="登录手机号，已有登录态时无需传入")
-    result.add_argument("--code", default=os.environ.get("HK_DRIVER_UI_CODE"), help="测试验证码，不写入日志")
+    result.add_argument("--mobile", default=os.environ.get("HK_DRIVER_MOBILE") or str(driver_settings.get("mobile") or ""),
+                        help="司机测试手机号，环境变量优先于配置；已登录无需输入")
+    result.add_argument("--code", default=os.environ.get("HK_DRIVER_UI_CODE") or str(driver_settings.get("code") or ""),
+                        help="司机测试验证码，环境变量优先于配置；不写入日志")
     result.add_argument("--tail", default=os.environ.get("HK_DRIVER_PASSENGER_TAIL"), help="出现乘客尾号验证时使用的四位测试尾号")
     result.add_argument("--stop-after", choices=("online", "accepted", "pickup", "onboard", "destination", "bill", "submitted", "complete"),
                         default="online", help="accepted 仅接单后停止；submitted 提交账单后暂停等待乘客支付")
