@@ -17,12 +17,12 @@ import sys
 import os
 import argparse
 
-# 将项目根目录添加到 sys.path，确保 common 模块可被正确导入
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# 将项目根目录添加到 sys.path，确保主目录模块可被正确导入
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from JRYG_Passenger_API_HK.common.redis_cache_cleaner import (
+from 清Redis缓存 import (
     clean_driver_cache,
     list_driver_cache,
     resolve_env,
@@ -35,6 +35,7 @@ def prompt_env():
     """交互式选择 Redis 环境。
 
     打印环境列表，等待用户输入序号，返回选中的环境标识。
+    支持输入序号（如 1）或环境标识（如 香港-test），回车使用默认环境。
     """
     env_keys = list(ENVIRONMENTS.keys())
     print("=" * 50)
@@ -73,7 +74,15 @@ def prompt_env():
 
 
 def main():
-    """命令行入口。"""
+    """命令行入口：解析参数→选环境→清理或查看 Redis 缓存。
+
+    支持的模式：
+      - 默认：交互式选环境后清理全部 driver 缓存
+      - --env 大陆-test6：直接指定环境
+      - --list：只查看不删除
+      - --driver-id 31：只清理指定司机
+      - --quiet：不打印每个 key
+    """
     env_choices = list(ENVIRONMENTS.keys())
     env_help = "\n".join(
         f"  {key:<12} {ENVIRONMENTS[key]['name']}  "

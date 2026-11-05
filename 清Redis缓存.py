@@ -76,7 +76,12 @@ def resolve_env(env=None):
 
 
 def get_redis_client(env=None):
-    """获取指定环境的 Redis 连接。"""
+    """获取指定环境的 Redis 连接。
+
+    :param env: 环境标识，None 使用默认环境
+    :return: redis.Redis 客户端实例
+    :note: protocol=2 强制使用 RESP2 协议，兼容低版本 Redis（避免 HELLO 命令报错）
+    """
     conf = resolve_env(env)
     return redis.Redis(
         host=conf["host"],
@@ -86,11 +91,17 @@ def get_redis_client(env=None):
         decode_responses=True,
         socket_connect_timeout=5,
         socket_timeout=10,
+        protocol=2,
     )
 
 
 def _ping_or_raise(r, conf):
-    """执行 PING，连接失败时抛出带提示信息的异常。"""
+    """执行 PING 检查 Redis 连接，失败时抛出带环境信息的异常。
+
+    :param r: redis.Redis 客户端
+    :param conf: 环境配置字典（含 name/host/port）
+    :raises ConnectionError: 连接失败或认证失败，提示检查网络/VPN/密码
+    """
     try:
         r.ping()
     except redis.exceptions.ConnectionError as e:
@@ -139,7 +150,11 @@ def clean_driver_cache(driver_id=None, verbose=True, env=None):
 
 
 def list_driver_cache(env=None):
-    """列出指定环境当前所有 driver 缓存 key（不删除）。"""
+    """列出指定环境当前所有 driver 缓存 key（不删除）。
+
+    按 DRIVER_CACHE_PATTERNS 中的模式扫描，自动识别 value 类型并打印内容。
+    用于清理前预览或排查缓存残留。
+    """
     conf = resolve_env(env)
     r = get_redis_client(env)
     _ping_or_raise(r, conf)

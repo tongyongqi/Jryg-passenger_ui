@@ -41,7 +41,7 @@ from JRYG_Passenger_API_HK.cases.JRYG_test_hk_api import HKApiClient
 from JRYG_Passenger_API_HK.cases.JRYG_test_hk_driver_api import HKDriverApiClient, DRIVER_LATITUDE, DRIVER_LONGITUDE
 from JRYG_Passenger_API_HK.common.JRYG_logger import logger
 from JRYG_Passenger_API_HK.common.jryg_socket_client import JRYGSocketClient
-from JRYG_Passenger_API_HK.common.redis_cache_cleaner import clean_driver_cache
+from 清Redis缓存 import clean_driver_cache
 from JRYG_Passenger_API_HK.common.hk_config import config
 
 # 搜索关键词（从统一配置读取，支持环境变量覆盖）
