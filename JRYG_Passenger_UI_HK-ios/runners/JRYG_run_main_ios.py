@@ -35,7 +35,7 @@ if BASE_DIR not in sys.path:
 # 导入目录初始化函数，确保运行前报告/日志/截图/配置目录已存在
 from ui_framework.JRYG_dir_init import init_all_dirs
 # 导入报告输出目录路径
-from ui_framework.JRYG_config import REPORT_DIR
+from ui_framework.JRYG_config import REPORT_DIR, SETTINGS
 
 
 class CompletedOrderGate:
@@ -131,6 +131,15 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
                 if index < len(case_files):
                     print("[等待] 用例间隔10秒，之后才启动下一例。", flush=True)
                     time.sleep(10)
+                    # 间隔后唤醒iPhone屏幕，防止自动锁屏导致下一例失败
+                    if platform == "ios":
+                        try:
+                            from ui_framework.JRYG_device_guard import ensure_unlocked
+                            import wda
+                            wda_url = SETTINGS["device"].get("wda_url", "http://127.0.0.1:8100")
+                            ensure_unlocked(wda.Client(wda_url))
+                        except Exception as exc:
+                            print(f"[唤醒] 间隔唤醒失败（{type(exc).__name__}），继续尝试下一例", flush=True)
             else:
                 exit_code = 0
         except KeyboardInterrupt:

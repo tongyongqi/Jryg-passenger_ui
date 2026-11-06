@@ -55,7 +55,18 @@ def read_android_fixed_fare(root):
 
 
 class AndroidDriverUIFlow(DriverUIFlow):
-    """共享司机状态机的Android原生动作适配，不使用司机业务接口。"""
+    """共享司机状态机的Android原生动作适配，不使用司机业务接口。
+
+    不管执行到哪个阶段，如果设备熄屏，唤醒后继续执行，不中断测试。
+    """
+
+    def root(self, read_deadline=None):
+        """读取页面前先检测 Android 设备熄屏并唤醒，不管执行到哪个阶段。"""
+        udid = getattr(self.client, "_udid", None) or getattr(self.client, "udid", None)
+        if udid:
+            from .JRYG_android_device_guard import ensure_unlocked as _ensure_unlocked
+            _ensure_unlocked(udid)
+        return super().root(read_deadline)
 
     def detect_phase(self, root):
         """先用共享识别规则；未知页才按真实Android滑块补识别出发阶段。"""

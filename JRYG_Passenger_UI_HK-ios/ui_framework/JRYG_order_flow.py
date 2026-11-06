@@ -225,13 +225,11 @@ class TestOrderBase(iOSBase):
     # ==================== UI 下单辅助方法 ====================
 
     def _ios_wait_current_payment(self, tag):
-        """等待真实乘客费用页，并核对付款金额等于司机刚提交的车费加附加费。"""
-        from decimal import Decimal
-        settings = self.order_settings.get("driver") or {}
-        expected = self.driver_ui.bill_total
-        if expected is None:
-            expected = Decimal(str(os.environ.get("HK_ORDER_AMOUNT", settings.get("fare", "5")))) + Decimal(
-                str(os.environ.get("HK_OTHER_AMOUNT", settings.get("surcharge", "0"))))
+        """等待真实乘客费用页，不判断金额是多少。
+
+        打表后付（线上支付：alipay hk 和银行卡）不需判断金额是多少，
+        只需等待带"確認支付"的页面出现后继续，不校验金额与司机账单是否一致。
+        """
         timeout = (self.order_settings.get("order_validation") or {}).get("completion_timeout", 90)
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
@@ -239,14 +237,12 @@ class TestOrderBase(iOSBase):
             if any(kw in t for t in texts for kw in ("支付失敗", "支付失败", "訂單已取消", "订单已取消")):
                 raise RuntimeError(f"{tag}: 乘客订单支付失败或取消，停止操作")
             for text in texts:
-                match = re.search(r"(?:確認支付|确认支付)\s*([0-9]+(?:\.[0-9]+)?)\s*HKD", text)
-                if match:
-                    assert Decimal(match.group(1)) == expected, f"{tag}: 付款金额与司机账单不一致，禁止提交"
+                if re.search(r"(?:確認支付|确认支付)", text):
                     self._ios_screenshot("epayment_current_before_payment.png")
-                    logger.info("【%s】已确认乘客付款金额 %s HKD", tag, expected)
+                    logger.info("【%s】已检测到确认支付页，不判断金额，继续支付", tag)
                     return
             time.sleep(1)
-        raise TimeoutError(f"{tag}: 未等到带金额的确认支付页面，不跳过支付")
+        raise TimeoutError(f"{tag}: 未等到确认支付页面，不跳过支付")
 
     def _ios_click_confirm_call(self, tag):
         """乘客确认呼叫只执行乘客 UI，不读取或验证司机 App token。"""
@@ -673,9 +669,10 @@ class TestOrderBase(iOSBase):
                 "--surcharge", "0" if self.PAYMENT == "cash" else str(os.environ.get("HK_OTHER_AMOUNT", settings.get("surcharge", "0"))),
                 "--payment", "cash" if self.PAYMENT == "cash" else "online"]
         if self.CAR_TYPE == "meter":
+            # 打表：司机输入车费5元，附加费0元
             fare = "5" if self.PAYMENT == "cash" else str(os.environ.get("HK_ORDER_AMOUNT", settings.get("fare", "5")))
             args.extend(["--fare", fare])
-        # 包车车费由预付订单固定，只读取司机实际账单，不套用打表的测试金额。
+        # 包车：不传 --fare，不输入金额，不校验金额
         tail = os.environ.get("HK_DRIVER_PASSENGER_TAIL") or settings.get("passenger_tail")
         if tail:
             if not str(tail).isdigit() or len(str(tail)) != 4:

@@ -1101,9 +1101,15 @@ def select_in_terminal(title: str, values: Sequence[str], multiple: bool = False
     keyword = ""
     while True:
         visible = [v for v in values if keyword.lower() in v.lower()] if keyword else list(values)
-        print(f"\n{title}" + (f"（搜索：{keyword}，共 {len(visible)} 个）" if keyword else ""))
+        print("")
+        print("=" * 50)
+        print(f"{title}")
+        if keyword:
+            print(f"（搜索：{keyword}，共 {len(visible)} 个）")
+        print("=" * 50)
         for index, value in enumerate(visible, 1):
-            print(f"{index:03d}. {value}")
+            print(f"  {index:03d}. {value}")
+        print("=" * 50)
         extra = "，可输入多个编号/名称、1-3或all全选" if multiple else ""
         print(f"输入编号或名称{extra}；直接输入关键词筛选；/恢复全部，q退出")
         text = input("请选择：").strip()
@@ -1170,13 +1176,18 @@ def select_services_in_terminal(values: Sequence[str],
         else:
             visible = list(values)
         heading = f"搜索结果：{keyword}（{len(visible)} 个）" if keyword else "全部服务列表"
-        print(f"\n{heading}")
+        print("")
+        print("=" * 55)
+        print(f"  {heading}")
+        print("=" * 55)
         for index, value in enumerate(visible, 1):
             mark = "已选" if value in selected else "    "
-            print(f"{index:03d}. [{mark}] {value}")
-        print(f"已选 {len(selected)} 个：{', '.join(selected) or '无'}")
-        print("输入关键词搜索，如 passenger；编号多选，如 1,3 或 1-3；all选当前列表")
-        print("done或回车完成；remove 编号移除；clear清空；/返回全部；q退出")
+            print(f"  {index:03d}. [{mark}] {value}")
+        print("=" * 55)
+        print(f"  已选 {len(selected)} 个：{', '.join(selected) or '无'}")
+        print("")
+        print("  输入关键词搜索，如 passenger；编号多选，如 1,3 或 1-3；all选当前列表")
+        print("  done或回车完成；remove 编号移除；clear清空；/返回全部；q退出")
         text = input("选择服务：").strip()
         command = text.lower()
         if command == "q":

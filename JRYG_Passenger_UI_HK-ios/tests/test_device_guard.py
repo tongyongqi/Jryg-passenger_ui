@@ -16,6 +16,10 @@ def clock(monkeypatch):
     state = SimpleNamespace(now=0)
     monkeypatch.setattr(guard.time, "monotonic", lambda: state.now)
     monkeypatch.setattr(guard.time, "sleep", lambda seconds: setattr(state, "now", state.now + seconds))
+    # Mac 防休眠在单元测试中 mock 为空操作，不执行真实系统命令
+    monkeypatch.setattr(guard, "ensure_mac_awake", lambda: True)
+    monkeypatch.setattr(guard, "mac_prevent_sleep", lambda: None)
+    monkeypatch.setattr(guard, "mac_stop_prevent_sleep", lambda: None)
     return state
 
 

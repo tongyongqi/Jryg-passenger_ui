@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "completed_orders": [
+    {
+      "nodeid": "cases/JRYG_test_ios_meter_alipay_order.py::TestMeterAlipay::test_order_flow",
+      "order_no": "26B4J96WECNY"
+    }
+  ]
+}

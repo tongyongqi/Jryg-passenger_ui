@@ -3,6 +3,7 @@ Error connecting to device: Connection refused
 Error connecting to device: Connection refused
 Error connecting to device: Connection refused
 Error connecting to device: Connection refused
+Error connecting to device: Connection refused
 Creating listening port 8100 for device port 8100
 waiting for connection
 New connection for 8100->8100, fd = 5
@@ -101,7 +102,7 @@ Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E)
 New connection for 8100->8100, fd = 5
 waiting for connection
 Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
-New connection for 8100->8100, fd = 7
+New connection for 8100->8100, fd = 5
 waiting for connection
 Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
 New connection for 8100->8100, fd = 7
@@ -244,4 +245,647 @@ waiting for connection
 Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
 New connection for 8100->8100, fd = 7
 waiting for connection
-Requesting connection to USB device handle 2 (serial: 00008120-000E
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 7
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+New connection for 8100->8100, fd = 5
+waiting for connection
+Requesting connection to USB device handle 2 (serial: 00008120-000E79E03472201E), port 8100
+N

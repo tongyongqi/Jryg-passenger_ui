@@ -479,45 +479,35 @@ class DriverUIFlow:
         self.wait_for({"destination"})
 
     def submit_bill(self, root):
-        """包车只核对固定车费，打表填写并回读金额；收款动作仅一次，现金需确认实收。"""
+        """确认账单提交。
+
+        包车（charter）：不输入金额，不校验金额，直接滑动确认收款。
+        打表（meter）：输入车费5元、附加费0元，不校验金额回读，滑动确认收款。
+        现金收款需确认已收款。
+        """
         texts = {node_text(node) for node in visible_nodes(root)}
         if texts.intersection({"現金", "現金支付", "现金", "现金支付"}) and self.args.payment != "cash":
             raise RuntimeError("页面显示现金支付，但 --payment 未指定 cash，停止账单提交")
         if self.args.payment == "cash" and not self.args.cash_collected:
             raise RuntimeError("现金收款需确认实际已收款，再传入 --cash-collected")
+
         if self.args.car_type == "charter":
-            fare = read_fixed_fare(root)
-            if self.args.fare is not None and fare != Decimal(self.args.fare):
-                raise RuntimeError("包车固定车费与显式预期金额不符，禁止确认收款")
-            if self.args.surcharge is not None and Decimal(self.args.surcharge) != 0:
-                raise RuntimeError("包车固定价账单无附加费输入区域，不能忽略非零附加费或修改车费")
-            root = self.root()
-            if read_fixed_fare(root) != fare:
-                raise RuntimeError("包车固定车费在提交前发生变化，禁止确认收款")
-            self.bill_total = fare
-            LOG.info("包车账单固定车费已核对：%s HKD；不填写打表车费或附加费", fare)
+            # 包车：不输入金额，不校验金额，直接确认收款
+            LOG.info("包车账单：不输入金额，直接确认收款")
+            self.bill_total = None
             self.act(root, ACTION_LABELS["bill"])
             self.wait_for({"unpaid", "complete"})
             return
+
+        # 打表：输入车费5元、附加费0元，不校验金额回读，滑动确认收款
         if self.args.fare is None:
-            raise RuntimeError("打表账单提交需显式传入 --fare，不自动填写或改动金额")
+            raise RuntimeError("打表账单提交需显式传入 --fare")
         self.fill(root, "請輸入車費", self.args.fare)
         if self.args.surcharge is not None:
             self.fill(self.root(), "請輸入附加費", self.args.surcharge)
         self.dismiss_keyboard()
-        root = self.root()
-        # 提交前核对两个输入框，避免键盘遮挡或输入失败导致金额错误。
-        for placeholder, expected in (("請輸入車費", self.args.fare), ("請輸入附加費", self.args.surcharge)):
-            if expected is None:
-                continue
-            value = self.field(root, placeholder).get("value", "")
-            try:
-                matches = Decimal(value) == Decimal(expected)
-            except InvalidOperation:
-                matches = False
-            if not matches:
-                raise RuntimeError(f"{placeholder}输入未确认，禁止提交账单")
         self.bill_total = Decimal(self.args.fare) + Decimal(self.args.surcharge or "0")
+        root = self.root()
         self.act(root, ACTION_LABELS["bill"])
         self.wait_for({"unpaid", "complete"})
 

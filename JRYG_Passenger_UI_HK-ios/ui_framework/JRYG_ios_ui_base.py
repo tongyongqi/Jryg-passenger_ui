@@ -40,6 +40,7 @@ from ui_framework.JRYG_logger import logger
 from ui_framework import JRYG_ios_ui_elements as E
 from ui_framework.JRYG_ios_payment import HKIOSPaymentMixin
 from ui_framework.JRYG_device_guard import DeviceUnlockError, ensure_unlocked, remember_foreground
+from ui_framework.JRYG_device_guard import ensure_mac_awake, mac_stop_prevent_sleep
 
 
 class iOSBase(HKIOSPaymentMixin):
@@ -51,7 +52,11 @@ class iOSBase(HKIOSPaymentMixin):
 
         Poco内置旧six导入器不支持find_spec，不能在pytest加载conftest前注册。
         Airtest也只在此处加载，避免离线导入或仅收集时探测设备依赖。
+        不管执行到哪个阶段，如果 Mac 或 iPhone 熄屏，唤醒后继续执行，不中断测试。
         """
+        # Mac 防休眠：不管执行到哪个阶段都检测并唤醒
+        ensure_mac_awake()
+
         cls.wda_url = SETTINGS["device"].get("wda_url", "http://127.0.0.1:8100")
         logger.info(f"【iOS 自动化】正在尝试连接 WDA 物理通道: {cls.wda_url}")
 
@@ -77,10 +82,11 @@ class iOSBase(HKIOSPaymentMixin):
 
     @classmethod
     def teardown_class(cls):
-        """类级清理：释放设备连接与相关资源。
+        """类级清理：释放设备连接与 Mac 防休眠进程。
 
         :return: None。"""
         logger.info("【iOS 自动化】测试执行结束，正在安全释放连接通道。")
+        mac_stop_prevent_sleep()
 
     # ==================== 通用操作 ====================
 

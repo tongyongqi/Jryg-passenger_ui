@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title id="head-title">03_JRYG_test_ios_meter_cash_order.html</title>
+      <style type="text/css">body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  vertical-align: top;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+#environment ul {
+  margin: 0;
+  padding: 0 20px;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+.col-links__extra {
+  margin-right: 3px;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+#results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+#results-table th,
+#results-table td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  text-align: left;
+}
+#results-table th {
+  font-weight: bold;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.logwrapper {
+  max-height: 230px;
+  overflow-y: scroll;
+  background-color: #e6e6e6;
+}
+.logwrapper.expanded {
+  max-height: none;
+}
+.logwrapper.expanded .logexpander:after {
+  content: "collapse [-]";
+}
+.logwrapper .logexpander {
+  z-index: 1;
+  position: sticky;
+  top: 10px;
+  width: max-content;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin: 10px 0 10px calc(100% - 80px);
+  cursor: pointer;
+  background-color: #e6e6e6;
+}
+.logwrapper .logexpander:after {
+  content: "expand [+]";
+}
+.logwrapper .logexpander:hover {
+  color: #000;
+  border-color: #000;
+}
+.logwrapper .log {
+  min-height: 40px;
+  position: relative;
+  top: -50px;
+  height: calc(100% + 50px);
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  padding: 5px;
+  padding-right: 80px;
+  white-space: pre-wrap;
+}
+
+div.media {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin: 0 5px;
+  overflow: hidden;
+  width: 320px;
+}
+
+.media-container {
+  display: grid;
+  grid-template-columns: 25px auto 25px;
+  align-items: center;
+  flex: 1 1;
+  overflow: hidden;
+  height: 200px;
+}
+
+.media-container--fullscreen {
+  grid-template-columns: 0px auto 0px;
+}
+
+.media-container__nav--right,
+.media-container__nav--left {
+  text-align: center;
+  cursor: pointer;
+}
+
+.media-container__viewport {
+  cursor: pointer;
+  text-align: center;
+  height: inherit;
+}
+.media-container__viewport img,
+.media-container__viewport video {
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+}
+
+.media__name,
+.media__counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex: 0 0 25px;
+  align-items: center;
+}
+
+.collapsible td:not(.col-links) {
+  cursor: pointer;
+}
+.collapsible td:not(.col-links):hover::after {
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.col-result {
+  width: 130px;
+}
+.col-result:hover::after {
+  content: " (hide details)";
+}
+
+.col-result.collapsed:hover::after {
+  content: " (show details)";
+}
+
+#environment-header h2:hover::after {
+  content: " (hide details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#environment-header.collapsed h2:hover::after {
+  content: " (show details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+.sortable.desc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: -12.5px;
+  border: 10px solid #4caf50;
+  border-bottom: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+.sortable.asc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: 12.5px;
+  border: 10px solid #4caf50;
+  border-top: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.hidden, .summary__reload__button.hidden {
+  display: none;
+}
+
+.summary__data {
+  flex: 0 0 550px;
+}
+.summary__reload {
+  flex: 1 1;
+  display: flex;
+  justify-content: center;
+}
+.summary__reload__button {
+  flex: 0 0 300px;
+  display: flex;
+  color: white;
+  font-weight: bold;
+  background-color: #4caf50;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.summary__reload__button:hover {
+  background-color: #46a049;
+}
+.summary__spacer {
+  flex: 0 0 550px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters,
+.collapse {
+  display: flex;
+  align-items: center;
+}
+.filters button,
+.collapse button {
+  color: #999;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.filters button:hover,
+.collapse button:hover {
+  color: #ccc;
+}
+
+.filter__label {
+  margin-right: 10px;
+}
+
+      </style>
+    
+  </head>
+  <body>
+    <h1 id="title">03_JRYG_test_ios_meter_cash_order.html</h1>
+    <p>Report generated on 06-Nov-2026 at 11:26:55 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+        v4.2.0</p>
+    <div id="environment-header">
+      <h2>Environment</h2>
+    </div>
+    <table id="environment"></table>
+    <!-- TEMPLATES -->
+      <template id="template_environment_row">
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </template>
+    <template id="template_results-table__body--empty">
+      <tbody class="results-table-row">
+        <tr id="not-found-message">
+          <td colspan="4">No results found. Check the filters.</td>
+        </tr>
+      </tbody>
+    </template>
+    <template id="template_results-table__tbody">
+      <tbody class="results-table-row">
+        <tr class="collapsible">
+        </tr>
+        <tr class="extras-row">
+          <td class="extra" colspan="4">
+            <div class="extraHTML"></div>
+            <div class="media">
+              <div class="media-container">
+                  <div class="media-container__nav--left">&lt;</div>
+                  <div class="media-container__viewport">
+                    <img src="" />
+                    <video controls>
+                      <source src="" type="video/mp4">
+                    </video>
+                  </div>
+                  <div class="media-container__nav--right">&gt;</div>
+                </div>
+                <div class="media__name"></div>
+                <div class="media__counter"></div>
+            </div>
+            <div class="logwrapper">
+              <div class="logexpander"></div>
+              <div class="log"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </template>
+    <!-- END TEMPLATES -->
+    <div class="summary">
+      <div class="summary__data">
+        <h2>Summary</h2>
+        <div class="additional-summary prefix">
+        </div>
+        <p class="run-count">1 test took 00:03:45.</p>
+        <p class="filter">(Un)check the boxes to filter the results.</p>
+        <div class="summary__reload">
+          <div class="summary__reload__button hidden" onclick="location.reload()">
+            <div>There are still tests running. <br />Reload this page to get the latest results!</div>
+          </div>
+        </div>
+        <div class="summary__spacer"></div>
+        <div class="controls">
+          <div class="filters">
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" disabled>
+            <span class="failed">0 Failed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" >
+            <span class="passed">1 Passed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled>
+            <span class="skipped">0 Skipped,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xfailed" disabled>
+            <span class="xfailed">0 Expected failures,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xpassed" disabled>
+            <span class="xpassed">0 Unexpected passes,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="error" disabled>
+            <span class="error">0 Errors,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="rerun" disabled>
+            <span class="rerun">0 Reruns</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="retried" disabled>
+            <span class="retried">0 Retried,</span>
+          </div>
+          <div class="collapse">
+            <button id="show_all_details">Show all details</button>&nbsp;/&nbsp;<button id="hide_all_details">Hide all details</button>
+          </div>
+        </div>
+      </div>
+      <div class="additional-summary summary">
+      </div>
+      <div class="additional-summary postfix">
+      </div>
+    </div>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable" data-column-type="result">Result</th>
+          <th class="sortable" data-column-type="testId">Test</th>
+          <th class="sortable" data-column-type="duration">Duration</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+    </table>
+  <footer>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.9.6&#34;, &#34;Platform&#34;: &#34;macOS-26.7.1-x86_64-i386-64bit&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;8.4.2&#34;, &#34;pluggy&#34;: &#34;1.6.0&#34;}, &#34;Plugins&#34;: {&#34;metadata&#34;: &#34;3.1.1&#34;, &#34;html&#34;: &#34;4.2.0&#34;}}, &#34;tests&#34;: {&#34;cases/JRYG_test_ios_meter_cash_order.py::TestMeterCash::test_order_flow&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;cases/JRYG_test_ios_meter_cash_order.py::TestMeterCash::test_order_flow&#34;, &#34;duration&#34;: &#34;00:03:45&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;cases/JRYG_test_ios_meter_cash_order.py::TestMeterCash::test_order_flow&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:03:45&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;------------------------------ Captured log setup ------------------------------\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:56 \u3010iOS \u81ea\u52a8\u5316\u3011\u6b63\u5728\u5c1d\u8bd5\u8fde\u63a5 WDA \u7269\u7406\u901a\u9053: http://127.0.0.1:8100\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:61 \u3010iOS \u81ea\u52a8\u5316\u3011\u8bbe\u5907\u8fde\u63a5\u6210\u529f\uff01 status: {&amp;#x27;build&amp;#x27;: {&amp;#x27;version&amp;#x27;: &amp;#x27;10.2.2&amp;#x27;, &amp;#x27;time&amp;#x27;: &amp;#x27;Oct 29 2026 10:08:53&amp;#x27;, &amp;#x27;productBundleIdentifier&amp;#x27;: &amp;#x27;com.facebook.WebDriverAgentRunner&amp;#x27;}, &amp;#x27;os&amp;#x27;: {&amp;#x27;testmanagerdVersion&amp;#x27;: 65535, &amp;#x27;name&amp;#x27;: &amp;#x27;iOS&amp;#x27;, &amp;#x27;sdkVersion&amp;#x27;: &amp;#x27;26.4&amp;#x27;, &amp;#x27;version&amp;#x27;: &amp;#x27;26.6&amp;#x27;}, &amp;#x27;Version&amp;#x27;: &amp;#x27;1.3&amp;#x27;, &amp;#x27;ios&amp;#x27;: {&amp;#x27;ip&amp;#x27;: &amp;#x27;192.168.219.105&amp;#x27;, &amp;#x27;wifiIP&amp;#x27;: &amp;#x27;192.168.219.105&amp;#x27;}, &amp;#x27;device&amp;#x27;: &amp;#x27;iphone&amp;#x27;, &amp;#x27;message&amp;#x27;: &amp;#x27;WebDriverAgent is ready to accept commands&amp;#x27;, &amp;#x27;state&amp;#x27;: &amp;#x27;success&amp;#x27;, &amp;#x27;ready&amp;#x27;: True, &amp;#x27;sessionId&amp;#x27;: None}\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:76 \u3010iOS \u81ea\u52a8\u5316\u3011Poco \u63a7\u4ef6\u6811\u9a71\u52a8\u52a0\u8f7d\u5b8c\u6210\uff0c\u5df2\u51c6\u5907\u5c31\u7eea\u3002\n\n------------------------------ Captured log call -------------------------------\nINFO     JRYG_HK_ios:JRYG_order_flow.py:130 ============================================================\nINFO     JRYG_HK_ios:JRYG_order_flow.py:131 \u3010\u9636\u6bb5 0\u3011\u53f8\u673a\u7aef\uff1a\u6253\u5f00 App\u2192UI \u51fa\u8f66\uff0c\u4e0d\u68c0\u67e5\u63a5\u53e3\u4f1a\u8bdd\nINFO     JRYG_HK_ios:JRYG_order_flow.py:132 ============================================================\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:307 \u5df2\u8bf7\u6c42\u6253\u5f00\u53f8\u673a App\uff0c\u7b49\u5f85\u524d\u53f0\u9875\u9762\u5c31\u7eea\uff0c\u6700\u591a30\u79d2\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:315 \u53f8\u673a App \u524d\u53f0\u5df2\u786e\u8ba4\uff0c\u7ee7\u7eed\u8bfb\u53d6\u4e1a\u52a1\u9636\u6bb5\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:544 \u542f\u52a8\u524d\u8ba2\u5355 26B4J7UWECNY \u5df2\u5b8c\u6210\u4e14\u5df2\u652f\u4ed8\uff1b\u4ec5\u8fd4\u56de\u542c\u5355\uff0c\u4e0d\u8ba1\u5165\u672c\u6b21\u7ed3\u679c\uff0c\u7ee7\u7eed\u65b0\u4e0b\u5355\nINFO     airtest.core.ios.rotation:rotation.py:85 update orientation None-&amp;gt;PORTRAIT\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:344 \u70b9\u51fb\u64cd\u4f5c\uff1a\u8fd4\u56de\u9996\u9801\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:560 \u53f8\u673a App \u5df2\u51fa\u8f66\uff1b\u63a5\u5355\u53ca\u540e\u7eed\u72b6\u6001\u5168\u90e8\u5728\u53f8\u673a\u9875\u9762\u64cd\u4f5c\nINFO     JRYG_HK_ios:JRYG_order_flow.py:660 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u53f8\u673a UI \u5df2\u786e\u8ba4\u542c\u5355\uff0c\u7ee7\u7eed\u4e58\u5ba2\u4e0b\u5355\nINFO     JRYG_HK_ios:JRYG_order_flow.py:145 ============================================================\nINFO     JRYG_HK_ios:JRYG_order_flow.py:146 \u3010\u9636\u6bb5 1\u3011\u4e58\u5ba2\u7aef\uff1a\u5904\u7406\u9057\u7559\u8ba2\u5355\nINFO     JRYG_HK_ios:JRYG_order_flow.py:147 ============================================================\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:869 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 1\u3011\u6b63\u5728\u56de\u5230\u684c\u9762...\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:874 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 2\u3011\u6b63\u5728\u62c9\u8d77 App: com.sunlightmobility.client\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:879 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 3\u3011\u5904\u7406\u7cfb\u7edf\u5f39\u7a97...\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:530 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u6838\u9a8c\u4e58\u5ba2\u767b\u5f55\u6001\uff0c\u9700\u8981\u65f6\u8c03\u7528\u73b0\u6709UI\u767b\u5f55\u65b9\u6cd5\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:356 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u767b\u5f55\u6d41\u8f6c [\u5faa\u73af 0] -&amp;gt; \u9875\u9762\u72b6\u6001: home_unlogged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:237 [\u9875\u9762\u64cd\u4f5c] \u70b9\u51fb\u53ef\u89c1\u63a7\u4ef6 (&amp;#x27;\u6211\u7684&amp;#x27;, &amp;#x27;\u500b\u4eba\u4e2d\u5fc3&amp;#x27;, &amp;#x27;\u4e2a\u4eba\u4e2d\u5fc3&amp;#x27;, &amp;#x27;\u6211\u7684\uff0c\u6a19\u7c64\u9801&amp;#x27;)\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=mine_logged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=mine_logged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:356 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u767b\u5f55\u6d41\u8f6c [\u5faa\u73af 1] -&amp;gt; \u9875\u9762\u72b6\u6001: mine_logged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:311 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u5df2\u5728\u4e2a\u4eba\u4e2d\u5fc3\u6838\u9a8c\u4e58\u5ba2\u6d4b\u8bd5\u8d26\u53f7\uff0c\u65e0\u9700\u91cd\u590d\u767b\u5f55\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=mine_logged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:237 [\u9875\u9762\u64cd\u4f5c] \u70b9\u51fb\u53ef\u89c1\u63a7\u4ef6 (&amp;#x27;\u4e3b\u9801&amp;#x27;, &amp;#x27;\u9996\u9801&amp;#x27;, &amp;#x27;\u9996\u9875&amp;#x27;, &amp;#x27;\u4e3b\u9801\uff0c\u6a19\u7c64\u9801&amp;#x27;, &amp;#x27;\u9996\u9801\uff0c\u6a19\u7c64\u9801&amp;#x27;)\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_order_flow.py:574 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u9884\u6e05\u7406: \u5f53\u524d\u9875\u9762\u6587\u672c: [&amp;#x27;\u967d\u5149\u51fa\u884c&amp;#x27;, &amp;#x27;mamapview&amp;#x27;, &amp;#x27;maannotationcontainer&amp;#x27;, &amp;#x27;mauserlocationview&amp;#x27;, &amp;#x27;usecar_Direction&amp;#x27;, &amp;#x27;slm icon tool location&amp;#x27;, &amp;#x27;slm_icon_main_end_address_border&amp;#x27;, &amp;#x27;\u60f3\u53bb\u54ea\u88e1\uff1f&amp;#x27;, &amp;#x27;\u300a\u79c1\u96b1\u653f\u7b56\u300b&amp;#x27;, &amp;#x27;\u300a\u5e73\u53f0\u898f\u5247\u300b&amp;#x27;, &amp;#x27;\u6c34\u5e73\u6eda\u52a8\u6761, 1\u9875&amp;#x27;, &amp;#x27;0%&amp;#x27;, &amp;#x27;\u6807\u7b7e\u9875\u680f&amp;#x27;, &amp;#x27;slm_icon_tabbar_home_selected&amp;#x27;, &amp;#x27;\u4e3b\u9801&amp;#x27;, &amp;#x27;slm_icon_tabbar_coupon_normal&amp;#x27;, &amp;#x27;\u512a\u60e0\u5238&amp;#x27;, &amp;#x27;slm_icon_tabbar_mine_normal&amp;#x27;, &amp;#x27;\u6211\u7684&amp;#x27;]\nINFO     JRYG_HK_ios:JRYG_order_flow.py:618 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u9884\u6e05\u7406: \u4e0d\u5728\u7b49\u5f85\u63a5\u5355\u9875\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:530 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u6838\u9a8c\u4e58\u5ba2\u767b\u5f55\u6001\uff0c\u9700\u8981\u65f6\u8c03\u7528\u73b0\u6709UI\u767b\u5f55\u65b9\u6cd5\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:356 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u767b\u5f55\u6d41\u8f6c [\u5faa\u73af 0] -&amp;gt; \u9875\u9762\u72b6\u6001: home_unlogged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:237 [\u9875\u9762\u64cd\u4f5c] \u70b9\u51fb\u53ef\u89c1\u63a7\u4ef6 (&amp;#x27;\u6211\u7684&amp;#x27;, &amp;#x27;\u500b\u4eba\u4e2d\u5fc3&amp;#x27;, &amp;#x27;\u4e2a\u4eba\u4e2d\u5fc3&amp;#x27;, &amp;#x27;\u6211\u7684\uff0c\u6a19\u7c64\u9801&amp;#x27;)\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=mine_logged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=mine_logged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:356 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u767b\u5f55\u6d41\u8f6c [\u5faa\u73af 1] -&amp;gt; \u9875\u9762\u72b6\u6001: mine_logged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:311 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u5df2\u5728\u4e2a\u4eba\u4e2d\u5fc3\u6838\u9a8c\u4e58\u5ba2\u6d4b\u8bd5\u8d26\u53f7\uff0c\u65e0\u9700\u91cd\u590d\u767b\u5f55\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=mine_logged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:237 [\u9875\u9762\u64cd\u4f5c] \u70b9\u51fb\u53ef\u89c1\u63a7\u4ef6 (&amp;#x27;\u4e3b\u9801&amp;#x27;, &amp;#x27;\u9996\u9801&amp;#x27;, &amp;#x27;\u9996\u9875&amp;#x27;, &amp;#x27;\u4e3b\u9801\uff0c\u6a19\u7c64\u9801&amp;#x27;, &amp;#x27;\u9996\u9801\uff0c\u6a19\u7c64\u9801&amp;#x27;)\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_order_flow.py:153 ============================================================\nINFO     JRYG_HK_ios:JRYG_order_flow.py:154 \u3010\u9636\u6bb5 2\u3011UI \u4e0b\u5355\uff1a\u6253\u9336\u7684\u58eb + \u73fe\u91d1\nINFO     JRYG_HK_ios:JRYG_order_flow.py:155 ============================================================\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:869 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 1\u3011\u6b63\u5728\u56de\u5230\u684c\u9762...\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:874 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 2\u3011\u6b63\u5728\u62c9\u8d77 App: com.sunlightmobility.client\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:879 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 3\u3011\u5904\u7406\u7cfb\u7edf\u5f39\u7a97...\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:530 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u6838\u9a8c\u4e58\u5ba2\u767b\u5f55\u6001\uff0c\u9700\u8981\u65f6\u8c03\u7528\u73b0\u6709UI\u767b\u5f55\u65b9\u6cd5\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:356 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u767b\u5f55\u6d41\u8f6c [\u5faa\u73af 0] -&amp;gt; \u9875\u9762\u72b6\u6001: home_unlogged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:237 [\u9875\u9762\u64cd\u4f5c] \u70b9\u51fb\u53ef\u89c1\u63a7\u4ef6 (&amp;#x27;\u6211\u7684&amp;#x27;, &amp;#x27;\u500b\u4eba\u4e2d\u5fc3&amp;#x27;, &amp;#x27;\u4e2a\u4eba\u4e2d\u5fc3&amp;#x27;, &amp;#x27;\u6211\u7684\uff0c\u6a19\u7c64\u9801&amp;#x27;)\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=mine_logged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=mine_logged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:356 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u767b\u5f55\u6d41\u8f6c [\u5faa\u73af 1] -&amp;gt; \u9875\u9762\u72b6\u6001: mine_logged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:311 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u5df2\u5728\u4e2a\u4eba\u4e2d\u5fc3\u6838\u9a8c\u4e58\u5ba2\u6d4b\u8bd5\u8d26\u53f7\uff0c\u65e0\u9700\u91cd\u590d\u767b\u5f55\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=mine_logged\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:237 [\u9875\u9762\u64cd\u4f5c] \u70b9\u51fb\u53ef\u89c1\u63a7\u4ef6 (&amp;#x27;\u4e3b\u9801&amp;#x27;, &amp;#x27;\u9996\u9801&amp;#x27;, &amp;#x27;\u9996\u9875&amp;#x27;, &amp;#x27;\u4e3b\u9801\uff0c\u6a19\u7c64\u9801&amp;#x27;, &amp;#x27;\u9996\u9801\uff0c\u6a19\u7c64\u9801&amp;#x27;)\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=home_unlogged\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:927 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 4\u3011\u914d\u7f6e\u8d77\u70b9: \u5317\u89d2\u5730\u94c1\u7ad9\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:750   \u8f93\u5165\u8d77\u70b9: \u5317\u89d2\u5730\u94c1\u7ad9\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:582   &amp;gt;&amp;gt; \u8d77\u70b9\u5df2\u6e05\u7a7a\u5e76\u56de\u8bfb\uff1a\u5317\u89d2\uff1b\u5df2\u70b9\u51fb\u952e\u76d8\u641c\u7d22\uff0c\u7b49\u5f85\u4e1c\u533a\u5317\u89d2\u5730\u94c1\u7ad9\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:599   &amp;gt;&amp;gt; \u5df2\u7cbe\u786e\u9009\u62e9\u8d77\u70b9\uff1a\u5317\u89d2(\u5730\u9435\u7ad9) A1\u51fa\u5165\u53e3\uff0c\u533a\u57df\uff1a\u9999\u6e2f\u7279\u5225\u884c\u653f\u5340\u6771\u5340Eastern District\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:931 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 5\u3011\u914d\u7f6e\u7ec8\u70b9: \u9999\u6e2f\u5927\u5b66\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:756   \u8f93\u5165\u7ec8\u70b9: \u9999\u6e2f\u5927\u5b66\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:814   &amp;gt;&amp;gt; \u5df2\u8f93\u5165\u7ec8\u70b9\u6587\u672c: \u9999\u6e2f\u5927\u5b66\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:826   &amp;gt;&amp;gt; \u641c\u7d22\u7ed3\u679c\u5df2\u51fa\u73b0 (1s)\uff0cCell \u6570\u91cf: 28\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:680   &amp;gt;&amp;gt; \u9009\u4e2d\u7ec8\u70b9\u7b2c\u4e00\u4e2a Cell (\u91cd\u8bd5 1/3)\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:697   &amp;gt;&amp;gt; \u7ec8\u70b9\u9009\u4e2d\u540e\u5df2\u79bb\u5f00\u641c\u7d22\u9875 (1s)\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:728   &amp;gt;&amp;gt; \u7ec8\u70b9\u8bbe\u7f6e\u5b8c\u6210\uff0c\u5df2\u8fdb\u5165\u8def\u7ebf\u9009\u62e9\u9875 (1s)\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:943 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u8def\u7ebf\u5b9e\u9645\u8d77\u70b9\u5df2\u6838\u5bf9\uff1a\u5317\u89d2(\u5730\u9435\u7ad9) A1\u51fa\u5165\u53e3\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:163   &amp;gt;&amp;gt; \u622a\u56fe\u5df2\u4fdd\u5b58: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_meter_cash_01_car_select.png\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1094 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 6\u3011\u9009\u62e9\u300e\u6253\u9336\u7684\u58eb\u300f\u8f66\u578b...\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1102   &amp;gt;&amp;gt; [WDA] \u7cbe\u786e\u5339\u914d\u5e76\u70b9\u51fb\u300e\u6253\u9336\u7684\u58eb\u300f\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:163   &amp;gt;&amp;gt; \u622a\u56fe\u5df2\u4fdd\u5b58: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_meter_cash_02_selected.png\nINFO     JRYG_HK_ios:JRYG_order_flow.py:168 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 7\u3011\u9009\u62e9\u73fe\u91d1\u652f\u4ed8\u65b9\u5f0f...\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1599   &amp;gt;&amp;gt; [\u6253\u9336\u7684\u58eb+\u73fe\u91d1] \u70b9\u51fb&amp;#x27;\u53ef\u9078\u670d\u52d9&amp;#x27;\u533a\u57df\uff0c\u5f39\u51fa\u652f\u4ed8\u65b9\u5f0f\u9009\u62e9\u9762\u677f...\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1607   &amp;gt;&amp;gt; [\u6253\u9336\u7684\u58eb+\u73fe\u91d1] \u5df2\u70b9\u51fb&amp;#x27;\u53ef\u9078\u670d\u52d9&amp;#x27;\u533a\u57df\uff0c\u7b49\u5f85\u9762\u677f\u5f39\u51fa\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1638   &amp;gt;&amp;gt; [WDA] \u9762\u677f\u4e2d\u9009\u62e9\u652f\u4ed8\u65b9\u5f0f\u300e\u73fe\u91d1\u300f\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1653   &amp;gt;&amp;gt; [\u6253\u9336\u7684\u58eb+\u73fe\u91d1] \u70b9\u51fb&amp;#x27;\u78ba\u8a8d\u9078\u64c7&amp;#x27;\u6309\u94ae...\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1659   &amp;gt;&amp;gt; [\u6253\u9336\u7684\u58eb+\u73fe\u91d1] \u5df2\u70b9\u51fb&amp;#x27;\u78ba\u8a8d\u9078\u64c7&amp;#x27;\u6309\u94ae\nINFO     JRYG_HK_ios:JRYG_order_flow.py:355 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u6b65\u9aa4 8\u3011\u9996\u6b21\u70b9\u51fb\u786e\u8ba4\u547c\u53eb\uff08\u7ec8\u70b9=\u9999\u6e2f\u5927\u5b66\uff09...\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1149   &amp;gt;&amp;gt; [\u6253\u9336\u7684\u58eb+\u73fe\u91d1] \u5df2\u70b9\u51fb\u786e\u8ba4\u547c\u53eb (\u5c1d\u8bd5 1/3)\nINFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [\u9875\u9762\u68c0\u6d4b] state=order_active\nINFO     JRYG_HK_ios:JRYG_order_flow.py:384 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u70b9\u51fb\u786e\u8ba4\u547c\u53eb\u540e\u672a\u8df3\u5230\u767b\u5f55\u9875\uff0c\u7b49\u5f85\u4e0b\u5355\u7ed3\u679c...\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1681   &amp;gt;&amp;gt; [\u6253\u9336\u7684\u58eb+\u73fe\u91d1] \u7b49\u5f85\u4e0b\u5355\u7ed3\u679c...\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1686   [\u6253\u9336\u7684\u58eb+\u73fe\u91d1 0s] \u9875\u9762\u6587\u672c: [&amp;#x27;\u967d\u5149\u51fa\u884c&amp;#x27;, &amp;#x27;mamapview&amp;#x27;, &amp;#x27;maannotationcontainer&amp;#x27;, &amp;#x27;maannotationview&amp;#x27;, &amp;#x27;slm_icon_anno_start&amp;#x27;, &amp;#x27;\u5317\u89d2(\u5730\u9435\u7ad9) A1\u51fa\u5165\u53e3&amp;#x27;, &amp;#x27;driver_supposeCars&amp;#x27;, &amp;#x27;slm icon tool location&amp;#x27;, &amp;#x27;slm_icon_order_service_top_masker&amp;#x27;, &amp;#x27;\u5982\u9700\u767c\u7968\uff0c\u8acb\u5411\u53f8\u6a5f\u7d22\u53d6\u7d19\u672c\u767c\u7968\u3002&amp;#x27;, &amp;#x27;\u6253\u9336\u7684\u58eb&amp;#x27;, &amp;#x27;\u53f8\u6a5f\u6b63\u5728\u8d95\u4f86\u63a5\u60a8&amp;#x27;, &amp;#x27;\u53f8\u6a5f\u6b63\u52aa\u529b\u8d95\u4f86\u63a5\u60a8\uff0c\u8acb\u63d0\u524d\u5230\u4e0a\u8eca\u9ede\u7b49\u5019&amp;#x27;, &amp;#x27;TU7679 \u00b7 \u7d05\u8272&amp;#x27;, &amp;#x27;\u6bd4\u4e9a\u8fea&amp;#x27;, &amp;#x27;slm_ic_head_default&amp;#x27;, &amp;#x27;T\u5e2b\u5085&amp;#x27;, &amp;#x27;\u806f\u7e6b\u53f8\u6a5f&amp;#x27;, &amp;#x27;\u806f\u7e6b\u5ba2\u670d&amp;#x27;, &amp;#x27;\u53d6\u6d88\u8a02\u55ae&amp;#x27;, &amp;#x27;slm_icon_navi_arrow_left&amp;#x27;]\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:1697   [\u6253\u9336\u7684\u58eb+\u73fe\u91d1 0s] \u3010\u4e0b\u5355\u6210\u529f\u3011\nINFO     JRYG_HK_ios:JRYG_order_flow.py:176 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011UI \u4e0b\u5355\u6210\u529f\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:163   &amp;gt;&amp;gt; \u622a\u56fe\u5df2\u4fdd\u5b58: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/screenshots/JRYG_meter_cash_03_order_success.png\nINFO     JRYG_HK_ios:JRYG_order_flow.py:182 ============================================================\nINFO     JRYG_HK_ios:JRYG_order_flow.py:183 \u3010\u9636\u6bb5 3\u3011\u53f8\u673a UI\uff1a\u63a5\u5355\u2192\u5230\u8fbe\u4e0a\u8f66\u70b9\u2192\u63a5\u8f7d\u2192\u5230\u8fbe\u76ee\u7684\u5730\u2192\u786e\u8ba4\u8d26\u5355\nINFO     JRYG_HK_ios:JRYG_order_flow.py:184 ============================================================\nINFO     JRYG_HK_ios:JRYG_order_flow.py:687 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u73b0\u91d1\u6d4b\u8bd5\u7528\u4f8b\uff1a\u8f66\u8d395 HKD\u3001\u9644\u52a0\u8d390 HKD\uff1b\u56de\u8bfb\u6838\u5bf9\u540e\u6ed1\u52a8\u786e\u8ba4\u6536\u6b3e\uff0c\u65e0\u9700\u989d\u5916\u73af\u5883\u5f00\u5173\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:307 \u5df2\u8bf7\u6c42\u6253\u5f00\u53f8\u673a App\uff0c\u7b49\u5f85\u524d\u53f0\u9875\u9762\u5c31\u7eea\uff0c\u6700\u591a30.0\u79d2\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:315 \u53f8\u673a App \u524d\u53f0\u5df2\u786e\u8ba4\uff0c\u7ee7\u7eed\u8bfb\u53d6\u4e1a\u52a1\u9636\u6bb5\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:601 \u53f8\u673a UI \u9636\u6bb5\uff1a\u524d\u5f80\u4e0a\u8f66\u70b9\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:341 \u6ed1\u52a8\u64cd\u4f5c\uff1a\u5230\u9054\u4e0a\u8eca\u5730\u9ede\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:601 \u53f8\u673a UI \u9636\u6bb5\uff1a\u7b49\u5f85\u4e58\u5ba2\u4e0a\u8f66\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:341 \u6ed1\u52a8\u64cd\u4f5c\uff1a\u5df2\u63a5\u8f09\u4e58\u5ba2\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:601 \u53f8\u673a UI \u9636\u6bb5\uff1a\u9001\u4e58\u5ba2\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:341 \u6ed1\u52a8\u64cd\u4f5c\uff1a\u5230\u9054\u76ee\u7684\u5730\nWARNING  JRYG_driver_ui:JRYG_driver_ui.py:642 \u9001\u4e58\u5ba2\u9996\u6ed1\u672a\u751f\u6548\uff0c\u5f53\u524d\u4ecd\u4e3a\u540c\u9636\u6bb5\uff1b\u4ec5\u91cd\u8bd5\u4e00\u6b21\uff0c\u4e0d\u6a21\u62df\u5b9a\u4f4d\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:341 \u6ed1\u52a8\u64cd\u4f5c\uff1a\u5230\u9054\u76ee\u7684\u5730\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:601 \u53f8\u673a UI \u9636\u6bb5\uff1a\u786e\u8ba4\u8d26\u5355\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u67e5\u627e\u8f93\u5165\u6846\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u67e5\u627e\u8f93\u5165\u6846\uff080.14\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u8bfb\u53d6\u8f93\u5165\u6846\u5750\u6807\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u8bfb\u53d6\u8f93\u5165\u6846\u5750\u6807\uff080.04\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u805a\u7126\u8f93\u5165\u6846\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u805a\u7126\u8f93\u5165\u6846\uff080.44\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u6e05\u7a7a\u65e7\u5185\u5bb9\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u6e05\u7a7a\u65e7\u5185\u5bb9\uff080.06\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u8f93\u5165\u5185\u5bb9\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb \u2014 \u8f93\u5165\u5185\u5bb9\uff080.31\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:409 \u8f93\u5165\u5185\u5bb9\u5df2\u53d1\u9001\uff1a\u8acb\u8f38\u5165\u8eca\u8cbb\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u67e5\u627e\u8f93\u5165\u6846\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u67e5\u627e\u8f93\u5165\u6846\uff080.13\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u8bfb\u53d6\u8f93\u5165\u6846\u5750\u6807\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u8bfb\u53d6\u8f93\u5165\u6846\u5750\u6807\uff080.05\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u8bfb\u53d6\u8f93\u5165\u6846\u5750\u6807\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u8bfb\u53d6\u8f93\u5165\u6846\u5750\u6807\uff080.06\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u805a\u7126\u8f93\u5165\u6846\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u805a\u7126\u8f93\u5165\u6846\uff080.51\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u6e05\u7a7a\u65e7\u5185\u5bb9\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u6e05\u7a7a\u65e7\u5185\u5bb9\uff080.08\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:391 \u8f93\u5165\u6b65\u9aa4\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u8f93\u5165\u5185\u5bb9\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:394 \u8f93\u5165\u6b65\u9aa4\u5b8c\u6210\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb \u2014 \u8f93\u5165\u5185\u5bb9\uff080.32\u79d2\uff09\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:409 \u8f93\u5165\u5185\u5bb9\u5df2\u53d1\u9001\uff1a\u8acb\u8f38\u5165\u9644\u52a0\u8cbb\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:341 \u6ed1\u52a8\u64cd\u4f5c\uff1a\u78ba\u8a8d\u6536\u6b3e\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:601 \u53f8\u673a UI \u9636\u6bb5\uff1a\u5df2\u5b8c\u6210\u4e14\u5df2\u652f\u4ed8\nINFO     JRYG_HK_ios:JRYG_order_flow.py:191 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u53f8\u673a UI \u8d26\u5355\u5df2\u63d0\u4ea4\uff0c\u5207\u56de\u4e58\u5ba2 App \u5904\u7406\u652f\u4ed8\nINFO     JRYG_HK_ios:JRYG_order_flow.py:197 ============================================================\nINFO     JRYG_HK_ios:JRYG_order_flow.py:198 \u3010\u9636\u6bb5 4\u3011App \u7aef\uff1a\u8ba2\u5355\u5b8c\u6210\u540e\u8fd4\u56de\u9996\u9875\nINFO     JRYG_HK_ios:JRYG_order_flow.py:199 ============================================================\nINFO     JRYG_HK_ios:JRYG_order_flow.py:205 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u53f8\u673a\u5f53\u524d\u8ba2\u5355\u5df2\u652f\u4ed8\uff0c\u53ea\u8fd4\u56de\u9996\u9875\u5e76\u6838\u9a8c\u540c\u8ba2\u5355\uff0c\u4e0d\u91cd\u590d\u4ed8\u6b3e\nINFO     JRYG_HK_ios:JRYG_ios_payment.py:238 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1\u3011\u5df2\u8fd4\u56de\u9996\u9875\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:307 \u5df2\u8bf7\u6c42\u6253\u5f00\u53f8\u673a App\uff0c\u7b49\u5f85\u524d\u53f0\u9875\u9762\u5c31\u7eea\uff0c\u6700\u591a30.0\u79d2\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:315 \u53f8\u673a App \u524d\u53f0\u5df2\u786e\u8ba4\uff0c\u7ee7\u7eed\u8bfb\u53d6\u4e1a\u52a1\u9636\u6bb5\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:329 \u5df2\u4fdd\u5b58\u9875\u9762\u73b0\u573a\uff1a/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/driver_ui/1793935614727706000_completed_paid\nINFO     JRYG_driver_ui:JRYG_driver_ui.py:699 \u53f8\u673a\u540c\u8ba2\u5355\u8be6\u60c5\u5df2\u786e\u8ba4\u5b8c\u6210\u4e14\u5df2\u652f\u4ed8\uff1a26B4J7YWECNY\nINFO     JRYG_HK_ios:JRYG_order_flow.py:223 \u3010\u6253\u9336\u7684\u58eb+\u73fe\u91d1 \u5168 UI \u6d41\u7a0b\u5b8c\u6210\u3011\u8ba2\u5355 26B4J7YWECNY \u5df2\u5b8c\u6210\u4e14\u5df2\u652f\u4ed8\n\n---------------------------- Captured log teardown -----------------------------\nINFO     JRYG_HK_ios:JRYG_order_flow.py:107 \u3010teardown\u3011\u4fdd\u7559\u53f8\u673a App \u51fa\u8f66\u72b6\u6001\uff0c\u4e0d\u81ea\u52a8\u6536\u8f66\nINFO     JRYG_HK_ios:JRYG_ios_ui_base.py:83 \u3010iOS \u81ea\u52a8\u5316\u3011\u6d4b\u8bd5\u6267\u884c\u7ed3\u675f\uff0c\u6b63\u5728\u5b89\u5168\u91ca\u653e\u8fde\u63a5\u901a\u9053\u3002&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;03_JRYG_test_ios_meter_cash_order.html&#34;}"></div>
+    <script>
+      (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')
+
+class DataManager {
+    setManager(data) {
+        const collapsedCategories = [...getCollapsedCategory(data.renderCollapsed)]
+        const collapsedIds = []
+        const tests = Object.values(data.tests).flat().map((test, index) => {
+            const collapsed = collapsedCategories.includes(test.result.toLowerCase())
+            const id = `test_${index}`
+            if (collapsed) {
+                collapsedIds.push(id)
+            }
+            return {
+                ...test,
+                id,
+                collapsed,
+            }
+        })
+        const dataBlob = { ...data, tests }
+        this.data = { ...dataBlob }
+        this.renderData = { ...dataBlob }
+        setCollapsedIds(collapsedIds)
+    }
+
+    get allData() {
+        return { ...this.data }
+    }
+
+    resetRender() {
+        this.renderData = { ...this.data }
+    }
+
+    setRender(data) {
+        this.renderData.tests = [...data]
+    }
+
+    toggleCollapsedItem(id) {
+        this.renderData.tests = this.renderData.tests.map((test) =>
+            test.id === id ? { ...test, collapsed: !test.collapsed } : test,
+        )
+    }
+
+    set allCollapsed(collapsed) {
+        this.renderData = { ...this.renderData, tests: [...this.renderData.tests.map((test) => (
+            { ...test, collapsed }
+        ))] }
+    }
+
+    get testSubset() {
+        return [...this.renderData.tests]
+    }
+
+    get environment() {
+        return this.renderData.environment
+    }
+
+    get initialSort() {
+        return this.data.initialSort
+    }
+}
+
+module.exports = {
+    manager: new DataManager(),
+}
+
+},{"./storage.js":8}],2:[function(require,module,exports){
+const mediaViewer = require('./mediaviewer.js')
+const templateEnvRow = document.getElementById('template_environment_row')
+const templateResult = document.getElementById('template_results-table__tbody')
+
+function htmlToElements(html) {
+    const temp = document.createElement('template')
+    temp.innerHTML = html
+    return temp.content.childNodes
+}
+
+const find = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return elem.querySelector(selector)
+}
+
+const findAll = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return [...elem.querySelectorAll(selector)]
+}
+
+const dom = {
+    getStaticRow: (key, value) => {
+        const envRow = templateEnvRow.content.cloneNode(true)
+        const isObj = typeof value === 'object' && value !== null
+        const values = isObj ? Object.keys(value).map((k) => `${k}: ${value[k]}`) : null
+
+        const valuesElement = htmlToElements(
+            values ? `<ul>${values.map((val) => `<li>${val}</li>`).join('')}<ul>` : `<div>${value}</div>`)[0]
+        const td = findAll('td', envRow)
+        td[0].textContent = key
+        td[1].appendChild(valuesElement)
+
+        return envRow
+    },
+    getResultTBody: ({ testId, id, log, extras, resultsTableRow, tableHtml, result, collapsed }) => {
+        const resultBody = templateResult.content.cloneNode(true)
+        resultBody.querySelector('tbody').classList.add(result.toLowerCase())
+        resultBody.querySelector('tbody').id = testId
+        resultBody.querySelector('.collapsible').dataset.id = id
+
+        resultsTableRow.forEach((html) => {
+            const t = document.createElement('template')
+            t.innerHTML = html
+            resultBody.querySelector('.collapsible').appendChild(t.content)
+        })
+
+        if (log) {
+            // Wrap lines starting with "E" with span.error to color those lines red
+            const wrappedLog = log.replace(/^E.*$/gm, (match) => `<span class="error">${match}</span>`)
+            resultBody.querySelector('.log').innerHTML = wrappedLog
+        } else {
+            resultBody.querySelector('.log').remove()
+        }
+
+        if (collapsed) {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.add('collapsed')
+            resultBody.querySelector('.extras-row').classList.add('hidden')
+        } else {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.remove('collapsed')
+        }
+
+        const media = []
+        extras?.forEach(({ name, format_type, content }) => {
+            if (['image', 'video'].includes(format_type)) {
+                media.push({ path: content, name, format_type })
+            }
+
+            if (format_type === 'html') {
+                resultBody.querySelector('.extraHTML').insertAdjacentHTML('beforeend', `<div>${content}</div>`)
+            }
+        })
+        mediaViewer.setup(resultBody, media)
+
+        // Add custom html from the pytest_html_results_table_html hook
+        tableHtml?.forEach((item) => {
+            resultBody.querySelector('td[class="extra"]').insertAdjacentHTML('beforeend', item)
+        })
+
+        return resultBody
+    },
+}
+
+module.exports = {
+    dom,
+    htmlToElements,
+    find,
+    findAll,
+}
+
+},{"./mediaviewer.js":6}],3:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const storageModule = require('./storage.js')
+
+const getFilteredSubSet = (filter) =>
+    manager.allData.tests.filter(({ result }) => filter.includes(result.toLowerCase()))
+
+const doInitFilter = () => {
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+}
+
+const doFilter = (type, show) => {
+    if (show) {
+        storageModule.showCategory(type)
+    } else {
+        storageModule.hideCategory(type)
+    }
+
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+
+    const sortColumn = storageModule.getSort()
+    doSort(sortColumn, true)
+}
+
+module.exports = {
+    doFilter,
+    doInitFilter,
+}
+
+},{"./datamanager.js":1,"./sort.js":7,"./storage.js":8}],4:[function(require,module,exports){
+const { redraw, bindEvents, renderStatic } = require('./main.js')
+const { doInitFilter } = require('./filter.js')
+const { doInitSort } = require('./sort.js')
+const { manager } = require('./datamanager.js')
+const data = JSON.parse(document.getElementById('data-container').dataset.jsonblob)
+
+function init() {
+    manager.setManager(data)
+    doInitFilter()
+    doInitSort()
+    renderStatic()
+    redraw()
+    bindEvents()
+}
+
+init()
+
+},{"./datamanager.js":1,"./filter.js":3,"./main.js":5,"./sort.js":7}],5:[function(require,module,exports){
+const { dom, find, findAll } = require('./dom.js')
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const { doFilter } = require('./filter.js')
+const {
+    getVisible,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    getSortDirection,
+    possibleFilters,
+} = require('./storage.js')
+
+const removeChildren = (node) => {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild)
+    }
+}
+
+const renderStatic = () => {
+    const renderEnvironmentTable = () => {
+        const environment = manager.environment
+        const rows = Object.keys(environment).map((key) => dom.getStaticRow(key, environment[key]))
+        const table = document.getElementById('environment')
+        removeChildren(table)
+        rows.forEach((row) => table.appendChild(row))
+    }
+    renderEnvironmentTable()
+}
+
+const addItemToggleListener = (elem) => {
+    elem.addEventListener('click', ({ target }) => {
+        const id = target.parentElement.dataset.id
+        manager.toggleCollapsedItem(id)
+
+        const collapsedIds = getCollapsedIds()
+        if (collapsedIds.includes(id)) {
+            const updated = collapsedIds.filter((item) => item !== id)
+            setCollapsedIds(updated)
+        } else {
+            collapsedIds.push(id)
+            setCollapsedIds(collapsedIds)
+        }
+        redraw()
+    })
+}
+
+const renderContent = (tests) => {
+    const sortAttr = getSort(manager.initialSort)
+    const sortAsc = JSON.parse(getSortDirection())
+    const rows = tests.map(dom.getResultTBody)
+    const table = document.getElementById('results-table')
+    const tableHeader = document.getElementById('results-table-head')
+
+    const newTable = document.createElement('table')
+    newTable.id = 'results-table'
+
+    // remove all sorting classes and set the relevant
+    findAll('.sortable', tableHeader).forEach((elem) => elem.classList.remove('asc', 'desc'))
+    tableHeader.querySelector(`.sortable[data-column-type="${sortAttr}"]`)?.classList.add(sortAsc ? 'desc' : 'asc')
+    newTable.appendChild(tableHeader)
+
+    if (!rows.length) {
+        const emptyTable = document.getElementById('template_results-table__body--empty').content.cloneNode(true)
+        newTable.appendChild(emptyTable)
+    } else {
+        rows.forEach((row) => {
+            if (!!row) {
+                findAll('.collapsible td:not(.col-links', row).forEach(addItemToggleListener)
+                find('.logexpander', row).addEventListener('click',
+                    (evt) => evt.target.parentNode.classList.toggle('expanded'),
+                )
+                newTable.appendChild(row)
+            }
+        })
+    }
+
+    table.replaceWith(newTable)
+}
+
+const renderDerived = () => {
+    const currentFilter = getVisible()
+    possibleFilters.forEach((result) => {
+        const input = document.querySelector(`input[data-test-result="${result}"]`)
+        input.checked = currentFilter.includes(result)
+    })
+}
+
+const bindEvents = () => {
+    const filterColumn = (evt) => {
+        const { target: element } = evt
+        const { testResult } = element.dataset
+
+        doFilter(testResult, element.checked)
+        const collapsedIds = getCollapsedIds()
+        const updated = manager.renderData.tests.map((test) => {
+            return {
+                ...test,
+                collapsed: collapsedIds.includes(test.id),
+            }
+        })
+        manager.setRender(updated)
+        redraw()
+    }
+
+    const header = document.getElementById('environment-header')
+    header.addEventListener('click', () => {
+        const table = document.getElementById('environment')
+        table.classList.toggle('hidden')
+        header.classList.toggle('collapsed')
+    })
+
+    findAll('input[name="filter_checkbox"]').forEach((elem) => {
+        elem.addEventListener('click', filterColumn)
+    })
+
+    findAll('.sortable').forEach((elem) => {
+        elem.addEventListener('click', (evt) => {
+            const { target: element } = evt
+            const { columnType } = element.dataset
+            doSort(columnType)
+            redraw()
+        })
+    })
+
+    document.getElementById('show_all_details').addEventListener('click', () => {
+        manager.allCollapsed = false
+        setCollapsedIds([])
+        redraw()
+    })
+    document.getElementById('hide_all_details').addEventListener('click', () => {
+        manager.allCollapsed = true
+        const allIds = manager.renderData.tests.map((test) => test.id)
+        setCollapsedIds(allIds)
+        redraw()
+    })
+}
+
+const redraw = () => {
+    const { testSubset } = manager
+
+    renderContent(testSubset)
+    renderDerived()
+}
+
+module.exports = {
+    redraw,
+    bindEvents,
+    renderStatic,
+}
+
+},{"./datamanager.js":1,"./dom.js":2,"./filter.js":3,"./sort.js":7,"./storage.js":8}],6:[function(require,module,exports){
+class MediaViewer {
+    constructor(assets) {
+        this.assets = assets
+        this.index = 0
+    }
+
+    nextActive() {
+        this.index = this.index === this.assets.length - 1 ? 0 : this.index + 1
+        return [this.activeFile, this.index]
+    }
+
+    prevActive() {
+        this.index = this.index === 0 ? this.assets.length - 1 : this.index -1
+        return [this.activeFile, this.index]
+    }
+
+    get currentIndex() {
+        return this.index
+    }
+
+    get activeFile() {
+        return this.assets[this.index]
+    }
+}
+
+
+const setup = (resultBody, assets) => {
+    if (!assets.length) {
+        resultBody.querySelector('.media').classList.add('hidden')
+        return
+    }
+
+    const mediaViewer = new MediaViewer(assets)
+    const container = resultBody.querySelector('.media-container')
+    const leftArrow = resultBody.querySelector('.media-container__nav--left')
+    const rightArrow = resultBody.querySelector('.media-container__nav--right')
+    const mediaName = resultBody.querySelector('.media__name')
+    const counter = resultBody.querySelector('.media__counter')
+    const imageEl = resultBody.querySelector('img')
+    const sourceEl = resultBody.querySelector('source')
+    const videoEl = resultBody.querySelector('video')
+
+    const setImg = (media, index) => {
+        if (media?.format_type === 'image') {
+            imageEl.src = media.path
+
+            imageEl.classList.remove('hidden')
+            videoEl.classList.add('hidden')
+        } else if (media?.format_type === 'video') {
+            sourceEl.src = media.path
+
+            videoEl.classList.remove('hidden')
+            imageEl.classList.add('hidden')
+        }
+
+        mediaName.innerText = media?.name
+        counter.innerText = `${index + 1} / ${assets.length}`
+    }
+    setImg(mediaViewer.activeFile, mediaViewer.currentIndex)
+
+    const moveLeft = () => {
+        const [media, index] = mediaViewer.prevActive()
+        setImg(media, index)
+    }
+    const doRight = () => {
+        const [media, index] = mediaViewer.nextActive()
+        setImg(media, index)
+    }
+    const openImg = () => {
+        window.open(mediaViewer.activeFile.path, '_blank')
+    }
+    if (assets.length === 1) {
+        container.classList.add('media-container--fullscreen')
+    } else {
+        leftArrow.addEventListener('click', moveLeft)
+        rightArrow.addEventListener('click', doRight)
+    }
+    imageEl.addEventListener('click', openImg)
+}
+
+module.exports = {
+    setup,
+}
+
+},{}],7:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const storageModule = require('./storage.js')
+
+const genericSort = (list, key, ascending, customOrder) => {
+    let sorted
+    if (customOrder) {
+        sorted = list.sort((a, b) => {
+            const aValue = a.result.toLowerCase()
+            const bValue = b.result.toLowerCase()
+
+            const aIndex = customOrder.findIndex((item) => item.toLowerCase() === aValue)
+            const bIndex = customOrder.findIndex((item) => item.toLowerCase() === bValue)
+
+            // Compare the indices to determine the sort order
+            return aIndex - bIndex
+        })
+    } else {
+        sorted = list.sort((a, b) => a[key] === b[key] ? 0 : a[key] > b[key] ? 1 : -1)
+    }
+
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const durationSort = (list, ascending) => {
+    const parseDuration = (duration) => {
+        if (duration.includes(':')) {
+            // If it's in the format "HH:mm:ss"
+            const [hours, minutes, seconds] = duration.split(':').map(Number)
+            return (hours * 3600 + minutes * 60 + seconds) * 1000
+        } else {
+            // If it's in the format "nnn ms"
+            return parseInt(duration)
+        }
+    }
+    const sorted = list.sort((a, b) => parseDuration(a['duration']) - parseDuration(b['duration']))
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const doInitSort = () => {
+    const type = storageModule.getSort(manager.initialSort)
+    const ascending = storageModule.getSortDirection()
+    const list = manager.testSubset
+    const initialOrder = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed', 'Skipped', 'Passed']
+
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    if (type?.toLowerCase() === 'original') {
+        manager.setRender(list)
+    } else {
+        let sortedList
+        switch (type) {
+        case 'duration':
+            sortedList = durationSort(list, ascending)
+            break
+        case 'result':
+            sortedList = genericSort(list, type, ascending, initialOrder)
+            break
+        default:
+            sortedList = genericSort(list, type, ascending)
+            break
+        }
+        manager.setRender(sortedList)
+    }
+}
+
+const doSort = (type, skipDirection) => {
+    const newSortType = storageModule.getSort(manager.initialSort) !== type
+    const currentAsc = storageModule.getSortDirection()
+    let ascending
+    if (skipDirection) {
+        ascending = currentAsc
+    } else {
+        ascending = newSortType ? false : !currentAsc
+    }
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    const list = manager.testSubset
+    const sortedList = type === 'duration' ? durationSort(list, ascending) : genericSort(list, type, ascending)
+    manager.setRender(sortedList)
+}
+
+module.exports = {
+    doInitSort,
+    doSort,
+}
+
+},{"./datamanager.js":1,"./storage.js":8}],8:[function(require,module,exports){
+const possibleFilters = [
+    'passed',
+    'skipped',
+    'failed',
+    'error',
+    'xfailed',
+    'xpassed',
+    'rerun',
+]
+
+const getVisible = () => {
+    const url = new URL(window.location.href)
+    const settings = new URLSearchParams(url.search).get('visible')
+    const lower = (item) => {
+        const lowerItem = item.toLowerCase()
+        if (possibleFilters.includes(lowerItem)) {
+            return lowerItem
+        }
+        return null
+    }
+    return settings === null ?
+        possibleFilters :
+        [...new Set(settings?.split(',').map(lower).filter((item) => item))]
+}
+
+const hideCategory = (categoryToHide) => {
+    const url = new URL(window.location.href)
+    const visibleParams = new URLSearchParams(url.search).get('visible')
+    const currentVisible = visibleParams ? visibleParams.split(',') : [...possibleFilters]
+    const settings = [...new Set(currentVisible)].filter((f) => f !== categoryToHide).join(',')
+
+    url.searchParams.set('visible', settings)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const showCategory = (categoryToShow) => {
+    if (typeof window === 'undefined') {
+        return
+    }
+    const url = new URL(window.location.href)
+    const currentVisible = new URLSearchParams(url.search).get('visible')?.split(',').filter(Boolean) ||
+        [...possibleFilters]
+    const settings = [...new Set([categoryToShow, ...currentVisible])]
+    const noFilter = possibleFilters.length === settings.length || !settings.length
+
+    noFilter ? url.searchParams.delete('visible') : url.searchParams.set('visible', settings.join(','))
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getSort = (initialSort) => {
+    const url = new URL(window.location.href)
+    let sort = new URLSearchParams(url.search).get('sort')
+    if (!sort) {
+        sort = initialSort || 'result'
+    }
+    return sort
+}
+
+const setSort = (type) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('sort', type)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getCollapsedCategory = (renderCollapsed) => {
+    let categories
+    if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href)
+        const collapsedItems = new URLSearchParams(url.search).get('collapsed')
+        switch (true) {
+        case !renderCollapsed && collapsedItems === null:
+            categories = ['passed']
+            break
+        case collapsedItems?.length === 0 || /^["']{2}$/.test(collapsedItems):
+            categories = []
+            break
+        case /^all$/.test(collapsedItems) || collapsedItems === null && /^all$/.test(renderCollapsed):
+            categories = [...possibleFilters]
+            break
+        default:
+            categories = collapsedItems?.split(',').map((item) => item.toLowerCase()) || renderCollapsed
+            break
+        }
+    } else {
+        categories = []
+    }
+    return categories
+}
+
+const getSortDirection = () => JSON.parse(sessionStorage.getItem('sortAsc')) || false
+const setSortDirection = (ascending) => sessionStorage.setItem('sortAsc', ascending)
+
+const getCollapsedIds = () => JSON.parse(sessionStorage.getItem('collapsedIds')) || []
+const setCollapsedIds = (list) => sessionStorage.setItem('collapsedIds', JSON.stringify(list))
+
+module.exports = {
+    getVisible,
+    hideCategory,
+    showCategory,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    setSort,
+    getSortDirection,
+    setSortDirection,
+    getCollapsedCategory,
+    possibleFilters,
+}
+
+},{}]},{},[4]);
+    </script>
+  </footer>
+  </body>
+</html>

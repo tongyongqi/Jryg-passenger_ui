@@ -229,6 +229,7 @@ class AndroidClient:
         self.driver = driver
         self.lease = lease
         self._closed = False
+        self._udid = None  # 由 connect 设置，供熄屏检测使用
 
     @classmethod
     def connect(cls, settings, udid, system_port, *, packages=None):
@@ -279,7 +280,9 @@ class AndroidClient:
             client_config.timeout = request_timeout
             driver.update_settings(source_settings)
             driver.implicitly_wait(0)
-            return cls(driver, lease=lease)
+            instance = cls(driver, lease=lease)
+            instance._udid = udid
+            return instance
         except BaseException:
             try:
                 if driver is not None:
@@ -358,3 +361,19 @@ class AndroidClient:
         finally:
             if self.lease is not None:
                 self.lease.release()
+
+    def ensure_unlocked(self):
+        """检测设备熄屏并唤醒，不管执行到哪个阶段都唤醒后继续。
+
+        通过 ADB 检测屏幕状态，熄屏时发送 KEYCODE_POWER 唤醒。
+        不输入锁屏密码，不中断测试，不直接判定为错误。
+        """
+        if not self._udid:
+            return
+        from .JRYG_android_device_guard import ensure_unlocked as _ensure_unlocked
+        _ensure_unlocked(self._udid)
+
+    @property
+    def udid(self):
+        """返回当前设备 UDID，供熄屏检测等使用。"""
+        return self._udid

@@ -1,0 +1,191 @@
+[2026-11-06T10:45:01] Mac系统已运行；锁屏状态：未锁屏
+[2026-11-06T10:45:06] 已申请点亮显示器及运行期防休眠；不输入电脑密码、不解除屏幕锁定
+[2026-11-06T10:45:06] 启动香港iOS六场景；沿用批次锁、iPhone解锁、失败停止与钉钉报告
+香港乘客端iOS：包车两例 + 打表四例
+默认执行下单、司机操作及支付；失败停止，不自动重试付款。
+请连接USB并信任开发者证书；会检测锁屏并尝试解锁，密码锁无法自动通过时请手动解锁。
+报告目录：/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches
+
+==================================================
+      JRYG 港版阳光出行 iOS 测试执行引擎 -ios (Start)
+==================================================
+[顺序] 包车Alipay → 包车银行卡 → 打表现金 → 电子支付后付银行卡 → 电子支付后付Alipay → 直接Alipay
+[批量 1/6] 执行 JRYG_test_ios_charter_alipay_order.py
+JRYG 港版 iOS UI 自动化 -ios
+[准备设备] WDA 启动中，探测 1/90；详情: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/logs/wda-ios.log
+[准备设备] WDA 启动中，探测 11/90；详情: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/logs/wda-ios.log
+
+==================================================
+      JRYG 港版阳光出行 iOS 测试执行引擎 -ios (Start)
+==================================================
+输出香港 iOS UI 测试报告: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261106_104507_672948/01_JRYG_test_ios_charter_alipay_order.html
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.7.1-x86_64-i386-64bit', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'metadata': '3.1.1', 'html': '4.2.0'}}
+rootdir: /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios
+configfile: pytest.ini
+plugins: metadata-3.1.1, html-4.2.0
+collecting ... collected 1 item
+
+cases/JRYG_test_ios_charter_alipay_order.py::TestCharterAlipay::test_order_flow FAILED
+
+=================================== FAILURES ===================================
+______________________ TestCharterAlipay.test_order_flow _______________________
+
+self = <cases.JRYG_test_ios_charter_alipay_order.TestCharterAlipay object at 0x1063321f0>
+
+    def test_order_flow(self):
+        """乘客 UI 下单 → 司机 UI 接单与滑动 → UI 确认账单与支付。"""
+        self.completed_order_no = None
+        car_label = CAR_TYPE_LABELS.get(self.CAR_TYPE, self.CAR_TYPE)
+        pay_label = PAYMENT_LABELS.get(self.PAYMENT, self.PAYMENT)
+        tag = f"{car_label}+{pay_label}"
+        channel = self.final_payment
+        if self.FINAL_PAYMENT:
+            tag += f"+后付{PAYMENT_LABELS[channel]}"
+    
+        assert self.CAR_TYPE, f"{tag}: 未设置 CAR_TYPE 类属性"
+        assert self.PAYMENT, f"{tag}: 未设置 PAYMENT 类属性"
+        stop_after = os.environ.get("HK_DRIVER_UI_STOP_AFTER", "submitted")
+        assert stop_after in ("accepted", "submitted"), "HK_DRIVER_UI_STOP_AFTER 只能为 accepted 或 submitted"
+    
+        # ============================================================
+        # 阶段 0：司机 UI 打开与出车，不读取或检查司机接口 token
+        # ============================================================
+        logger.info("=" * 60)
+        logger.info("【阶段 0】司机端：打开 App→UI 出车，不检查接口会话")
+        logger.info("=" * 60)
+        self._driver_ui_go_online(tag)
+    
+        if self.resuming_order:
+            logger.info("【%s】接续当前订单，不重设起终点、不确认呼叫、不重新预付", tag)
+            if stop_after == "accepted":
+                self.driver_ui.snapshot("existing_order_accepted")
+                logger.info("【%s】已有订单已接单；仅接单模式保留当前阶段，不推进行程或付款", tag)
+                return
+        else:
+            # ============================================================
+            # 阶段 1：乘客端预清理
+            # ============================================================
+            logger.info("=" * 60)
+            logger.info("【阶段 1】乘客端：处理遗留订单")
+            logger.info("=" * 60)
+            self._ui_cleanup_ongoing_order(tag)
+    
+            # ============================================================
+            # 阶段 2：UI 下单
+            # ============================================================
+            logger.info("=" * 60)
+            logger.info(f"【阶段 2】UI 下单：{car_label} + {pay_label}")
+            logger.info("=" * 60)
+    
+            self._ios_launch_setup_and_addresses(
+                tag, E.DEFAULT_START_ADDRESS, E.DEFAULT_END_ADDRESS)
+            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_01_car_select.png")
+    
+            self._ios_select_car_type(tag, car_type=self.CAR_TYPE)
+            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_02_selected.png")
+    
+            # 支付方式选择流程因车型不同：
+            # - 打錶的士：选车型 → 在"可選服務"区域选支付方式 → 確認呼叫
+            # - 包車價的士：选车型 → 確認呼叫 → 弹出预付页面 → 选支付方式 → 確認支付並呼叫
+            if self.CAR_TYPE == "meter":
+                logger.info(f"【{tag} 步骤 7】选择{pay_label}支付方式...")
+                self._ios_select_payment(tag, payment=self.PAYMENT)
+                ordered = self._click_call_and_check_login_then_retry(tag)
+            else:
+                # 包車價的士：先点击确认呼叫，弹出预付页面后选择支付方式
+                ordered = self._charter_click_call_and_select_payment(tag)
+    
+            assert ordered, f"{tag} UI 下单失败"
+            logger.info(f"【{tag}】UI 下单成功")
+            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_03_order_success.png")
+    
+        # ============================================================
+        # 阶段 3：切司机 App → UI 接单 → 滑动状态 → 填写与确认账单
+        # ============================================================
+        logger.info("=" * 60)
+        logger.info("【阶段 3】司机 UI：接单→到达上车点→接载→到达目的地→确认账单")
+        logger.info("=" * 60)
+>       self._driver_ui_grab_and_flow(tag)
+
+ui_framework/JRYG_order_flow.py:185: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ui_framework/JRYG_order_flow.py:689: in _driver_ui_grab_and_flow
+    self.driver_ui.run()
+ui_framework/JRYG_driver_ui.py:659: in run
+    self.submit_bill(root)
+ui_framework/JRYG_driver_ui.py:489: in submit_bill
+    fare = read_fixed_fare(root)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = <Element 'XCUIElementTypeApplication' at 0x11c516450>
+
+    def read_fixed_fare(root):
+        """从包车确认账单的车费容器读取唯一只读HKD金额，不把输入框缺失当固定价。
+    
+        必须具有真实账单标题与收款动作，且没有可见金额输入框；金额只读不改写。
+        """
+        nodes = visible_nodes(root)
+        texts = {node_text(node) for node in nodes}
+        if not {"確認賬單", "確認收款"}.issubset(texts):
+            raise RuntimeError("包车固定价账单尚未就绪，禁止确认收款")
+        if any(node.tag in ("XCUIElementTypeTextField", "XCUIElementTypeSecureTextField") for node in nodes):
+>           raise RuntimeError("包车账单出现可编辑输入框，固定价页面结构不符，停止提交")
+E           RuntimeError: 包车账单出现可编辑输入框，固定价页面结构不符，停止提交
+
+ui_framework/JRYG_driver_ui.py:89: RuntimeError
+------------------------------ Captured log setup ------------------------------
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:56 【iOS 自动化】正在尝试连接 WDA 物理通道: http://127.0.0.1:8100
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:61 【iOS 自动化】设备连接成功！ status: {'build': {'version': '10.2.2', 'time': 'Oct 29 2026 10:08:53', 'productBundleIdentifier': 'com.facebook.WebDriverAgentRunner'}, 'os': {'testmanagerdVersion': 65535, 'name': 'iOS', 'sdkVersion': '26.4', 'version': '26.6'}, 'Version': '1.3', 'ios': {'ip': '192.168.219.105', 'wifiIP': '192.168.219.105'}, 'device': 'iphone', 'message': 'WebDriverAgent is ready to accept commands', 'state': 'success', 'ready': True, 'sessionId': None}
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:76 【iOS 自动化】Poco 控件树驱动加载完成，已准备就绪。
+------------------------------ Captured log call -------------------------------
+INFO     JRYG_HK_ios:JRYG_order_flow.py:130 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:131 【阶段 0】司机端：打开 App→UI 出车，不检查接口会话
+INFO     JRYG_HK_ios:JRYG_order_flow.py:132 ============================================================
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:307 已请求打开司机 App，等待前台页面就绪，最多30秒
+INFO     airtest.core.ios.rotation:rotation.py:85 update orientation None->PORTRAIT
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:315 司机 App 前台已确认，继续读取业务阶段
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:549 检测到未完成订单：前往上车点；保留当前页面，继续剩余流程，不重新出车或下单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:657 【包車價的士+Alipay HK】检测到已有订单，当前阶段：前往上车点；跳过乘客清理和重复下单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:136 【包車價的士+Alipay HK】接续当前订单，不重设起终点、不确认呼叫、不重新预付
+INFO     JRYG_HK_ios:JRYG_order_flow.py:182 ============================================================
+INFO     JRYG_HK_ios:JRYG_order_flow.py:183 【阶段 3】司机 UI：接单→到达上车点→接载→到达目的地→确认账单
+INFO     JRYG_HK_ios:JRYG_order_flow.py:184 ============================================================
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:307 已请求打开司机 App，等待前台页面就绪，最多30.0秒
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:315 司机 App 前台已确认，继续读取业务阶段
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:611 司机 UI 阶段：前往上车点
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:341 滑动操作：到達上車地點
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:611 司机 UI 阶段：等待乘客上车
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:341 滑动操作：已接載乘客
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:611 司机 UI 阶段：送乘客
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:341 滑动操作：到達目的地
+WARNING  JRYG_driver_ui:JRYG_driver_ui.py:652 送乘客首滑未生效，当前仍为同阶段；仅重试一次，不模拟定位
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:341 滑动操作：到達目的地
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:611 司机 UI 阶段：确认账单
+INFO     JRYG_driver_ui:JRYG_driver_ui.py:329 已保存页面现场：/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/driver_ui/1793933209270168000_failed_order_flow
+---------------------------- Captured log teardown -----------------------------
+INFO     JRYG_HK_ios:JRYG_page_monitor.py:188 [页面检测] state=unknown
+ERROR    JRYG_HK_ios:JRYG_page_monitor.py:213 [卡点现场] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/diagnostics/1793933211872497000_test_order_flow
+INFO     JRYG_HK_ios:JRYG_order_flow.py:107 【teardown】保留司机 App 出车状态，不自动收车
+INFO     JRYG_HK_ios:JRYG_ios_ui_base.py:83 【iOS 自动化】测试执行结束，正在安全释放连接通道。
+=============================== warnings summary ===============================
+../.venv/lib/python3.9/site-packages/urllib3/__init__.py:35
+  /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- Generated html report: file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261106_104507_672948/01_JRYG_test_ios_charter_alipay_order.html -
+=========================== short test summary info ============================
+FAILED cases/JRYG_test_ios_charter_alipay_order.py::TestCharterAlipay::test_order_flow
+======================== 1 failed, 1 warning in 59.71s =========================
+==================================================
+      JRYG 港版阳光出行 iOS 测试执行引擎 -ios (Completed)
+==================================================
+
+[报告] file:///Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261106_104507_672948/01_JRYG_test_ios_charter_alipay_order.html
+[清理] 本次测试、WDA及转发进程已结束；不取消订单、不收车。
+[停止] 当前用例或设备准备失败，退出码1；不启动后续用例。
+[批量报告] /Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/report/batches/20261106_104507_672948/batch_result.json
+[钉钉报告] 已发送本次批次摘要。
