@@ -1,7 +1,10 @@
-.idea_backup/
+.DS_Store
 .idea/
+.idea_backup/
+.venv-deploy/
 __pycache__/
 *.pyc
+*.pyo
 report.html
 test_log/
 .pytest_cache/
