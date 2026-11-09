@@ -1,0 +1,59 @@
+# 香港Android配置，默认业务参数与已验证iOS基线一致。
+# 设备UDID明确指定当前已连接设备，不自动切换其他手机。
+device:
+  udid: "10AE6U20A7001H5"
+  platform_name: "Android"
+  platform_version: "15"
+  device_name: "Android_Device"
+  appium_host: "127.0.0.1"
+  appium_port: 4723
+  system_port: 8201
+  session_create_timeout: 180
+  request_timeout: 20
+  uiautomator2_server_read_timeout: 15000
+  disable_window_animation: true
+  # 页面加载、搜索动画和地图持续变化，使用框架显式状态等待替代系统空闲等待。
+  wait_for_idle_timeout: 0
+  wait_for_selector_timeout: 0
+
+driver:
+  # auto按UDID是否相同决定shared/dual；shared顺序切换双App，dual须独立司机UDID。
+  device_mode: "auto"
+  # 留空复用乘客设备；双设备的UiAutomator2端口必须与乘客端不同。
+  udid: ""
+  system_port: 8202
+  fare: "5"
+  surcharge: "0"
+  passenger_tail: ""
+  # 非目标测试单的打表金额与尾号独立配置，不套用目标单的环境变量覆盖值。
+  # 包车只读取固定车费；现金未确认实收时停止，其他非目标单不代乘客付款。
+  non_target_fare: "5"
+  non_target_surcharge: "0"
+  non_target_passenger_tail: ""
+  non_target_cash_collected: false
+
+login:
+  country_code: "852"
+  mobile: "11018251727"
+  # 香港测试环境的11位测试账号；未配置时仍按8位香港号码校验。
+  mobile_length: 11
+  # 当前App的tv_mine_name固定显示4个星号加末4位，不代表号码被截断。
+  account_mask_mode: "fixed_tail4"
+  launch_timeout: 30
+  timeout: 90
+
+# Appium会话使用乘客包名/Activity；司机包由公共设备封装指定。
+packages:
+  passenger_hk: "com.sunlightmobility.client"
+  passenger_hk_activity: "com.sunlightmobility.client.launcher.YGALoadingActivity"
+
+order_validation:
+  expected_driver_phone: "11000005"
+  max_attempts: 5
+  dispatch_timeout: 90
+  state_timeout: 30
+  completion_timeout: 90
+  total_timeout: 900
+  start_names: ["北角(地鐵站)", "北角地鐵站"]
+  end_names: ["香港大學", "香港大学"]
+  end_details: ["香港特別行政區中西區薄扶林道", "香港特别行政区中西区薄扶林道"]
