@@ -1,0 +1,67 @@
+# ==================== 系统分类 ====================
+# 接口: GET /v3/system/version-update (版本升级检测)
+
+test_cases:
+  - name: "TC-009 正常版本升级检测"
+    description: "iOS 系统类型、正常版本号，期望返回升级信息"
+    priority: "P0"
+    method: GET
+    path: "/v3/system/version-update"
+    params:
+      systemType: "1"
+      city_id: "566"
+      version: "4.6.0"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-010 空版本号"
+    description: "版本号为空时，服务器返回升级信息"
+    priority: "P0"
+    method: GET
+    path: "/v3/system/version-update"
+    params:
+      systemType: "1"
+      city_id: "566"
+      version: ""
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-011 错误系统类型"
+    description: "无效 systemType 返回成功"
+    priority: "P0"
+    method: GET
+    path: "/v3/system/version-update"
+    params:
+      systemType: "99"
+      city_id: "566"
+      version: "4.6.0"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-012 最新版本无更新"
+    description: "最新版本号应返回无需更新"
+    priority: "P0"
+    method: GET
+    path: "/v3/system/version-update"
+    params:
+      systemType: "1"
+      city_id: "566"
+      version: "9.9.9"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

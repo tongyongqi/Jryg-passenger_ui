@@ -1,0 +1,315 @@
+# ==================== 接站一口价订单 ====================
+#
+# 接口列表：
+#       POST /v3/location/choose-address      (获取推荐终点列表)
+#       POST /v3/location/choose-address      (搜索终点)
+#       POST /v3/bury-point/address            (选择终点)
+#       POST /v3/book-order/car-type-list       (询价)
+#       GET  /v3/book-order/car-type-list-note   (获取车型空间)
+#       POST /v3/book-order/future-fee-detail    (获取费用详情)
+#       POST /v3/book-order/car-type-book        (订单确认)
+#       POST /passengerApi/coupon/listBeforeOrder (获取可用优惠券列表)
+#       POST /v3/book-order/confirm-pay           (支付宝下单)
+#       POST /v3/book-order/order-detail          (待支付页订单详情)
+#       POST /v3/book-order/prepare-pay           (待支付页微信下单)
+#       POST /v3/book-order/order-cancel-confirm  (取消订单)
+#       POST /v3/book-order/order-cancel-reason   (确认取消订单)
+#       POST /v3/book-order/cancel-reason-commit  (提交取消原因)
+#
+
+test_cases:
+  - name: "TC-093 接站获取推荐终点列表"
+    description: "已登录，接站一口价获取推荐终点列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      address_type: "2"
+      city_id: "566"
+      latitude: "${latitude_zhongdian}"
+      longitude: "${longitude_zhongdian}"
+      nonce: "${Data_Time}"
+      user_id: "4450443"
+      service_type: "4"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-094 接站搜索终点"
+    description: "已登录，接站一口价搜索终点"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      address_type: "2"
+      city_id: "566"
+      keywords: "${address_qidian}"
+      latitude: "${latitude_qidian}"
+      longitude: "${longitude_qidian}"
+      service_type: "4"
+      user_id: "4450443"
+    extract:
+      Destination_city_id: "data.pois.0.city_id"
+      Destination_latitude: "data.pois.0.latitude"
+      Destination_longitude: "data.pois.0.longitude"
+      Destination_address: "data.pois.0.location"
+      Destination_addressDetail: "data.pois.0.detail"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-095 接站选择终点"
+    description: "已登录，接站一口价选择终点"
+    priority: "P0"
+    method: POST
+    path: "/v3/bury-point/address"
+    need_login: true
+    params:
+      address: "${Destination_address}"
+      addressDetail: "${Destination_addressDetail}"
+      addressType: "2"
+      chooseType: "1"
+      cityId: "${Destination_city_id}"
+      latitude: "${Destination_latitude}"
+      longitude: "${Destination_longitude}"
+      nonce: "${Data_Time}"
+      userMobile: "11001234568"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-096 接站询价"
+    description: "已登录，接站一口价询价"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/car-type-list"
+    need_login: true
+    params:
+      begin_poi_id: ""
+      cityId: 566
+      endAddress: "${address_zhongdian}"
+      endDetailAddress: "${Destination_addressDetail}"
+      end_poi_id: ""
+      endLat: "${latitude_zhongdian}"
+      endLng: "${longitude_zhongdian}"
+      serviceType: 21
+      startAddress: "${Destination_address}"
+      startDetailAddress: "${Destination_addressDetail}"
+      startLat: "${Destination_latitude}"
+      startLng: "${Destination_longitude}"
+      useTime: "${Use_Time}"
+    extract:
+      T_Pickupstation_Price_Token: "data.pricemark"
+      T_Pickupstation_Car_Type_ID: "data.car_type_list.0.car_type_id"
+      T_Pickupstation_Order_Price: "data.car_type_list.0.order_price"
+      T_Pickupstation_Seats: "data.car_type_list.0.seats"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-097 接站获取车型空间"
+    description: "已登录，接站一口价获取车型空间说明"
+    priority: "P0"
+    method: GET
+    path: "/v3/book-order/car-type-list-note"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-098 接站获取费用详情"
+    description: "已登录，接站一口价获取费用详情"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/future-fee-detail"
+    need_login: true
+    params:
+      pricemark: "${T_Pickupstation_Price_Token}"
+      carTypeId: "${T_Pickupstation_Car_Type_ID}"
+      serviceType: 21
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-099 接站订单确认"
+    description: "已登录，接站一口价订单确认"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/car-type-book"
+    need_login: true
+    params:
+      carTypeId: "${T_Pickupstation_Car_Type_ID}"
+      nonce: "${Data_Time}"
+      pricemark: "${T_Pickupstation_Price_Token}"
+      serviceType: 21
+    extract:
+      T_Pickupstation_Car_Type_ID: "data.car_type_id"
+      T_Pickupstation_City_ID: "data.city_id"
+      T_Pickupstation_Order_Price: "data.order_price"
+      T_Pickupstation_Order_Type: "data.service_type"
+      T_Pickupstation_Seats: "data.seats"
+      T_Pickupstation_Use_Time: "data.use_time"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-100 接站获取可用优惠券列表"
+    description: "已登录，接站一口价获取可用优惠券列表"
+    priority: "P0"
+    method: POST
+    path: "/passengerApi/coupon/listBeforeOrder"
+    need_login: true
+    params:
+      carOrderType: "1"
+      carTypeId: "${T_Pickupstation_Car_Type_ID}"
+      cityID: "${T_Pickupstation_City_ID}"
+      nonce: "${Data_Time}"
+      money: "${T_Pickupstation_Order_Price}"
+      orderType: 21
+      terminal: "${T_Pickupstation_Seats}"
+      useTime: "${T_Pickupstation_Use_Time}"
+    extract:
+      T_Pickupstation_Coupon_Code: "data.0.couponCode"
+      T_Pickupstation_Coupon_ID: "data.0.id"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-101 接站支付宝下单"
+    description: "已登录，接站一口价支付宝下单"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/confirm-pay"
+    need_login: true
+    params:
+      carTypeId: "${T_Pickupstation_Car_Type_ID}"
+      mobile: "11000000038"
+      name: "测试"
+      nonce: "${Data_Time}"
+      orderPrice: "${T_Pickupstation_Order_Price}"
+      payType: 1
+      pricemark: "${T_Pickupstation_Price_Token}"
+      serviceType: 21
+      couponCode: "${T_Pickupstation_Coupon_Code}"
+      couponId: "${T_Pickupstation_Coupon_ID}"
+    extract:
+      T_Pickupstation_Order_ID: "data.order_id"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-102 接站待支付页"
+    description: "已登录，接站一口价待支付页订单详情"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/order-detail"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${T_Pickupstation_Order_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-103 接站待支付页微信下单"
+    description: "已登录，接站一口价待支付页微信下单"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/prepare-pay"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${T_Pickupstation_Order_ID}"
+      payType: 2
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-104 接站取消订单"
+    description: "已登录，接站一口价取消订单"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/order-cancel-confirm"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${T_Pickupstation_Order_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-105 接站确认取消订单"
+    description: "已登录，接站一口价确认取消订单"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/order-cancel-reason"
+    need_login: true
+    params:
+      orderId: "${T_Pickupstation_Order_ID}"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-106 接站提交取消原因"
+    description: "已登录，接站一口价提交取消原因"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/cancel-reason-commit"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${T_Pickupstation_Order_ID}"
+      reason: "自动化测试"
+      reasonId: 11
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

@@ -1,0 +1,7 @@
+.idea_backup/
+.idea/
+__pycache__/
+*.pyc
+report.html
+test_log/
+.pytest_cache/

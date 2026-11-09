@@ -1,0 +1,336 @@
+# ==================== 送机一口价订单接口 ====================
+# 流程：
+#       POST /v4/lbs/querypois                  (获取推荐起点POI)
+#       POST /v3/location/choose-address        (获取推荐起点列表)
+#       POST /v3/location/choose-address        (搜索起点)
+#       POST /v3/bury-point/address             (选择起点)
+#       POST /v3/book-order/car-type-list       (询价)
+#       GET  /v3/book-order/car-type-list-note  (获取车型空间说明)
+#       POST /v3/book-order/future-fee-detail   (获取费用详情)
+#       POST /v3/book-order/car-type-book       (订单确认)
+#       POST /passengerApi/coupon/listBeforeOrder (获取可用优惠券列表)
+#       POST /v3/book-order/confirm-pay            (支付宝下单)
+#       POST /v3/book-order/order-detail            (待支付页订单详情)
+#       POST /v3/book-order/prepare-pay              (待支付页微信下单)
+#       POST /v3/book-order/order-cancel-confirm      (取消订单)
+#       POST /v3/book-order/order-cancel-reason       (确认取消订单)
+#       POST /v3/book-order/cancel-reason-commit      (提交取消原因)
+#
+
+test_cases:
+  - name: "TC-078 送机获取推荐起点POI"
+    description: "已登录，送机一口价获取推荐起点POI"
+    priority: "P0"
+    method: POST
+    path: "/v4/lbs/querypois"
+    need_login: true
+    params:
+      addressType: "1"
+      cityId: "${Sendoff_City_ID}"
+      latitude: "${Sendoff_Latitude}"
+      longitude: "${Sendoff_Longitude}"
+      nonce: "${Data_Time}"
+      serviceType: "2"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-079 送机获取推荐起点列表"
+    description: "已登录，送机一口价获取推荐起点列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      address_type: "1"
+      city_id: "${Sendoff_City_ID}"
+      latitude: "${Sendoff_Latitude}"
+      longitude: "${Sendoff_Longitude}"
+      nonce: "${Data_Time}"
+      service_type: "2"
+      user_id: "${Login_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-080 送机搜索起点"
+    description: "已登录，送机一口价搜索起点"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      address_type: "1"
+      city_id: "${Sendoff_City_ID}"
+      keywords: "金运大厦"
+      latitude: "39.950802"
+      longitude: "116.354508"
+      nonce: "${Data_Time}"
+      service_type: "2"
+      user_id: "${Login_ID}"
+    extract:
+      Sendoff_Start_Latitude: "data.pois.0.latitude"
+      Sendoff_Start_Longitude: "data.pois.0.longitude"
+      Sendoff_Start_Location: "data.pois.0.location"
+      Sendoff_Start_Detail: "data.pois.0.detail"
+      Sendoff_Start_Poi_ID: "data.pois.0.poi_id"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-081 送机选择起点"
+    description: "已登录，送机一口价选择起点"
+    priority: "P0"
+    method: POST
+    path: "/v3/bury-point/address"
+    need_login: true
+    params:
+      address: "${Sendoff_Start_Location}"
+      addressDetail: "${Sendoff_Start_Detail}"
+      addressType: "1"
+      chooseType: "1"
+      cityId: "566"
+      latitude: "${Sendoff_Start_Latitude}"
+      longitude: "${Sendoff_Start_Longitude}"
+      nonce: "${Data_Time}"
+      poi_id: "${Sendoff_Start_Poi_ID}"
+      userMobile: "${User_Mobile}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-082 送机询价"
+    description: "已登录，送机一口价询价"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/car-type-list?nonce=${Data_Time}"
+    need_login: true
+    params:
+      begin_poi_id: "${Sendoff_Start_Poi_ID}"
+      cityId: 566
+      endAddress: "首都机场T1航站楼"
+      endDetailAddress: "首都机场T1航站楼"
+      endLat: "40.079099"
+      endLng: "116.589655"
+      end_poi_id: "BV11078012"
+      serviceType: 12
+      startAddress: "${Sendoff_Start_Location}"
+      startDetailAddress: "${Sendoff_Start_Location}"
+      startLat: "${Sendoff_Start_Latitude}"
+      startLng: "${Sendoff_Start_Longitude}"
+      useTime: "${Use_Time}"
+    extract:
+      Sendoff_Price_Token: "data.pricemark"
+      Sendoff_Car_Type_ID: "data.car_type_list.0.car_type_id"
+      Sendoff_Order_Price: "data.car_type_list.0.order_price"
+      Sendoff_Seats: "data.car_type_list.0.seats"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-083 送机获取车型空间说明"
+    description: "已登录，送机一口价获取车型空间说明"
+    priority: "P0"
+    method: GET
+    path: "/v3/book-order/car-type-list-note"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-084 送机获取费用详情"
+    description: "已登录，送机一口价获取费用详情"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/future-fee-detail"
+    need_login: true
+    params:
+      pricemark: "${Sendoff_Price_Token}"
+      carTypeId: "${Sendoff_Car_Type_ID}"
+      serviceType: "12"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-085 送机订单确认"
+    description: "已登录，送机一口价订单确认"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/car-type-book"
+    need_login: true
+    params:
+      pricemark: "${Sendoff_Price_Token}"
+      carTypeId: "${Sendoff_Car_Type_ID}"
+      serviceType: "12"
+      nonce: "${Data_Time}"
+    extract:
+      Sendoff_Car_Type_ID: "data.car_type_id"
+      Sendoff_City_ID: "data.city_id"
+      Sendoff_Order_Price: "data.total_price"
+      Sendoff_Order_Type: "data.order_type"
+      Sendoff_Seats: "data.seats"
+      Sendoff_Use_Time: "data.use_time"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-086 送机获取可用优惠券列表"
+    description: "已登录，送机一口价获取可用优惠券列表"
+    priority: "P0"
+    method: POST
+    path: "/passengerApi/coupon/listBeforeOrder"
+    need_login: true
+    params:
+      carOrderType: "1"
+      carTypeId: "${Sendoff_Car_Type_ID}"
+      cityID: "${Sendoff_City_ID}"
+      nonce: "${Data_Time}"
+      money: "${Sendoff_Order_Price}"
+      orderType: "12"
+      terminal: "${Sendoff_Seats}"
+      useTime: "${Sendoff_Use_Time}"
+    extract:
+      Sendoff_Coupon_Code: "data.0.couponCode"
+      Sendoff_Coupon_ID: "data.0.id"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-087 送机支付宝下单"
+    description: "已登录，送机一口价支付宝下单"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/confirm-pay"
+    need_login: true
+    params:
+      carTypeId: "${Sendoff_Car_Type_ID}"
+      mobile: "${User_Mobile}"
+      name: "测试"
+      nonce: "${Data_Time}"
+      orderPrice: "${Sendoff_Order_Price}"
+      pricemark: "${Sendoff_Price_Token}"
+      serviceType: "12"
+      payType: "1"
+      couponCode: "${Sendoff_Coupon_Code}"
+      couponId: "${Sendoff_Coupon_ID}"
+    extract:
+      Sendoff_Order_ID: "data.order_id"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-088 送机待支付页"
+    description: "已登录，送机一口价待支付页订单详情"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/order-detail"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Sendoff_Order_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-089 送机待支付页微信下单"
+    description: "已登录，送机一口价待支付页微信下单"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/prepare-pay"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Sendoff_Order_ID}"
+      payType: "2"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-090 送机取消订单"
+    description: "已登录，送机一口价取消订单"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/order-cancel-confirm"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Sendoff_Order_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-091 送机确认取消订单"
+    description: "已登录，送机一口价确认取消订单"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/order-cancel-reason"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Sendoff_Order_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-092 送机提交取消原因"
+    description: "已登录，送机一口价提交取消原因"
+    priority: "P0"
+    method: POST
+    path: "/v3/book-order/cancel-reason-commit"
+    need_login: true
+    params:
+      nonce: "${Data_Time}"
+      orderId: "${Sendoff_Order_ID}"
+      reason: "测试"
+      reasonId: "11"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

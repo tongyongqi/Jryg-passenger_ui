@@ -1,0 +1,37 @@
+# ==================== 下单前数据及用户信息（P2）====================
+
+test_cases:
+  - name: "TC-001 检验手机号是否绑定微信"
+    description: "验证查询手机号是否绑定微信功能"
+    priority: "P2"
+    method: POST
+    path: "/v3/user/mobile-bind-wx"
+    params:
+      nonce: "${Data_Time}"
+      mobile: 11000000030
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-002 推荐上车点"
+    description: "验证获取推荐上车点功能"
+    priority: "P2"
+    method: POST
+    path: "/v5/lbs/parking-rec"
+    params:
+      nonce: "${Data_Time}"
+      latitude: 116.36145
+      longitude: 39.94647
+      address_type: 1
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        operator: "in"
+        expected:
+          - 10000
+          - 10007

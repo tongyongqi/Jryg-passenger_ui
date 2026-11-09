@@ -1,0 +1,66 @@
+# ==================== 位置分类 ====================
+# 接口: POST /v3/location/format-city-info (格式化城市信息)
+#       POST /v3/location/choose-address   (获取推荐终点列表)
+
+test_cases:
+  - name: "TC-013 正常格式化城市信息"
+    description: "传入版本号，期望返回城市信息"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/format-city-info"
+    params:
+      version: "83c52c5749135d6bdad18ad7b1f4187d"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-014 空版本号"
+    description: "版本号为空返回成功"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/format-city-info"
+    params:
+      version: ""
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-015 错误版本号"
+    description: "无效版本号返回成功"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/format-city-info"
+    params:
+      version: "00000000000000000000000000000000"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-031 获取推荐终点列表"
+    description: "已登录，获取推荐终点地址列表"
+    priority: "P0"
+    method: POST
+    path: "/v3/location/choose-address"
+    need_login: true
+    params:
+      city_id: "${City_ID}"
+      address_type: "2"
+      latitude: "0.000000"
+      longitude: "0.000000"
+      service_type: "0"
+      user_id: "${Login_ID}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

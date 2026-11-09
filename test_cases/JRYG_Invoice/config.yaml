@@ -1,0 +1,39 @@
+# ==================== 开票分类 ====================
+# 接口: POST /passengerApi/invoice/notCompletedTripInvoiceList   (获取按行程开票列表)
+#       POST /passengerApi/invoice/completedInvoiceList          (获取开票历史列表)
+# 前置条件: 需要登录
+
+test_cases:
+  - name: "TC-001 获取按行程开票列表"
+    description: "已登录，获取未完成行程的开票列表"
+    priority: "P0"
+    method: POST
+    path: "/passengerApi/invoice/notCompletedTripInvoiceList"
+    need_login: true
+    params:
+      page: "1"
+      page_size: "10"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-002 获取开票历史列表"
+    description: "已登录，获取已完成的开票历史列表"
+    priority: "P0"
+    method: POST
+    path: "/passengerApi/invoice/completedInvoiceList"
+    need_login: true
+    params:
+      page: "1"
+      page_size: "10"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

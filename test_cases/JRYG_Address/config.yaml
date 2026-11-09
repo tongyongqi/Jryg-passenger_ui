@@ -1,0 +1,59 @@
+# ==================== 常用地址分类 ====================
+# 接口: GET  /passengerApi/address/list    (常用地址列表)
+#       POST /passengerApi/address/save    (新增常用地址)
+#       POST /passengerApi/address/remove  (清空常用地址)
+# 前置条件: 需要登录
+
+test_cases:
+  - name: "TC-001 常用地址列表"
+    description: "已登录，获取常用地址列表"
+    priority: "P1"
+    method: GET
+    path: "/passengerApi/address/list"
+    need_login: true
+    params:
+      page: "1"
+      page_size: "10"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-002 新增常用地址"
+    description: "已登录，新增常用地址-北京簋街"
+    priority: "P1"
+    method: POST
+    path: "/passengerApi/address/save"
+    need_login: true
+    params:
+      latitude: "39.941746"
+      longitude: "116.424768"
+      location: "北京簋街"
+      type: "1"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-003 清空常用地址"
+    description: "已登录，清空常用地址"
+    priority: "P1"
+    method: POST
+    path: "/passengerApi/address/remove"
+    need_login: true
+    params:
+      page: "1"
+      page_size: "10"
+      nonce: "${Data_Time}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

@@ -1,0 +1,85 @@
+# ==================== LBS分类 ====================
+# 接口: POST /v3/lbs/around-driver (获取附近司机)
+#       POST /v3/lbs/parking-rec   (获取推荐上车点)
+#       POST /v3/lbs/regeo-point   (获取当前位置信息)
+
+test_cases:
+  - name: "TC-019 正常获取附近司机"
+    description: "已登录传入经纬度，期望返回附近司机信息"
+    priority: "P0"
+    method: POST
+    path: "/v3/lbs/around-driver"
+    need_login: true
+    re_login: true
+    params:
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-020 经纬度为0"
+    description: "经纬度为0时应返回错误"
+    priority: "P0"
+    method: POST
+    path: "/v3/lbs/around-driver"
+    params:
+      latitude: "0"
+      longitude: "0"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+        operator: "!="
+
+  - name: "TC-021 缺少经纬度参数"
+    description: "不传经纬度应被拒绝"
+    priority: "P0"
+    method: POST
+    path: "/v3/lbs/around-driver"
+    params: {}
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+        operator: "!="
+
+  - name: "TC-022 正常获取推荐上车点"
+    description: "已登录传入经纬度，期望返回推荐上车点"
+    priority: "P0"
+    method: POST
+    path: "/v3/lbs/parking-rec"
+    need_login: true
+    re_login: true
+    params:
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000
+
+  - name: "TC-023 正常获取当前位置信息"
+    description: "已登录传入经纬度，期望返回当前位置信息"
+    priority: "P0"
+    method: POST
+    path: "/v3/lbs/regeo-point"
+    need_login: true
+    params:
+      latitude: "${Current_Latitude}"
+      longitude: "${Current_Longitude}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "code"
+        expected: 10000

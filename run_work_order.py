@@ -1,0 +1,592 @@
+# -*- coding: utf-8 -*-
+# 这个文件的功能是全自动调度和一键集中管理及执行控制台的代码
+
+import asyncio
+import os
+import sys
+
+# 1. 统一构建最高级别的 Python 搜索路径，确保彻底兼容任何物理目录、工作空间运行场景
+root_dir = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(root_dir)
+
+# 统一导入项目内的所有核心功能模块
+from WorkOrder.order import run_create_flow as run_work_order_create_flow
+from WorkOrder.accept_order import run_accept_flow as run_work_order_accept_flow
+from WorkOrder.settle_order import run_settle_flow as run_work_order_settle_flow
+from create_coupon.run_create import main as run_create_coupon_flow
+import send_coupon as mainland_coupon_module
+import send_hk_coupon as hk_coupon_module
+from send_coupon.send_coupon_direct import send_coupon_direct
+from create_coupon.create_coupon_direct import create_coupon_direct
+import config_business
+import config_common
+from logger.logger import sys_logger
+from refund_order.refund_order import apply_refund
+from database.mysql_client import run_interactive_console
+import community_draw.community_draw as community_draw_module
+import create_coupon_activity.create_coupon_activity as create_coupon_activity_module
+
+
+# ==========================================================================
+# 🚦 主执行调度引擎 (置于最上方：一键导航、极速选择、随时跳转修改各模块参数)
+# ==========================================================================
+
+def run_scheduler():
+    """
+    调度启动中心：处理用户菜单输入，并动态路由启动对应时机模块。
+    """
+    # ==========================================================================
+    # 🚦 极简一键功能选择控制台 (👉 提示：请按住 Ctrl/Cmd 点击右侧蓝色函数名，直接自动导航跳转！)
+    # ==========================================================================
+    一键高亮导航 = {
+        "1-[工单自动创建]": run_mode_1_工单全自动创建,
+        "2-[创建优惠券]": run_mode_2_创建优惠券流程,
+        "3-[发放大陆券]": run_mode_3_发放大陆优惠券,
+        "4-[发放香港券]": run_mode_4_发放香港优惠券,
+        "5-[工单受理流程]": run_mode_5_工单受理流程,
+        "6-[工单退款结算]": run_mode_6_工单退款结算流程,
+        "7-[极速接口退款]": run_mode_7_接口退款,
+        "8-[数据库控制台]": run_mode_8_数据库控制台,
+        "9-[直连发券]": run_mode_9_直连接口发券,
+        "10-[接口创建券]": run_mode_10_直连接口创建优惠券,
+        "11-[社群抽奖]": run_mode_11_社群抽奖活动创建,
+        "12-[领券活动]": run_mode_12_领券活动创建,
+    }
+    # --------------------------------------------------------------------------
+    # 💡 优化体验：如果保持默认变量 (默认为 None)，将自动弹出交互菜单让您输入数字执行！
+    RUN_MODE = None
+
+    # ==========================================================================
+    # ⚙️ 共享控制参数 (修改以下参数可灵活控制各功能模块运行)
+    # ==========================================================================
+    # 鉴权登录配置：True 代表开启静默无头模式，False 代表真实弹出浏览器界面方便观察
+    HEADLESS = True
+
+    # 🚀 自动化启动中心：根据 RUN_MODE 执行对应的核心流转逻辑
+    if RUN_MODE is None:
+        print("\n" + "=" * 70)
+        print("  🎫 优惠券与工单自动化调度系统 - 功能选择控制台")
+        print("=" * 70)
+        print("  [1] 🛠️ 工单全自动创建流程")
+        print("  [2] 🎫 创建优惠券流程（并自动审批）")
+        print("  [3] 🚀 发放大陆优惠券（接口发放）")
+        print("  [4] 🚀 发放香港优惠券（接口发放）")
+        print("  [5] 🛠️ 工单受理流程（自动检测三分支）")
+        print("  [6] 🛠️ 工单退款结算流程")
+        print("  [7] 💰 接口一键退款（极速接口，无需浏览器）")
+        print("  [8] 🗄️ 数据库交互调试控制台（联表查券、清券、微信/芝麻绑定）")
+        print("  [9] 🚀 直连接口发券（不经过扶摇，纯接口发放）")
+        print("  [10] 🎫 直连接口创建优惠券（不启动浏览器，纯接口创建）")
+        print("  [11] 🎲 社群抽奖活动创建（扶摇登录截获Token，接口创建）")
+        print("  [12] 🎟️ 领券活动创建（扶摇登录截获Token，接口创建）")
+        print("  [0] 🚪 退出程序")
+        print("=" * 70)
+        user_input = input("👉 请选择您想运行的功能编号 [1-12, 0退出]: ").strip()
+        if user_input == "0" or not user_input:
+            print("👋 运行已退出。")
+            sys.exit(0)
+        if user_input.isdigit() and 1 <= int(user_input) <= 12:
+            RUN_MODE = int(user_input)
+        else:
+            print("⚠️ 输入错误，自动退出！")
+            sys.exit(1)
+
+    sys_logger.info("="*70)
+    sys_logger.info(f"启动 优惠券与工单自动化调度系统 (RUN_MODE: {RUN_MODE})")
+    sys_logger.info(f"当前浏览器静默模式 HEADLESS: {HEADLESS}")
+    sys_logger.info("="*70)
+
+    # 映射路由并启动对应模块
+    if RUN_MODE == 1:
+        run_mode_1_工单全自动创建(headless=HEADLESS)
+    elif RUN_MODE == 2:
+        run_mode_2_创建优惠券流程(headless=HEADLESS)
+    elif RUN_MODE == 3:
+        run_mode_3_发放大陆优惠券(headless=HEADLESS)
+    elif RUN_MODE == 4:
+        run_mode_4_发放香港优惠券(headless=HEADLESS)
+    elif RUN_MODE == 5:
+        run_mode_5_工单受理流程(headless=HEADLESS)
+    elif RUN_MODE == 6:
+        run_mode_6_工单退款结算流程(headless=HEADLESS)
+    elif RUN_MODE == 7:
+        run_mode_7_接口退款(headless=HEADLESS)
+    elif RUN_MODE == 8:
+        run_mode_8_数据库控制台(headless=HEADLESS)
+    elif RUN_MODE == 9:
+        run_mode_9_直连接口发券(headless=HEADLESS)
+    elif RUN_MODE == 10:
+        run_mode_10_直连接口创建优惠券(headless=HEADLESS)
+    elif RUN_MODE == 11:
+        run_mode_11_社群抽奖活动创建(headless=HEADLESS)
+    elif RUN_MODE == 12:
+        run_mode_12_领券活动创建(headless=HEADLESS)
+    else:
+        sys_logger.error(f"未知运行模式 RUN_MODE: {RUN_MODE}，请将其设置为 1-12 中的数字！")
+
+
+# ==========================================================================
+# ⚙️ 模块化功能定义区域 (Ctrl+Click/Cmd+Click 右侧函数名可一键导航至此修改参数)
+# ==========================================================================
+
+def run_mode_1_工单全自动创建(headless=True):
+    """
+    ========================================================================
+    🛠️ MODE 1. 工单全自动创建配置
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 待创建工单的订单号列表 (支持配置单个或多个)
+    ORDER_IDS_1 = [
+        "7359089825"
+    ]
+    # 工单类型选择 (如投诉、建议等)
+    WORK_ORDER_TYPE_1 = "投诉"
+    # 工单内容/受理备注说明
+    WORK_ORDER_REMARK_1 = "自动创建工单"
+    # 默认关联的 meta_id 属性
+    META_ID_1 = "113491"
+    # 默认关联的 order_type 属性
+    ORDER_TYPE_1 = "5"
+    # -----------------------------------------------
+
+    # 是否在创建工单后自动衔接受理流程（无需二次选择菜单）
+    AUTO_ACCEPT_AFTER_CREATE = True
+
+    sys_logger.info("正在执行工单全自动创建流转程序...")
+    sys_logger.info(f"待处理的订单号列表 ORDER_IDS: {ORDER_IDS_1}")
+    sys_logger.info(f"工单类型: {WORK_ORDER_TYPE_1} | 备注: {WORK_ORDER_REMARK_1}")
+    
+    # 将运行脚本内的工单配置同步到 config_business 模块
+    config_business.TARGET_ORDER_ID_1 = ORDER_IDS_1[0] if ORDER_IDS_1 else ""
+    config_business.TARGET_ORDER_ID = ORDER_IDS_1[0] if ORDER_IDS_1 else ""
+    config_business.WORK_ORDER_TYPE_1 = WORK_ORDER_TYPE_1
+    config_business.WORK_ORDER_TYPE = WORK_ORDER_TYPE_1
+    config_business.WORK_ORDER_REMARK_1 = WORK_ORDER_REMARK_1
+    config_business.WORK_ORDER_REMARK = WORK_ORDER_REMARK_1
+    config_business.META_ID_1 = META_ID_1
+    config_business.META_ID = META_ID_1
+    config_business.ORDER_TYPE_1 = ORDER_TYPE_1
+    config_business.ORDER_TYPE = ORDER_TYPE_1
+    
+    asyncio.run(run_work_order_create_flow(headless=headless, order_ids=ORDER_IDS_1))
+
+    # 创建工单完成后，自动衔接受理流程
+    if AUTO_ACCEPT_AFTER_CREATE and ORDER_IDS_1:
+        sys_logger.info("=" * 50)
+        sys_logger.info("工单创建完成，自动衔接受理流程...")
+        sys_logger.info(f"待受理的订单号: {ORDER_IDS_1[0]}")
+        sys_logger.info("=" * 50)
+        # 同步受理流程所需的订单号配置
+        config_business.TARGET_ORDER_ID_5 = ORDER_IDS_1[0]
+        config_business.TARGET_ORDER_ID = ORDER_IDS_1[0]
+        asyncio.run(run_work_order_accept_flow(headless=headless))
+
+
+def run_mode_2_创建优惠券流程(headless=True):
+    """
+    ========================================================================
+    🎫 MODE 2. 创建优惠券与提审流转配置
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 优惠券类型: "满减券" 或 "折扣券"
+    COUPON_TYPE = "折扣券"
+    # 拟创建的优惠券名称 (设置为 "自动生成" 或留空，系统将自动根据金额/折扣生成，例如“100元优惠券”或“8.5折优惠券”)
+    COUPON_NAME = "自动生成"
+    # 优惠券面值金额 (元) (仅在 COUPON_TYPE="满减券" 时生效)
+    FACE_VALUE = "200"
+    # 折扣数值 (例如 8.5 代表 8.5折, 仅在 COUPON_TYPE="折扣券" 时生效)
+    DISCOUNT_VALUE = "8.5"
+    # 使用门槛：满多少元可用 (元)
+    USE_RULE = "1"
+    # 最高抵扣比例百分比 (100 代表 100%)
+    MAX_DISCOUNT = "100"
+    # 优惠券发行量 (张)
+    COUPON_QTY = "100000"
+    # -----------------------------------------------
+
+    sys_logger.info("正在执行优惠券自动化创建与自动审核流转...")
+    
+    # 智能自愈：如果设置为 "自动生成" 或留空，则根据数值智能自动拼装优惠券名称
+    final_coupon_name = COUPON_NAME
+    if final_coupon_name == "自动生成" or not final_coupon_name.strip():
+        if COUPON_TYPE == "折扣券":
+            final_coupon_name = f"{DISCOUNT_VALUE}折优惠券"
+        else:
+            final_coupon_name = f"{FACE_VALUE}元优惠券"
+    sys_logger.info(f"✨ 智能生成的优惠券名称为: {final_coupon_name}")
+
+    # 将运行脚本内的优惠券配置同步到 config_business 模块
+    config_business.COUPON_TYPE = COUPON_TYPE
+    config_business.COUPON_NAME = final_coupon_name
+    config_business.FACE_VALUE = FACE_VALUE
+    config_business.DISCOUNT_VALUE = DISCOUNT_VALUE
+    config_business.USE_RULE = USE_RULE
+    config_business.MAX_DISCOUNT = MAX_DISCOUNT
+    config_business.COUPON_QTY = COUPON_QTY
+    
+    asyncio.run(run_create_coupon_flow(headless=headless))
+
+
+def run_mode_3_发放大陆优惠券(headless=True):
+    """
+    ========================================================================
+    🚀 MODE 3. 大陆优惠券接口一键发放配置
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 大陆发券的优惠券批次号
+    MAINLAND_COUPON_BATCH = 111660
+    # 大陆发券的单次发放数量 (张数，写死20张)
+    MAINLAND_SEND_NUM = 20
+    # -----------------------------------------------
+
+    # 环境选择交互
+    print("\n" + "-" * 50)
+    print("  🚀 请选择发券环境:")
+    print("  [1] 大陆测试环境（默认）")
+    print("  [2] 大陆预发环境 (pre)")
+    print("-" * 50)
+    env_choice = input("👉 请选择 [1=测试, 2=预发, 默认1]: ").strip()
+    if env_choice == "2":
+        config_common.ENVIRONMENT = "pre"
+        env_name = "大陆预发环境 (pre)"
+    else:
+        config_common.ENVIRONMENT = "test"
+        env_name = "大陆测试环境"
+
+    # 更新环境相关的运行时配置
+    config_common.BASE_URL = config_common.BASE_URL_PRE if config_common.ENVIRONMENT == "pre" else config_common.BASE_URL_TEST
+    config_common.USERNAME = config_common.USERNAME_PRE if config_common.ENVIRONMENT == "pre" else config_common.USERNAME_TEST
+    config_common.PASSWORD = config_common.PASSWORD_PRE if config_common.ENVIRONMENT == "pre" else config_common.PASSWORD_TEST
+
+    # 同步切换数据库环境配置，确保后续数据库查询也使用同一环境
+    if config_common.ENVIRONMENT == "pre":
+        config_business.DB_CONFIG = dict(config_business.PRE_DB_CONFIG)
+    else:
+        config_business.DB_CONFIG = {
+            "host": "172.19.0.132",
+            "port": 3306,
+            "user": "jryg_tx_test",
+            "password": "3G$opYrLCnqZxa6a",
+            "charset": "utf8mb4"
+        }
+
+    # 用户主动输入手机号
+    print(f"\n  当前环境: {env_name}")
+    print(f"  优惠券批次: {MAINLAND_COUPON_BATCH} | 发放数量: {MAINLAND_SEND_NUM} 张")
+    MAINLAND_MOBILES = input("👉 请输入目标接收手机号 (多个号码用英文逗号隔开): ").strip()
+    if not MAINLAND_MOBILES:
+        print("⚠️ 未输入手机号，自动退出！")
+        sys.exit(1)
+
+    sys_logger.info(f"正在执行大陆优惠券接口发放流程... 环境: {env_name} | 手机号: {MAINLAND_MOBILES} | 批次: {MAINLAND_COUPON_BATCH} | 数量: {MAINLAND_SEND_NUM}")
+    # 同步批次号到 config_business
+    config_business.SEND_COUPON_BATCH = str(MAINLAND_COUPON_BATCH)
+    asyncio.run(mainland_coupon_module.run_flow(headless=headless, mobiles=MAINLAND_MOBILES, send_num=MAINLAND_SEND_NUM))
+
+
+def run_mode_4_发放香港优惠券(headless=True):
+    """
+    ========================================================================
+    🚀 MODE 4. 香港优惠券接口一键发放配置
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 香港发券的目标接收手机号 (多个手机号可以用英文逗号隔开)
+    HK_MOBILES = "11006910"
+    # 香港发券的单次发放数量 (张数)
+    HK_SEND_NUM = 20
+    # -----------------------------------------------
+
+    sys_logger.info(f"正在执行香港优惠券接口发放流程... 手机号: {HK_MOBILES} | 数量: {HK_SEND_NUM}")
+    hk_coupon_module.send_hk_coupon(mobiles=HK_MOBILES, send_num=HK_SEND_NUM)
+
+
+def run_mode_5_工单受理流程(headless=True):
+    """
+    ========================================================================
+    🛠️ MODE 5. 工单受理流程（自动检测三分支）配置
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 待受理的订单号列表 (支持配置单个或多个)
+    ORDER_IDS_5 = [
+        "7359089825"
+    ]
+    # -----------------------------------------------
+
+    sys_logger.info("正在执行工单受理流程（三分支自动检测+受理完成提交）...")
+    config_business.TARGET_ORDER_ID_5 = ORDER_IDS_5[0] if ORDER_IDS_5 else ""
+    config_business.TARGET_ORDER_ID = ORDER_IDS_5[0] if ORDER_IDS_5 else ""
+    sys_logger.info(f"待受理的订单号: {config_business.TARGET_ORDER_ID}")
+    
+    asyncio.run(run_work_order_accept_flow(headless=headless))
+
+
+def run_mode_6_工单退款结算流程(headless=True):
+    """
+    ========================================================================
+    🛠️ MODE 6. 工单退款结算配置与流程
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 待结算的订单号列表 (支持配置单个或多个)
+    ORDER_IDS_6 = [
+        "7359089825"
+    ]
+    # -----------------------------------------------
+
+    sys_logger.info("正在执行工单退款结算与受理完成流程...")
+    config_business.TARGET_ORDER_ID_6 = ORDER_IDS_6[0] if ORDER_IDS_6 else ""
+    config_business.TARGET_ORDER_ID = ORDER_IDS_6[0] if ORDER_IDS_6 else ""
+    sys_logger.info(f"待结算的订单号: {config_business.TARGET_ORDER_ID}")
+    
+    asyncio.run(run_work_order_settle_flow(headless=headless))
+
+
+def run_mode_7_接口退款(headless=True):
+    """
+    ========================================================================
+    💰 MODE 7. 接口一键退款配置与执行 (无浏览器)
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 退款参数 (每次运行 RUN_MODE=7 前修改此处即可)
+    REFUND = {
+        "order_id": 7359235558,               # 订单号 (int 类型)
+        "order_no": "26A3DPHYHYWX4ER",         # 订单编号
+        "refund_amount": 30000,                 # 退款金额 (分)
+        "refund_reason": "测试",                # 退款原因
+        "work_id": 1
+        # 工单ID
+    }
+    # -----------------------------------------------
+
+    sys_logger.info("正在执行接口退款流程...")
+    sys_logger.info(f"退款参数: {REFUND}")
+    apply_refund(refund_config=REFUND)
+
+
+def run_mode_8_数据库控制台(headless=True):
+    """
+    ========================================================================
+    🗄️ MODE 8. 数据库交互调试控制台 (联表查券、清券、微信/芝麻绑定)
+    ========================================================================
+    """
+    print("\n" + "-" * 50)
+    print("  🗄️ 请选择数据库环境:")
+    print("  [1] 大陆测试环境（默认）")
+    print("  [2] 大陆预发环境")
+    print("  [3] 香港测试环境")
+    print("-" * 50)
+    db_choice = input("👉 请选择 [1=大陆测试, 2=大陆预发, 3=香港, 默认1]: ").strip()
+
+    if db_choice == "2":
+        config_business.DB_CONFIG = dict(config_business.PRE_DB_CONFIG)
+        db_environment = "大陆预发环境"
+    elif db_choice == "3":
+        config_business.DB_CONFIG = dict(config_business.HK_DB_CONFIG)
+        db_environment = "香港测试环境"
+    else:
+        db_environment = "大陆测试环境"
+
+    sys_logger.info(f"正在启动数据库交互调试控制台... 当前环境: {db_environment}")
+    print(f"✅ 当前数据库环境：{db_environment}")
+    run_interactive_console()
+
+
+def run_mode_9_直连接口发券(headless=True):
+    """
+    ========================================================================
+    🚀 MODE 9. 直连接口发券配置 (不经过扶摇，纯接口发放)
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 优惠券批次ID (int 类型)
+    COUPON_ID = 34305
+    # 目标接收手机号 (多个手机号可以用英文逗号隔开)
+    MOBILES = "18618251727"
+    # 发放数量 (张数)
+    SEND_NUM = 3
+    # -----------------------------------------------
+
+    sys_logger.info(f"正在执行直连接口发券流程（不经过扶摇）...")
+    sys_logger.info(f"券ID: {COUPON_ID} | 手机号: {MOBILES} | 数量: {SEND_NUM}")
+    send_coupon_direct(mobiles=MOBILES, send_num=SEND_NUM, coupon_id=COUPON_ID)
+
+
+def run_mode_10_直连接口创建优惠券(headless=True):
+    """
+    ========================================================================
+    🎫 MODE 10. 直连接口创建优惠券配置 (不启动浏览器，纯接口创建)
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 优惠券面值 (元)
+    DENOMINATION = 1000
+    # 发行张数
+    NUMBER = 1000
+    # -----------------------------------------------
+
+    # 优惠券名称根据面值自动生成，不需要手动配置
+    auto_name = f"{DENOMINATION}元优惠券"
+    sys_logger.info(f"正在执行直连接口创建优惠券流程（不启动浏览器）...")
+    sys_logger.info(f"面值: {DENOMINATION}元 | 张数: {NUMBER} | 自动生成名称: {auto_name}")
+    create_coupon_direct(coupon_name=auto_name, denomination=DENOMINATION, number=NUMBER)
+
+
+def run_mode_11_社群抽奖活动创建(headless=True):
+    """
+    ========================================================================
+    🎲 MODE 11. 社群抽奖活动创建配置 (扶摇登录截获Token，接口创建)
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 活动标题
+    TITLE = "接口创建"
+    # 展示标题
+    SHOW_TITLE = "123"
+    # 活动内容
+    CONTENT = "123"
+    # 活动开始时间
+    START_DATE = "2026-09-08 00:00:00"
+    # 活动结束时间
+    END_DATE = "2035-10-31 00:00:00"
+    # 抽奖开始时间
+    START_TIME = "2026-09-08 10:21:11"
+    # -----------------------------------------------
+
+    # 抽奖类型选择交互
+    print("\n" + "-" * 50)
+    print("  🎲 请选择抽奖类型:")
+    print("  [1] 🎡 大转盘 (type=1, 4个奖品)")
+    print("  [2] 📦 九宫格 (type=2, 8个奖品)")
+    print("-" * 50)
+    draw_choice = input("👉 请选择 [1=大转盘, 2=九宫格, 默认1]: ").strip()
+    if draw_choice == "2":
+        DRAW_TYPE_CHOICE = 2
+        draw_type_name = "九宫格"
+    else:
+        DRAW_TYPE_CHOICE = 1
+        draw_type_name = "大转盘"
+
+    # 奖池方式选择交互
+    print("\n" + "-" * 50)
+    print("  🎁 请选择奖池方式:")
+    print("  [1] 🤝 多平台共享奖池 (terminal=0)")
+    print("  [2] 📦 各平台独立奖池 (terminal=5/6)")
+    print("-" * 50)
+    pool_choice = input("👉 请选择 [1=共享奖池, 2=独立奖池, 默认1]: ").strip()
+    if pool_choice == "2":
+        POOL_TYPE = 2
+        pool_type_name = "各平台独立奖池"
+    else:
+        POOL_TYPE = 1
+        pool_type_name = "多平台共享奖池"
+
+    sys_logger.info("正在执行社群抽奖活动创建流程...")
+    sys_logger.info(f"活动标题: {TITLE} | 活动时间: {START_DATE} ~ {END_DATE}")
+    sys_logger.info(f"抽奖类型: {draw_type_name} (type={DRAW_TYPE_CHOICE}) | 奖池方式: {pool_type_name}")
+    asyncio.run(community_draw_module.run_flow(
+        headless=headless,
+        title=TITLE,
+        show_title=SHOW_TITLE,
+        content=CONTENT,
+        start_date=START_DATE,
+        end_date=END_DATE,
+        start_time=START_TIME,
+        draw_type_choice=DRAW_TYPE_CHOICE,
+        pool_type=POOL_TYPE,
+    ))
+
+
+def run_mode_12_领券活动创建(headless=True):
+    """
+    ========================================================================
+    🎟️ MODE 12. 领券活动创建配置 (扶摇登录截获Token，接口创建)
+    ========================================================================
+    """
+    # ------------------ 配置参数区 ------------------
+    # 活动标题
+    TITLE = "微信模版消息活动"
+    # 展示标题
+    SHOW_TITLE = "微信模版消息活动"
+    # 活动编码
+    ACTIVITY_CODE = "2jr7XRaN"
+    # 活动前端页面路径
+    ACTIVITY_URL = "pages/activityCoupon/index?id=2jr7XRaN"
+    # 背景图
+    BG_IMG = "https://passenger-static.jryghq.com/passenger/dev/20250812ZS4HzJTQwD.png"
+    # 按钮标题
+    BUTTON_TITLE = "微信模版消息活动"
+    # 活动说明
+    REMARK = "<p>微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动微信模版消息活动</p>"
+    # 司机券包配置
+    DRIVER_COUPON_PACKAGE_ID = 2329
+    DRIVER_COUPON_PACKAGE_TITLE = "1111"
+    # 新用户券包配置
+    NEW_USER_PACKAGE_ID = 2323
+    NEW_USER_PACKAGE_TITLE = "新人优惠卷礼包"
+    # 老用户券包配置
+    OLD_USER_PACKAGE_ID = 2323
+    OLD_USER_PACKAGE_TITLE = "新人优惠卷礼包"
+    # 活动时间
+    START_DATE = "2025-08-12"
+    END_DATE = "2039-09-30"
+    # 库存ID
+    STOCK_ID = "LQ202508281"
+    # 适用终端 (单选)
+    print("\n" + "-" * 50)
+    print("  📱 请选择适用终端:")
+    print("  [1] 微信原生小程序 (terminal=51)")
+    print("  [2] H5 (terminal=52)")
+    print("  [3] 微信小程序嵌套H5 (terminal=53)")
+    print("  [4] 免登录H5 (terminal=54)")
+    print("-" * 50)
+    terminal_choice = input("👉 请选择 [1=微信原生小程序, 2=H5, 3=微信小程序嵌套H5, 4=免登录H5, 默认1]: ").strip()
+    if terminal_choice == "2":
+        TERMINAL = 52
+        terminal_name = "H5"
+    elif terminal_choice == "3":
+        TERMINAL = 53
+        terminal_name = "微信小程序嵌套H5"
+    elif terminal_choice == "4":
+        TERMINAL = 54
+        terminal_name = "免登录H5"
+    else:
+        TERMINAL = 51
+        terminal_name = "微信原生小程序"
+    # -----------------------------------------------
+
+    sys_logger.info("正在执行领券活动创建流程...")
+    sys_logger.info(f"活动标题: {TITLE} | 活动编码: {ACTIVITY_CODE} | 活动时间: {START_DATE} ~ {END_DATE}")
+    sys_logger.info(f"适用终端: {terminal_name} (terminal={TERMINAL})")
+    asyncio.run(create_coupon_activity_module.run_flow(
+        headless=headless,
+        title=TITLE,
+        show_title=SHOW_TITLE,
+        activity_code=ACTIVITY_CODE,
+        activity_url=ACTIVITY_URL,
+        bg_img=BG_IMG,
+        button_title=BUTTON_TITLE,
+        remark=REMARK,
+        driver_coupon_package_id=DRIVER_COUPON_PACKAGE_ID,
+        driver_coupon_package_title=DRIVER_COUPON_PACKAGE_TITLE,
+        new_user_package_id=NEW_USER_PACKAGE_ID,
+        new_user_package_title=NEW_USER_PACKAGE_TITLE,
+        old_user_package_id=OLD_USER_PACKAGE_ID,
+        old_user_package_title=OLD_USER_PACKAGE_TITLE,
+        start_date=START_DATE,
+        end_date=END_DATE,
+        stock_id=STOCK_ID,
+        terminal=TERMINAL,
+    ))
+
+
+# ==========================================================================
+# 🚀 启动入口：在最底部安全触发调度器 (此时上面所有函数已全部载入，完美防报错)
+# ==========================================================================
+if __name__ == "__main__":
+    run_scheduler()

@@ -1,0 +1,44 @@
+# ==================== 司机端-即时指派流程 ====================
+# 接口: GET  /v3/place/text                 (获取即时订单终点位置经纬度)
+#       POST /v4/driver/device-check        (设备检测)
+
+test_cases:
+  - name: "TC-045 获取即时订单终点位置经纬度"
+    description: "通过高德地图 POI 搜索，根据关键字获取终点位置的经纬度"
+    priority: "P0"
+    method: GET
+    base_url: "https://restapi.amap.com"
+    path: "/v3/place/text"
+    need_login: false
+    params:
+      key: "8354764cafab49731492c39c0a1899e5"
+      city: "北京"
+      keywords: "${Instant_Select_End_Poi}"
+    asserts:
+      - type: status_code
+        expected: 200
+      - type: json_path
+        path: "status"
+        expected: "1"
+      - type: json_path
+        path: "pois.0.location"
+        expected: ".+"
+
+  # - name: "TC-046 设备检测"
+  #   description: "司机端设备检测"
+  #   method: POST
+  #   base_url: "http://pre-driver.jryghq.com"
+  #   sign_key: "${driver_sign_key}"
+  #   sign_type: "driver_device"
+  #   path: "/v4/driver/device-check"
+  #   need_login: false
+  #   params:
+  #     mobile: "11000000034"
+  #     setting: "11000000034"
+  #     nonce: "${Nonce}"
+  #   asserts:
+  #     - type: status_code
+  #       expected: 200
+  #     - type: json_path
+  #       path: "code"
+  #       expected: 10000
