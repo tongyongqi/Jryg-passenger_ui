@@ -397,9 +397,16 @@ def run_interactive_console():
         print("  [10] 🚮 删除用户全部优惠券 (先展示，再确认删除)")
         print("  [11] 🔗 跨库联表查券 (输入手机号一键直出 UserID + 优惠券)")
         print("  [12] 🚗 查询司机信息 (按手机号查询 jryg_resource.driver_info)")
+        print("  [13] 📋 自定义 SQL 执行 (手动输入 SELECT/INSERT/UPDATE/DELETE)")
+        print("  [14] 📦 查询卡券购买订单 (按手机号查 jryg_passenger.sale_order)")
+        print("  [15] 🔄 查询抖店订单 (jryg_passenger.sale_order_dy_detail)")
+        print("  [16] 🔐 查询用户授权记录 (jryg_user.user_auth_record)")
+        print("  [17] 💳 查询用户信用付绑定记录 (jryg_user.user_credit_pay_record)")
+        print("  [18] 🏷️ 查询优惠券礼包明细 (coupon_package_detail)")
+        print("  [19] 📜 查询芝麻分操作日志 (coupon_inflation_record)")
         print("  [0] 🚪 退出控制台")
         print("=" * 65)
-        
+
         choice = input("👉 请选择您要执行的功能编号: ").strip()
         
         if choice == "1":
@@ -609,12 +616,161 @@ def run_interactive_console():
             except Exception as e:
                 print(f"❌ 查询司机信息时发生错误: {e}")
 
+        elif choice == "13":
+            sql = input("💬 请输入要执行的 SQL 语句: ").strip()
+            if not sql:
+                print("⚠️ SQL 语句不能为空！")
+                continue
+            try:
+                with MySQLClient() as client:
+                    sql_upper = sql.upper().lstrip()
+                    if sql_upper.startswith("SELECT") or sql_upper.startswith("SHOW") or sql_upper.startswith("DESC") or sql_upper.startswith("EXPLAIN"):
+                        results = client.execute_query(sql)
+                        if results:
+                            print(f"🎉 查询成功，共 {len(results)} 行：")
+                            # 打印列头
+                            cols = list(results[0].keys())
+                            print("  " + " | ".join(cols))
+                            print("  " + "-" * 60)
+                            for row in results[:50]:
+                                print("  " + " | ".join(str(row.get(c, "")) for c in cols))
+                            if len(results) > 50:
+                                print(f"  ... 已折叠剩余 {len(results) - 50} 行")
+                        else:
+                            print("ℹ️ 查询结果为空。")
+                    else:
+                        res = client.execute_non_query(sql)
+                        print(f"🎉 执行成功！受影响行数: {res.get('affected_rows')} | 插入ID: {res.get('last_row_id')}")
+            except Exception as e:
+                print(f"❌ SQL 执行失败: {e}")
+
+        elif choice == "14":
+            mobile = input("💬 请输入手机号查询卡券购买订单: ").strip()
+            if not mobile:
+                print("⚠️ 手机号不能为空！")
+                continue
+            try:
+                with MySQLClient() as client:
+                    sql = "SELECT * FROM jryg_passenger.sale_order WHERE mobile = %s ORDER BY id DESC;"
+                    results = client.execute_query(sql, (mobile,))
+                    if results:
+                        print(f"🎉 查到 {len(results)} 条卡券购买订单：")
+                        for idx, r in enumerate(results[:20]):
+                            print(f"  [{idx + 1}] ID: {r.get('id')} | OrderNo: {r.get('order_no')} | Mobile: {r.get('mobile')} | Amount: {r.get('amount')} | Status: {r.get('status')} | Created: {r.get('created_at')}")
+                        if len(results) > 20:
+                            print(f"  ... 已折叠剩余 {len(results) - 20} 条")
+                    else:
+                        print("❌ 未查到卡券购买订单。")
+            except Exception as e:
+                print(f"❌ 查询卡券购买订单失败: {e}")
+
+        elif choice == "15":
+            limit_str = input("💬 请输入查询条数 (默认20): ").strip()
+            limit = int(limit_str) if limit_str.isdigit() else 20
+            try:
+                with MySQLClient() as client:
+                    sql = f"SELECT * FROM jryg_passenger.sale_order_dy_detail ORDER BY id DESC LIMIT %s;"
+                    results = client.execute_query(sql, (limit,))
+                    if results:
+                        print(f"🎉 查到 {len(results)} 条抖店订单：")
+                        for idx, r in enumerate(results):
+                            print(f"  [{idx + 1}] ID: {r.get('id')} | OrderID: {r.get('order_id')} | ShopID: {r.get('shop_id')} | Amount: {r.get('amount')} | Created: {r.get('created_at')}")
+                    else:
+                        print("❌ 未查到抖店订单。")
+            except Exception as e:
+                print(f"❌ 查询抖店订单失败: {e}")
+
+        elif choice == "16":
+            uid_str = input("💬 请输入 UserID 查询授权记录: ").strip()
+            if not uid_str or not uid_str.isdigit():
+                print("⚠️ UserID 必须为纯数字！")
+                continue
+            try:
+                with MySQLClient() as client:
+                    sql = "SELECT * FROM jryg_user.user_auth_record WHERE user_id = %s ORDER BY id DESC;"
+                    results = client.execute_query(sql, (int(uid_str),))
+                    if results:
+                        print(f"🎉 查到 {len(results)} 条授权记录：")
+                        for idx, r in enumerate(results[:20]):
+                            print(f"  [{idx + 1}] ID: {r.get('id')} | UserID: {r.get('user_id')} | Token: {r.get('token')} | Source: {r.get('source')} | Created: {r.get('created_at')}")
+                        if len(results) > 20:
+                            print(f"  ... 已折叠剩余 {len(results) - 20} 条")
+                    else:
+                        print("❌ 未查到授权记录。")
+            except Exception as e:
+                print(f"❌ 查询授权记录失败: {e}")
+
+        elif choice == "17":
+            val = input("💬 请输入 agreement_no 或 token 查询信用付绑定记录: ").strip()
+            if not val:
+                print("⚠️ 查询值不能为空！")
+                continue
+            try:
+                with MySQLClient() as client:
+                    sql = "SELECT * FROM jryg_user.user_credit_pay_record WHERE agreement_no = %s OR token = %s ORDER BY id DESC;"
+                    results = client.execute_query(sql, (val, val))
+                    if results:
+                        print(f"🎉 查到 {len(results)} 条信用付绑定记录：")
+                        for idx, r in enumerate(results[:20]):
+                            print(f"  [{idx + 1}] ID: {r.get('id')} | UserID: {r.get('user_id')} | AgreementNo: {r.get('agreement_no')} | Token: {r.get('token')} | Created: {r.get('created_at')}")
+                        if len(results) > 20:
+                            print(f"  ... 已折叠剩余 {len(results) - 20} 条")
+                    else:
+                        print("❌ 未查到信用付绑定记录。")
+            except Exception as e:
+                print(f"❌ 查询信用付绑定记录失败: {e}")
+
+        elif choice == "18":
+            plan_id_str = input("💬 请输入 CouponPlanID 查询礼包明细: ").strip()
+            if not plan_id_str or not plan_id_str.isdigit():
+                print("⚠️ CouponPlanID 必须为纯数字！")
+                continue
+            try:
+                with MySQLClient() as client:
+                    sql = """
+                    SELECT cpd.CouponPackageID, cpd.CouponPlanID, cp.CouponName, cp.Amount, cp.ExpireDays
+                    FROM jryg_coupon.coupon_package_detail cpd
+                    LEFT JOIN jryg_coupon.coupon_plan cp ON cpd.CouponPlanID = cp.CouponPlanID
+                    WHERE cpd.CouponPlanID = %s
+                    ORDER BY cpd.ID DESC;
+                    """
+                    results = client.execute_query(sql, (int(plan_id_str),))
+                    if results:
+                        print(f"🎉 查到 {len(results)} 条礼包明细：")
+                        for idx, r in enumerate(results[:20]):
+                            print(f"  [{idx + 1}] PackageID: {r.get('CouponPackageID')} | PlanID: {r.get('CouponPlanID')} | Name: {r.get('CouponName')} | Amount: {r.get('Amount')} | ExpireDays: {r.get('ExpireDays')}")
+                        if len(results) > 20:
+                            print(f"  ... 已折叠剩余 {len(results) - 20} 条")
+                    else:
+                        print("❌ 未查到礼包明细。")
+            except Exception as e:
+                print(f"❌ 查询礼包明细失败: {e}")
+
+        elif choice == "19":
+            uid_str = input("💬 请输入 UserID 查询膨胀券操作日志 (留空查全部): ").strip()
+            try:
+                with MySQLClient() as client:
+                    if uid_str and uid_str.isdigit():
+                        sql = "SELECT * FROM jryg_coupon.coupon_inflation_record WHERE user_id = %s ORDER BY id DESC LIMIT 20;"
+                        results = client.execute_query(sql, (int(uid_str),))
+                    else:
+                        sql = "SELECT * FROM jryg_coupon.coupon_inflation_record ORDER BY id DESC LIMIT 20;"
+                        results = client.execute_query(sql)
+                    if results:
+                        print(f"🎉 查到 {len(results)} 条膨胀券操作日志：")
+                        for idx, r in enumerate(results):
+                            print(f"  [{idx + 1}] ID: {r.get('id')} | UserID: {r.get('user_id')} | InflationID: {r.get('inflation_id')} | Action: {r.get('action')} | Created: {r.get('created_at')}")
+                    else:
+                        print("❌ 未查到膨胀券操作日志。")
+            except Exception as e:
+                print(f"❌ 查询膨胀券操作日志失败: {e}")
+
         elif choice == "0":
             print("👋 已安全退出数据库高频工具。")
             break
             
         else:
-            print("⚠️ 无效的选择，请输入 0-12 范围内的功能数字！")
+            print("⚠️ 无效的选择，请输入 0-19 范围内的功能数字！")
             
         time.sleep(1)
 

@@ -19,6 +19,7 @@ import send_hk_coupon as hk_coupon_module
 from send_coupon.send_coupon_direct import send_coupon_direct
 from create_coupon.create_coupon_direct import create_coupon_direct
 import config_business
+import config_common
 from logger.logger import sys_logger
 from refund_order.refund_order import apply_refund
 from database.mysql_client import run_interactive_console
@@ -149,6 +150,9 @@ def run_mode_1_工单全自动创建(headless=True):
     ORDER_TYPE_1 = "5"
     # -----------------------------------------------
 
+    # 是否在创建工单后自动衔接受理流程（无需二次选择菜单）
+    AUTO_ACCEPT_AFTER_CREATE = True
+
     sys_logger.info("正在执行工单全自动创建流转程序...")
     sys_logger.info(f"待处理的订单号列表 ORDER_IDS: {ORDER_IDS_1}")
     sys_logger.info(f"工单类型: {WORK_ORDER_TYPE_1} | 备注: {WORK_ORDER_REMARK_1}")
@@ -166,6 +170,17 @@ def run_mode_1_工单全自动创建(headless=True):
     config_business.ORDER_TYPE = ORDER_TYPE_1
     
     asyncio.run(run_work_order_create_flow(headless=headless, order_ids=ORDER_IDS_1))
+
+    # 创建工单完成后，自动衔接受理流程
+    if AUTO_ACCEPT_AFTER_CREATE and ORDER_IDS_1:
+        sys_logger.info("=" * 50)
+        sys_logger.info("工单创建完成，自动衔接受理流程...")
+        sys_logger.info(f"待受理的订单号: {ORDER_IDS_1[0]}")
+        sys_logger.info("=" * 50)
+        # 同步受理流程所需的订单号配置
+        config_business.TARGET_ORDER_ID_5 = ORDER_IDS_1[0]
+        config_business.TARGET_ORDER_ID = ORDER_IDS_1[0]
+        asyncio.run(run_work_order_accept_flow(headless=headless))
 
 
 def run_mode_2_创建优惠券流程(headless=True):
@@ -221,13 +236,54 @@ def run_mode_3_发放大陆优惠券(headless=True):
     ========================================================================
     """
     # ------------------ 配置参数区 ------------------
-    # 大陆发券的目标接收手机号 (多个手机号可以用英文逗号隔开)
-    MAINLAND_MOBILES = "13521098140"
-    # 大陆发券的单次发放数量 (张数)
+    # 大陆发券的优惠券批次号
+    MAINLAND_COUPON_BATCH = 111660
+    # 大陆发券的单次发放数量 (张数，写死20张)
     MAINLAND_SEND_NUM = 20
     # -----------------------------------------------
 
-    sys_logger.info(f"正在执行大陆优惠券接口发放流程... 手机号: {MAINLAND_MOBILES} | 数量: {MAINLAND_SEND_NUM}")
+    # 环境选择交互
+    print("\n" + "-" * 50)
+    print("  🚀 请选择发券环境:")
+    print("  [1] 大陆测试环境（默认）")
+    print("  [2] 大陆预发环境 (pre)")
+    print("-" * 50)
+    env_choice = input("👉 请选择 [1=测试, 2=预发, 默认1]: ").strip()
+    if env_choice == "2":
+        config_common.ENVIRONMENT = "pre"
+        env_name = "大陆预发环境 (pre)"
+    else:
+        config_common.ENVIRONMENT = "test"
+        env_name = "大陆测试环境"
+
+    # 更新环境相关的运行时配置
+    config_common.BASE_URL = config_common.BASE_URL_PRE if config_common.ENVIRONMENT == "pre" else config_common.BASE_URL_TEST
+    config_common.USERNAME = config_common.USERNAME_PRE if config_common.ENVIRONMENT == "pre" else config_common.USERNAME_TEST
+    config_common.PASSWORD = config_common.PASSWORD_PRE if config_common.ENVIRONMENT == "pre" else config_common.PASSWORD_TEST
+
+    # 同步切换数据库环境配置，确保后续数据库查询也使用同一环境
+    if config_common.ENVIRONMENT == "pre":
+        config_business.DB_CONFIG = dict(config_business.PRE_DB_CONFIG)
+    else:
+        config_business.DB_CONFIG = {
+            "host": "172.19.0.132",
+            "port": 3306,
+            "user": "jryg_tx_test",
+            "password": "3G$opYrLCnqZxa6a",
+            "charset": "utf8mb4"
+        }
+
+    # 用户主动输入手机号
+    print(f"\n  当前环境: {env_name}")
+    print(f"  优惠券批次: {MAINLAND_COUPON_BATCH} | 发放数量: {MAINLAND_SEND_NUM} 张")
+    MAINLAND_MOBILES = input("👉 请输入目标接收手机号 (多个号码用英文逗号隔开): ").strip()
+    if not MAINLAND_MOBILES:
+        print("⚠️ 未输入手机号，自动退出！")
+        sys.exit(1)
+
+    sys_logger.info(f"正在执行大陆优惠券接口发放流程... 环境: {env_name} | 手机号: {MAINLAND_MOBILES} | 批次: {MAINLAND_COUPON_BATCH} | 数量: {MAINLAND_SEND_NUM}")
+    # 同步批次号到 config_business
+    config_business.SEND_COUPON_BATCH = str(MAINLAND_COUPON_BATCH)
     asyncio.run(mainland_coupon_module.run_flow(headless=headless, mobiles=MAINLAND_MOBILES, send_num=MAINLAND_SEND_NUM))
 
 
@@ -239,7 +295,7 @@ def run_mode_4_发放香港优惠券(headless=True):
     """
     # ------------------ 配置参数区 ------------------
     # 香港发券的目标接收手机号 (多个手机号可以用英文逗号隔开)
-    HK_MOBILES = "11000006910"
+    HK_MOBILES = "11006910"
     # 香港发券的单次发放数量 (张数)
     HK_SEND_NUM = 20
     # -----------------------------------------------
@@ -299,11 +355,12 @@ def run_mode_7_接口退款(headless=True):
     # ------------------ 配置参数区 ------------------
     # 退款参数 (每次运行 RUN_MODE=7 前修改此处即可)
     REFUND = {
-        "order_id": 7359094815,               # 订单号 (int 类型)
-        "order_no": "2693DPEXWFWX4ER",         # 订单编号
+        "order_id": 7359235558,               # 订单号 (int 类型)
+        "order_no": "26A3DPHYHYWX4ER",         # 订单编号
         "refund_amount": 30000,                 # 退款金额 (分)
         "refund_reason": "测试",                # 退款原因
-        "work_id": 2                           # 工单ID
+        "work_id": 1
+        # 工单ID
     }
     # -----------------------------------------------
 
@@ -321,11 +378,15 @@ def run_mode_8_数据库控制台(headless=True):
     print("\n" + "-" * 50)
     print("  🗄️ 请选择数据库环境:")
     print("  [1] 大陆测试环境（默认）")
-    print("  [2] 香港测试环境")
+    print("  [2] 大陆预发环境")
+    print("  [3] 香港测试环境")
     print("-" * 50)
-    db_choice = input("👉 请选择 [1=大陆, 2=香港, 默认1]: ").strip()
+    db_choice = input("👉 请选择 [1=大陆测试, 2=大陆预发, 3=香港, 默认1]: ").strip()
 
     if db_choice == "2":
+        config_business.DB_CONFIG = dict(config_business.PRE_DB_CONFIG)
+        db_environment = "大陆预发环境"
+    elif db_choice == "3":
         config_business.DB_CONFIG = dict(config_business.HK_DB_CONFIG)
         db_environment = "香港测试环境"
     else:

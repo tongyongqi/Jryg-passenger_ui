@@ -39,7 +39,7 @@ HEADLESS_DEBUG = True                       # 是否开启调试：False 代表�
 # 🛠️ 3. 工单业务专属配置 (1, 5, 6 分开配置)
 
 # 🛠️ 3.1 创建工单配置 (MODE 1)
-TARGET_ORDER_ID_1 = "7358984706"        # 待创建工单的真实订单编号 (可在此随意热更改)
+TARGET_ORDER_ID_1 = "7359126520"        # 待创建工单的真实订单编号 (可在此随意热更改)
 META_ID_1 = "113491"                    # 默认关联的 meta_id 属性
 ORDER_TYPE_1 = "5"                      # 默认关联的 order_type 属性
 WORK_ORDER_TYPE_1 = "投诉"              # 工单类型选择 (如投诉、建议等)
@@ -49,7 +49,7 @@ WORK_ORDER_REMARK_1 = "自动创建工单"     # 工单内容/受理备注说明
 TARGET_ORDER_ID_5 = "7358984706"        # 待受理的订单号
 
 # 🛠️ 3.6 工单退款结算配置 (MODE 6)
-TARGET_ORDER_ID_6 = "7358984706"        # 待结算的订单号
+TARGET_ORDER_ID_6 = "7359126520"        # 待结算的订单号
 
 # 兼容旧代码默认属性 (默认指向 MODE 1 配置)
 TARGET_ORDER_ID = TARGET_ORDER_ID_1
@@ -63,22 +63,33 @@ WORK_ORDER_REMARK = WORK_ORDER_REMARK_1
 # 💰 4. 接口退款 (refund_order.py) 专属业务配置
 REFUND_API_URL = "http://cashier.tx-test6.jryghq.cn/pay/v1/applyTradeRefund"
 REFUND = {
-    "order_id": 7359087690,               # 订单号 (int 类型)
-    "order_no": "2693DPESEIWX4ER",         # 订单编号
-    "refund_amount": 380,                 # 退款金额 (分)
+    "order_id": 7359126520,               # 订单号 (int 类型)
+    "order_no": "26A3DPFMD4WX4ER",         # 订单编号
+    "refund_amount": 380000,                 # 退款金额 (分)
     "refund_reason": "测试",                # 退款原因
-    "work_id": 1                           # 工单ID
+    "work_id": 2                           # 工单ID
 }
 
 # ------------------------------------------
 
 # 🗄️ 5. 数据库 (database) 专属连接配置
+
+# 大陆测试环境
 DB_CONFIG = {
     "host": "172.19.0.132",                     # 主机：腾讯云测试环境内网地址
     "port": 3306,                               # 端口
     "user": "jryg_tx_test",                     # 用户名
     "password": "3G$opYrLCnqZxa6a",             # 密码
     "charset": "utf8mb4"                        # 字符集
+}
+
+# 大陆预发环境
+PRE_DB_CONFIG = {
+    "host": "rm-2ze775jm0p34u5o1v.mysql.rds.aliyuncs.com",
+    "port": 3306,
+    "user": "dev_jryg",
+    "password": "YGcd_*@1518test",
+    "charset": "utf8mb4"
 }
 
 # 香港测试环境优惠券数据库配置

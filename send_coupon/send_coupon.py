@@ -30,8 +30,13 @@ from logger.send_coupon_logger import send_coupon_logger as sys_logger
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 os.makedirs("output", exist_ok=True)
 
-# 大陆系统内部发券微服务网关地址
-API_URL = "https://dcms-test6-tx.jryghq.com/admin/v1/coupon/send_coupon"
+# 大陆系统内部发券微服务网关地址（根据环境自动切换）
+API_URL_TEST = "https://dcms-test6-tx.jryghq.com/admin/v1/coupon/send_coupon"
+API_URL_PRE = "https://pre-dcms.jryghq.com/admin/v1/coupon/send_coupon"
+
+def _get_api_url():
+    """运行时根据 config_common.ENVIRONMENT 动态返回对应环境的发券接口地址"""
+    return API_URL_PRE if config_common.ENVIRONMENT == "pre" else API_URL_TEST
 
 
 async def get_auth_token(headless=True):
@@ -163,11 +168,11 @@ def send_mainland_coupon(auth_token, mobiles=None, send_num=None):
         "CouponInfo": coupon_info_str
     }
 
-    sys_logger.info(f"接口: {API_URL} | 手机: {target_mobiles} | 批次: {coupon_id} | 数量: {send_qty}")
+    sys_logger.info(f"接口: {_get_api_url()} | 手机: {target_mobiles} | 批次: {coupon_id} | 数量: {send_qty}")
 
     try:
         # 发起 HTTP POST 请求派发优惠券
-        response = requests.post(API_URL, headers=headers, json=payload, timeout=30, verify=False)
+        response = requests.post(_get_api_url(), headers=headers, json=payload, timeout=30, verify=False)
         sys_logger.info(f"响应状态码: {response.status_code}")
 
         try:
