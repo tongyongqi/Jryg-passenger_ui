@@ -1,26 +1,21 @@
-# Python
+# Python virtual environment
 .venv/
+venv/
+
+# Test reports and generated data
+report/
+data/
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
 
-# WDA build artifacts
-iOS-Tagent/DerivedData-ios/
-iOS-Tagent/DerivedData-wda-reinstall/
-iOS-Tagent/build/
-iOS-Tagent/node_modules/
-
-# Reports and screenshots
-report/
-screenshots/
-
-# Logs
-logs/
-
-# macOS
-.DS_Store
-
-# IDE
+# IDE / OS
 .idea/
 .vscode/
+.DS_Store
+
+# Appium / logs
+*.log

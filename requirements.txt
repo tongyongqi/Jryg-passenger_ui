@@ -1,6 +1,7 @@
-# 香港iOS UI测试依赖；沿用现有版本约束，本轮注释和封装不升级依赖。
-# WDA/Poco/Airtest操作设备，pytest生成结果，requests/PyYAML读取服务和配置。
-Appium-Python-Client>=3.1.0
+# 香港Android UI自动化依赖，独立于iOS项目。
+# Appium负责原生操作；wda通过ATX控制Android设备；pytest生成结果；mitmproxy用于手动流量调试。
+Appium-Python-Client>=5.1.1
+facebook-wda>=1.4.4
 pytest>=7.4.0
 selenium>=4.15.0
 airtest>=1.4.3
@@ -9,4 +10,7 @@ pytest-html>=4.2.0
 PyYAML>=6.0.3
 typing_extensions>=4.16.0
 requests>=2.31.0
-facebook-wda>=1.4.6
+mitmproxy>=10.0.0
+# Canvas路线识别：macOS内置Vision及Xcode命令行工具，不联网发送截图。
+Pillow>=11.3.0
+opencv-contrib-python==4.6.0.66
