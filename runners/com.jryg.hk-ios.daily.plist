@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.jryg.hk-ios.daily</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/bin/python</string>
+        <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/runners/JRYG_run_scheduled_ios.py</string>
+        <string>--run</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi</string>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>10</integer>
+        <key>Minute</key>
+        <integer>45</integer>
+    </dict>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>KeepAlive</key>
+    <false/>
+    <key>LimitLoadToSessionType</key>
+    <string>Aqua</string>
+    <key>ProcessType</key>
+    <string>Background</string>
+    <key>ExitTimeOut</key>
+    <integer>60</integer>
+    <key>StandardOutPath</key>
+    <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/logs/scheduled/daily.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/logs/scheduled/daily-error.log</string>
+</dict>
+</plist>
