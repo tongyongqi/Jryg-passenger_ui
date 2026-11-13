@@ -1,3 +1,6 @@
+# 编写时间：2026-11-13
+# 本期功能：V1.5.0 订单中心 type16 改造 PolarDB 库表直查验证
+# 直连 jryg_realtime_order_dev.order_info 表断言 payment_collection_mode / business_type
 """V1.5.0 订单中心type16改造：PolarDB 库表直查验证。
 
 直连港版测试环境 PolarDB（jryg_realtime_order_dev.order_info 表），

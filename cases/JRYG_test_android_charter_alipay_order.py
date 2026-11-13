@@ -1,3 +1,5 @@
+# 编写时间：2026-10-15
+# 本期功能：包車價的士＋Alipay HK 预付下单，行程结束后不重复支付
 """包車價的士＋Alipay HK预付，完成行程后不重复支付。"""
 
 from pathlib import Path

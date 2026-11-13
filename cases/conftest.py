@@ -1,3 +1,5 @@
+# 编写时间：2026-10-10
+# 本期功能：Android UI 失败留存现场；不重复下单、支付或取消订单
 """Android UI 失败留存现场；不重复下单、支付或取消订单。"""
 
 from pathlib import Path

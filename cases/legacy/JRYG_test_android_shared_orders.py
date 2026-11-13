@@ -1,3 +1,5 @@
+# 编写时间：2026-09-20
+# 本期功能：香港 Android 早期订单场景 — 继承默认订单场景仅覆盖手机平台操作
 """香港 Android 直接继承 Android 默认订单场景，仅覆盖手机平台操作。"""
 
 from jryg_hk_android.JRYG_android_order import AndroidOrderMixin

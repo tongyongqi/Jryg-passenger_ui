@@ -1,3 +1,5 @@
+# 编写时间：2026-10-15
+# 本期功能：打錶的士＋電子支付下单，行程结束后选择 Alipay HK 后付
 """打錶的士＋電子支付下单，行程结束后选择Alipay HK后付。"""
 
 from pathlib import Path
