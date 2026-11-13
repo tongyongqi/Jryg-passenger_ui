@@ -43,7 +43,7 @@ def recognize_markers(image_path, map_bottom):
                     and cv2.contourArea(contour) > 0.45 * width * height):
                 continue
             left, top = x + int(height * 0.25), y + int(height * 0.15)
-            right, bottom = x + width - int(height * 0.75), y + int(height * 0.85)
+            right, bottom = x + width - int(height * 0.9), y + int(height * 0.85)
             if right <= left:
                 continue
             label = original.crop((left, top, right, bottom))

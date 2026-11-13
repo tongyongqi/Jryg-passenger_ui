@@ -11,9 +11,19 @@ def pytest_runtest_makereport(item, call):
     """失败阶段保存现有设备XML和截图；取证异常不覆盖原始失败报告。"""
     outcome = yield
     report = outcome.get_result()
+    instance = getattr(item, "instance", None)
+    receipt_recorder = getattr(instance, "_receipt_report_phase", None)
+    if callable(receipt_recorder):
+        try:
+            record = receipt_recorder(report)
+            if record is not None:
+                from pytest_html import extras
+                report.extras = [*getattr(report, "extras", []),
+                                 extras.json(record, name="需求对照与缺陷证据")]
+        except Exception as exc:
+            report.sections.append(("收据结果记录异常", f"{type(exc).__name__}: {exc}"))
     if not report.failed:
         return
-    instance = getattr(item, "instance", None)
     clients = getattr(instance, "clients", {}) if instance is not None else {}
     directory = Path(__file__).resolve().parents[1] / "report/diagnostics"
     directory.mkdir(parents=True, exist_ok=True)

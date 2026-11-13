@@ -7,7 +7,12 @@
 import os
 from pathlib import Path
 import sys
-from typing import Optional, Sequence
+from typing import List, Optional, Sequence
+
+
+def _runner_arguments(args: Sequence[str]) -> List[str]:
+    has_case = any(arg == "--case" or arg.startswith("--case=") for arg in args)
+    return [*([] if has_case else ["--batch"]), *args]
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -32,7 +37,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     print(f"报告目录：{project / 'report'}", flush=True)
     environment = os.environ.copy()
     environment["HK_ANDROID_PYTHON"] = str(python)
-    os.execve("/bin/bash", ["/bin/bash", str(runner), "--batch", *args], environment)
+    os.execve("/bin/bash", ["/bin/bash", str(runner), *_runner_arguments(args)], environment)
     return 0
 
 

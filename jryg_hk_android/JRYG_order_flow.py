@@ -107,6 +107,54 @@ class TestOrderBase(iOSBase):
         logger.info("【teardown】保留司机 App 出车状态，不自动收车")
         super().teardown_class()
 
+    def _driver_assignment_attempt_limit(self):
+        """返回乘客下单后的目标司机匹配次数；默认平台只下单一次。"""
+        return 1
+
+    def _assigned_driver_matches(self, tag):
+        """平台钩子：核验乘客端已分配司机；默认平台不执行额外身份匹配。"""
+        return True
+
+    def _cancel_mismatched_driver_order(self, tag, attempt, maximum):
+        """平台钩子：取消被非目标司机接走的订单；默认平台禁止自动取消。"""
+        raise RuntimeError(f"{tag}: 第{attempt}/{maximum}次订单司机不匹配，当前平台不支持安全取消")
+
+    def _place_order_with_expected_driver(self, tag, pay_label):
+        """有界下单并核对目标司机；错配订单必须确认取消后才允许重新下单。"""
+        maximum = self._driver_assignment_attempt_limit()
+        if not isinstance(maximum, int) or isinstance(maximum, bool) or maximum < 1:
+            raise ValueError("目标司机下单次数上限必须为正整数")
+        for attempt in range(1, maximum + 1):
+            logger.info("【%s】目标司机下单尝试：%s/%s", tag, attempt, maximum)
+            self._ios_launch_setup_and_addresses(
+                tag, E.DEFAULT_START_ADDRESS, E.DEFAULT_END_ADDRESS)
+            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_01_car_select.png")
+
+            self._ios_select_car_type(tag, car_type=self.CAR_TYPE)
+            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_02_selected.png")
+
+            # 支付方式选择流程因车型不同：
+            # - 打錶的士：选车型 → 在"可選服務"区域选支付方式 → 確認呼叫
+            # - 包車價的士：选车型 → 確認呼叫 → 弹出预付页面 → 选支付方式 → 確認支付並呼叫
+            if self.CAR_TYPE == "meter":
+                logger.info(f"【{tag} 步骤 7】选择{pay_label}支付方式...")
+                self._ios_select_payment(tag, payment=self.PAYMENT)
+                ordered = self._click_call_and_check_login_then_retry(tag)
+            else:
+                ordered = self._charter_click_call_and_select_payment(tag)
+
+            assert ordered, f"{tag} UI 下单失败"
+            logger.info(f"【{tag}】UI 下单成功")
+            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_03_order_success.png")
+            if self._assigned_driver_matches(tag):
+                logger.info("【%s】乘客端接单司机与当前目标司机一致", tag)
+                return
+
+            self._cancel_mismatched_driver_order(tag, attempt, maximum)
+            if attempt == maximum:
+                raise RuntimeError(f"{tag}: 连续{maximum}次被非目标司机接单，错配订单已取消，停止继续下单")
+            logger.warning("【%s】第%s次订单已确认取消，重新发起相同路线订单", tag, attempt)
+
     # ==================== 主测试方法 ====================
 
     def test_order_flow(self):
@@ -154,27 +202,7 @@ class TestOrderBase(iOSBase):
             logger.info(f"【阶段 2】UI 下单：{car_label} + {pay_label}")
             logger.info("=" * 60)
 
-            self._ios_launch_setup_and_addresses(
-                tag, E.DEFAULT_START_ADDRESS, E.DEFAULT_END_ADDRESS)
-            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_01_car_select.png")
-
-            self._ios_select_car_type(tag, car_type=self.CAR_TYPE)
-            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_02_selected.png")
-
-            # 支付方式选择流程因车型不同：
-            # - 打錶的士：选车型 → 在"可選服務"区域选支付方式 → 確認呼叫
-            # - 包車價的士：选车型 → 確認呼叫 → 弹出预付页面 → 选支付方式 → 確認支付並呼叫
-            if self.CAR_TYPE == "meter":
-                logger.info(f"【{tag} 步骤 7】选择{pay_label}支付方式...")
-                self._ios_select_payment(tag, payment=self.PAYMENT)
-                ordered = self._click_call_and_check_login_then_retry(tag)
-            else:
-                # 包車價的士：先点击确认呼叫，弹出预付页面后选择支付方式
-                ordered = self._charter_click_call_and_select_payment(tag)
-
-            assert ordered, f"{tag} UI 下单失败"
-            logger.info(f"【{tag}】UI 下单成功")
-            self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_03_order_success.png")
+            self._place_order_with_expected_driver(tag, pay_label)
 
         # ============================================================
         # 阶段 3：切司机 App → UI 接单 → 滑动状态 → 填写与确认账单

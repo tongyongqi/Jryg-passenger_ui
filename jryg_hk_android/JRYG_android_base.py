@@ -43,6 +43,7 @@ class AndroidUIBase:
         ensure_mac_awake()
         cls.android_settings = shared_settings()
         cls.clients = {}
+        cls._client_ports = {}  # udid -> system_port 映射，用于崩溃恢复
         try:
             udid = cls.android_settings["device"]["udid"]
             port = cls.android_settings["device"].get("system_port", 8201)
@@ -57,11 +58,13 @@ class AndroidUIBase:
             # 连接前检测 Android 设备熄屏并唤醒
             _ensure_android_unlocked(udid)
             cls.clients[udid] = AndroidClient.connect(cls.android_settings, udid, port, packages=packages)
+            cls._client_ports[udid] = port
             if cls.DRIVER_REQUIRED and not runtime.shared_device:
                 _ensure_android_unlocked(runtime.udid)
                 cls.clients[runtime.udid] = AndroidClient.connect(
                     cls.android_settings, runtime.udid, driver_port,
                     packages=("com.sunlightmobility.driver",))
+                cls._client_ports[runtime.udid] = driver_port
             cls.client = cls.clients[udid]
         except BaseException:
             cls._release_clients()
@@ -89,9 +92,10 @@ class AndroidUIBase:
         """检测并唤醒所有已连接的 Android 设备和 Mac，不管执行到哪个阶段。
 
         熄屏时唤醒后继续执行，不中断测试，不直接判定为错误。
+        同时检测 UiAutomator2 会话健康，崩溃时自动重建。
         """
         ensure_mac_awake()
-        for udid, client in getattr(self, "clients", {}).items():
+        for udid, client in list(getattr(self, "clients", {}).items()):
             try:
                 _ensure_android_unlocked(udid)
             except DeviceUnlockError as exc:
@@ -100,6 +104,30 @@ class AndroidUIBase:
                 logging.getLogger("JRYG_HK_android").warning(
                     "[熄屏检查] 设备 %s 唤醒失败：%s；等待手动解锁", udid, exc
                 )
+            # 检测 UiAutomator2 会话是否崩溃，崩溃时自动重建
+            try:
+                if hasattr(client, "is_session_alive") and not client.is_session_alive():
+                    import logging
+                    logging.getLogger("JRYG_HK_android").warning(
+                        "[会话检查] 设备 %s 的 UiAutomator2 会话已崩溃，尝试自动重建", udid)
+                    settings = getattr(self, "android_settings", None)
+                    if settings is not None:
+                        system_port = self._client_system_port(udid)
+                        client.restart_session(
+                            settings, udid, system_port)
+                    else:
+                        logging.getLogger("JRYG_HK_android").error(
+                            "[会话检查] 无法重建会话：缺少 android_settings")
+            except Exception as exc:
+                import logging
+                logging.getLogger("JRYG_HK_android").warning(
+                    "[会话检查] 设备 %s 会话健康检测异常：%s", udid, exc)
+
+    def _client_system_port(self, udid):
+        """获取客户端对应的 system_port。"""
+        # 从 clients 字典的端口映射中查找，默认 8201
+        ports = getattr(self, "_client_ports", {})
+        return ports.get(udid, 8201)
 
     def _ios_get_all_texts(self, client):
         """读取指定Android客户端规范化页面树中的可见label。

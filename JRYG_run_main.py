@@ -77,7 +77,7 @@ def _run_tests(argv=None):
         matches = [node for node in nodes if options.case in (
             node, node.split("::")[1], node.split("::")[0],
             Path(node.split("::")[0]).name, "cases/" + Path(node.split("::")[0]).name)]
-        if len(matches) != 1:
+        if not matches:
             print("[错误] --case必须指定安卓独立场景文件、类名或完整节点。")
             return 2
         selected = matches
@@ -88,7 +88,7 @@ def _run_tests(argv=None):
         return run_batch(selected, extra_args, run_case=run_case, report_dir=REPORT_DIR, platform="android")
     report_file = str(Path(options.report_file).resolve()) if options.report_file else str(
         Path(REPORT_DIR) / "JRYG_test_report_hk.html")
-    pytest_args = ["-c", str(BASE_DIR / "pytest.ini"), "-v", "-s", "-x", *selected]
+    pytest_args = ["-c", str(BASE_DIR / "pytest.ini"), "-v", "-s", *selected]
     if not read_only:
         pytest_args.extend([f"--html={report_file}", "--self-contained-html"])
     gate = CompletedOrderGate() if options.batch_result and not read_only else None

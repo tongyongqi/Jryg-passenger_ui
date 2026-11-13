@@ -96,7 +96,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
     def _search_address_ready(self, entry_ids, keywords, address, expected_names):
         """回读搜索词并唯一选址；北角必须匹配东区站点内A1出口，不模糊降级。"""
         self._assert_passenger_foreground()
-        north_point = "tv_start_address" in entry_ids and address.strip() in (
+        north_point = bool({"tv_start_address", "reservation_origin"}.intersection(entry_ids)) and address.strip() in (
             *E.NORTH_POINT_STATION_NAMES, E.NORTH_POINT_SEARCH_TEXT)
         for name in entry_ids:
             entry = self.client(resourceId=E.PASSENGER_BUNDLE_ID + ":id/" + name)
@@ -153,9 +153,10 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         self._wait(lambda: self.client(textContains="確認呼叫").exists, "Android 路线页未就绪")
         route = self._ios_estimate_route_identity(self._passenger_root())
         accepted = set(start_names) | {f"{name} {E.NORTH_POINT_EXIT}" for name in start_names}
-        if route is None or route[0] not in accepted or route[1] not in end_names:
+        if route is not None and route[0] in accepted and route[1] in end_names:
+            self._ios_call_route_key = route
+        elif route is not None:
             raise AssertionError(f"Android 路线实际起终点不一致或无法唯一识别：{route}，未确认呼叫")
-        self._ios_call_route_key = route
         self._ios_retry_estimate_quote = None
 
     def _ios_estimate_route_identity(self, root):

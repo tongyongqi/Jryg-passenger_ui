@@ -22,6 +22,7 @@ driver:
   # 留空复用乘客设备；双设备的UiAutomator2端口必须与乘客端不同。
   udid: ""
   system_port: 8202
+  mobile: "11000005"
   fare: "5"
   surcharge: "0"
   passenger_tail: ""
@@ -34,7 +35,7 @@ driver:
 
 login:
   country_code: "852"
-  mobile: "11018251727"
+  mobile: "11018258255"
   # 香港测试环境的11位测试账号；未配置时仍按8位香港号码校验。
   mobile_length: 11
   # 当前App的tv_mine_name固定显示4个星号加末4位，不代表号码被截断。
@@ -48,7 +49,9 @@ packages:
   passenger_hk_activity: "com.sunlightmobility.client.launcher.YGALoadingActivity"
 
 order_validation:
+  # 11000005司机在乘客接单页显示完整车牌TU7679，其中原生tv_car_number字段为U7679。
   expected_driver_phone: "11000005"
+  expected_driver_car_number: "U7679"
   max_attempts: 5
   dispatch_timeout: 90
   state_timeout: 30

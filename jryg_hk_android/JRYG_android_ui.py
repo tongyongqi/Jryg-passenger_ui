@@ -297,6 +297,105 @@ class AndroidClient:
         """根据查询条件创建选择器，供共享流程按调用方式定位控件。"""
         return AndroidSelector(self, **query)
 
+    def is_session_alive(self):
+        """检测 UiAutomator2 会话是否健康（instrumentation 进程是否存活）。
+
+        通过执行轻量命令（page_source）并捕获
+        "instrumentation process is not running" / "cannot be proxied" 错误判定。
+        """
+        try:
+            self.driver.page_source
+            return True
+        except Exception as exc:
+            msg = str(exc).lower()
+            if "instrumentation process is not running" in msg or \
+               "cannot be proxied" in msg or \
+               "no such session" in msg or \
+               "session is closed" in msg:
+                return False
+            # 其他异常不代表会话崩溃
+            return True
+
+    def restart_session(self, settings, udid, system_port, *, packages=None):
+        """UiAutomator2 崩溃后重建会话。
+
+        1. 尝试 quit 旧 driver（忽略异常）
+        2. 释放旧 lease
+        3. 重新 acquire lease 并建立新 driver
+        """
+        import logging
+        log = logging.getLogger("JRYG_HK_android")
+        log.warning("【会话恢复】UiAutomator2 会话已崩溃，正在重建")
+
+        # 1. 清理旧 driver
+        old_driver = self.driver
+        try:
+            old_driver.quit()
+        except Exception:
+            pass
+
+        # 2. 释放旧 lease
+        old_lease = getattr(self, "lease", None)
+        if old_lease is not None:
+            try:
+                old_lease.release()
+            except Exception:
+                pass
+
+        # 3. 清理残留的 ADB 端口转发（旧会话崩溃时可能未清理）
+        import subprocess
+        try:
+            subprocess.run(
+                ["adb", "-s", udid, "forward", "--remove", f"tcp:{system_port}"],
+                capture_output=True, timeout=10)
+        except Exception:
+            pass
+
+        # 4. 等待 2 秒让端口释放
+        import time
+        time.sleep(2)
+
+        # 5. 重新建连
+        from appium import webdriver
+        from appium.options.android import UiAutomator2Options
+        from jryg_hk_android.JRYG_android_session import AndroidSessionLease
+
+        if packages is None:
+            packages = (settings["packages"]["passenger_hk"], "com.sunlightmobility.driver")
+        config = settings["device"]
+        source_settings = {
+            "waitForIdleTimeout": config.get("wait_for_idle_timeout", 0),
+            "waitForSelectorTimeout": config.get("wait_for_selector_timeout", 0),
+            "enableTopmostWindowFromActivePackage": False,
+        }
+        options = UiAutomator2Options().load_capabilities({
+            "platformName": "Android", "appium:automationName": "UiAutomator2",
+            "appium:udid": udid, "appium:deviceName": config.get("device_name", "Android_Device"),
+            "appium:systemPort": system_port, "appium:noReset": True,
+            "appium:autoLaunch": False, "appium:newCommandTimeout": 900,
+            "appium:adbExecTimeout": 20000,
+            "appium:uiautomator2ServerReadTimeout": config.get(
+                "uiautomator2_server_read_timeout", max(1, int((config.get("request_timeout", 20) - 5) * 1000))),
+            "appium:disableWindowAnimation": config.get("disable_window_animation", True),
+            **{f"appium:settings[{key}]": value for key, value in source_settings.items()},
+        })
+        url = f"http://{config.get('appium_host', '127.0.0.1')}:{config.get('appium_port', 4723)}"
+        from appium.webdriver.client_config import AppiumClientConfig
+        client_config = AppiumClientConfig(
+            remote_server_addr=url, timeout=config.get("session_create_timeout", 180),
+            init_args_for_pool_manager={"init_args_for_pool_manager": {"retries": 0}})
+        lease = AndroidSessionLease(udid, system_port).acquire()
+        driver = webdriver.Remote(url, options=options, client_config=client_config)
+        client_config.timeout = config.get("request_timeout", 20)
+        driver.update_settings(source_settings)
+        driver.implicitly_wait(0)
+
+        self.driver = driver
+        self.lease = lease
+        self._udid = udid
+        log.info("【会话恢复】UiAutomator2 会话已重建")
+        return True
+
     def source(self, format="xml"):
         """返回当前页面转换后的共享 XML；format 仅兼容调用签名，不改变输出格式。"""
         return ET.tostring(normalized_tree(self.driver.page_source, self.driver.current_package), encoding="unicode")

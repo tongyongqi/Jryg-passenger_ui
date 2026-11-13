@@ -6,6 +6,7 @@
 import os
 import re
 import time
+import xml.etree.ElementTree as ET
 from decimal import Decimal
 
 from .JRYG_android_base import AndroidUIBase, BASE_DIR
@@ -474,6 +475,83 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
     def _create_driver_flow(self, args):
         """复用已建司机设备客户端，避免同一设备重复创建Appium会话。"""
         return AndroidDriverUIFlow(args, client=self.clients[self.driver_runtime.udid])
+
+    @staticmethod
+    def _normalized_driver_identity(value):
+        """统一司机手机号和乘客页车牌字段，仅保留大写字母与数字。"""
+        return re.sub(r"[^A-Z0-9]", "", str(value or "").upper())
+
+    def _expected_driver_assignment(self):
+        """校验当前司机登录配置与乘客页身份映射，禁止配置不一致时下单。"""
+        validation = self.order_settings.get("order_validation") or {}
+        driver = self.order_settings.get("driver") or {}
+        expected_phone = self._normalized_driver_identity(validation.get("expected_driver_phone"))
+        active_phone = self._normalized_driver_identity(
+            os.environ.get("HK_DRIVER_UI_MOBILE") or driver.get("mobile") or "11000005")
+        expected_car = self._normalized_driver_identity(validation.get("expected_driver_car_number"))
+        if not expected_phone or not expected_car:
+            raise RuntimeError("未配置目标司机手机号与乘客页车牌映射，禁止下单")
+        if active_phone != expected_phone:
+            raise RuntimeError(
+                f"当前司机登录手机号{active_phone or '空'}与目标司机{expected_phone}不一致，禁止下单")
+        return expected_phone, expected_car
+
+    def _driver_assignment_attempt_limit(self):
+        """Android错配订单最多处理配置次数，防止无限预付或无限下单。"""
+        self._expected_driver_assignment()
+        maximum = (self.order_settings.get("order_validation") or {}).get("max_attempts", 5)
+        if not isinstance(maximum, int) or isinstance(maximum, bool) or maximum < 1:
+            raise ValueError("目标司机下单次数上限必须为正整数")
+        return maximum
+
+    def _passenger_assigned_driver(self):
+        """仅用乘客原生页面唯一状态和车牌控件读取已接单司机身份。"""
+        self._assert_passenger_foreground()
+        root = ET.fromstring(self.client.source())
+        nodes = visible_nodes(root)
+        statuses = {
+            node_text(node).strip() for node in nodes
+            if node.get("resource-id", "").split("/")[-1] == "tv_status_name"
+            and node_text(node).strip()
+        }
+        cars = {
+            node_text(node).strip() for node in nodes
+            if node.get("resource-id", "").split("/")[-1] == "tv_car_number"
+            and node_text(node).strip()
+        }
+        if len(statuses) != 1 or len(cars) != 1:
+            return None
+        return {"status": next(iter(statuses)), "car_number": next(iter(cars))}
+
+    def _assigned_driver_matches(self, tag):
+        """等待乘客端显示唯一接单车辆，并核对其属于当前登录的目标司机。"""
+        expected_phone, expected_car = self._expected_driver_assignment()
+        timeout = (self.order_settings.get("order_validation") or {}).get("state_timeout", 30)
+        identity = self._wait(
+            self._passenger_assigned_driver,
+            "Android乘客订单页未出现唯一司机状态和车牌，禁止切换司机端",
+            timeout=timeout,
+        )
+        self.assigned_driver_identity = identity
+        actual_car = self._normalized_driver_identity(identity["car_number"])
+        matched = actual_car == expected_car
+        LOG.info(
+            "【%s】乘客端接单司机核验：目标手机号=%s，目标车牌字段=%s，实际车牌字段=%s，匹配=%s",
+            tag, expected_phone, expected_car, actual_car, matched,
+        )
+        return matched
+
+    def _cancel_mismatched_driver_order(self, tag, attempt, maximum):
+        """乘客端取消非目标司机订单；必须确认回首页后才允许再次下单。"""
+        identity = getattr(self, "assigned_driver_identity", {})
+        LOG.warning(
+            "【%s】第%s/%s次订单由非目标司机接单，乘客页车牌=%s；正在通过乘客UI取消",
+            tag, attempt, maximum, identity.get("car_number", "未知"),
+        )
+        self._ios_screenshot(
+            f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_wrong_driver_{attempt}.png")
+        self._clear_waiting_order(tag)
+        LOG.info("【%s】非目标司机订单已确认取消并回到乘客首页", tag)
 
     def _ios_handle_unfinished_order_popup(self, tag):
         if not self._ios_click_dialog_button(["去完成", "去處理", "去处理"], wait_after=2):
