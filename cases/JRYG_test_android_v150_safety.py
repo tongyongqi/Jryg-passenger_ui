@@ -40,6 +40,7 @@ from jryg_hk_android.JRYG_v150_contract import (
     ContactStore,
     Contact,
     mask_contact_phone,
+    emergency_page_location,
 )
 from jryg_hk_android.JRYG_logger import logger
 
@@ -66,6 +67,33 @@ class TestV150SafetyDevice(V150DeviceSteps):
                 contact_id=i, owner_id=1, name=c["name"],
                 phone=c["phone"], auto_share=1 if auto_share else 0))
         return ContactStore(contacts)
+
+    def _assert_contract_rejects(self, func, *args, expected_msg, fail_msg):
+        """封装离线契约校验的 try/except/else 模式。
+
+        调用 func(*args)，期望抛出 ValueError 且消息包含 expected_msg；
+        若未抛出则断言失败并报 fail_msg。
+        """
+        try:
+            func(*args)
+        except ValueError as exc:
+            assert expected_msg in str(exc), f"{fail_msg}：{exc}"
+        else:
+            raise AssertionError(fail_msg)
+
+    def _open_contact_dialog_and_verify(self, tag):
+        """封装重复的真机操作序列：进入联系人→清空→截图→打开弹框→读取→关闭。
+
+        返回弹框状态字典，供调用方断言。
+        """
+        self.v150_safety_return_center(tag)
+        self.v150_safety_enter_contacts(tag)
+        self.v150_safety_clear_contacts(tag)
+        self.v150_screenshot(f"{tag}_before_open")
+        self._v150_open_contact_dialog(tag)
+        dialog = self._v150_read_contact_dialog(tag)
+        self._v150_close_contact_dialog(tag)
+        return dialog
 
     # ==================== 用例1：安全中心首页 ====================
 
@@ -205,21 +233,13 @@ class TestV150SafetyDevice(V150DeviceSteps):
         tag = "v150_safety_contact_name"
         # 离线契约校验
         own_phone = self._v150_get_own_phone()
-        try:
-            validate_contact_input("", "61234567", own_phone, 0)
-        except ValueError as exc:
-            assert "請填寫聯絡人" in str(exc), f"未填写姓名时应有正确的 toast：{exc}"
-        else:
-            raise AssertionError("未填写姓名时未被拒绝")
+        self._assert_contract_rejects(
+            validate_contact_input, "", "61234567", own_phone, 0,
+            expected_msg="請填寫聯絡人",
+            fail_msg="未填写姓名时未被拒绝")
 
         # 真机验证：点击新增按钮打开弹框，确认姓名输入框存在
-        # 联系人满3个时 App 不再弹出新增弹框，需先清空
-        self.v150_safety_return_center(tag)
-        self.v150_safety_enter_contacts(tag)
-        self.v150_safety_clear_contacts(tag)
-        self.v150_screenshot("safety_contact_name_required")
-        self._v150_open_contact_dialog(tag)
-        dialog = self._v150_read_contact_dialog(tag)
+        dialog = self._open_contact_dialog_and_verify(tag)
         assert dialog["has_name_input"], "新增弹框缺少姓名输入框"
         assert dialog["has_phone_input"], "新增弹框缺少电话输入框"
         assert dialog["has_confirm"], "新增弹框缺少「確認」按钮"
@@ -231,24 +251,16 @@ class TestV150SafetyDevice(V150DeviceSteps):
         tag = "v150_safety_contact_phone"
         own_phone = self._v150_get_own_phone()
         # 离线契约校验
-        try:
-            validate_contact_input("測試聯絡人", "", own_phone, 0)
-        except ValueError as exc:
-            assert "請填寫電話" in str(exc), f"未填写电话时应有正确的 toast：{exc}"
-        else:
-            raise AssertionError("未填写电话时未被拒绝")
+        self._assert_contract_rejects(
+            validate_contact_input, "測試聯絡人", "", own_phone, 0,
+            expected_msg="請填寫電話",
+            fail_msg="未填写电话时未被拒绝")
 
         # 真机验证：打开新增弹框，确认电话输入框存在
-        self.v150_safety_return_center(tag)
-        self.v150_safety_enter_contacts(tag)
-        self.v150_safety_clear_contacts(tag)
-        self.v150_screenshot("safety_contact_phone_required")
-        self._v150_open_contact_dialog(tag)
-        dialog = self._v150_read_contact_dialog(tag)
+        dialog = self._open_contact_dialog_and_verify(tag)
         assert dialog["has_phone_input"], "新增弹框缺少电话输入框"
         assert "電話" in dialog["phone_placeholder"], (
             f"电话输入框 placeholder 异常：{dialog['phone_placeholder']}")
-        self._v150_close_contact_dialog(tag)
 
     def test_add_contact_phone_format_validation(self):
         """联系人手机号格式校验：非8~15位数字时 toast「手機號碼格式不正確」。"""
@@ -256,25 +268,16 @@ class TestV150SafetyDevice(V150DeviceSteps):
         own_phone = self._v150_get_own_phone()
         # 离线契约校验：非8~15位数字
         for invalid_phone in ("12345", "123456", "1234567890123456", "abcd1234", "1234abcd"):
-            try:
-                validate_contact_input("測試聯絡人", invalid_phone, own_phone, 0)
-            except ValueError as exc:
-                assert "手機號碼格式不正確" in str(exc), (
-                    f"手机号「{invalid_phone}」格式错误时应有正确的 toast：{exc}")
-            else:
-                raise AssertionError(f"手机号「{invalid_phone}」格式错误时未被拒绝")
+            self._assert_contract_rejects(
+                validate_contact_input, "測試聯絡人", invalid_phone, own_phone, 0,
+                expected_msg="手機號碼格式不正確",
+                fail_msg=f"手机号「{invalid_phone}」格式错误时未被拒绝")
 
         # 真机验证：打开新增弹框，确认电话输入框限制 15 位
-        self.v150_safety_return_center(tag)
-        self.v150_safety_enter_contacts(tag)
-        self.v150_safety_clear_contacts(tag)
-        self.v150_screenshot("safety_contact_phone_format")
-        self._v150_open_contact_dialog(tag)
-        dialog = self._v150_read_contact_dialog(tag)
+        dialog = self._open_contact_dialog_and_verify(tag)
         assert dialog["has_phone_input"], "新增弹框缺少电话输入框"
         assert dialog["phone_maxlength"] == "15", (
             f"电话输入框 maxlength 应为15，实际={dialog['phone_maxlength']}")
-        self._v150_close_contact_dialog(tag)
 
     def test_add_contact_phone_equal_own_phone_rejected(self):
         """联系人手机号与当前账号手机号一致时 toast「本人不可作為緊急聯絡人」。"""
@@ -282,24 +285,15 @@ class TestV150SafetyDevice(V150DeviceSteps):
         own_phone = self._v150_get_own_phone()
         own_phone_8 = own_phone[-8:] if own_phone else ""
         # 离线契约校验
-        try:
-            validate_contact_input("本人測試", own_phone_8, own_phone, 0)
-        except ValueError as exc:
-            assert "本人不可作為緊急聯絡人" in str(exc), (
-                f"与本人手机号一致时应有正确的 toast：{exc}")
-        else:
-            raise AssertionError("与本人手机号一致时未被拒绝")
+        self._assert_contract_rejects(
+            validate_contact_input, "本人測試", own_phone_8, own_phone, 0,
+            expected_msg="本人不可作為緊急聯絡人",
+            fail_msg="与本人手机号一致时未被拒绝")
 
         # 真机验证：打开新增弹框，确认姓名与电话输入框均存在
-        self.v150_safety_return_center(tag)
-        self.v150_safety_enter_contacts(tag)
-        self.v150_safety_clear_contacts(tag)
-        self.v150_screenshot("safety_contact_self_phone")
-        self._v150_open_contact_dialog(tag)
-        dialog = self._v150_read_contact_dialog(tag)
+        dialog = self._open_contact_dialog_and_verify(tag)
         assert dialog["has_name_input"], "新增弹框缺少姓名输入框"
         assert dialog["has_phone_input"], "新增弹框缺少电话输入框"
-        self._v150_close_contact_dialog(tag)
 
     def test_add_contact_name_max_length_15(self):
         """联系人姓名最大可输入15个字。"""
@@ -312,12 +306,10 @@ class TestV150SafetyDevice(V150DeviceSteps):
         assert result == name_15
         # 16字被拒绝
         name_16 = "聯" * 16
-        try:
-            validate_contact_input(name_16, "61234567", own_phone, 0)
-        except ValueError as exc:
-            assert "contact_name_too_long" in str(exc)
-        else:
-            raise AssertionError("超过15字的联系人姓名未被拒绝")
+        self._assert_contract_rejects(
+            validate_contact_input, name_16, "61234567", own_phone, 0,
+            expected_msg="contact_name_too_long",
+            fail_msg="超过15字的联系人姓名未被拒绝")
         self.v150_screenshot("safety_contact_name_length")
 
     def test_add_real_contacts_and_enable_auto_share(self):
@@ -420,12 +412,10 @@ class TestV150SafetyDevice(V150DeviceSteps):
             store.save(1, 0, f"聯絡人{i}", f"61234{i:03d}", own_phone)
         assert len(store.contacts) == 3
         # 添加第4个被拒绝
-        try:
-            validate_contact_input("第四個", "61234567", own_phone, 3)
-        except ValueError as exc:
-            assert "最多可新增3個聯絡人" in str(exc)
-        else:
-            raise AssertionError("超过3个联系人时未被拒绝")
+        self._assert_contract_rejects(
+            validate_contact_input, "第四個", "61234567", own_phone, 3,
+            expected_msg="最多可新增3個聯絡人",
+            fail_msg="超过3个联系人时未被拒绝")
 
         # 真机验证：进入联系人页面查看当前联系人数量
         self.v150_open_safety_center(tag)
@@ -471,12 +461,10 @@ class TestV150SafetyDevice(V150DeviceSteps):
         tag = "v150_safety_auto_share_empty"
         # 离线契约校验
         empty_store = ContactStore()
-        try:
-            empty_store.enable_auto_share_for_all()
-        except ValueError as exc:
-            assert "請添加緊急聯絡人" in str(exc)
-        else:
-            raise AssertionError("空联系人列表时自动分享开关未被拒绝")
+        self._assert_contract_rejects(
+            empty_store.enable_auto_share_for_all,
+            expected_msg="請添加緊急聯絡人",
+            fail_msg="空联系人列表时自动分享开关未被拒绝")
 
         self.v150_screenshot("safety_auto_share_empty_contract")
 
@@ -593,7 +581,6 @@ class TestV150SafetyDevice(V150DeviceSteps):
             phone = c.get("phone_masked", "")
             if phone:
                 # 掩码格式：****XXXX 或类似
-                import re
                 assert re.match(r"[*•]{0,4}\d{4}", phone.replace(" ", "")), (
                     f"联系人手机号掩码格式异常：{phone}")
         self.v150_screenshot("safety_contact_mask_verified")
@@ -635,7 +622,6 @@ class TestV150SafetyDevice(V150DeviceSteps):
         """报警页定位状态：获取中/成功/失败/未授权。"""
         tag = "v150_safety_alarm_loc"
         # 离线契约校验
-        from jryg_hk_android.JRYG_v150_contract import emergency_page_location
         assert emergency_page_location("loading") == "正在獲取位置信息..."
         assert emergency_page_location("success", address="香港北角") == "香港北角"
         assert emergency_page_location("failed") == "無法獲取當前位置信息"
@@ -759,16 +745,14 @@ class TestV150SafetyDevice(V150DeviceSteps):
     def test_auto_share_supports_instant_and_booking(self):
         """自动分享行程支持即时和预约订单类型。
 
-        接单事件向已选联系人发送行程链接。
+        接单事件向已选联系人发送行程链接；契约层不区分订单类型，
+        联系人列表决定收件人，与 instant/booking 无关。
         """
         tag = "v150_safety_auto_share_types"
         store = self._build_contact_store(auto_share=True)
-        # 即时订单和预约订单均支持自动分享
-        for order_type in ("instant", "booking"):
-            recipients = store.trip_share_recipients()
-            assert len(recipients) == 3, (
-                f"自动分享在{order_type}订单中应向全部已选联系人发送行程链接")
-
+        recipients = store.trip_share_recipients()
+        assert len(recipients) == 3, (
+            "自动分享应向全部已选联系人发送行程链接")
         self.v150_screenshot("safety_auto_share_order_types")
 
     # ==================== 用例14：报警支持即时和预约订单 ====================
@@ -776,16 +760,14 @@ class TestV150SafetyDevice(V150DeviceSteps):
     def test_alarm_supports_instant_and_booking(self):
         """触发999报警支持即时和预约订单类型。
 
-        999报警向全部联系人发送报警链接。
+        999报警向全部联系人发送报警链接；契约层不区分订单类型，
+        联系人列表决定收件人，与 instant/booking 无关。
         """
         tag = "v150_safety_alarm_order_types"
         store = self._build_contact_store()
-        # 即时和预约订单均支持报警
-        for order_type in ("instant", "booking"):
-            recipients = store.alarm_recipients()
-            assert len(recipients) == 3, (
-                f"报警在{order_type}订单中应向全部联系人发送报警链接")
-
+        recipients = store.alarm_recipients()
+        assert len(recipients) == 3, (
+            "报警应向全部已选联系人发送报警链接")
         self.v150_screenshot("safety_alarm_order_types")
 
     # ==================== 用例15：联系人姓名不涉及多语言切换 ====================
@@ -824,26 +806,23 @@ class TestV150SafetyDevice(V150DeviceSteps):
         result = validate_contact_input("測試", "61234567", own_phone, 0)
         assert result == "測試"
         # 16位数字格式校验不通过（非8位）
-        try:
-            validate_contact_input("測試", "1" * 16, own_phone, 0)
-        except ValueError as exc:
-            assert "手機號碼格式不正確" in str(exc)
-        else:
-            raise AssertionError("16位电话未被格式校验拒绝")
+        self._assert_contract_rejects(
+            validate_contact_input, "測試", "1" * 16, own_phone, 0,
+            expected_msg="手機號碼格式不正確",
+            fail_msg="16位电话未被格式校验拒绝")
 
         self.v150_screenshot("safety_phone_max_length")
 
     # ==================== 用例18：报警页定位按钮 ====================
 
     def test_alarm_page_locate_button(self):
-        """报警页定位按钮：点击重新定位。"""
+        """报警页定位按钮：存在且可点击重新定位。"""
         tag = "v150_safety_alarm_locate"
         self.v150_open_safety_center(tag)
         self.v150_safety_enter_alarm(tag)
         self.v150_screenshot("safety_alarm_locate_before")
-        result = self.v150_safety_verify_alarm_page(tag)
-        # 定位按钮应存在
-        # 注意：实际点击定位按钮会触发定位请求，这里只验证按钮存在
+        # 验证报警页已加载（含定位按钮），不实际触发定位请求
+        self.v150_safety_verify_alarm_page(tag)
         self.v150_screenshot("safety_alarm_locate_btn")
 
     # ==================== 用例19：安全中心返回 ====================

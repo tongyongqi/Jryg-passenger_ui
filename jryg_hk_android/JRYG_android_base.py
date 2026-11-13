@@ -1,6 +1,6 @@
 """Android 公共设备生命周期和 UI 操作；不包含测试方法或订单提交。
 
-兼容方法名沿用共享iOS接口，实际动作均由AndroidClient执行，不连接WDA。
+兼容方法名沿用共享Android接口，实际动作均由AndroidClient执行，不连接WDA。
 不管执行到哪个阶段，如果设备熄屏，需要唤醒后继续执行，不能直接判断为错误。
 """
 
@@ -8,7 +8,7 @@ from pathlib import Path
 import time
 import xml.etree.ElementTree as ET
 
-from .JRYG_shared_ios import shared_settings
+from .JRYG_shared import shared_settings
 from .JRYG_android_ui import AndroidClient, resolve_runtime
 from .JRYG_android_device_guard import (
     DeviceUnlockError, ensure_unlocked as _ensure_android_unlocked,
@@ -129,7 +129,7 @@ class AndroidUIBase:
         ports = getattr(self, "_client_ports", {})
         return ports.get(udid, 8201)
 
-    def _ios_get_all_texts(self, client):
+    def _android_get_all_texts(self, client):
         """读取指定Android客户端规范化页面树中的可见label。
 
         读取前先检测设备熄屏并唤醒，不管执行到哪个阶段都唤醒后继续。
@@ -138,7 +138,7 @@ class AndroidUIBase:
         root = ET.fromstring(client.source())
         return [node.get("label", "") for node in visible_nodes(root) if node.get("label")]
 
-    def _ios_screenshot(self, name):
+    def _android_screenshot(self, name):
         """截图写入Android项目screenshots目录；name由调用方指定。
 
         截图前先检测设备熄屏并唤醒，不管执行到哪个阶段都唤醒后继续。
@@ -170,17 +170,17 @@ class AndroidUIBase:
             raise RuntimeError(f"Android 未找到 UI 控件：{keywords}")
         return False
 
-    def _ios_click_dialog_button(self, keywords, *, tag="", fallback_coord=None, wait_after=0, **kwargs):
+    def _android_click_dialog_button(self, keywords, *, tag="", fallback_coord=None, wait_after=0, **kwargs):
         """精确点击可选弹窗按钮；兼容fallback_coord参数但不执行坐标兜底。"""
         clicked = self._click_text(keywords, exact=True, required=False)
         if clicked:
             time.sleep(wait_after)
         return clicked
 
-    def _ios_dismiss_dialogs(self, keywords, *, tag="", max_rounds=3, wait_after=1):
+    def _android_dismiss_dialogs(self, keywords, *, tag="", max_rounds=3, wait_after=1):
         """最多处理指定轮数弹窗，首次未命中即结束，不无限重试。"""
         for _ in range(max_rounds):
-            if not self._ios_click_dialog_button(keywords, wait_after=wait_after):
+            if not self._android_click_dialog_button(keywords, wait_after=wait_after):
                 break
 
     def _assert_passenger_foreground(self):

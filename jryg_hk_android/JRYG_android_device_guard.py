@@ -1,7 +1,7 @@
 """Android 设备熄屏检测与唤醒；Mac 锁屏检测与防休眠。
 
 不管执行到哪个阶段，如果设备熄屏，需要唤醒后继续执行，不能直接判断为错误。
-iOS 端已有 JRYG_device_guard.py 通过 WDA /wda/locked 检测和 /wda/unlock 唤醒；
+Android 端已有 JRYG_device_guard.py 通过 WDA /wda/locked 检测和 /wda/unlock 唤醒；
 Android 端通过 ADB 检测屏幕状态（mScreenOn / mAwake）并发送 KEYCODE_POWER 唤醒。
 
 Mac 电脑熄屏通过 caffeinate 防休眠 + ioreg 检测锁屏状态；
@@ -136,7 +136,7 @@ def wake_screen(udid):
 def ensure_unlocked(udid, *, deadline=None):
     """检测 Android 设备熄屏并唤醒，不管执行到哪个阶段都唤醒后继续。
 
-    与 iOS 端 JRYG_device_guard.ensure_unlocked 接口对齐，
+    与 Android 端 JRYG_device_guard.ensure_unlocked 接口对齐，
     供共享订单流程在关键节点调用。
 
     设备未连接时不阻断测试，返回 False 让后续设备连接步骤报更准确的错误。

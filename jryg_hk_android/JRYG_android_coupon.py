@@ -5,7 +5,7 @@ import time
 import xml.etree.ElementTree as ET
 
 from .JRYG_android_passenger import AndroidPassengerBase
-from . import JRYG_ios_ui_elements as E
+from . import JRYG_android_ui_elements as E
 
 TARGET_PATTERN = ".*折扣最高折扣.*|.*111.*|.*老人折扣.*|.*100元.*|.*100.*"
 ALL_COUPONS_PATTERN = TARGET_PATTERN + "|.*元.*|.*HKD.*|.*折.*"
@@ -115,8 +115,8 @@ class AndroidCouponMixin:
 
     def open_prepaid_cashier(self, tag="coupon"):
         """确认呼叫后等待真实预付收银台，不在此方法确认支付并呼叫。"""
-        self._ios_click_confirm_call(tag)
-        self._wait(lambda: any(keyword in text for text in self._ios_get_all_texts(self.client)
+        self._android_click_confirm_call(tag)
+        self._wait(lambda: any(keyword in text for text in self._android_get_all_texts(self.client)
                               for keyword in E.CASHIER_PAGE_KEYWORDS), "未进入真实预付收银台")
 
     def close_prepaid_cashier(self):

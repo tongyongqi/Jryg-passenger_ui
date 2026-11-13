@@ -260,12 +260,12 @@ class AndroidTargetOrderBase(AndroidOrderBase):
             submitted = getattr(self, "_legacy_payment_submitted", set())
             if order_no in submitted:
                 raise RuntimeError("遗留订单付款已发起，禁止重复提交")
-            self._ios_wait_current_payment(tag)
+            self._android_wait_current_payment(tag)
             submitted.add(order_no)
             self._legacy_payment_submitted = submitted
-            self._ios_complete_payment(tag)
+            self._android_complete_payment(tag)
         else:
-            self._ios_back_to_home(tag)
+            self._android_back_to_home(tag)
         self.driver_ui.wait_completed()
         completed = self.driver_ui.order_no
         if completed != order_no or self.driver_ui.last_phase != "complete":
@@ -288,7 +288,7 @@ class AndroidTargetOrderBase(AndroidOrderBase):
             if unfinished:
                 if clicked:
                     raise RuntimeError("安卓未完成订单‘去完成’单次点击未生效，未重复点击或继续下单")
-                if not self._ios_click_dialog_button(["去完成", "去處理", "去处理"], wait_after=1):
+                if not self._android_click_dialog_button(["去完成", "去處理", "去处理"], wait_after=1):
                     raise RuntimeError("Android 未定位遗留订单‘去完成’入口，停止后续流程")
                 clicked = True
                 continue

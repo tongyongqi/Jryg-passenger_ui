@@ -1,4 +1,4 @@
-"""安卓独立订单场景清单，顺序与已验证iOS默认清单一致。
+"""安卓独立订单场景清单，顺序与已验证Android默认清单一致。
 
 V1.5.0 新增预约用车、安全中心、邮箱收据、收银台真机调试场景，
 不参与六场景默认批量运行，仅在 --case 或 include_optional 时可选。
@@ -42,7 +42,30 @@ V150_DEVICE_SCENARIOS = (
     ("JRYG_test_android_v150_receipt.py", "TestV150ReceiptDevice", "test_receipt_send_rate_limit_two_per_minute"),
     ("JRYG_test_android_v150_receipt.py", "TestV150ReceiptDevice", "test_receipt_close_dialog_does_not_save_draft"),
     ("JRYG_test_android_v150_cashier.py", "TestV150CashierDevice", "test_cashier_payment_order"),
-    ("JRYG_test_android_v150_cashier.py", "TestV150CashierDevice", "test_cashier_wechat_uninstalled_prompt"),
+    # 订单中心type16改造
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_01_contract_create_params_validate"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_02_contract_type16_storage_realtime"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_03_contract_unfinished_order_legacy_rejects_16"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_04_contract_unfinished_list_supports_16"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_05_real_create_type16_with_new_fields"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_06_real_order_list_type16_visible"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_07_real_cancel_removes_from_unfinished"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_08_real_show_returns_new_fields"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_09_real_status_info_hk_type16"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_10_real_mq_carries_create_values"),
+    ("JRYG_test_android_v150_order_center.py", "TestV150OrderCenterDevice", "test_11_real_create_invalid_field_rejected"),
+    # 预约用车type16：打表的士+电子支付（下单后直查库表，不取消）
+    ("JRYG_test_android_v150_booking_meter_epayment.py", "TestV150BookingMeterEpaymentDevice", "test_01_contract_create_with_epayment_fields"),
+    ("JRYG_test_android_v150_booking_meter_epayment.py", "TestV150BookingMeterEpaymentDevice", "test_02_real_booking_meter_epayment_order"),
+    ("JRYG_test_android_v150_booking_meter_epayment.py", "TestV150BookingMeterEpaymentDevice", "test_03_db_verify_meter_epayment_fields"),
+    # 预约用车type16：包车价的士+线上支付（下单后直查库表，不取消）
+    ("JRYG_test_android_v150_booking_charter_online.py", "TestV150BookingCharterOnlineDevice", "test_01_contract_create_with_online_payment_fields"),
+    ("JRYG_test_android_v150_booking_charter_online.py", "TestV150BookingCharterOnlineDevice", "test_02_real_booking_charter_online_order"),
+    ("JRYG_test_android_v150_booking_charter_online.py", "TestV150BookingCharterOnlineDevice", "test_03_db_verify_charter_online_fields"),
+    # 预约用车type16：打表的士+现金支付（下单后直查库表，不取消）
+    ("JRYG_test_android_v150_booking_meter_cash.py", "TestV150BookingMeterCashDevice", "test_01_contract_create_with_cash_payment_fields"),
+    ("JRYG_test_android_v150_booking_meter_cash.py", "TestV150BookingMeterCashDevice", "test_02_real_booking_meter_cash_order"),
+    ("JRYG_test_android_v150_booking_meter_cash.py", "TestV150BookingMeterCashDevice", "test_03_db_verify_meter_cash_fields"),
 )
 
 

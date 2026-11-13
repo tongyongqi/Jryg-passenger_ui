@@ -15,7 +15,7 @@ class TestMeterEpaymentBankcardAndroid(AndroidOrderBase):
     CAR_TYPE = "meter"
     PAYMENT = "epayment"
     FINAL_PAYMENT = "bankcard"
-    ios_scenario_name = "TestMeterEpaymentBankcard"
+    android_scenario_name = "TestMeterEpaymentBankcard"
 
     def test_order_flow(self):
         """电子支付下单→司机账单→卡表单→OTP→同订单到账核验。"""

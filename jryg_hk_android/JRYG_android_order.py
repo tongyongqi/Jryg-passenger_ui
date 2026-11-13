@@ -1,4 +1,4 @@
-"""香港 Android 订单适配：组合公共模块，业务编排继续继承 iOS。
+"""香港 Android 订单适配：组合公共模块，业务编排继续继承 Android。
 
 只覆盖原生设备、滑块及付款页同单校验，最终支付状态仍由共享司机流程核验。
 """
@@ -81,7 +81,7 @@ class AndroidDriverUIFlow(DriverUIFlow):
         ):
             return "departure"
         texts = {node_text(node) for node in visible_nodes(root)}
-        # Android 司机登录页文本与 iOS 不同，需要单独匹配
+        # Android 司机登录页文本与 Android 不同，需要单独匹配
         if texts.intersection({
             "登錄/註冊", "登录/注册",
             "立即註冊，開始接單賺錢", "立即注册，开始接单赚钱",
@@ -344,7 +344,7 @@ class AndroidDriverUIFlow(DriverUIFlow):
             time.sleep(2)
             root = self.root()
 
-        # 3. 输入手机号（使用 WDA TextField，与 iOS 一致）
+        # 3. 输入手机号（使用 WDA TextField，与 Android 一致）
         phone_fields = [node for node in visible_nodes(root)
                         if node.tag in ("XCUIElementTypeTextField", "XCUIElementTypeSecureTextField")
                         and node.get("enabled") != "false"]
@@ -459,7 +459,7 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
     def setup_class(cls):
         """在设备连接前拒绝未支持渠道，随后执行公共设备生命周期。"""
         if cls.PAYMENT not in ("cash", "epayment", "bankcard", "alipay"):
-            raise ValueError("当前香港 iOS 默认场景不支持该支付方式，禁止连接设备及下单")
+            raise ValueError("当前香港 Android 默认场景不支持该支付方式，禁止连接设备及下单")
         super().setup_class()
 
     def _resolve_driver_runtime(self):
@@ -548,20 +548,20 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
             "【%s】第%s/%s次订单由非目标司机接单，乘客页车牌=%s；正在通过乘客UI取消",
             tag, attempt, maximum, identity.get("car_number", "未知"),
         )
-        self._ios_screenshot(
+        self._android_screenshot(
             f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_wrong_driver_{attempt}.png")
         self._clear_waiting_order(tag)
         LOG.info("【%s】非目标司机订单已确认取消并回到乘客首页", tag)
 
-    def _ios_handle_unfinished_order_popup(self, tag):
-        if not self._ios_click_dialog_button(["去完成", "去處理", "去处理"], wait_after=2):
+    def _android_handle_unfinished_order_popup(self, tag):
+        if not self._android_click_dialog_button(["去完成", "去處理", "去处理"], wait_after=2):
             raise RuntimeError("Android 未定位遗留订单入口，停止，不假装已清理")
         self._clear_waiting_order(tag)
 
     def _clear_waiting_order(self, tag):
         def state():
             self._assert_passenger_foreground()
-            texts = self._ios_get_all_texts(self.client)
+            texts = self._android_get_all_texts(self.client)
             if any(keyword in text for text in texts for keyword in ("確認支付", "费用明细", "費用明細", "行程結束")):
                 raise RuntimeError("遗留订单需要付款，缺少本次同单账单凭据，禁止自动付款")
             if any(keyword in text for text in texts for keyword in ("取消訂單", "取消订单")):
@@ -572,11 +572,11 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
         if self._wait(state, "Android 遗留订单页面未确认") == "home":
             return
         self._click_text(["取消訂單", "取消订单"], exact=True)
-        self._ios_click_dialog_button(self.CANCEL_CONFIRM_KEYWORDS, wait_after=1)
+        self._android_click_dialog_button(self.CANCEL_CONFIRM_KEYWORDS, wait_after=1)
 
         def cleared():
             self._assert_passenger_foreground()
-            texts = self._ios_get_all_texts(self.client)
+            texts = self._android_get_all_texts(self.client)
             if any("未完成" in text or "取消訂單" in text or "取消订单" in text for text in texts):
                 return False
             return self.client(resourceId="com.sunlightmobility.client:id/tv_start_address").exists
@@ -585,16 +585,16 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
     def _ui_cleanup_ongoing_order(self, tag):
         if not self.ensure_passenger_login(tag):
             raise RuntimeError("安卓乘客登录未核验，未处理遗留订单")
-        texts = self._ios_get_all_texts(self.client)
+        texts = self._android_get_all_texts(self.client)
         if any("未完成" in text and ("訂單" in text or "订单" in text) for text in texts):
-            self._ios_handle_unfinished_order_popup(tag)
+            self._android_handle_unfinished_order_popup(tag)
         else:
             self._clear_waiting_order(tag)
 
-    def _ios_wait_current_payment(self, tag):
+    def _android_wait_current_payment(self, tag):
         """共享金额等待后核验付款页订单号唯一且与司机相同，尚不表示已付款。"""
-        super()._ios_wait_current_payment(tag)
-        texts = self._ios_get_all_texts(self.client)
+        super()._android_wait_current_payment(tag)
+        texts = self._android_get_all_texts(self.client)
         orders = {match for text in texts for match in re.findall(r"\b[A-Z0-9]{12}\b", text)
                   if any(char.isdigit() for char in match) and any(char.isalpha() for char in match)}
         if not self.driver_ui.order_no or orders != {self.driver_ui.order_no}:

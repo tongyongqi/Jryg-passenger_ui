@@ -15,7 +15,7 @@ class TestCharterBankcardAndroid(AndroidOrderBase):
     CAR_TYPE = "charter"
     PAYMENT = "bankcard"
     FINAL_PAYMENT = ""
-    ios_scenario_name = "TestCharterBankcard"
+    android_scenario_name = "TestCharterBankcard"
 
     def test_order_flow(self):
         """卡表单及OTP预付→司机行程及只读账单→同订单到账核验。"""

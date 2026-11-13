@@ -52,7 +52,7 @@ def ensure_device(udid, packages):
 
 
 def normalized_tree(source, package):
-    """将 Android 原生 XML 转为共享状态机使用的类 iOS 控件树，不连接 WDA。"""
+    """将 Android 原生 XML 转为共享状态机使用的类 Android 控件树，不连接 WDA。"""
     native = ET.fromstring(source)
     root = ET.Element("XCUIElementTypeApplication", bundleId=package, visible="true")
 
@@ -230,6 +230,7 @@ class AndroidClient:
         self.lease = lease
         self._closed = False
         self._udid = None  # 由 connect 设置，供熄屏检测使用
+        self._app_activities = {}  # 包名 → 主 Activity，由 connect 设置
 
     @classmethod
     def connect(cls, settings, udid, system_port, *, packages=None):
@@ -282,6 +283,10 @@ class AndroidClient:
             driver.implicitly_wait(0)
             instance = cls(driver, lease=lease)
             instance._udid = udid
+            instance._app_activities = {}
+            pkg_cfg = settings.get("packages", {})
+            if "passenger_hk" in pkg_cfg and "passenger_hk_activity" in pkg_cfg:
+                instance._app_activities[pkg_cfg["passenger_hk"]] = pkg_cfg["passenger_hk_activity"]
             return instance
         except BaseException:
             try:
@@ -406,8 +411,20 @@ class AndroidClient:
             raise RuntimeError("Android 截图失败")
 
     def app_activate(self, package):
-        """将指定包对应的应用切换到前台。"""
-        self.driver.activate_app(package)
+        """将指定包对应的应用切换到前台。
+
+        优先用 ``am start`` 指定主 Activity 启动，避免 ``activate_app``
+        对部分 App 触发隐式 Intent 弹出 ResolverActivity。
+        """
+        activity = self._app_activities.get(package)
+        if activity:
+            import subprocess
+            subprocess.run(
+                ["adb", "-s", self._udid, "shell", "am", "start", "-n",
+                 f"{package}/{activity}"],
+                capture_output=True, timeout=10)
+        else:
+            self.driver.activate_app(package)
 
     def session(self, package):
         """激活指定应用后返回当前客户端，不另建 Appium 会话。"""

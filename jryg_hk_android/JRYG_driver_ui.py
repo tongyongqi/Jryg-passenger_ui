@@ -1,4 +1,4 @@
-"""iOS 司机全 UI 流程：打开 App、出车、接单、滑动状态及确认账单。
+"""Android 司机全 UI 流程：打开 App、出车、接单、滑动状态及确认账单。
 
 默认：打开已登录司机 App，点击出车后立即返回。
 --inspect：只打开 App 并读取状态，不出车、不接单。
@@ -54,20 +54,20 @@ class DriverAppNotForegroundError(RuntimeError):
 
 
 def visible_nodes(root):
-    """兼容 iOS WDA（visible=true）与 Android UiAutomator2（displayed=true）的可见节点过滤。"""
+    """兼容 Android WDA（visible=true）与 Android UiAutomator2（displayed=true）的可见节点过滤。"""
     return [node for node in root.iter()
             if node.get("visible") == "true" or node.get("displayed") == "true"]
 
 
 def node_text(node):
-    """兼容 iOS（label/name）与 Android（text/content-desc/resource-id）的节点文本读取。"""
+    """兼容 Android（label/name）与 Android（text/content-desc/resource-id）的节点文本读取。"""
     return (node.get("label") or node.get("name")
             or node.get("text") or node.get("content-desc")
             or node.get("resource-id", "").split("/")[-1])
 
 
 def find_label(root, labels):
-    """精确匹配可见且可用的候选文案，iOS 优先按钮，Android 优先 clickable 控件。"""
+    """精确匹配可见且可用的候选文案，Android 优先按钮，Android 优先 clickable 控件。"""
     matches = [node for node in visible_nodes(root)
                if node.get("enabled") != "false" and node_text(node) in labels]
     matches.sort(key=lambda node: node.tag != "XCUIElementTypeButton" and node.get("clickable") != "true")
@@ -115,7 +115,7 @@ def read_order_no(root, *, excluded=(), expected=None):
 
 
 def is_history_list(root):
-    """仅识别真实iOS历史列表，不能将列表中的已支付旧单当当前订单终态。"""
+    """仅识别真实Android历史列表，不能将列表中的已支付旧单当当前订单终态。"""
     nodes = visible_nodes(root)
     return (root.get("bundleId") == BUNDLE_ID
             and any(node.tag == "XCUIElementTypeNavigationBar" and node_text(node) == "我的行程" for node in nodes)
@@ -170,7 +170,7 @@ def detect_phase(root, accept_labels=ACCEPT_LABELS):
 def rect(node):
     """读取页面树矩形为浮点数，缺失坐标为0，由操作前校验拒绝无效区域。
 
-    兼容 iOS WDA（x/y/width/height 属性）与 Android UiAutomator2（bounds=[x1,y1][x2,y2]）。
+    兼容 Android WDA（x/y/width/height 属性）与 Android UiAutomator2（bounds=[x1,y1][x2,y2]）。
     """
     x = node.get("x")
     if x is not None:
@@ -434,7 +434,7 @@ class DriverUIFlow:
             root = self.root()
         else:
             LOG.info("手机号已输入，跳过")
-        # 勾选协议复选框（iOS 用图标名，Android 用 resource-id）
+        # 勾选协议复选框（Android 用图标名，Android 用 resource-id）
         unchecked = find_label(root, ("ca icon dl wxz",))
         if unchecked is not None:
             self.client.click(*center(unchecked))

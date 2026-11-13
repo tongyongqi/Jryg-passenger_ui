@@ -1,17 +1,17 @@
-"""有界读取 iOS 页面，识别登录状态并保存卡点现场。
+"""有界读取 Android 页面，识别登录状态并保存卡点现场。
 
 两层结构：
-  - IOSPage        ：对一次页面树快照的封装，负责文本提取与状态识别。
-  - IOSPageMonitor ：负责实际请求 WDA、保存页面树/截图、提供等待与点击能力。
+  - AndroidPage        ：对一次页面树快照的封装，负责文本提取与状态识别。
+  - AndroidPageMonitor ：负责实际请求 WDA、保存页面树/截图、提供等待与点击能力。
 
-公共调用：iOSBase._ios_get_all_texts复用IOSPage文本解析；监控器负责有界读取，
+公共调用：AndroidBase._android_get_all_texts复用AndroidPage文本解析；监控器负责有界读取，
 不把状态判断直接变成自动取消、下单或支付，业务动作由订单编排决定。
 
 设计约束：
   - 读取必须有超时上限，不能因页面卡死而无限等待。
   - 状态识别只依据页面可见文本，任何未知情况都返回 "unknown" 而非猜测。
 
-页面状态识别（IOSPage.state 属性）：
+页面状态识别（AndroidPage.state 属性）：
   - permission_dialog    ：系统权限弹窗（Alert 控件）
   - login_phone_input    ：手机号输入页（"取得驗證碼"等关键词）
   - login_code_input     ：验证码输入页（"請輸入驗證碼"等关键词）
@@ -40,10 +40,10 @@ from urllib.parse import urlparse  # 解析 WDA URL，判断是否本地连接
 import requests     # HTTP 请求，用于向 WDA 发送 GET 请求读取页面树/截图
 
 # 使用与主框架相同的日志器名称，保持日志统一
-logger = logging.getLogger("JRYG_HK_ios")
+logger = logging.getLogger("JRYG_HK_android")
 
 
-class IOSPage:
+class AndroidPage:
     """单次页面树快照，封装可见节点、文本与状态判定。"""
 
     def __init__(self, source):
@@ -140,7 +140,7 @@ class IOSPage:
         return "unknown"
 
 
-class IOSPageMonitor:
+class AndroidPageMonitor:
     """页面监控器：读取页面树、保存卡点现场、等待状态、点击文本。"""
 
     def __init__(self, wda_url, output_dir, request_timeout=12):
@@ -178,8 +178,8 @@ class IOSPageMonitor:
         return value
 
     def inspect(self, timeout=None):
-        """读取当前页面树并包装成 IOSPage。"""
-        self.last_page = IOSPage(self._get("/source?format=xml", timeout))
+        """读取当前页面树并包装成 AndroidPage。"""
+        self.last_page = AndroidPage(self._get("/source?format=xml", timeout))
         logger.info("[页面检测] state=%s", self.last_page.state)
         return self.last_page
 

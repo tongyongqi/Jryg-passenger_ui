@@ -18,4 +18,4 @@ class TestJRYGHKOpenAndRoute(AndroidPassengerBase):
         self.prepare_passenger_route("route", start="铜锣湾", verify_login=True)
         self._assert_passenger_foreground()
         assert self.client(textContains="確認呼叫").exists, "选择起终点后未进入车型路线页"
-        self._ios_screenshot("JRYG_route_03_route_selected.png")
+        self._android_screenshot("JRYG_route_03_route_selected.png")

@@ -23,11 +23,12 @@ BOOKING_TIMEOUT_MINUTES = 20
 PASSENGER_INSTANT = 5
 PASSENGER_BOOKING = 6
 ORDER_CENTER_BOOKING = 16
-PAYMENT_COLLECTION_ONLINE = 1
+PAYMENT_COLLECTION_ONLINE = 1   # 1:线上支付
+PAYMENT_COLLECTION_OFFLINE = 2  # 2:线下支付（现金）
 BUSINESS_TAXI = 1
 CONTACT_LIMIT = 3
 CONTACT_NAME_LIMIT = 15
-PAYMENT_ORDER = ("AlipayHK", "WeChatPay", "Octopus", "Card")
+PAYMENT_ORDER = ("AlipayHK", "Octopus", "Card")
 SAFETY_ENTRY_PAGES = {
     "home", "instant_vehicle", "booking_vehicle", "instant_calling", "booking_calling",
     "pickup", "in_trip", "bill_pending", "unpaid", "paid", "cancelled",
@@ -63,6 +64,11 @@ def floor_five_minutes(value):
 
 
 def selectable_booking_range(now, configured_min=None):
+    """计算可选择的最小和最大预约时间范围。
+
+    返回 (earliest, latest) 元组，最早时间向上取整到5分钟，
+    最晚时间向下取整到5分钟，确保落在合法刻度内。
+    """
     minimum = effective_min_booking_interval(configured_min)
     return (
         ceil_five_minutes(now + timedelta(minutes=minimum)),
@@ -88,6 +94,7 @@ def format_use_time(value):
 
 
 def booking_entry(config):
+    """检查配置中是否有预约用车服务入口，返回入口可见性、标题和图标。"""
     for service in config.get("services") or []:
         if service.get("type") == "booking":
             return {
@@ -105,27 +112,36 @@ def booking_entry_action(logged_in):
 
 @dataclass(frozen=True)
 class BookingDraft:
+    """预约订单草稿状态机：记录起点、终点、已确认/临时时间。
+
+    草稿在打开时间选择器时产生 temporary_time，确认后转为 confirmed_time，
+    关闭选择器后清除 temporary_time。所有状态变更返回新实例（不可变）。
+    """
     start: str = ""
     destination: str = ""
     confirmed_time: object = None
     temporary_time: object = None
 
     def open_picker(self, now, configured_min=None):
+        """打开时间选择器，初始值为已确认时间或合法范围最早值。"""
         initial = self.confirmed_time
         if initial is None or not validate_booking_time(now, initial, configured_min)[0]:
             initial = selectable_booking_range(now, configured_min)[0]
         return replace(self, temporary_time=initial)
 
     def close_picker(self):
+        """关闭时间选择器，清除临时时间。"""
         return replace(self, temporary_time=None)
 
     def confirm_picker(self, now, configured_min=None):
+        """确认时间选择；合法则更新 confirmed_time 并清除临时时间，非法返回错误信息。"""
         valid, message = validate_booking_time(now, self.temporary_time, configured_min)
         if not valid:
             return self, message
         return replace(self, confirmed_time=self.temporary_time, temporary_time=None), ""
 
     def confirm_page(self, now, configured_min=None):
+        """确认页状态：blocked（缺起点/终点）、open_picker（未选时间）、vehicle_page（可进入车型页）。"""
         if not self.start:
             return "blocked", "請選擇起點"
         if not self.destination:
@@ -143,6 +159,7 @@ class BookingDraft:
 # ---------------------------------------------------------------------------
 @dataclass(frozen=True)
 class QuoteIdentity:
+    """报价请求标识：地址、时间、代次和业务类型的唯一组合，用于判断是否复用旧报价。"""
     start: str
     destination: str
     use_time: str
@@ -163,6 +180,7 @@ def booking_start_display(state, selected_start=""):
 
 
 def booking_destination_display(selected_destination=""):
+    """预约终点栏显示：有值时显示终点，无值时显示占位提示。"""
     return selected_destination or "想去哪裡"
 
 
@@ -177,6 +195,7 @@ def quote_response_applies(current, response):
 
 
 def estimate_request(start, destination, use_time=None):
+    """构建询价请求体；预约订单附加 use_time，即时订单不带。"""
     payload = {"start": start, "destination": destination}
     if use_time:
         payload["use_time"] = use_time
@@ -184,10 +203,12 @@ def estimate_request(start, destination, use_time=None):
 
 
 def estimate_order_type(use_time):
+    """根据 use_time 返回订单类型：有值为预约，无值为即时。"""
     return PASSENGER_BOOKING if use_time else PASSENGER_INSTANT
 
 
 def estimate_cache_value(car_type, use_time=None):
+    """构建询价缓存值，按车型和预约时间区分。"""
     return {"car_type": car_type, "use_time": use_time or ""}
 
 
@@ -199,6 +220,7 @@ def create_request(estimate_ids):
 
 
 def booking_create_policy(car_type, use_time):
+    """预约订单创建策略：按车型和是否预约决定预付、调度、超时提示等行为。"""
     if car_type not in ("charter", "meter"):
         raise ValueError("unknown_car_type")
     return {
@@ -210,6 +232,7 @@ def booking_create_policy(car_type, use_time):
 
 
 def can_create(active_instant, active_booking, requested):
+    """判断能否创建新订单：对应类型无活跃订单时允许创建。"""
     if requested == "instant":
         return active_instant == 0
     if requested == "booking":
@@ -231,6 +254,7 @@ def create_response_action(code, order_no="", action=None):
 
 
 def booking_call_view(car_type, use_time):
+    """预约呼叫中页面展示：状态文案、预计描述和预约时间摘要。"""
     return {
         "status": "正在為您預約車輛",
         "description": "預計很快會有司機為您接單",
@@ -240,6 +264,7 @@ def booking_call_view(car_type, use_time):
 
 
 def cancellation_return_target(source):
+    """取消订单后返回目标页面：车型页、首页或行程列表。"""
     targets = {"vehicle": "vehicle_page", "home": "home", "journey_list": "journey_list"}
     if source not in targets:
         raise ValueError("unknown_source")
@@ -247,6 +272,7 @@ def cancellation_return_target(source):
 
 
 def cancellation_view(timeout, order_no, car_type, use_time, start, destination):
+    """取消订单页面展示：超时取消和用户主动取消有不同的状态文案。"""
     return {
         "status": "訂單已取消",
         "message": "抱歉，暫無司機接單" if timeout else "你的訂單已取消",
@@ -267,6 +293,7 @@ def timeout_cancel_due(elapsed, status):
 
 
 def home_order_card(orders):
+    """首页订单卡片：0个不展示，1个展示单卡跳行程详情，多个展示列表入口。"""
     count = len(orders)
     if count == 0:
         return {"visible": False}
@@ -281,6 +308,7 @@ def launch_auto_target(orders):
 
 
 def journey_card(order):
+    """行程列表卡片：按订单类型展示预约/即时标签和时间。"""
     return {
         "order_type": "預約" if order["kind"] == "booking" else "即時",
         "display_time": order["use_time"] if order["kind"] == "booking" else order["created_at"],
@@ -295,14 +323,17 @@ def journey_card(order):
 # 对应公共技术文档6.3及SAFE-AC01~09；这里仅建模返回值，不执行真实拨号或定位。
 # ---------------------------------------------------------------------------
 def safety_entry_visible(page):
+    """安全中心入口在指定页面是否可见。"""
     return page in SAFETY_ENTRY_PAGES
 
 
 def safety_entry_action(logged_in):
+    """安全中心入口动作：已登录跳H5页，未登录跳登录页。"""
     return "safety_h5" if logged_in else "login"
 
 
 def safety_center_url(config):
+    """校验安全中心H5的URL前缀和来源。"""
     url = config.get("safety_center_url") or ""
     if not url:
         return "", "load_failed"
@@ -313,18 +344,22 @@ def safety_center_url(config):
 
 
 def get_order_no(order_context=None):
+    """从订单上下文中提取订单号。"""
     return (order_context or {}).get("order_no", "")
 
 
 def get_safety_phone(config):
+    """获取安全专线电话号码。"""
     return config.get("safety_phone") or ""
 
 
 def call_phone_result(can_open):
+    """拨号结果映射：能打开拨号盘返回YES，否则NO。"""
     return "YES" if can_open else "NO"
 
 
 def location_authority(status, location_services=True, user_allows=None):
+    """定位权限判断：综合系统定位服务、应用授权状态和用户选择。"""
     if not location_services or status in ("restricted", "denied"):
         return "NO"
     if status in ("authorized_when_in_use", "authorized_always"):
@@ -335,6 +370,7 @@ def location_authority(status, location_services=True, user_allows=None):
 
 
 def location_updated(success, lng="", lat="", detail="", name=""):
+    """定位更新结果：成功返回经纬度和地址，失败返回空值。"""
     if not success:
         return {"lng": "", "lat": "", "address": ""}
     return {"lng": lng, "lat": lat, "address": detail or name}
@@ -567,16 +603,12 @@ class ReceiptTaskStore:
 
 
 # ---------------------------------------------------------------------------
-# 收银台与WeChatPay
+# 收银台
 # 仅过滤服务端已开启方式并保持文档顺序；SDK回调不等于最终支付成功。
 # ---------------------------------------------------------------------------
 def cashier_methods(enabled):
     enabled_set = set(enabled)
     return [item for item in PAYMENT_ORDER if item in enabled_set]
-
-
-def wechat_launch(installed):
-    return "launch_wechat" if installed else "請安裝應用"
 
 
 def payment_result_after_sdk(sdk_result, server_result=None):
@@ -595,7 +627,14 @@ def payment_detail_method(actual_method):
 # ---------------------------------------------------------------------------
 # 订单中心type16技术契约
 # 预约后付费type16与即时type5共用实时库；新增字段可选且只允许1/2，缺省保持0。
+# 改造要点：
+#   ① /agent/order/create 补 payment_collection_mode、business_type 透传
+#   ② /user/unfinished/order 不支持 type16，由 /user/unfinished/list 替代
 # ---------------------------------------------------------------------------
+ORDER_TYPE_REALTIME_INSTANT = 5
+ORDER_TYPE_BOOKING_REALTIME = 16
+
+
 def order_center_create(order_type, payment_collection_mode=None, business_type=None):
     def checked(value):
         if value is None:
@@ -642,4 +681,78 @@ def order_status_mq(order):
     return {
         "payment_collection_mode": order["payment_collection_mode"],
         "business_type": order["business_type"],
+    }
+
+
+def create_params_validate(payment_collection_mode=None, business_type=None):
+    """校验 create 接口两新字段的合法性：可选，仅允许 1 或 2，缺省保持 0。
+
+    非法值（如 3）抛 ValueError，合法值原样返回，None 返回 0。
+    """
+    def checked(value):
+        if value is None:
+            return 0
+        if value not in (1, 2):
+            raise ValueError("omitempty_oneof_1_2")
+        return value
+    return {
+        "payment_collection_mode": checked(payment_collection_mode),
+        "business_type": checked(business_type),
+    }
+
+
+def order_list_visible(order_type, status="in_progress"):
+    """订单列表对 type16 的可见性：进行中、待支付、已完成均支持。
+
+    - 进行中：Booking ZSet + 实时库，type16 命中实时库分支
+    - 待支付：GetNeedPayOrderInfoByMap 含 16
+    - 已完成：OTS order_list_hot 显式含 16
+    """
+    if order_type not in (ORDER_TYPE_REALTIME_INSTANT, ORDER_TYPE_BOOKING_REALTIME):
+        raise ValueError("order_type_must_be_5_or_16")
+    valid_statuses = ("in_progress", "unpaid", "completed")
+    if status not in valid_statuses:
+        raise ValueError(f"status_must_be_one_of_{valid_statuses}")
+    if status == "in_progress":
+        return "realtime_zset"
+    if status == "unpaid":
+        return "need_pay_map"
+    return "ots_terms"
+
+
+def unfinished_order_legacy(order_type):
+    """旧接口 /user/unfinished/order 对 type16 的处理：不写入，直接 return。
+
+    证据：OrderType != 5 直接 return；兜底 SQL 硬编码 order_type = 5。
+    返回 rejected=True 表示该接口不支持此类型。
+    """
+    if order_type == ORDER_TYPE_REALTIME_INSTANT:
+        return {"supported": True, "reason": None}
+    return {"supported": False, "reason": "OrderType_not_5_direct_return"}
+
+
+def cancellation_cleanup(order_type):
+    """取消订单后从未完成列表清理：create/cancel/status/driver 各调用点成对写删。
+
+    type16 走实时库路径，取消后与即时单一致从 unfinished/list 消失。
+    """
+    if order_type not in (ORDER_TYPE_REALTIME_INSTANT, ORDER_TYPE_BOOKING_REALTIME):
+        raise ValueError("order_type_must_be_5_or_16")
+    return {
+        "removed_from_unfinished_list": True,
+        "removed_from_unfinished_order": True,
+        "removed_from_order_list_in_progress": True,
+        "cleanup_path": "realtime" if order_type == ORDER_TYPE_BOOKING_REALTIME else "realtime",
+    }
+
+
+def order_show_fields(order):
+    """show 接口返回的两新字段：依赖 create 写入，show 已有输出能力。
+
+    改造前两字段为 0；改造后返回 create 传入的真实值。
+    """
+    return {
+        "order_type": order["order_type"],
+        "payment_collection_mode": order.get("payment_collection_mode", 0),
+        "business_type": order.get("business_type", 0),
     }

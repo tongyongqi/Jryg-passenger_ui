@@ -9,16 +9,16 @@ import xml.etree.ElementTree as ET
 from .JRYG_android_base import AndroidUIBase
 from .JRYG_android_login import AndroidLoginMixin
 from .JRYG_driver_ui import center, rect, visible_nodes
-from . import JRYG_ios_ui_elements as E
-from .JRYG_ios_ui_base import iOSBase
+from . import JRYG_android_ui_elements as E
+from .JRYG_android_ui_base import AndroidBase
 from .JRYG_logger import logger
 
 
 class AndroidPassengerMixin(AndroidLoginMixin):
-    """提供共享订单接口对应的Android乘客操作，_ios前缀仅用于接口兼容。"""
+    """提供共享订单接口对应的Android乘客操作，_android前缀用于接口兼容。"""
 
-    LOGIN_PHONE = iOSBase.LOGIN_PHONE
-    LOGIN_CODE = iOSBase.LOGIN_CODE
+    LOGIN_PHONE = AndroidBase.LOGIN_PHONE
+    LOGIN_CODE = AndroidBase.LOGIN_CODE
 
     def _passenger_root(self):
         self._assert_passenger_foreground()
@@ -142,7 +142,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         if len(fields) != 1 or fields[0].get("value") != expected:
             raise AssertionError("Android 搜索词回读不一致或输入框已变化，禁止选址")
 
-    def _ios_configure_addresses(self, tag, start, end):
+    def _android_configure_addresses(self, tag, start, end):
         """按起点→终点设置路线，使用默认/预约地名别名并等待确认呼叫页。"""
         limits = self.order_settings["order_validation"]
         booking_names = {"铜锣湾": ["銅鑼灣", "铜锣湾"], E.BOOKING_START_ADDRESS: ["銅鑼灣(地鐵站)", "銅鑼灣地鐵站", "铜锣湾地铁站"]}
@@ -151,15 +151,15 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         self._search_address(["tv_start_address"], ["起點", "您從哪"], start, start_names)
         self._search_address(["tv_destination", "rl_destination_layout"], ["想要去哪", "想去哪"], end, end_names)
         self._wait(lambda: self.client(textContains="確認呼叫").exists, "Android 路线页未就绪")
-        route = self._ios_estimate_route_identity(self._passenger_root())
+        route = self._android_estimate_route_identity(self._passenger_root())
         accepted = set(start_names) | {f"{name} {E.NORTH_POINT_EXIT}" for name in start_names}
         if route is not None and route[0] in accepted and route[1] in end_names:
-            self._ios_call_route_key = route
+            self._android_call_route_key = route
         elif route is not None:
             raise AssertionError(f"Android 路线实际起终点不一致或无法唯一识别：{route}，未确认呼叫")
-        self._ios_retry_estimate_quote = None
+        self._android_retry_estimate_quote = None
 
-    def _ios_estimate_route_identity(self, root):
+    def _android_estimate_route_identity(self, root):
         def address(resource_names):
             values = [node.get("label", "").strip() for node in visible_nodes(root)
                       if node.get("resource-id", "").split("/")[-1] in resource_names]
@@ -186,7 +186,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         logger.info("Android实时地图OCR路线核验：%s", route)
         return route
 
-    def _ios_estimate_quote(self, root, car_type):
+    def _android_estimate_quote(self, root, car_type):
         if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
             return None
         nodes = list(visible_nodes(root))
@@ -218,17 +218,17 @@ class AndroidPassengerMixin(AndroidLoginMixin):
             if quote is not None:
                 break
             container = parents.get(container)
-        route = self._ios_estimate_route_identity(root)
+        route = self._android_estimate_route_identity(root)
         return (route, quote) if route is not None and quote is not None else None
 
-    _ios_reselect_refreshed_estimate = iOSBase._ios_reselect_refreshed_estimate
-    _ios_click_refreshed_estimate_call = iOSBase._ios_click_refreshed_estimate_call
+    _android_reselect_refreshed_estimate = AndroidBase._android_reselect_refreshed_estimate
+    _android_click_refreshed_estimate_call = AndroidBase._android_click_refreshed_estimate_call
 
-    def _ios_click_estimate_car(self, car_type):
+    def _android_click_estimate_car(self, car_type):
         self._assert_passenger_foreground()
-        self._ios_select_car_type("estimate_refresh", car_type)
+        self._android_select_car_type("estimate_refresh", car_type)
 
-    def _ios_click_estimate_call(self):
+    def _android_click_estimate_call(self):
         self._assert_passenger_foreground()
         self._click_text(["確認呼叫", "确认呼叫"], exact=True)
 
@@ -236,19 +236,19 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         """统一启动登录后准备路线；verify_login保留兼容，所有入口均核验登录态。"""
         if not self.ensure_passenger_login(tag):
             raise RuntimeError("安卓登录未核验，未继续设置路线")
-        self._ios_configure_addresses(tag, start or E.DEFAULT_START_ADDRESS, end or E.DEFAULT_END_ADDRESS)
+        self._android_configure_addresses(tag, start or E.DEFAULT_START_ADDRESS, end or E.DEFAULT_END_ADDRESS)
 
-    def _ios_launch_setup_and_addresses(self, tag, start, end):
+    def _android_launch_setup_and_addresses(self, tag, start, end):
         """共享订单入口委托统一路线准备，避免在订单类复制Android启动步骤。"""
         self.prepare_passenger_route(tag, start, end, verify_login=True)
 
-    def _ios_re_setup_from_current_page(self, tag, start, end):
+    def _android_re_setup_from_current_page(self, tag, start, end):
         """从当前页面重新设置路线、车型和下单支付方式，不重启设备会话。"""
-        self._ios_configure_addresses(tag, start, end)
-        self._ios_select_car_type(tag, self.CAR_TYPE)
-        self._ios_select_payment(tag, self.PAYMENT)
+        self._android_configure_addresses(tag, start, end)
+        self._android_select_car_type(tag, self.CAR_TYPE)
+        self._android_select_payment(tag, self.PAYMENT)
 
-    def _ios_select_car_type(self, tag, car_type):
+    def _android_select_car_type(self, tag, car_type):
         """精确选择打表或包车车型，场景标识合法性由上层用例配置负责。"""
         self._click_text([E.METER_CAR_LABEL if car_type == "meter" else E.CHARTER_CAR_LABEL], exact=True)
 
@@ -288,7 +288,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         self._wait(selected, "Android打表支付方式确认后未回读到本次已选择，禁止呼叫", timeout=10)
         logger.info("【%s】Android打表下单%s已回读确认，行程后支付渠道=%s", tag, labels[0], payment)
 
-    def _ios_select_payment(self, tag, payment):
+    def _android_select_payment(self, tag, payment):
         """选择下单付款方式，已选中不重复点击；打开可选服务后须确认选择。
 
         电子支付下单与行程结束后的银行卡/Alipay渠道选择是不同步骤。
@@ -298,24 +298,24 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         keywords = {"cash": E.CASH_KEYWORDS, "epayment": E.EPAYMENT_KEYWORDS,
                     "bankcard": E.BANKCARD_KEYWORDS, "alipay": E.ALIPAY_KEYWORDS}[payment]
         opened = self._click_text(["可選服務"], required=False)
-        texts = self._ios_get_all_texts(self.client)
+        texts = self._android_get_all_texts(self.client)
         if not any("已選擇" in text and any(keyword in text for keyword in keywords) for text in texts):
             self._click_text(keywords)
         if opened:
             self._wait(lambda: self.client(text="確認選擇").exists, "Android 支付面板缺少確認選擇")
             self._click_text(["確認選擇"], exact=True)
 
-    def _ios_click_confirm_call(self, tag):
+    def _android_click_confirm_call(self, tag):
         """只点击一次确认呼叫，后续登录、预付或下单结果由订单编排处理。"""
         self._click_text(["確認呼叫"], exact=True)
 
-    def _ios_click_confirm_pay(self, tag):
+    def _android_click_confirm_pay(self, tag):
         """预付收银台只点击一次确认支付并呼叫，不等同于行程结束后付款。"""
         self._click_text(["確認支付並呼叫"])
 
-    _ios_wait_order_result = iOSBase._ios_wait_order_result
+    _android_wait_order_result = AndroidBase._android_wait_order_result
 
-    def _ios_back_to_home(self, tag):
+    def _android_back_to_home(self, tag):
         """激活乘客App并最多五轮返回首页，以起点控件确认；不在此核验到账。"""
         self.client.app_activate(E.PASSENGER_BUNDLE_ID)
         for _ in range(5):

@@ -15,7 +15,7 @@ class TestMeterAlipayAndroid(AndroidOrderBase):
     CAR_TYPE = "meter"
     PAYMENT = "alipay"
     FINAL_PAYMENT = ""
-    ios_scenario_name = "TestMeterAlipay"
+    android_scenario_name = "TestMeterAlipay"
 
     def test_order_flow(self):
         """電子支付下单→司机账单→Alipay单次渠道付款→同订单到账核验。"""

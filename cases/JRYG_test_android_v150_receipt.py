@@ -119,6 +119,7 @@ class TestV150ReceiptDevice(V150DeviceSteps):
             pass
 
     def _capture(self, phase):
+        """收集截图和XML页面源作为证据，写入用例报告的 evidence 列表。"""
         prefix = self._receipt_case_directory / f"{time.time_ns()}_{phase}"
         evidence = {"phase": phase}
         try:
@@ -137,6 +138,7 @@ class TestV150ReceiptDevice(V150DeviceSteps):
 
     @contextmanager
     def _record_action(self, name):
+        """录屏 context manager：进入时开始录屏，退出时停止并保存 mp4 到证据目录。"""
         path = self._receipt_case_directory / f"{time.time_ns()}_{name}.mp4"
         self.client.driver.start_recording_screen(timeLimit=30, bitRate=1000000)
         try:
@@ -149,6 +151,7 @@ class TestV150ReceiptDevice(V150DeviceSteps):
             self._receipt_record["evidence"].append({"phase": name, "video": str(path)})
 
     def _send_and_observe(self):
+        """点击发送按钮→抓取toast→收集网络日志，返回 (toasts, api_calls) 元组。"""
         order_no = getattr(self, "_receipt_order_no", None)
         self.v150_receipt_start_network_capture("receipt_send")
         with self._record_action("send_response"):
@@ -260,10 +263,12 @@ class TestV150ReceiptDevice(V150DeviceSteps):
         return passed
 
     def _finish_checks(self):
+        """断言所有累积的 check 均通过，失败时以 JSON 格式输出失败项。"""
         failed = [check for check in self._receipt_record["checks"] if not check["passed"]]
         assert not failed, json.dumps(failed, ensure_ascii=False)
 
     def _receipt_report_phase(self, report):
+        """pytest 阶段钩子：记录用例结果并写入 JSON 报告文件。"""
         if not hasattr(self, "_receipt_record"):
             return None
         record = self._receipt_record
@@ -332,30 +337,17 @@ class TestV150ReceiptDevice(V150DeviceSteps):
                     self._capture("precondition_blocked")
                     pytest.skip(f"前置阻塞：{exc}")
         self._receipt_phase = "measurement"
-        self._receipt_phase = "measurement"
 
-    def _open(self, entry="send"):
-        """打开收据弹框。
+    def _open(self, entry="send", before_click=None, expect_dialog=True):
+        """打开收据弹框（或直接发送路径）。
 
         需求语义：未设置邮箱时「發送行程收據」与「設置並發送」都弹出发送弹框；
         已设置邮箱时「設置並發送」不存在，「發送行程收據」为直接发送动作。
-        """
-        prompt = self.v150_receipt_prompt_present()
-        key = "send_button" if entry == "send" else "set_and_send"
-        self._expect("收据入口存在：" + entry, prompt[key], True)
-        self._finish_checks()
-        with self._record_action("entry_response"):
-            state = self.v150_open_receipt_dialog(entry=entry)
-        self._receipt_record.setdefault("entry_observations", []).append(state)
-        self._capture("dialog_open")
-        self._expect("点击收据入口必须弹出发送弹框", state["present"], True)
-        self._finish_checks()
-        return state
 
-    def _open_dialog_only(self, entry="send", before_click=None):
-        """仅未设置邮箱可用的弹框打开路径：已设置邮箱时入口为直接发送，不应弹框。
-
-        before_click: 点击入口前执行的钩子（如开启接口日志抓取）。
+        Args:
+            entry: 入口类型 "send" 或 "set_and_send"。
+            before_click: 点击入口前执行的钩子（如开启接口日志抓取）。
+            expect_dialog: True 时断言弹框已弹出；False 时仅返回状态不检查弹框。
         """
         prompt = self.v150_receipt_prompt_present()
         key = "send_button" if entry == "send" else "set_and_send"
@@ -367,9 +359,20 @@ class TestV150ReceiptDevice(V150DeviceSteps):
             state = self.v150_open_receipt_dialog(entry=entry)
         self._receipt_record.setdefault("entry_observations", []).append(state)
         self._capture("dialog_open")
+        if expect_dialog:
+            self._expect("点击收据入口必须弹出发送弹框", state["present"], True)
+            self._finish_checks()
         return state
 
+    def _open_dialog_only(self, entry="send", before_click=None):
+        """仅未设置邮箱可用的弹框打开路径：已设置邮箱时入口为直接发送，不应弹框。
+
+        before_click: 点击入口前执行的钩子（如开启接口日志抓取）。
+        """
+        return self._open(entry=entry, before_click=before_click, expect_dialog=False)
+
     def _editable(self):
+        """确保邮箱处于可编辑状态：有「修改」按钮时先点击，再断言输入框出现。"""
         state = self._v150_receipt_dialog_state()
         if not state["email_input"]:
             self._expect("已设置邮箱提供修改按钮", state["modify_text"], "修改")
@@ -380,6 +383,7 @@ class TestV150ReceiptDevice(V150DeviceSteps):
         return state
 
     def _persisted(self):
+        """关闭弹框并到邮箱管理页回读持久化值，用于验证保存结果。"""
         if self._v150_receipt_dialog_ready():
             self.v150_receipt_close_dialog()
         self.v150_open_email_settings("receipt_persisted")
@@ -388,6 +392,7 @@ class TestV150ReceiptDevice(V150DeviceSteps):
         return actual
 
     def _fresh_rate_window(self):
+        """等待限频窗口冷却：距上次发送满60秒后恢复，避免用例间限频干扰。"""
         previous = getattr(type(self), "_receipt_last_send", None)
         delay = 61 if previous is None else max(0, 61 - (time.monotonic() - previous))
         if delay:
@@ -508,6 +513,7 @@ class TestV150ReceiptDevice(V150DeviceSteps):
         self._finish_checks()
 
     def _button_background(self, name):
+        """截图并提取发送按钮中心像素RGB，用于判断按钮置灰/启用状态。"""
         from io import BytesIO
         from PIL import Image, ImageStat
         bounds = self._v150_receipt_element("btn_send").rect

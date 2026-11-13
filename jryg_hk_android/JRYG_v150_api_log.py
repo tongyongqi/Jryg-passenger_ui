@@ -12,6 +12,17 @@
 - 紧急报警          POST /passenger/emergency/alarm
 - 订单行程信息发送  POST /passenger/order/tripSend
 - 用户信息          GET  /passenger/user/getInfo
+- 订单详情          GET  /passenger/order/detail
+- 订单列表          GET  /passenger/order/list
+
+订单中心type16改造新增接口：
+- 下单              POST /agent/order/create
+- 取消订单          POST /agent/order/cancel
+- 订单详情          GET  /agent/order/show
+- 订单列表          GET  /common/passenger/order/list
+- 旧未完成订单      GET  /common/user/unfinished/order（不支持type16）
+- 新未完成订单列表  GET  /common/user/unfinished/list（替代旧接口）
+- 订单状态          GET  /common/order/status/info/hk
 
 日志来源为 App 内 retrofit 拦截器输出：
 - ``Sending request <url>``      请求发出
@@ -34,6 +45,14 @@ API_PATHS = {
     "user_info": "/passenger/user/getInfo",
     "order_detail": "/passenger/order/detail",
     "order_list": "/passenger/order/list",
+    # 订单中心type16改造接口
+    "agent_order_create": "/agent/order/create",
+    "agent_order_cancel": "/agent/order/cancel",
+    "agent_order_show": "/agent/order/show",
+    "common_order_list": "/common/passenger/order/list",
+    "unfinished_order": "/common/user/unfinished/order",
+    "unfinished_list": "/common/user/unfinished/list",
+    "order_status_info_hk": "/common/order/status/info/hk",
 }
 
 # 接口路径 -> 逻辑名（路径片段互不包含，按最长优先匹配）

@@ -1,4 +1,4 @@
-# 香港Android配置，默认业务参数与已验证iOS基线一致。
+# 香港Android配置，默认业务参数与已验证Android基线一致。
 # 设备UDID明确指定当前已连接设备，不自动切换其他手机。
 device:
   udid: "10AE6U20A7001H5"
@@ -60,3 +60,20 @@ order_validation:
   start_names: ["北角(地鐵站)", "北角地鐵站"]
   end_names: ["香港大學", "香港大学"]
   end_details: ["香港特別行政區中西區薄扶林道", "香港特别行政区中西区薄扶林道"]
+
+# 港版测试环境 PolarDB（MySQL协议）连接配置。
+# order_info 表位于 jryg_realtime_order_dev 库，存储 type5/type16 实时订单。
+# type16 改造后 create 写入 payment_collection_mode、business_type 两字段。
+database:
+  host: "172.31.104.3"
+  port: 3306
+  user: "ygcx_test"
+  password: "gJtF645DEIx+RMd2"
+  charset: "utf8mb4"
+  connect_timeout: 10
+  read_timeout: 10
+  # 实时订单库（type5即时单 + type16预约后付费单）
+  realtime_db: "jryg_realtime_order_dev"
+  order_info_table: "order_info"
+  # 预约订单库（type6预约前付费单，对比验证不走此库）
+  booking_db: "jryg_booking_order_dev"

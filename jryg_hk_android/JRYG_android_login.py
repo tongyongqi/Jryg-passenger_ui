@@ -409,7 +409,7 @@ class AndroidLoginMixin:
     def ensure_passenger_login(self, tag="passenger"):
         return bool(self.login_passenger(tag))
 
-    def _ios_is_login_page(self):
+    def _android_is_login_page(self):
         """检测当前是否在乘客登录页；支付渠道返回后短暂等待乘客App恢复前台。"""
         expected = self.order_settings["packages"]["passenger_hk"]
         for _ in range(5):
@@ -424,14 +424,14 @@ class AndroidLoginMixin:
                 raise
         return self._login_snapshot()[0] in ("phone", "code")
 
-    def _ios_ui_login(self, tag=""):
+    def _android_ui_login(self, tag=""):
         return bool(self.login_passenger(tag, launch=False, target="current"))
 
-    def _ios_ensure_logged_in(self, tag=""):
+    def _android_ensure_logged_in(self, tag=""):
         return bool(self.login_passenger(tag, launch=False, target="current"))
 
     def _dismiss_passenger_popups(self, max_rounds=3, wait_after=1):
         return self.prepare_passenger_app(launch=False, timeout=max(10, max_rounds * (wait_after + 1)))
 
-    def _ios_prepare_passenger_app(self, tag, launch_wait=3, alert_wait=1):
+    def _android_prepare_passenger_app(self, tag, launch_wait=3, alert_wait=1):
         return self.prepare_passenger_app(tag, timeout=max(30, launch_wait + alert_wait))

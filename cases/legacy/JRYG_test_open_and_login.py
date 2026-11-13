@@ -4,7 +4,7 @@ import pytest
 
 from jryg_hk_android.JRYG_config import SETTINGS
 from jryg_hk_android.JRYG_android_coupon import AndroidCouponBase
-from jryg_hk_android import JRYG_ios_ui_elements as E
+from jryg_hk_android import JRYG_android_ui_elements as E
 
 
 @pytest.mark.skipif(
@@ -18,7 +18,7 @@ class TestJRYGHKOneKeyLogin(AndroidCouponBase):
         """启动后从个人中心核验登录态，并确认乘客前台及保存截图。"""
         assert self.ensure_passenger_login("login"), "乘客登录状态未确认"
         self._assert_passenger_foreground()
-        self._ios_screenshot("JRYG_login_completed.png")
+        self._android_screenshot("JRYG_login_completed.png")
 
     def test_passenger_hk_booking_flow(self):
         """从指定预约起点选择目标优惠券并真实呼叫，仅核验乘客下单成功。
@@ -28,6 +28,6 @@ class TestJRYGHKOneKeyLogin(AndroidCouponBase):
         self.prepare_passenger_route("booking", start=E.BOOKING_START_ADDRESS, verify_login=True)
         selected = self.select_coupons(policy="target", target_keywords=E.COUPON_TARGET_TEXTS)
         assert selected, "目标优惠券未选择"
-        self._ios_click_confirm_call("booking")
-        assert self._ios_wait_order_result("booking") == "success", "乘客 UI 下单未成功"
-        self._ios_screenshot("JRYG_booking_submitted.png")
+        self._android_click_confirm_call("booking")
+        assert self._android_wait_order_result("booking") == "success", "乘客 UI 下单未成功"
+        self._android_screenshot("JRYG_booking_submitted.png")

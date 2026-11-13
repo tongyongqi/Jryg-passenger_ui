@@ -15,7 +15,7 @@ class TestCharterAlipayAndroid(AndroidOrderBase):
     CAR_TYPE = "charter"
     PAYMENT = "alipay"
     FINAL_PAYMENT = ""
-    ios_scenario_name = "TestCharterAlipay"
+    android_scenario_name = "TestCharterAlipay"
 
     def test_order_flow(self):
         """固定价Alipay预付→司机行程及只读账单→同订单到账核验。"""

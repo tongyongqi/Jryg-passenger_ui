@@ -1,6 +1,6 @@
 """Android 公共支付步骤；银行卡、OTP、Alipay 不重复提交。
 
-共用渠道入口来自iOS，设备定位由Android实现；渠道提交不能替代司机同单到账。
+共用渠道入口来自Android，设备定位由Android实现；渠道提交不能替代司机同单到账。
 """
 
 import re
@@ -8,9 +8,9 @@ import xml.etree.ElementTree as ET
 
 from .JRYG_android_passenger import AndroidPassengerBase
 from .JRYG_android_ui import AndroidElement, normalized_tree
-from . import JRYG_ios_ui_elements as E
-from .JRYG_ios_payment import AlipayPaymentTapUncertainError, HKIOSPaymentMixin
-from .JRYG_ios_ui_base import iOSBase
+from . import JRYG_android_ui_elements as E
+from .JRYG_shared_payment import AlipayPaymentTapUncertainError, HKAndroidPaymentMixin
+from .JRYG_android_ui_base import AndroidBase
 from .JRYG_logger import logger
 
 
@@ -21,9 +21,9 @@ class AndroidOTPNotReadyError(RuntimeError):
 class AndroidPaymentMixin:
     """适配Android卡表单与支付宝页面，保留共享入口的预付/后付区分。"""
 
-    _ios_pay = HKIOSPaymentMixin._ios_pay
+    _android_pay = HKAndroidPaymentMixin._android_pay
 
-    def _ios_select_postpaid_channel(self, tag, payment):
+    def _android_select_postpaid_channel(self, tag, payment):
         """后付费用页选择指定渠道并确认，不适用于预付确认并呼叫。"""
         self._click_text(E.BANKCARD_KEYWORDS if payment == "bankcard" else ["Alipay HK"])
         self._click_text(["確認支付"])
@@ -76,9 +76,9 @@ class AndroidPaymentMixin:
         fields[0].set_text(value)
         self.client.dismiss_keyboard()
 
-    def _ios_fill_bank_card_form(self, tag):
+    def _android_fill_bank_card_form(self, tag):
         """依次提交卡表单和OTP，等待离开验证页；True仅表示渠道步骤结束。"""
-        self._wait(lambda: any(keyword in text for text in self._ios_get_all_texts(self.client)
+        self._wait(lambda: any(keyword in text for text in self._android_get_all_texts(self.client)
                               for keyword in E.BANK_PAGE_KEYWORDS), "Android 银行卡表单未出现", timeout=15)
         for placeholders, value in (
             (["卡號", "卡号", "Card Number"], E.TEST_CARD_NUMBER),
@@ -94,10 +94,10 @@ class AndroidPaymentMixin:
             self._click_text(["請支付"])
         except Exception as exc:
             raise RuntimeError("Android卡支付点击响应未确认，禁止重复提交付款") from exc
-        self._ios_handle_otp_page(tag)
+        self._android_handle_otp_page(tag)
         return True
 
-    _ios_otp_value_confirmed = staticmethod(iOSBase._ios_otp_value_confirmed)
+    _android_otp_value_confirmed = staticmethod(AndroidBase._android_otp_value_confirmed)
 
     @staticmethod
     def _android_otp_form(root, *, require_button=True):
@@ -217,7 +217,7 @@ class AndroidPaymentMixin:
                 raise RuntimeError(f"{tag}: Android OTP目标控件或回读异常，不提交验证") from exc
             if clearing:
                 return value in ("", placeholder)
-            return self._ios_otp_value_confirmed(value, expected, placeholder)
+            return self._android_otp_value_confirmed(value, expected, placeholder)
         self._wait(confirmed, f"{tag}: Android OTP回读未确认，禁止提交验证", timeout=5)
 
     def _android_wait_same_otp_controls(self, field, tag, *, require_button=False):
@@ -228,8 +228,8 @@ class AndroidPaymentMixin:
                 return False
         return self._wait(ready, f"{tag}: Android OTP页面重排5秒内未就绪，未继续操作", timeout=5)
 
-    def _ios_handle_otp_page(self, tag):
-        """与iOS相同门禁：就绪→同元素清空回读→输入回读→复核→单次提交。"""
+    def _android_handle_otp_page(self, tag):
+        """与Android相同门禁：就绪→同元素清空回读→输入回读→复核→单次提交。"""
         field, _, placeholder = self._android_wait_otp_ready(tag)
         code = E.OTP_DEFAULT_CODE
         if not isinstance(code, str) or not code.strip() or code == placeholder:
@@ -254,7 +254,7 @@ class AndroidPaymentMixin:
         try:
             self.client.dismiss_keyboard()
             _, button, _ = self._android_wait_same_otp_controls(field, tag, require_button=True)
-            if not self._ios_otp_value_confirmed(field.text, code, placeholder):
+            if not self._android_otp_value_confirmed(field.text, code, placeholder):
                 raise RuntimeError("OTP提交前输入已变化")
         except Exception as exc:
             raise RuntimeError(f"{tag}: Android OTP提交前核验失败，禁止提交") from exc
@@ -292,9 +292,9 @@ class AndroidPaymentMixin:
         self._wait(finished, "Android 支付结果未确认，禁止冒充通过", timeout=45)
         self._click_text(["打開", "打开"], exact=True, required=False)
 
-    _ios_wait_and_click_alipay_pay_now = HKIOSPaymentMixin._ios_wait_and_click_alipay_pay_now
-    _ios_wait_and_close_safari_alert = HKIOSPaymentMixin._ios_wait_and_close_safari_alert
-    _ios_complete_alipay_payment = HKIOSPaymentMixin._ios_complete_alipay_payment
+    _android_wait_and_click_alipay_pay_now = HKAndroidPaymentMixin._android_wait_and_click_alipay_pay_now
+    _android_wait_and_close_safari_alert = HKAndroidPaymentMixin._android_wait_and_close_safari_alert
+    _android_complete_alipay_payment = HKAndroidPaymentMixin._android_complete_alipay_payment
 
     def _android_open_passenger_dialog(self, label):
         """标题确认返回乘客App，按原生确认按钮ID排除同文案子节点。"""
@@ -326,8 +326,8 @@ class AndroidPaymentMixin:
         logger.info("Android已单次点击返回乘客App的原生确认按钮")
         return True
 
-    def _ios_safari_click_by_text(self, text_kw, fallback_x, fallback_y, exact=False, allow_fallback=True):
-        """兼容共享浏览器接口，只点击原生唯一控件，任何场景均不使用iOS兜底坐标。"""
+    def _android_safari_click_by_text(self, text_kw, fallback_x, fallback_y, exact=False, allow_fallback=True):
+        """兼容共享浏览器接口，只点击原生唯一控件，任何场景均不使用Android兜底坐标。"""
         if text_kw in ("打開", "打开") and exact:
             handled = self._android_open_passenger_dialog(text_kw)
             if handled is not None:

@@ -1,7 +1,7 @@
 """JRYG_Passenger_UI_HK-android 自动化模块 —— JRYG_run_main_android.py
 
 港版阳光出行 Android 乘客端 UI 自动化测试批次运行入口。
-提供 CompletedOrderGate、batch_order、run_batch，不依赖任何 iOS 代码。
+提供 CompletedOrderGate、batch_order、run_batch，不依赖任何 Android 代码。
 """
 
 from datetime import datetime

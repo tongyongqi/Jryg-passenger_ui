@@ -29,7 +29,7 @@ from zoneinfo import ZoneInfo
 
 from .JRYG_android_passenger import AndroidPassengerBase
 from .JRYG_driver_ui import center, rect, visible_nodes
-from . import JRYG_ios_ui_elements as E
+from . import JRYG_android_ui_elements as E
 from .JRYG_logger import logger
 from .JRYG_v150_contract import (
     BOOKING_TIMEOUT_MINUTES,
@@ -404,7 +404,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         if times != [self._v150_use_time.strftime("%Y/%m/%d %H:%M")]:
             raise RuntimeError("询价页预约时间不一致，未呼叫")
         for car_type in ("charter", "meter"):
-            quote = self._ios_estimate_quote(root, car_type)
+            quote = self._android_estimate_quote(root, car_type)
             if quote is not None:
                 self._v150_assert_booking_route(*quote[0])
                 return quote
@@ -2516,7 +2516,7 @@ class V150DeviceSteps(AndroidPassengerBase):
     def _v150_all_visible_nodes(self, root=None):
         """返回 visible_nodes 结果，并补充 Flutter 页面中缺少 visible 属性的节点。
 
-        Appium Android 的 page_source 经 normalized_tree 转为类 iOS 控件树：
+        Appium Android 的 page_source 经 normalized_tree 转为类 Android 控件树：
         - 标签名变为 XCUIElementTypeTextField（EditText）、XCUIElementTypeButton 等
         - 文本在 label 属性（合并了 text 和 content-desc）
         - visible 属性可能为 false 或缺失
@@ -3121,6 +3121,7 @@ class V150DeviceSteps(AndroidPassengerBase):
                 "send_text": send_text}
 
     def _v150_receipt_element(self, resource_id):
+        """按 resource-id 定位收据弹框内唯一可见控件，不唯一时抛异常。"""
         from appium.webdriver.common.appiumby import AppiumBy
         self._assert_passenger_foreground()
         package = self.order_settings["packages"]["passenger_hk"]
@@ -3131,6 +3132,11 @@ class V150DeviceSteps(AndroidPassengerBase):
         return elements[0]
 
     def v150_open_receipt_dialog(self, tag="v150_receipt", entry="send"):
+        """点击收据入口（發送行程收據 / 設置並發送）并轮询弹框状态。
+
+        已设置邮箱时点击「發送行程收據」为直接发送（可能不弹框，仅产生toast）；
+        未设置邮箱时点击后弹出设置弹框。返回包含 present/toasts 等字段的状态字典。
+        """
         if entry not in ("send", "set_and_send"):
             raise ValueError("未知收据入口")
         binding = getattr(type(self), "_receipt_order_binding", None)
@@ -3155,6 +3161,7 @@ class V150DeviceSteps(AndroidPassengerBase):
 
     @staticmethod
     def _v150_receipt_parse_dialog(source, keyboard=False):
+        """解析收据弹框XML为状态字典：是否展示、标题/副标题、邮箱值、发送按钮状态、修改/关闭按钮。"""
         root = ET.fromstring(source)
         dialogs = [n for n in root.iter() if n.get("resource-id", "").endswith("/dialog_content")
                    and n.get("displayed", "true") == "true"]
@@ -3193,13 +3200,16 @@ class V150DeviceSteps(AndroidPassengerBase):
         return state
 
     def _v150_receipt_dialog_state(self):
+        """读取当前页面源并解析收据弹框状态。"""
         return self._v150_receipt_parse_dialog(self.client.driver.page_source,
                                              self.client.driver.is_keyboard_shown())
 
     def _v150_receipt_dialog_ready(self):
+        """弹框是否已展示。"""
         return self._v150_receipt_dialog_state()["present"]
 
     def v150_receipt_modify_email(self, tag="v150_receipt"):
+        """点击「修改」按钮使已设置邮箱从展示态变为可编辑输入框。"""
         state = self._v150_receipt_dialog_state()
         if not state["present"] or not state["modify"]:
             raise AssertionError("已设置邮箱的收据弹框缺少「修改」按钮")
@@ -3241,6 +3251,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         return state["email"]
 
     def v150_receipt_click_send(self, tag="v150_receipt"):
+        """点击弹框内发送按钮；按钮不存在或禁用时抛异常，不提交。"""
         state = self._v150_receipt_dialog_state()
         if not state["present"] or not state["send_button"]:
             raise AssertionError("收据弹框缺少發送按钮")
@@ -3417,7 +3428,6 @@ class V150DeviceSteps(AndroidPassengerBase):
             all_texts = [(n.get("label") or "").strip() for n in nodes]
             payment_names = {
                 "AlipayHK": [t for t in all_texts if "Alipay" in t or "支付寶" in t],
-                "WeChatPay": [t for t in all_texts if "WeChat" in t or "微信" in t],
                 "Octopus": [t for t in all_texts if "Octopus" in t or "八達通" in t or "八达通" in t],
                 "Card": [t for t in all_texts if "信用卡" in t or "扣帳卡" in t or "扣帐卡" in t],
             }
@@ -3427,8 +3437,6 @@ class V150DeviceSteps(AndroidPassengerBase):
                 label = (n.get("label") or "").strip()
                 if "Alipay" in label or "支付寶" in label:
                     payment_names["AlipayHK"] = payment_names.get("AlipayHK", []) + [label]
-                elif "WeChat" in label or "微信" in label:
-                    payment_names["WeChatPay"] = payment_names.get("WeChatPay", []) + [label]
                 elif "Octopus" in label or "八達通" in label or "八达通" in label:
                     payment_names["Octopus"] = payment_names.get("Octopus", []) + [label]
                 elif "信用卡" in label or "扣帳卡" in label or "扣帐卡" in label:
@@ -3439,8 +3447,6 @@ class V150DeviceSteps(AndroidPassengerBase):
         if enabled_methods != expected:
             raise RuntimeError(
                 f"V1.5.0 收银台支付方式顺序不一致：实际={enabled_methods}，预期={expected}")
-        if "WeChatPay" not in payment_names:
-            logger.info("【%s】WeChatPay 已隐藏（未开启），收银台不显示", tag)
         return {"order": enabled_methods, "count": len(enabled_methods)}
 
     def v150_verify_cashier_no_duplicate(self, tag="v150_cashier"):
@@ -3457,24 +3463,6 @@ class V150DeviceSteps(AndroidPassengerBase):
             raise RuntimeError(f"V1.5.0 收银台存在重复支付方式：{duplicates}")
         logger.info("【%s】收银台支付方式无重复", tag)
         return {"duplicates": False, "count": len(labels)}
-
-    def v150_verify_wechat_uninstalled_prompt(self, tag="v150_cashier"):
-        """验证未安装微信时收银台显示安装提示而非跳转下载链接。"""
-        self._ensure_devices_awake()
-        root = self._passenger_root()
-        nodes = list(visible_nodes(root))
-        texts = {(n.get("label") or "").strip() for n in nodes}
-        install_keywords = ("請安裝應用", "请安装应用", "安裝微信", "安装微信", "未安裝", "未安装")
-        found = any(keyword in text for text in texts for keyword in install_keywords)
-        has_download_link = any("http" in text.lower() for text in texts
-                                if "download" in text.lower() or "下載" in text or "下载" in text)
-        if found and has_download_link:
-            logger.warning("【%s】微信未安装提示存在但同时出现下载链接，需检查", tag)
-        elif found:
-            logger.info("【%s】微信未安装提示已确认，无下载链接", tag)
-        else:
-            logger.info("【%s】当前页面未出现微信未安装提示（可能已安装微信）", tag)
-        return {"prompt_found": found, "has_download_link": has_download_link}
 
     # ==================== 公共工具方法 ====================
 
@@ -3552,4 +3540,4 @@ class V150DeviceSteps(AndroidPassengerBase):
         fname = f"v150_{name}_{int(time.time())}"
         if not fname.endswith(".png"):
             fname += ".png"
-        self._ios_screenshot(fname)
+        self._android_screenshot(fname)

@@ -15,7 +15,7 @@ class TestMeterCashAndroid(AndroidOrderBase):
     CAR_TYPE = "meter"
     PAYMENT = "cash"
     FINAL_PAYMENT = ""
-    ios_scenario_name = "TestMeterCash"
+    android_scenario_name = "TestMeterCash"
 
     def test_order_flow(self):
         """北角A1→香港大学，现金下单→司机收款，不提交线上支付。"""
