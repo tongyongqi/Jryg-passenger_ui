@@ -287,9 +287,11 @@ class Mock_log:
     """模拟 _v150_adb 返回固定日志。"""
 
     def __init__(self, lines):
+        """初始化实例。"""
         self.lines = lines
 
     def __call__(self, *args):
+        """__call__方法。"""
         return "\n".join(self.lines)
 
 

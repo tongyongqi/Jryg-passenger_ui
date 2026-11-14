@@ -10,15 +10,18 @@ import xml.etree.ElementTree as ET
 
 @dataclass(frozen=True)
 class AndroidLoginResult:
+    """安卓乘客登录结果数据类，记录核验状态、当前页面及本次是否完成认证。"""
     verified: bool
     page: str
     authenticated_now: bool = False
 
     def __bool__(self):
+        """登录核验通过时返回True。"""
         return self.verified
 
 
 class AndroidLoginMixin:
+    """安卓乘客端登录混入类，提供登录页面快照、状态分类及登录状态机流程。"""
     PRIVACY_TITLES = ("使用者協議與私隱政策", "使用者隐私协议政策", "使用者隱私協議政策",
                       "用户协议与隐私政策", "用戶協議與私隱政策")
     LOGIN_LABELS = ("登錄/註冊", "登录/注册", "登入/註冊")
@@ -29,9 +32,11 @@ class AndroidLoginMixin:
 
     @staticmethod
     def _login_visible(root):
+        """递归遍历页面树，返回所有可见且面积有效的节点列表。"""
         result = []
 
         def visit(node, parent_visible=True):
+            """访问节点时收集可见且面积有效的子节点。"""
             bounds = re.fullmatch(r"\[(-?\d+),(-?\d+)\]\[(-?\d+),(-?\d+)\]", node.get("bounds", ""))
             area = bounds and int(bounds[3]) > int(bounds[1]) and int(bounds[4]) > int(bounds[2])
             visible = parent_visible and node.get("displayed", "true") != "false"
@@ -44,6 +49,7 @@ class AndroidLoginMixin:
         return result
 
     def _login_snapshot(self):
+        """截取登录页快照，校验前台包并返回页面分类结果与页面树根节点。"""
         driver = self.client.driver
         package = driver.current_package
         expected = self.order_settings["packages"]["passenger_hk"]
@@ -67,6 +73,7 @@ class AndroidLoginMixin:
         return self._login_classify(root, package), root
 
     def _login_classify(self, root, package, activity=""):
+        """根据可见节点和控件ID分类当前登录页状态，返回状态字符串。"""
         nodes = self._login_visible(root)
         texts = {node.get("text") or node.get("content-desc") or "" for node in nodes}
         ids = {node.get("resource-id", "").split("/")[-1] for node in nodes}
@@ -120,6 +127,7 @@ class AndroidLoginMixin:
         return "unknown"
 
     def _login_ad_close(self, root):
+        """识别登录页广告关闭按钮，返回可点击的关闭节点或None。"""
         nodes = self._login_visible(root)
         identified = [node for node in nodes if node.get("resource-id", "").split("/")[-1]
                       in ("iv_cancel", "iv_close") and node.get("clickable") == "true"]
@@ -144,6 +152,7 @@ class AndroidLoginMixin:
         return candidates[0]
 
     def _login_native(self, root, node):
+        """根据页面树节点定位对应的原生WebElement并校验一致性。"""
         parents = {child: parent for parent in root.iter() for child in parent}
         parts = []
         target = node
@@ -162,6 +171,7 @@ class AndroidLoginMixin:
         return native
 
     def _login_find(self, root, *, ids=(), texts=()):
+        """在登录页中按控件ID或文案查找唯一匹配的节点。"""
         package = self.order_settings["packages"]["passenger_hk"]
         nodes = [node for node in self._login_visible(root) if node.get("enabled", "true") != "false"]
         matches = [node for node in nodes if node.get("resource-id") in {package + ":id/" + name for name in ids}]
@@ -172,6 +182,7 @@ class AndroidLoginMixin:
         return matches[0]
 
     def _login_startup_action(self, page, root):
+        """处理启动后的遮挡页面（隐私协议、权限、引导、广告），执行对应点击。"""
         if page == "privacy":
             self._login_native(root, self._login_find(root, ids=("tv_button_agree",))).click()
         elif page == "permission_intro":
@@ -193,6 +204,7 @@ class AndroidLoginMixin:
             raise RuntimeError("安卓启动遮挡无法识别，未盲点或返回")
 
     def _login_activate_app(self):
+        """激活乘客App到前台，超时未切换则抛出异常。"""
         package = self.order_settings["packages"]["passenger_hk"]
         driver = self.client.driver
         config = self.order_settings.get("login") or {}
@@ -214,6 +226,7 @@ class AndroidLoginMixin:
             "未读取其他App页面、点击控件或发送验证码")
 
     def prepare_passenger_app(self, tag="passenger", *, launch=True, timeout=30):
+        """准备乘客App，自动处理启动遮挡页并确保到达首页或业务页。"""
         if launch:
             self._login_activate_app()
         deadline = time.monotonic() + timeout
@@ -233,6 +246,7 @@ class AndroidLoginMixin:
         raise TimeoutError("安卓启动页面未就绪，未执行登录或订单操作")
 
     def _login_credentials(self):
+        """从环境变量和配置获取并校验登录手机号与验证码。"""
         config = self.order_settings.get("login") or {}
         mobile = os.environ.get("HK_PASSENGER_MOBILE") or config.get("mobile") or self.LOGIN_PHONE
         code = os.environ.get("HK_PASSENGER_UI_CODE") or config.get("code") or self.LOGIN_CODE
@@ -270,6 +284,7 @@ class AndroidLoginMixin:
                 warnings.warn("安卓登录输入后空闲等待设置恢复失败，请检查Appium会话", RuntimeWarning)
 
     def _login_submit_phone(self, root):
+        """在登录页填入手机号、勾选协议并点击获取验证码按钮。"""
         mobile, _ = self._login_credentials()
         field = self._login_native(root, self._login_find(root, ids=("phone_num",)))
         self._login_replace_text(field, mobile)
@@ -285,6 +300,7 @@ class AndroidLoginMixin:
         self._login_native(root, button).click()
 
     def _login_submit_code(self, root):
+        """在验证码页填入或逐位输入验证码。"""
         _, code = self._login_credentials()
         nodes = self._login_visible(root)
         region = [node for node in nodes if node.get("resource-id") ==
@@ -305,6 +321,7 @@ class AndroidLoginMixin:
             raise RuntimeError("安卓验证码输入框无法唯一定位，未输入验证码")
 
     def _login_verify_account(self, root):
+        """校验个人中心当前账号是否为指定测试账号，掩码不一致则报错。"""
         mobile, _ = self._login_credentials()
         mode = (self.order_settings.get("login") or {}).get("account_mask_mode", "length_preserving")
         if mode not in ("length_preserving", "fixed_tail4"):
@@ -407,6 +424,7 @@ class AndroidLoginMixin:
         raise TimeoutError(f"安卓登录{budget}秒内未完成账号及目标页面核验，未继续订单流程")
 
     def ensure_passenger_login(self, tag="passenger"):
+        """确保乘客已登录，成功返回True，失败返回False。"""
         return bool(self.login_passenger(tag))
 
     def _android_is_login_page(self):
@@ -425,13 +443,17 @@ class AndroidLoginMixin:
         return self._login_snapshot()[0] in ("phone", "code")
 
     def _android_ui_login(self, tag=""):
+        """UI登录入口，不重新启动App，登录成功后保留当前业务页。"""
         return bool(self.login_passenger(tag, launch=False, target="current"))
 
     def _android_ensure_logged_in(self, tag=""):
+        """确认已登录状态，不启动App，登录后保留当前业务页。"""
         return bool(self.login_passenger(tag, launch=False, target="current"))
 
     def _dismiss_passenger_popups(self, max_rounds=3, wait_after=1):
+        """关闭乘客端启动弹窗，不启动App，超时内清除遮挡页。"""
         return self.prepare_passenger_app(launch=False, timeout=max(10, max_rounds * (wait_after + 1)))
 
     def _android_prepare_passenger_app(self, tag, launch_wait=3, alert_wait=1):
+        """安卓版准备乘客App，按启动等待和弹窗等待时间设置超时。"""
         return self.prepare_passenger_app(tag, timeout=max(30, launch_wait + alert_wait))

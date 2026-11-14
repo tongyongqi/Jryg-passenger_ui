@@ -23,14 +23,17 @@ class CompletedOrderGate:
     """批量子任务只接受一个已核验完成且已支付的订单，不把跳过或仅接单算成功。"""
 
     def __init__(self):
+        """初始化实例。"""
         self.completed_orders = []
 
     def pytest_collection_finish(self, session):
+        """测试收集完成后回调。"""
         if len(session.items) != 1:
             raise pytest.UsageError("批量每轮必须执行恰好一个订单用例，禁止空选择或多用例混跑")
 
     @pytest.hookimpl(hookwrapper=True)
     def pytest_runtest_call(self, item):
+        """测试执行前回调。"""
         outcome = yield
         if outcome.excinfo is not None:
             return
@@ -74,6 +77,7 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
         interrupted_code = 130
 
         def interrupt(signum, frame):
+            """信号中断处理函数。"""
             nonlocal interrupted_code
             interrupted_code = 128 + signum
             raise KeyboardInterrupt

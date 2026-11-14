@@ -15,12 +15,14 @@ from .JRYG_logger import logger
 
 
 def order_numbers(root):
+    """从页面树提取所有合法的12位订单号，返回去重集合。"""
     return {value for node in visible_nodes(root)
             for value in re.findall(r"\b[A-Z0-9]{12}\b", node.get("label", ""))
             if any(c.isdigit() for c in value) and any(c.isalpha() for c in value)}
 
 
 def unique_order(root):
+    """获取唯一目标订单号，缺失或不唯一时抛出异常。"""
     values = order_numbers(root)
     if len(values) != 1:
         raise RuntimeError("安卓当前订单号缺失或不唯一，禁止判断目标订单")
@@ -51,6 +53,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
     """独立安卓司机场景，不修改既有司机状态机或内置业务快照。"""
 
     def __init__(self, args, client=None, settings=None):
+        """初始化目标订单流程，设置目标订单号、非目标结果列表和处理标记。"""
         super().__init__(args, client)
         self.settings = settings or {}
         self.target_order_no = None
@@ -58,6 +61,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
         self.handling_non_target = False
 
     def read_active_order(self):
+        """读取司机当前活跃订单号，必要时展开详情页获取。"""
         root = self.root()
         phase = self.detect_phase(root)
         self._check_device_availability(phase)
@@ -84,6 +88,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
             self.wait_for({phase})
 
     def _run_remaining(self, deadline, *, stop_after="submitted"):
+        """在剩余时间内执行司机端流程，按stop_after指定停止阶段。"""
         remaining = deadline - time.monotonic()
         if remaining <= 0:
             raise TimeoutError("安卓目标订单总超时，未继续接单或提交账单")
@@ -101,6 +106,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
             raise TimeoutError("安卓目标订单总超时，停止后续操作")
 
     def accept_and_identify(self, deadline):
+        """司机接单并识别当前订单号，校验是否为已处理的旧订单。"""
         self.deadline = deadline
         self._activate_driver_app()
         root, phase = self.wait_for(set(RESUMABLE_PHASES) | {"online", "offline", "offer"})
@@ -117,6 +123,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
         return current
 
     def submit_bill(self, root):
+        """提交账单，非目标订单时按页面自动推断车型和支付方式。"""
         if self.handling_non_target:
             fields = [n for n in visible_nodes(root) if n.tag == "XCUIElementTypeTextField"
                       and n.get("placeholderValue") == "請輸入車費"]
@@ -128,6 +135,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
         super().submit_bill(root)
 
     def finish_non_target(self, deadline):
+        """完成非目标订单行程，结束后记录结果。"""
         current = self.order_no or self.read_active_order()
         if current == self.target_order_no:
             raise RuntimeError("目标订单不能按非目标订单处理")
@@ -160,6 +168,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
             self.handling_non_target = False
 
     def return_to_listening(self, deadline):
+        """非目标订单结束后返回听单状态。"""
         if time.monotonic() >= deadline:
             raise TimeoutError("安卓等待目标单总超时，未继续接单")
         self.deadline = deadline
@@ -188,6 +197,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
         self.last_phase = phase
 
     def run(self):
+        """执行完整目标订单流程，循环接单直到命中目标单或达到上限。"""
         if self.target_order_no is None:
             return super().run()
         if (not isinstance(self.target_order_no, str) or not re.fullmatch(r"[A-Z0-9]{12}", self.target_order_no)
@@ -216,12 +226,15 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
 
 
 class AndroidTargetOrderBase(AndroidOrderBase):
+    """安卓目标订单基类，协调乘客端与司机端完成目标订单筛选和流转。"""
     __test__ = False
 
     def _create_driver_flow(self, args):
+        """创建司机端目标订单流程实例并传入配置。"""
         return AndroidTargetDriverUIFlow(args, client=self.clients[self.driver_runtime.udid], settings=self.order_settings)
 
     def _driver_ui_go_online(self, tag):
+        """司机端上线，若有遗留订单则先完成非目标行程。"""
         self.target_order_no = None
         self.legacy_order_no = None
         super()._driver_ui_go_online(tag)
@@ -236,9 +249,11 @@ class AndroidTargetOrderBase(AndroidOrderBase):
 
     @staticmethod
     def _passenger_page_texts(root):
+        """提取乘客端页面树中所有节点的文本或content-desc，返回集合。"""
         return {node.get("text") or node.get("content-desc") or "" for node in root.iter()}
 
     def _complete_legacy_passenger_order(self, tag):
+        """完成乘客端遗留订单，支付或确认完成后等待司机端同单核验。"""
         order_no = self._read_passenger_target()
         if self.legacy_order_no and self.legacy_order_no != order_no:
             raise RuntimeError("乘客未完成订单与司机遗留订单不是同一订单，禁止付款或继续新下单")
@@ -304,6 +319,7 @@ class AndroidTargetOrderBase(AndroidOrderBase):
         raise TimeoutError("安卓未完成订单未在时限内进入付款页，未取消或继续新下单")
 
     def _adb(self, *arguments):
+        """以指定设备执行只读ADB命令并返回标准输出。"""
         udid = self.order_settings["device"]["udid"]
         command = ["adb", "-s", udid, *arguments]
         try:
@@ -312,6 +328,7 @@ class AndroidTargetOrderBase(AndroidOrderBase):
             raise RuntimeError("安卓无法只读获取乘客当前订单日志，未接单") from exc
 
     def _start_passenger_order_log(self):
+        """获取乘客App进程ID并清空logcat缓存，准备订单状态日志抓取。"""
         package = self.order_settings["packages"]["passenger_hk"]
         pid = self._adb("shell", "pidof", "-s", package).strip()
         if re.fullmatch(r"\d+", pid) is None:
@@ -320,11 +337,13 @@ class AndroidTargetOrderBase(AndroidOrderBase):
         return pid
 
     def _fresh_passenger_orders(self, pid):
+        """按进程ID抓取最新logcat并提取乘客当前订单状态请求中的订单号。"""
         output = self._adb("logcat", "-d", f"--pid={pid}", "-v", "brief")
         return passenger_status_orders(output)
 
     @staticmethod
     def _validate_passenger_target_page(root):
+        """校验乘客端当前页不是已取消、超时、失败或历史列表。"""
         texts = {node.get("label", "") for node in visible_nodes(root)}
         if any(keyword in text for text in texts
                for keyword in ("已取消", "訂單已超時", "订单已超时", "支付失敗", "支付失败")):
@@ -333,6 +352,7 @@ class AndroidTargetOrderBase(AndroidOrderBase):
             raise RuntimeError("安卓乘客当前是历史列表，禁止用历史订单当目标")
 
     def _read_passenger_target(self):
+        """读取乘客端目标订单号，优先从页面提取，必要时通过日志抓取。"""
         self._assert_passenger_foreground()
         root = ET.fromstring(self.client.source())
         self._validate_passenger_target_page(root)
@@ -358,6 +378,7 @@ class AndroidTargetOrderBase(AndroidOrderBase):
         raise TimeoutError("安卓乘客当前页及 App 新鲜状态请求均未显示唯一目标订单号，未接单")
 
     def _driver_ui_grab_and_flow(self, tag):
+        """读取乘客目标订单后驱动司机端抢单并执行流程。"""
         self.target_order_no = self._read_passenger_target()
         self.driver_ui.target_order_no = self.target_order_no
         super()._driver_ui_grab_and_flow(tag)
@@ -365,6 +386,7 @@ class AndroidTargetOrderBase(AndroidOrderBase):
             raise AssertionError("安卓司机接单结果不是本次乘客目标订单")
 
     def _run_order_flow(self):
+        """执行订单流程并校验已完成订单与乘客目标订单一致。"""
         super()._run_order_flow()
         if not self.target_order_no or self.completed_order_no != self.target_order_no:
             raise AssertionError("安卓已完成订单不是本次乘客目标订单，不能判定通过")

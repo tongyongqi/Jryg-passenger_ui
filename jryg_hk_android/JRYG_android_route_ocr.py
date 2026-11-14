@@ -12,6 +12,7 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 
 
 def recognize_map(image_path, map_bottom):
+    """调用 macOS Vision 框架对地图截图做 OCR，返回文本观察结果列表。"""
     if sys.platform != "darwin" or not shutil.which("xcrun"):
         raise RuntimeError("Canvas路线核验需要macOS Vision及Xcode命令行工具，未跳过路线核验")
     cache = BASE_DIR / "data/vision_module_cache"
@@ -26,6 +27,7 @@ def recognize_map(image_path, map_bottom):
 
 
 def recognize_markers(image_path, map_bottom):
+    """从地图截图中检测起终点标记区域并逐一 OCR 识别，返回带坐标的观察结果。"""
     import cv2
     from PIL import Image
     image = cv2.imread(str(image_path))
@@ -61,6 +63,7 @@ def recognize_markers(image_path, map_bottom):
 
 
 def map_route(observations, map_bottom):
+    """从 OCR 观察结果中匹配起点（北角地铁站 A1出入口）和终点（香港大學），返回 (start, end) 或 None。"""
     starts, ends = [], []
     for item in observations:
         confidence = item.get("confidence", 0)
@@ -81,6 +84,7 @@ def map_route(observations, map_bottom):
 
 
 def current_map_route(client, map_bottom):
+    """截取当前地图画面并核验路线，最多重试 2 次，返回 (start, end) 或 None。"""
     expected_package = "com.sunlightmobility.client"
     if client.driver.current_package != expected_package:
         raise RuntimeError("截图前乘客App不在前台，未核验路线")

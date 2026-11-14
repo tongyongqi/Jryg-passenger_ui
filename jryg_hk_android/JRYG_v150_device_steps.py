@@ -126,9 +126,11 @@ class V150DeviceSteps(AndroidPassengerBase):
 
     @staticmethod
     def _v150_booking_now():
+        """预约用车当前时间标签。"""
         return datetime.now(ZoneInfo("Asia/Hong_Kong")).replace(tzinfo=None)
 
     def _v150_booking_click(self, *, ids=(), texts=()):
+        """在预约用车页点击指定控件。"""
         if getattr(self, "_v150_passive_wait", False):
             raise RuntimeError("预约超时等待期间禁止操作")
         root = self._v150_booking_root()
@@ -165,6 +167,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         return format_use_time(rounded)
 
     def _v150_booking_value(self, resource_id):
+        """读取预约用车页指定控件的值。"""
         nodes = [n for n in self._login_visible(self._v150_booking_root())
                  if n.get("resource-id", "").split("/")[-1] == resource_id]
         if len(nodes) > 1:
@@ -229,6 +232,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         raise TimeoutError(f"预约时间选择器未稳定：{last_reason}；未点击确认")
 
     def _v150_confirm_booking_time(self, expected):
+        """校验预约时间选择器确认后的时间。"""
         if getattr(self, "_v150_passive_wait", False):
             raise RuntimeError("预约超时等待期间禁止操作")
         root, controls, selected = self._v150_wait_time_picker_stable()
@@ -338,10 +342,12 @@ class V150DeviceSteps(AndroidPassengerBase):
         return page
 
     def _v150_booking_texts(self, root):
+        """提取预约用车页所有文案。"""
         return {(n.get("text") or n.get("content-desc") or "").strip()
                 for n in self._login_visible(root)}
 
     def _v150_assert_booking_route(self, start, end):
+        """校验预约起终点路线。"""
         names = self.order_settings["order_validation"]
         compact = lambda value: re.sub(r"\s+", "", value)
         starts = {compact(name + suffix) for name in names["start_names"]
@@ -355,6 +361,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         confirm_texts = ("確認起點", "确认起点", "確認上車點", "确认上车点", "確認出發點", "确认出发点")
         clicked = False
         def ready():
+            """判断条件是否满足。"""
             nonlocal clicked
             root = self._v150_booking_root()
             nodes = self._login_visible(root)
@@ -396,6 +403,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         logger.info("【%s】已进入预约询价页：%s → %s", tag, start, end)
 
     def _v150_booking_quote(self):
+        """进入询价页并校验报价信息。"""
         root = self._passenger_root()
         times = [(n.get("label") or "").strip() for n in visible_nodes(root)
                  if n.get("resource-id", "").endswith("/tv_reservation_time")]
@@ -516,6 +524,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         self._v150_active_booking = {"phase": "submitting", "started": time.monotonic(), "order_no": None}
         self._v150_booking_click(texts=("確認呼叫", "确认呼叫"))
         def calling():
+            """判断是否在呼叫中。"""
             status = self._v150_booking_status()
             if status["accepted"] or status["cancelled"]:
                 raise RuntimeError("订单未停留预约呼叫中，未继续取消或重下单")
@@ -546,6 +555,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         confirm_texts = ("不用車了", "不用车了", "確認取消", "确认取消")
         bug_recorded = False
         def cancelled():
+            """判断是否已取消。"""
             nonlocal confirmed, bug_recorded
             current = self._v150_booking_status()
             if current["accepted"]:
@@ -604,6 +614,7 @@ class V150DeviceSteps(AndroidPassengerBase):
             raise RuntimeError("返回按钮不是左上角控件，停止操作")
         self._login_native(root, back).click()
         def home():
+            """判断是否回到首页。"""
             ids = {n.get("resource-id", "").split("/")[-1]
                    for n in self._login_visible(self._v150_booking_root())}
             return {"tv_home_reservation", "tv_start_address"}.issubset(ids) and "time_wheels" not in ids
@@ -1281,6 +1292,7 @@ class V150DeviceSteps(AndroidPassengerBase):
 
         # 2. 等待系统拨号器打开（乘客 App 会退到后台）
         def dialer_ready():
+            """判断拨号器是否就绪。"""
             out = self._v150_adb("shell", "dumpsys", "activity", "activities")
             return "TwelveKeyDialer" in out or "com.android.contacts" in out
 
@@ -1616,6 +1628,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         self._ensure_devices_awake()
 
         def click_switch():
+            """点击切换按钮。"""
             js = r"""
             (function() {
               var sw = document.querySelector('button.auto-share__switch')
@@ -1655,12 +1668,14 @@ class V150DeviceSteps(AndroidPassengerBase):
             return False
 
         def dom_state():
+            """判断DOM状态。"""
             try:
                 return self.v150_safety_get_auto_share_state_cdp(tag)
             except RuntimeError:
                 return None
 
         def vuex_state():
+            """判断Vuex状态。"""
             try:
                 return self.v150_safety_read_vuex_store(tag).get("sharingEnabled")
             except Exception:
@@ -2985,6 +3000,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         return "trip_list"
 
     def _v150_trip_list_ready(self):
+        """判断行程列表是否加载完成。"""
         ids = {n.get("resource-id", "").split("/")[-1]
                for n in visible_nodes(self._passenger_root())}
         return {"scheduling_root", "recycler_view"} <= ids
@@ -3005,6 +3021,7 @@ class V150DeviceSteps(AndroidPassengerBase):
 
     @staticmethod
     def _v150_receipt_instant_cards(root):
+        """从页面树提取即時已完成订单卡片。"""
         cards = []
         for card in visible_nodes(root):
             if card.get("resource-id", "").split("/")[-1] != "rl_order_item_layout":
@@ -3016,6 +3033,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         return cards
 
     def _v150_receipt_order_number(self):
+        """读取收据弹框中的订单号。"""
         nodes = visible_nodes(self._passenger_root())
         values = [n.get("label", "") for n in nodes
                   if n.get("resource-id", "").endswith("/tv_order_no")]
@@ -3279,6 +3297,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         return regions
 
     def _v150_receipt_visual_toasts(self):
+        """通过截图OCR识别toast文案。"""
         import cv2
         import numpy as np
         from jryg_hk_android.JRYG_android_route_ocr import recognize_map
@@ -3307,6 +3326,7 @@ class V150DeviceSteps(AndroidPassengerBase):
         return texts
 
     def _v150_receipt_toast_texts(self):
+        """收集当前页面所有toast文案。"""
         from appium.webdriver.common.appiumby import AppiumBy
         native = {el.text for el in self.client.driver.find_elements(
             AppiumBy.CLASS_NAME, "android.widget.Toast") if el.text}

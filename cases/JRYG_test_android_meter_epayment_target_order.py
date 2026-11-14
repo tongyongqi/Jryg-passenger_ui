@@ -13,6 +13,7 @@ from jryg_hk_android.JRYG_android_target_order import AndroidTargetOrderBase
 
 
 class TestMeterEpaymentTargetOrderAndroid(AndroidTargetOrderBase):
+    """TestMeterEpaymentTargetOrderAndroid类。"""
     __test__ = True
     CAR_TYPE = "meter"
     PAYMENT = "epayment"

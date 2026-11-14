@@ -15,12 +15,14 @@ PACKAGE = "com.sunlightmobility.client"
 
 
 def node(parent, rid, text="", cls="android.widget.TextView", **attrs):
+    """在 parent 下创建一个带 resource-id 的 UI 节点，用于构造测试用 UI 树。"""
     return ET.SubElement(parent, cls, {"resource-id": f"{PACKAGE}:id/{rid}",
         "class": cls, "text": text, "displayed": "true", "enabled": "true",
         "bounds": "[20,50][1100,220]", **attrs})
 
 
 def dialog(email="", saved=False, enabled=False):
+    """构造一个模拟收据弹框的 UI 树，支持空输入、已保存邮箱、发送按钮启用状态。"""
     root = ET.Element("hierarchy")
     content = node(root, "dialog_content", cls="android.widget.LinearLayout")
     node(content, "tv_title", "發送行程收據")
@@ -37,10 +39,12 @@ def dialog(email="", saved=False, enabled=False):
 
 
 def parse(root, keyboard=False):
+    """将 UI 树序列化后调用 _v150_receipt_parse_dialog 解析弹框状态。"""
     return V150DeviceSteps._v150_receipt_parse_dialog(ET.tostring(root, encoding="unicode"), keyboard)
 
 
 def test_empty_dialog_hint_and_disabled_state():
+    """空弹框：输入框展示 placeholder、键盘弹出、发送按钮禁用、标题/副标题正确。"""
     state = parse(dialog(), keyboard=True)
     assert state["present"] and state["email_input"] and state["keyboard"]
     assert state["email"] == ""
@@ -53,12 +57,14 @@ def test_empty_dialog_hint_and_disabled_state():
 
 @pytest.mark.parametrize("value", ["user@example.com", "  user@example.com  ", "invalid", "a@b@c.com"])
 def test_dialog_preserves_input_exactly(value):
+    """弹框中原样保留输入值不做 trim 或校验，发送按钮启用。"""
     state = parse(dialog(value, enabled=True))
     assert state["email"] == value
     assert state["send_enabled"]
 
 
 def test_saved_dialog_reads_static_email_and_modify():
+    """已保存邮箱的弹框：展示静态邮箱文案和「修改」按钮，无输入框。"""
     state = parse(dialog("user@example.com", saved=True, enabled=True))
     assert not state["email_input"]
     assert state["email"] == "user@example.com"
@@ -66,6 +72,7 @@ def test_saved_dialog_reads_static_email_and_modify():
 
 
 def test_no_dialog_does_not_match_email_settings_input():
+    """非收据弹框的邮箱设置页输入框不会被误识别为弹框。"""
     root = ET.Element("hierarchy")
     node(root, "et_email", "", "android.widget.EditText")
     assert not parse(root)["present"]
@@ -73,6 +80,7 @@ def test_no_dialog_does_not_match_email_settings_input():
 
 
 def test_hidden_send_button_is_not_accepted():
+    """发送按钮 displayed=false 时不会被当作可用按钮。"""
     root = dialog()
     button = next(n for n in root.iter() if n.get("resource-id", "").endswith("/btn_send"))
     button.set("displayed", "false")
@@ -80,6 +88,7 @@ def test_hidden_send_button_is_not_accepted():
 
 
 def test_different_dialog_title_is_not_normalized():
+    """简体标题「发送行程收据」不被归一化为繁体，保留实际文案。"""
     root = dialog()
     title = next(n for n in root.iter() if n.get("resource-id", "").endswith("/tv_title"))
     title.set("text", "发送行程收据")
@@ -92,6 +101,7 @@ def test_different_dialog_title_is_not_normalized():
     ("待支付", "即時用車", False), ("已取消", "即時用車", False),
 ])
 def test_only_same_card_completed_instant_is_selected(status, kind, eligible):
+    """仅「已完成 + 即時用車」的订单卡片被收据功能选中，其他组合不选。"""
     root = ET.Element("hierarchy")
     card = node(root, "rl_order_item_layout", cls="android.widget.LinearLayout")
     node(card, "tv_type_order", status)
@@ -102,6 +112,7 @@ def test_only_same_card_completed_instant_is_selected(status, kind, eligible):
 
 
 def test_completed_detail_is_not_home_due_to_shared_safe_icon():
+    """订单详情页含安全中心图标但 page_type=order_detail 而非 home。"""
     root = ET.Element("hierarchy")
     node(root, "tv_safe", "安全中心")
     node(root, "tv_order_no", "訂單編號 26TEST000001")
@@ -112,6 +123,7 @@ def test_completed_detail_is_not_home_due_to_shared_safe_icon():
 
 
 def test_receipt_hint_uses_actual_native_hint_without_trimming():
+    """邮箱读取使用实际 hint 判断空值，不 trim 原始文案。"""
     case = V150DeviceSteps()
     element = Mock()
     element.text = "請輸入電子郵箱"
@@ -123,6 +135,7 @@ def test_receipt_hint_uses_actual_native_hint_without_trimming():
 
 @pytest.mark.parametrize("present,enabled", [(False, False), (True, False)])
 def test_missing_or_disabled_send_never_submits(present, enabled):
+    """弹框不存在或发送按钮禁用时点击发送抛 AssertionError 且不执行点击。"""
     case = V150DeviceSteps()
     case._v150_receipt_dialog_state = Mock(return_value={"present": present, "send_button": True, "send_enabled": enabled})
     case._v150_receipt_element = Mock()
@@ -132,6 +145,7 @@ def test_missing_or_disabled_send_never_submits(present, enabled):
 
 
 def test_send_submits_exactly_once():
+    """弹框存在且发送按钮启用时点击发送执行一次且仅一次。"""
     case = V150DeviceSteps()
     case._v150_receipt_dialog_state = Mock(return_value={"present": True, "send_button": True, "send_enabled": True})
     element = Mock()
@@ -142,6 +156,7 @@ def test_send_submits_exactly_once():
 
 
 def test_close_uses_real_close_control_not_back():
+    """关闭弹框用实际 iv_close 控件而非 driver.back。"""
     case = V150DeviceSteps()
     case.client = Mock()
     case._v150_receipt_dialog_ready = Mock(side_effect=[True, False])
@@ -153,6 +168,7 @@ def test_close_uses_real_close_control_not_back():
 
 
 def test_read_missing_email_is_not_treated_as_empty():
+    """弹框中邮箱读为 None 时抛 RuntimeError 而非当作空字符串。"""
     case = V150DeviceSteps()
     case._v150_receipt_dialog_state = Mock(return_value={"present": True, "email": None})
     with pytest.raises(RuntimeError, match="不能当作未设置"):
@@ -160,6 +176,7 @@ def test_read_missing_email_is_not_treated_as_empty():
 
 
 def test_close_button_can_be_dialog_content_sibling():
+    """关闭按钮作为 dialog_content 的兄弟节点时仍能被识别。"""
     root = dialog()
     content = next(n for n in root.iter() if n.get("resource-id", "").endswith("/dialog_content"))
     close = next(n for n in content if n.get("resource-id", "").endswith("/iv_close"))
@@ -169,6 +186,7 @@ def test_close_button_can_be_dialog_content_sibling():
 
 
 def test_receipt_prepare_respects_email_keyword_only_signature():
+    """_prepare 方法仅接受 email 关键字参数，不混用位置参数。"""
     from unittest.mock import create_autospec
     from cases.JRYG_test_android_v150_receipt import TestV150ReceiptDevice as ReceiptCase
     case = ReceiptCase()
@@ -192,6 +210,7 @@ def test_receipt_prepare_respects_email_keyword_only_signature():
 
 
 def test_requirement_mismatch_records_actual_then_continues(tmp_path):
+    """期望与实际不符时记录差异并生成 product_bug 证据，后续检查继续执行。"""
     from cases.JRYG_test_android_v150_receipt import TestV150ReceiptDevice as ReceiptCase
     case = ReceiptCase()
     case._receipt_case_directory = tmp_path
@@ -208,6 +227,7 @@ def test_requirement_mismatch_records_actual_then_continues(tmp_path):
 
 
 def test_missing_toast_capture_is_not_confirmed_product_bug(tmp_path):
+    """toast 未抓到时归类为 observation_gap 而非 product_bug，不生成 product_bug 文件。"""
     from cases.JRYG_test_android_v150_receipt import TestV150ReceiptDevice as ReceiptCase
     case = ReceiptCase()
     case._receipt_case_directory = tmp_path
@@ -222,6 +242,7 @@ def test_missing_toast_capture_is_not_confirmed_product_bug(tmp_path):
 
 
 def _receipt_case_for_prompt():
+    """构造一个带空检查记录和 Mock _capture 的收据用例实例。"""
     from cases.JRYG_test_android_v150_receipt import TestV150ReceiptDevice as ReceiptCase
     case = ReceiptCase()
     case._receipt_record = {"checks": [], "evidence": []}
@@ -312,6 +333,7 @@ def test_direct_send_capture_starts_before_entry_click():
 
 @pytest.mark.parametrize("text", ["已發送，稍後查看", "郵箱格式不正確", "未列入预期的实际错误"])
 def test_visual_toast_reads_actual_not_expected_filter(tmp_path, monkeypatch, text):
+    """视觉 toast 读取实际 OCR 文案而非按预期列表过滤，保留截图证据。"""
     import cv2
     import numpy as np
     from jryg_hk_android import JRYG_android_route_ocr
@@ -331,12 +353,14 @@ def test_visual_toast_reads_actual_not_expected_filter(tmp_path, monkeypatch, te
 
 
 def test_visual_toast_does_not_treat_white_background_as_toast():
+    """纯白背景不被误判为 toast 区域。"""
     import numpy as np
     image = np.full((1000, 500, 3), 240, dtype=np.uint8)
     assert V150DeviceSteps._v150_receipt_toast_regions(image) == []
 
 
 def test_action_video_is_stopped_and_preserved_on_failure(tmp_path):
+    """操作录像在失败时停止并保存为证据文件。"""
     import base64
     from cases.JRYG_test_android_v150_receipt import TestV150ReceiptDevice as ReceiptCase
     case = ReceiptCase()
@@ -353,6 +377,7 @@ def test_action_video_is_stopped_and_preserved_on_failure(tmp_path):
 
 
 def test_network_log_capture_extracts_relevant_lines(tmp_path, monkeypatch):
+    """网络日志抓取：过滤出 retrofit 和 flutter 相关行，解析接口调用和响应码。"""
     case = V150DeviceSteps()
     case.android_settings = {"packages": {"passenger_hk": "com.test.app"},
                              "device": {"udid": "fake-udid"}}
@@ -379,6 +404,7 @@ def test_network_log_capture_extracts_relevant_lines(tmp_path, monkeypatch):
 
 
 def test_network_log_capture_returns_not_started_when_pid_missing(tmp_path):
+    """未启动网络抓取（pid 缺失）时返回 captured=False 并说明原因。"""
     case = V150DeviceSteps()
     case._receipt_case_directory = tmp_path
     case._receipt_record = {"evidence": []}

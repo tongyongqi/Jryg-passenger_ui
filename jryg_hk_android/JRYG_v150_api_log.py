@@ -135,6 +135,7 @@ def parse_api_calls(lines):
     pending_params = {}
 
     def flush():
+        """flush方法。"""
         nonlocal current
         if current is None:
             return
@@ -262,6 +263,7 @@ def summarize_calls(calls):
 
 def check_api_response(calls, api_name, *, expect_code=10000, expect_params=None,
                        forbidden_params=None, expect_data_contains=None):
+    """校验接口响应码和字段值。"""
     """按接口层断言服务端响应。
 
     返回字典：matched（是否命中该接口）、passed（是否符合预期）、

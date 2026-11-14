@@ -54,6 +54,7 @@ from jryg_hk_android.JRYG_v150_contract import (
 
 
 class TestV150OrderCenterDevice(V150DeviceSteps):
+    """V1.5.0 订单中心 type16 改造真机接口层验证。"""
     __test__ = True
     DRIVER_REQUIRED = False
 

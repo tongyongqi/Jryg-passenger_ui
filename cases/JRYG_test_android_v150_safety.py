@@ -49,6 +49,7 @@ from jryg_hk_android.JRYG_logger import logger
 
 
 class TestV150SafetyDevice(V150DeviceSteps):
+    """V1.5.0 安全中心 Android 端 UI 自动化端到端用例。"""
     __test__ = True
     DRIVER_REQUIRED = False
 

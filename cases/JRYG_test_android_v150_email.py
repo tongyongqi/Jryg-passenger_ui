@@ -42,6 +42,7 @@ from jryg_hk_android.JRYG_v150_api_log import check_api_response
 
 
 class TestV150EmailDevice(V150DeviceSteps):
+    """V1.5.0 邮箱管理真机调试场景：输入、保存、格式校验、空值删除。"""
     __test__ = True
     DRIVER_REQUIRED = False
 

@@ -70,6 +70,7 @@ V150_DEVICE_SCENARIOS = (
 
 
 def scenario_nodes(*, include_optional=False):
+    """获取所有场景节点配置。"""
     nodes = []
     scenarios = SCENARIOS + OPTIONAL_SCENARIOS if include_optional else SCENARIOS
     for filename, class_name in scenarios:
@@ -87,6 +88,7 @@ def scenario_nodes(*, include_optional=False):
 
 
 def android_scenarios():
+    """获取安卓平台场景列表。"""
     for filename, class_name in SCENARIOS:
         path = BASE_DIR / "cases" / filename
         spec = importlib.util.spec_from_file_location("hk_android_" + path.stem, path)

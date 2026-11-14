@@ -377,6 +377,7 @@ def location_updated(success, lng="", lat="", detail="", name=""):
 
 
 def emergency_page_location(state, address=""):
+    """根据安全中心页面状态返回位置信息。"""
     messages = {
         "loading": "正在獲取位置信息...",
         "failed": "無法獲取當前位置信息",
@@ -391,6 +392,7 @@ def emergency_page_location(state, address=""):
 # ---------------------------------------------------------------------------
 @dataclass(frozen=True)
 class Contact:
+    """紧急联系人数据类。"""
     contact_id: int
     owner_id: int
     name: str
@@ -400,6 +402,7 @@ class Contact:
 
 
 def validate_contact_input(name, phone, own_phone, existing_count, contact_id=0, auto_share=0):
+    """校验紧急联系人输入合法性。"""
     normalized_name = (name or "").strip()
     if not normalized_name:
         raise ValueError("請填寫聯絡人")
@@ -420,10 +423,13 @@ def validate_contact_input(name, phone, own_phone, existing_count, contact_id=0,
 
 
 class ContactStore:
+    """紧急联系人存储管理器，支持增删改查和自动分享。"""
     def __init__(self, contacts=()):
+        """初始化实例。"""
         self.contacts = list(contacts)
 
     def save(self, owner_id, contact_id, name, phone, own_phone, auto_share=0):
+        """保存或更新紧急联系人。"""
         normalized = validate_contact_input(name, phone, own_phone, len(self.contacts), contact_id, auto_share)
         if contact_id:
             for index, contact in enumerate(self.contacts):
@@ -438,12 +444,14 @@ class ContactStore:
         return contact
 
     def delete(self, owner_id, contact_id):
+        """删除紧急联系人。"""
         before = len(self.contacts)
         self.contacts = [item for item in self.contacts if not (item.owner_id == owner_id and item.contact_id == contact_id)]
         if len(self.contacts) == before:
             raise ValueError("contact_not_found")
 
     def share(self, owner_id, contact_id, auto_share):
+        """设置联系人自动分享开关。"""
         if auto_share not in (0, 1):
             raise ValueError("auto_share_must_be_0_or_1")
         for index, contact in enumerate(self.contacts):
@@ -453,24 +461,30 @@ class ContactStore:
         raise ValueError("contact_not_found")
 
     def enable_auto_share_for_all(self):
+        """开启全部联系人自动分享。"""
         if not self.contacts:
             raise ValueError("請添加緊急聯絡人")
         self.contacts = [replace(item, auto_share=1) for item in self.contacts]
 
     def disable_auto_share_for_all(self):
+        """关闭全部联系人自动分享。"""
         self.contacts = [replace(item, auto_share=0) for item in self.contacts]
 
     def auto_share_enabled(self):
+        """检查是否有任意联系人开启了自动分享。"""
         return any(item.auto_share == 1 for item in self.contacts)
 
     def trip_share_recipients(self):
+        """获取行程分享接收人列表。"""
         return [item.phone for item in self.contacts if item.auto_share == 1]
 
     def alarm_recipients(self):
+        """获取报警接收人列表。"""
         return [item.phone for item in self.contacts]
 
 
 def mask_contact_phone(phone):
+    """对联系人手机号做掩码处理。"""
     return "****" + phone[-4:]
 
 
@@ -480,6 +494,7 @@ def mask_contact_phone(phone):
 # 收据任务按order_no幂等，财务系统未明确受理时不能标记为发送成功。
 # ---------------------------------------------------------------------------
 def normalize_email(value):
+    """校验并归一化邮箱格式，非法时抛ValueError。"""
     normalized = (value or "").strip()
     if not normalized:
         return ""
@@ -487,6 +502,9 @@ def normalize_email(value):
         raise ValueError("郵箱格式不正確")
     local, domain = normalized.split("@")
     if not local or not domain or "." not in domain or any(ch.isspace() for ch in normalized):
+        raise ValueError("郵箱格式不正確")
+    # 域名不能以点开头或结尾，不能有连续点
+    if domain.startswith(".") or domain.endswith(".") or ".." in domain:
         raise ValueError("郵箱格式不正確")
     return normalized
 
@@ -503,10 +521,12 @@ def save_email(current, submitted=UNSET):
 
 
 def email_from_storage(value):
+    """从存储值解析邮箱，空值返回空字符串。"""
     return value or ""
 
 
 def receipt_controls(notices, button_control):
+    """从通知和按钮控件中提取收据弹框状态。"""
     prompt_count = sum(1 for item in notices if item.get("id") == "email_setting_prompt")
     return {
         "set_and_send": prompt_count > 0,
@@ -516,6 +536,7 @@ def receipt_controls(notices, button_control):
 
 
 def receipt_request(entry, order_no, saved_email="", input_email=None):
+    """构造收据发送请求体。"""
     if entry == "set_and_send":
         email = normalize_email(input_email)
         if not email:
@@ -532,6 +553,7 @@ def receipt_request(entry, order_no, saved_email="", input_email=None):
 
 
 def receipt_success_state(notices, button_control, request_payload):
+    """判断收据发送是否成功。"""
     remaining = [item for item in notices if item.get("id") != "email_setting_prompt"]
     return {
         "notices": remaining,
@@ -542,6 +564,7 @@ def receipt_success_state(notices, button_control, request_payload):
 
 
 def receipt_failure_state(notices, button_control, draft_email, saved_email):
+    """判断收据发送是否失败。"""
     return {
         "notices": list(notices),
         "button_control": dict(button_control),
@@ -552,6 +575,7 @@ def receipt_failure_state(notices, button_control, draft_email, saved_email):
 
 
 def receipt_auto_eligible(order):
+    """判断订单是否满足自动发送收据条件。"""
     return all((
         order.get("region") == "HK",
         order.get("order_type") == PASSENGER_INSTANT,
@@ -565,6 +589,7 @@ def receipt_auto_eligible(order):
 
 
 def receipt_event_source(car_type):
+    """根据车型返回收据事件来源。"""
     if car_type == "charter":
         return "order_status_machine"
     if car_type == "meter":
@@ -573,6 +598,7 @@ def receipt_event_source(car_type):
 
 
 def receipt_rate_allowed(previous_send_times, now):
+    """根据上次发送时间判断是否超过频率限制。"""
     recent = [item for item in previous_send_times if now - item < timedelta(minutes=1)]
     return len(recent) < 2
 
@@ -580,15 +606,18 @@ def receipt_rate_allowed(previous_send_times, now):
 class ReceiptTaskStore:
     """服务侧文档7.5：order_no唯一任务及财务受理结果状态。"""
     def __init__(self):
+        """初始化实例。"""
         self.tasks = {}
 
     def create_once(self, order_no, source):
+        """创建一次性收据请求。"""
         if order_no in self.tasks:
             return self.tasks[order_no], False
         self.tasks[order_no] = {"order_no": order_no, "source": source, "status": "PENDING"}
         return self.tasks[order_no], True
 
     def finance_result(self, order_no, response=None, transport_error=False):
+        """获取财务系统收据发送结果。"""
         task = self.tasks[order_no]
         if transport_error:
             task["status"] = "UNKNOWN"
@@ -607,6 +636,7 @@ class ReceiptTaskStore:
 # 仅过滤服务端已开启方式并保持文档顺序；SDK回调不等于最终支付成功。
 # ---------------------------------------------------------------------------
 def cashier_methods(enabled):
+    """返回收银台可用支付方式列表。"""
     enabled_set = set(enabled)
     return [item for item in PAYMENT_ORDER if item in enabled_set]
 
@@ -619,6 +649,7 @@ def payment_result_after_sdk(sdk_result, server_result=None):
 
 
 def payment_detail_method(actual_method):
+    """从支付明细解析实际支付方式。"""
     if actual_method not in PAYMENT_ORDER:
         raise ValueError("unknown_payment_method")
     return actual_method
@@ -636,7 +667,9 @@ ORDER_TYPE_BOOKING_REALTIME = 16
 
 
 def order_center_create(order_type, payment_collection_mode=None, business_type=None):
+    """下单接口：创建type5/type16订单并存储到对应库。"""
     def checked(value):
+        """checked方法。"""
         if value is None:
             return 0
         if value not in (1, 2):
@@ -651,6 +684,7 @@ def order_center_create(order_type, payment_collection_mode=None, business_type=
 
 
 def order_center_show(order):
+    """查询接口：返回订单详情含两新字段。"""
     return {
         "order_type": order["order_type"],
         "payment_collection_mode": order["payment_collection_mode"],
@@ -659,6 +693,7 @@ def order_center_show(order):
 
 
 def unfinished_list(orders, order_types=None):
+    """未完成列表：按order_types过滤并按use_time DESC排序。"""
     selected = list(orders)
     if order_types is not None:
         selected = [item for item in selected if item["order_type"] in order_types]
@@ -666,18 +701,22 @@ def unfinished_list(orders, order_types=None):
 
 
 def unfinished_list_error(circuit_open):
+    """返回熔断状态下的错误码。"""
     return "ErrQueryOrderPassengerServingPolardbBreak" if circuit_open else None
 
 
 def active_order_visible(order):
+    """判断订单是否在列表中可见。"""
     return not (order.get("cancelled") or (order.get("completed") and order.get("paid")))
 
 
 def status_info_hk(order):
+    """返回订单状态和支付状态。"""
     return {"order_status": order["order_status"], "pay_status": order["pay_status"]}
 
 
 def order_status_mq(order):
+    """构造MQ消息体，携带两新字段。"""
     return {
         "payment_collection_mode": order["payment_collection_mode"],
         "business_type": order["business_type"],
@@ -690,6 +729,7 @@ def create_params_validate(payment_collection_mode=None, business_type=None):
     非法值（如 3）抛 ValueError，合法值原样返回，None 返回 0。
     """
     def checked(value):
+        """checked方法。"""
         if value is None:
             return 0
         if value not in (1, 2):

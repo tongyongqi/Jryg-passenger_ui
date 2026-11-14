@@ -21,6 +21,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
     LOGIN_CODE = AndroidBase.LOGIN_CODE
 
     def _passenger_root(self):
+        """获取乘客端页面树根节点。"""
         self._assert_passenger_foreground()
         root = ET.fromstring(self.client.source(format="xml"))
         if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
@@ -29,6 +30,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
 
     @staticmethod
     def _native_address_result(root, expected_names, north_point=False, expected_details=()):
+        """从地址搜索结果中匹配预期地点。"""
         nodes = list(visible_nodes(root))
         title_ids = ("tv_title", "tv_address_name")
         titles = [node for node in nodes if node.get("resource-id", "").split("/")[-1] in title_ids
@@ -117,6 +119,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         self.client.driver.execute_script("mobile: performEditorAction", {"action": "search"})
 
         def select_result():
+            """选择地址搜索结果。"""
             root = self._passenger_root()
             self._check_address_query(root, search_text)
             details = self.order_settings["order_validation"].get("end_details", ()) if (
@@ -137,6 +140,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
 
     @staticmethod
     def _check_address_query(root, expected):
+        """校验地址查询结果。"""
         fields = [node for node in visible_nodes(root)
                   if node.get("resource-id", "").endswith("/et_search")]
         if len(fields) != 1 or fields[0].get("value") != expected:
@@ -160,7 +164,9 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         self._android_retry_estimate_quote = None
 
     def _android_estimate_route_identity(self, root):
+        """校验询价页起终点路线。"""
         def address(resource_names):
+            """提取地址资源名。"""
             values = [node.get("label", "").strip() for node in visible_nodes(root)
                       if node.get("resource-id", "").split("/")[-1] in resource_names]
             return values[0] if len(values) == 1 and values[0] else None
@@ -187,6 +193,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         return route
 
     def _android_estimate_quote(self, root, car_type):
+        """在询价页选择指定车型。"""
         if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
             return None
         nodes = list(visible_nodes(root))
@@ -225,10 +232,12 @@ class AndroidPassengerMixin(AndroidLoginMixin):
     _android_click_refreshed_estimate_call = AndroidBase._android_click_refreshed_estimate_call
 
     def _android_click_estimate_car(self, car_type):
+        """点击询价页车型卡片。"""
         self._assert_passenger_foreground()
         self._android_select_car_type("estimate_refresh", car_type)
 
     def _android_click_estimate_call(self):
+        """点击询价页确认呼叫按钮。"""
         self._assert_passenger_foreground()
         self._click_text(["確認呼叫", "确认呼叫"], exact=True)
 
@@ -261,6 +270,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
         labels = ("現金支付", "現金") if mode == "cash" else ("電子支付",)
 
         def selected():
+            """selected方法。"""
             nodes = [n for n in visible_nodes(self._passenger_root())
                      if n.get("resource-id") == prefix + "tv_pay_mode"]
             if len(nodes) > 1:

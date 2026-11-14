@@ -29,6 +29,7 @@ class AndroidPaymentMixin:
         self._click_text(["確認支付"])
 
     def _android_cvv_field(self):
+        """获取CVV输入框控件。"""
         return self._android_labelled_card_field(["CVV"])
 
     def _android_labelled_card_field(self, placeholders):
@@ -87,6 +88,7 @@ class AndroidPaymentMixin:
         ):
             self._fill_payment_field(placeholders, value)
         def pay_ready():
+            """pay_ready方法。"""
             self._android_payment_guard()
             return self.client(textContains="請支付").exists
         self._wait(pay_ready, "Android卡表单收键盘后支付按钮5秒内未就绪，未提交付款", timeout=5)
@@ -103,6 +105,7 @@ class AndroidPaymentMixin:
     def _android_otp_form(root, *, require_button=True):
         """输入阶段允许验证按钮被键盘遮挡，提交阶段必须有唯一可见验证按钮。"""
         def visible(node):
+            """判断节点是否可见。"""
             bounds = re.fullmatch(r"\[(-?\d+),(-?\d+)\]\[(-?\d+),(-?\d+)\]", node.get("bounds", ""))
             if not bounds or node.get("displayed", "true") != "true":
                 return False
@@ -170,6 +173,7 @@ class AndroidPaymentMixin:
         return ET.fromstring(source)
 
     def _android_otp_controls(self, previous=None, *, require_button=False, root=None):
+        """获取OTP输入框和按钮控件。"""
         root = root if root is not None else self._android_payment_guard()
         field_path, button_path, placeholder = self._android_otp_form(
             root, require_button=require_button or previous is None)
@@ -195,7 +199,9 @@ class AndroidPaymentMixin:
         return field, button, placeholder
 
     def _android_wait_otp_ready(self, tag):
+        """等待OTP输入框就绪。"""
         def ready():
+            """判断条件是否满足。"""
             root = self._android_payment_guard(tolerate_loading=True)
             if root is None:
                 return False
@@ -207,7 +213,9 @@ class AndroidPaymentMixin:
         return self._wait(ready, f"{tag}: Android OTP框30秒内未就绪，未清空、输入或提交", timeout=30)
 
     def _android_wait_otp_value(self, field, expected, tag, *, clearing=False):
+        """等待OTP输入框值匹配预期。"""
         def confirmed():
+            """判断OTP是否已确认。"""
             try:
                 _, _, placeholder = self._android_otp_controls(field)
                 value = field.text
@@ -221,7 +229,9 @@ class AndroidPaymentMixin:
         self._wait(confirmed, f"{tag}: Android OTP回读未确认，禁止提交验证", timeout=5)
 
     def _android_wait_same_otp_controls(self, field, tag, *, require_button=False):
+        """等待同单OTP控件就绪。"""
         def ready():
+            """判断条件是否满足。"""
             try:
                 return self._android_otp_controls(field, require_button=require_button)
             except AndroidOTPNotReadyError:

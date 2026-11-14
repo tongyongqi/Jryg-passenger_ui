@@ -285,6 +285,7 @@ class AndroidDriverUIFlow(DriverUIFlow):
         self.wait_for({"unpaid", "complete"})
 
     def fill(self, root, placeholder, value):
+        """在输入框中填入指定值。"""
         target = self.field(root, placeholder)
         resource = target.get("resource-id")
         if not resource:
@@ -306,6 +307,7 @@ class AndroidDriverUIFlow(DriverUIFlow):
         raise TimeoutError("Android司机输入回读未确认，禁止提交")
 
     def enter_tail(self, root):
+        """输入手机号尾号。"""
         if not re.fullmatch(r"\d{4}", self.args.tail or ""):
             raise RuntimeError("Android乘客尾号必须显式配置四位数字")
         fields = [node for node in visible_nodes(root)
@@ -385,6 +387,7 @@ class AndroidDriverUIFlow(DriverUIFlow):
             self.enter_code(root)
 
     def enter_code(self, root):
+        """输入验证码。"""
         if not re.fullmatch(r"\d{6}", self.args.code or ""):
             raise RuntimeError("Android司机UI验证码必须显式配置六位数字")
         fields = self.client(className="android.widget.EditText").find_elements()
@@ -554,12 +557,15 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
         LOG.info("【%s】非目标司机订单已确认取消并回到乘客首页", tag)
 
     def _android_handle_unfinished_order_popup(self, tag):
+        """处理未完成订单弹窗。"""
         if not self._android_click_dialog_button(["去完成", "去處理", "去处理"], wait_after=2):
             raise RuntimeError("Android 未定位遗留订单入口，停止，不假装已清理")
         self._clear_waiting_order(tag)
 
     def _clear_waiting_order(self, tag):
+        """清理等待中的订单状态。"""
         def state():
+            """获取当前状态。"""
             self._assert_passenger_foreground()
             texts = self._android_get_all_texts(self.client)
             if any(keyword in text for text in texts for keyword in ("確認支付", "费用明细", "費用明細", "行程結束")):
@@ -575,6 +581,7 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
         self._android_click_dialog_button(self.CANCEL_CONFIRM_KEYWORDS, wait_after=1)
 
         def cleared():
+            """判断是否已清理。"""
             self._assert_passenger_foreground()
             texts = self._android_get_all_texts(self.client)
             if any("未完成" in text or "取消訂單" in text or "取消订单" in text for text in texts):
@@ -583,6 +590,7 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
         self._wait(cleared, "Android 遗留订单未确认取消并回首页，停止后续下单")
 
     def _ui_cleanup_ongoing_order(self, tag):
+        """UI清理进行中订单。"""
         if not self.ensure_passenger_login(tag):
             raise RuntimeError("安卓乘客登录未核验，未处理遗留订单")
         texts = self._android_get_all_texts(self.client)
@@ -609,6 +617,7 @@ class AndroidOrderBase(AndroidOrderMixin, TestOrderBase):
     pytestmark = []
 
     def _run_order_flow(self):
+        """执行订单流程。"""
         if os.environ.get("HK_DRIVER_UI_STOP_AFTER", "submitted") != "submitted":
             raise RuntimeError("安卓完整场景不允许仅接单模式，未执行下单或支付")
         super().test_order_flow()

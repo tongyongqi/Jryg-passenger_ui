@@ -13,6 +13,7 @@ from jryg_hk_android.JRYG_android_order import AndroidOrderBase
 
 
 class TestCharterBankcardAndroid(AndroidOrderBase):
+    """TestCharterBankcardAndroid类。"""
     __test__ = True
     CAR_TYPE = "charter"
     PAYMENT = "bankcard"

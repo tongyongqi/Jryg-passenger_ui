@@ -22,6 +22,7 @@ from jryg_hk_android.JRYG_v150_device_steps import V150DeviceSteps
 
 
 class TestV150CashierDevice(V150DeviceSteps):
+    """TestV150CashierDevice类。"""
     __test__ = True
     DRIVER_REQUIRED = False
 

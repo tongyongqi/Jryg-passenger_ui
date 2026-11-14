@@ -24,6 +24,7 @@ from jryg_hk_android.JRYG_v150_device_steps import V150DeviceSteps
 
 
 class TestV150BookingDevice(V150DeviceSteps):
+    """TestV150BookingDevice类。"""
     __test__ = True
     DRIVER_REQUIRED = False
 

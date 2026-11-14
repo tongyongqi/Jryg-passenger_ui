@@ -996,12 +996,14 @@ class AndroidBase(HKAndroidPaymentMixin):
         time.sleep(5)
 
     def _android_click_estimate_car(self, car_type):
+        """点击询价页车型卡片。"""
         label = E.CHARTER_CAR_LABEL if car_type == "charter" else E.METER_CAR_LABEL
         xpath = (f'//XCUIElementTypeCell[@visible="true" and @enabled="true"'
                  f' and .//XCUIElementTypeStaticText[@visible="true" and @label="{label}"]]')
         self.client(xpath=xpath).click()
 
     def _android_click_estimate_call(self):
+        """点击询价页确认呼叫按钮。"""
         self.client(xpath='//XCUIElementTypeButton[@visible="true" and @enabled="true" and (@label="確認呼叫" or @label="确认呼叫")]').click()
 
     def _android_select_car_type(self, tag, car_type="charter"):

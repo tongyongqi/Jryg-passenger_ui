@@ -32,6 +32,7 @@ from jryg_hk_android.JRYG_v150_api_log import (
 
 
 class TestV150ReceiptDevice(V150DeviceSteps):
+    """TestV150ReceiptDevice类。"""
     __test__ = True
     DRIVER_REQUIRED = False
     RECEIPT_EMAIL = "v150_receipt@example.com"
@@ -179,6 +180,7 @@ class TestV150ReceiptDevice(V150DeviceSteps):
         calls = []
 
         def _before_click():
+            """点击前回调。"""
             self.v150_receipt_start_network_capture("receipt_direct_send")
 
         state = self._open_dialog_only("send", before_click=_before_click)
@@ -251,6 +253,7 @@ class TestV150ReceiptDevice(V150DeviceSteps):
         return check["passed"]
 
     def _expect(self, requirement, actual, expected):
+        """比对期望值与实际值并记录断言结果。"""
         passed = actual == expected
         category = ("observation_gap" if not passed and "提示" in requirement and actual == []
                     else "product_bug")

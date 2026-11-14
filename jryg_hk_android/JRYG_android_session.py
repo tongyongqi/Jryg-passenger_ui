@@ -10,7 +10,10 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 
 
 class AndroidSessionLease:
+    """基于文件锁的安卓 Appium 会话互斥管理器，防止同设备/端口重复建连。"""
+
     def __init__(self, udid, system_port, *, directory=None):
+        """初始化设备UDID、Appium system_port 和锁文件目录。"""
         if isinstance(system_port, bool) or not isinstance(system_port, int) or not 1024 <= system_port <= 65535:
             raise ValueError("Android system_port必须是1024至65535之间的整数")
         self.udid = udid
@@ -19,6 +22,7 @@ class AndroidSessionLease:
         self.handles = []
 
     def acquire(self):
+        """获取设备锁和端口锁，检测 ADB 转发冲突，失败时自动释放已持有的锁。"""
         self.directory.mkdir(parents=True, exist_ok=True)
         device_key = hashlib.sha256(self.udid.encode("utf-8")).hexdigest()[:16]
         try:
@@ -40,6 +44,7 @@ class AndroidSessionLease:
             raise
 
     def check_available(self):
+        """检查 ADB 转发列表和端口占用，存在冲突时抛 RuntimeError。"""
         result = subprocess.run(["adb", "forward", "--list"], capture_output=True,
                                 text=True, timeout=10, check=True)
         for line in result.stdout.splitlines():
@@ -65,6 +70,7 @@ class AndroidSessionLease:
                 "未自动杀进程、切换设备或重复建连") from exc
 
     def release(self):
+        """释放所有文件锁并关闭句柄。"""
         handles, self.handles = self.handles, []
         for handle in reversed(handles):
             try:

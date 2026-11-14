@@ -13,6 +13,7 @@ from jryg_hk_android.JRYG_android_order import AndroidOrderBase
 
 
 class TestMeterAlipayAndroid(AndroidOrderBase):
+    """TestMeterAlipayAndroid类。"""
     __test__ = True
     CAR_TYPE = "meter"
     PAYMENT = "alipay"
