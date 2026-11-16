@@ -118,7 +118,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument("--list", action="store_true", help="只列出可用的打包任务")
     parser.add_argument("--dry-run", action="store_true", help="只显示打包参数，不触发构建")
-    parser.add_argument("--yes", action="store_true", help="跳过触发前确认")
+    parser.add_argument("--yes", action="store_true", help="跳过触发前确认（相当于自动输入 y）")
     return parser.parse_args(argv)
 
 
@@ -441,11 +441,12 @@ def choose_branch(definition: ParameterDefinition) -> str:
                 return resolve_branch(raw, ())
             print("必须由用户选择或输入 Git 分支。")
 
-    # 全名/序号直接选择；输入短名称时若命中多个，列出候选让用户选。
+    # 默认先列出全部分支带编号；同时支持直接输入序号或分支名/短名称。
     while True:
-        raw = input(
-            f"\n共 {len(choices)} 个分支，请输入序号或分支名（可只输入版本号如 5.29）："
-        ).strip()
+        print(f"\n共 {len(choices)} 个分支：")
+        for index, value in enumerate(choices, 1):
+            print(f"  {index}. {value}")
+        raw = input("请输入序号或分支名（可只输入版本号如 5.29）：").strip()
         if not raw:
             print("必须选择 Git 分支。")
             continue
@@ -498,11 +499,6 @@ def build_parameters(
     if env_definition is None:
         raise JenkinsError("该任务缺少环境参数（BUILD_TYPE/ENV）")
 
-    if branch_value:
-        branch = resolve_branch(branch_value, branch_definition.choices)
-    else:
-        branch = choose_branch(branch_definition)
-
     # 优先使用任务实时返回的环境列表；读取不到时使用脚本内置兜底值。
     environment_choices = env_definition.choices or list(BUILD_TYPE_CHOICES)
     if build_type_value:
@@ -512,6 +508,11 @@ def build_parameters(
             raise JenkinsError(f"构建环境不存在：{build_type}；可选值：{allowed}")
     else:
         build_type = choose("请选择打包环境", environment_choices)
+
+    if branch_value:
+        branch = resolve_branch(branch_value, branch_definition.choices)
+    else:
+        branch = choose_branch(branch_definition)
 
     unknown = sorted(set(overrides) - set(definitions))
     if unknown:
@@ -562,8 +563,8 @@ def confirm(job: JenkinsJob, branch: str, build_type: str) -> None:
     print(f"  端/任务：{job.name}")
     print(f"  Git 分支：{branch}")
     print(f"  打包环境：{build_type}")
-    actual = input("请输入 BUILD 确认，其他输入取消：").strip()
-    if actual != "BUILD":
+    actual = input("确认打包？(y/n)：").strip().lower()
+    if actual not in ("y", "yes"):
         raise JenkinsError("用户取消打包")
 
 
