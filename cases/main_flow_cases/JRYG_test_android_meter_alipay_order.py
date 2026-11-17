@@ -1,0 +1,30 @@
+# 编写时间：2026-10-15
+# 本期功能：安卓打錶的士下单选择電子支付，行程结束后选择 Alipay HK 付款
+"""安卓打錶的士下单选择電子支付，行程结束后选择Alipay HK付款。"""
+
+from pathlib import Path
+import sys
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
+from passenger_android_core.main_flow.order import AndroidOrderBase
+
+
+class TestMeterAlipayAndroid(AndroidOrderBase):
+    """TestMeterAlipayAndroid类。"""
+    __test__ = True
+    CAR_TYPE = "meter"
+    PAYMENT = "alipay"
+    FINAL_PAYMENT = ""
+    android_scenario_name = "TestMeterAlipay"
+
+    def test_order_flow(self):
+        """電子支付下单→司机账单→Alipay单次渠道付款→同订单到账核验。"""
+        self._run_order_flow()
+
+
+if __name__ == "__main__":
+    from JRYG_run_main import run_tests
+    sys.exit(run_tests(["--case", str(Path(__file__).resolve()), *sys.argv[1:]]))

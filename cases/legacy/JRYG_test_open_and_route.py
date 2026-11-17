@@ -4,8 +4,8 @@
 
 import pytest
 
-from jryg_hk_android.JRYG_config import SETTINGS
-from jryg_hk_android.JRYG_android_passenger import AndroidPassengerBase
+from passenger_android_core.JRYG_config import SETTINGS
+from passenger_android_core.JRYG_android_passenger import AndroidPassengerBase
 
 
 @pytest.mark.skipif(

@@ -4,9 +4,9 @@
 
 import pytest
 
-from jryg_hk_android.JRYG_config import SETTINGS
-from jryg_hk_android.JRYG_android_coupon import AndroidCouponBase
-from jryg_hk_android import JRYG_android_ui_elements as E
+from passenger_android_core.JRYG_config import SETTINGS
+from passenger_android_core.JRYG_android_coupon import AndroidCouponBase
+from passenger_android_core import JRYG_android_ui_elements as E
 
 
 @pytest.mark.skipif(

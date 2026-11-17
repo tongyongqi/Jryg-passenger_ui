@@ -6,12 +6,12 @@ import time
 
 import pytest
 
-from jryg_hk_android.JRYG_config import SETTINGS
-from jryg_hk_android.JRYG_android_coupon import AndroidCouponBase
-from jryg_hk_android.JRYG_android_order import AndroidDriverUIFlow
-from jryg_hk_android.JRYG_android_ui import resolve_runtime
-from jryg_hk_android import JRYG_android_ui_elements as E
-from jryg_hk_android.JRYG_driver_ui import parser
+from passenger_android_core.JRYG_config import SETTINGS
+from passenger_android_core.JRYG_android_coupon import AndroidCouponBase
+from passenger_android_core.main_flow.order import AndroidDriverUIFlow
+from passenger_android_core.JRYG_android_ui import resolve_runtime
+from passenger_android_core import JRYG_android_ui_elements as E
+from passenger_android_core.JRYG_driver_ui import parser
 
 
 @pytest.mark.skipif(

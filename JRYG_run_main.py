@@ -14,11 +14,11 @@ BASE_DIR = Path(__file__).resolve().parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from jryg_hk_android.JRYG_dir_init import init_all_dirs
-from jryg_hk_android.JRYG_config import REPORT_DIR
-from jryg_hk_android import JRYG_shared
-from jryg_hk_android.JRYG_scenarios import scenario_nodes
-from jryg_hk_android.JRYG_run_main_android import CompletedOrderGate, batch_order, run_batch
+from passenger_android_core.JRYG_dir_init import init_all_dirs
+from passenger_android_core.JRYG_config import REPORT_DIR
+from passenger_android_core import JRYG_shared
+from passenger_android_core.JRYG_scenarios import scenario_nodes
+from passenger_android_core.JRYG_run_main_android import CompletedOrderGate, batch_order, run_batch
 
 
 def run_case(nodeid, extra_args):
