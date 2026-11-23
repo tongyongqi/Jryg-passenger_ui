@@ -406,8 +406,12 @@ class AndroidDriverUIFlow(DriverUIFlow):
             raise RuntimeError("Android司机验证码输入区域不唯一，禁止输入")
         self.wait_for({"offline", "online", "pickup"})
 
+    def _check_action_context(self, root, labels, *, submitting=False):
+        """供绑定目标订单的流程在实际动作边界核验身份与单次提交。"""
+
     def act(self, root, labels):
         """识别唯一真实滑块轨道及滑块后滑动；无轨道只允许明确按钮点击。"""
+        self._check_action_context(root, labels)
         target = find_label(root, labels)
         if target is None:
             raise RuntimeError(f"Android 找不到司机操作：{labels}")
@@ -418,6 +422,7 @@ class AndroidDriverUIFlow(DriverUIFlow):
             from passenger_android_core.JRYG_driver_ui import ACTION_LABELS
             if labels in tuple(ACTION_LABELS[phase] for phase in ("departure", "pickup", "onboard", "destination", "bill")) and target.tag not in ("XCUIElementTypeButton", "android.widget.Button", "android.widget.TextView"):
                 raise RuntimeError("Android 司机滑块未定位，禁止盲点动作文字")
+            self._check_action_context(root, labels, submitting=True)
             self.client.click(*center(target))
             return
         if len(tracks) != 1:
@@ -446,6 +451,7 @@ class AndroidDriverUIFlow(DriverUIFlow):
                       and 0 < rect(node)[2] < width / 3 and center(node)[0] < x + width / 3]
             if len(thumbs) != 1 or width < screen_width * 0.4 or height > screen_height * 0.25:
                 raise RuntimeError("Android 真实滑块/轨道无法明确识别，停止滑动")
+        self._check_action_context(root, labels, submitting=True)
         sx, sy = center(thumbs[0])
         self.client.driver.execute_script("mobile: dragGesture", {
             "startX": sx, "startY": sy, "endX": round(x + width - 6), "endY": sy,
@@ -545,49 +551,24 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
         return matched
 
     def _cancel_mismatched_driver_order(self, tag, attempt, maximum):
-        """乘客端取消非目标司机订单；必须确认回首页后才允许再次下单。"""
-        identity = getattr(self, "assigned_driver_identity", {})
-        LOG.warning(
-            "【%s】第%s/%s次订单由非目标司机接单，乘客页车牌=%s；正在通过乘客UI取消",
-            tag, attempt, maximum, identity.get("car_number", "未知"),
-        )
-        self._android_screenshot(
-            f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_wrong_driver_{attempt}.png")
-        self._clear_waiting_order(tag)
-        LOG.info("【%s】非目标司机订单已确认取消并回到乘客首页", tag)
+        """司机不匹配时停止，车牌不构成取消订单的归属凭据。"""
+        raise RuntimeError("非目标司机接单，缺少订单归属及取消授权，禁止自动取消后重下单")
 
     def _android_handle_unfinished_order_popup(self, tag):
-        """处理未完成订单弹窗。"""
-        if not self._android_click_dialog_button(["去完成", "去處理", "去处理"], wait_after=2):
-            raise RuntimeError("Android 未定位遗留订单入口，停止，不假装已清理")
-        self._clear_waiting_order(tag)
+        """保留遗留订单现场，不自动取消、付款或推进状态。"""
+        raise RuntimeError("存在未完成订单，未确认属于本次运行，禁止自动处理")
 
     def _clear_waiting_order(self, tag):
-        """清理等待中的订单状态。"""
-        def state():
-            """获取当前状态。"""
+        """仅检查干净首页；未知归属的订单不得由前置步骤清理。"""
+        def ready():
             self._assert_passenger_foreground()
             texts = self._android_get_all_texts(self.client)
-            if any(keyword in text for text in texts for keyword in ("確認支付", "费用明细", "費用明細", "行程結束")):
-                raise RuntimeError("遗留订单需要付款，缺少本次同单账单凭据，禁止自动付款")
-            if any(keyword in text for text in texts for keyword in ("取消訂單", "取消订单")):
-                return "waiting"
-            if self.client(resourceId="com.sunlightmobility.client:id/tv_start_address").exists:
-                return "home"
-            return None
-        if self._wait(state, "Android 遗留订单页面未确认") == "home":
-            return
-        self._click_text(["取消訂單", "取消订单"], exact=True)
-        self._android_click_dialog_button(self.CANCEL_CONFIRM_KEYWORDS, wait_after=1)
-
-        def cleared():
-            """判断是否已清理。"""
-            self._assert_passenger_foreground()
-            texts = self._android_get_all_texts(self.client)
-            if any("未完成" in text or "取消訂單" in text or "取消订单" in text for text in texts):
-                return False
+            blocked = ("確認支付", "确认支付", "费用明细", "費用明細", "行程結束",
+                       "取消訂單", "取消订单", "未完成")
+            if any(keyword in text for text in texts for keyword in blocked):
+                raise RuntimeError("存在进行中或待付款订单，未确认本轮归属，禁止自动取消或付款")
             return self.client(resourceId="com.sunlightmobility.client:id/tv_start_address").exists
-        self._wait(cleared, "Android 遗留订单未确认取消并回首页，停止后续下单")
+        self._wait(ready, "未确认干净首页，停止后续下单，不自动清理订单")
 
     def _ui_cleanup_ongoing_order(self, tag):
         """UI清理进行中订单。"""

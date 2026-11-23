@@ -27,12 +27,22 @@ def pytest_runtest_makereport(item, call):
     if not report.failed:
         return
     clients = getattr(instance, "clients", {}) if instance is not None else {}
+    if not clients:
+        return
     directory = Path(__file__).resolve().parents[1] / "report/diagnostics"
-    directory.mkdir(parents=True, exist_ok=True)
+    try:
+        directory.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        report.sections.append(("证据目录创建失败", type(exc).__name__))
+        return
     for index, client in enumerate(clients.values()):
-        prefix = directory / f"{time.time_ns()}_{item.name}_{index}"
+        prefix = directory / f"{time.time_ns()}_{index}"
         try:
             prefix.with_suffix(".xml").write_text(client.driver.page_source, encoding="utf-8")
+        except Exception as exc:
+            report.sections.append((f"设备{index} XML取证失败", type(exc).__name__))
+        try:
             client.screenshot(str(prefix.with_suffix(".png")))
-        except Exception:
-            pass
+        except Exception as exc:
+            report.sections.append((f"设备{index} 截图取证失败", type(exc).__name__))
+        report.sections.append((f"设备{index} 证据前缀", str(prefix)))

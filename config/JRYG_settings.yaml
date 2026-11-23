@@ -77,3 +77,103 @@ database:
   order_info_table: "order_info"
   # 预约订单库（type6预约前付费单，对比验证不走此库）
   booking_db: "jryg_booking_order_dev"
+
+# ==================== V1.6.0 网约车与预约业务配置 ====================
+v160:
+  # 版本准入：总开关 + 灰度（以 agent_id 为 scope、客户端版本为 condition）
+  grayscale:
+    enabled: true               # 新功能运行开关（全局总开关）
+    scope_agent_ids: []         # 灰度渠道范围，空列表表示不限渠道
+    min_client_version: "1.6.0" # 灰度客户端版本下限
+  # 预约相关开关
+  booking:
+    # 车型选择页出发时间入口与首页预约入口共用同一开关
+    departure_entry_enabled: true
+    # 取消次数统计开关（capp.booking_cancel_limit_enabled）
+    cancel_limit_enabled: true
+    daily_cancel_limit: 5       # 当日预约取消次数上限
+  # 预约时间范围（分钟）
+  time_range:
+    min_minutes: 30
+    max_minutes: 4320           # 72 小时
+
+# 车型配置（对应服务端 config.car_type）
+# types 的顺序即车型排序；code 必须非空且唯一；
+# 组合键 id+biz_mode+charge_mode 也必须唯一（出租车与网约车可复用同一 id）
+car_type:
+  types:
+    - id: 1
+      code: chartered_taxi
+      biz_mode: 1               # 1=出租车
+      charge_mode: 3            # 3=平台计费一口价
+      icon: chartered_taxi_icon
+    - id: 1
+      code: taxi
+      biz_mode: 1               # 1=出租车
+      charge_mode: 4            # 4=线下打表
+      icon: taxi_icon
+      multi_pay_mode: true      # 仅 taxi 显式配置为 true
+    - id: 1
+      code: economy
+      biz_mode: 2               # 2=网约车
+      charge_mode: 3
+      icon: economy_icon
+    - id: 9
+      code: preferred
+      biz_mode: 2
+      charge_mode: 3
+      icon: preferred_icon
+    - id: 2
+      code: comfort
+      biz_mode: 2
+      charge_mode: 3
+      icon: comfort_icon
+    - id: 3
+      code: business
+      biz_mode: 2
+      charge_mode: 3
+      icon: business_icon
+    - id: 4
+      code: luxury
+      biz_mode: 2
+      charge_mode: 3
+      icon: luxury_icon
+  # 组合键 -> 车型编码映射（与 types 同级配置）
+  # 未命中映射时使用相同组合键直接读取车型
+  mapping:
+    - id: 1
+      biz_mode: 1
+      charge_mode: 3
+      code: chartered_taxi
+    - id: 1
+      biz_mode: 1
+      charge_mode: 4
+      code: taxi
+    - id: 1
+      biz_mode: 2
+      charge_mode: 3
+      code: economy
+    - id: 9
+      biz_mode: 2
+      charge_mode: 3
+      code: preferred
+    - id: 2
+      biz_mode: 2
+      charge_mode: 3
+      code: comfort
+    - id: 3
+      biz_mode: 2
+      charge_mode: 3
+      code: business
+    - id: 4
+      biz_mode: 2
+      charge_mode: 3
+      code: luxury
+  # 车型图片资源
+  images:
+    economy: economy_car.png
+    preferred: preferred_car.png
+    comfort: comfort_car.png
+    business: business_car.png
+    luxury: luxury_car.png
+

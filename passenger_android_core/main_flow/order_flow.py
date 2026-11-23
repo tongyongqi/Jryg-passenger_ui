@@ -284,6 +284,22 @@ class TestOrderBase(AndroidBase):
         """乘客确认支付不以司机接口会话为前置，司机接单在下单成功之后。"""
         return super()._android_click_confirm_pay(tag)
 
+    def _submit_call_once(self, tag):
+        """打表与包车共享单次提交标记；点击异常也不清除标记。"""
+        if getattr(self, "_call_submission_started", False):
+            raise RuntimeError("本场景已发起确认呼叫，必须先只读核对订单，禁止重复提交")
+        self._call_submission_started = True
+        self._android_click_confirm_call(tag)
+
+    def _submit_prepayment_once(self, tag):
+        """预付确认与呼叫分别记录，提交结果未知时不重复确认。"""
+        if not getattr(self, "_call_submission_started", False):
+            raise RuntimeError("尚未发起本场景呼叫，禁止确认预付")
+        if getattr(self, "_prepayment_submission_started", False):
+            raise RuntimeError("本场景已发起确认预付，禁止重复提交")
+        self._prepayment_submission_started = True
+        self._android_click_confirm_pay(tag)
+
     def _charter_click_call_and_select_payment(self, tag):
         """包車價的士下单流程：点击确认呼叫 → 预付页面选支付方式 → 确认支付并呼叫。
 
@@ -296,36 +312,15 @@ class TestOrderBase(AndroidBase):
         :param tag: 日志标签。
         :return: True 表示下单成功，False 表示下单失败。
         """
-        for attempt in range(E.ESTIMATE_CALL_MAX_ATTEMPTS):
-            logger.info("【%s 步骤 7】确认呼叫（%s/%s），等待预付页面", tag, attempt + 1, E.ESTIMATE_CALL_MAX_ATTEMPTS)
-            if attempt == 0:
-                self._android_click_confirm_call(tag)
-            else:
-                self._android_click_refreshed_estimate_call(tag, self.CAR_TYPE)
-            time.sleep(3)
-            page_texts = self._android_get_all_texts(self.client)
-            if any(kw in text for text in page_texts for kw in E.CASHIER_PAGE_KEYWORDS):
-                break
-            if any(kw in text for text in page_texts for kw in E.ESTIMATE_UPDATED_KEYWORDS):
-                result = "estimate_updated"
-            else:
-                result = self._android_wait_order_result(tag, max_checks=15)
-            if result == "success":
-                return True
-            if result == "cashier":
-                break
-            if result != "estimate_updated":
-                logger.warning("【%s】未进入预付页面，下单结果：%s；不盲目重试呼叫", tag, result)
-                return False
-            if attempt + 1 >= E.ESTIMATE_CALL_MAX_ATTEMPTS:
-                self._android_screenshot("JRYG_android_estimate_retry_exhausted.png")
-                logger.error("【%s】预估重复更新，呼叫已达3次上限，未重复支付", tag)
-                return False
-            state = self._android_reselect_refreshed_estimate(tag, self.CAR_TYPE)
-            if state == "success":
-                return True
-            if state == "cashier":
-                break
+        if self.PAYMENT not in ("bankcard", "alipay"):
+            raise ValueError("包车预付仅支持已实现的 bankcard/alipay 渠道")
+        self._submit_call_once(tag)
+        if self._android_is_login_page():
+            raise RuntimeError("包车呼叫后进入登录页，结果未知，禁止重新呼叫或预付")
+        result = self._android_wait_order_result(tag, max_checks=15)
+        if result != "cashier":
+            raise RuntimeError(
+                "包车未确认本次预付页面（%s），禁止重新呼叫或进入支付" % result)
 
         # 步骤 8：在预付页面选择支付方式
         pay_label = PAYMENT_LABELS.get(self.PAYMENT, self.PAYMENT)
@@ -335,7 +330,7 @@ class TestOrderBase(AndroidBase):
 
         # 步骤 9：点击"確認支付並呼叫"
         logger.info(f"【{tag} 步骤 9】点击确认支付并呼叫...")
-        self._android_click_confirm_pay(tag)
+        self._submit_prepayment_once(tag)
 
         # 已确认的预付先完成渠道支付，再等待下单；不得重复确认或提前回首页。
         if self.PAYMENT == "bankcard":
@@ -362,138 +357,15 @@ class TestOrderBase(AndroidBase):
         return False
 
     def _click_call_and_check_login_then_retry(self, tag):
-        """点击确认呼叫后检测登录态，未登录则登录后重新下单。
-
-        - 检测"距离太近"提示 → 自动切换备选终点重试
-        - 检测登录态失效 → UI 登录后重试
-        - 检测"未完成訂單"弹窗 → 处理遗留订单后重试
-
-        :param tag: 日志标签。
-        :return: True 表示下单成功，False 表示下单失败。
-        """
-        max_retry = E.ESTIMATE_CALL_MAX_ATTEMPTS
-        # 备选终点列表（距离太近时依次切换）
-        fallback_ends = list(E.FALLBACK_END_ADDRESSES)
-        fallback_idx = 0  # 当前使用的备选终点索引
-        current_end = E.DEFAULT_END_ADDRESS
-        refreshed_estimate = False
-
-        for attempt in range(max_retry):
-            attempt_label = "首次" if attempt == 0 else f"重试({attempt})"
-            logger.info(f"【{tag} 步骤 8】{attempt_label}点击确认呼叫（终点={current_end}）...")
-            if refreshed_estimate:
-                self._android_click_refreshed_estimate_call(tag, self.CAR_TYPE)
-                refreshed_estimate = False
-            else:
-                self._android_click_confirm_call(tag)
-            time.sleep(8)
-
-            if self._android_is_login_page():
-                logger.warning(
-                    f"【{tag}】{attempt_label}点击确认呼叫后跳到登录页，"
-                    f"App 登录态已失效，执行 UI 登录...")
-                self._android_screenshot(
-                    f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_login_page_{attempt}.png")
-                login_ok = self._android_ui_login(tag=tag)
-
-                if not login_ok:
-                    logger.error(f"【{tag}】UI 登录失败")
-                    if attempt >= max_retry - 1:
-                        return False
-                    continue
-
-                if attempt < max_retry - 1:
-                    logger.info(f"【{tag}】登录成功，从当前页面重新走下单流程...")
-                    self._android_re_setup_from_current_page(
-                        tag, E.DEFAULT_START_ADDRESS, current_end)
-                    continue
-                else:
-                    logger.error(f"【{tag}】已达最大重试次数，仍跳到登录页")
-                    return False
-            else:
-                logger.info(f"【{tag}】点击确认呼叫后未跳到登录页，等待下单结果...")
-                result = self._android_wait_order_result(tag, max_checks=15)
-
-                if result == "success":
-                    return True
-                if result == "estimate_updated":
-                    if attempt + 1 >= max_retry:
-                        self._android_screenshot("JRYG_android_estimate_retry_exhausted.png")
-                        logger.error("【%s】预估重复更新，已达呼叫上限，不切换终点或重复支付", tag)
-                        return False
-                    state = self._android_reselect_refreshed_estimate(tag, self.CAR_TYPE)
-                    if state == "success":
-                        return True
-                    if state != "ready":
-                        return False
-                    self._android_select_payment(tag, payment=self.PAYMENT)
-                    refreshed_estimate = True
-                    continue
-                if result == "cashier":
-                    logger.error("【%s】打表下单意外进入收银台，停止，不重新呼叫", tag)
-                    return False
-
-                # 遗留未完成订单 → 处理后重新下单
-                if result == "ongoing_order":
-                    logger.warning(f"【{tag}】检测到'未完成訂單'弹窗，处理遗留订单...")
-                    self._android_handle_unfinished_order_popup(tag)
-                    if attempt < max_retry - 1:
-                        self._android_re_setup_from_current_page(
-                            tag, E.DEFAULT_START_ADDRESS, current_end)
-                        continue
-
-                # 距离太近 → 切换备选终点重试
-                if result == "too_close":
-                    if fallback_idx < len(fallback_ends):
-                        current_end = fallback_ends[fallback_idx]
-                        fallback_idx += 1
-                        logger.warning(
-                            f"【{tag}】距离太近，切换终点为: {current_end}")
-                        self._android_re_setup_from_current_page(
-                            tag, E.DEFAULT_START_ADDRESS, current_end)
-                        continue
-                    else:
-                        logger.error(
-                            f"【{tag}】所有备选终点均距离太近，无法下单")
-                        return False
-
-                # 检测"未完成訂單"弹窗
-                page_texts = self._android_get_all_texts(self.client)
-                if any(("未完成" in t and ("訂單" in t or "订单" in t))
-                       for t in page_texts):
-                    logger.warning(f"【{tag}】检测到'未完成訂單'弹窗，处理遗留订单...")
-                    self._android_handle_unfinished_order_popup(tag)
-                    if attempt < max_retry - 1:
-                        self._android_re_setup_from_current_page(
-                            tag, E.DEFAULT_START_ADDRESS, current_end)
-                        continue
-
-                if self._android_is_login_page() and attempt < max_retry - 1:
-                    logger.warning(
-                        f"【{tag}】下单失败且页面在登录页，执行 UI 登录后重试...")
-                    self._android_ui_login(tag=tag)
-                    time.sleep(3)
-                    self._android_re_setup_from_current_page(
-                        tag, E.DEFAULT_START_ADDRESS, current_end)
-                    continue
-
-                # 超时无结果 → 尝试切换终点重试一次
-                if result == "timeout" and attempt < max_retry - 1:
-                    if fallback_idx < len(fallback_ends):
-                        current_end = fallback_ends[fallback_idx]
-                        fallback_idx += 1
-                        logger.warning(
-                            f"【{tag}】下单超时无结果，切换终点为: {current_end} 重试")
-                        self._android_re_setup_from_current_page(
-                            tag, E.DEFAULT_START_ADDRESS, current_end)
-                        continue
-
-                page_texts = self._android_get_all_texts(self.client)
-                logger.warning(f"【{tag}】下单失败({result})，页面文本: {page_texts[:300]}")
-                return False
-
-        logger.error(f"【{tag}】达到最大重试次数 {max_retry}，下单失败")
-        return False
+        """保留调用入口；确认呼叫只提交一次，未核实结果不得重新下单。"""
+        self._submit_call_once(tag)
+        if self._android_is_login_page():
+            raise RuntimeError("呼叫后进入登录页，订单创建结果未核实，禁止登录后自动重放")
+        result = self._android_wait_order_result(tag, max_checks=15)
+        if result == "success":
+            return True
+        raise RuntimeError(
+            "确认呼叫未获得成功结果（%s），停止并保留现场；禁止换终点、取消或重新呼叫" % result)
 
     def _android_handle_unfinished_order_popup(self, tag):
         """处理"您還有未完成的訂單"提示弹窗。
@@ -674,18 +546,16 @@ class TestOrderBase(AndroidBase):
     # ==================== 司机端 UI 辅助方法 ====================
 
     def _driver_ui_go_online(self, tag):
-        """仅未完成订单续跑；启动前已完成订单退回听单后新下单，不能冒充本次结果。"""
+        """只准备新订单听单状态；启动前的未完成订单不得自动续跑。"""
         self.driver_runtime = self._resolve_driver_runtime()
         _go_online_args = ["--wda-url", self.driver_runtime.wda_url, "--stop-after", "online",
                            "--mobile", "11000005", "--code", "123456"]
         args = self._driver_parser().parse_args(_go_online_args)
         self.driver_ui = self._create_driver_flow(args)
-        self.resuming_order = self.driver_ui.ensure_online(resume_existing=True)
+        self.resuming_order = self.driver_ui.ensure_online(resume_existing=False)
         if self.resuming_order:
-            logger.info("【%s】检测到已有订单，当前阶段：%s；跳过乘客清理和重复下单", tag,
-                        PHASE_NAMES[self.driver_ui.last_phase])
-        else:
-            logger.info(f"【{tag}】司机 UI 已确认听单，继续乘客下单")
+            raise RuntimeError("司机存在非本轮订单，禁止自动续跑")
+        logger.info("【%s】司机 UI 已确认听单，继续乘客下单", tag)
 
     def _driver_ui_grab_and_flow(self, tag):
         """乘客下单后切回司机，UI 接单、滑动状态并提交测试账单，不请求业务 API。"""

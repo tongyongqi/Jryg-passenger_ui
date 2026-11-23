@@ -1,15 +1,16 @@
-"""安卓目标订单筛选；非目标单结束行程后继续听单，不替其他乘客付款。"""
+"""安卓目标订单流程；只允许已绑定同单的动作，非目标或身份缺失立即停止。"""
 
 from copy import copy
+from decimal import Decimal
 import re
 import subprocess
 import time
 import xml.etree.ElementTree as ET
 
-from passenger_android_core.main_flow.order import AndroidDriverUIFlow, AndroidOrderBase
+from passenger_android_core.main_flow.order import AndroidDriverUIFlow, AndroidOrderBase, read_android_fixed_fare
 from passenger_android_core.JRYG_driver_ui import (
     ACTION_LABELS, DriverUIFlow, RESUMABLE_PHASES,
-    amount, find_label, read_order_no, visible_nodes,
+    amount, find_label, node_text, read_order_no, visible_nodes,
 )
 from passenger_android_core.JRYG_logger import logger
 
@@ -60,6 +61,136 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
         self.non_target_results = []
         self.handling_non_target = False
 
+    def _read_bill_action_snapshot(self, root):
+        """回读实际提交页面，未知支付标识或未核实金额直接阻断。"""
+        if self.order_no != self.target_order_no or not self.target_order_no:
+            raise RuntimeError("账单必须绑定当前目标订单")
+        read_order_no(root, expected=self.target_order_no, excluded=self.completed_before_run)
+        cash = frozenset(node_text(node) for node in visible_nodes(root)) & {
+            "現金", "現金支付", "现金", "现金支付"}
+        if self.args.payment == "cash":
+            if not cash or self.args.cash_collected is not True:
+                raise RuntimeError("现金支付标识或实际收款确认缺失，禁止提交账单")
+        elif self.args.payment == "online":
+            if cash:
+                raise RuntimeError("页面显示现金支付，与绑定支付方式不符")
+            raise RuntimeError("线上支付账单正向标识尚未核实，禁止用未显示现金代替支付方式确认")
+        else:
+            raise RuntimeError("账单支付方式未知，禁止提交")
+        if not isinstance(self.bill_total, Decimal) or not self.bill_total.is_finite():
+            raise RuntimeError("缺少已核对的账单合计，禁止提交")
+        if self.args.car_type == "charter":
+            fare = read_android_fixed_fare(root)
+            surcharge = Decimal("0")
+            if self.args.fare is not None and fare != Decimal(amount(self.args.fare)):
+                raise RuntimeError("包车车费与显式预期不一致")
+            if self.args.surcharge is not None and Decimal(amount(self.args.surcharge)) != 0:
+                raise RuntimeError("包车固定价不允许非零附加费")
+        elif self.args.car_type == "meter":
+            if self.args.fare is None:
+                raise RuntimeError("打表车费缺少显式预期")
+            fare = Decimal(amount(self.field(root, "請輸入車費").get("value", "")))
+            surcharge = Decimal(amount(self.field(root, "請輸入附加費").get("value", "")))
+            expected_surcharge = Decimal("0") if self.args.surcharge is None else Decimal(amount(self.args.surcharge))
+            if fare != Decimal(amount(self.args.fare)) or surcharge != expected_surcharge:
+                raise RuntimeError("打表车费或附加费在提交前不符合预期")
+        else:
+            raise RuntimeError("未知计价类型，禁止提交账单")
+        if fare + surcharge != self.bill_total:
+            raise RuntimeError("账单金额在提交前发生变化，禁止收款")
+        return fare, surcharge, self.args.payment, cash
+
+    @staticmethod
+    def _check_navigation_target(root, labels):
+        """导航同样要求唯一可用控件，不因无业务副作用而点击首个候选。"""
+        targets = [node for node in visible_nodes(root)
+                   if node_text(node) in labels and node.get("enabled") != "false"]
+        if len(targets) != 1:
+            raise RuntimeError("导航控件缺失、不可用或不唯一，停止点击")
+
+    def _read_target_identity(self, root):
+        """详情读号沿用既有解析，只接受本轮目标号，不把任意详情号当凭据。"""
+        current = unique_order(root)
+        if current != self.target_order_no or current in self.completed_before_run:
+            raise RuntimeError("详情订单不是本轮目标订单，禁止后续操作")
+        return current
+
+    def _check_action_context(self, root, labels, *, submitting=False):
+        """校验实际动作所用页面；接单及账单结果未知时不重放。"""
+        if self.handling_non_target:
+            raise RuntimeError("正在处理非目标订单，禁止操作")
+        if labels == ACTION_LABELS["offline"] and self.target_order_no is None:
+            if self.order_no is not None or self.detect_phase(root) != "offline":
+                raise RuntimeError("出车页面或订单绑定状态已变化，停止操作")
+            return
+        startup_return = ("返回首頁", "返回", "ca_icon_back_black", "ca icon back black")
+        if labels == startup_return and self.target_order_no is None:
+            if self.order_no is not None or self.detect_phase(root) != "complete":
+                raise RuntimeError("仅允许退出启动前已支付完成订单，禁止处理未付或取消状态")
+            previous = read_order_no(root, expected=getattr(self, "_paid_exit_order_no", None))
+            if previous not in self.completed_before_run:
+                raise RuntimeError("返回前订单未登记为启动前已完成订单")
+            self._check_navigation_target(root, labels)
+            return
+        if not self.target_order_no:
+            raise RuntimeError("未绑定目标订单，禁止操作")
+        if self.order_no is not None and self.order_no != self.target_order_no:
+            raise RuntimeError("当前绑定订单与目标订单不一致，禁止操作")
+        if labels == ("我的行程",):
+            if (self.order_no != self.target_order_no
+                    or self.awaiting_new_order
+                    or self.order_no in self.completed_before_run):
+                raise RuntimeError("未绑定本轮已接单订单，禁止进入历史核验")
+            if self.detect_phase(root) not in ("online", "offer", "offline"):
+                raise RuntimeError("必须在司机首页进入我的行程，页面状态已变化")
+            self._check_navigation_target(root, labels)
+            return
+        if labels == ("展開", "展开"):
+            if self.detect_phase(root) not in RESUMABLE_PHASES:
+                raise RuntimeError("展开订单详情前状态已变化")
+            if order_numbers(root):
+                self._read_target_identity(root)
+            self._check_navigation_target(root, labels)
+            return
+        read_order_no(root, expected=self.target_order_no, excluded=self.completed_before_run)
+        if labels == ("返回首頁",):
+            if (self.order_no != self.target_order_no or self.awaiting_new_order
+                    or self.detect_phase(root) not in ("unpaid", "complete")):
+                raise RuntimeError("仅允许从本轮同单完成页返回首页")
+            self._check_navigation_target(root, labels)
+            return
+        action = ("accept" if labels == self.accept_labels else
+                  "bill" if labels == ACTION_LABELS["bill"] else None)
+        if action is not None:
+            submitted = getattr(self, "_target_submissions", set())
+            key = (self.target_order_no, action)
+            if key in submitted:
+                raise RuntimeError("目标订单接单或账单已发起，禁止重复提交")
+            baseline = getattr(self, "_bill_action_snapshot", None)
+            if action == "bill" and (baseline is not None or submitting):
+                if baseline is None or self._read_bill_action_snapshot(root) != baseline:
+                    raise RuntimeError("账单金额或支付标识在页面刷新后变化，禁止提交")
+            if submitting:
+                self._target_submissions = submitted | {key}
+
+    def act(self, root, labels):
+        """每次重读及最终提交都核对同单；账单还需核对金额与支付标识。"""
+        self._check_action_context(root, labels)
+        if labels == ACTION_LABELS["bill"]:
+            self._bill_action_snapshot = self._read_bill_action_snapshot(root)
+        startup_exit = (labels == ("返回首頁", "返回", "ca_icon_back_black", "ca icon back black")
+                        and self.target_order_no is None)
+        if startup_exit:
+            self._paid_exit_order_no = read_order_no(root)
+        try:
+            current = self.root()
+            return super().act(current, labels)
+        finally:
+            if labels == ACTION_LABELS["bill"]:
+                self._bill_action_snapshot = None
+            if startup_exit:
+                self._paid_exit_order_no = None
+
     def read_active_order(self):
         """读取司机当前活跃订单号，必要时展开详情页获取。"""
         root = self.root()
@@ -69,7 +200,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
             raise RuntimeError("安卓司机不在当前订单，禁止读取任意历史订单号")
         values = order_numbers(root)
         if values:
-            return unique_order(root)
+            return self._read_target_identity(root)
         expand = find_label(root, ("展開", "展开"))
         if expand is None:
             raise RuntimeError("安卓当前行程缺少订单号及展开入口，未推进订单")
@@ -80,7 +211,7 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
                 detail = self.root()
                 values = order_numbers(detail)
                 if values:
-                    return unique_order(detail)
+                    return self._read_target_identity(detail)
                 time.sleep(self.args.interval)
             raise TimeoutError("安卓展开详情未显示唯一订单号，未推进行程")
         finally:
@@ -106,13 +237,18 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
             raise TimeoutError("安卓目标订单总超时，停止后续操作")
 
     def accept_and_identify(self, deadline):
-        """司机接单并识别当前订单号，校验是否为已处理的旧订单。"""
+        """先从页面确认目标订单号，再允许接单；无法识别时不操作。"""
+        if not self.target_order_no:
+            raise RuntimeError("未绑定乘客目标订单，禁止接单")
         self.deadline = deadline
         self._activate_driver_app()
-        root, phase = self.wait_for(set(RESUMABLE_PHASES) | {"online", "offline", "offer"})
-        if phase not in RESUMABLE_PHASES:
+        root, phase = self.wait_for(set(RESUMABLE_PHASES) | {"offer"})
+        read_order_no(root, expected=self.target_order_no, excluded=self.completed_before_run)
+        if phase == "offer":
             self._run_remaining(deadline, stop_after="accepted")
         current = self.read_active_order()
+        if current != self.target_order_no:
+            raise RuntimeError("当前订单不是乘客目标订单，禁止继续履约")
         if current in self.completed_before_run:
             raise RuntimeError("安卓司机接到已经处理的旧订单，停止重复流转")
         if self.order_no is not None and self.order_no != current:
@@ -123,49 +259,17 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
         return current
 
     def submit_bill(self, root):
-        """提交账单，非目标订单时按页面自动推断车型和支付方式。"""
-        if self.handling_non_target:
-            fields = [n for n in visible_nodes(root) if n.tag == "XCUIElementTypeTextField"
-                      and n.get("placeholderValue") == "請輸入車費"]
-            self.args.car_type = "meter" if fields else "charter"
-            if not fields:
-                self.args.fare = self.args.surcharge = None
-            texts = {n.get("label", "") for n in visible_nodes(root)}
-            self.args.payment = "cash" if texts.intersection({"現金", "現金支付", "现金", "现金支付"}) else "online"
-        super().submit_bill(root)
+        """仅为已绑定的目标订单提交账单。"""
+        if self.handling_non_target or not self.target_order_no or self.order_no != self.target_order_no:
+            raise RuntimeError("非目标或未绑定订单，禁止提交账单")
+        self._check_action_context(root, ACTION_LABELS["bill"])
+        current = self.root()
+        self._check_action_context(current, ACTION_LABELS["bill"])
+        super().submit_bill(current)
 
     def finish_non_target(self, deadline):
-        """完成非目标订单行程，结束后记录结果。"""
-        current = self.order_no or self.read_active_order()
-        if current == self.target_order_no:
-            raise RuntimeError("目标订单不能按非目标订单处理")
-        settings = self.settings.get("driver") or {}
-        fare = amount(str(settings.get("non_target_fare", settings.get("fare", "5"))))
-        surcharge = amount(str(settings.get("non_target_surcharge", "0")))
-        tail = settings.get("non_target_passenger_tail") or None
-        if tail is not None and (not isinstance(tail, str) or re.fullmatch(r"\d{4}", tail) is None):
-            raise ValueError("安卓非目标乘客尾号必须单独配置四位数字字符串")
-        phase = self.detect_phase(self.root())
-        original = self.args
-        self.args = copy(original)
-        self.args.fare, self.args.surcharge, self.args.tail = fare, surcharge, tail
-        self.args.cash_collected = settings.get("non_target_cash_collected") is True
-        self.order_no = current
-        self.awaiting_new_order = False
-        self.resume_phase = phase
-        self.handling_non_target = True
-        try:
-            self._run_remaining(deadline)
-            root = self.root()
-            phase = self.detect_phase(root)
-            if phase not in ("unpaid", "complete"):
-                raise RuntimeError("非目标订单行程未结束，禁止继续接单")
-            read_order_no(root, expected=current)
-            self.non_target_results.append({"order_no": current, "phase": phase})
-            logger.info("安卓非目标订单 %s 行程已结束，支付状态=%s；不替该乘客支付", current, phase)
-        finally:
-            self.args = original
-            self.handling_non_target = False
+        """非目标订单不属于本轮处理范围。"""
+        raise RuntimeError("禁止推进非目标订单、提交账单或继续听单")
 
     def return_to_listening(self, deadline):
         """非目标订单结束后返回听单状态。"""
@@ -197,32 +301,17 @@ class AndroidTargetDriverUIFlow(AndroidDriverUIFlow):
         self.last_phase = phase
 
     def run(self):
-        """执行完整目标订单流程，循环接单直到命中目标单或达到上限。"""
-        if self.target_order_no is None:
-            return super().run()
+        """仅执行已绑定目标订单；没有目标或出现错单立即停止。"""
         if (not isinstance(self.target_order_no, str) or not re.fullmatch(r"[A-Z0-9]{12}", self.target_order_no)
                 or not any(c.isdigit() for c in self.target_order_no) or not any(c.isalpha() for c in self.target_order_no)):
             raise ValueError("安卓目标订单号无效，未接单")
         deadline = time.monotonic() + self.args.timeout
-        maximum = (self.settings.get("order_validation") or {}).get("max_attempts", 5)
-        if not isinstance(maximum, int) or isinstance(maximum, bool) or maximum < 0:
-            raise ValueError("安卓非目标订单上限必须为非负整数")
-        handled = 0
-        while time.monotonic() < deadline:
-            current = self.accept_and_identify(deadline)
-            if current == self.target_order_no:
-                logger.info("安卓司机接单命中乘客目标订单：%s", current)
-                self._run_remaining(deadline)
-                if self.order_no != self.target_order_no:
-                    raise RuntimeError("安卓目标订单流转结果不一致")
-                return
-            if handled >= maximum:
-                raise RuntimeError("安卓非目标订单达到处理上限，未接到目标单")
-            logger.info("安卓司机接到非目标订单 %s，目标=%s；结束后继续听单", current, self.target_order_no)
-            self.finish_non_target(deadline)
-            self.return_to_listening(deadline)
-            handled += 1
-        raise TimeoutError("安卓等待目标订单总超时，未重新下单或取消目标单")
+        current = self.accept_and_identify(deadline)
+        if current != self.target_order_no:
+            raise RuntimeError("非目标订单，禁止推进或继续接其他订单")
+        self._run_remaining(deadline)
+        if self.order_no != self.target_order_no:
+            raise RuntimeError("安卓目标订单流转结果不一致")
 
 
 class AndroidTargetOrderBase(AndroidOrderBase):
@@ -234,18 +323,12 @@ class AndroidTargetOrderBase(AndroidOrderBase):
         return AndroidTargetDriverUIFlow(args, client=self.clients[self.driver_runtime.udid], settings=self.order_settings)
 
     def _driver_ui_go_online(self, tag):
-        """司机端上线，若有遗留订单则先完成非目标行程。"""
+        """准备新订单；司机遗留行程由公共前置检查拒绝。"""
         self.target_order_no = None
         self.legacy_order_no = None
         super()._driver_ui_go_online(tag)
         if self.resuming_order:
-            deadline = time.monotonic() + (self.order_settings.get("order_validation") or {}).get("total_timeout", 900)
-            self.driver_ui.deadline = deadline
-            self.driver_ui.finish_non_target(deadline)
-            self.legacy_order_no = self.driver_ui.order_no
-            self.resuming_order = False
-            logger.info("安卓司机遗留订单 %s 已结束；保留同单绑定，先由乘客完成付款和到账核验，再继续新下单",
-                        self.legacy_order_no)
+            raise RuntimeError("司机遗留订单未获本轮授权，禁止接续")
 
     @staticmethod
     def _passenger_page_texts(root):
@@ -253,70 +336,12 @@ class AndroidTargetOrderBase(AndroidOrderBase):
         return {node.get("text") or node.get("content-desc") or "" for node in root.iter()}
 
     def _complete_legacy_passenger_order(self, tag):
-        """完成乘客端遗留订单，支付或确认完成后等待司机端同单核验。"""
-        order_no = self._read_passenger_target()
-        if self.legacy_order_no and self.legacy_order_no != order_no:
-            raise RuntimeError("乘客未完成订单与司机遗留订单不是同一订单，禁止付款或继续新下单")
-        if self.driver_ui.order_no:
-            if self.driver_ui.order_no != order_no:
-                raise RuntimeError("司机当前绑定订单与乘客未完成订单不一致，禁止付款")
-            root = self.driver_ui.root()
-            phase = self.driver_ui.detect_phase(root)
-            if phase not in ("unpaid", "complete"):
-                raise RuntimeError("司机遗留订单尚未结束，禁止乘客付款")
-            read_order_no(root, expected=order_no)
-        else:
-            phase = self.driver_ui.bind_existing_history_order(order_no)
-        self.legacy_order_no = order_no
-        if phase == "unpaid":
-            self.client.app_activate(self.order_settings["packages"]["passenger_hk"])
-            if self._read_passenger_target() != order_no:
-                raise RuntimeError("乘客付款页订单号发生变化，禁止提交遗留订单付款")
-            submitted = getattr(self, "_legacy_payment_submitted", set())
-            if order_no in submitted:
-                raise RuntimeError("遗留订单付款已发起，禁止重复提交")
-            self._android_wait_current_payment(tag)
-            submitted.add(order_no)
-            self._legacy_payment_submitted = submitted
-            self._android_complete_payment(tag)
-        else:
-            self._android_back_to_home(tag)
-        self.driver_ui.wait_completed()
-        completed = self.driver_ui.order_no
-        if completed != order_no or self.driver_ui.last_phase != "complete":
-            raise RuntimeError("遗留订单未完成同单已支付核验，禁止继续新下单")
-        deadline = time.monotonic() + (self.order_settings.get("order_validation") or {}).get("total_timeout", 900)
-        self.driver_ui.return_to_listening(deadline)
-        self.legacy_completed_order_no = completed
-        self.legacy_order_no = None
-        logger.info("安卓遗留订单 %s 已完成且已支付并返回听单；继续后续新订单流程", completed)
+        """遗留订单不属于新场景的自动付款范围。"""
+        raise RuntimeError("遗留订单未确认本轮归属与付款授权，禁止自动支付")
 
     def _ui_cleanup_ongoing_order(self, tag):
-        """未完成弹窗必须去完成；同单支付到账后才允许进入后续下单。"""
-        self._login_activate_app()
-        deadline = time.monotonic() + (self.order_settings.get("order_validation") or {}).get("state_timeout", 30)
-        clicked = False
-        while time.monotonic() < deadline:
-            page, root = self._login_snapshot()
-            texts = self._passenger_page_texts(root)
-            unfinished = any("未完成" in text and ("訂單" in text or "订单" in text) for text in texts)
-            if unfinished:
-                if clicked:
-                    raise RuntimeError("安卓未完成订单‘去完成’单次点击未生效，未重复点击或继续下单")
-                if not self._android_click_dialog_button(["去完成", "去處理", "去处理"], wait_after=1):
-                    raise RuntimeError("Android 未定位遗留订单‘去完成’入口，停止后续流程")
-                clicked = True
-                continue
-            if page == "terminal_unpaid":
-                self._complete_legacy_passenger_order(tag)
-                return
-            if self.legacy_order_no or clicked:
-                if page == "business":
-                    time.sleep(1)
-                    continue
-                raise RuntimeError("安卓遗留订单未进入唯一付款页，禁止取消、付款或继续新下单")
-            return super()._ui_cleanup_ongoing_order(tag)
-        raise TimeoutError("安卓未完成订单未在时限内进入付款页，未取消或继续新下单")
+        """目标场景同样只检查前置，不自动处理遗留订单。"""
+        return super()._ui_cleanup_ongoing_order(tag)
 
     def _adb(self, *arguments):
         """以指定设备执行只读ADB命令并返回标准输出。"""

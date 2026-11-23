@@ -74,13 +74,13 @@ def scenario_nodes(*, include_optional=False):
     nodes = []
     scenarios = SCENARIOS + OPTIONAL_SCENARIOS if include_optional else SCENARIOS
     for filename, class_name in scenarios:
-        path = BASE_DIR / "cases" / filename
+        path = BASE_DIR / "cases" / "main_flow_cases" / filename
         if not path.is_file():
             raise RuntimeError(f"安卓独立订单场景缺失：{filename}")
         nodes.append(f"{path}::{class_name}::test_order_flow")
     if include_optional:
         for filename, class_name, method_name in V150_DEVICE_SCENARIOS:
-            path = BASE_DIR / "cases" / filename
+            path = BASE_DIR / "cases" / "passenger_v1_5_0" / filename
             if not path.is_file():
                 raise RuntimeError(f"V1.5.0 真机调试场景缺失：{filename}")
             nodes.append(f"{path}::{class_name}::{method_name}")
@@ -90,7 +90,7 @@ def scenario_nodes(*, include_optional=False):
 def android_scenarios():
     """获取安卓平台场景列表。"""
     for filename, class_name in SCENARIOS:
-        path = BASE_DIR / "cases" / filename
+        path = BASE_DIR / "cases" / "main_flow_cases" / filename
         spec = importlib.util.spec_from_file_location("hk_android_" + path.stem, path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
