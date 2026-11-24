@@ -102,12 +102,23 @@ class AndroidDriverUIFlow(DriverUIFlow):
         """确认安卓历史列表后只返回一次；未知页面不盲目返回，不执行订单动作。"""
         deadline = min(self.deadline, time.monotonic() + self.args.step_timeout)
         returned = False
+        source_reads = empty_source_reads = 0
+        last_source_empty = False
         prefix = "com.sunlightmobility.driver:id/"
         while time.monotonic() < deadline:
             root = self.root()
+            source_reads += 1
+            # normalized_tree 的 Application 包装节点始终可见，不能当作有效业务页面。
+            nodes = [node for node in visible_nodes(root)
+                     if node is not root and rect(node)[2] > 0 and rect(node)[3] > 0]
+            last_source_empty = not nodes
+            if last_source_empty:
+                empty_source_reads += 1
+                # 允许首次加载出现暂态空树；只读取等待，绝不盲点登录或按返回。
+                time.sleep(min(self.args.interval, max(0, deadline - time.monotonic())))
+                continue
             phase = self.detect_phase(root)
             self._check_device_availability(phase)
-            nodes = visible_nodes(root)
             titles = [node for node in nodes if node.get("resource-id") == prefix + "tv_bar_title"]
             native_history = False
             if any(node_text(node).strip() == "我的行程" for node in titles):
@@ -129,8 +140,30 @@ class AndroidDriverUIFlow(DriverUIFlow):
             elif phase != "unknown":
                 return root, phase
             time.sleep(self.args.interval)
-        self.snapshot("driver_entry_navigation_timeout")
-        raise TimeoutError("Android司机准备页恢复超时：原生历史列表返回未确认或仍为未知页；未重复返回或推进订单")
+        self.entry_page_observation = {
+            "source_reads": source_reads, "empty_source_reads": empty_source_reads,
+            "last_source_empty": last_source_empty, "history_returned": returned,
+        }
+        if not source_reads:
+            message = "Android司机准备页读取前等待期限已到，未获得页面证据、未执行操作"
+            artifact = "driver_entry_deadline_expired"
+        elif last_source_empty:
+            message = ("Android司机页面树不可用：截止时无可见且有面积的业务节点，"
+                       f"采样{source_reads}次、空树{empty_source_reads}次；"
+                       "无法识别页面/登录态，不代表历史列表返回失败；未盲点、登录、出车或接单")
+            artifact = "driver_entry_empty_source_timeout"
+        elif returned:
+            message = "Android历史列表已单次返回，但后续准备页未确认；未重复返回或推进订单"
+            artifact = "driver_entry_navigation_timeout"
+        else:
+            message = "Android司机页面存在有效节点，但准备阶段未识别；未执行历史返回或订单动作"
+            artifact = "driver_entry_unknown_page_timeout"
+        try:
+            self.snapshot(artifact)
+        except Exception as exc:
+            # 此处只保护失败取证；异常仍明确报告，不替换原来的页面读取结论。
+            LOG.error("司机准备页超时后的取证失败，类型=%s", type(exc).__name__)
+        raise TimeoutError(message)
 
     def _open_bound_history_order(self):
         """按本次绑定号打开我的行程卡片，不点第一条收入通知或按金额/时间猜单。"""
@@ -214,41 +247,96 @@ class AndroidDriverUIFlow(DriverUIFlow):
         return phase
 
     def wait_completed(self):
-        """静态未支付页返回后，按绑定订单号打开行程详情，最终仍须同单已完成且已支付。"""
+        """Open bound order detail and wait until it reports complete; recover from stale pages."""
         if (not isinstance(self.order_no, str) or re.fullmatch(r"[A-Z0-9]{12}", self.order_no) is None
                 or not any(c.isdigit() for c in self.order_no) or not any(c.isalpha() for c in self.order_no)):
-            raise RuntimeError("缺少本次绑定订单号，不能用任意已支付订单代替核验")
+            raise RuntimeError("Missing bound order number; cannot verify payment with arbitrary page")
         if self.awaiting_new_order or self.order_no in self.completed_before_run:
-            raise RuntimeError("本次订单未绑定或属于启动前旧订单，不能判定通过")
-        LOG.info("Android开始同订单到账核验，绑定订单=%s", self.order_no)
+            raise RuntimeError("Order not bound or belongs to a pre-run completed order; cannot pass")
+        LOG.info("Android verifying payment for bound order: %s", self.order_no)
         self.deadline = time.monotonic() + self.args.payment_timeout
         self._activate_driver_app()
-        root, phase = self.wait_for({"unpaid", "complete"})
-        read_order_no(root, excluded=self.completed_before_run, expected=self.order_no)
-        if phase == "unpaid":
-            if find_label(root, ("返回首頁",)) is not None:
-                self.act(root, ("返回首頁",))
-                self.wait_for({"online", "offer", "offline"})
-                root = self.root()
-                if self.detect_phase(root) not in ("online", "offer", "offline"):
-                    raise RuntimeError("Android司机未回到首页，禁止点击历史详情或新订单")
-                self.act(root, ("我的行程",))
+        self._ensure_bound_order_page()
+        deadline = self.deadline
+        while time.monotonic() < deadline:
+            root = self.root()
+            phase = self.detect_phase(root)
+            if phase in ("unpaid", "complete"):
+                read_order_no(root, excluded=self.completed_before_run, expected=self.order_no)
+                if phase == "complete":
+                    break
+                LOG.info("Bound order page shows unpaid; returning home to refresh income detail")
+                if find_label(root, ("返回首頁",)) is not None:
+                    self.act(root, ("返回首頁",))
+                self._return_to_driver_home()
+                self.act(self.root(), ("我的行程",))
                 self._open_bound_history_order()
-            while time.monotonic() < self.deadline:
-                root = self.root()
-                phase = self.detect_phase(root)
-                if phase in ("unpaid", "complete"):
-                    read_order_no(root, excluded=self.completed_before_run, expected=self.order_no)
-                    if phase == "complete":
-                        break
-                else:
-                    self._check_device_availability(phase)
-                time.sleep(self.args.interval)
+            elif phase == "cancelled":
+                LOG.info("Bound order page shows cancelled; returning to home and reopening bound order")
+                self._return_to_driver_home()
+                self._open_bound_history_order()
             else:
-                raise TimeoutError("Android本次订单详情未确认已完成且已支付；不重付或重复提交账单")
+                self._check_device_availability(phase)
+            time.sleep(self.args.interval)
+        else:
+            raise TimeoutError("Android bound order did not reach completed & paid state; no retry")
         self.last_phase = "complete"
         self.snapshot("completed_paid")
-        LOG.info("Android司机同订单详情已确认已完成且已支付：%s", self.order_no)
+        LOG.info("Android bound order verified completed & paid: %s", self.order_no)
+
+    def _ensure_bound_order_page(self):
+        """Navigate from any driver page to the bound order detail page."""
+        deadline = self.deadline
+        while time.monotonic() < deadline:
+            root = self.root()
+            phase = self.detect_phase(root)
+            if phase in ("unpaid", "complete"):
+                try:
+                    read_order_no(root, excluded=self.completed_before_run, expected=self.order_no)
+                    return
+                except RuntimeError:
+                    # current complete/unpaid page belongs to a different order
+                    pass
+            if phase == "cancelled":
+                LOG.info("Driver shows cancelled order detail; returning to home first")
+                self._return_to_driver_home()
+                self.act(self.root(), ("我的行程",))
+                self._open_bound_history_order()
+                return
+            if phase in ("online", "offer", "offline"):
+                self.act(root, ("我的行程",))
+                self._open_bound_history_order()
+                return
+            if phase == "unknown" or phase not in ("unpaid", "complete", "cancelled", "online", "offer", "offline"):
+                # other active order phases or unexpected pages: go home first
+                self._return_to_driver_home()
+                self.act(self.root(), ("我的行程",))
+                self._open_bound_history_order()
+                return
+            time.sleep(self.args.interval)
+        else:
+            raise TimeoutError("Android could not navigate to bound order detail")
+
+    def _return_to_driver_home(self):
+        """Return driver app to the online/home screen using available navigation."""
+        root = self.root()
+        labels = ("返回首頁", "返回", "ca_icon_back_black", "ca icon back black")
+        if find_label(root, labels) is not None:
+            self.act(root, labels)
+        else:
+            self.client.back()
+        deadline = min(self.deadline, time.monotonic() + self.args.step_timeout)
+        while time.monotonic() < deadline:
+            root = self.root()
+            phase = self.detect_phase(root)
+            if phase in ("online", "offer", "offline"):
+                return
+            if find_label(root, labels) is not None:
+                self.act(root, labels)
+            else:
+                self.client.back()
+            time.sleep(self.args.interval)
+        raise TimeoutError("Android driver did not return to home screen")
 
     def dismiss_keyboard(self):
         """委托Android客户端收键盘，不用司机按钮附近的坐标兜底。"""
@@ -572,6 +660,19 @@ class AndroidOrderMixin(AndroidPassengerMixin, AndroidPaymentMixin, AndroidUIBas
 
     def _ui_cleanup_ongoing_order(self, tag):
         """UI清理进行中订单。"""
+        import passenger_android_core.JRYG_android_ui_elements as E
+        self.client.session(E.PASSENGER_BUNDLE_ID)
+        time.sleep(5)
+        texts = self._android_get_all_texts(self.client)
+        if any("未完成" in text and ("訂單" in text or "订单" in text) for text in texts):
+            self._android_handle_unfinished_order_popup(tag)
+            return
+        # 检查是否在费用页（遗留待支付订单）
+        if any("確認支付" in text or "确认支付" in text for text in texts):
+            logger.info(f"【{tag}】预清理: 检测到费用页，直接完成支付")
+            self._android_pay(tag, payment=self.final_payment)
+            self._android_back_to_home(tag)
+            return
         if not self.ensure_passenger_login(tag):
             raise RuntimeError("安卓乘客登录未核验，未处理遗留订单")
         texts = self._android_get_all_texts(self.client)

@@ -104,12 +104,7 @@ class AndroidBase(HKAndroidPaymentMixin):
         :param client: 当前乘客页面所属的 WDA 客户端。
         :return: 文本列表（去重保序），读取或解析失败返回空列表。
         """
-        from .JRYG_page_monitor import AndroidPage
-        try:
-            return list(AndroidPage(client.source(format="xml")).texts)
-        except Exception as e:
-            logger.warning(f"获取页面文本失败: {e}")
-            return []
+        raise RuntimeError("AndroidPage 已移除，6场景使用 AndroidUIBase._android_get_all_texts")
 
     @staticmethod
     def _android_get_textfields():
@@ -256,9 +251,7 @@ class AndroidBase(HKAndroidPaymentMixin):
         :return: AndroidPageMonitor 实例。
         """
         if not hasattr(self, "monitor") or self.monitor is None:
-            from .JRYG_page_monitor import AndroidPageMonitor
-            output_dir = os.path.join(BASE_DIR, "report", "diagnostics")
-            self.monitor = AndroidPageMonitor(self.wda_url, output_dir)
+            raise RuntimeError("AndroidPageMonitor 已移除，6场景不使用 monitor 状态机")
         return self.monitor
 
     def _android_is_login_page(self):

@@ -1,6 +1,6 @@
 #!/bin/bash
-# 香港Android启动入口：运行六个独立订单场景，可用--case文件名选择单例。
-# 帮助/仅收集模式跳过ADB探测；不启动抓包服务，原样传递pytest退出码。
+# HK Android entry: run six main-flow scenarios; use --case to select a single file.
+# Help/collect-only mode skips ADB check; no proxy service; pass through pytest exit code.
 set -u
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -22,9 +22,9 @@ for arg in "$@"; do
     esac
 done
 
-echo "JRYG 港版 Android UI 自动化 -android"
+echo "JRYG HK Android UI Automation - android"
 if ! command -v adb >/dev/null 2>&1; then
-    echo "[错误] 未检测到 adb，请配置 Android SDK。"
+    echo "[Error] adb not found; please configure Android SDK."
     exit 1
 fi
 adb devices || exit 1
@@ -32,6 +32,6 @@ adb devices || exit 1
 "$PYTHON" "$BASE_DIR/JRYG_run_main.py" "$@"
 exit_code=$?
 if [ -f "$BASE_DIR/report/JRYG_test_report_hk.html" ]; then
-    echo "[报告] file://$BASE_DIR/report/JRYG_test_report_hk.html"
+    echo "[Report] file://$BASE_DIR/report/JRYG_test_report_hk.html"
 fi
 exit "$exit_code"

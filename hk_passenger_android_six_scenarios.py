@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""香港安卓包车与打表六场景入口；默认执行真实订单和支付。
+"""仅执行 cases/main_flow_cases 内已注册主流程，默认包车两例、打表四例。
 
 传入--collect-only只收集用例，不准备设备或执行订单。
+--case 可选本目录内已注册单例（含目标订单专项），不得选择其他版本目录。
 """
 
 import os
@@ -12,7 +13,7 @@ from typing import List, Optional, Sequence
 
 def _runner_arguments(args: Sequence[str]) -> List[str]:
     has_case = any(arg == "--case" or arg.startswith("--case=") for arg in args)
-    return [*([] if has_case else ["--batch"]), *args]
+    return ["--main-flow-only", *([] if has_case else ["--batch"]), *args]
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -32,6 +33,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     args = list(sys.argv[1:] if argv is None else argv)
     print("香港乘客端Android：包车两例 + 打表四例", flush=True)
+    print("用例范围固定为 cases/main_flow_cases；不执行其他版本、接口或离线用例。", flush=True)
     print("默认执行下单、司机操作及支付；失败停止，不自动重试付款。", flush=True)
     print("请连接Android设备并确保adb可用；会检测设备状态并尝试唤醒屏幕。", flush=True)
     print(f"报告目录：{project / 'report'}", flush=True)

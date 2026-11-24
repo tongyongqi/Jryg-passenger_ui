@@ -4,6 +4,7 @@
 """
 
 import re
+import time
 import xml.etree.ElementTree as ET
 
 from passenger_android_core.JRYG_android_passenger import AndroidPassengerBase
@@ -24,8 +25,20 @@ class AndroidPaymentMixin:
     _android_pay = HKAndroidPaymentMixin._android_pay
 
     def _android_select_postpaid_channel(self, tag, payment):
-        """后付费用页选择指定渠道并确认，不适用于预付确认并呼叫。"""
-        self._click_text(E.BANKCARD_KEYWORDS if payment == "bankcard" else ["Alipay HK"])
+        """Postpaid fee page: select the channel, then click confirm pay.
+
+        For bankcard: scroll up to reveal the credit card option, select it.
+        For alipay: Alipay HK is the default channel; just click confirm pay.
+        """
+        if payment == "bankcard":
+            keywords = E.BANKCARD_KEYWORDS
+            if not self._click_text(keywords, required=False):
+                self.client.driver.swipe(586, 2350, 586, 1900, 500)
+                time.sleep(1)
+                if not self._click_text(keywords, required=False):
+                    raise RuntimeError(f"Android postpaid channel not found: {keywords}")
+            logger.info(f"【{tag}】selected postpaid channel: {keywords[0]}")
+            time.sleep(1)
         self._click_text(["確認支付"])
 
     def _android_cvv_field(self):

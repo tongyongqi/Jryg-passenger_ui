@@ -10,6 +10,7 @@ import re
 import time
 
 from .JRYG_logger import logger
+from . import JRYG_android_ui_elements as E
 
 
 class AlipayPaymentTapUncertainError(RuntimeError):
@@ -28,9 +29,9 @@ class HKAndroidPaymentMixin:
         不读取或改写下单PAYMENT，不操作司机页面，最终到账由订单调用方核验。
         """
         if payment not in ("bankcard", "alipay"):
-            raise ValueError(f"{tag}: 共用支付只支持bankcard或alipay")
+            raise ValueError(f"{tag}: payment must be bankcard or alipay")
         if stage not in ("postpaid", "submitted"):
-            raise ValueError(f"{tag}: 支付阶段只能为postpaid或submitted")
+            raise ValueError(f"{tag}: stage must be postpaid or submitted")
         if stage == "postpaid":
             self._android_select_postpaid_channel(tag, payment)
         if payment == "bankcard":
@@ -38,8 +39,8 @@ class HKAndroidPaymentMixin:
             if stage == "submitted":
                 return submitted
             if not submitted:
-                raise RuntimeError(f"{tag}: 银行卡表单未提交，停止流程，不记录支付成功")
-            logger.info(f"【{tag}】银行卡及3DS步骤已提交，最终到账待司机同订单核验")
+                raise RuntimeError(f"{tag}: bank card form not submitted, stopping")
+            logger.info(f"【{tag}】bank card + 3DS submitted; awaiting driver-side verification")
             self._android_back_to_home(tag)
         elif stage == "submitted":
             self._android_complete_alipay_payment(tag, return_home=False)
