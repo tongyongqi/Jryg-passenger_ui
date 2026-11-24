@@ -4057,7 +4057,7 @@
 				);
 				OTHER_LDFLAGS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				DEVELOPMENT_TEAM = DNPR65VFPL;
+				DEVELOPMENT_TEAM = 7L2CFX2RYV;
 				PRODUCT_BUNDLE_IDENTIFIER = com.facebook.WebDriverAgentLib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -4125,7 +4125,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				DEVELOPMENT_TEAM = DNPR65VFPL;
+				DEVELOPMENT_TEAM = 7L2CFX2RYV;
 				PRODUCT_BUNDLE_IDENTIFIER = com.facebook.WebDriverAgentLib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -4369,7 +4369,7 @@
 					"-all_load",
 				);
 				CODE_SIGN_IDENTITY = "Apple Development";
-				DEVELOPMENT_TEAM = DNPR65VFPL;
+				DEVELOPMENT_TEAM = 7L2CFX2RYV;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tyq.WebDriverAgentRunner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USES_XCTRUNNER = YES;
@@ -4424,7 +4424,7 @@
 					"-all_load",
 				);
 				CODE_SIGN_IDENTITY = "Apple Development";
-				DEVELOPMENT_TEAM = DNPR65VFPL;
+				DEVELOPMENT_TEAM = 7L2CFX2RYV;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tyq.WebDriverAgentRunner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USES_XCTRUNNER = YES;

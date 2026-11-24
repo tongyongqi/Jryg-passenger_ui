@@ -19,7 +19,7 @@ LABEL = "com.jryg.hk-ios.daily"
 REPORT_DIR = PROJECT / "report"
 LOG_DIR = PROJECT / "logs" / "scheduled"
 PYTHON = ROOT / ".venv" / "bin" / "python"
-ENTRY = ROOT / "香港乘客iOS包车打表六场景.py"
+ENTRY = PROJECT / "JRYG_run_six_scenarios_ios.py"
 WINDOW_START = clock_time(10, 45)
 WINDOW_END = clock_time(10, 55)
 

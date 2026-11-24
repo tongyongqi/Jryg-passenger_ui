@@ -31,7 +31,7 @@ BUNDLE_ID = "com.sunlightmobility.driver"
 ACCEPT_LABELS = ("立即接單", "立即接单", "接單", "接单", "接受訂單")
 ACTION_LABELS = {
     "offline": ("點擊出車",),
-    "departure": ("已出發", "已出发"),
+    "departure": ("出發接乘客", "出发接乘客", "已出發", "已出发"),
     "pickup": ("到達上車地點",),
     "onboard": ("已接載乘客",),
     "destination": ("到達目的地",),
@@ -222,6 +222,8 @@ class DriverUIFlow:
         self.bill_total = None
         self.completed_before_run = set()
         self.awaiting_new_order = False
+        self.destination_not_before = None
+        self.foreground_recovery_used = False
 
     def detect_phase(self, root):
         """按本实例接单候选文案识别阶段，平台子类可补充原生滑块判断。"""
@@ -239,7 +241,7 @@ class DriverUIFlow:
         deadline = min(self.deadline, time.monotonic() + self.args.step_timeout)
         returned = False
         while time.monotonic() < deadline:
-            root = self.root()
+            root = self.root(read_deadline=deadline)
             phase = self.detect_phase(root)
             self._check_device_availability(phase)
             if is_history_list(root):
@@ -282,8 +284,36 @@ class DriverUIFlow:
             raise DriverPageReadError(
                 f"WDA读取{endpoint}失败（{type(exc).__name__}），停止操作；不重启App或重提交") from exc
 
-    def root(self, read_deadline=None):
-        """先核对轻量前台信息，再读取XML；切换未完成时不采集旧App控件树。"""
+    def _recover_driver_foreground(self, deadline):
+        """系统桌面遮挡后等5秒单次激活；原预算内只读确认，不重做业务动作。"""
+        self.foreground_recovery_used = True
+        not_before = time.monotonic() + 5
+        if not_before >= deadline:
+            raise DriverAppNotForegroundError("司机前台恢复预算不足5秒，停止操作，不缩短等待或重做业务动作")
+        LOG.info("司机前台被系统桌面或通知遮挡，等待5秒后单次恢复App；不重下单、重滑或重付")
+        while time.monotonic() < not_before:
+            time.sleep(max(0, not_before - time.monotonic()))
+        ensure_unlocked(self.client, deadline=deadline, resume_bundle=None)
+        timeout = min(3, self.args.step_timeout, deadline - time.monotonic())
+        if timeout <= 0:
+            raise DriverAppNotForegroundError("司机前台恢复已超时，未重新激活或重做业务动作")
+        try:
+            self.client._session_http.post("/wda/apps/launch", {"bundleId": BUNDLE_ID}, timeout=timeout)
+        except Exception as exc:
+            raise DriverPageReadError("司机前台恢复请求失败，停止操作，不重试激活或业务提交") from exc
+        while time.monotonic() < deadline:
+            current = self._read_page_value("/wda/activeAppInfo", deadline)
+            bundle = current.get("bundleId") if isinstance(current, dict) else None
+            if bundle == BUNDLE_ID:
+                LOG.info("司机前台已恢复，重新读取当前阶段，不重跑用例或重复付款")
+                return current
+            if bundle != "com.apple.springboard":
+                break
+            time.sleep(min(self.args.interval, max(0, deadline - time.monotonic())))
+        raise DriverAppNotForegroundError("单次恢复后仍未确认司机前台，停止操作，不重滑或重提交")
+
+    def root(self, read_deadline=None, *, allow_recovery=True):
+        """先核对前台再读XML；仅系统桌面遮挡允许5秒后单次恢复，其他App仍停止。"""
         deadline = time.monotonic() + min(20, self.args.step_timeout)
         if self.deadline is not None:
             deadline = min(deadline, self.deadline)
@@ -291,6 +321,9 @@ class DriverUIFlow:
             deadline = min(deadline, read_deadline)
         ensure_unlocked(self.client, deadline=deadline, resume_bundle=BUNDLE_ID)
         current = self._read_page_value("/wda/activeAppInfo", deadline)
+        if (allow_recovery and not self.args.inspect and not self.foreground_recovery_used
+                and isinstance(current, dict) and current.get("bundleId") == "com.apple.springboard"):
+            current = self._recover_driver_foreground(deadline)
         if not isinstance(current, dict) or current.get("bundleId") != BUNDLE_ID:
             current_bundle = current.get("bundleId") if isinstance(current, dict) else "未取得前台App"
             raise DriverAppNotForegroundError(f"司机 App 尚不在前台（当前：{current_bundle}），不读取旧App控件树")
@@ -314,7 +347,7 @@ class DriverUIFlow:
         last_error = None
         while time.monotonic() < deadline:
             try:
-                self.root(read_deadline=deadline)
+                self.root(read_deadline=deadline, allow_recovery=False)
             except (DriverAppNotForegroundError, ET.ParseError) as exc:
                 last_error = exc
             else:
@@ -363,7 +396,7 @@ class DriverUIFlow:
         """有界等待目标阶段；网络/定位错误立即失败，inspect只读时允许报告异常。"""
         deadline = min(self.deadline, time.monotonic() + (timeout or self.args.step_timeout))
         while time.monotonic() < deadline:
-            root = self.root()
+            root = self.root(read_deadline=deadline)
             phase = self.detect_phase(root)
             if not self.args.inspect:
                 self._check_device_availability(phase)
@@ -526,6 +559,7 @@ class DriverUIFlow:
         self.order_no = None
         self.bill_total = None
         self.awaiting_new_order = False
+        self.destination_not_before = None
         self.deadline = time.monotonic() + self.args.timeout
         self._activate_driver_app()
         root, phase = self.wait_for_entry_page()
@@ -574,6 +608,31 @@ class DriverUIFlow:
             raise RuntimeError("司机 App 已离开听单状态，停止乘客下单")
         self.last_phase = phase
 
+    def wait_before_destination(self):
+        """接载确认后至少等待30秒；恢复送乘客阶段时保守等待，操作前重新核验页面。"""
+        if self.destination_not_before is None:
+            self.destination_not_before = time.monotonic() + 30
+        remaining = self.destination_not_before - time.monotonic()
+        if remaining > 0:
+            LOG.info("已确认接载乘客，等待%.1f秒后才能操作到达目的地", remaining)
+        while remaining > 0:
+            if self.destination_not_before >= self.deadline:
+                raise TimeoutError("接载后30秒等待超出司机流转时限，未操作到达目的地")
+            time.sleep(remaining)
+            remaining = self.destination_not_before - time.monotonic()
+        if time.monotonic() >= self.deadline:
+            raise TimeoutError("接载等待结束时司机流转已超时，未操作到达目的地")
+        root = self.root()
+        phase = self.detect_phase(root)
+        self._check_device_availability(phase)
+        if phase != "destination" or any(n.tag == "XCUIElementTypeAlert" for n in visible_nodes(root)):
+            self.last_phase = phase
+            self.snapshot("destination_wait_unsafe_page")
+            raise RuntimeError("接载等待后页面不再是安全的送乘客阶段，未操作到达目的地")
+        if time.monotonic() >= self.deadline:
+            raise TimeoutError("接载等待后页面核验超时，未操作到达目的地")
+        return root
+
     def run(self):
         """按目标阶段流转司机UI；无派单停止，仅同阶段无弹窗允许一次重滑。
 
@@ -605,6 +664,8 @@ class DriverUIFlow:
                     raise RuntimeError("本次尚未确认新订单行程或账单，不能从完成页直接判定成功")
                 self.order_no = read_order_no(root, excluded=self.completed_before_run, expected=self.order_no)
             LOG.info("司机 UI 阶段：%s", PHASE_NAMES[phase])
+            if phase in ("tail", "destination") and self.destination_not_before is None:
+                self.destination_not_before = time.monotonic() + 30
             if phase == self.args.stop_after:
                 return
             if self.args.stop_after == "accepted":
@@ -637,14 +698,27 @@ class DriverUIFlow:
                 # 到达上车点、接载乘客、到达目的地均使用页面滑块/按钮，不模拟位置轨迹。
                 transitions = {"departure": {"pickup"}, "pickup": {"onboard"},
                                "onboard": {"tail", "destination"}, "destination": {"bill", "unpaid", "complete"}}
+                if phase == "destination":
+                    root = self.wait_before_destination()
                 self.act(root, ACTION_LABELS[phase])
                 try:
                     root, phase = self.wait_for(transitions[phase])
-                except TimeoutError:
-                    # 只在仍为同阶段且无弹窗时最多重试一次；接单和账单提交不自动重试。
+                except TimeoutError as exc:
                     root = self.root()
-                    if self.detect_phase(root) != phase or any(n.tag == "XCUIElementTypeAlert" for n in visible_nodes(root)):
+                    observed = self.detect_phase(root)
+                    self._check_device_availability(observed)
+                    if any(n.tag == "XCUIElementTypeAlert" for n in visible_nodes(root)):
                         raise
+                    if observed in transitions[phase]:
+                        LOG.info("%s等待边界已确认进入%s，不重复滑动", PHASE_NAMES[phase], PHASE_NAMES[observed])
+                        phase = observed
+                        continue
+                    if observed != phase:
+                        self.last_phase = observed
+                        raise RuntimeError(
+                            f"{PHASE_NAMES[phase]}操作后出现非预期阶段：{PHASE_NAMES[observed]}；"
+                            "停止，不跨阶段重滑、不自动回退；保留订单供确认后续跑"
+                        ) from exc
                     LOG.warning("%s首滑未生效，当前仍为同阶段；仅重试一次，不模拟定位", PHASE_NAMES[phase])
                     self.act(root, ACTION_LABELS[phase])
                     root, phase = self.wait_for(transitions[phase])

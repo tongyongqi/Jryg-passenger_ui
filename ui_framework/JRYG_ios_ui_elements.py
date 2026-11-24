@@ -39,6 +39,22 @@ START_GATE_XPATH = (
 START_GATE_POCO_REGEX = ".*起點.*|.*起点.*|.*您從哪.*|.*您从哪.*"
 START_GATE_FALLBACK_COORD = (0.5, 0.72)  # 起点绿色圆点常见位置
 
+# 定位未就绪时的占位文案（首页起点入口此时不可点击，需先触发定位）
+LOCATION_UNAVAILABLE_TEXTS = (
+    "無法取得位置",
+    "无法取得位置",
+    "無法獲取位置",
+    "无法获取位置",
+)
+
+# 首页定位按钮（触发一次重新定位）
+LOCATION_BUTTON_NAME = "slm icon tool location"
+
+# 路线页地址栏行（起点/终点均可点击进入搜索页）
+ROUTE_START_ROW_XPATH = (
+    '//XCUIElementTypeStaticText[@name="slm_icon_anno_start" or @label="slm_icon_anno_start"]'
+)
+
 # 终点入口
 DEST_GATE_XPATH = (
     '//*[contains(@label, "想去") or contains(@value, "想去") '
@@ -107,6 +123,19 @@ CONFIRM_PAY_POCO_REGEX = ".*確認支付.*|.*确认支付.*|.*支付並呼叫.*|
 CONFIRM_PAY_FALLBACK_COORD = (0.5, 0.92)
 
 # ==================== 支付方式选项 ====================
+ROUTE_PAYMENT_ENTRY_TEXTS = ("支付方式", "可選服務", "可选服务")
+ROUTE_PAYMENT_ENTRY_XPATH = (
+    '//*[(@visible="true" and @enabled!="false") and '
+    '(self::XCUIElementTypeStaticText or self::XCUIElementTypeButton) and ('
+    + " or ".join(f'starts-with(@{attr},"{text}")'
+                  for text in ROUTE_PAYMENT_ENTRY_TEXTS for attr in ("label", "name", "value"))
+    + ')]'
+)
+ROUTE_PAYMENT_ENTRY_POCO_REGEX = ".*支付方式.*|.*可選服務.*|.*可选服务.*"
+ROUTE_PAYMENT_PANEL_TITLES = ("請選擇本單支付方式", "请选择本单支付方式")
+ROUTE_PAYMENT_CONFIRM_TEXTS = ("確認選擇", "确认选择")
+ROUTE_PAYMENT_WAIT_TIMEOUT = 15
+
 # Alipay HK
 ALIPAY_KEYWORDS = ["Alipay HK", "Alipay", "支付寶HK", "支付寶"]
 ALIPAY_POCO_REGEX = ".*Alipay.*|.*支付寶.*|.*支付宝.*"
@@ -172,10 +201,10 @@ COUPON_FALLBACK_COORD = (0.85, 0.8)
 COUPON_TARGET_TEXTS = ["100元优惠卷", "100元优惠券", "100", "100元"]
 
 # ==================== 测试数据 ====================
-# 默认起终点地址（北角地铁站 → 香港大学，距离适中不易触发"距离太近"）
-DEFAULT_START_ADDRESS = "北角地铁站"
-DEFAULT_END_ADDRESS = "香港大学"
-NORTH_POINT_SEARCH_TEXT = "北角"
+# 默认起终点地址（铜锣湾地铁站D2出口 → 大谭郊野公园）
+DEFAULT_START_ADDRESS = "铜锣湾地铁站D2出口"
+DEFAULT_END_ADDRESS = "大谭郊野公园"
+NORTH_POINT_SEARCH_TEXT = "北角地铁站"
 NORTH_POINT_STATION_NAMES = ("北角(地鐵站)", "北角地鐵站", "北角地铁站")
 NORTH_POINT_DISTRICT = "香港特別行政區東區Eastern District"
 NORTH_POINT_START_PLACEHOLDER = "您從哪裡出發"

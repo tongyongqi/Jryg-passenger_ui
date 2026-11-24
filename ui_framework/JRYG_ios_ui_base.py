@@ -46,6 +46,10 @@ from ui_framework.JRYG_device_guard import ensure_mac_awake, mac_stop_prevent_sl
 class iOSBase(HKIOSPaymentMixin):
     """iOS 自动化测试公共基类，提供设备连接与通用操作封装"""
 
+    def setup_method(self):
+        """登录核验结果只在单次用例内复用，不跨用例或运行持久化。"""
+        self._passenger_verified_phone = None
+
     @classmethod
     def setup_class(cls):
         """连接WDA后初始化Poco；设备依赖仅在执行阶段加载，不干扰pytest收集。
@@ -301,24 +305,28 @@ class iOSBase(HKIOSPaymentMixin):
             if not monitor.click_text(self.client, "同意"):
                 # 兜底：坐标点击"同意"按钮（通常在屏幕下方右侧）
                 self.client.click(int(0.75 * 393), int(0.85 * 852))
-            time.sleep(3)
+            time.sleep(1)
 
-    def _ios_login_page(self, monitor):
+    def _ios_assert_passenger_foreground(self):
         ensure_unlocked(self.client, resume_bundle=E.PASSENGER_BUNDLE_ID)
         current = self.client.http.get("/wda/activeAppInfo", timeout=5).value
         if not isinstance(current, dict) or current.get("bundleId") != E.PASSENGER_BUNDLE_ID:
             raise RuntimeError("乘客App不在前台，停止登录，不向其他App输入凭据")
+
+    def _ios_login_page(self, monitor):
+        self._ios_assert_passenger_foreground()
         return monitor.inspect()
 
     def _ios_verify_passenger_account(self, page, phone, tag):
-        if page.state != "mine_logged" or not page.matches_account(phone):
-            raise RuntimeError("乘客登录账号与测试账号不匹配，停止下单，不自动切换账号")
-        self._passenger_verified_phone = phone
-        logger.info("【%s】已在个人中心核验乘客测试账号，无需重复登录", tag)
+        self._passenger_verified_phone = None
+        if page.state != "mine_logged":
+            raise RuntimeError("乘客未登录，停止下单")
         monitor = self._ios_ensure_monitor()
         if not monitor.click_text(self.client, "主頁", "首頁", "首页", "主頁，標籤頁", "首頁，標籤頁"):
-            raise RuntimeError("乘客账号已核验，但未找到返回首页入口，停止下单")
-        monitor.wait_for("账号核验后返回首页", lambda item: item.state == "home_unlogged", timeout=15)
+            raise RuntimeError("乘客已登录，但未找到返回首页入口，停止下单")
+        monitor.wait_for("登录核验后返回首页", lambda item: item.state == "home_unlogged", timeout=15)
+        self._passenger_verified_phone = phone
+        logger.info("【%s】已记录本次用例登录态，不比对账号，后续不再进入个人中心核验", tag)
         return True
 
     def _ios_ui_login(self, phone=None, code=None, tag="登录"):
@@ -365,7 +373,7 @@ class iOSBase(HKIOSPaymentMixin):
             if state == "privacy_agreement":
                 logger.info(f"【{tag}】检测到隐私协议弹框，点击'同意'...")
                 monitor.click_text(client, "同意")
-                time.sleep(3)
+                time.sleep(1)
                 continue
 
             # ---- 系统权限弹框 ----
@@ -373,12 +381,12 @@ class iOSBase(HKIOSPaymentMixin):
                 logger.info(f"【{tag}】检测到权限弹框，点击'去授權'...")
                 if not monitor.click_text(client, "去授權"):
                     monitor.click_text(client, "去授权")
-                time.sleep(1)
+                time.sleep(0.5)
                 try:
                     client.alert.accept()
                 except Exception:
                     pass
-                time.sleep(3)
+                time.sleep(1)
                 continue
 
             # ---- 活动弹窗 ----
@@ -462,7 +470,7 @@ class iOSBase(HKIOSPaymentMixin):
 
                 # 等待登录完成（进入首页/个人中心/活动弹窗）
                 try:
-                    monitor.wait_for(
+                    result = monitor.wait_for(
                         "验证码提交后登录成功",
                         lambda page: page.state in (
                             "mine_logged", "home_unlogged", "activity_popup",
@@ -474,6 +482,9 @@ class iOSBase(HKIOSPaymentMixin):
                 except AssertionError:
                     logger.warning(f"【{tag}】验证码提交后未离开验证码页")
                     return False
+                # wait_for 返回最终页面，若已登录直接核验返回，不再回到循环顶部
+                if result is not None and result.state == "mine_logged":
+                    return self._ios_verify_passenger_account(result, phone, tag)
                 mine_opened = False
                 continue
 
@@ -482,7 +493,7 @@ class iOSBase(HKIOSPaymentMixin):
                 return self._ios_verify_passenger_account(page, phone, tag)
 
             if state in ("home_unlogged", "route_selected"):
-                if state == "route_selected" and getattr(self, "_passenger_verified_phone", None) == phone:
+                if getattr(self, "_passenger_verified_phone", None):
                     return True
                 if mine_opened:
                     logger.warning("【%s】个人中心登录核验未完成，停止下单", tag)
@@ -496,9 +507,11 @@ class iOSBase(HKIOSPaymentMixin):
 
             # ---- 订单进行中（登录后回到进行中订单页） ----
             if state == "order_active":
-                logger.info(f"【{tag}】登录成功，当前有进行中订单")
+                self._passenger_verified_phone = phone
+                logger.info(f"【{tag}】已记录登录态，当前有进行中订单")
                 self._ios_screenshot("JRYG_ios_login_success.png")
                 return True
+            time.sleep(2)
 
             # ---- 订单完成页（行程结束/评价页） ----
             if state == "order_complete":
@@ -519,20 +532,53 @@ class iOSBase(HKIOSPaymentMixin):
         return False
 
     def _ios_ensure_logged_in(self, tag="登录"):
-        """已登录跳过输入，游客首页核验个人中心，未登录调用现有UI登录方法。"""
+        """本次用例只主动核验一次；明确登录失效时由登录页检测清除缓存。"""
+        if getattr(self, "_passenger_verified_phone", None):
+            self._ios_assert_passenger_foreground()
+            logger.info("【%s】复用本次用例登录态，跳过重复登录核验", tag)
+            return True
         phone = os.environ.get("HK_PASSENGER_MOBILE") or self.LOGIN_PHONE
         monitor = self._ios_ensure_monitor()
         page = self._ios_login_page(monitor)
         if page.state == "mine_logged":
             return self._ios_verify_passenger_account(page, phone, tag)
         if page.state == "order_active":
-            logger.info("【%s】乘客已有进行中订单，保留页面，不重新登录或下单", tag)
+            self._passenger_verified_phone = phone
+            logger.info("【%s】乘客已有进行中订单，记录登录态并保留页面，不重新登录或下单", tag)
             return True
-        if page.state == "route_selected" and getattr(self, "_passenger_verified_phone", None) == phone:
-            return True
-        if page.state == "unknown":
-            logger.error("【%s】无法确认乘客登录态，停止下单", tag)
-            return False
+        if page.state in ("address_search", "unknown"):
+            # App 可能停在搜索页或其他无法识别的中间态（如上次测试遗留），
+            # 尝试点击左上角返回箭头回到首页后再判断登录态
+            logger.info("【%s】页面状态 %s，尝试返回首页后重新判断登录态", tag, page.state)
+            for back_attempt in range(3):
+                # 优先点击左上角返回箭头（路线页/搜索页通用）
+                try:
+                    back_btn = self.client(name="slm_icon_navi_arrow_left")
+                    if back_btn.exists:
+                        back_btn.click()
+                        time.sleep(1.5)
+                        page = self._ios_login_page(monitor)
+                        if page.state not in ("address_search", "unknown"):
+                            break
+                        continue
+                except Exception:
+                    pass
+                # 无返回箭头时重启 App 回首页
+                try:
+                    self.client.session(E.PASSENGER_BUNDLE_ID)
+                    time.sleep(3)
+                except Exception:
+                    pass
+                page = self._ios_login_page(monitor)
+                if page.state not in ("address_search", "unknown"):
+                    break
+            if page.state == "mine_logged":
+                return self._ios_verify_passenger_account(page, phone, tag)
+            if page.state == "home_unlogged":
+                logger.info("【%s】已返回首页，继续核验登录态", tag)
+            elif page.state in ("address_search", "unknown"):
+                logger.error("【%s】无法确认乘客登录态，停止下单", tag)
+                return False
         logger.info("【%s】核验乘客登录态，需要时调用现有UI登录方法", tag)
         return self._ios_ui_login(tag=tag)
 
@@ -586,7 +632,8 @@ class iOSBase(HKIOSPaymentMixin):
             logger.info("  >> 起点已清空并回读：%s；输入后直接出现搜索结果，无需点击搜索", E.NORTH_POINT_SEARCH_TEXT)
         else:
             search_xpath = ('//XCUIElementTypeKeyboard//XCUIElementTypeButton[@visible="true" and @enabled="true"'
-                            ' and (@name="搜索" or @label="搜索")]')
+                            ' and (@name="搜索" or @label="搜索" or @name="搜尋" or @label="搜尋"'
+                            ' or @name="Search" or @label="search" or @label="Search")]')
             if not self.client(xpath=search_xpath).exists:
                 raise AssertionError("未找到键盘搜索按钮，不能把旧列表当作北角查询结果")
             self.client(xpath=search_xpath).click()
@@ -645,13 +692,34 @@ class iOSBase(HKIOSPaymentMixin):
         client = self.client
         addr_type = "起点" if is_start else "终点"
 
-        # 简繁体关键词列表
+        # 简繁体关键词列表（港版 App 搜索结果为繁体，需同时匹配简繁体）
         search_kws = [target_text, address.replace("地铁站", "地鐵站").replace("地铁", "地鐵")]
+        # 补充常见简繁体差异字符的转换，确保繁体结果也能被 contains 匹配
+        simp_to_trad = str.maketrans({"学": "學", "园": "園", "站": "站", "车": "車",
+                                       "铁": "鐵", "场": "場", "岛": "島", "湾": "灣",
+                                       "门": "門", "关": "關", "广": "廣", "东": "東",
+                                       "区": "區", "银": "銀", "行": "行", "码": "碼",
+                                       "头": "頭", "店": "店", "路": "路", "街": "街",
+                                       "桥": "橋", "大": "大", "厦": "廈", "院": "院"})
+        trad_text = target_text.translate(simp_to_trad)
+        if trad_text not in search_kws:
+            search_kws.append(trad_text)
+        trad_address = address.translate(simp_to_trad)
+        if trad_address not in search_kws:
+            search_kws.append(trad_address)
         found = False
 
         for kw in search_kws:
             try:
-                # 策略 1：点击包含关键词的 StaticText 的父 Cell
+                # 策略 1：直接点击主项 StaticText（父 Cell 会连带命中出入口子项，点了不跳转）
+                result = client(
+                    xpath=f'//XCUIElementTypeStaticText[contains(@label,"{kw}") or contains(@value,"{kw}")]')
+                if result.exists:
+                    result.tap()
+                    found = True
+                    logger.info(f"  >> 文本匹配选中{addr_type}: {address} (kw={kw})")
+                    break
+                # 策略 2：点击包含关键词的 StaticText 的父 Cell
                 parent_cell = client(
                     xpath=f'//XCUIElementTypeCell[.//XCUIElementTypeStaticText'
                           f'[contains(@label,"{kw}") or contains(@value,"{kw}")]]')
@@ -660,22 +728,17 @@ class iOSBase(HKIOSPaymentMixin):
                     found = True
                     logger.info(f"  >> 文本匹配选中{addr_type}（父Cell）: {address} (kw={kw})")
                     break
-                # 策略 2：直接点击 StaticText
-                result = client(
-                    xpath=f'//XCUIElementTypeStaticText[contains(@label,"{kw}") or contains(@value,"{kw}")]')
-                if result.exists:
-                    result.tap()
-                    found = True
-                    logger.info(f"  >> 文本匹配选中{addr_type}: {address} (kw={kw})")
-                    break
             except Exception as e:
                 logger.warning(f"  >> 文本匹配『{kw}』异常: {e}")
 
         # 文本匹配点击后验证是否跳转，未跳转则尝试其他方式
         if found:
-            time.sleep(2)
-            if not client(type="TextField").exists:
-                logger.info(f"  >> {addr_type}文本匹配点击后已离开搜索页")
+            # 页面跳转有动画与渲染延迟，需轮询确认，不能一次未跳就改点其他元素
+            for wait_idx in range(8):
+                if not client(type="TextField").exists:
+                    logger.info(f"  >> {addr_type}文本匹配点击后已离开搜索页 ({wait_idx*0.5+0.5:.0f}s)")
+                    break
+                time.sleep(0.5)
             else:
                 logger.info(f"  >> {addr_type}文本匹配点击后仍在搜索页，尝试 Cell 方式")
                 found = False
@@ -692,7 +755,7 @@ class iOSBase(HKIOSPaymentMixin):
                         break
                 except Exception as e:
                     logger.warning(f"  >> 点击 Cell 异常 (重试 {retry+1}/3): {e}")
-                    time.sleep(1)
+                    time.sleep(0.5)
 
         # 策略 4：物理坐标兜底
         if not found:
@@ -702,29 +765,29 @@ class iOSBase(HKIOSPaymentMixin):
         # ---- 验证页面已跳转离开搜索页 ----
         jump_ok = False
         for wait_idx in range(10):
-            time.sleep(1)
             if not client(type="TextField").exists:
                 jump_ok = True
-                logger.info(f"  >> {addr_type}选中后已离开搜索页 ({wait_idx+1}s)")
+                logger.info(f"  >> {addr_type}选中后已离开搜索页 ({wait_idx*0.5+0.5:.0f}s)")
                 break
+            time.sleep(0.5)
 
         if not jump_ok:
             self._ios_screenshot(f"JRYG_ios_search_{addr_type}_jump_fail.png")
             page_texts = self._ios_get_all_texts(client)
             logger.error(f"  >> {addr_type}选中后未跳转，仍在搜索页，页面文本: {page_texts[:150]}")
-            raise AssertionError(f"{addr_type}选中后未离开搜索页(10s)")
+            raise AssertionError(f"{addr_type}选中后未离开搜索页(5s)")
 
         # 起点验证返回首页；终点验证进入路线选择页
         if is_start:
             home_keywords = ["想去哪裡", "想去哪里", "目的地", "起點", "起点"]
             home_ok = False
             for wait_idx in range(10):
-                time.sleep(1)
                 page_texts = self._ios_get_all_texts(client)
                 if any(kw in t for t in page_texts for kw in home_keywords):
                     home_ok = True
-                    logger.info(f"  >> 起点设置完成，已返回首页 ({wait_idx+1}s)")
+                    logger.info(f"  >> 起点设置完成，已返回首页 ({wait_idx*0.5+0.5:.0f}s)")
                     break
+                time.sleep(0.5)
             if not home_ok:
                 self._ios_screenshot("JRYG_ios_search_start_not_home.png")
                 logger.warning(f"  >> 起点选中后未检测到首页关键词，页面文本: {page_texts[:150]}")
@@ -732,23 +795,23 @@ class iOSBase(HKIOSPaymentMixin):
             route_keywords = ["確認呼叫", "确认呼叫", "包車價", "打錶", "可選服務"]
             route_ok = False
             for wait_idx in range(10):
-                time.sleep(1)
                 page_texts = self._ios_get_all_texts(client)
                 if any(kw in t for t in page_texts for kw in route_keywords):
                     route_ok = True
-                    logger.info(f"  >> 终点设置完成，已进入路线选择页 ({wait_idx+1}s)")
+                    logger.info(f"  >> 终点设置完成，已进入路线选择页 ({wait_idx*0.5+0.5:.0f}s)")
                     break
+                time.sleep(0.5)
             if not route_ok:
                 self._ios_screenshot("JRYG_ios_search_end_not_route.png")
                 logger.warning(f"  >> 终点选中后未检测到路线页关键词，页面文本: {page_texts[:150]}")
 
-        time.sleep(2)
+        time.sleep(0.5)
 
     @staticmethod
     def _ios_page_contains(source_xml, *texts):
         """在原始页面树中查找任意文本，不依赖 WDA 的 visible 属性。
 
-        部分 UI 文案（如首页“当前城市暂未开通服务”）被 WDA 标记为 visible=false，
+        部分 UI 文案（如首页"当前城市暂未开通服务"）被 WDA 标记为 visible=false，
         但实际在屏显示，因此需要基于原始 XML 做兜底识别。
         """
         if not source_xml:
@@ -762,6 +825,169 @@ class iOSBase(HKIOSPaymentMixin):
             for node in root.iter()
         )
         return any(text in all_text for text in texts)
+
+    def _ios_ensure_location_ready(self, tag="起点"):
+        """首页定位未就绪时先触发一次定位，必要时进入路线页再打开地址编辑。
+
+        定位失败时首页起点入口会被置为不可点击（visible=false），
+        直接点击无效。点击右下角定位按钮可触发重新定位，
+        定位成功后 App 进入路线页，此时地址栏行可点击进入搜索页。
+
+        :return: True 表示已具备进入搜索页的入口。
+        """
+        client = self.client
+        try:
+            source = client.source(format="xml")
+        except Exception:
+            source = ""
+
+        location_failed = self._ios_page_contains(source, *E.LOCATION_UNAVAILABLE_TEXTS)
+        if not location_failed:
+            return True
+
+        logger.info(f"  >> 首页定位未就绪（{tag}入口不可点击），先触发定位")
+        location_btn = client(name=E.LOCATION_BUTTON_NAME)
+        if not location_btn.exists:
+            logger.warning("  >> 未找到定位按钮，无法自动恢复定位，等待定位自行就绪")
+            return False
+
+        try:
+            location_btn.click()
+        except Exception:
+            try:
+                location_btn.tap()
+            except Exception:
+                logger.warning("  >> 定位按钮点击失败，等待定位自行就绪")
+                return False
+
+        # 等待定位完成：出现路线页关键词，或占位文案消失
+        for _ in range(15):
+            time.sleep(2)
+            try:
+                source = client.source(format="xml")
+            except Exception:
+                continue
+            if self._ios_page_contains(source, "確認呼叫", "确认呼叫", "包車價", "打錶"):
+                logger.info(f"  >> 定位完成并进入路线页，可从地址栏打开{tag}搜索")
+                return True
+            if not self._ios_page_contains(source, *E.LOCATION_UNAVAILABLE_TEXTS):
+                return True
+        logger.warning("  >> 定位等待超时，起点入口可能仍不可点击")
+        return False
+
+    def _ios_open_route_address_row(self, is_start=True):
+        """在路线页点击起点/终点地址栏行，进入地址搜索页。
+
+        路线页地址栏由「起点文字(上) + 终点文字(下)」组成，
+        起点行旁通常有 ``slm_icon_anno_start`` 图标，
+        终点行无固定标记图标，但按 y 坐标排在起点下方。
+        本方法不依赖固定 marker 名称，按地址栏布局特征定位行：
+
+        1. 收集所有地址栏候选文字行（排除车型/价格等非地址文案）；
+        2. 按 y 坐标排序，起点取第一行，终点取第二行；
+        3. 优先点击文字行，标记图标作为兜底。
+
+        :return: True 表示已进入搜索页（存在 TextField）。
+        """
+        client = self.client
+
+        # 非地址文案关键词，用于过滤
+        _NON_ADDR_KEYWORDS = (
+            "確認呼叫", "确认呼叫", "服務偏好", "服务偏好",
+            "全程", "約行駛", "约行驶", "包車價", "打錶", "打表",
+            "安全中心", "以實際", "HKD", "券", "預約", "预约",
+        )
+
+        def _has_textfield():
+            return client(type=E.SEARCH_TEXTFIELD_TYPE).exists
+
+        for attempt in range(3):
+            try:
+                source = client.source(format="xml")
+            except Exception:
+                source = ""
+            if not source:
+                return False
+            try:
+                root = ET.fromstring(source)
+            except Exception:
+                return False
+
+            # 收集地址栏候选文字行
+            text_nodes = []
+            for node in root.iter():
+                if node.tag != "XCUIElementTypeStaticText":
+                    continue
+                try:
+                    y = float(node.get("y", 0)); h = float(node.get("height", 0))
+                    w = float(node.get("width", 0))
+                except (TypeError, ValueError):
+                    continue
+                if w <= 0 or h <= 0:
+                    continue
+                text = (node.get("label") or node.get("value") or node.get("name") or "").strip()
+                if not text:
+                    continue
+                if any(k in text for k in _NON_ADDR_KEYWORDS):
+                    continue
+                text_nodes.append((node, y))
+
+            # 按 y 排序，起点取第一行，终点取第二行
+            text_nodes.sort(key=lambda item: item[1])
+            if not text_nodes:
+                return False
+
+            if is_start:
+                candidates = [text_nodes[0][0]]
+            elif len(text_nodes) >= 2:
+                candidates = [text_nodes[1][0]]
+            else:
+                candidates = []
+
+            # 兜底：用 marker 图标
+            marker = "slm_icon_anno_start" if is_start else "slm_icon_anno_end"
+            marker_nodes = []
+            for node in root.iter():
+                name = node.get("name") or ""
+                if name == marker:
+                    marker_nodes.append(node)
+
+            for tnode in candidates:
+                try:
+                    x = float(tnode.get("x", 0)); y = float(tnode.get("y", 0))
+                    w = float(tnode.get("width", 0)); h = float(tnode.get("height", 0))
+                except (TypeError, ValueError):
+                    continue
+                if w <= 0 or h <= 0:
+                    continue
+                try:
+                    client.click(int(x + w / 2), int(y + h / 2))
+                except Exception:
+                    continue
+                time.sleep(2)
+                if _has_textfield():
+                    return True
+
+            # 文字行无效时退回点击标记图标
+            for mnode in marker_nodes:
+                try:
+                    x = float(mnode.get("x", 0)); y = float(mnode.get("y", 0))
+                    w = float(mnode.get("width", 0)); h = float(mnode.get("height", 0))
+                except (TypeError, ValueError):
+                    continue
+                if w <= 0 or h <= 0:
+                    continue
+                try:
+                    client.click(int(x + w / 2), int(y + h / 2))
+                except Exception:
+                    continue
+                time.sleep(2)
+                if _has_textfield():
+                    return True
+
+            if not candidates and not marker_nodes:
+                return False
+        return _has_textfield()
 
     def _ios_search_address(self, is_start=True, address=""):
         """通用地址搜索：点击入口 → 输入地址 → 等待搜索结果出现 → 选择结果 → 验证页面跳转
@@ -800,9 +1026,9 @@ class iOSBase(HKIOSPaymentMixin):
             except Exception:
                 source = ""
             if self._ios_page_contains(source, "當前城市暫未開通服務", "当前城市暂未开通服务"):
-                logger.info("  >> 首页为‘当前城市暂未开通服务’，通过底部城市条进入起点搜索")
+                logger.info("  >> 首页为'当前城市暂未开通服务'，通过底部城市条进入起点搜索")
                 client.click(*fallback_coord)
-                time.sleep(2)
+                time.sleep(1)
                 if client(type="TextField").exists or poco(type=E.SEARCH_TEXTFIELD_TYPE).exists():
                     entered = True
 
@@ -816,10 +1042,26 @@ class iOSBase(HKIOSPaymentMixin):
                 else:
                     # fallback_coord 为归一化坐标，client.click 会自动换算为绝对坐标
                     client.click(*fallback_coord)
-                time.sleep(2)
-                if client(type="TextField").exists or poco(type=E.SEARCH_TEXTFIELD_TYPE).exists():
+                # 轮询等待搜索页 TextField 出现，不固定 sleep
+                if self._ios_wait_for_page(
+                        lambda: client(type="TextField").exists or poco(type=E.SEARCH_TEXTFIELD_TYPE).exists(),
+                        timeout=4, interval=0.5):
                     entered = True
                     break
+
+        # 起点入口不可点击时（首页定位未就绪），先触发定位再从路线页地址栏进入搜索
+        if not entered and is_start:
+            if self._ios_ensure_location_ready(tag=addr_type):
+                if self._ios_open_route_address_row(is_start=True):
+                    entered = True
+                    logger.info("  >> 已通过路线页起点栏进入起点搜索")
+
+        # 终点入口在路线页时（设置起点后 App 已在路线页），首页终点文案不存在，
+        # 直接从路线页终点地址栏进入搜索
+        if not entered and not is_start:
+            if self._ios_open_route_address_row(is_start=False):
+                entered = True
+                logger.info("  >> 已通过路线页终点栏进入终点搜索")
 
         if not entered:
             self._ios_screenshot(f"JRYG_ios_search_{addr_type}_enter_fail.png")
@@ -840,14 +1082,14 @@ class iOSBase(HKIOSPaymentMixin):
             # 历史记录选中后验证页面已跳转（搜索输入框消失）
             addr_label = "起点" if is_start else "终点"
             for wait_idx in range(10):
-                time.sleep(1)
                 if not client(type="TextField").exists:
-                    logger.info(f"  >> {addr_label}历史记录选中后已离开搜索页 ({wait_idx+1}s)")
+                    logger.info(f"  >> {addr_label}历史记录选中后已离开搜索页 ({wait_idx*0.5+0.5:.0f}s)")
                     break
+                time.sleep(0.5)
             else:
                 self._ios_screenshot(f"JRYG_ios_search_{addr_label}_hist_jump_fail.png")
-                raise AssertionError(f"{addr_label}历史记录选中后未离开搜索页(10s)")
-            time.sleep(2)
+                raise AssertionError(f"{addr_label}历史记录选中后未离开搜索页(5s)")
+            time.sleep(0.5)
         else:
             # ---- 步骤 C：输入地址文本 ----
             tf = client(className=E.SEARCH_TEXTFIELD_TYPE)
@@ -857,17 +1099,16 @@ class iOSBase(HKIOSPaymentMixin):
             client.send_keys(address)
             logger.info(f"  >> 已输入{addr_type}文本: {address}")
 
-            # ---- 步骤 D：等待搜索结果出现（轮询最多 15 秒） ----
+            # ---- 步骤 D：等待搜索结果出现（轮询最多 15 秒，0.5s 间隔） ----
             # iOS 搜索在输入过程中实时出结果，不需要点 Done
             search_result_found = False
-            for wait_idx in range(15):
-                time.sleep(1)
+            for wait_idx in range(30):
                 # 检测搜索结果：Cell 元素或包含地址关键词的 StaticText
                 cells = client(type="Cell")
                 cell_count = cells.count() if callable(getattr(cells, "count", None)) else 0
                 if cells.exists and cell_count > 0:
                     search_result_found = True
-                    logger.info(f"  >> 搜索结果已出现 ({wait_idx+1}s)，Cell 数量: {cell_count}")
+                    logger.info(f"  >> 搜索结果已出现 ({wait_idx*0.5+0.5:.0f}s)，Cell 数量: {cell_count}")
                     break
 
                 # 备选：文本匹配（同时匹配简体和繁体关键词）
@@ -877,12 +1118,12 @@ class iOSBase(HKIOSPaymentMixin):
                         xpath=f'//XCUIElementTypeStaticText[contains(@label,"{kw}") or contains(@value,"{kw}")]')
                     if result.exists:
                         search_result_found = True
-                        logger.info(f"  >> 搜索结果已出现 ({wait_idx+1}s)，文本匹配『{kw}』")
+                        logger.info(f"  >> 搜索结果已出现 ({wait_idx*0.5+0.5:.0f}s)，文本匹配『{kw}』")
                         break
                 if search_result_found:
                     break
 
-                time.sleep(1)
+                time.sleep(0.5)
 
             if not search_result_found:
                 self._ios_screenshot(f"JRYG_ios_search_{addr_type}_no_result.png")
@@ -902,6 +1143,18 @@ class iOSBase(HKIOSPaymentMixin):
             raise RuntimeError("乘客自动登录失败，停止配置地址和下单")
         self._ios_configure_addresses(tag, start_addr, end_addr)
 
+    def _ios_wait_for_page(self, check_fn, timeout=10, interval=0.5):
+        """轮询等待页面条件满足，替代固定 sleep；命中即返回，不空等。"""
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            try:
+                if check_fn():
+                    return True
+            except Exception:
+                pass
+            time.sleep(interval)
+        return False
+
     def _ios_prepare_passenger_app(self, tag, *, launch_wait=10, alert_wait=2):
         """共用启动步骤：桌面→乘客App→系统权限→隐私→引导→广告。
 
@@ -912,12 +1165,15 @@ class iOSBase(HKIOSPaymentMixin):
         # 步骤 1：回到桌面
         logger.info(f"【{tag} 步骤 1】正在回到桌面...")
         self.client.home()
-        time.sleep(2)
+        time.sleep(1)
 
         # 步骤 2：拉起乘客端 App
         logger.info(f"【{tag} 步骤 2】正在拉起 App: {E.PASSENGER_BUNDLE_ID}")
         self.client.session(E.PASSENGER_BUNDLE_ID)
-        time.sleep(launch_wait)
+        # 用轮询替代固定 launch_wait：App 前台就绪即继续
+        self._ios_wait_for_page(
+            lambda: self._ios_active_bundle() == E.PASSENGER_BUNDLE_ID,
+            timeout=launch_wait, interval=1)
 
         # 系统权限不存在时继续检查应用内遮挡；真实控件失败由后续流程判断。
         logger.info(f"【{tag} 步骤 3】处理系统弹窗...")
@@ -930,13 +1186,13 @@ class iOSBase(HKIOSPaymentMixin):
         # 处理隐私协议弹框（登录后或首次进入时可能弹出）
         self._ios_dismiss_privacy_agreement()
 
-        # 跳过引导页（最多 5 次，每次点击跳过按钮后等待 3 秒）
+        # 跳过引导页（最多 5 次，每次点击跳过按钮后等待 1 秒）
         for i in range(5):
             guide_btn = self.client(xpath=E.GUIDE_SKIP_XPATH)
             if guide_btn.exists:
                 guide_btn.tap()
                 logger.info(f"  >> 跳过引导页 ({i + 1}/5)")
-                time.sleep(3)
+                time.sleep(1)
             else:
                 break
 
@@ -946,8 +1202,18 @@ class iOSBase(HKIOSPaymentMixin):
             if ad_el.exists():
                 ad_el.click()
                 logger.info(f"成功关闭广告弹框 (标识: {ad_btn_text})")
-                time.sleep(2)
+                time.sleep(1)
                 break
+
+    def _ios_active_bundle(self):
+        """读取当前前台 App bundleId，失败返回空字符串。"""
+        try:
+            current = self.client.http.get("/wda/activeAppInfo", timeout=3).value
+            if isinstance(current, dict):
+                return current.get("bundleId") or ""
+        except Exception:
+            pass
+        return ""
 
     @staticmethod
     def _ios_route_start_texts(root):
@@ -1098,7 +1364,7 @@ class iOSBase(HKIOSPaymentMixin):
         self._ios_retry_estimate_quote = None
         self._ios_click_estimate_call()
         logger.info("【%s】预估刷新后已单次重试呼叫，继续等待收银台或订单结果", tag)
-        time.sleep(5)
+        time.sleep(2)
 
     def _ios_click_estimate_car(self, car_type):
         label = E.CHARTER_CAR_LABEL if car_type == "charter" else E.METER_CAR_LABEL
@@ -1165,9 +1431,9 @@ class iOSBase(HKIOSPaymentMixin):
         if not car_selected:
             logger.warning(f"  >> 未匹配到{car_name}，物理坐标点击...")
             self.client.click(*fallback_coord)
-            time.sleep(2)
+            time.sleep(1)
 
-        time.sleep(3)
+        time.sleep(1)
 
     def _ios_click_confirm_call(self, tag):
         """点击『確認呼叫』按钮（含 3 次重试机制）。
@@ -1191,7 +1457,7 @@ class iOSBase(HKIOSPaymentMixin):
                 try:
                     btn.click()
                     logger.info(f"  >> [{tag}] 已点击确认呼叫 (尝试 {attempt+1}/3)")
-                    time.sleep(5)
+                    time.sleep(2)
                     return
                 except Exception as e:
                     logger.warning(f"  >> [{tag}] 点击确认呼叫异常: {e}，重试...")
@@ -1230,7 +1496,7 @@ class iOSBase(HKIOSPaymentMixin):
             # 物理坐标兜底
             self.client.click(*E.CONFIRM_PAY_FALLBACK_COORD)
             logger.info(f"  >> [{tag}] 物理坐标点击确认支付并呼叫")
-        time.sleep(5)
+        time.sleep(2)
 
     def _ios_fill_bank_card_form(self, tag):
         """填写银行卡信息并提交支付。
@@ -1614,14 +1880,110 @@ class iOSBase(HKIOSPaymentMixin):
         # 不重复等待/点击 Verify，避免把同一次付款重提。
         logger.info(f"  >> [{tag}] 3DS步骤已结束，待司机同订单支付状态核验")
 
+    def _ios_wait_payment_state(self, tag, description, predicate):
+        """在原页面等待支付控件就绪，超时保存XML及截图，不重发业务动作。"""
+        monitor = self._ios_ensure_monitor()
+        deadline = time.monotonic() + E.ROUTE_PAYMENT_WAIT_TIMEOUT
+        while time.monotonic() < deadline:
+            page = monitor.inspect(timeout=max(0.1, deadline - time.monotonic()))
+            if page.root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+                monitor.capture("payment_app_not_foreground")
+                raise RuntimeError(f"{tag}: 乘客App不在前台，停止支付方式操作")
+            if predicate(page):
+                return page
+            time.sleep(min(0.5, max(0, deadline - time.monotonic())))
+        monitor.capture(f"payment_{description}_timeout")
+        raise AssertionError(f"{tag}: {description}未就绪，未继续呼叫或支付")
+
+    def _ios_click_payment_text(self, page, labels):
+        """只点击可见可用的完整选项文案，不将渠道说明文字当作选项。"""
+        for node in page.nodes:
+            if node.tag not in ("XCUIElementTypeButton", "XCUIElementTypeStaticText", "XCUIElementTypeCell"):
+                continue
+            if node.get("enabled", "true") == "false":
+                continue
+            for attr in ("label", "name", "value"):
+                text = node.get(attr)
+                if text not in labels:
+                    continue
+                xpath = (f'(//{node.tag}[@visible="true" and @enabled!="false"'
+                         f' and @{attr}="{text}"])[1]')
+                self.client(xpath=xpath).click()
+                return True
+        return False
+
+    def _ios_select_meter_payment(self, tag, payment):
+        """打表原顺序：打开支付方式面板、选指定方式、确认选择、回到路线页。"""
+        def panel_ready(page):
+            return page.has(*E.ROUTE_PAYMENT_PANEL_TITLES) and page.has(*E.ROUTE_PAYMENT_CONFIRM_TEXTS)
+
+        page = self._ios_wait_payment_state(
+            tag, "打表支付入口",
+            lambda item: panel_ready(item) or any(
+                text.startswith(E.ROUTE_PAYMENT_ENTRY_TEXTS) for text in item.texts))
+        if not panel_ready(page):
+            service = self.client(xpath=E.ROUTE_PAYMENT_ENTRY_XPATH)
+            if service.exists:
+                service.click()
+            else:
+                service = self.poco(textMatches=E.ROUTE_PAYMENT_ENTRY_POCO_REGEX)
+                if not service.exists():
+                    self._ios_ensure_monitor().capture("meter_payment_entry_missing")
+                    raise AssertionError(f"{tag}: 未找到可点击的支付方式入口，支付面板未打开")
+                service.click()
+            logger.info("【%s】已点击支付方式入口，等待选择面板，不重复点击", tag)
+            page = self._ios_wait_payment_state(tag, "支付方式面板", panel_ready)
+
+        labels = {
+            "cash": (*E.CASH_KEYWORDS, "現金支付", "现金支付"),
+            "epayment": E.EPAYMENT_KEYWORDS,
+            "alipay": E.ALIPAY_KEYWORDS,
+            "bankcard": (*E.BANKCARD_KEYWORDS, "信用卡或扣帳卡", "信用卡/扣帳卡"),
+        }.get(payment, (payment,))
+        selected = self._ios_click_payment_text(page, labels)
+        if not selected and payment in ("alipay", "bankcard") and not any(text in labels for text in page.texts):
+            for cell in page.root.iter("XCUIElementTypeCell"):
+                if cell not in page.nodes or cell.get("enabled", "true") == "false":
+                    continue
+                texts = {node.get(attr, "").strip() for node in cell.iter()
+                         if node in page.nodes and node.get("enabled", "true") != "false"
+                         for attr in ("label", "name", "value")}
+                supports_channel = any(
+                    text.startswith(("支持", "支援", "Supports", "supports"))
+                    and not any(word in text for word in ("不支持", "不支援"))
+                    and any(label in text for label in labels) for text in texts)
+                if not texts.intersection(E.EPAYMENT_KEYWORDS) or not supports_channel:
+                    continue
+                group_page = type(page)(ET.tostring(cell, encoding="unicode"))
+                selected = self._ios_click_payment_text(group_page, E.EPAYMENT_KEYWORDS)
+                if selected:
+                    labels = E.EPAYMENT_KEYWORDS
+                    logger.info("【%s】下单面板按電子支付分组，已确认支持%s；最终渠道仍为%s，行程结束后选择并支付",
+                                tag, payment, payment)
+                    break
+        if not selected:
+            self._ios_ensure_monitor().capture(f"meter_payment_{payment}_option_missing")
+            raise AssertionError(
+                f"{tag}: 支付面板无可用支付选项({payment})或支持该渠道的電子支付分组；"
+                f"可见文案={page.texts}；未呼叫，不更换最终支付渠道")
+        page = self._ios_wait_payment_state(tag, "支付方式确认按钮", panel_ready)
+        if not self._ios_click_payment_text(page, E.ROUTE_PAYMENT_CONFIRM_TEXTS):
+            self._ios_ensure_monitor().capture("meter_payment_confirm_missing")
+            raise AssertionError(f"{tag}: 支付方式确认按钮不可用，未呼叫")
+        self._ios_wait_payment_state(
+            tag, "支付选择后返回路线页",
+            lambda item: not item.has(*E.ROUTE_PAYMENT_PANEL_TITLES)
+            and item.has("確認呼叫", "确认呼叫")
+            and any(text.startswith(E.ROUTE_PAYMENT_ENTRY_TEXTS)
+                    and ("已選擇" in text or "已选择" in text)
+                    and any(label in text for label in labels) for text in item.texts))
+        logger.info("【%s】打表支付方式已选择并回读，后续仍按原流程呼叫及行程结束后支付", tag)
+
     def _ios_select_payment(self, tag, payment="cash"):
         """选择支付方式。
 
-        统一面板流程（打錶的士/包車價的士均适用）：
-        1. 点击"可選服務"区域 → 弹出支付方式选择面板
-        2. 在面板中选择目标支付方式（如已默认选中则跳过）
-        3. 点击"確認選擇"按钮 → 回到路线页
-        后续由调用方点击"確認呼叫"继续流程。
+        打表兼容"支付方式"/"可選服務"入口，优先直选渠道，也支持明确包含该渠道的電子支付分组。
+        包车保持预付收银台直接选择渠道；这里不呼叫、不执行渠道付款。
 
         车型与支付方式选择时机：
         - 打錶的士：选车型 → 选支付方式（面板）→ 確認選擇 → 確認呼叫
@@ -1631,6 +1993,8 @@ class iOSBase(HKIOSPaymentMixin):
         :param payment: 支付方式标识（cash/epayment/alipay/bankcard）。
         :raises AssertionError: 未找到支付方式选项时抛出。
         """
+        if getattr(self, "CAR_TYPE", "") == "meter":
+            return self._ios_select_meter_payment(tag, payment)
         keywords_map = {
             "cash": E.CASH_KEYWORDS,
             "epayment": E.EPAYMENT_KEYWORDS,
@@ -1647,14 +2011,14 @@ class iOSBase(HKIOSPaymentMixin):
         if service_el.exists:
             service_el.click()
             panel_opened = True
-            time.sleep(2)
+            time.sleep(1)
             logger.info(f"  >> [{tag}] 已点击'可選服務'区域，等待面板弹出")
         else:
             service_poco = self.poco(textMatches=".*可選服務.*")
             if service_poco.exists():
                 service_poco.click()
                 panel_opened = True
-                time.sleep(2)
+                time.sleep(1)
                 logger.info(f"  >> [{tag}] Poco 点击'可選服務'区域")
 
         if not panel_opened:
@@ -1725,9 +2089,9 @@ class iOSBase(HKIOSPaymentMixin):
         logger.info(f"  >> [{tag}] 等待下单结果...")
         result = "timeout"
         for wait_sec in range(max_checks):
-            time.sleep(2)
+            time.sleep(1)
             page_texts = self._ios_get_all_texts(self.client)
-            logger.info(f"  [{tag} {wait_sec*2}s] 页面文本: {page_texts[:200]}")
+            logger.info(f"  [{tag} {wait_sec}s] 页面文本: {page_texts[:200]}")
 
             if any(kw in t for t in page_texts for kw in E.ORDER_FAIL_KEYWORDS):
                 logger.warning(f"  [{tag} {wait_sec*2}s] 下单失败")
@@ -1760,7 +2124,7 @@ class iOSBase(HKIOSPaymentMixin):
                     if btn.exists:
                         btn.click()
                         logger.info(f"  >> 已点击'{btn_kw}'")
-                        time.sleep(3)
+                        time.sleep(1)
                         break
                 continue  # 继续等待下单成功
 

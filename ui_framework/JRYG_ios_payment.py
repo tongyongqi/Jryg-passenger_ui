@@ -31,6 +31,7 @@ class HKIOSPaymentMixin:
             raise ValueError(f"{tag}: 共用支付只支持bankcard或alipay")
         if stage not in ("postpaid", "submitted"):
             raise ValueError(f"{tag}: 支付阶段只能为postpaid或submitted")
+        self.retry_safe = False
         if stage == "postpaid":
             self._ios_select_postpaid_channel(tag, payment)
         if payment == "bankcard":
@@ -47,32 +48,50 @@ class HKIOSPaymentMixin:
             self._ios_complete_alipay_payment(tag)
         return True
 
+    def _ios_wait_postpaid_control(self, tag, label, *, confirm=False):
+        """15秒内只读等待真实可用控件，不把瞬时缺失当失败或用其他渠道代替。"""
+        from ui_framework.JRYG_ios_ui_elements import PASSENGER_BUNDLE_ID
+
+        monitor = self._ios_ensure_monitor()
+        deadline = time.monotonic() + 15
+        while time.monotonic() < deadline:
+            page = monitor.inspect(timeout=max(0.1, deadline - time.monotonic()))
+            if page.root.get("bundleId") != PASSENGER_BUNDLE_ID:
+                monitor.capture("postpaid_not_foreground")
+                raise RuntimeError(f"{tag}: 后付费用页不在乘客前台，未发起付款")
+            if page.has("支付失敗", "支付失败", "付款失敗", "付款失败", "訂單已取消", "订单已取消"):
+                monitor.capture("postpaid_failed_or_cancelled")
+                raise RuntimeError(f"{tag}: 当前订单支付失败或取消，停止付款")
+            nodes = []
+            if not page.has_type("Alert") and page.has("行程結束", "行程结束"):
+                for node in page.nodes:
+                    if node.get("enabled") != "true":
+                        continue
+                    values = [node.get(key, "").strip() for key in ("label", "name")]
+                    if confirm:
+                        matched = node.tag == "XCUIElementTypeButton" and any(
+                            re.fullmatch(r"(?:確認支付|确认支付)(?:\s*\d+(?:\.\d+)?\s*HKD)?", value)
+                            for value in values)
+                    else:
+                        matched = node.tag in ("XCUIElementTypeStaticText", "XCUIElementTypeButton") and label in values
+                    if matched:
+                        nodes.append(node)
+            if len(nodes) == 1:
+                node = nodes[0]
+                predicates = " or ".join(f'@{key}="{node.get(key)}"' for key in ("label", "name") if node.get(key))
+                return f'//{node.tag}[@visible="true" and @enabled="true" and ({predicates})]'
+            time.sleep(min(0.5, max(0, deadline - time.monotonic())))
+        monitor.capture("postpaid_control_timeout")
+        raise RuntimeError(f"{tag}: 未找到{label}支付选项或唯一可用控件，禁止选择其他方式或坐标代替")
+
     def _ios_select_postpaid_channel(self, tag, payment):
-        """仅用于后付费用页，不能替代下单可选服务或预付确认支付并呼叫。"""
+        """仅用于后付费用页；渠道及确认支付各单次点击，响应异常不重复提交。"""
         label = "信用卡或扣帳卡" if payment == "bankcard" else "Alipay HK"
-        texts = self._ios_get_all_texts(self.client)
-        if not any(label in text for text in texts):
-            raise RuntimeError(f"{tag}: 未找到{label}支付选项，禁止选择其他方式代替")
-        pay_opt = self.client(textContains=label)
-        exists = pay_opt.exists
-        if not (exists() if callable(exists) else exists):
-            pattern = ".*信用卡.*|.*扣帳卡.*" if payment == "bankcard" else ".*Alipay HK.*"
-            pay_opt = self.poco(textMatches=pattern)
-            exists = pay_opt.exists
-        if not (exists() if callable(exists) else exists):
-            raise RuntimeError(f"{tag}: {label}支付控件不可用，停止支付")
-        pay_opt.click()
+        option = self._ios_wait_postpaid_control(tag, label)
+        self.client(xpath=option).click()
         logger.info(f"【{tag}】已选择'{label}'")
-        time.sleep(2)
-        pay_btn = self.poco(textMatches=".*確認支付.*|.*确认支付.*")
-        if pay_btn.exists():
-            pay_btn.click()
-        else:
-            pay_wda = self.client(textContains="確認支付")
-            if pay_wda.exists:
-                pay_wda.click()
-            else:
-                self.client.click(196, 789)
+        confirm = self._ios_wait_postpaid_control(tag, "確認支付", confirm=True)
+        self.client(xpath=confirm).click()
         time.sleep(5)
 
     def _ios_wait_and_click_alipay_pay_now(self, tag, wait_seconds=90):
@@ -242,7 +261,7 @@ class HKIOSPaymentMixin:
                 back_wda.click()
             else:
                 self.client.click(34, 82)
-            time.sleep(3)
+            time.sleep(1)
         logger.warning(f"【{tag}】未能返回首页（重试 5 次仍非首页）")
         car = getattr(self, "CAR_TYPE", "passenger")
         payment = getattr(self, "PAYMENT", "payment")

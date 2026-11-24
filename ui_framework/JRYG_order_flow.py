@@ -112,6 +112,7 @@ class TestOrderBase(iOSBase):
     def test_order_flow(self):
         """乘客 UI 下单 → 司机 UI 接单与滑动 → UI 确认账单与支付。"""
         self.completed_order_no = None
+        self.retry_safe = False
         car_label = CAR_TYPE_LABELS.get(self.CAR_TYPE, self.CAR_TYPE)
         pay_label = PAYMENT_LABELS.get(self.PAYMENT, self.PAYMENT)
         tag = f"{car_label}+{pay_label}"
@@ -139,6 +140,7 @@ class TestOrderBase(iOSBase):
                 logger.info("【%s】已有订单已接单；仅接单模式保留当前阶段，不推进行程或付款", tag)
                 return
         else:
+            self.retry_safe = True
             # ============================================================
             # 阶段 1：乘客端预清理
             # ============================================================
@@ -154,7 +156,7 @@ class TestOrderBase(iOSBase):
             logger.info(f"【阶段 2】UI 下单：{car_label} + {pay_label}")
             logger.info("=" * 60)
 
-            self._ios_launch_setup_and_addresses(
+            self._ios_configure_addresses(
                 tag, E.DEFAULT_START_ADDRESS, E.DEFAULT_END_ADDRESS)
             self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_01_car_select.png")
 
@@ -167,9 +169,11 @@ class TestOrderBase(iOSBase):
             if self.CAR_TYPE == "meter":
                 logger.info(f"【{tag} 步骤 7】选择{pay_label}支付方式...")
                 self._ios_select_payment(tag, payment=self.PAYMENT)
+                self.retry_safe = False
                 ordered = self._click_call_and_check_login_then_retry(tag)
             else:
                 # 包車價的士：先点击确认呼叫，弹出预付页面后选择支付方式
+                self.retry_safe = False
                 ordered = self._charter_click_call_and_select_payment(tag)
 
             assert ordered, f"{tag} UI 下单失败"
@@ -232,16 +236,34 @@ class TestOrderBase(iOSBase):
         """
         timeout = (self.order_settings.get("order_validation") or {}).get("completion_timeout", 90)
         deadline = time.monotonic() + timeout
+        monitor = self._ios_ensure_monitor()
         while time.monotonic() < deadline:
-            texts = self._ios_get_all_texts(self.client)
-            if any(kw in t for t in texts for kw in ("支付失敗", "支付失败", "訂單已取消", "订单已取消")):
-                raise RuntimeError(f"{tag}: 乘客订单支付失败或取消，停止操作")
+            try:
+                page = monitor.inspect(timeout=max(0.1, deadline - time.monotonic()))
+            except Exception:
+                monitor.capture("current_payment_page_read_failed")
+                raise
+            if page.root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+                monitor.capture("current_payment_not_foreground")
+                raise RuntimeError(f"{tag}: 费用页核验时乘客App不在前台，未发起付款")
+            texts = page.texts
+            failures = tuple(kw for kw in ("支付失敗", "支付失败", "訂單已取消", "订单已取消")
+                             if any(kw in text for text in texts))
+            if failures:
+                driver_order = getattr(getattr(self, "driver_ui", None), "order_no", None) or "未取得"
+                target = monitor.capture("current_payment_failed_or_cancelled")
+                logger.error("【%s】费用页命中=%s；司机订单=%s；现场=%s；未发起渠道付款",
+                             tag, failures, driver_order, target)
+                raise RuntimeError(
+                    f"{tag}: 乘客订单支付失败或取消，命中={failures}；司机订单={driver_order}；"
+                    "停止操作，未发起渠道付款，请核对现场及两端订单")
             for text in texts:
                 if re.search(r"(?:確認支付|确认支付)", text):
                     self._ios_screenshot("epayment_current_before_payment.png")
                     logger.info("【%s】已检测到确认支付页，不判断金额，继续支付", tag)
                     return
-            time.sleep(1)
+            time.sleep(min(1, max(0, deadline - time.monotonic())))
+        monitor.capture("current_payment_page_timeout")
         raise TimeoutError(f"{tag}: 未等到确认支付页面，不跳过支付")
 
     def _ios_click_confirm_call(self, tag):
@@ -469,6 +491,7 @@ class TestOrderBase(iOSBase):
         - 等待接单页 → 取消订单
         - 行程结束/支付页 → 完成支付 → 返回首页
         """
+        self._guard_existing_order_retry()
         go_clicked = False
         # 点击"去完成"/"去處理"按钮
         go_clicked = self._ios_click_dialog_button(
@@ -529,28 +552,34 @@ class TestOrderBase(iOSBase):
 
         if state == "activity_popup":
             monitor.dismiss_activity_popup(self.client)
-            time.sleep(2)
+            time.sleep(1)
             state = monitor.inspect().state
 
         if state == "privacy_agreement":
             monitor.click_text(self.client, "同意")
-            time.sleep(3)
+            time.sleep(1)
             state = monitor.inspect().state
 
         if state in ("home_unlogged", "home_logged"):
             search_entry = self.poco(textMatches=".*想去哪.*|.*您從哪裡出發.*|.*搜索.*")
             if search_entry.exists():
                 search_entry.click()
-                time.sleep(3)
+                time.sleep(1)
             else:
                 self.client.click(196, 120)
-                time.sleep(3)
+                time.sleep(1)
 
         self._ios_configure_addresses(tag, start_addr, end_addr)
-        time.sleep(7)
+        time.sleep(1)
 
         self._ios_select_car_type(tag, car_type=self.CAR_TYPE)
         self._ios_select_payment(tag, payment=self.PAYMENT)
+
+    def _guard_existing_order_retry(self):
+        """发现遗留订单后关闭整例重试；重试轮不自动取消或支付已有订单。"""
+        self.retry_safe = False
+        if getattr(self, "batch_retry", False):
+            raise RuntimeError("重试检测到遗留订单，停止当前用例，不自动取消、接续或重复付款")
 
     def _ui_cleanup_ongoing_order(self, tag):
         """UI 方式取消遗留的进行中订单，并在需要时执行 UI 登录。
@@ -562,15 +591,21 @@ class TestOrderBase(iOSBase):
         4. 情况 2：检测到登录页 → 执行 UI 登录
         """
         # 共用启动遮挡清理，遗留订单取消和登录判断仍留在本编排中。
+        if getattr(self, "batch_retry", False):
+            logger.info("【%s】失败重试：WDA已就绪，重新打开乘客App后执行当前用例", tag)
         self._ios_prepare_passenger_app(tag, launch_wait=8, alert_wait=1)
         if not self._ios_ensure_logged_in(tag=tag):
             raise RuntimeError("乘客自动登录失败，停止遗留订单处理和下单")
 
         page_texts = self._ios_get_all_texts(self.client)
         logger.info(f"【{tag}】预清理: 当前页面文本: {page_texts[:200]}")
+        if any(text.strip() in ("確認支付", "确认支付", "費用明細", "费用明细", "行程結束", "行程结束")
+               for text in page_texts):
+            self._guard_existing_order_retry()
 
         # 情况 1：等待接单页 → 取消订单
         if any("取消訂單" in t for t in page_texts):
+            self._guard_existing_order_retry()
             logger.info(f"【{tag}】预清理: 检测到进行中订单，正在取消...")
             # 点击"取消訂單"按钮
             if not self._ios_click_dialog_button(
@@ -586,7 +621,7 @@ class TestOrderBase(iOSBase):
             if not confirmed:
                 logger.warning(f"【{tag}】预清理: 未找到取消确认按钮，可能已直接取消")
 
-            time.sleep(3)
+            time.sleep(2)
             self._ios_screenshot(f"JRYG_{self.CAR_TYPE}_{self.PAYMENT}_00_cleanup.png")
             logger.info(f"【{tag}】预清理: 订单取消完成")
 
@@ -598,18 +633,18 @@ class TestOrderBase(iOSBase):
             self.client.home()
             time.sleep(1)
             self.client.session(E.PASSENGER_BUNDLE_ID)
-            time.sleep(3)
+            time.sleep(1)
 
             # 验证已返回首页
             for back_wait in range(10):
                 page_texts = self._ios_get_all_texts(self.client)
                 if any(kw in t for t in page_texts for kw in ["想去哪裡", "想去哪里", "主頁"]):
-                    logger.info(f"【{tag}】预清理: 取消后已返回首页 ({back_wait+1}s)")
+                    logger.info(f"【{tag}】预清理: 取消后已返回首页 ({back_wait*0.5+0.5:.0f}s)")
                     break
                 # 再尝试关闭弹窗
                 self._ios_click_dialog_button(
-                    ["確定", "确定", "好", "OK"], tag=tag, wait_after=1)
-                time.sleep(1)
+                    ["確定", "确定", "好", "OK"], tag=tag, wait_after=0.5)
+                time.sleep(0.5)
         else:
             logger.info(f"【{tag}】预清理: 不在等待接单页")
 
@@ -617,6 +652,7 @@ class TestOrderBase(iOSBase):
         page_texts = self._ios_get_all_texts(self.client)
         if any(("未完成" in t and "訂單" in t) or ("未完成" in t and "订单" in t)
                for t in page_texts):
+            self._guard_existing_order_retry()
             logger.info(f"【{tag}】预清理: 检测到'未完成訂單'提示弹窗")
             # 点击"去完成"/"去處理"
             if self._ios_click_dialog_button(
@@ -634,12 +670,7 @@ class TestOrderBase(iOSBase):
                 self._ios_click_dialog_button(
                     ["稍後", "稍后", "關閉", "关闭"], tag=tag, wait_after=2)
 
-        # 情况 2：检测登录页
-        if not self._ios_ensure_logged_in(tag=tag):
-            raise RuntimeError("乘客登录态未确认，停止下单")
-
-        self.client.home()
-        time.sleep(2)
+        logger.info("【%s】预清理完成，保持乘客App前台，继续起终点配置", tag)
 
     # ==================== 司机端 UI 辅助方法 ====================
 
@@ -648,7 +679,7 @@ class TestOrderBase(iOSBase):
         self.driver_runtime = self._resolve_driver_runtime()
         args = self._driver_parser().parse_args(["--wda-url", self.driver_runtime.wda_url, "--stop-after", "online"])
         self.driver_ui = self._create_driver_flow(args)
-        self.resuming_order = self.driver_ui.ensure_online(resume_existing=True)
+        self.resuming_order = self.driver_ui.ensure_online(resume_existing=not getattr(self, "batch_new_order_only", False))
         if self.resuming_order:
             logger.info("【%s】检测到已有订单，当前阶段：%s；跳过乘客清理和重复下单", tag,
                         PHASE_NAMES[self.driver_ui.last_phase])
@@ -689,3 +720,7 @@ class TestOrderBase(iOSBase):
             raise
         expected = ("departure", "pickup") if stop_after == "accepted" else ("unpaid", "complete")
         assert self.driver_ui.last_phase in expected, f"{tag}: 司机 UI 未确认接单或账单提交成功"
+        if self.driver_ui.last_phase == "unpaid":
+            logger.info("【%s】司机已提交账单，订单=%s；保留未支付现场后交还乘客，不重提账单",
+                        tag, self.driver_ui.order_no)
+            self.driver_ui.snapshot("bill_submitted_unpaid_before_passenger_payment")

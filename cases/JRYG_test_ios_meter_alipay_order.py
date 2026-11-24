@@ -4,14 +4,14 @@
 车型：打錶的士（meter）
 支付：Alipay HK（alipay）
 
-场景边界：本用例下单直接选Alipay HK，不是電子支付下单的后付渠道用例。
-后付Alipay独立场景在JRYG_test_ios_meter_epayment_alipay_order.py；两者都调用
-iOSBase继承的_ios_pay，公共启动和地址搜索也由基类统一实现。
+场景边界：PAYMENT保持alipay，最终必须通过Alipay HK支付，不以電子支付分组选中代表付款。
+新版打表下单面板仅提供電子支付/現金支付；同一電子支付选项明确支持Alipay HK时选该分组，
+有独立Alipay HK选项时仍优先直选。公共渠道支付、启动和地址搜索由基类统一实现。
 
 完整流程：
   阶段 0（UI）  ：打开司机 App → 点击出车并确认听单
   阶段 1（UI）  ：切乘客 App 处理遗留订单，不调用司机业务接口
-  阶段 2（UI）  ：拉起 App → 配置起终点 → 选择车型 → 选择 Alipay HK 支付方式
+  阶段 2（UI）  ：拉起 App → 配置起终点 → 选择车型 → 选择支持Alipay HK的支付方式
                → 確認呼叫 → 检测登录态 → 未登录则登录后重新下单 → 等待下单成功
   阶段 3（UI）  ：切司机 App → 接单 → 滑动到达/接载/结束 → 填写并确认账单
                提交后切回乘客支付，不调用业务接口、不自动收车
@@ -45,7 +45,7 @@ class TestMeterAlipay(TestOrderBase):
     """打錶的士 + Alipay HK 支付
 
     继承 TestOrderBase，自动执行：
-    UI 下单（打錶的士 + Alipay HK）→ 司机端接口接单 → 订单流转 → 结束行程
+    UI 下单（打錶的士 + 支持Alipay HK的電子支付分组）→ 司机UI接单 → 订单流转 → 结束行程
     → 订单结束后支付页面选择 Alipay HK → Safari 支付 → 支付成功 → 返回首页
     """
 

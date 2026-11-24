@@ -2,20 +2,20 @@
 港版 iOS 测试场景：包車價的士 + Alipay HK 支付
 ==============================================================================
 车型：包車價的士（charter）—— 固定一口价，先付後乘
-支付：Alipay HK（alipay）—— 订单结束后通过 Safari AlipayHK 完成支付
-公共调用：启动/地址由iOSBase处理；下单预付收银台由OrderBase编排，后续付款
-委托_ios_pay，不把预付确认并呼叫与后付确认支付合并为同一次点击。
+支付：Alipay HK（alipay）—— 下单时通过 Safari AlipayHK 预付，结束后不重复付款
+公共调用：启动/登录/地址由iOSBase处理；预付收银台由OrderBase编排，渠道支付委托_ios_pay。
 
 完整流程：
   阶段 0（UI）  ：打开司机 App → 点击出车并确认听单
-  阶段 1（UI）  ：切乘客 App 处理遗留订单，不调用司机业务接口
-  阶段 2（UI）  ：拉起 App → 配置起终点 → 选择包車價的士 → 確認呼叫
-               → 预付页面弹出 → 选择 Alipay HK 支付方式 → 確認支付並呼叫
-               → 检测登录态 → 未登录则登录后重新下单 → 等待下单成功
-  阶段 3（UI）  ：切司机 App → 接单 → 滑动到达/接载/结束 → 填写并确认账单
+  阶段 1（UI）  ：打开乘客 App → 处理权限弹框（无则忽略）→ 核验一次登录态并缓存
+               → 按现有规则处理遗留订单，保持乘客 App 前台
+  阶段 2（UI）  ：输入起点铜锣湾地铁站D2出口 → 输入终点大谭郊野公园 → 选择包車價的士
+               → 確認呼叫 → 预付页面选择 Alipay HK → 確認支付並呼叫
+               → Safari Pay Now → SUCCESS → 返回 App → 等待下单成功
+  阶段 3（UI）  ：切司机 App → UI 接单 → 滑动到达/接载/结束 → 填写并确认账单
                提交后切回乘客，不调用业务接口、不自动收车
-  阶段 4（UI）  ：订单结束后检测到支付页面 → 选择 Alipay HK → 確認支付
-               → Safari 支付页 Pay Now → SUCCESS → 返回 App → 返回首页
+  阶段 4（UI）  ：乘客返回首页 → 司机核验同一订单已完成且已支付，不重复预付
+  登录缓存仅限本次用例；明确登录失效时清除缓存，付款结果不确定时不重下单。
 ==============================================================================
 """
 
@@ -43,14 +43,14 @@ from ui_framework.JRYG_order_flow import TestOrderBase
 class TestCharterAlipay(TestOrderBase):
     """包車價的士 + Alipay HK 支付
 
-    继承 TestOrderBase，自动执行：
-    UI 下单（包車價的士 + Alipay HK，先付後乘）→ 司机端接口接单 → 订单流转
-    → 结束行程 → 订单结束后支付页面选择 Alipay HK → Safari 支付 → 支付成功 → 返回首页
+    继承 TestOrderBase：一次启动与登录核验 → 铜锣湾地铁站D2出口到大谭郊野公园
+    → 包車價的士 → 確認呼叫 → Alipay HK预付 → 司机UI接单及行程流转
+    → 结束行程 → 乘客返回首页 → 同订单完成及到账核验。
     """
 
     __test__ = True            # 标记为可被 pytest 收集的测试类（基类中 __test__ = False）
     CAR_TYPE = "charter"       # 车型：包車價的士（固定一口价，先付後乘）
-    PAYMENT = "alipay"         # 支付方式：Alipay HK（订单结束后走 Safari 支付流程）
+    PAYMENT = "alipay"         # 支付方式：Alipay HK 预付
 
 
 if __name__ == "__main__":

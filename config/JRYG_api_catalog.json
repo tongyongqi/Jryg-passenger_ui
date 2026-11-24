@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "cluster": "hk",
+  "namespace": "test",
+  "trace_query_path": "/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/trace_query.py",
+  "command_timeout": 20,
+  "total_timeout": 90,
+  "tail_lines": 20000,
+  "step_padding_seconds": 5,
+  "server_timezone": "Asia/Hong_Kong"
+}

@@ -183,6 +183,7 @@ def test_unlock_failure_not_driver_slide_retry(clock):
     flow.act = Mock()
     flow.wait_for = Mock(side_effect=[(ET.Element("trip"), "destination"),
                                       guard.DeviceUnlockError("manual unlock needed")])
+    flow.wait_before_destination = Mock(return_value=ET.Element("trip"))
     with pytest.raises(guard.DeviceUnlockError):
         flow.run()
     flow.act.assert_called_once()
