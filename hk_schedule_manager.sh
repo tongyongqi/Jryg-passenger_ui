@@ -56,7 +56,7 @@ case "${1:-}" in
     *)
         echo "用法：$0 {install|uninstall|status|run}"
         echo ""
-        echo "  install    安装 macOS launchd 定时任务（每天 09:00 和 14:00）"
+        echo "  install    安装 macOS launchd 定时任务（每天 10:10）"
         echo "  uninstall  卸载定时任务"
         echo "  status     查看定时任务状态"
         echo "  run        立即执行一次六场景（带钉钉通知）"

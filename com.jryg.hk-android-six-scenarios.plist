@@ -14,22 +14,14 @@
     <key>WorkingDirectory</key>
     <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-android_副本</string>
 
-    <!-- 定时：每天 09:00 和 14:00 各执行一次 -->
+    <!-- 定时：每天 10:10 执行一次 -->
     <key>StartCalendarInterval</key>
-    <array>
-        <dict>
-            <key>Hour</key>
-            <integer>9</integer>
-            <key>Minute</key>
-            <integer>0</integer>
-        </dict>
-        <dict>
-            <key>Hour</key>
-            <integer>14</integer>
-            <key>Minute</key>
-            <integer>0</integer>
-        </dict>
-    </array>
+    <dict>
+        <key>Hour</key>
+        <integer>10</integer>
+        <key>Minute</key>
+        <integer>10</integer>
+    </dict>
 
     <key>StandardOutPath</key>
     <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-android_副本/logs/scheduled_stdout.log</string>
