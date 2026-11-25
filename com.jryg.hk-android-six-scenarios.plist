@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.jryg.hk-android-six-scenarios</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-android_副本/.venv/bin/python3</string>
+        <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-android_副本/hk_passenger_android_scheduled.py</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-android_副本</string>
+
+    <!-- 定时：每天 09:00 和 14:00 各执行一次 -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Hour</key>
+            <integer>9</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>14</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+    </array>
+
+    <key>StandardOutPath</key>
+    <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-android_副本/logs/scheduled_stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-android_副本/logs/scheduled_stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <!-- 钉钉机器人 Webhook（替换为你的实际 Webhook URL） -->
+        <key>DINGTALK_WEBHOOK</key>
+        <string></string>
+        <!-- 钉钉加签密钥（替换为你的实际密钥，可为空） -->
+        <key>DINGTALK_SECRET</key>
+        <string></string>
+        <!-- 需要 @ 的手机号（逗号分隔） -->
+        <key>DINGTALK_AT_MOBILES</key>
+        <string></string>
+        <!-- PATH 确保 adb 等命令可用 -->
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin</string>
+    </dict>
+
+    <!-- 如果错过了执行时间（电脑关机），开机后补执行 -->
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

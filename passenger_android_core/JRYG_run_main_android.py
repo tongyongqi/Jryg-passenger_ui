@@ -137,6 +137,12 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
             summary_file = batch_dir / "batch_result.json"
             summary_file.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
             print(f"[批量报告] {summary_file}", flush=True)
+            # 批量结束后发送钉钉通知（配置了 Webhook 才发送）
+            try:
+                from .JRYG_dingtalk_notify import send_batch_result
+                send_batch_result(str(summary_file))
+            except Exception as notify_exc:
+                print(f"[钉钉通知] 发送失败：{notify_exc}", flush=True)
         return exit_code
 
 
