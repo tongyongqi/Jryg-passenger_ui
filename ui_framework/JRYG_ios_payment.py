@@ -10,6 +10,7 @@ import re
 import time
 
 from ui_framework.JRYG_logger import logger
+from ui_framework.JRYG_device_guard import DeviceUnlockError
 
 
 class AlipayPaymentTapUncertainError(RuntimeError):
@@ -231,13 +232,15 @@ class HKIOSPaymentMixin:
                     self.client.click(x + width // 2, y + height // 2)
                     logger.info(f"  >> Safari 坐标点击 '{text_kw}'")
                     return True
+                except DeviceUnlockError:
+                    raise
                 except Exception as exc:
                     logger.warning(f"  >> Safari 坐标点击 '{text_kw}' 点击异常: {exc}")
                     if text_kw == "Pay Now":
                         raise AlipayPaymentTapUncertainError("Pay Now点击已发出，禁止重复提交") from exc
                     if not allow_fallback:
                         return False
-        except AlipayPaymentTapUncertainError:
+        except (DeviceUnlockError, AlipayPaymentTapUncertainError):
             raise
         except Exception as exc:
             logger.warning(f"  >> Safari 坐标点击 '{text_kw}' 异常: {exc}")

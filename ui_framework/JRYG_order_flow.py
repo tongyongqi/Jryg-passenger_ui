@@ -546,6 +546,7 @@ class TestOrderBase(iOSBase):
 
     def _ios_re_setup_from_current_page(self, tag, start_addr, end_addr):
         """登录成功后从当前页面重新配置起终点、选车型、选支付。"""
+        start_addr = self._ios_start_address(start_addr)
         monitor = self._ios_ensure_monitor()
         state = monitor.inspect().state
         logger.info(f"【{tag}】登录后当前页面状态: {state}，不重启 App，直接配置起终点")

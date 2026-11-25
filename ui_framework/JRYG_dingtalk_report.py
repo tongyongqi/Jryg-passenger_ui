@@ -79,7 +79,7 @@ def report_payload(summary_file):
         label = CASE_LABELS.get(row.get("case"), "场景%s" % index)
         lines.append("- %s：%s" % (label, STATUS_LABELS[row["status"]]))
     if exit_code != 0 or counts["failed"] or counts["interrupted"]:
-        lines.extend(["", "测试失败或中断后已停止后续场景；支付状态请核对原报告和当前交易，勿直接重付。"])
+        lines.extend(["", "失败场景记录后继续后续场景；批次中断则停止。支付状态请核对原报告和当前交易，勿直接重付。"])
     lines.extend(["", "消息为本次执行的报告摘要，完整HTML保存在运行电脑的report/batches目录。",
                   "本地文件尚未托管，未附加HTML/ZIP；账号、卡号、验证码及原始异常不发送到群内。"])
     return {"msgtype": "markdown", "markdown": {"title": title, "text": "\n".join(lines)},

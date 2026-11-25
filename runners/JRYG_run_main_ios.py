@@ -290,15 +290,8 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
                 if index < len(case_files):
                     print("[等待] 用例间隔10秒，之后才启动下一例。", flush=True)
                     time.sleep(10)
-                    # 间隔后唤醒iPhone屏幕，防止自动锁屏导致下一例失败
                     if platform == "ios":
-                        try:
-                            from ui_framework.JRYG_device_guard import ensure_unlocked
-                            import wda
-                            wda_url = SETTINGS["device"].get("wda_url", "http://127.0.0.1:8100")
-                            ensure_unlocked(wda.Client(wda_url))
-                        except Exception as exc:
-                            print(f"[唤醒] 间隔唤醒失败（{type(exc).__name__}），继续尝试下一例", flush=True)
+                        print("[唤醒] 下一例先唤醒电脑；WDA就绪后自动唤醒并核验手机，不向已清理的WDA发送解锁请求。", flush=True)
         except KeyboardInterrupt:
             exit_code = interrupted_code
             print("[停止] 批量已中断，不继续后续用例。", flush=True)
@@ -332,18 +325,25 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
                     print(f"[接口报告] 汇总失败（{type(exc).__name__}），不影响 UI 测试退出码。", flush=True)
             if platform == "ios":
                 try:
-                    # 钉钉通知暂停发送（2026-11-17）
-                    # from ui_framework.JRYG_dingtalk_report import notify_batch
-                    # notify_batch(summary_file)
-                    pass
+                    from ui_framework.JRYG_dingtalk_report import notify_batch
+                    notify_batch(summary_file)
                 except (Exception, KeyboardInterrupt) as exc:
                     print(f"[钉钉报告] 通知异常（{type(exc).__name__}），不影响测试退出码，不自动重发。", flush=True)
         return exit_code
 
 
 def batch_order(case_files):
-    """双端使用同一批次顺序：包车两例在前，打表四例在后。"""
-    return case_files[4:] + case_files[:4]
+    """包车两渠道在前，打表线上支付在后，现金最后；保留全部已有场景。"""
+    names = (
+        "JRYG_test_ios_charter_alipay_order.py",
+        "JRYG_test_ios_charter_bankcard_order.py",
+        "JRYG_test_ios_meter_epayment_alipay_order.py",
+        "JRYG_test_ios_meter_alipay_order.py",
+        "JRYG_test_ios_meter_epayment_bankcard_order.py",
+        "JRYG_test_ios_meter_cash_order.py",
+    )
+    ranks = {name: index for index, name in enumerate(names)}
+    return sorted(case_files, key=lambda path: ranks.get(Path(path).name, len(ranks)))
 
 
 def run_tests(argv=None):
@@ -431,7 +431,7 @@ def run_tests(argv=None):
             except Exception as exc:
                 print(f"[接口采集] 配置加载失败（{type(exc).__name__}），本轮禁用采集，不影响 UI 测试。", flush=True)
     if options.batch:
-        print("[顺序] 包车Alipay → 包车银行卡 → 打表现金 → 电子支付后付银行卡 → 电子支付后付Alipay → 直接Alipay", flush=True)
+        print("[顺序] 包车Alipay HK → 包车银行卡 → 打表电子支付Alipay HK → 打表直接Alipay HK → 打表电子支付银行卡 → 打表现金", flush=True)
         if not read_only:
             return run_batch(existing_files, extra_args, report_dir=options.api_output, api_config=api_config)
 

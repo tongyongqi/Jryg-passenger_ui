@@ -95,7 +95,6 @@ PASSENGER_STEPS = {
     "_ios_handle_unfinished_order_popup": "处理未完成订单提示",
     "_ios_configure_addresses": "设置起终点",
     "_ios_search_address": "搜索地址",
-    "_ios_search_north_point_start": "搜索上车点",
     "_ios_select_car_type": "选择车型与询价",
     "_ios_select_payment": "选择支付方式",
     "_click_call_and_check_login_then_retry": "下单并等待结果",

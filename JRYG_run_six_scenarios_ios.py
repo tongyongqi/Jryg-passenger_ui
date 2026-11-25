@@ -26,7 +26,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     args = list(sys.argv[1:] if argv is None else argv)
     print("香港乘客端iOS：包车两例 + 打表四例", flush=True)
-    print("默认执行下单、司机操作及支付；失败停止，不自动重试付款。", flush=True)
+    print("默认执行下单、司机操作及支付；安全准备失败重试一次，最终失败记录后继续，不重复付款。", flush=True)
     print("请连接USB并信任开发者证书；会检测锁屏并尝试解锁，密码锁无法自动通过时请手动解锁。", flush=True)
     print(f"报告目录：{project / 'report/batches'}", flush=True)
     environment = os.environ.copy()

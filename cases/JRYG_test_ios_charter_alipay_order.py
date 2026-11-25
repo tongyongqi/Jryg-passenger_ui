@@ -9,7 +9,7 @@
   阶段 0（UI）  ：打开司机 App → 点击出车并确认听单
   阶段 1（UI）  ：打开乘客 App → 处理权限弹框（无则忽略）→ 核验一次登录态并缓存
                → 按现有规则处理遗留订单，保持乘客 App 前台
-  阶段 2（UI）  ：输入起点铜锣湾地铁站D2出口 → 输入终点大谭郊野公园 → 选择包車價的士
+  阶段 2（UI）  ：输入起点铜锣湾 → 输入终点大谭郊野公园 → 选择包車價的士
                → 確認呼叫 → 预付页面选择 Alipay HK → 確認支付並呼叫
                → Safari Pay Now → SUCCESS → 返回 App → 等待下单成功
   阶段 3（UI）  ：切司机 App → UI 接单 → 滑动到达/接载/结束 → 填写并确认账单
@@ -43,7 +43,7 @@ from ui_framework.JRYG_order_flow import TestOrderBase
 class TestCharterAlipay(TestOrderBase):
     """包車價的士 + Alipay HK 支付
 
-    继承 TestOrderBase：一次启动与登录核验 → 铜锣湾地铁站D2出口到大谭郊野公园
+    继承 TestOrderBase：一次启动与登录核验 → 铜锣湾到大谭郊野公园
     → 包車價的士 → 確認呼叫 → Alipay HK预付 → 司机UI接单及行程流转
     → 结束行程 → 乘客返回首页 → 同订单完成及到账核验。
     """

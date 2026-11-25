@@ -35,5 +35,5 @@ order_validation:
   completion_timeout: 90
   total_timeout: 900
   # 起终点搜索结果可接受的真实名称，用于Android共享路线匹配。
-  start_names: ["北角(地鐵站)", "北角地鐵站"]
+  start_names: ["铜锣湾", "銅鑼灣"]
   end_names: ["香港大學"]

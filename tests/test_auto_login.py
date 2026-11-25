@@ -265,7 +265,7 @@ def test_login_failure_blocks_address_configuration(passenger):
     passenger._ios_ensure_logged_in = Mock(return_value=False)
     passenger._ios_configure_addresses = Mock()
     with pytest.raises(RuntimeError, match="自动登录失败"):
-        passenger._ios_launch_setup_and_addresses("check", "start", "end")
+        passenger._ios_launch_setup_and_addresses("check", "铜锣湾", "end")
     passenger._ios_configure_addresses.assert_not_called()
 
 
@@ -398,7 +398,7 @@ def charter_flow(passenger, monkeypatch):
     flow._ios_search_address = Mock(side_effect=lambda is_start, address: events.append(
         ("start" if is_start else "end", address)))
     root = ET.Element("XCUIElementTypeApplication", bundleId=PASSENGER_BUNDLE_ID)
-    for marker, text in (("start", "铜锣湾地铁站D2出口"), ("end", "大谭郊野公园")):
+    for marker, text in (("start", "铜锣湾"), ("end", "大谭郊野公园")):
         container = ET.SubElement(root, "XCUIElementTypeOther", name="maannotationview")
         ET.SubElement(container, "XCUIElementTypeImage", name=f"slm_icon_anno_{marker}", visible="true")
         ET.SubElement(container, "XCUIElementTypeStaticText", label=text, visible="true")
@@ -428,7 +428,7 @@ def test_charter_alipay_one_launch_login_and_order_sequence(charter_flow, has_pe
     flow.test_order_flow()
     assert events == [
         "driver_online", "launch", "permissions", "我的", "主頁",
-        ("start", "铜锣湾地铁站D2出口"), ("end", "大谭郊野公园"), ("car", "charter"),
+        ("start", "铜锣湾"), ("end", "大谭郊野公园"), ("car", "charter"),
         "call", ("payment", "alipay"), "confirm_pay", ("pay", "alipay", "submitted"),
         "order_success", "driver_trip", "finish_home", "verify_same_order",
     ]
@@ -439,7 +439,7 @@ def test_charter_alipay_one_launch_login_and_order_sequence(charter_flow, has_pe
     flow.client.alert.accept.assert_called_once()
     flow.client.send_keys.assert_not_called()
     assert flow._passenger_verified_phone == PHONE
-    assert flow._ios_call_route_key == ("铜锣湾地铁站D2出口", "大谭郊野公园")
+    assert flow._ios_call_route_key == ("铜锣湾", "大谭郊野公园")
     assert flow.completed_order_no == "offline-order"
     flow._ios_pay.assert_called_once()
     flow._ios_complete_payment.assert_not_called()
@@ -667,7 +667,7 @@ def test_meter_group_order_still_pays_alipay_only_after_driver_trip(charter_flow
     flow.test_order_flow()
     assert events == [
         "driver_online", "launch", "permissions", "我的", "主頁",
-        ("start", "铜锣湾地铁站D2出口"), ("end", "大谭郊野公园"), ("car", "meter"),
+        ("start", "铜锣湾"), ("end", "大谭郊野公园"), ("car", "meter"),
         ("payment", "alipay"), "call", "order_success", "driver_trip", "wait_bill",
         ("postpay", "alipay"), "verify_same_order",
     ]

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import plistlib
 import signal
+import subprocess
 from types import SimpleNamespace
 from unittest.mock import Mock
 
@@ -15,8 +16,11 @@ from runners import JRYG_run_scheduled_ios as scheduled
 
 @pytest.fixture(autouse=True)
 def no_real_execution(monkeypatch):
-    monkeypatch.setattr(scheduled.subprocess, "Popen", Mock(side_effect=AssertionError("禁止真实任务启动")))
-    monkeypatch.setattr(scheduled.subprocess, "run", Mock(side_effect=AssertionError("禁止改变Mac电源状态")))
+    monkeypatch.setattr(scheduled, "subprocess", SimpleNamespace(
+        Popen=Mock(side_effect=AssertionError("禁止真实任务启动")),
+        run=Mock(side_effect=AssertionError("禁止改变Mac电源状态")),
+        TimeoutExpired=subprocess.TimeoutExpired,
+    ))
 
 
 @pytest.fixture
@@ -29,7 +33,7 @@ def sandbox(tmp_path, monkeypatch):
     monkeypatch.setattr(scheduled, "PYTHON", python)
     monkeypatch.setattr(scheduled, "ENTRY", entry)
     monkeypatch.setattr(scheduled, "REPORT_DIR", tmp_path / "report")
-    clock = SimpleNamespace(now=datetime(2026, 11, 5, 10, 45))
+    clock = SimpleNamespace(now=datetime(2026, 11, 5, 14, 33))
 
     class TestClock:
         @staticmethod
@@ -46,9 +50,10 @@ def sandbox(tmp_path, monkeypatch):
 
 
 @pytest.mark.parametrize("hour,minute,second,expected", [
-    (10, 44, 59, False), (10, 45, 0, True), (10, 54, 59, True),
-    (10, 55, 0, False), (12, 0, 0, False), (0, 0, 0, False),
-    (10, 40, 0, False), (7, 0, 0, False),
+    (14, 32, 59, False), (14, 33, 0, True), (14, 42, 59, True),
+    (14, 43, 0, False), (15, 0, 0, False), (0, 0, 0, False),
+    (14, 28, 0, False), (10, 0, 0, False), (14, 10, 0, False),
+    (10, 50, 0, False),
 ])
 def test_schedule_window_no_late_payments(hour, minute, second, expected):
     assert scheduled.in_schedule_window(datetime(2026, 11, 5, hour, minute, second)) is expected
@@ -84,7 +89,7 @@ def test_afternoon_wake_does_not_make_up_orders(sandbox):
 
 def test_prepare_past_window_does_not_start(sandbox):
     def prepare():
-        sandbox.now = datetime(2026, 11, 5, 10, 55)
+        sandbox.now = datetime(2026, 11, 5, 11, 0)
         return nullcontext()
 
     scheduled.awake_for_run.side_effect = prepare
@@ -135,7 +140,7 @@ def test_crashed_previous_batch_not_repeated(sandbox):
 
 def test_following_day_runs_new_batch_once(sandbox):
     assert scheduled.run_scheduled() == 0
-    sandbox.now = datetime(2026, 11, 6, 10, 45)
+    sandbox.now = datetime(2026, 11, 6, 14, 33)
     assert scheduled.run_scheduled() == 0
     assert scheduled.execute_batch.call_count == 2
 
@@ -251,6 +256,7 @@ def test_signal_forwarded_to_existing_batch_no_restart(monkeypatch):
     scheduled.subprocess.Popen.assert_called_once()
     command = scheduled.subprocess.Popen.call_args.args[0]
     assert command == [str(scheduled.PYTHON), str(scheduled.ENTRY)]
+    assert scheduled.subprocess.Popen.call_args.kwargs["cwd"] == str(scheduled.PROJECT)
     assert handlers[signal.SIGTERM] == "previous"
 
 
@@ -258,9 +264,68 @@ def test_launchd_manifest_no_immediate_run_or_failure_restart():
     path = Path(scheduled.__file__).with_name("com.jryg.hk-ios.daily.plist")
     job = plistlib.loads(path.read_bytes())
     assert job["Label"] == scheduled.LABEL
-    assert job["StartCalendarInterval"] == {"Hour": 10, "Minute": 45}
+    assert job["StartCalendarInterval"] == {"Hour": 14, "Minute": 33}
     assert job["RunAtLoad"] is False
     assert job["KeepAlive"] is False
     assert job["LimitLoadToSessionType"] == "Aqua"
     assert job["ProgramArguments"] == [str(scheduled.PYTHON), str(Path(scheduled.__file__)), "--run"]
     assert job["StandardOutPath"] == str(scheduled.LOG_DIR / "daily.log")
+    assert job["StandardErrorPath"] == str(scheduled.LOG_DIR / "daily-error.log")
+    assert job["WorkingDirectory"] == str(scheduled.PROJECT)
+    assert scheduled.PYTHON == scheduled.PROJECT / ".venv" / "bin" / "python"
+
+
+def test_installer_update_guards_and_backup_precede_reload():
+    path = Path(scheduled.__file__).with_name("JRYG_install_daily_ios.sh")
+    source = path.read_text()
+    assert 'PYTHON="$PROJECT/.venv/bin/python"' in source
+    assert '"$MODE" != "--update"' in source
+    assert 'for CONFIG in "$DESTINATION" "$SOURCE"' in source
+    assert 'plutil -extract StartCalendarInterval.Hour raw' in source
+    assert 'plutil -extract StartCalendarInterval.Minute raw' in source
+    assert 'CURRENT >= START && CURRENT < START + 10' in source
+    assert source.count('outside_start_windows || exit 2') == 2
+    assert 'WAKE_TIME="14:28"' in source
+    assert '/usr/bin/sudo -n "$WAKE_HELPER" "$WAKE_TIME"' in source
+    assert '/usr/bin/sudo /usr/bin/pmset' not in source
+    assert 'osascript' not in source
+    assert '-L "$DESTINATION"' in source
+    assert 'plutil -extract Label raw' in source
+    assert source.count("pid =|state = running") == 2
+    backup = source.index('/bin/cp -p "$DESTINATION" "$BACKUP"')
+    recheck = source.index('JOB=$(/bin/launchctl print "$DOMAIN/$LABEL")')
+    bootout = source.index('/bin/launchctl bootout "$DOMAIN/$LABEL"')
+    replace = source.index('/bin/cp "$SOURCE" "$DESTINATION"')
+    bootstrap = source.index('/bin/launchctl bootstrap "$DOMAIN" "$DESTINATION"')
+    assert backup < recheck < bootout < replace < bootstrap
+    assert "kickstart" not in source
+    assert '"$PROJECT/runners/JRYG_run_scheduled_ios.py" --run' not in source
+
+
+@pytest.mark.parametrize("arguments", [
+    [], ["24:00"], ["12:60"], ["9:00"], ["00:00;id"], ["$(id)"], ["10:35", "extra"],
+])
+def test_restricted_wake_rejects_bad_arguments_before_privileged_actions(arguments):
+    path = Path(scheduled.__file__).with_name("JRYG_set_daily_wake.sh")
+    result = subprocess.run(["/bin/bash", str(path), *arguments], capture_output=True, text=True, timeout=3)
+    assert result.returncode == 2
+    assert "仅接受一个HH:MM时间参数" in result.stdout
+    assert "已设置" not in result.stdout
+
+
+def test_persistent_wake_authorization_is_single_command_and_root_owned():
+    path = Path(scheduled.__file__).with_name("JRYG_authorize_daily_wake.sh")
+    source = path.read_text()
+    assert 'HELPER="/Library/PrivilegedHelperTools/com.jryg.hk-ios.set-wake"' in source
+    assert 'RULE="/private/etc/sudoers.d/jryg_hk_ios_wake"' in source
+    assert 'NOPASSWD: NOSETENV: %s' in source
+    assert 'NOPASSWD: ALL' not in source
+    assert '/usr/bin/install -o root -g wheel -m 755 "$SOURCE" "$HELPER"' in source
+    assert '/usr/bin/install -o root -g wheel -m 440 "$CANDIDATE" "$RULE"' in source
+    assert '8#$PERMISSIONS & 8#022' in source
+    assert '/usr/sbin/visudo -c -f "$CANDIDATE"' in source
+    assert '/usr/bin/sudo -n -l "$HELPER" 10:35' in source
+    helper = path.with_name("JRYG_set_daily_wake.sh").read_text()
+    assert '/usr/bin/pmset repeat wake MTWRFSU "$1:00"' in helper
+    assert '不覆盖休眠、关机或其他唤醒设置' in helper
+    assert 'eval ' not in helper

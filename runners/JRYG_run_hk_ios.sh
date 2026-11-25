@@ -64,6 +64,8 @@ for arg in "$@"; do
     esac
 done
 
+"$PYTHON" -m ui_framework.JRYG_device_guard --mac-only --hold-pid "$$" || exit 1
+
 # 检查依赖工具是否已安装
 echo "JRYG 港版 iOS UI 自动化 -ios"
 for tool in xcrun xcodebuild iproxy curl lsof; do

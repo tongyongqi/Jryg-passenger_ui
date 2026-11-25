@@ -100,10 +100,14 @@ class iOSBase(HKIOSPaymentMixin):
         用于需要按元素属性（label/name/rect）精确定位并自行计算坐标的场景
         （例如 Safari WebView 内的元素必须坐标点击，element uuid 点击无效）。
 
-        :return: XML 字符串，失败返回空字符串。
+        :return: XML 字符串，普通读取失败返回空字符串；解锁失败直接停止。
         """
+        ensure_unlocked(self.client)
         try:
-            return self.client.source(format="xml") or ""
+            source = self.client.source(format="xml") or ""
+            if source:
+                remember_foreground(self.client, ET.fromstring(source))
+            return source
         except Exception as e:
             logger.warning(f"获取页面源码失败: {e}")
             return ""
@@ -587,225 +591,187 @@ class iOSBase(HKIOSPaymentMixin):
     # 取消订单确认弹框的关键词（简繁体）
     CANCEL_CONFIRM_KEYWORDS = ["不用車了", "不用车了", "確認取消", "确认取消", "確定", "确定", "好"]
 
-    @staticmethod
-    def _ios_north_point_exit(root):
-        """只识别东区北角地铁站结果内的出口按钮，不接受键盘Cell或其他同名出口。"""
-        matches = []
-        for cell in root.iter("XCUIElementTypeCell"):
-            if cell.get("visible") != "true" or cell.get("enabled") == "false":
-                continue
-            texts = {node.get("label") or node.get("name") or node.get("value")
-                     for node in cell.iter("XCUIElementTypeStaticText") if node.get("visible") == "true"}
-            if not texts.intersection(E.NORTH_POINT_STATION_NAMES) or E.NORTH_POINT_DISTRICT not in texts:
-                continue
-            matches.extend(node for node in cell.iter("XCUIElementTypeButton")
-                           if node.get("visible") == "true" and node.get("enabled") != "false"
-                           and (node.get("label") or node.get("name")) == E.NORTH_POINT_EXIT)
-        if len(matches) > 1:
-            raise AssertionError("北角地铁站出口不唯一，禁止选址")
-        return matches[0] if matches else None
-
-    def _ios_search_north_point_start(self):
-        """回读起点输入框，等待精确站点与区域，再点击该站A1出口；不执行模糊降级。"""
-        root = ET.fromstring(self.client.source(format="xml"))
+    def _ios_address_search_page(self, is_start, expected_value=None):
+        """只接受乘客前台、正确起终点占位及唯一可用输入框。"""
+        root = ET.fromstring(self._ios_get_source_xml())
+        if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+            raise AssertionError("地址搜索时乘客App不在前台，停止选址")
+        if any(node.get("visible") == "true" for node in root.iter("XCUIElementTypeAlert")):
+            raise AssertionError("地址搜索存在弹窗，停止输入或选择")
+        placeholders = ("您從哪裡出發", "您从哪里出发") if is_start else ("請輸入落車點", "请输入落车点")
         fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
-        if root.get("bundleId") != E.PASSENGER_BUNDLE_ID or len(fields) != 1 or fields[0].get("placeholderValue") != E.NORTH_POINT_START_PLACEHOLDER:
-            raise AssertionError("当前不是唯一的起点搜索框，禁止输入北角或误改落车点")
-        field_xpath = f'//XCUIElementTypeTextField[@visible="true" and @placeholderValue="{E.NORTH_POINT_START_PLACEHOLDER}"]'
-        self.client(xpath=field_xpath).clear_text()
-        root = ET.fromstring(self.client.source(format="xml"))
-        fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
-        if (root.get("bundleId") != E.PASSENGER_BUNDLE_ID or len(fields) != 1
-                or fields[0].get("placeholderValue") != E.NORTH_POINT_START_PLACEHOLDER
-                or fields[0].get("value") not in (None, "", E.NORTH_POINT_START_PLACEHOLDER)):
-            raise AssertionError("起点搜索框未清空或已变化，禁止追加输入北角")
-        self.client(xpath=field_xpath).set_text(E.NORTH_POINT_SEARCH_TEXT)
-        root = ET.fromstring(self.client.source(format="xml"))
-        fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
-        if (root.get("bundleId") != E.PASSENGER_BUNDLE_ID or len(fields) != 1
-                or fields[0].get("placeholderValue") != E.NORTH_POINT_START_PLACEHOLDER
-                or fields[0].get("value") != E.NORTH_POINT_SEARCH_TEXT):
-            raise AssertionError("起点搜索词回读不是北角，禁止选择地址结果")
-        # 输入北角后先检查是否已出现搜索结果；有则直接选，无则点击键盘搜索触发
-        target = self._ios_north_point_exit(root)
-        if target is not None:
-            logger.info("  >> 起点已清空并回读：%s；输入后直接出现搜索结果，无需点击搜索", E.NORTH_POINT_SEARCH_TEXT)
-        else:
-            search_xpath = ('//XCUIElementTypeKeyboard//XCUIElementTypeButton[@visible="true" and @enabled="true"'
-                            ' and (@name="搜索" or @label="搜索" or @name="搜尋" or @label="搜尋"'
-                            ' or @name="Search" or @label="search" or @label="Search")]')
-            if not self.client(xpath=search_xpath).exists:
-                raise AssertionError("未找到键盘搜索按钮，不能把旧列表当作北角查询结果")
-            self.client(xpath=search_xpath).click()
-            logger.info("  >> 起点已清空并回读：%s；已点击键盘搜索，等待东区北角地铁站", E.NORTH_POINT_SEARCH_TEXT)
-        deadline = time.monotonic() + 30
-        while time.monotonic() < deadline:
-            root = ET.fromstring(self.client.source(format="xml"))
-            if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
-                raise AssertionError("起点搜索时乘客App已离开前台，停止选址")
-            fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
-            if len(fields) != 1 or fields[0].get("placeholderValue") != E.NORTH_POINT_START_PLACEHOLDER:
-                raise AssertionError("起点搜索框已变化，禁止点击地址结果")
-            if fields[0].get("value") == E.NORTH_POINT_SEARCH_TEXT:
-                target = self._ios_north_point_exit(root)
-                if target is not None:
-                    names = " or ".join(f'@label="{name}" or @name="{name}"' for name in E.NORTH_POINT_STATION_NAMES)
-                    xpath = (f'//XCUIElementTypeCell[@visible="true" and .//XCUIElementTypeStaticText[@visible="true" and ({names})]'
-                             f' and .//XCUIElementTypeStaticText[@visible="true" and @label="{E.NORTH_POINT_DISTRICT}"]]'
-                             f'//XCUIElementTypeButton[@visible="true" and @enabled="true" and @name="{E.NORTH_POINT_EXIT}"]')
-                    self.client(xpath=xpath).click()
-                    logger.info("  >> 已精确选择起点：北角(地鐵站) %s，区域：%s", E.NORTH_POINT_EXIT, E.NORTH_POINT_DISTRICT)
-                    break
-            time.sleep(1)
-        else:
-            self._ios_screenshot("JRYG_ios_north_point_not_found.png")
-            raise AssertionError("未找到东区北角地铁站及A1出口，未选第一条结果、未下单")
-        for _ in range(10):
-            time.sleep(1)
-            root = ET.fromstring(self.client.source(format="xml"))
-            if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
-                raise AssertionError("选择起点后乘客App已离开前台")
-            if not any(node.get("visible") == "true" for node in root.iter("XCUIElementTypeTextField")):
-                return
-        self._ios_screenshot("JRYG_ios_north_point_jump_fail.png")
-        raise AssertionError("北角地铁站出口选择后未离开搜索页，停止下单")
-
-    def _ios_select_search_result(self, is_start, address, target_text, tag=""):
-        """通用地址搜索结果选择：文本匹配 → 父Cell → 第一个Cell → 坐标 → 验证跳转。
-
-        从搜索结果列表中选中地址并验证页面跳转：
-        - 起点：选中后验证返回首页（检测"想去哪裡"等关键词）
-        - 终点：选中后验证进入路线选择页（检测"確認呼叫"/"打錶"等关键词）
-
-        选择策略（依次尝试）：
-        1. 点击包含关键词的 StaticText 的父 Cell（最稳定）
-        2. 直接点击包含关键词的 StaticText
-        3. 点击第一个 Cell（带重试，避免 stale element）
-        4. 物理坐标兜底
-
-        :param is_start: True=起点, False=终点。
-        :param address: 原始地址文本。
-        :param target_text: 去除"地铁站/地鐵站"后的简体地址。
-        :param tag: 日志标签。
-        :raises AssertionError: 选中后 10s 内未离开搜索页。
-        """
-        client = self.client
-        addr_type = "起点" if is_start else "终点"
-
-        # 简繁体关键词列表（港版 App 搜索结果为繁体，需同时匹配简繁体）
-        search_kws = [target_text, address.replace("地铁站", "地鐵站").replace("地铁", "地鐵")]
-        # 补充常见简繁体差异字符的转换，确保繁体结果也能被 contains 匹配
-        simp_to_trad = str.maketrans({"学": "學", "园": "園", "站": "站", "车": "車",
-                                       "铁": "鐵", "场": "場", "岛": "島", "湾": "灣",
-                                       "门": "門", "关": "關", "广": "廣", "东": "東",
-                                       "区": "區", "银": "銀", "行": "行", "码": "碼",
-                                       "头": "頭", "店": "店", "路": "路", "街": "街",
-                                       "桥": "橋", "大": "大", "厦": "廈", "院": "院"})
-        trad_text = target_text.translate(simp_to_trad)
-        if trad_text not in search_kws:
-            search_kws.append(trad_text)
-        trad_address = address.translate(simp_to_trad)
-        if trad_address not in search_kws:
-            search_kws.append(trad_address)
-        found = False
-
-        for kw in search_kws:
-            try:
-                # 策略 1：直接点击主项 StaticText（父 Cell 会连带命中出入口子项，点了不跳转）
-                result = client(
-                    xpath=f'//XCUIElementTypeStaticText[contains(@label,"{kw}") or contains(@value,"{kw}")]')
-                if result.exists:
-                    result.tap()
-                    found = True
-                    logger.info(f"  >> 文本匹配选中{addr_type}: {address} (kw={kw})")
-                    break
-                # 策略 2：点击包含关键词的 StaticText 的父 Cell
-                parent_cell = client(
-                    xpath=f'//XCUIElementTypeCell[.//XCUIElementTypeStaticText'
-                          f'[contains(@label,"{kw}") or contains(@value,"{kw}")]]')
-                if parent_cell.exists:
-                    parent_cell.click()
-                    found = True
-                    logger.info(f"  >> 文本匹配选中{addr_type}（父Cell）: {address} (kw={kw})")
-                    break
-            except Exception as e:
-                logger.warning(f"  >> 文本匹配『{kw}』异常: {e}")
-
-        # 文本匹配点击后验证是否跳转，未跳转则尝试其他方式
-        if found:
-            # 页面跳转有动画与渲染延迟，需轮询确认，不能一次未跳就改点其他元素
-            for wait_idx in range(8):
-                if not client(type="TextField").exists:
-                    logger.info(f"  >> {addr_type}文本匹配点击后已离开搜索页 ({wait_idx*0.5+0.5:.0f}s)")
-                    break
-                time.sleep(0.5)
+        if (len(fields) != 1 or fields[0].get("enabled") == "false"
+                or fields[0].get("placeholderValue") not in placeholders):
+            raise AssertionError("不是唯一可用的起点搜索框" if is_start else "不是唯一可用的终点搜索框")
+        if expected_value is not None:
+            value = fields[0].get("value") or ""
+            if expected_value == "":
+                valid = value in ("", fields[0].get("placeholderValue"))
             else:
-                logger.info(f"  >> {addr_type}文本匹配点击后仍在搜索页，尝试 Cell 方式")
-                found = False
+                valid = value == expected_value
+            if not valid:
+                raise AssertionError("地址输入回读不一致，禁止点击搜索或结果")
+        return root, fields[0]
 
-        # 策略 3：点击第一个 Cell（带重试，避免 stale element）
-        if not found:
-            for retry in range(3):
-                try:
-                    first_cell = client(xpath="(//XCUIElementTypeCell)[1]")
-                    if first_cell.exists:
-                        first_cell.click()
-                        found = True
-                        logger.info(f"  >> 选中{addr_type}第一个 Cell (重试 {retry+1}/3)")
-                        break
-                except Exception as e:
-                    logger.warning(f"  >> 点击 Cell 异常 (重试 {retry+1}/3): {e}")
-                    time.sleep(0.5)
+    @staticmethod
+    def _ios_address_node_xpath(root, node):
+        parents = {child: parent for parent in root.iter() for child in parent}
+        parts = []
+        while node is not root:
+            parent = parents[node]
+            siblings = [child for child in parent if child.tag == node.tag]
+            parts.append(f"{node.tag}[{siblings.index(node) + 1}]")
+            node = parent
+        return f"//{root.tag}[1]/" + "/".join(reversed(parts))
 
-        # 策略 4：物理坐标兜底
-        if not found:
-            client.click(*E.SEARCH_FIRST_RESULT_COORD)
-            logger.info(f"  >> 物理坐标选中{addr_type}")
+    def _ios_click_address_node(self, root, node):
+        elements = self.client(xpath=self._ios_address_node_xpath(root, node)).find_elements()
+        if len(elements) != 1 or not elements[0].displayed or not elements[0].enabled:
+            raise AssertionError("地址控件不再唯一可用，停止，不改点第一条或固定坐标")
+        expected = node.get("label") or node.get("name") or node.get("value") or ""
+        label, name, value = elements[0].label, elements[0].name, elements[0].value
+        actual = label or name or value or ""
+        if not expected and not label and not value and name in (None, "", node.tag):
+            bounds = elements[0].bounds
+            try:
+                same_bounds = all(abs(float(node.get(key)) - float(getattr(bounds, key))) <= 1
+                                  for key in ("x", "y", "width", "height"))
+            except (TypeError, ValueError, AttributeError):
+                same_bounds = False
+            if not same_bounds:
+                raise AssertionError("无文字起点按钮边界已变化，停止点击")
+            actual = ""
+        if elements[0].className != node.tag or actual != expected:
+            raise AssertionError("地址控件身份已变化，停止，不点击旧结果")
+        elements[0].tap()
 
-        # ---- 验证页面已跳转离开搜索页 ----
-        jump_ok = False
-        for wait_idx in range(10):
-            if not client(type="TextField").exists:
-                jump_ok = True
-                logger.info(f"  >> {addr_type}选中后已离开搜索页 ({wait_idx*0.5+0.5:.0f}s)")
+    @staticmethod
+    def _ios_start_address(address):
+        if not isinstance(address, str) or address.strip() not in E.START_ADDRESS_NAMES:
+            raise AssertionError("起点仅允许铜锣湾，禁止使用其他地址或站点出口")
+        return E.DEFAULT_START_ADDRESS
+
+    def _ios_enter_address_query(self, is_start, address):
+        """清空并回读后输入地址，单次点击键盘搜索；历史记录不免输入。"""
+        if is_start:
+            address = self._ios_start_address(address)
+        if not isinstance(address, str) or not address.strip():
+            raise AssertionError("地址不能为空，未输入或搜索")
+        root, node = self._ios_address_search_page(is_start)
+        elements = self.client(xpath=self._ios_address_node_xpath(root, node)).find_elements()
+        if len(elements) != 1 or not elements[0].displayed or not elements[0].enabled:
+            raise AssertionError("地址输入框不可用，停止输入")
+        field = elements[0]
+        field.click()
+        self._ios_address_search_page(is_start)
+        field.clear_text()
+        self._ios_address_search_page(is_start, "")
+        field.set_text(address)
+        for _ in range(10):
+            root, node = self._ios_address_search_page(is_start)
+            if node.get("value") == address:
                 break
             time.sleep(0.5)
-
-        if not jump_ok:
-            self._ios_screenshot(f"JRYG_ios_search_{addr_type}_jump_fail.png")
-            page_texts = self._ios_get_all_texts(client)
-            logger.error(f"  >> {addr_type}选中后未跳转，仍在搜索页，页面文本: {page_texts[:150]}")
-            raise AssertionError(f"{addr_type}选中后未离开搜索页(5s)")
-
-        # 起点验证返回首页；终点验证进入路线选择页
-        if is_start:
-            home_keywords = ["想去哪裡", "想去哪里", "目的地", "起點", "起点"]
-            home_ok = False
-            for wait_idx in range(10):
-                page_texts = self._ios_get_all_texts(client)
-                if any(kw in t for t in page_texts for kw in home_keywords):
-                    home_ok = True
-                    logger.info(f"  >> 起点设置完成，已返回首页 ({wait_idx*0.5+0.5:.0f}s)")
-                    break
-                time.sleep(0.5)
-            if not home_ok:
-                self._ios_screenshot("JRYG_ios_search_start_not_home.png")
-                logger.warning(f"  >> 起点选中后未检测到首页关键词，页面文本: {page_texts[:150]}")
         else:
-            route_keywords = ["確認呼叫", "确认呼叫", "包車價", "打錶", "可選服務"]
-            route_ok = False
-            for wait_idx in range(10):
-                page_texts = self._ios_get_all_texts(client)
-                if any(kw in t for t in page_texts for kw in route_keywords):
-                    route_ok = True
-                    logger.info(f"  >> 终点设置完成，已进入路线选择页 ({wait_idx*0.5+0.5:.0f}s)")
-                    break
-                time.sleep(0.5)
-            if not route_ok:
-                self._ios_screenshot("JRYG_ios_search_end_not_route.png")
-                logger.warning(f"  >> 终点选中后未检测到路线页关键词，页面文本: {page_texts[:150]}")
+            raise AssertionError("地址输入未正确回读，未提交键盘搜索")
+        for _ in range(10):
+            root, _field = self._ios_address_search_page(is_start, address)
+            buttons = []
+            for keyboard in root.iter("XCUIElementTypeKeyboard"):
+                if keyboard.get("visible") != "true":
+                    continue
+                buttons.extend(node for node in keyboard.iter()
+                               if node.tag in ("XCUIElementTypeButton", "XCUIElementTypeKey")
+                               and node.get("visible") == "true" and node.get("enabled") != "false"
+                               and (node.get("label") or node.get("name") or "").casefold() in ("搜索", "搜尋", "search"))
+            if len(buttons) > 1:
+                raise AssertionError("键盘搜索按钮不唯一，未提交搜索")
+            if buttons:
+                self._ios_click_address_node(root, buttons[0])
+                logger.info("  >> 已清空并输入%s：%s；已单次点击键盘搜索", "起点" if is_start else "终点", address)
+                return
+            time.sleep(0.5)
+        raise AssertionError("未找到可用的键盘搜索按钮，未把历史列表当作查询结果")
 
-        time.sleep(0.5)
+    @staticmethod
+    def _ios_address_text_key(text):
+        traditional = str.maketrans({"铜": "銅", "锣": "鑼", "湾": "灣", "谭": "潭", "譚": "潭",
+                                    "园": "園", "铁": "鐵", "学": "學", "车": "車", "场": "場",
+                                    "门": "門", "岛": "島", "东": "東", "区": "區", "头": "頭"})
+        text = re.sub(r"[\s()（）]+", "", (text or "").translate(traditional))
+        return text.replace("出口", "出入口")
+
+    @staticmethod
+    def _ios_address_result_node(root, address, *, is_start=False):
+        """匹配可见结果Cell内精确地址标题，同名时取App排序的第一个。
+
+        真机搜索"铜锣湾"返回多个标题为"銅鑼灣"的Cell，第一个是铜锣湾地铁站区域
+        （副标题"香港特別行政區灣仔區Wan Chai District"），App会把它解析成该地铁站的
+        出入口并作为实际起点；后续带门牌号的Cell是同一区域内的其他POI，不是同一个地址。
+        因此同名时取App排序的第一个，与App对输入地址的解析保持一致。
+        站点扩展Cell（如"銅鑼灣(地鐵站)"含出入口按钮）标题不精确匹配。
+        """
+        if is_start:
+            iOSBase._ios_start_address(address)
+        key = iOSBase._ios_address_text_key(address)
+        keyboard_nodes = {node for keyboard in root.iter("XCUIElementTypeKeyboard") for node in keyboard.iter()}
+        matches = []
+        for cell in root.iter("XCUIElementTypeCell"):
+            if cell in keyboard_nodes or cell.get("visible") != "true" or cell.get("enabled") == "false":
+                continue
+            for node in cell.iter("XCUIElementTypeStaticText"):
+                if node in keyboard_nodes or node.get("visible") != "true" or node.get("enabled") == "false":
+                    continue
+                text = node.get("label") or node.get("name") or node.get("value") or ""
+                matched = text.strip() in E.START_ADDRESS_NAMES if is_start else iOSBase._ios_address_text_key(text) == key
+                if matched:
+                    matches.append((cell, node))
+        matches = list(dict.fromkeys(matches))
+        if not matches:
+            return None
+        matches.sort(key=lambda pair: float(pair[0].get("y", "9999")))
+        return matches[0][1]
+
+    def _ios_select_search_result(self, is_start, address, target_text, tag=""):
+        """等待当前查询的精确结果，只点击一次，再核验地址页及目标页面。"""
+        if is_start:
+            address = self._ios_start_address(address)
+        addr_type = "起点" if is_start else "终点"
+        previous = None
+        for _ in range(60):
+            root, _field = self._ios_address_search_page(is_start, address)
+            node = self._ios_address_result_node(root, address, is_start=is_start)
+            signature = None if node is None else (self._ios_address_node_xpath(root, node),
+                                                  node.get("label"), node.get("name"), node.get("value"))
+            if signature is not None and signature == previous:
+                self._ios_click_address_node(root, node)
+                logger.info("  >> 已精确选择%s：%s", addr_type, address)
+                break
+            previous = signature
+            time.sleep(0.5)
+        else:
+            self._ios_screenshot(f"JRYG_ios_search_{addr_type}_no_result.png")
+            raise AssertionError(f"未找到唯一匹配的{addr_type}结果，未选历史首项或固定坐标")
+
+        keywords = ("想去哪裡", "想去哪里", "目的地", "起點", "起点", "確認呼叫", "确认呼叫") if is_start else (
+            "確認呼叫", "确认呼叫", "包車價", "打錶", "可選服務")
+        for _ in range(20):
+            root = ET.fromstring(self._ios_get_source_xml())
+            if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+                raise AssertionError("选址后乘客App已离开前台，停止下单")
+            if any(node.get("visible") == "true" for node in root.iter("XCUIElementTypeAlert")):
+                raise AssertionError("选址后出现弹窗，停止下单")
+            fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
+            texts = [(node.get("label") or node.get("name") or node.get("value") or "")
+                     for node in root.iter("XCUIElementTypeStaticText") if node.get("visible") == "true"]
+            buttons = [(node.get("label") or node.get("name") or "")
+                       for node in root.iter("XCUIElementTypeButton") if node.get("visible") == "true"]
+            if not fields and any(keyword in text for text in texts + buttons for keyword in keywords):
+                logger.info("  >> %s设置完成并已核验目标页面", addr_type)
+                return
+            time.sleep(0.5)
+        self._ios_screenshot(f"JRYG_ios_search_{addr_type}_jump_fail.png")
+        raise AssertionError(f"{addr_type}选中后页面未正确跳转，停止，不重复选址")
 
     @staticmethod
     def _ios_page_contains(source_xml, *texts):
@@ -826,54 +792,81 @@ class iOSBase(HKIOSPaymentMixin):
         )
         return any(text in all_text for text in texts)
 
-    def _ios_ensure_location_ready(self, tag="起点"):
-        """首页定位未就绪时先触发一次定位，必要时进入路线页再打开地址编辑。
+    @staticmethod
+    def _ios_start_entry_node(root):
+        """通过起点文案定位同一行真实按钮；隐藏文案不等于整行不可点击。"""
+        parents = {child: parent for parent in root.iter() for child in parent}
+        excluded = {node for item in root.iter()
+                    if item.tag in ("XCUIElementTypeKeyboard", "XCUIElementTypeCell") for node in item.iter()}
+        matches = []
+        for node in root.iter():
+            if node in excluded or node.tag not in ("XCUIElementTypeStaticText", "XCUIElementTypeButton") or node.get("enabled") == "false":
+                continue
+            text = (node.get("label") or node.get("name") or node.get("value") or "").strip()
+            failure_prompt = (any(message in text for message in E.LOCATION_UNAVAILABLE_TEXTS)
+                              and any(prompt in text for prompt in ("請輸入起點", "请输入起点")))
+            if text not in E.START_GATE_TEXTS + E.START_ADDRESS_NAMES and not failure_prompt:
+                continue
+            parent = parents.get(node)
+            if parent is None or parent.get("visible") != "true" or parent.get("enabled") == "false":
+                continue
+            buttons = [child for child in parent if child.tag == "XCUIElementTypeButton"
+                       and child.get("visible") == "true" and child.get("enabled") != "false"]
+            if len(buttons) > 1:
+                raise AssertionError("起点行内可点击按钮不唯一，停止，不点击隐藏文案或固定坐标")
+            if buttons:
+                matches.extend(buttons)
+            elif node.get("visible") == "true":
+                matches.append(node)
+        matches = list(dict.fromkeys(matches))
+        if len(matches) > 1:
+            raise AssertionError("起点入口不唯一，停止，不改点第一项")
+        return matches[0] if matches else None
 
-        定位失败时首页起点入口会被置为不可点击（visible=false），
-        直接点击无效。点击右下角定位按钮可触发重新定位，
-        定位成功后 App 进入路线页，此时地址栏行可点击进入搜索页。
+    def _ios_open_start_search(self):
+        """只打开起点搜索；不等待定位、不输入地址、不点击终点或业务按钮。"""
+        def read_page():
+            root = ET.fromstring(self._ios_get_source_xml())
+            if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+                raise AssertionError("打开起点搜索时乘客App不在前台")
+            if any(node.get("visible") == "true" for node in root.iter("XCUIElementTypeAlert")):
+                raise AssertionError("打开起点搜索时存在弹窗，停止点击")
+            return root
 
-        :return: True 表示已具备进入搜索页的入口。
-        """
-        client = self.client
-        try:
-            source = client.source(format="xml")
-        except Exception:
-            source = ""
-
-        location_failed = self._ios_page_contains(source, *E.LOCATION_UNAVAILABLE_TEXTS)
-        if not location_failed:
+        def is_start_search(root):
+            fields = [node for node in root.iter("XCUIElementTypeTextField") if node.get("visible") == "true"]
+            if not fields:
+                return False
+            if (len(fields) != 1 or fields[0].get("enabled") == "false"
+                    or fields[0].get("placeholderValue") not in ("您從哪裡出發", "您从哪里出发")):
+                raise AssertionError("当前不是唯一可用的起点搜索框，停止，不切换或输入终点")
             return True
 
-        logger.info(f"  >> 首页定位未就绪（{tag}入口不可点击），先触发定位")
-        location_btn = client(name=E.LOCATION_BUTTON_NAME)
-        if not location_btn.exists:
-            logger.warning("  >> 未找到定位按钮，无法自动恢复定位，等待定位自行就绪")
-            return False
-
-        try:
-            location_btn.click()
-        except Exception:
-            try:
-                location_btn.tap()
-            except Exception:
-                logger.warning("  >> 定位按钮点击失败，等待定位自行就绪")
-                return False
-
-        # 等待定位完成：出现路线页关键词，或占位文案消失
-        for _ in range(15):
-            time.sleep(2)
-            try:
-                source = client.source(format="xml")
-            except Exception:
-                continue
-            if self._ios_page_contains(source, "確認呼叫", "确认呼叫", "包車價", "打錶"):
-                logger.info(f"  >> 定位完成并进入路线页，可从地址栏打开{tag}搜索")
-                return True
-            if not self._ios_page_contains(source, *E.LOCATION_UNAVAILABLE_TEXTS):
-                return True
-        logger.warning("  >> 定位等待超时，起点入口可能仍不可点击")
-        return False
+        for _ in range(20):
+            root = read_page()
+            if is_start_search(root):
+                return
+            target = self._ios_start_entry_node(root)
+            if target is not None:
+                fresh = read_page()
+                if is_start_search(fresh):
+                    return
+                current = self._ios_start_entry_node(fresh)
+                if current is None or self._ios_address_node_xpath(fresh, current) != self._ios_address_node_xpath(root, target):
+                    raise AssertionError("起点行控件已变化，停止点击")
+                self._ios_click_address_node(fresh, current)
+                logger.info("  >> 已单次点击起点行可用按钮；定位失败提示不阻断手动输入")
+                break
+            time.sleep(0.5)
+        else:
+            raise AssertionError("未找到唯一可用的起点入口，未触发重新定位或固定坐标")
+        for _ in range(20):
+            if is_start_search(read_page()):
+                logger.info("  >> 已核验进入起点搜索页面")
+                return
+            time.sleep(0.5)
+        self._ios_screenshot("JRYG_ios_start_entry_jump_fail.png")
+        raise AssertionError("起点行点击后未进入起点搜索页，停止，不重复点击")
 
     def _ios_open_route_address_row(self, is_start=True):
         """在路线页点击起点/终点地址栏行，进入地址搜索页。
@@ -998,146 +991,47 @@ class iOSBase(HKIOSPaymentMixin):
         :raises AssertionError: 未能进入搜索页、搜索结果未出现、未能选中地址、
                                  或选中后未正确跳转时抛出。
         """
-        client = self.client
-        poco = self.poco
-        addr_type = "起点" if is_start else "终点"
-
         if is_start:
-            logger.info(f"  输入起点: {address}")
-            gate = client(xpath=E.START_GATE_XPATH)
-            if not gate.exists:
-                gate = poco(textMatches=E.START_GATE_POCO_REGEX)
-            fallback_coord = E.START_GATE_FALLBACK_COORD
-        else:
-            logger.info(f"  输入终点: {address}")
-            gate = client(xpath=E.DEST_GATE_XPATH)
-            if not gate.exists:
-                gate = poco(textMatches=E.DEST_GATE_POCO_REGEX)
-            fallback_coord = E.DEST_GATE_FALLBACK_COORD
-
-        # ---- 步骤 A：进入搜索页 ----
-        entered = False
-
-        # 特殊首页兜底：当 App 因定位回到未开通城市时，首页底部会出现城市提示条，
-        # 此时应直接点击该条（即起点入口）进入搜索页，而不是尝试定位不存在的起点控件。
-        if is_start:
-            try:
-                source = client.source(format="xml")
-            except Exception:
-                source = ""
-            if self._ios_page_contains(source, "當前城市暫未開通服務", "当前城市暂未开通服务"):
-                logger.info("  >> 首页为'当前城市暂未开通服务'，通过底部城市条进入起点搜索")
-                client.click(*fallback_coord)
-                time.sleep(1)
-                if client(type="TextField").exists or poco(type=E.SEARCH_TEXTFIELD_TYPE).exists():
-                    entered = True
-
-        if not entered:
-            for attempt in range(5):
-                if gate and (hasattr(gate, "exists") and gate.exists or not hasattr(gate, "exists")):
-                    try:
-                        gate.click()
-                    except Exception:
-                        gate.tap()
-                else:
-                    # fallback_coord 为归一化坐标，client.click 会自动换算为绝对坐标
-                    client.click(*fallback_coord)
-                # 轮询等待搜索页 TextField 出现，不固定 sleep
-                if self._ios_wait_for_page(
-                        lambda: client(type="TextField").exists or poco(type=E.SEARCH_TEXTFIELD_TYPE).exists(),
-                        timeout=4, interval=0.5):
-                    entered = True
-                    break
-
-        # 起点入口不可点击时（首页定位未就绪），先触发定位再从路线页地址栏进入搜索
-        if not entered and is_start:
-            if self._ios_ensure_location_ready(tag=addr_type):
-                if self._ios_open_route_address_row(is_start=True):
-                    entered = True
-                    logger.info("  >> 已通过路线页起点栏进入起点搜索")
-
-        # 终点入口在路线页时（设置起点后 App 已在路线页），首页终点文案不存在，
-        # 直接从路线页终点地址栏进入搜索
-        if not entered and not is_start:
-            if self._ios_open_route_address_row(is_start=False):
-                entered = True
-                logger.info("  >> 已通过路线页终点栏进入终点搜索")
-
-        if not entered:
-            self._ios_screenshot(f"JRYG_ios_search_{addr_type}_enter_fail.png")
-            raise AssertionError(f"未能进入{addr_type}搜索页")
-
-        if is_start and address.strip() in (*E.NORTH_POINT_STATION_NAMES, E.NORTH_POINT_SEARCH_TEXT):
-            self._ios_search_north_point_start()
+            address = self._ios_start_address(address)
+            logger.info("  输入起点: %s", address)
+            self._ios_open_start_search()
+            self._ios_enter_address_query(True, address)
+            self._ios_select_search_result(True, address, address)
             return
 
-        # ---- 步骤 B：检查历史记录（直接命中免输入） ----
-        target_text = address.replace("地鐵站", "").replace("地铁站", "").strip()
-        hist_el = client(xpath=f'//XCUIElementTypeStaticText[@label="{address}" or @value="{address}"]')
-        if not hist_el.exists and target_text != address:
-            hist_el = client(xpath=f'//XCUIElementTypeStaticText[@label="{target_text}" or @value="{target_text}"]')
-        if hist_el.exists:
-            hist_el.tap()
-            logger.info(f"  >> 从历史记录选中{addr_type}: {address}")
-            # 历史记录选中后验证页面已跳转（搜索输入框消失）
-            addr_label = "起点" if is_start else "终点"
-            for wait_idx in range(10):
-                if not client(type="TextField").exists:
-                    logger.info(f"  >> {addr_label}历史记录选中后已离开搜索页 ({wait_idx*0.5+0.5:.0f}s)")
-                    break
-                time.sleep(0.5)
+        client = self.client
+        poco = self.poco
+        logger.info("  输入终点: %s", address)
+        gate = client(xpath=E.DEST_GATE_XPATH)
+        if not gate.exists:
+            gate = poco(textMatches=E.DEST_GATE_POCO_REGEX)
+        entered = False
+        for attempt in range(5):
+            if gate and (hasattr(gate, "exists") and gate.exists or not hasattr(gate, "exists")):
+                try:
+                    gate.click()
+                except Exception:
+                    gate.tap()
             else:
-                self._ios_screenshot(f"JRYG_ios_search_{addr_label}_hist_jump_fail.png")
-                raise AssertionError(f"{addr_label}历史记录选中后未离开搜索页(5s)")
-            time.sleep(0.5)
-        else:
-            # ---- 步骤 C：输入地址文本 ----
-            tf = client(className=E.SEARCH_TEXTFIELD_TYPE)
-            if tf.exists:
-                tf.click()
-                time.sleep(1)
-            client.send_keys(address)
-            logger.info(f"  >> 已输入{addr_type}文本: {address}")
-
-            # ---- 步骤 D：等待搜索结果出现（轮询最多 15 秒，0.5s 间隔） ----
-            # iOS 搜索在输入过程中实时出结果，不需要点 Done
-            search_result_found = False
-            for wait_idx in range(30):
-                # 检测搜索结果：Cell 元素或包含地址关键词的 StaticText
-                cells = client(type="Cell")
-                cell_count = cells.count() if callable(getattr(cells, "count", None)) else 0
-                if cells.exists and cell_count > 0:
-                    search_result_found = True
-                    logger.info(f"  >> 搜索结果已出现 ({wait_idx*0.5+0.5:.0f}s)，Cell 数量: {cell_count}")
-                    break
-
-                # 备选：文本匹配（同时匹配简体和繁体关键词）
-                search_kws = [target_text, address.replace("地铁站", "地鐵站").replace("地铁", "地鐵")]
-                for kw in search_kws:
-                    result = client(
-                        xpath=f'//XCUIElementTypeStaticText[contains(@label,"{kw}") or contains(@value,"{kw}")]')
-                    if result.exists:
-                        search_result_found = True
-                        logger.info(f"  >> 搜索结果已出现 ({wait_idx*0.5+0.5:.0f}s)，文本匹配『{kw}』")
-                        break
-                if search_result_found:
-                    break
-
-                time.sleep(0.5)
-
-            if not search_result_found:
-                self._ios_screenshot(f"JRYG_ios_search_{addr_type}_no_result.png")
-                page_texts = self._ios_get_all_texts(client)
-                logger.error(f"  >> 等待{addr_type}搜索结果超时，页面文本: {page_texts[:150]}")
-                raise AssertionError(f"等待{addr_type}搜索结果超时(15s)，未出现结果")
-
-            # ---- 步骤 E+F：选择搜索结果并验证跳转（调用通用封装方法） ----
-            self._ios_select_search_result(is_start, address, target_text)
+                client.click(*E.DEST_GATE_FALLBACK_COORD)
+            if self._ios_wait_for_page(
+                    lambda: client(type="TextField").exists or poco(type=E.SEARCH_TEXTFIELD_TYPE).exists(),
+                    timeout=4, interval=0.5):
+                entered = True
+                break
+        if not entered:
+            entered = self._ios_open_route_address_row(is_start=False)
+        if not entered:
+            self._ios_screenshot("JRYG_ios_search_终点_enter_fail.png")
+            raise AssertionError("未能进入终点搜索页")
+        self._ios_enter_address_query(False, address)
+        self._ios_select_search_result(False, address, address)
 
     # ==================== 公共流程步骤 ====================
 
-    def _ios_launch_setup_and_addresses(self, tag, start_addr="", end_addr=""):
+    def _ios_launch_setup_and_addresses(self, tag, start_addr=E.DEFAULT_START_ADDRESS, end_addr=""):
         """初始下单：启动清理后配置起终点；当前页重选不得调用此启动入口。"""
+        start_addr = self._ios_start_address(start_addr)
         self._ios_prepare_passenger_app(tag)
         if not self._ios_ensure_logged_in(tag=tag):
             raise RuntimeError("乘客自动登录失败，停止配置地址和下单")
@@ -1234,31 +1128,29 @@ class iOSBase(HKIOSPaymentMixin):
 
         初次下单和登录后重选共用本方法。起点搜索抛错时不继续终点或后续步骤。
         """
+        start_addr = self._ios_start_address(start_addr)
         logger.info(f"【{tag} 步骤 4】配置起点: {start_addr}")
         self._ios_search_address(is_start=True, address=start_addr)
 
         # 步骤 5：配置终点
         logger.info(f"【{tag} 步骤 5】配置终点: {end_addr}")
         self._ios_search_address(is_start=False, address=end_addr)
-        if start_addr.strip() in (*E.NORTH_POINT_STATION_NAMES, E.NORTH_POINT_SEARCH_TEXT):
-            accepted = set(E.NORTH_POINT_STATION_NAMES) | {f"{name} {E.NORTH_POINT_EXIT}" for name in E.NORTH_POINT_STATION_NAMES}
-            deadline = time.monotonic() + 15
-            actual = []
-            while time.monotonic() < deadline:
-                root = ET.fromstring(self.client.source(format="xml"))
-                if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
-                    raise AssertionError("起点核验时乘客App已离开前台，停止下单")
-                actual = self._ios_route_start_texts(root)
-                if len(actual) == 1 and actual[0] in accepted:
-                    logger.info("【%s】路线实际起点已核对：%s", tag, actual[0])
-                    break
-                time.sleep(1)
-            else:
-                self._ios_screenshot("JRYG_ios_north_point_origin_mismatch.png")
-                raise AssertionError(f"路线实际起点不是北角地铁站或未识别：{actual}；未确认呼叫")
-        self._ios_call_route_key = self._ios_estimate_route_identity(
-            ET.fromstring(self.client.source(format="xml")))
-        self._ios_retry_estimate_quote = None
+        for _ in range(30):
+            root = ET.fromstring(self._ios_get_source_xml())
+            if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
+                raise AssertionError("路线核验时乘客App已离开前台，未确认呼叫")
+            actual_route = self._ios_estimate_route_identity(root)
+            start_ok = actual_route is not None and (
+                actual_route[0] in E.START_ADDRESS_NAMES
+                or any(actual_route[0].startswith(prefix) for prefix in E.START_ROUTE_PREFIXES))
+            if start_ok and self._ios_address_text_key(actual_route[1]) == self._ios_address_text_key(end_addr):
+                self._ios_call_route_key = actual_route
+                self._ios_retry_estimate_quote = None
+                logger.info("【%s】实际起终点与请求一致，允许继续选择车型", tag)
+                return
+            time.sleep(0.5)
+        self._ios_screenshot("JRYG_ios_route_address_mismatch.png")
+        raise AssertionError("实际起终点未匹配请求，未选择车型或确认呼叫")
 
     @staticmethod
     def _ios_estimate_route_identity(root):
@@ -1535,6 +1427,7 @@ class iOSBase(HKIOSPaymentMixin):
         ]
 
         for field_idx, (placeholders, value, label) in enumerate(card_fields):
+            ensure_unlocked(self.client)
             filled = False
             # CVV/持卡人姓名：占位文字方式不可靠（StaticText 遮挡 TextField），直接用坐标
             use_placeholder = label not in ("CVV", "持卡人姓名")
@@ -1542,6 +1435,7 @@ class iOSBase(HKIOSPaymentMixin):
             # 方式 1：点击占位文字对应的元素（StaticText 或 TextField）
             if use_placeholder:
                 for ph in placeholders:
+                    ensure_unlocked(self.client)
                     try:
                         el = self.client(
                             xpath=f'//*[contains(@label, "{ph}") or contains(@value, "{ph}")]')
@@ -1553,11 +1447,14 @@ class iOSBase(HKIOSPaymentMixin):
                             logger.info(f"  >> [{tag}] 已填写{label} (placeholder={ph}，内容不记录)")
                             filled = True
                             break
+                    except DeviceUnlockError:
+                        raise
                     except Exception as e:
                         logger.warning(f"  >> [{tag}] 填写{label}(ph={ph})异常: {e}")
 
             # 方式 2：通过 WDA XML 获取 TextField 坐标直接点击
             if not filled:
+                ensure_unlocked(self.client)
                 try:
                     root = ET.fromstring(self.client.source(format="xml"))
                     target_tf = None
@@ -1600,6 +1497,8 @@ class iOSBase(HKIOSPaymentMixin):
                         time.sleep(1)
                         logger.info(f"  >> [{tag}] 坐标填写{label} ({cx},{cy}，内容不记录)")
                         filled = True
+                except DeviceUnlockError:
+                    raise
                 except Exception as e:
                     logger.warning(f"  >> [{tag}] 坐标填写{label}异常: {e}")
 
@@ -1610,6 +1509,7 @@ class iOSBase(HKIOSPaymentMixin):
         time.sleep(1)
 
         # 点击"請支付"按钮提交
+        ensure_unlocked(self.client)
         logger.info(f"  >> [{tag}] 点击請支付按钮提交支付...")
         pay_btn = self.client(xpath=E.FINAL_PAY_XPATH)
         if not pay_btn.exists:

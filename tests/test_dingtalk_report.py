@@ -127,11 +127,18 @@ def test_disabled_does_not_read_secret_or_send(summary_file, monkeypatch):
 
 
 @pytest.mark.parametrize("outcome,expected", [("success", 0), ("failed", 1), ("setup_failed", 2), ("interrupted", 130)])
-def test_parent_batch_keeps_notification_disabled_after_final_report(tmp_path, monkeypatch, outcome, expected):
+def test_parent_batch_notifies_once_after_final_report(tmp_path, monkeypatch, outcome, expected):
     monkeypatch.setenv("HK_DRIVER_UI_STOP_AFTER", "submitted")
     monkeypatch.setattr(runner.time, "sleep", lambda _seconds: None)
     monkeypatch.setattr("ui_framework.JRYG_device_guard.ensure_unlocked", Mock())
-    notification = Mock()
+
+    observed = []
+
+    def inspect_final_report(path):
+        observed.append(json.loads(path.read_text()))
+        return {"status": "sent"}
+
+    notification = Mock(side_effect=inspect_final_report)
     monkeypatch.setattr(report, "notify_batch", notification)
     calls = []
 
@@ -146,23 +153,35 @@ def test_parent_batch_keeps_notification_disabled_after_final_report(tmp_path, m
         return 0
 
     assert runner.run_batch(list(report.CASE_LABELS), [], run_case=run_case, report_dir=tmp_path) == expected
-    notification.assert_not_called()
+    notification.assert_called_once_with(next(tmp_path.glob("batches/*/batch_result.json")))
     assert len(calls) == (1 if outcome == "interrupted" else 6)
     result = json.loads(next(tmp_path.glob("batches/*/batch_result.json")).read_text())
+    assert observed == [result]
     assert result["exit_code"] == expected
     assert all(row["status"] != "running" for row in result["cases"])
 
 
 @pytest.mark.parametrize("failure", [RuntimeError("private-url"), KeyboardInterrupt()])
-def test_disabled_notification_is_never_called_even_if_it_would_raise(tmp_path, monkeypatch, capsys, failure):
+def test_notification_exception_never_retries_or_changes_exit_code(tmp_path, monkeypatch, capsys, failure):
     monkeypatch.setenv("HK_DRIVER_UI_STOP_AFTER", "submitted")
     monkeypatch.setattr(runner.time, "sleep", lambda _seconds: None)
     monkeypatch.setattr("ui_framework.JRYG_device_guard.ensure_unlocked", Mock())
     notification = Mock(side_effect=failure)
     monkeypatch.setattr(report, "notify_batch", notification)
     assert runner.run_batch(list(report.CASE_LABELS), [], run_case=lambda *_args: 1, report_dir=tmp_path) == 1
-    notification.assert_not_called()
+    notification.assert_called_once()
     assert "private-url" not in capsys.readouterr().out
+
+
+def test_parent_batch_explicitly_disabled_never_sends(tmp_path, monkeypatch):
+    monkeypatch.setenv("HK_IOS_DINGTALK_ENABLED", "0")
+    sender = Mock(side_effect=AssertionError("禁止发送真实群消息"))
+    monkeypatch.setattr(report, "send_report", sender)
+    assert runner.run_batch(["case.py"], [], run_case=lambda *_args: 1, report_dir=tmp_path) == 1
+    sender.assert_not_called()
+    report.subprocess.run.assert_not_called()
+    saved = next(tmp_path.glob("batches/*/dingtalk_result.json"))
+    assert json.loads(saved.read_text()) == {"status": "disabled"}
 
 
 def test_interruption_between_cases_reported_as_interrupted(summary_file):
@@ -181,6 +200,31 @@ def test_other_platform_does_not_notify_hk_ios_group(tmp_path, monkeypatch):
     monkeypatch.setattr(report, "notify_batch", notification)
     assert runner.run_batch(["case.py"], [], run_case=lambda *_args: 1, report_dir=tmp_path, platform="android") == 1
     notification.assert_not_called()
+
+
+def test_default_batch_order_is_charter_online_then_cash(monkeypatch):
+    monkeypatch.setattr(runner, "init_all_dirs", Mock())
+    pytest_main = Mock(return_value=0)
+    monkeypatch.setattr(runner.pytest, "main", pytest_main)
+    monkeypatch.setattr(runner, "run_batch", Mock(side_effect=AssertionError("禁止真实批次")))
+    assert runner.run_tests(["--batch", "--collect-only"]) == 0
+    cases = [path for path in pytest_main.call_args.args[0] if path.endswith("_order.py")]
+    assert [Path(path).name for path in cases] == [
+        "JRYG_test_ios_charter_alipay_order.py",
+        "JRYG_test_ios_charter_bankcard_order.py",
+        "JRYG_test_ios_meter_epayment_alipay_order.py",
+        "JRYG_test_ios_meter_alipay_order.py",
+        "JRYG_test_ios_meter_epayment_bankcard_order.py",
+        "JRYG_test_ios_meter_cash_order.py",
+    ]
+    assert len(cases) == len(set(cases)) == 6
+    runner.run_batch.assert_not_called()
+
+
+def test_batch_order_handles_subsets_without_rotating_positions():
+    cases = ["cases/JRYG_test_ios_meter_cash_order.py", "cases/JRYG_test_ios_charter_bankcard_order.py",
+             "cases/JRYG_test_ios_meter_epayment_alipay_order.py"]
+    assert runner.batch_order(cases) == [cases[1], cases[2], cases[0]]
 
 
 def test_collect_only_never_sends_or_launches_batch(monkeypatch):
@@ -269,6 +313,15 @@ def test_batch_preserves_individual_exit_codes_and_first_failure(tmp_path, batch
     assert [row["exit_code"] for row in result["cases"]] == [2, 1, 3]
     assert all(row["status"] == "failed" and row["reason"] for row in result["cases"])
     assert [call.args[0] for call in batch_offline.call_args_list] == [10, 10]
+
+
+def test_batch_interval_never_wakes_phone_after_wda_cleanup(tmp_path, batch_offline, monkeypatch, capsys):
+    client = Mock(side_effect=AssertionError("WDA has been cleaned up"))
+    monkeypatch.setattr("ui_framework.JRYG_device_guard.wda.Client", client)
+    assert runner.run_batch(["a.py", "b.py"], [], run_case=lambda *_args: 1, report_dir=tmp_path) == 1
+    client.assert_not_called()
+    batch_offline.assert_called_once_with(10)
+    assert "WDA就绪后自动唤醒" in capsys.readouterr().out
 
 
 def test_batch_duplicate_order_fails_only_current_case(tmp_path, batch_offline):

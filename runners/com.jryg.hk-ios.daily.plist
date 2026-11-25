@@ -6,18 +6,18 @@
     <string>com.jryg.hk-ios.daily</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/.venv/bin/python</string>
-        <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/runners/JRYG_run_scheduled_ios.py</string>
+        <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-ios/.venv/bin/python</string>
+        <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-ios/runners/JRYG_run_scheduled_ios.py</string>
         <string>--run</string>
     </array>
     <key>WorkingDirectory</key>
-    <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi</string>
+    <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-ios</string>
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
-        <integer>10</integer>
+        <integer>14</integer>
         <key>Minute</key>
-        <integer>45</integer>
+        <integer>33</integer>
     </dict>
     <key>RunAtLoad</key>
     <false/>
@@ -30,8 +30,8 @@
     <key>ExitTimeOut</key>
     <integer>60</integer>
     <key>StandardOutPath</key>
-    <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/logs/scheduled/daily.log</string>
+    <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-ios/logs/scheduled/daily.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/tongyongqi/PycharmProjects/JRYG_PassengerIUi/JRYG_Passenger_UI_HK-ios/logs/scheduled/daily-error.log</string>
+    <string>/Users/tongyongqi/Desktop/codebuddy-daima/JRYG_Passenger_UI_HK-ios/logs/scheduled/daily-error.log</string>
 </dict>
 </plist>

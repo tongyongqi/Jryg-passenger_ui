@@ -38,6 +38,7 @@ def client_with_states(states, source=None, foreground=BUNDLE_ID):
 
     client.http.get.side_effect = read
     client.http.post.return_value = SimpleNamespace(value=None)
+    client._session_http.post.return_value = SimpleNamespace(value=None)
     return client
 
 
@@ -59,12 +60,14 @@ def test_already_unlocked_no_wake_or_activation(clock):
 
 @pytest.mark.parametrize("bundle", [None, BUNDLE_ID, PASSENGER_BUNDLE_ID, "com.apple.mobilesafari"])
 def test_locked_unlock_once_confirm_then_resume(clock, bundle):
-    client = client_with_states([True, True, False])
+    client = client_with_states([True, True, False], foreground=bundle or BUNDLE_ID)
     assert guard.ensure_unlocked(client, resume_bundle=bundle) is True
-    posts = client.http.post.call_args_list
-    assert [call.args[0] for call in posts] == (["/wda/unlock"] if bundle is None else ["/wda/unlock", "/wda/apps/activate"])
+    client.http.post.assert_called_once_with("/wda/unlock", timeout=10)
     if bundle:
-        assert posts[1].args[1] == {"bundleId": bundle}
+        client._session_http.post.assert_called_once_with("/wda/apps/launch", {"bundleId": bundle}, timeout=3)
+        assert client.http.get.call_args.args[0] == "/wda/activeAppInfo"
+    else:
+        client._session_http.post.assert_not_called()
     assert clock.now == 0.5
     assert_no_business(client)
 
@@ -96,11 +99,12 @@ def test_transport_response_uncertain_never_repeated_or_leaked(clock, failure, c
     elif failure == "unlock":
         client.http.post.side_effect = error
     else:
-        client.http.post.side_effect = [SimpleNamespace(value=None), error]
+        client._session_http.post.side_effect = error
     with pytest.raises(guard.DeviceUnlockError) as caught:
         guard.ensure_unlocked(client, resume_bundle=BUNDLE_ID)
     assert "private-lock-code" not in str(caught.value) + caplog.text
-    assert client.http.post.call_count == {"query": 0, "unlock": 1, "activate": 2}[failure]
+    assert client.http.post.call_count == {"query": 0, "unlock": 1, "activate": 1}[failure]
+    assert client._session_http.post.call_count == (1 if failure == "activate" else 0)
     assert_no_business(client)
 
 
@@ -135,10 +139,10 @@ def test_unknown_resume_app_rejected_without_device_action(clock):
 
 
 def test_observed_safari_restored_not_passenger_app(clock):
-    client = client_with_states([True, False])
+    client = client_with_states([True, False], foreground="com.apple.mobilesafari")
     guard.remember_foreground(client, ET.fromstring('<XCUIElementTypeApplication bundleId="com.apple.mobilesafari" />'))
     assert guard.ensure_unlocked(client) is True
-    assert client.http.post.call_args.args[1] == {"bundleId": "com.apple.mobilesafari"}
+    assert client._session_http.post.call_args.args[1] == {"bundleId": "com.apple.mobilesafari"}
 
 
 def test_different_devices_do_not_share_foreground(clock):
@@ -160,8 +164,8 @@ def test_driver_reads_latest_phase_only_after_confirmed_unlock(clock):
     root = flow.root()
     assert root.get("bundleId") == BUNDLE_ID
     assert [call.args[0] for call in client.http.get.call_args_list] == [
-        "/wda/locked", "/wda/locked", "/wda/activeAppInfo", "/source?format=xml"]
-    assert client.http.post.call_args.args[1] == {"bundleId": BUNDLE_ID}
+        "/wda/locked", "/wda/locked", "/wda/activeAppInfo", "/wda/activeAppInfo", "/source?format=xml"]
+    assert client._session_http.post.call_args.args[1] == {"bundleId": BUNDLE_ID}
     assert_no_business(client)
 
 
@@ -200,11 +204,11 @@ def test_passenger_lock_failure_not_converted_to_empty_text(clock):
 
 
 def test_passenger_text_poll_restores_observed_payment_app(clock):
-    client = client_with_states([False, True, False])
+    client = client_with_states([False, True, False], foreground="com.apple.mobilesafari")
     client.source.return_value = '<XCUIElementTypeApplication bundleId="com.apple.mobilesafari"><XCUIElementTypeStaticText label="SUCCESS" visible="true" /></XCUIElementTypeApplication>'
     assert iOSBase._ios_get_all_texts(client) == ["SUCCESS"]
     assert iOSBase._ios_get_all_texts(client) == ["SUCCESS"]
-    assert client.http.post.call_args.args[1] == {"bundleId": "com.apple.mobilesafari"}
+    assert client._session_http.post.call_args.args[1] == {"bundleId": "com.apple.mobilesafari"}
     assert_no_business(client)
 
 
@@ -264,3 +268,244 @@ def test_prepare_only_cli_unlock_gate(clock, monkeypatch, locked, expected):
     monkeypatch.setattr("sys.argv", ["guard", "--wda-url", "http://example.invalid"])
     assert guard.main() == expected
     assert_no_business(client)
+
+
+@pytest.fixture
+def mac_clock(monkeypatch):
+    import plistlib
+
+    clock = SimpleNamespace(now=0)
+    monkeypatch.setattr(guard.time, "monotonic", lambda: clock.now)
+    monkeypatch.setattr(guard.time, "sleep", Mock(side_effect=AssertionError("Mac wake must not sleep")))
+    monkeypatch.setattr(guard, "_is_macos", lambda: True)
+    for name in ("_mac_caffeinate_hold", "_mac_display_wake", "_mac_locked_state"):
+        monkeypatch.setattr(guard, name, None)
+    for name in ("_mac_checked_at", "_mac_wake_at", "_mac_lock_warn_at"):
+        monkeypatch.setattr(guard, name, float("-inf"))
+    read = Mock(return_value=SimpleNamespace(stdout=plistlib.dumps([{"IOConsoleLocked": False}])))
+    monkeypatch.setattr(guard.subprocess, "run", read)
+    wake, hold = Mock(), Mock()
+    wake.poll.return_value = hold.poll.return_value = None
+    spawn = Mock(side_effect=[wake, hold])
+    monkeypatch.setattr(guard.subprocess, "Popen", spawn)
+    return SimpleNamespace(clock=clock, read=read, spawn=spawn, wake=wake, hold=hold)
+
+
+@pytest.mark.parametrize("locked", [False, True, None])
+def test_mac_wake_nonblocking_hold_and_cached_state(mac_clock, monkeypatch, locked, caplog):
+    read = Mock(return_value=locked)
+    monkeypatch.setattr(guard, "mac_is_locked", read)
+    for _ in range(20):
+        assert guard.ensure_mac_awake() is True
+    read.assert_called_once()
+    assert mac_clock.spawn.call_count == 2
+    assert mac_clock.spawn.call_args_list[0].args[0] == ["/usr/bin/caffeinate", "-u", "-t", "5"]
+    assert mac_clock.spawn.call_args_list[1].args[0][:5] == ["/usr/bin/caffeinate", "-d", "-i", "-s", "-w"]
+    if locked:
+        assert "密码锁仍需本人解锁" in caplog.text
+        assert caplog.text.count("密码锁仍需本人解锁") == 1
+    assert mac_clock.clock.now == 0
+
+
+def test_mac_state_rechecked_and_hold_not_duplicated(mac_clock, monkeypatch, caplog):
+    read = Mock(side_effect=[True, False])
+    monkeypatch.setattr(guard, "mac_is_locked", read)
+    guard.ensure_mac_awake()
+    mac_clock.clock.now = 5
+    guard.ensure_mac_awake()
+    assert read.call_count == 2
+    assert mac_clock.spawn.call_count == 2
+    assert "控制台已解锁" in caplog.text
+
+
+def test_mac_display_wake_rate_limited_and_finished_process_reaped(mac_clock):
+    guard.mac_prevent_sleep()
+    mac_clock.wake.poll.return_value = 0
+    mac_clock.clock.now = 5
+    guard.mac_prevent_sleep()
+    mac_clock.wake.wait.assert_called_once()
+    assert mac_clock.spawn.call_count == 2
+    mac_clock.clock.now = 30
+    wake = Mock()
+    wake.poll.return_value = None
+    mac_clock.spawn.side_effect = [wake]
+    guard.mac_prevent_sleep()
+    assert mac_clock.spawn.call_count == 3
+    assert guard._mac_caffeinate_hold is mac_clock.hold
+
+
+@pytest.mark.parametrize("root,array,expected", [
+    ({"IOConsoleLocked": True}, False, True),
+    ({"IOConsoleLocked": False}, True, False),
+    ({"IOConsoleUsers": [{"kCGSSessionOnConsoleKey": True, "CGSSessionScreenIsLocked": True}]}, True, True),
+    ({"IOConsoleUsers": [{"kCGSSessionOnConsoleKey": True, "CGSSessionScreenIsLocked": False}]}, False, False),
+    ({"IOConsoleUsers": [{"kCGSSessionOnConsoleKey": False, "CGSSessionScreenIsLocked": True}]}, True, None),
+    ({"IOConsoleLocked": "false"}, False, None),
+])
+def test_mac_actual_lock_field_contract(mac_clock, root, array, expected):
+    import plistlib
+
+    mac_clock.read.return_value.stdout = plistlib.dumps([root] if array else root)
+    assert guard.mac_is_locked() is expected
+    assert mac_clock.read.call_args.kwargs["timeout"] == 1
+    mac_clock.spawn.assert_not_called()
+
+
+def test_mac_wake_failure_never_prints_password_or_changes_lock_settings(mac_clock, caplog):
+    mac_clock.spawn.side_effect = OSError("private-password")
+    guard.ensure_mac_awake()
+    assert "private-password" not in caplog.text
+    assert "未修改系统锁屏设置" in caplog.text
+
+
+def test_mac_cleanup_only_terminates_owned_processes(mac_clock):
+    guard.mac_prevent_sleep()
+    guard.mac_stop_prevent_sleep()
+    for process in (mac_clock.wake, mac_clock.hold):
+        process.terminate.assert_called_once()
+        process.wait.assert_called_once_with(timeout=5)
+    assert guard._mac_caffeinate_hold is guard._mac_display_wake is None
+    assert guard._mac_checked_at == float("-inf")
+
+
+def test_mac_only_cli_binds_shell_without_wda(mac_clock, monkeypatch):
+    import os
+
+    client = Mock()
+    monkeypatch.setattr(guard.wda, "Client", client)
+    monkeypatch.setattr("sys.argv", ["guard", "--mac-only", "--hold-pid", str(os.getppid())])
+    assert guard.main() == 0
+    assert mac_clock.spawn.call_args.args[0][-1] == str(os.getppid())
+    client.assert_not_called()
+
+
+def test_mac_only_cli_rejects_unrelated_pid(mac_clock, monkeypatch):
+    import os
+
+    monkeypatch.setattr("sys.argv", ["guard", "--mac-only", "--hold-pid", str(os.getppid() + 999)])
+    with pytest.raises(SystemExit) as caught:
+        guard.main()
+    assert caught.value.code == 2
+    mac_clock.spawn.assert_not_called()
+
+
+def test_mac_detection_consumes_shared_device_budget(clock, monkeypatch):
+    monkeypatch.setattr(guard, "ensure_mac_awake", lambda: setattr(clock, "now", clock.now + 2))
+    client = client_with_states([False])
+    assert guard.ensure_unlocked(client, deadline=3) is False
+    client.http.get.assert_called_once_with("/wda/locked", timeout=1)
+    assert_no_business(client)
+
+
+@pytest.mark.parametrize("foreground", ["com.apple.Preferences", None])
+def test_unlock_different_foreground_never_replays_or_reads_page(clock, foreground):
+    client = client_with_states([True, False], foreground=foreground)
+    with pytest.raises(guard.DeviceUnlockError, match="原App前台未确认"):
+        guard.ensure_unlocked(client, resume_bundle=BUNDLE_ID)
+    client.http.post.assert_called_once()
+    client._session_http.post.assert_called_once()
+    assert_no_business(client)
+
+
+def test_unlock_then_springboard_readonly_wait_no_repeated_activation(clock):
+    client = client_with_states([True, False])
+    old_read = client.http.get.side_effect
+    foregrounds = iter(["com.apple.springboard", BUNDLE_ID])
+
+    def read(endpoint, **kwargs):
+        if endpoint == "/wda/activeAppInfo":
+            return SimpleNamespace(value={"bundleId": next(foregrounds)})
+        return old_read(endpoint, **kwargs)
+
+    client.http.get.side_effect = read
+    assert guard.ensure_unlocked(client, resume_bundle=BUNDLE_ID)
+    assert clock.now == 0.5
+    client._session_http.post.assert_called_once()
+    client.http.post.assert_called_once()
+    assert_no_business(client)
+
+
+def test_unlock_foreground_timeout_remains_bounded(clock):
+    client = client_with_states([True, False], foreground="com.apple.springboard")
+    with pytest.raises(guard.DeviceUnlockError, match="等待超时"):
+        guard.ensure_unlocked(client, deadline=2, resume_bundle=BUNDLE_ID)
+    assert clock.now == 2
+    client._session_http.post.assert_called_once()
+    client.http.post.assert_called_once()
+    assert_no_business(client)
+
+
+def test_unlock_real_wda_session_uses_launch_not_activate(clock, monkeypatch):
+    client = guard.wda.Client("http://example.invalid", _session_id="test-session")
+    transport = Mock(side_effect=[SimpleNamespace(value=True), SimpleNamespace(value=None),
+                                  SimpleNamespace(value=False), SimpleNamespace(value=None),
+                                  SimpleNamespace(value={"bundleId": BUNDLE_ID})])
+    monkeypatch.setattr(guard.wda, "httpdo", transport)
+    assert guard.ensure_unlocked(client, resume_bundle=BUNDLE_ID)
+    requests = transport.call_args_list
+    assert requests[1].args[0] == "http://example.invalid/wda/unlock"
+    assert requests[3].args == ("http://example.invalid/session/test-session/wda/apps/launch",
+                                "POST", {"bundleId": BUNDLE_ID}, 3)
+    assert requests[4].args[0].endswith("/wda/activeAppInfo")
+
+
+@pytest.mark.parametrize("text", ["Pay Now", "Return to Merchant", "打开"])
+def test_safari_lock_failure_propagates_without_fallback_payment(clock, text):
+    flow = iOSBase()
+    flow.client = client_with_states([True])
+    flow.client.http.post.side_effect = OSError("locked")
+    with pytest.raises(guard.DeviceUnlockError):
+        flow._ios_safari_click_by_text(text, 196, 400)
+    flow.client.source.assert_not_called()
+    assert_no_business(flow.client)
+
+
+def test_safari_xml_read_restores_observed_app_after_unlock(clock):
+    flow = iOSBase()
+    flow.client = client_with_states([False, True, False], foreground="com.apple.mobilesafari")
+    xml = '<XCUIElementTypeApplication bundleId="com.apple.mobilesafari"><XCUIElementTypeStaticText label="Pay Now" visible="true" /></XCUIElementTypeApplication>'
+    flow.client.source.return_value = xml
+    assert flow._ios_get_source_xml() == xml
+    assert flow._ios_get_source_xml() == xml
+    flow.client._session_http.post.assert_called_once_with("/wda/apps/launch", {"bundleId": "com.apple.mobilesafari"}, timeout=3)
+    assert_no_business(flow.client)
+
+
+def test_page_monitor_wake_and_read_share_deadline(clock, tmp_path):
+    monitor = IOSPageMonitor("http://example.invalid", tmp_path)
+    monitor.device_client = client_with_states([True, False])
+
+    def unlock(*args, **kwargs):
+        clock.now += 2
+        return SimpleNamespace(value=None)
+
+    monitor.device_client.http.post.side_effect = unlock
+    monitor._get = Mock(return_value='<XCUIElementTypeApplication bundleId="com.sunlightmobility.client" />')
+    try:
+        monitor.inspect(timeout=3)
+        monitor._get.assert_called_once_with("/source?format=xml", 1)
+    finally:
+        monitor.close()
+    assert_no_business(monitor.device_client)
+
+
+def test_card_form_unlock_failure_prevents_input(clock):
+    flow = iOSBase()
+    flow.client = client_with_states([True])
+    flow.client.http.post.side_effect = OSError("locked")
+    flow._ios_get_all_texts = Mock(return_value=["卡號"])
+    flow._ios_screenshot = Mock()
+    with pytest.raises(guard.DeviceUnlockError):
+        flow._ios_fill_bank_card_form("sandbox")
+    flow.client.assert_not_called()
+    assert_no_business(flow.client)
+
+
+def test_shell_wakes_mac_before_device_and_phone_only_after_wda():
+    from pathlib import Path
+
+    script = (Path(__file__).resolve().parents[1] / "runners/JRYG_run_hk_ios.sh").read_text()
+    assert script.index("--collect-only|--co|--help|-h") < script.index("--mac-only --hold-pid")
+    assert script.index("--mac-only --hold-pid") < script.index("xcrun devicectl device info")
+    assert script.index("--mac-only --hold-pid") < script.index("if ! wda_ready;")
+    assert script.rindex("if ! wda_ready;") < script.index('--wda-url "$WDA_URL"')

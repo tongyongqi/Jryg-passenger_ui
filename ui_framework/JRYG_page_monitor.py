@@ -182,7 +182,12 @@ class IOSPageMonitor:
 
     def inspect(self, timeout=None):
         """读取当前页面树并包装成 IOSPage。"""
-        ensure_unlocked(self.device_client)
+        deadline = time.monotonic() + timeout if timeout is not None else None
+        ensure_unlocked(self.device_client, deadline=deadline)
+        if deadline is not None:
+            timeout = deadline - time.monotonic()
+            if timeout <= 0:
+                raise DeviceUnlockError("页面读取的唤醒预算已耗尽，未继续业务操作")
         self.last_page = IOSPage(self._get("/source?format=xml", timeout))
         remember_foreground(self.device_client, self.last_page.root)
         logger.info("[页面检测] state=%s", self.last_page.state)

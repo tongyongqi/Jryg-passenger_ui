@@ -39,7 +39,10 @@ START_GATE_XPATH = (
 START_GATE_POCO_REGEX = ".*起點.*|.*起点.*|.*您從哪.*|.*您从哪.*"
 START_GATE_FALLBACK_COORD = (0.5, 0.72)  # 起点绿色圆点常见位置
 
-# 定位未就绪时的占位文案（首页起点入口此时不可点击，需先触发定位）
+START_GATE_TEXTS = ("起點", "起点", "請輸入起點", "请输入起点", "您從哪裡出發", "您从哪里出发",
+                    "當前城市暫未開通服務", "当前城市暂未开通服务")
+
+# 定位失败仅表示没有自动起点，不表示手动输入入口不可点击。
 LOCATION_UNAVAILABLE_TEXTS = (
     "無法取得位置",
     "无法取得位置",
@@ -201,14 +204,13 @@ COUPON_FALLBACK_COORD = (0.85, 0.8)
 COUPON_TARGET_TEXTS = ["100元优惠卷", "100元优惠券", "100", "100元"]
 
 # ==================== 测试数据 ====================
-# 默认起终点地址（铜锣湾地铁站D2出口 → 大谭郊野公园）
-DEFAULT_START_ADDRESS = "铜锣湾地铁站D2出口"
+# 唯一起点为铜锣湾；港版页面兼容繁体名称，终点保持不变。
+DEFAULT_START_ADDRESS = "铜锣湾"
+START_ADDRESS_NAMES = (DEFAULT_START_ADDRESS, "銅鑼灣")
+# App会把"铜锣湾"解析成湾仔区铜锣湾地铁站的出入口（如"铜锣湾地铁站D2出口"），
+# 该解析是App对输入地址的稳定结果，路线核验按前缀接受，不再当作输入地址使用。
+START_ROUTE_PREFIXES = ("铜锣湾", "銅鑼灣")
 DEFAULT_END_ADDRESS = "大谭郊野公园"
-NORTH_POINT_SEARCH_TEXT = "北角地铁站"
-NORTH_POINT_STATION_NAMES = ("北角(地鐵站)", "北角地鐵站", "北角地铁站")
-NORTH_POINT_DISTRICT = "香港特別行政區東區Eastern District"
-NORTH_POINT_START_PLACEHOLDER = "您從哪裡出發"
-NORTH_POINT_EXIT = "A1出入口"
 
 # 距离太近时的备选终点（按优先级排列，依次切换直到下单成功）
 FALLBACK_END_ADDRESSES = ["銅鑼灣", "中環", "尖沙咀"]
@@ -216,8 +218,7 @@ FALLBACK_END_ADDRESSES = ["銅鑼灣", "中環", "尖沙咀"]
 # 距离太近提示关键词（简繁体混合）
 DISTANCE_TOO_CLOSE_KEYWORDS = ["距離太近", "距离太近", "太近", "距离过近", "距離過近"]
 
-# 预约单测试地址（暂未使用）
-BOOKING_START_ADDRESS = "铜锣湾地铁站"
+# 预约单测试终点（暂未使用；起点统一使用DEFAULT_START_ADDRESS）
 BOOKING_END_ADDRESS = "香港大学"
 
 # 银行卡测试数据（Sandbox 测试环境专用卡号）

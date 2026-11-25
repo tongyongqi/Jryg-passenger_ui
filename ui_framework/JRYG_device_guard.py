@@ -25,6 +25,11 @@ RESUMABLE_APPS = {"com.sunlightmobility.client", "com.sunlightmobility.driver", 
 # ==================== Mac 防休眠 ====================
 
 _mac_caffeinate_hold = None
+_mac_display_wake = None
+_mac_checked_at = float("-inf")
+_mac_locked_state = None
+_mac_wake_at = float("-inf")
+_mac_lock_warn_at = float("-inf")
 
 
 def _is_macos():
@@ -35,7 +40,7 @@ def _is_macos():
 def mac_is_locked():
     """检测 Mac 电脑是否锁屏。
 
-    通过 ioreg 读取 IOConsoleLocked 字段。
+    读取 IOConsoleLocked 或当前控制台的 CGSSessionScreenIsLocked。
     :return: True 表示已锁屏，False 表示未锁屏，None 表示无法确认
     """
     if not _is_macos():
@@ -44,17 +49,21 @@ def mac_is_locked():
         import plistlib
         result = subprocess.run(
             ["/usr/sbin/ioreg", "-n", "Root", "-d", "1", "-a"],
-            capture_output=True, check=True, timeout=5,
+            capture_output=True, check=True, timeout=1,
         )
         value = plistlib.loads(result.stdout)
         roots = value if isinstance(value, list) else [value]
-        locked = next(
-            (root.get("IOConsoleLocked") for root in roots
-             if isinstance(root, dict)
-             and isinstance(root.get("IOConsoleLocked"), bool)),
-            None,
-        )
-        return locked
+        for root in roots:
+            if not isinstance(root, dict):
+                continue
+            locked = root.get("IOConsoleLocked")
+            if isinstance(locked, bool):
+                return locked
+            for user in root.get("IOConsoleUsers", []):
+                if (isinstance(user, dict) and user.get("kCGSSessionOnConsoleKey") is True
+                        and isinstance(user.get("CGSSessionScreenIsLocked"), bool)):
+                    return user["CGSSessionScreenIsLocked"]
+        return None
     except Exception:
         return None
 
@@ -106,94 +115,79 @@ def mac_is_ac_power():
         return True
 
 
-def mac_prevent_sleep():
-    """启动 caffeinate 防止 Mac 休眠。
-
-    使用 -i（防系统空闲休眠）+ -s（防系统休眠）+ -w（绑定当前进程）。
-    同时用 -u -t 5 点亮显示器。
-    """
-    global _mac_caffeinate_hold
+def mac_prevent_sleep(*, hold_pid=None):
+    """异步点亮显示器并防系统/显示器休眠，绑定本次进程，不解除密码锁。"""
+    global _mac_caffeinate_hold, _mac_display_wake, _mac_wake_at
     if not _is_macos():
         return
     try:
-        # 点亮显示器
-        subprocess.run(
-            ["/usr/bin/caffeinate", "-u", "-t", "5"],
-            check=True, timeout=8,
-        )
-        # 如果已有防休眠进程且仍在运行，不重复启动
+        now = time.monotonic()
+        if _mac_display_wake is not None and _mac_display_wake.poll() is not None:
+            _mac_display_wake.wait()
+            _mac_display_wake = None
+        if _mac_display_wake is None and now - _mac_wake_at >= 30:
+            _mac_display_wake = subprocess.Popen(
+                ["/usr/bin/caffeinate", "-u", "-t", "5"],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            )
+            _mac_wake_at = now
         if _mac_caffeinate_hold is not None and _mac_caffeinate_hold.poll() is None:
             return
-        # 启动防休眠进程，绑定当前进程
+        if _mac_caffeinate_hold is not None:
+            _mac_caffeinate_hold.wait()
         import os
         _mac_caffeinate_hold = subprocess.Popen(
-            ["/usr/bin/caffeinate", "-i", "-s", "-w", str(os.getpid())]
+            ["/usr/bin/caffeinate", "-d", "-i", "-s", "-w", str(hold_pid or os.getpid())],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
-        LOG.info("[Mac 防休眠] 已启动 caffeinate 防休眠进程")
+        LOG.info("[Mac 自动唤醒] 已请求点亮显示器并启动防休眠，不输入电脑密码")
     except Exception as exc:
-        LOG.warning("[Mac 防休眠] 启动失败（%s），继续执行", type(exc).__name__)
+        LOG.warning("[Mac 自动唤醒] 系统请求失败（%s），未修改系统锁屏设置", type(exc).__name__)
 
 
 def mac_stop_prevent_sleep():
-    """停止 Mac 防休眠进程。"""
-    global _mac_caffeinate_hold
-    if _mac_caffeinate_hold is not None and _mac_caffeinate_hold.poll() is None:
+    """仅释放本次创建的防休眠/显示器唤醒进程，并重置轮询缓存。"""
+    global _mac_caffeinate_hold, _mac_display_wake, _mac_checked_at, _mac_locked_state
+    global _mac_wake_at, _mac_lock_warn_at
+    for process in (_mac_caffeinate_hold, _mac_display_wake):
+        if process is None:
+            continue
         try:
-            _mac_caffeinate_hold.terminate()
-            _mac_caffeinate_hold.wait(timeout=5)
+            if process.poll() is None:
+                process.terminate()
+            process.wait(timeout=5)
         except Exception:
             try:
-                _mac_caffeinate_hold.kill()
-                _mac_caffeinate_hold.wait(timeout=5)
+                process.kill()
+                process.wait(timeout=5)
             except Exception:
                 pass
-    _mac_caffeinate_hold = None
+    _mac_caffeinate_hold = _mac_display_wake = None
+    _mac_checked_at = _mac_wake_at = _mac_lock_warn_at = float("-inf")
+    _mac_locked_state = None
 
 
 def ensure_mac_awake():
-    """检测 Mac 锁屏状态并尝试唤醒，不输入电脑密码。
+    """自动点亮并防休眠，不解除电脑密码锁；WDA运行无需进入Mac桌面。
 
-    不管执行到哪个阶段，如果 Mac 熄屏，尝试点亮显示器后继续，不中断测试。
-    如果 Mac 已锁屏，使用 caffeinate -u 尝试点亮显示器，等待用户解锁后继续。
-
-    :return: True 表示 Mac 可用，False 表示锁屏中等待
+    每5秒核对一次控制台锁定状态；唤醒非阻塞，不延长订单/付款等待预算。
+    返回True表示已处理唤醒请求，不是密码锁已解除的凭据。
     """
+    global _mac_checked_at, _mac_locked_state, _mac_lock_warn_at
     if not _is_macos():
         return True
-
-    locked = mac_is_locked()
-    if locked is False:
-        # 未锁屏，启动防休眠
-        mac_prevent_sleep()
-        return True
-
-    if locked is True:
-        LOG.warning(
-            "[Mac 锁屏检测] Mac 已锁屏，尝试点亮显示器，不输入电脑密码；"
-            "等待解锁后继续，不中断测试"
-        )
-        try:
-            subprocess.run(
-                ["/usr/bin/caffeinate", "-u", "-t", "5"],
-                check=True, timeout=8,
-            )
-        except Exception:
-            pass
-        # 再次检查
-        time.sleep(2)
-        locked = mac_is_locked()
-        if locked is False:
-            mac_prevent_sleep()
-            LOG.info("[Mac 锁屏检测] Mac 已解锁，继续执行")
-            return True
-        LOG.warning(
-            "[Mac 锁屏检测] Mac 仍处于锁屏状态，请手动解锁；"
-            "测试将等待，不直接判定为错误"
-        )
-        return False
-
-    # 无法确认锁屏状态，启动防休眠后继续
+    now = time.monotonic()
+    if now - _mac_checked_at >= 5:
+        previously_locked = _mac_locked_state
+        _mac_locked_state = mac_is_locked()
+        _mac_checked_at = now
+        if previously_locked is True and _mac_locked_state is False:
+            LOG.info("[Mac 锁屏检测] 控制台已解锁，自动化继续原步骤")
     mac_prevent_sleep()
+    if _mac_locked_state is True and now - _mac_lock_warn_at >= 30:
+        _mac_lock_warn_at = now
+        LOG.warning("[Mac 自动唤醒] 已请求点亮屏幕；电脑密码锁仍需本人解锁，"
+                    "WDA继续原步骤，不输入电脑密码、不重做业务操作")
     return True
 
 
@@ -212,22 +206,24 @@ def ensure_unlocked(client, *, deadline=None, resume_bundle=None, check_mac=True
     先检测 Mac 锁屏并尝试唤醒，再检测 iPhone 锁屏并尝试唤醒。
     check_mac=False 时跳过 Mac 检测（供单元测试使用）。
     """
-    # 不管执行到哪个阶段，先检测 Mac 熄屏并唤醒
+    deadline = min(deadline, time.monotonic() + 15) if deadline is not None else time.monotonic() + 15
+    if time.monotonic() >= deadline:
+        raise DeviceUnlockError("锁屏检查或解锁等待超时，未操作设备或重做订单付款")
     if check_mac:
         ensure_mac_awake()
 
-    deadline = min(deadline, time.monotonic() + 15) if deadline is not None else time.monotonic() + 15
     resume_bundle = resume_bundle or client.__dict__.get("_hk_last_foreground")
     if resume_bundle is not None and resume_bundle not in RESUMABLE_APPS:
         raise DeviceUnlockError("解锁恢复App不在香港UI自动化允许范围内，停止操作")
 
-    def request(method, endpoint, maximum, data=None):
+    def request(method, endpoint, maximum, data=None, *, session=False):
         remaining = deadline - time.monotonic()
         if remaining <= 0:
             raise DeviceUnlockError("锁屏检查或解锁等待超时，请手动解锁iPhone后继续；未重做订单或付款")
         try:
             args = (endpoint,) if data is None else (endpoint, data)
-            return getattr(client.http, method)(*args, timeout=min(maximum, remaining)).value
+            transport = client._session_http if session else client.http
+            return getattr(transport, method)(*args, timeout=min(maximum, remaining)).value
         except Exception as exc:
             raise DeviceUnlockError(
                 f"iPhone锁屏检测/解锁通信失败（{type(exc).__name__}）；"
@@ -247,8 +243,16 @@ def ensure_unlocked(client, *, deadline=None, resume_bundle=None, check_mac=True
     while time.monotonic() < deadline:
         if not locked():
             if resume_bundle is not None:
-                request("post", "/wda/apps/activate", 3, {"bundleId": resume_bundle})
-            LOG.info("[锁屏检查] 已确认iPhone解锁，继续读取当前状态，不重跑下单或付款")
+                request("post", "/wda/apps/launch", 3, {"bundleId": resume_bundle}, session=True)
+                while True:
+                    current = request("get", "/wda/activeAppInfo", 3)
+                    bundle = current.get("bundleId") if isinstance(current, dict) else None
+                    if bundle == resume_bundle:
+                        break
+                    if bundle != "com.apple.springboard":
+                        raise DeviceUnlockError("手机已解锁但原App前台未确认，停止操作，不重做下单或付款")
+                    time.sleep(min(0.5, max(0, deadline - time.monotonic())))
+            LOG.info("[锁屏检查] 已确认iPhone解锁及原App恢复，继续读取当前状态，不重跑下单或付款")
             return True
         time.sleep(min(0.5, max(0, deadline - time.monotonic())))
     raise DeviceUnlockError(
@@ -258,10 +262,20 @@ def ensure_unlocked(client, *, deadline=None, resume_bundle=None, check_mac=True
 
 
 def main():
-    parser = argparse.ArgumentParser(description="仅检测iPhone锁屏并尝试一次解锁，不执行订单")
-    parser.add_argument("--wda-url", required=True)
+    parser = argparse.ArgumentParser(description="自动唤醒Mac/iPhone，不输入锁屏密码或执行订单")
+    parser.add_argument("--wda-url")
+    parser.add_argument("--mac-only", action="store_true", help="WDA启动前仅唤醒电脑")
+    parser.add_argument("--hold-pid", type=int, help="绑定调用Shell的防休眠生命周期")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
+    if args.mac_only:
+        import os
+        if args.hold_pid is not None and args.hold_pid != os.getppid():
+            parser.error("--hold-pid仅允许绑定当前父进程")
+        mac_prevent_sleep(hold_pid=args.hold_pid)
+        return 0
+    if not args.wda_url or args.hold_pid is not None:
+        parser.error("手机唤醒需要--wda-url；--hold-pid只用于--mac-only")
     try:
         ensure_unlocked(wda.Client(args.wda_url))
     except DeviceUnlockError as exc:
