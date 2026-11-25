@@ -22,7 +22,7 @@ driver:
   # 留空复用乘客设备；双设备的UiAutomator2端口必须与乘客端不同。
   udid: ""
   system_port: 8202
-  mobile: "11000005"
+  mobile: "11018251"
   fare: "5"
   surcharge: "0"
   passenger_tail: ""

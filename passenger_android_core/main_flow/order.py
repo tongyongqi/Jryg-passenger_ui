@@ -102,12 +102,23 @@ class AndroidDriverUIFlow(DriverUIFlow):
         """确认安卓历史列表后只返回一次；未知页面不盲目返回，不执行订单动作。"""
         deadline = min(self.deadline, time.monotonic() + self.args.step_timeout)
         returned = False
+        source_reads = empty_source_reads = 0
+        last_source_empty = False
         prefix = "com.sunlightmobility.driver:id/"
         while time.monotonic() < deadline:
             root = self.root()
+            source_reads += 1
+            # normalized_tree 的 Application 包装节点始终可见，不能当作有效业务页面。
+            nodes = [node for node in visible_nodes(root)
+                     if node is not root and rect(node)[2] > 0 and rect(node)[3] > 0]
+            last_source_empty = not nodes
+            if last_source_empty:
+                empty_source_reads += 1
+                # 允许首次加载出现暂态空树；只读取等待，绝不盲点登录或按返回。
+                time.sleep(min(self.args.interval, max(0, deadline - time.monotonic())))
+                continue
             phase = self.detect_phase(root)
             self._check_device_availability(phase)
-            nodes = visible_nodes(root)
             titles = [node for node in nodes if node.get("resource-id") == prefix + "tv_bar_title"]
             native_history = False
             if any(node_text(node).strip() == "我的行程" for node in titles):
@@ -129,8 +140,30 @@ class AndroidDriverUIFlow(DriverUIFlow):
             elif phase != "unknown":
                 return root, phase
             time.sleep(self.args.interval)
-        self.snapshot("driver_entry_navigation_timeout")
-        raise TimeoutError("Android司机准备页恢复超时：原生历史列表返回未确认或仍为未知页；未重复返回或推进订单")
+        self.entry_page_observation = {
+            "source_reads": source_reads, "empty_source_reads": empty_source_reads,
+            "last_source_empty": last_source_empty, "history_returned": returned,
+        }
+        if not source_reads:
+            message = "Android司机准备页读取前等待期限已到，未获得页面证据、未执行操作"
+            artifact = "driver_entry_deadline_expired"
+        elif last_source_empty:
+            message = ("Android司机页面树不可用：截止时无可见且有面积的业务节点，"
+                       f"采样{source_reads}次、空树{empty_source_reads}次；"
+                       "无法识别页面/登录态，不代表历史列表返回失败；未盲点、登录、出车或接单")
+            artifact = "driver_entry_empty_source_timeout"
+        elif returned:
+            message = "Android历史列表已单次返回，但后续准备页未确认；未重复返回或推进订单"
+            artifact = "driver_entry_navigation_timeout"
+        else:
+            message = "Android司机页面存在有效节点，但准备阶段未识别；未执行历史返回或订单动作"
+            artifact = "driver_entry_unknown_page_timeout"
+        try:
+            self.snapshot(artifact)
+        except Exception as exc:
+            # 此处只保护失败取证；异常仍明确报告，不替换原来的页面读取结论。
+            LOG.error("司机准备页超时后的取证失败，类型=%s", type(exc).__name__)
+        raise TimeoutError(message)
 
     def _open_bound_history_order(self):
         """按本次绑定号打开我的行程卡片，不点第一条收入通知或按金额/时间猜单。"""

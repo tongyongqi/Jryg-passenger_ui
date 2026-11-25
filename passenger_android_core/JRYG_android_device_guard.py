@@ -2,13 +2,15 @@
 
 不管执行到哪个阶段，如果设备熄屏，需要唤醒后继续执行，不能直接判断为错误。
 Android 端已有 JRYG_device_guard.py 通过 WDA /wda/locked 检测和 /wda/unlock 唤醒；
-Android 端通过 ADB 检测屏幕状态（mScreenOn / mAwake）并发送 KEYCODE_POWER 唤醒。
+Android 端通过 ADB 读取电源字段（mWakefulness / mScreenOn / mAwake）；未知状态停止。
+电源状态只用于唤醒判断，不等于已解锁、App 登录成功或页面树可用。
 
 Mac 电脑熄屏通过 caffeinate 防休眠 + ioreg 检测锁屏状态；
 锁屏时不中断测试，等待解锁后继续，不输入电脑密码。
 """
 
 import logging
+import re
 import shutil
 import subprocess
 import time
@@ -65,42 +67,41 @@ def _adb_device_connected(udid):
         return False
 
 
-def is_screen_on(udid):
-    """检测 Android 设备屏幕是否点亮。
+def _screen_state_from_power(output):
+    """解析已确认电源字段，未知或冲突时停止，而非返回默认成功。
 
-    通过 dumpsys power 读取 mScreenOn 值：
-    - mScreenOn=true → 屏幕点亮
-    - mScreenOn=false → 屏幕熄灭
-
-    设备未连接时不阻断测试，返回 True 让后续设备连接步骤报更准确的错误。
-
-    :param udid: Android 设备 UDID
-    :return: True 表示屏幕点亮或设备未连接，False 表示熄屏
+    API35 实机于2026-11-23返回 mWakefulness=Awake；Awake/Asleep 为
+    Android PowerManager 的唤醒/休眠状态。保留原适配的 mScreenOn/mAwake
+    布尔字段；仅用于决定是否需要唤醒，不证明设备已解锁或页面树可用。
+    Dreaming/Dozing 等其他状态没有当前设备的显示证据，不自动映射为亮/灭。
     """
-    # 设备未连接时不阻断，让后续 ensure_device 报准确错误
+    if not isinstance(output, str):
+        raise TypeError("dumpsys power 输出必须为文本")
+    definitions = {
+        "mScreenOn": {"true": True, "false": False},
+        "mAwake": {"true": True, "false": False},
+        "mWakefulness": {"Awake": True, "Asleep": False},
+    }
+    states = []
+    for key, mapping in definitions.items():
+        values = re.findall(r"(?m)^\s*" + key + r"=([^\s]*)", output)
+        for value in values:
+            if value not in mapping:
+                raise DeviceUnlockError(f"{key} 状态未适配，禁止假定设备已点亮")
+            states.append(mapping[value])
+    if not states:
+        raise DeviceUnlockError("缺少可确认的电源字段，禁止假定设备已点亮")
+    if len(set(states)) != 1:
+        raise DeviceUnlockError("电源状态字段或窗口组冲突，禁止自动唤醒或继续业务")
+    return states[0]
+
+
+def is_screen_on(udid):
+    """读取真实电源状态；无设备、未知值和冲突显式报错，不证明已解锁。"""
     if not _adb_device_connected(udid):
-        LOG.warning("[熄屏检查] 设备 %s 未连接，跳过熄屏检测", udid)
-        return True
+        raise DeviceUnlockError("设备未连接或未授权，无法确认电源状态")
     output = _adb_shell(udid, "dumpsys", "power", timeout=10)
-    for line in output.splitlines():
-        line = line.strip()
-        if "mScreenOn=" in line:
-            # 提取 mScreenOn=true 或 mScreenOn=false
-            for part in line.split():
-                if part.startswith("mScreenOn="):
-                    value = part.split("=", 1)[1].strip()
-                    return value.lower() == "true"
-    # 降级方案：检查 mAwake
-    for line in output.splitlines():
-        line = line.strip()
-        if "mAwake=" in line:
-            for part in line.split():
-                if part.startswith("mAwake="):
-                    value = part.split("=", 1)[1].strip()
-                    return value.lower() == "true"
-    # 无法确定屏幕状态，假设已亮（不阻断测试）
-    LOG.warning("[熄屏检查] 无法从 dumpsys power 确定屏幕状态，假设已点亮")
-    return True
+    return _screen_state_from_power(output)
 
 
 def wake_screen(udid):

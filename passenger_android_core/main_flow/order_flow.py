@@ -545,11 +545,21 @@ class TestOrderBase(AndroidBase):
 
     # ==================== 司机端 UI 辅助方法 ====================
 
+    def _driver_login_mobile(self):
+        """两个司机阶段共享账号来源；显式空配置不得回退到历史账号。"""
+        settings = self.order_settings.get("driver") or {}
+        mobile = (os.environ["HK_DRIVER_UI_MOBILE"] if "HK_DRIVER_UI_MOBILE" in os.environ
+                  else settings.get("mobile"))
+        if not isinstance(mobile, str) or not mobile.strip() or mobile != mobile.strip():
+            raise ValueError("请配置非空且无首尾空白的 driver.mobile 或 HK_DRIVER_UI_MOBILE")
+        return mobile
+
     def _driver_ui_go_online(self, tag):
         """只准备新订单听单状态；启动前的未完成订单不得自动续跑。"""
+        mobile = self._driver_login_mobile()
         self.driver_runtime = self._resolve_driver_runtime()
         _go_online_args = ["--wda-url", self.driver_runtime.wda_url, "--stop-after", "online",
-                           "--mobile", "11000005", "--code", "123456"]
+                           "--mobile", mobile, "--code", "123456"]
         args = self._driver_parser().parse_args(_go_online_args)
         self.driver_ui = self._create_driver_flow(args)
         self.resuming_order = self.driver_ui.ensure_online(resume_existing=False)
@@ -571,8 +581,8 @@ class TestOrderBase(AndroidBase):
                 "--surcharge", "0" if self.PAYMENT == "cash" else str(os.environ.get("HK_OTHER_AMOUNT", settings.get("surcharge", "0"))),
                 "--payment", "cash" if self.PAYMENT == "cash" else "online"]
         # 司机登录手机号和验证码（未登录时自动登录）
-        mobile = os.environ.get("HK_DRIVER_UI_MOBILE") or settings.get("mobile") or "11000005"
-        args.extend(["--mobile", str(mobile)])
+        mobile = self._driver_login_mobile()
+        args.extend(["--mobile", mobile])
         code = os.environ.get("HK_DRIVER_UI_CODE") or settings.get("code") or "123456"
         args.extend(["--code", str(code)])
         if self.CAR_TYPE == "meter":

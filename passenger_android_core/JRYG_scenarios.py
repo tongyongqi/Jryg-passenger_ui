@@ -69,16 +69,19 @@ V150_DEVICE_SCENARIOS = (
 )
 
 
-def scenario_nodes(*, include_optional=False):
-    """获取所有场景节点配置。"""
+def scenario_nodes(*, include_optional=False, main_flow_only=False):
+    """获取已注册节点；专用主流程模式不读取或加入版本目录。"""
     nodes = []
     scenarios = SCENARIOS + OPTIONAL_SCENARIOS if include_optional else SCENARIOS
+    main_dir = BASE_DIR / "cases" / "main_flow_cases"
     for filename, class_name in scenarios:
-        path = BASE_DIR / "cases" / "main_flow_cases" / filename
+        path = main_dir / filename
+        if main_flow_only and path.resolve().parent != main_dir.resolve():
+            raise RuntimeError("主流程注册文件越出 cases/main_flow_cases，停止执行")
         if not path.is_file():
             raise RuntimeError(f"安卓独立订单场景缺失：{filename}")
         nodes.append(f"{path}::{class_name}::test_order_flow")
-    if include_optional:
+    if include_optional and not main_flow_only:
         for filename, class_name, method_name in V150_DEVICE_SCENARIOS:
             path = BASE_DIR / "cases" / "passenger_v1_5_0" / filename
             if not path.is_file():

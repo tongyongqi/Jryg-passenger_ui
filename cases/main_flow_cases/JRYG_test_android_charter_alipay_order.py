@@ -10,9 +10,10 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 from passenger_android_core.main_flow.order import AndroidOrderBase
+from cases.main_flow_cases.passenger_login_state import MainFlowLoginStateMixin
 
 
-class TestCharterAlipayAndroid(AndroidOrderBase):
+class TestCharterAlipayAndroid(MainFlowLoginStateMixin, AndroidOrderBase):
     """TestCharterAlipayAndroid类。"""
     __test__ = True
     CAR_TYPE = "charter"
