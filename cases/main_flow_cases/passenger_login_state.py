@@ -88,6 +88,7 @@ class MainFlowLoginStateMixin:
 
     def _android_detect_unfinished_order_popup(self):
         """检查当前页面是否为'未完成訂單'弹窗。"""
+        self._ensure_devices_awake()
         try:
             root = ET.fromstring(self.client.source(format="xml"))
         except Exception:
@@ -215,6 +216,7 @@ class MainFlowLoginStateMixin:
         存在待支付订单时不报错，直接点击进入费用页完成支付。
         返回 True 表示已执行一次导航点击。
         """
+        self._ensure_devices_awake()
         try:
             root = ET.fromstring(self.client.source(format="xml"))
         except Exception as exc:

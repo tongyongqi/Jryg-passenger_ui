@@ -22,6 +22,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
 
     def _passenger_root(self):
         """获取乘客端页面树根节点。"""
+        self._ensure_devices_awake()
         self._assert_passenger_foreground()
         root = ET.fromstring(self.client.source(format="xml"))
         if root.get("bundleId") != E.PASSENGER_BUNDLE_ID:
@@ -327,6 +328,7 @@ class AndroidPassengerMixin(AndroidLoginMixin):
 
     def _android_back_to_home(self, tag):
         """激活乘客App并最多五轮返回首页，以起点控件确认；不在此核验到账。"""
+        self._ensure_devices_awake()
         self.client.app_activate(E.PASSENGER_BUNDLE_ID)
         for _ in range(5):
             if self.client(resourceId=E.PASSENGER_BUNDLE_ID + ":id/tv_start_address").exists:

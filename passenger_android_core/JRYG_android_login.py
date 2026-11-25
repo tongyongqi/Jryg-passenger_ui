@@ -227,11 +227,13 @@ class AndroidLoginMixin:
 
     def prepare_passenger_app(self, tag="passenger", *, launch=True, timeout=30):
         """准备乘客App，自动处理启动遮挡页并确保到达首页或业务页。"""
+        self._ensure_devices_awake()
         if launch:
             self._login_activate_app()
         deadline = time.monotonic() + timeout
         acted = set()
         while time.monotonic() < deadline:
+            self._ensure_devices_awake()
             page, root = self._login_snapshot()
             if page in ("privacy", "permission_intro", "permission", "guide", "advertisement"):
                 key = (page, ET.tostring(root))
@@ -359,6 +361,7 @@ class AndroidLoginMixin:
         acted = set()
         entry_page = None
         while time.monotonic() < deadline:
+            self._ensure_devices_awake()
             page, root = self._login_snapshot()
             if entry_page is None and page not in ("privacy", "permission_intro", "permission", "guide", "advertisement", "unknown"):
                 entry_page = page

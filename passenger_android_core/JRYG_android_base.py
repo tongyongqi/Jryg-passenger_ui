@@ -149,9 +149,13 @@ class AndroidUIBase:
         self.client.screenshot(str(directory / name))
 
     def _wait(self, predicate, message, timeout=30):
-        """轮询谓词到超时，返回真值；谓词异常直接传播，不掩盖页面失败。"""
+        """轮询谓词到超时，返回真值；谓词异常直接传播，不掩盖页面失败。
+
+        每轮检测 Mac 和 Android 设备锁屏并唤醒，不管执行到哪个阶段。
+        """
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
+            self._ensure_devices_awake()
             value = predicate()
             if value:
                 return value
@@ -159,7 +163,11 @@ class AndroidUIBase:
         raise TimeoutError(message)
 
     def _click_text(self, keywords, *, exact=False, required=True, client=None):
-        """依候选文案顺序定位并点击；必选控件缺失抛错，选择器负责唯一性。"""
+        """依候选文案顺序定位并点击；必选控件缺失抛错，选择器负责唯一性。
+
+        点击前检测 Mac 和 Android 设备锁屏并唤醒，不管执行到哪个阶段。
+        """
+        self._ensure_devices_awake()
         client = client or self.client
         for keyword in keywords:
             selector = client(**{"text" if exact else "textContains": keyword})

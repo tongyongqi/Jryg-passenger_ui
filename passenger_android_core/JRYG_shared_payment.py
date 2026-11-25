@@ -32,6 +32,7 @@ class HKAndroidPaymentMixin:
             raise ValueError(f"{tag}: payment must be bankcard or alipay")
         if stage not in ("postpaid", "submitted"):
             raise ValueError(f"{tag}: stage must be postpaid or submitted")
+        self._ensure_devices_awake()
         if stage == "postpaid":
             self._android_select_postpaid_channel(tag, payment)
         if payment == "bankcard":

@@ -62,10 +62,13 @@ class AndroidDriverUIFlow(DriverUIFlow):
     """
 
     def root(self, read_deadline=None):
-        """读取页面前先检测 Android 设备熄屏并唤醒，不管执行到哪个阶段。"""
+        """读取页面前先检测 Android 设备和 Mac 电脑熄屏并唤醒，不管执行到哪个阶段。"""
+        from passenger_android_core.JRYG_android_device_guard import (
+            ensure_unlocked as _ensure_unlocked, ensure_mac_awake,
+        )
+        ensure_mac_awake()
         udid = getattr(self.client, "_udid", None) or getattr(self.client, "udid", None)
         if udid:
-            from passenger_android_core.JRYG_android_device_guard import ensure_unlocked as _ensure_unlocked
             _ensure_unlocked(udid)
         return super().root(read_deadline)
 

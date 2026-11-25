@@ -1011,6 +1011,7 @@ class AndroidBase(HKAndroidPaymentMixin):
         :param tag: 日志标签。
         :param car_type: 车型标识，"charter"=包車價的士 / "meter"=打錶的士。
         """
+        self._ensure_devices_awake()
         # 根据车型选择对应的定位策略
         if car_type == "charter":
             xpath_exact = E.CHARTER_CAR_XPATH_EXACT
@@ -1132,6 +1133,7 @@ class AndroidBase(HKAndroidPaymentMixin):
         :param tag: 日志标签。
         :return: True 表示已填写并提交，False 表示未检测到银行卡页面。
         """
+        self._ensure_devices_awake()
         # 轮询等待银行卡页面加载（最多 15 秒）
         bank_page_found = False
         for wait_idx in range(15):
@@ -1488,6 +1490,7 @@ class AndroidBase(HKAndroidPaymentMixin):
         :param payment: 支付方式标识（cash/epayment/alipay/bankcard）。
         :raises AssertionError: 未找到支付方式选项时抛出。
         """
+        self._ensure_devices_awake()
         keywords_map = {
             "cash": E.CASH_KEYWORDS,
             "epayment": E.EPAYMENT_KEYWORDS,
