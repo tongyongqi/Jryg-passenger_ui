@@ -90,10 +90,46 @@ IPROXY_PID=""
 XCODE_PID=""
 TEST_PID=""
 
+# 清理所有遗留的 8100 端口相关进程（iproxy、xcodebuild、WebDriverAgent）
+# 每次脚本启动时和退出时都会调用，确保无孤儿进程残留
+scavenge_port_8100() {
+    local pid listener_command listener_state
+    # 清理所有占用 8100 端口的进程（不限 iproxy 命令格式）
+    for pid in $(lsof -nP -t -iTCP:8100 -sTCP:LISTEN 2>/dev/null || true); do
+        listener_command=$(ps -p "$pid" -o command= 2>/dev/null || true)
+        listener_state=$(ps -p "$pid" -o stat= 2>/dev/null | tr -d ' ')
+        if kill -0 "$pid" 2>/dev/null; then
+            echo "[清理] 结束占用8100端口的遗留进程 $pid ($listener_command)"
+            kill -KILL "$pid" 2>/dev/null || true
+        fi
+    done
+    # 清理所有 iproxy 进程（包括不带 -u 参数的孤儿进程）
+    for pid in $(pgrep -f 'iproxy.*8100' 2>/dev/null || true); do
+        if kill -0 "$pid" 2>/dev/null; then
+            listener_command=$(ps -p "$pid" -o command= 2>/dev/null || true)
+            echo "[清理] 结束遗留iproxy进程 $pid ($listener_command)"
+            kill -KILL "$pid" 2>/dev/null || true
+        fi
+    done
+    # 清理遗留的 xcodebuild WebDriverAgent 进程
+    for pid in $(pgrep -f 'xcodebuild.*WebDriverAgent' 2>/dev/null || true); do
+        if kill -0 "$pid" 2>/dev/null; then
+            echo "[清理] 结束遗留WDA编译进程 $pid"
+            kill -KILL "$pid" 2>/dev/null || true
+        fi
+    done
+    # 等待端口释放
+    for ((i=0; i<10; i++)); do
+        if ! lsof -nP -iTCP:8100 -sTCP:LISTEN >/dev/null 2>&1; then break; fi
+        sleep 0.2
+    done
+}
+
 cleanup() {
     local exit_code=$? pid pending round
     trap - EXIT
     trap '' INT TERM HUP TSTP
+    # 先清理本次启动的进程
     for pid in "$TEST_PID" "$XCODE_PID" "$IPROXY_PID"; do
         [ -n "$pid" ] || continue
         if ps -p "$pid" -o stat= 2>/dev/null | grep -q 'T'; then
@@ -118,6 +154,8 @@ cleanup() {
         fi
         wait "$pid" 2>/dev/null || true
     done
+    # 再扫描清理所有遗留的 8100 端口相关进程（防止孤儿进程残留）
+    scavenge_port_8100
     if [ -n "$TEST_PID$XCODE_PID$IPROXY_PID" ]; then
         echo "[清理] 本次测试、WDA及转发进程已结束；不取消订单、不收车。"
     fi
@@ -128,6 +166,9 @@ trap 'exit 130' INT
 trap 'exit 143' TERM
 trap 'exit 129' HUP
 trap 'exit $((128 + $(kill -l TSTP)))' TSTP
+
+# 启动前先清理遗留进程，防止上次失败留下的孤儿进程占用端口
+scavenge_port_8100
 
 # 检测 WDA 是否已就绪（返回 /status 包含 "WebDriverAgent is ready"）
 wda_ready() {
@@ -141,25 +182,11 @@ if ! wda_ready; then
         echo "[错误] 指定的 WDA 地址不可用: $WDA_URL"
         exit 1
     fi
-    listeners=$(lsof -nP -t -iTCP:8100 -sTCP:LISTEN 2>/dev/null || true)
-    for pid in $listeners; do
-        listener_command=$(ps -p "$pid" -o command= 2>/dev/null || true)
-        listener_state=$(ps -p "$pid" -o stat= 2>/dev/null | tr -d ' ')
-        case "$listener_command" in
-            "iproxy -u $DEVICE_UDID 8100 8100"|*/"iproxy -u $DEVICE_UDID 8100 8100")
-                if [[ "$listener_state" == T* ]]; then
-                    echo "[清理] 结束暂停的本设备8100转发进程 $pid，不恢复旧订单任务。"
-                    kill -KILL "$pid" 2>/dev/null || true
-                fi
-                ;;
-        esac
-    done
-    for ((i=0; i<10; i++)); do
-        if ! lsof -nP -iTCP:8100 -sTCP:LISTEN >/dev/null 2>&1; then break; fi
-        sleep 0.2
-    done
+    # pre_cleanup 已在脚本启动时清理过，此处为二次防御：
+    # 如果端口仍被占用（可能是运行中其他进程新启动的），再次清理
+    scavenge_port_8100
     if lsof -nP -iTCP:8100 -sTCP:LISTEN >/dev/null 2>&1; then
-        echo "[错误] 8100已被其他任务占用且WDA无响应；未复用、未恢复或终止外部任务，请先结束占用任务。"
+        echo "[错误] 8100端口仍被占用且WDA无响应；已尝试清理所有相关进程但未成功，请手动检查。"
         exit 1
     fi
     iproxy -u "$DEVICE_UDID" 8100 8100 >"$BASE_DIR/logs/iproxy-ios.log" 2>&1 &
@@ -216,6 +243,12 @@ fi
 if [ "$PREPARE_ONLY" -eq 1 ]; then
     echo "[设备就绪] WDA及解锁验证通过；未执行订单用例。本次启动的WDA和转发进程将在退出时清理。"
     exit 0
+fi
+
+# 每次任务运行前重置 App 状态（定时任务/批量用例每次调用都会执行）
+# 调试时设置环境变量 HK_IOS_SKIP_APP_RESET=1 可跳过此检查
+if [ "${HK_IOS_SKIP_APP_RESET:-}" != "1" ]; then
+    "$PYTHON" -m ui_framework.JRYG_app_reset --wda-url "$WDA_URL" || true
 fi
 
 if [ "$INSPECT_DRIVER" -eq 1 ]; then

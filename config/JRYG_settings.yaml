@@ -23,6 +23,13 @@ driver:
   # 如页面要求校验乘客尾号，在此填四位测试尾号，不自动猜测。
   passenger_tail: ""
 
+# 司机端接口操作配置（替代 UI 操作完成出车/接单/流转/账单）
+# base_url 留空时自动推导：环境变量 HK_DRIVER_API_BASE_URL 或根据 namespace 推导测试域名
+# enabled: true 时使用接口操作司机端；false 或未配置时保持原有 UI 操作
+driver_api:
+  enabled: true
+  base_url: "http://driver-test.sunlightmobility.hk"
+
 packages:
   passenger_hk: "com.sunlightmobility.client"
 

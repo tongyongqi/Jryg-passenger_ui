@@ -213,11 +213,10 @@ def test_default_batch_order_is_charter_online_then_cash(monkeypatch):
         "JRYG_test_ios_charter_alipay_order.py",
         "JRYG_test_ios_charter_bankcard_order.py",
         "JRYG_test_ios_meter_epayment_alipay_order.py",
-        "JRYG_test_ios_meter_alipay_order.py",
         "JRYG_test_ios_meter_epayment_bankcard_order.py",
         "JRYG_test_ios_meter_cash_order.py",
     ]
-    assert len(cases) == len(set(cases)) == 6
+    assert len(cases) == len(set(cases)) == 5
     runner.run_batch.assert_not_called()
 
 

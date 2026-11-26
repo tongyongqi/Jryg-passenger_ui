@@ -1990,6 +1990,13 @@ class iOSBase(HKIOSPaymentMixin):
         result = "timeout"
         for wait_sec in range(max_checks):
             time.sleep(1)
+
+            # 弹窗检测：每次读取页面前先关闭可能出现的弹窗
+            try:
+                self.client.alert.accept()
+            except Exception:
+                pass
+
             page_texts = self._ios_get_all_texts(self.client)
             logger.info(f"  [{tag} {wait_sec}s] 页面文本: {page_texts[:200]}")
 

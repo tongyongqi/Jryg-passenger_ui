@@ -22,7 +22,6 @@ CASE_LABELS = {
     "JRYG_test_ios_meter_cash_order.py": "打表＋现金",
     "JRYG_test_ios_meter_epayment_bankcard_order.py": "打表＋电子支付后付银行卡",
     "JRYG_test_ios_meter_epayment_alipay_order.py": "打表＋电子支付后付Alipay HK",
-    "JRYG_test_ios_meter_alipay_order.py": "打表＋直接Alipay HK",
 }
 STATUS_LABELS = {"passed": "通过", "failed": "失败", "interrupted": "中断", "not_run": "未运行"}
 

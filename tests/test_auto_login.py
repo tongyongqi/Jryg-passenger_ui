@@ -789,7 +789,7 @@ def test_unpaid_driver_evidence_saved_before_returning_to_passenger(meter_paymen
 
 
 @pytest.mark.parametrize("batch", [False, True])
-def test_batch_new_order_guard_does_not_resume_previous_failed_trip(driver, batch):
+def test_batch_new_order_guard_does_not_resume_previous_failed_trip(driver, batch, monkeypatch):
     flow = TestOrderBase()
     flow.batch_new_order_only = batch
     flow._resolve_driver_runtime = Mock(return_value=SimpleNamespace(wda_url="http://example.invalid"))
@@ -797,17 +797,52 @@ def test_batch_new_order_guard_does_not_resume_previous_failed_trip(driver, batc
     flow._ios_pay = Mock()
     driver.wait_for_entry_page = Mock(return_value=(ET.Element("trip"), "destination"))
     driver.snapshot = Mock()
+    monkeypatch.setattr("ui_framework.JRYG_driver_ui.read_order_no", Mock(return_value="26B4K7OLD100"))
     if batch:
-        with pytest.raises(RuntimeError, match="已有行程.*未自动取消"):
-            flow._driver_ui_go_online("next-case")
+        # 批量模式下残留行程会先流转完成再返回听单，不再直接报错
+        driver._drain_stale_order = Mock(return_value=(ET.Element("paid"), "complete"))
+        driver._back_from_unpaid_to_online = Mock(return_value=(ET.Element("home"), "online"))
+        flow._driver_ui_go_online("next-case")
         assert driver.resume_phase is None
-        assert not driver.awaiting_new_order
+        assert driver.awaiting_new_order
+        driver._drain_stale_order.assert_called_once()
     else:
         flow._driver_ui_go_online("standalone")
         assert flow.resuming_order
         assert driver.resume_phase == "destination"
-    driver.act.assert_not_called()
     flow._ios_pay.assert_not_called()
+
+
+@pytest.mark.parametrize("stale_phase", ["departure", "pickup", "onboard", "destination"])
+def test_batch_drains_stale_order_before_new_order(driver, stale_phase, monkeypatch):
+    """批量模式下检测到残留行程先流转到 complete/unpaid 再返回听单。"""
+    flow = TestOrderBase()
+    flow.batch_new_order_only = True
+    flow._resolve_driver_runtime = Mock(return_value=SimpleNamespace(wda_url="http://example.invalid"))
+    flow._create_driver_flow = Mock(return_value=driver)
+    driver.wait_for_entry_page = Mock(return_value=(ET.Element("trip"), stale_phase))
+    driver._drain_stale_order = Mock(return_value=(ET.Element("paid"), "complete"))
+    driver._back_from_unpaid_to_online = Mock(return_value=(ET.Element("home"), "online"))
+    monkeypatch.setattr("ui_framework.JRYG_driver_ui.read_order_no", Mock(return_value="26B4K7OLD100"))
+    flow._driver_ui_go_online("next-case")
+    driver._drain_stale_order.assert_called_once()
+    driver._back_from_unpaid_to_online.assert_called_once()
+    assert not flow.resuming_order
+    assert driver.awaiting_new_order
+
+
+def test_batch_drain_failure_stops_without_new_order(driver):
+    """残留行程流转失败时停止，不继续下单。"""
+    flow = TestOrderBase()
+    flow.batch_new_order_only = True
+    flow._resolve_driver_runtime = Mock(return_value=SimpleNamespace(wda_url="http://example.invalid"))
+    flow._create_driver_flow = Mock(return_value=driver)
+    driver.wait_for_entry_page = Mock(return_value=(ET.Element("trip"), "pickup"))
+    driver._drain_stale_order = Mock(side_effect=RuntimeError("残留行程流转失败"))
+    driver._back_from_unpaid_to_online = Mock()
+    with pytest.raises(RuntimeError, match="残留行程流转失败"):
+        flow._driver_ui_go_online("next-case")
+    assert not driver.awaiting_new_order
 
 
 def test_retry_reopens_passenger_app_once_before_login_and_order(charter_flow):

@@ -53,7 +53,7 @@ if [[ "$#" -gt 1 || ( "$MODE" != "--check" && "$MODE" != "--install" ) || "$(una
     echo "请由普通macOS用户运行：bash runners/JRYG_authorize_daily_wake.sh [--check|--install]"
     exit 2
 fi
-if [[ -f "$HELPER" && ! -L "$HELPER" && "$(/usr/bin/stat -f %u "$HELPER")" == 0 ]] && /usr/bin/cmp -s "$SOURCE" "$HELPER" && /usr/bin/sudo -n -l "$HELPER" 10:35 >/dev/null 2>&1; then
+if [[ -f "$HELPER" && ! -L "$HELPER" && "$(/usr/bin/stat -f %u "$HELPER")" == 0 ]] && /usr/bin/cmp -s "$SOURCE" "$HELPER" && /usr/bin/sudo -n -l "$HELPER" 09:50 >/dev/null 2>&1; then
     echo "专用每日唤醒授权已可用，不需要再次输入管理员密码。"
     exit 0
 fi
@@ -76,5 +76,5 @@ on run argv
 end run
 APPLESCRIPT
 /usr/bin/cmp -s "$SOURCE" "$HELPER"
-/usr/bin/sudo -n -l "$HELPER" 10:35 >/dev/null 2>&1
+/usr/bin/sudo -n -l "$HELPER" 09:50 >/dev/null 2>&1
 echo "专用免重复授权验证通过；管理员密码未读取、未保存。"

@@ -21,6 +21,7 @@
 #   - JRYG_ios_payment.py   ：银行卡/Alipay HK共用支付入口，由iOSBase继承
 #   - JRYG_driver_runtime.py：单/双设备配置解析，不访问司机业务接口
 #   - JRYG_driver_ui.py     ：司机UI封装（出车、接单、滑动、账单、同单到账核验）
+#   - JRYG_driver_api.py    ：司机端接口操作（登录/出车/接单/流转/账单，替代UI操作）
 #   - JRYG_order_flow.py    ：参数化双端订单编排基类，所有cases共用
 # App启动遮挡清理及起终点配置统一调用iOSBase公共方法，订单顺序由OrderBase编排。
 #

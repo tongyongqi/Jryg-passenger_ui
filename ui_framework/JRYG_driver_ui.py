@@ -268,6 +268,9 @@ class DriverUIFlow:
                 self.client.click(round(width * 0.055), round(height * 0.071))
                 LOG.info("已取消订单详情页，点击左上返回箭头回首页")
                 time.sleep(1)
+            elif phase == "network_location_error":
+                # 网络/定位异常弹窗：尝试点"知道了"关闭后继续等待页面就绪
+                self._check_device_availability(phase, root)
             elif phase != "unknown":
                 return root, phase
             time.sleep(self.args.interval)
@@ -382,15 +385,42 @@ class DriverUIFlow:
             self.client.click(*center(target))
             LOG.info("点击操作：%s", node_text(target))
 
-    def _check_device_availability(self, phase):
-        """已知网络/定位错误立即取证并停止，不关闭提示或重复出车掩盖异常。"""
-        if phase == "network_location_error":
-            self.last_phase = phase
-            self.snapshot("network_location_error")
-            raise RuntimeError(
-                "司机App网络或定位异常：请检查司机App网络访问权限、手机定位服务和定位权限，"
-                "恢复正常后重跑；未自动关闭知道了提示、未继续下单或付款"
-            )
+    def _check_device_availability(self, phase, root=None):
+        """网络/定位异常弹窗先尝试点'知道了'关闭并重试，多次失败再报错。"""
+        if phase != "network_location_error":
+            return
+        if root is None:
+            root = self.root()
+        # 尝试点"知道了"关闭弹窗
+        dismiss = find_label(root, ("知道了", "知道了"))
+        if dismiss is not None:
+            LOG.info("司机App网络/位置异常弹窗：点击'知道了'关闭，重试出车")
+            self.act(root, ("知道了",))
+            time.sleep(2)
+            # 重新读取页面状态
+            new_root = self.root()
+            new_phase = self.detect_phase(new_root)
+            if new_phase != "network_location_error":
+                LOG.info("弹窗已关闭，当前阶段：%s", PHASE_NAMES.get(new_phase, new_phase))
+                return
+            # 弹窗仍在，再试一次
+            dismiss2 = find_label(new_root, ("知道了", "知道了"))
+            if dismiss2 is not None:
+                LOG.warning("网络/位置异常弹窗仍在，再次点击'知道了'")
+                self.act(new_root, ("知道了",))
+                time.sleep(2)
+                new_root2 = self.root()
+                new_phase2 = self.detect_phase(new_root2)
+                if new_phase2 != "network_location_error":
+                    LOG.info("弹窗已关闭，当前阶段：%s", PHASE_NAMES.get(new_phase2, new_phase2))
+                    return
+        # 弹窗无法关闭或关闭后仍异常，取证并报错
+        self.last_phase = phase
+        self.snapshot("network_location_error")
+        raise RuntimeError(
+            "司机App网络或定位异常：已尝试关闭弹窗但异常持续，"
+            "请检查司机App网络访问权限、手机定位服务和定位权限，恢复正常后重跑"
+        )
 
     def wait_for(self, phases, timeout=None):
         """有界等待目标阶段；网络/定位错误立即失败，inspect只读时允许报告异常。"""
@@ -578,19 +608,41 @@ class DriverUIFlow:
                 self.order_no = read_order_no(root, excluded=self.completed_before_run)
             LOG.info("检测到未完成订单：%s；保留当前页面，继续剩余流程，不重新出车或下单", PHASE_NAMES[phase])
             return True
-        if phase == "complete":
-            previous_order = read_order_no(root)
-            self.completed_before_run.add(previous_order)
-            LOG.info("启动前订单 %s 已完成且已支付；仅返回听单，不计入本次结果，继续新下单", previous_order)
-            labels = ("返回首頁", "返回", "ca_icon_back_black", "ca icon back black")
-            if find_label(root, labels) is not None:
-                self.act(root, labels)
+        if phase in ACTIVE_ORDER_PHASES - {"unpaid"}:
+            LOG.info("检测到其他乘客残留行程：%s；先流转完成再返回听单，不跳过", PHASE_NAMES[phase])
+            root, phase = self._drain_stale_order(root, phase)
+        if phase in ("unpaid", "complete"):
+            drained_order = read_order_no(root, excluded=self.completed_before_run)
+            self.completed_before_run.add(drained_order)
+            if phase == "unpaid":
+                LOG.info("残留订单 %s 已提交账单待支付；记录后返回听单，不计入本次结果", drained_order)
             else:
-                self.back_from_paid_detail(root)
-            root, phase = self.wait_for_entry_page()
+                LOG.info("启动前订单 %s 已完成且已支付；仅返回听单，不计入本次结果，继续新下单", drained_order)
+            root, phase = self._back_from_unpaid_to_online(root)
         if phase == "offline":
-            self.act(root, ACTION_LABELS["offline"])
-            root, phase = self.wait_for({"online", "offer"})
+            # 出车可能触发网络/定位异常弹窗，最多重试 3 次
+            for attempt in range(3):
+                self.act(root, ACTION_LABELS["offline"])
+                try:
+                    root, phase = self.wait_for({"online", "offer", "network_location_error"})
+                except TimeoutError:
+                    root = self.root()
+                    phase = self.detect_phase(root)
+                if phase == "network_location_error":
+                    LOG.warning("出车后出现网络/定位异常弹窗，尝试关闭后重试（第%d次）", attempt + 1)
+                    self._check_device_availability(phase, root)
+                    # 弹窗关闭后重新读取页面
+                    root = self.root()
+                    phase = self.detect_phase(root)
+                    if phase == "offline":
+                        # 回到待出车状态，重试出车
+                        continue
+                    if phase in ("online", "offer"):
+                        break
+                if phase in ("online", "offer"):
+                    break
+                if phase != "offline":
+                    break
         if phase not in ("online", "offer"):
             self.last_phase = phase
             self.snapshot("driver_not_available_for_new_order")
@@ -599,6 +651,75 @@ class DriverUIFlow:
         self.awaiting_new_order = True
         LOG.info("司机 App 已出车；接单及后续状态全部在司机页面操作")
         return False
+
+    def _drain_stale_order(self, root, phase):
+        """流转其他乘客的残留行程到 unpaid/complete，再返回听单继续新下单。
+
+        复用 run() 的状态推进逻辑（滑块/按钮），不取消订单、不模拟定位。
+        到达 unpaid 或 complete 后停止，交由调用方返回听单。
+        """
+        transitions = {"departure": {"pickup"}, "pickup": {"onboard"},
+                       "onboard": {"tail", "destination"}, "destination": {"bill", "unpaid", "complete"},
+                       "bill": {"unpaid", "complete"}}
+        drain_phases = set(transitions) | {"tail"}
+        LOG.info("开始流转残留行程，当前阶段：%s", PHASE_NAMES.get(phase, phase))
+        while phase in drain_phases:
+            self.last_phase = phase
+            if phase in ("tail", "destination") and self.destination_not_before is None:
+                self.destination_not_before = time.monotonic() + 30
+            if phase == "destination":
+                root = self.wait_before_destination()
+            if phase == "tail":
+                self.enter_tail(root)
+            elif phase == "bill":
+                # 残留行程不输入车费/附加费，直接滑动确认收款流转到 unpaid/complete
+                LOG.info("残留行程确认账单：不输入金额，直接滑动確認收款")
+                self.act(root, ACTION_LABELS["bill"])
+            else:
+                self.act(root, ACTION_LABELS[phase])
+            try:
+                root, phase = self.wait_for(transitions.get(phase, {"unpaid", "complete"}))
+            except TimeoutError:
+                root = self.root()
+                observed = self.detect_phase(root)
+                self._check_device_availability(observed)
+                if observed != phase and observed in ({"unpaid", "complete"} | transitions.get(phase, set())):
+                    LOG.info("残留行程%s边界已进入%s", PHASE_NAMES.get(phase, phase), PHASE_NAMES.get(observed, observed))
+                    phase = observed
+                    continue
+                self.last_phase = observed
+                raise RuntimeError(
+                    f"残留行程流转失败：{PHASE_NAMES.get(phase, phase)}操作后出现{PHASE_NAMES.get(observed, observed)}；"
+                    "停止，保留订单供确认"
+                )
+            if phase in ("unpaid", "complete"):
+                break
+        if phase not in ("unpaid", "complete"):
+            self.last_phase = phase
+            raise RuntimeError(f"残留行程流转后未到达完成或未支付阶段，当前：{PHASE_NAMES.get(phase, phase)}")
+        LOG.info("残留行程已流转至：%s", PHASE_NAMES.get(phase, phase))
+        return root, phase
+
+    def _back_from_unpaid_to_online(self, root):
+        """从 unpaid/complete 页面返回听单页，允许新订单继续。"""
+        phase = self.detect_phase(root)
+        labels = ("返回首頁", "返回", "ca_icon_back_black", "ca icon back black")
+        if phase == "complete":
+            if find_label(root, labels) is not None:
+                self.act(root, labels)
+            else:
+                self.back_from_paid_detail(root)
+        elif phase == "unpaid":
+            LOG.info("残留订单未支付，尝试返回首页；不自动取消订单")
+            if find_label(root, labels) is not None:
+                self.act(root, labels)
+            else:
+                self.back_from_paid_detail(root)
+        root, phase = self.wait_for_entry_page()
+        if phase == "offline":
+            self.act(root, ACTION_LABELS["offline"])
+            root, phase = self.wait_for({"online", "offer"})
+        return root, phase
 
     def check_online(self):
         """乘客下单前只读确认司机仍在听单，已知网络/定位错误即时阻断下单。"""

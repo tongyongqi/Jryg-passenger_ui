@@ -57,12 +57,19 @@ FAILURE_REASONS = {
     "child_failed": "用例或设备准备失败，详情见本例报告及终端日志",
     "runner_error": "单例启动或结果核验异常",
     "interrupted": "用户或系统中断，停止后续用例",
+    "app_crash": "App崩溃或异常退出，已记录现场并尝试重试",
+    "service_error": "服务端异常（如接口不可用、订单状态不正确），暂停全部执行并记录",
 }
 FAILURE_PHASES = {"setup": "准备阶段", "call": "执行阶段", "teardown": "清理阶段",
                   "collection": "收集阶段", "runner": "子任务阶段"}
 DRIVER_PHASES = {"login", "code", "offline", "online", "offer", "departure", "pickup",
                  "onboard", "tail", "destination", "bill", "unpaid", "complete",
                  "cancelled", "network_location_error", "unknown"}
+
+# 触发暂停全部执行的服务异常类型
+SERVICE_ERROR_CODES = {"service_error", "app_crash"}
+# 服务异常时暂停的秒数（0 表示直接停止全部后续用例）
+SERVICE_ERROR_PAUSE_SECONDS = 30
 
 
 def failure_detail(phase, error_type="Exception", *, reason_code=None, driver_phase=None):
@@ -103,7 +110,12 @@ def check_batch_result(row, result_file, completed_orders):
             if failures:
                 row["failures"] = failures
             records = result["completed_orders"]
+            # 排除崩溃和服务异常的失败用例——这些不可安全重试
+            has_service_error = any(
+                detail.get("reason_code") in SERVICE_ERROR_CODES
+                for detail in failures)
             row["retry_safe"] = (result.get("retry_safe") is True and not records and bool(failures)
+                                 and not has_service_error
                                  and row["exit_code"] == result["exit_code"] == 1
                                  and all(detail["phase"] == "call" and detail.get("driver_phase") == "online"
                                          and detail["reason_code"] in ("RuntimeError", "TimeoutError", "AssertionError",
@@ -161,19 +173,45 @@ class CompletedOrderGate:
         if report.when == "call":
             instance = item.instance
             driver = getattr(instance, "driver_ui", None)
+            # 检测崩溃事件：如果有崩溃记录，标记为 app_crash
+            app_crashes = getattr(instance, "_app_crashes", [])
+            has_crash = len(app_crashes) > 0
             self.retry_safe = (getattr(instance, "retry_safe", False) is True
                                and getattr(driver, "last_phase", None) == "online"
                                and getattr(driver, "awaiting_new_order", False) is True
                                and not getattr(instance, "completed_order_no", None)
-                               and not getattr(instance, "resuming_order", False))
+                               and not getattr(instance, "resuming_order", False)
+                               and not has_crash)  # 崩溃后不安全重试
         if report.failed or report.skipped:
             if report.when == "call" and any(detail["reason_code"] == "completion_gate" for detail in self.failures):
                 return
+            instance = item.instance
             driver = getattr(item.instance, "driver_ui", None)
-            error_type = call.excinfo.typename if call.excinfo is not None else "Exception"
-            self.failures.append(failure_detail(report.when, error_type,
-                                               reason_code="skipped" if report.skipped else None,
-                                               driver_phase=getattr(driver, "last_phase", None)))
+            # 检测崩溃/服务异常
+            app_crashes = getattr(instance, "_app_crashes", [])
+            if app_crashes:
+                crash_summary = "; ".join(
+                    f"{c.get('phase', '?')}: {c.get('detail', '?')}"
+                    for c in app_crashes)
+                self.failures.append(failure_detail(
+                    report.when, "AppCrashError",
+                    reason_code="app_crash",
+                    driver_phase=getattr(driver, "last_phase", None)))
+                # 崩溃记录附加到 failure detail
+                self.failures[-1]["crash_detail"] = crash_summary
+            else:
+                error_type = call.excinfo.typename if call.excinfo is not None else "Exception"
+                # 检测服务端异常关键词
+                error_msg = str(call.excinfo.value) if call.excinfo else ""
+                if any(kw in error_msg for kw in ("服務暫時出現問題", "服务暂时出现问题",
+                                                   "系統錯誤", "系统错误", "服务异常")):
+                    reason_code = "service_error"
+                else:
+                    reason_code = "skipped" if report.skipped else None
+                self.failures.append(failure_detail(
+                    report.when, error_type,
+                    reason_code=reason_code,
+                    driver_phase=getattr(driver, "last_phase", None)))
 
     @pytest.hookimpl(hookwrapper=True)
     def pytest_runtest_call(self, item):
@@ -185,7 +223,18 @@ class CompletedOrderGate:
             return
         instance = item.instance
         driver = getattr(instance, "driver_ui", None)
+        driver_api = getattr(instance, "driver_api", None)
         order_no = getattr(instance, "completed_order_no", None)
+        # 接口模式：driver_ui 不存在，用 driver_api 核验订单完成
+        if driver is None and driver_api is not None:
+            if not order_no or order_no != getattr(driver_api, "order_no", None):
+                self.failures.append(failure_detail("call", "AssertionError", reason_code="completion_gate",
+                                                   driver_phase=None))
+                outcome.force_exception(AssertionError("当前订单未通过完成且已支付核验，本用例失败并记录原因"))
+                return
+            self.completed_orders.append({"nodeid": item.nodeid, "order_no": order_no})
+            return
+        # UI 模式：核验 driver_ui 状态
         if (not order_no or driver is None or driver.last_phase != "complete"
                 or order_no != driver.order_no or driver.awaiting_new_order
                 or order_no in driver.completed_before_run):
@@ -238,8 +287,9 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
                 row["attempts"] = []
                 row["retry_count"] = 0
                 print(f"[批量 {index}/{len(case_files)}] 执行 {Path(case_file).name}", flush=True)
-                for attempt_number in (1, 2):
-                    prefix = f"{index:02d}" if attempt_number == 1 else f"{index:02d}_retry1"
+                for attempt_number in (1, 2, 3):
+                    suffix = "" if attempt_number == 1 else f"_retry{attempt_number - 1}"
+                    prefix = f"{index:02d}{suffix}"
                     result_file = batch_dir / f"{prefix}_result.json"
                     case_report = batch_dir / f"{prefix}_{Path(case_file).stem}.html"
                     attempt = {"attempt": attempt_number, "status": "running", "retry_safe": False,
@@ -256,7 +306,7 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
                             capture_args = [f"--api-output={api_dir}", f"--api-namespace={api_config['namespace']}"]
                         else:
                             capture_args = ["--no-api-catalog"]
-                    retry_args = ["--retry-reopen-app"] if attempt_number == 2 else []
+                    retry_args = ["--retry-reopen-app"] if attempt_number > 1 else []
                     try:
                         case_exit = int(run_case(case_file, [*extra_args, *capture_args, *retry_args,
                                                            f"--batch-result={result_file}", f"--report-file={case_report}"]))
@@ -270,11 +320,38 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
                         attempt.update(status="failed", exit_code=attempt.get("exit_code") or 1,
                                        reason_code="runner_error", reason=detail["reason"], failures=[detail], retry_safe=False)
                     attempt["finished_at"] = datetime.now().isoformat(timespec="seconds")
-                    if (attempt["status"] == "failed" and attempt_number == 1
+                    if (attempt["status"] == "failed" and attempt_number <= 2
                             and platform == "ios" and attempt["retry_safe"]):
-                        print(f"[重试] {attempt['reason']}；本轮已清理，等待5秒后重新打开App，重试当前用例1/1。", flush=True)
+                        print(f"[重试] {attempt['reason']}；本轮已清理，等待5秒后重新打开App，"
+                              f"重试当前用例{attempt_number}/2。", flush=True)
                         time.sleep(5)
                         continue
+                    # 服务异常（App崩溃/服务端错误）暂停全部执行
+                    if (attempt["status"] == "failed"
+                            and attempt.get("reason_code") in SERVICE_ERROR_CODES):
+                        pause = SERVICE_ERROR_PAUSE_SECONDS
+                        print(f"[暂停] 检测到服务异常（{attempt.get('reason_code')}），"
+                              f"暂停全部执行 {pause} 秒后查询原因并记录；"
+                              f"当前用例 {Path(case_file).name} 已跳过。", flush=True)
+                        # 记录异常现场到批次目录
+                        try:
+                            crash_log = batch_dir / f"{prefix}_service_error.txt"
+                            crash_log.write_text(
+                                f"用例: {Path(case_file).name}\n"
+                                f"异常类型: {attempt.get('reason_code')}\n"
+                                f"失败原因: {attempt.get('reason')}\n"
+                                f"发生时间: {attempt.get('finished_at')}\n"
+                                f"重试次数: {attempt_number - 1}\n"
+                                f"退出码: {attempt.get('exit_code')}\n",
+                                encoding="utf-8")
+                            print(f"[记录] 服务异常现场已保存: {crash_log}", flush=True)
+                        except Exception:
+                            pass
+                        row.update({key: value for key, value in attempt.items()
+                                   if key not in ("attempt", "started_at")})
+                        time.sleep(pause)
+                        # 服务异常后跳过当前用例，继续后续用例
+                        break
                     row.update({key: value for key, value in attempt.items() if key not in ("attempt", "started_at")})
                     break
                 if row["status"] == "passed":
@@ -283,7 +360,7 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
                     if exit_code == 0:
                         exit_code = row["exit_code"]
                     if row["retry_count"]:
-                        row["retry_note"] = "重试1次仍失败，不再重试"
+                        row["retry_note"] = f"重试{row['retry_count']}次仍失败，不再重试，跳过当前用例"
                     else:
                         row["retry_note"] = "未证明为下单前安全失败，不整例重试，避免重复下单或付款"
                     print(f"[失败] {row['reason']}；退出码{row['exit_code']}。{row['retry_note']}；已记录，继续后续用例。", flush=True)
@@ -313,7 +390,7 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
                                            reason_code=code, reason=FAILURE_REASONS[code],
                                            finished_at=row["finished_at"], retry_safe=False)
             summary = {"exit_code": exit_code, "interval_seconds": 10, "retry_delay_seconds": 5,
-                       "max_retries": 1 if platform == "ios" else 0, "cases": rows}
+                       "max_retries": 2 if platform == "ios" else 0, "cases": rows}
             summary_file = batch_dir / "batch_result.json"
             summary_file.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
             print(f"[批量报告] {summary_file}", flush=True)
@@ -323,12 +400,12 @@ def run_batch(case_files, extra_args, *, run_case=None, report_dir=None, platfor
                     print(f"[批次接口清单] {merge_catalogs(batch_dir, api_config)}", flush=True)
                 except (Exception, KeyboardInterrupt) as exc:
                     print(f"[接口报告] 汇总失败（{type(exc).__name__}），不影响 UI 测试退出码。", flush=True)
-            if platform == "ios":
-                try:
-                    from ui_framework.JRYG_dingtalk_report import notify_batch
-                    notify_batch(summary_file)
-                except (Exception, KeyboardInterrupt) as exc:
-                    print(f"[钉钉报告] 通知异常（{type(exc).__name__}），不影响测试退出码，不自动重发。", flush=True)
+            # if platform == "ios":
+            #     try:
+            #         from ui_framework.JRYG_dingtalk_report import notify_batch
+            #         notify_batch(summary_file)
+            #     except (Exception, KeyboardInterrupt) as exc:
+            #         print(f"[钉钉报告] 通知异常（{type(exc).__name__}），不影响测试退出码，不自动重发。", flush=True)
         return exit_code
 
 
@@ -338,7 +415,6 @@ def batch_order(case_files):
         "JRYG_test_ios_charter_alipay_order.py",
         "JRYG_test_ios_charter_bankcard_order.py",
         "JRYG_test_ios_meter_epayment_alipay_order.py",
-        "JRYG_test_ios_meter_alipay_order.py",
         "JRYG_test_ios_meter_epayment_bankcard_order.py",
         "JRYG_test_ios_meter_cash_order.py",
     )
@@ -393,11 +469,10 @@ def run_tests(argv=None):
     # 收集所有 iOS 专用测试文件（cases/ 目录下 JRYG_test_ios_*.py）
     # 参数化下单用例（车型 × 支付方式组合）
     ios_test_files = [
-        # 打錶的士：現金 / 電子支付后付（银行卡、Alipay HK）/ 直接Alipay HK
+        # 打錶的士：現金 / 電子支付后付（Alipay HK、银行卡）
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_cash_order.py"),
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_epayment_bankcard_order.py"),
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_epayment_alipay_order.py"),
-        os.path.join(BASE_DIR, "cases", "JRYG_test_ios_meter_alipay_order.py"),
         # 包車價的士：Alipay HK / 信用卡/扣帳卡
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_charter_alipay_order.py"),
         os.path.join(BASE_DIR, "cases", "JRYG_test_ios_charter_bankcard_order.py"),

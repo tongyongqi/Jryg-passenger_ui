@@ -1,4 +1,4 @@
-"""每天14:33执行香港iOS批次；系统须提前唤醒，不解锁Mac或保存电脑密码。"""
+"""每天09:55执行香港iOS批次；系统须提前唤醒，不解锁Mac或保存电脑密码。"""
 
 import argparse
 from contextlib import contextmanager
@@ -19,8 +19,8 @@ REPORT_DIR = PROJECT / "report"
 LOG_DIR = PROJECT / "logs" / "scheduled"
 PYTHON = PROJECT / ".venv" / "bin" / "python"
 ENTRY = PROJECT / "JRYG_run_six_scenarios_ios.py"
-WINDOW_START = clock_time(14, 33)
-WINDOW_END = clock_time(14, 43)
+WINDOW_START = clock_time(9, 55)
+WINDOW_END = clock_time(10, 5)
 
 
 def log(message):
@@ -74,6 +74,7 @@ def awake_for_run():
 
 def execute_batch():
     environment = os.environ.copy()
+    environment["HK_IOS_DINGTALK_ENABLED"] = "0"
     environment["PATH"] = ":".join(dict.fromkeys([
         str(PYTHON.parent), "/opt/homebrew/bin", "/usr/local/bin", "/usr/bin", "/bin",
         "/usr/sbin", "/sbin", *environment.get("PATH", "").split(":"),
@@ -104,7 +105,7 @@ def execute_batch():
 def run_scheduled():
     now = datetime.now()
     if not in_schedule_window(now):
-        log("不在14:33—14:43启动窗口；跳过睡眠后迟到补跑，不下单或付款")
+        log("不在09:55—10:05启动窗口；跳过睡眠后迟到补跑，不下单或付款")
         return 0
     if not PYTHON.is_file() or not os.access(PYTHON, os.X_OK) or not ENTRY.is_file():
         log("项目Python或六场景入口不存在，停止任务")
@@ -155,7 +156,7 @@ def run_scheduled():
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Mac先由pmset提前唤醒，14:33启动UI自动化；默认仅检查")
+    parser = argparse.ArgumentParser(description="Mac先由pmset提前唤醒，09:55启动UI自动化；默认仅检查")
     parser.add_argument("--run", action="store_true", help="在早晨窗口真实执行订单和付款，不自动重试")
     args = parser.parse_args(argv)
     if sys.platform != "darwin" or os.getuid() == 0:
@@ -166,7 +167,7 @@ def main(argv=None):
             return run_scheduled()
         state = mac_state()
         log("只读检查：" + json.dumps(state, ensure_ascii=False))
-        log("休眠中的电脑无法执行此脚本；需提前设置每日14:28的pmset唤醒")
+        log("休眠中的电脑无法执行此脚本；需提前设置每日09:50的pmset唤醒")
         log("未执行订单，未唤醒显示器，未启用定时任务")
         return 0
     except Exception as exc:

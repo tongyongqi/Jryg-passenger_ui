@@ -24,7 +24,7 @@ fi
 "$PYTHON" "$PROJECT/runners/JRYG_run_scheduled_ios.py"
 
 if [[ "$MODE" == "--check" ]]; then
-    echo "每日计划：14:28系统唤醒；14:33执行香港iOS六场景。"
+    echo "每日计划：09:50系统唤醒；09:55执行香港iOS六场景。"
     echo "当前只读检查，未安装任务、未设置唤醒、未执行订单。"
     echo "使用--install首次启用，--update备份并更新；专用唤醒程序只需一次授权，不保存管理员密码。"
     exit 0
@@ -71,10 +71,10 @@ else
     fi
 fi
 WAKE_HELPER="/Library/PrivilegedHelperTools/com.jryg.hk-ios.set-wake"
-WAKE_TIME="14:28"
+WAKE_TIME="09:50"
 SCHEDULE=$(/usr/bin/pmset -g sched)
-if printf '%s\n' "$SCHEDULE" | /usr/bin/grep -qi 'wake at 14:28PM every day'; then
-    echo "系统已有每天10:45唤醒计划，复用配置，不申请管理员授权。"
+if printf '%s\n' "$SCHEDULE" | /usr/bin/grep -qi 'wake at 9:50AM every day'; then
+    echo "系统已有每天09:50唤醒计划，复用配置，不申请管理员授权。"
 else
     if [[ ! -f "$WAKE_HELPER" || -L "$WAKE_HELPER" || "$(/usr/bin/stat -f %u "$WAKE_HELPER")" != 0 ]]; then
         echo "请先运行bash runners/JRYG_authorize_daily_wake.sh --install完成一次性专用授权。"
@@ -115,5 +115,5 @@ if ! /bin/launchctl bootstrap "$DOMAIN" "$DESTINATION"; then
     exit 2
 fi
 /usr/bin/pmset -g sched
-echo "已启用每日14:33任务；加载时不立即下单，也不补跑14:43之后的旧任务。"
+echo "已启用每日09:55任务；加载时不立即下单，也不补跑10:05之后的旧任务。"
 echo "日志：$PROJECT/logs/scheduled/daily.log"
